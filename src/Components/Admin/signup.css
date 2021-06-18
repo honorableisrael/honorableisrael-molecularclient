@@ -1,0 +1,214 @@
+.forms-section-image{
+    padding-top: 349px;
+    background-size: cover;
+    background-image: linear-gradient(to right, rgba(44, 44, 112, 0.5) , rgba(44, 44, 112, 0.5)),url(../../images/binoculars.png);
+}
+.form-row{
+    justify-content: center;
+    margin-bottom: 124px;
+}
+.formwrplift{
+    position: relative;
+    top: -96px;
+}
+.form-wrapper{
+    border-radius: 20px;
+    padding: 63px 23px 23px 23px;
+    background-color: #fff;
+    color: #23304c;
+    box-shadow: 0px 21px 45px rgba(30, 66, 138, 0.1);
+}
+.padded-form-wrapper{
+  padding: 0px 34px;
+  border-bottom: 1px solid #ededed;
+}
+.form-header{
+    text-align: center;
+}
+.form-title{
+    margin-bottom: 6px;
+    font-size: 35px;
+    line-height: 44px;
+    color: #333333;
+    font-weight: 600;
+}
+.form-descr-text>p{
+   color: #999999;
+   margin: 32px 0px;
+   font-size: 16px;
+   font-weight: 400;
+   line-height: 20px;
+}
+.inputlabel{
+    margin-bottom: 23px;
+}
+.asteric{
+    color: red;
+}
+.inputlabel>span{
+    display: block;
+    margin-bottom: 7px;
+    font-weight: 400;
+    line-height: 16px;
+    letter-spacing: .2px;
+    font-size: 14px;
+    color: #666666;
+}
+.forminput{
+    border:1px solid rgba(208, 208, 208, 0.5);
+    border-radius: 5px;
+    height: 54px;
+    appearance: none;
+}
+.forminput::placeholder{
+    color:rgba(198, 198, 198, 1);
+    font-size: 14px;
+    letter-spacing: .1px;
+}
+.formselect{
+    cursor: pointer;
+    color:rgba(198, 198, 198, 1);
+    font-size: 16px;
+    letter-spacing: .1px;
+}
+.drparr{
+    position: relative;
+    top: -40px;
+    left: -28px;
+}
+.padded-input-wrapper{
+    padding: 61px 34px 74px 34px;
+}
+
+.form-check-label {
+    cursor: pointer;
+    margin-bottom: 0;
+    padding-left: 5px;
+    color:rgba(116, 116, 116, 1);
+    font-size: 14px;
+    font-weight: normal;
+    font-family: 'Noto Sans JP', sans-serif;
+}
+.form-btn-wrapper{
+    text-align: center;
+    margin-top: 86px;
+}
+.form-btn{
+    display: inline-block;
+    background-color: #cccccc;
+    color: #fff;
+    padding: 19px 126px;
+    font-size: 16px;
+    border-radius: 7px;
+    font-weight: 700;
+    font-family: 'Noto Sans JP', sans-serif;
+    cursor: pointer;
+}
+.footer-rights{
+    font-family: 'Noto Sans JP', sans-serif;
+    text-align: center;
+    color: #999999;
+    font-size: 14px;
+}
+/* mobile responsiveness */
+
+@media (max-width: 760px){
+    .padded-form-wrapper {
+        padding: 0px 13px;
+    }
+    .padded-input-wrapper{
+        padding: 61px 9px 74px 9px;
+    }
+    
+    .form-btn{
+        width: 100%;
+        padding: 19px;
+    } 
+    .otpinput {
+        height: 60px !important;
+        width: 31px !important;
+        border-radius: 0px !important; 
+        font-size: 23px !important;
+    }
+ 
+}
+/* @media (max-width: 1024px){
+    .otpinput {
+        height: 110px !important;
+        width: 57px  !important;
+    }
+} */
+.acctcrquestion{
+    font-family: "Noto Sans JP";
+    text-align: center;
+    color: #999999;
+    font-weight: 500;
+    font-size: 14px;
+    margin-top: 25px;
+}
+.acctcrquestion>span{
+    color: #fd8c00;
+}
+.otp-wrapper{
+    font-family: "source sans pro";
+    background-color: #fff;
+    text-align: center;
+    box-shadow: 0px 21px 45px rgb(30 66 138 / 10%);
+    border-radius: 8px;
+    padding: 40px 12px 85px 12px;
+}
+.otplogo{
+    margin-bottom: 34px;
+}
+.otp-welcmtxt{
+    margin-bottom: 23px;
+    font-weight: 400;
+    font-size: 35px;
+    line-height: 44px;
+}
+.otp-welcmtxt>span{
+    color: #2c2c70;
+    font-weight: 700;
+    font-size: 35px;
+    line-height: 44px;
+}
+.otp-wrapper>p{
+   font-weight: 400;
+   font-size: 24px;
+   line-height: 30px;
+   margin-bottom: 40px;
+   color: #999999;
+   width: 70%;
+   margin: auto;
+}
+.otpinput-wrapp{
+    margin: 70px 0px;
+}
+.otpinput{
+    height: 160px;
+    width: 100px;
+    box-shadow: 0px 21px 45px rgba(30, 66, 138, 0.1);
+    border-radius: 12px;
+    border: 1px solid #dddddd;
+    font-size: 80px;
+    text-align: center;
+    color: #333333;
+}
+.otpinput:focus{
+    border: 1px solid #fd8c00;
+    border-radius: 12px;
+    outline: none;
+}
+.otpinput:not(:last-child){
+    margin-right: 18px;
+}
+.signinbtn:hover{
+    filter: brightness(120%);
+}
+.rdfrmlbl{
+    color: #23304c !important;
+}
+.ml__{
+    position: relative;
+    top: -8rem;
+}

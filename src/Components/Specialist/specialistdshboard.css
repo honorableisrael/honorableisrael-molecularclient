@@ -1,0 +1,514 @@
+.dshbdhome{
+    background-color: #dddddd;
+    padding-bottom: 80px;
+}
+.speclstcdshbdrow1{
+  padding: 123px 0px 35px 0px;   
+}
+.speclstdshbdrow-1{
+    display: flex;
+  justify-content: space-between;
+}
+.spldshbdcardwrapper{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+.spldshbdcard-small{
+    background-color: #ffffff;
+    border-radius: 20px;
+    padding: 23px 21px;
+    width: 32%;
+}
+.spldshbdcardheader{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4px;
+}
+.spldshbdcardheader>p{
+    font-size: 12px;
+    letter-spacing: 1px;
+    width: 35%;
+    font-weight: 700;
+    color: #333333;
+}
+.spldshbdcard-small>p{
+    margin-bottom: 0px;
+    font-weight: 800;
+    font-size: 32px;
+    color: #333333;
+}
+.spcdshbdnotificndv{
+    text-align: center;
+    font-size: 14px;
+    font-weight: 700;
+    background-color: #ffffff;
+    padding:23px 21px 51px 21px;
+    border-radius: 12px;
+}
+.spclsuserimgspn{
+    display: inline-block;
+    height: 43px;
+    width: 43px;
+    border-radius: 100px;
+    margin-right: 11px;
+}
+.lemonbacgrd{
+    background: rgba(32, 197, 169, 0.1);
+}
+.bluespnbackgd{
+    background:  #A7D9FC;
+}
+.pinkspnbackd{
+    background: #FCE5E3;
+}
+.skyspnbackgrnd{
+    background: rgba(32, 197, 169, 0.1);
+}
+.spclsuserimgspn>img{
+    margin-top: 14px;
+}
+.splstprogressbarwrapper{
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0px 4px 16px rgb(17 17 17 / 8%);
+    display: flex;
+    min-height: 200px;
+    align-items: center;
+    padding: 1.5rem;
+    padding-right: 0px;
+    margin-bottom: 2rem;
+}
+.spprogrescd{
+    width: 78%;
+}
+.spprogrescardcntn{
+    width: 96%;
+}
+.splstdshnotifcntitle{
+    color: #333333;
+}
+.splstdshbdnotifctnsectns{
+    display: flex;
+    color: #666666;
+    font-weight: 400;
+    align-items: center;
+}
+.splstdshbdnotifctnsectns>p{
+    text-align: left;
+    margin-bottom: 0px;
+}
+.notificntimelinedv{
+    text-align: right;
+    padding-bottom: 7px;
+    border-bottom: 1px dashed rgba(0,0,0,.2);
+    color: #666666;
+    font-weight: 300;
+}
+.pddedsctns{
+    padding-top: 12px;
+}
+.rmvdshdlines{
+    border-bottom: none;
+}
+.splstdshwrkhistory{
+    font-weight: 700;
+    font-size: 24px;
+    color: #000000;
+    margin-bottom: 24px;
+}
+.wrkhhistrycardwrapper{
+    margin-bottom: 30px;
+}
+/* works section dashboard */
+.dshworksectnrow1 {
+    justify-content: center;
+    padding: 8rem 7rem 7rem 7rem;
+    background: #dddddd;
+    min-height: 97vh;
+  }
+.wrktimelinediv{
+    display: flex;
+    color: #ffffff;
+    background-color: #cc7100;
+    padding: 4px;
+    margin-bottom: 40px;
+    border-radius: 3px;
+}
+.wrktimelinediv>p{
+   font-family: 'Nunito Sans', sans-serif;
+    margin: auto;
+    font-weight: 700;    
+}
+.pendingwrkcard{
+    font-family: 'Nunito Sans', sans-serif;
+    display: flex;
+    background-color: #ffffff;
+    align-items: center;
+    border-radius: 20px;
+    padding: 26px;
+    margin-bottom: 72px;
+}
+.pendingwrkcard-imgwrper{
+  padding-right: 20px;
+}
+.pendingwrkcard-contntwraper{
+   border-left: 1px solid rgba(0,0,0,.2);
+   padding-left: 23px;
+   width: 95%;
+}
+.pendingwrkcard-headingdiv{
+    display: flex;
+     justify-content: space-between;
+}
+.pendingwrkcard-heading{
+    font-weight: 700;
+    color: #000000;
+    font-size: 24px;
+    margin-bottom: 12px;
+}
+.pendingwrkcard-heading-btn{
+  display: inline-block;
+  background-color: rgba(34, 32, 115, .3);
+  color: #222073;
+  padding: 2px 9px;
+  font-size: 12px;
+  border-radius: 20px;
+}
+.pendingwrkcard-heading-btn>img{
+    margin-right: 6px;
+}
+.pendingwrkcard-asstsdiv{
+    display: flex;
+    justify-content: space-between;
+    width: 37%;
+    margin-bottom: 29px;
+}
+.pendingwrkcard-loctnasset{
+    display: flex;
+}
+.pendingwrkcard-calendasset{
+    display: flex;
+}
+.pendingwrkcard-asset-img{
+    margin-right: 12px;
+}
+.pendingwrkcard-asset-cnt>h5{
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: 3px;
+}
+.pendingwrkcard-asset-cnt>p{
+    color: rgba(0,0,0,.5);
+    margin-bottom: 0px;
+}
+.pendingwrkcard-btndv{
+    display: flex;
+    justify-content: space-between;
+}
+.pendingwrkcard-btndv1{
+    display: flex;
+}
+.pendingwrkcard-accptbtn{
+    display: inline-block;
+    background-color: #038500;
+    color: #ffffff;
+    padding: 13px 50px 9px;
+    border-radius: 5px;
+    margin-right: 15px;
+    cursor: pointer;
+    font-size: 14px;
+}
+.pendingwrkcard-declinebtn{
+    display: inline-block;
+    background: #D00219;
+    color: #ffffff;
+    padding: 13px 50px 9px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+.pendingwrkcard-btndv2{
+    display: inline-block;
+    background: rgba(3, 133, 0, .2);
+    color: rgba(3, 133, 0, 1);
+    font-size: 17px;
+    font-weight: 700;
+    padding: 10px 9px;
+    border-radius: 3px;
+}
+.pendingwrkcard-btndv2>span{
+    font-size: 11px;
+    color: #333333;
+}
+.splstworkdetailwrapper{
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 2rem 2rem;
+    margin-bottom: 2rem;
+}
+.splstworkdetaildiv{
+    display: flex;
+    justify-content: center;
+    border-top: 1px solid rgba(0,0,0,.2);
+    margin-top: 20px;
+    padding-top: 59px;
+}
+.terminateworkmodalwrap{
+    padding: 13px 20px 35px;
+}
+.terminateworkmodalimg{
+    text-align: right;
+}
+.terminateworkmodalimg>img{
+    cursor: pointer;
+}
+.terminateworkmodaltitle{
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: 700;
+    font-size: 18px;
+    color: #000000;
+}
+.wrkmodaltextarea{
+    background-color: rgba(245, 245, 245, 1);
+    border: none;
+    resize: none;
+    font-size: 14px;
+}
+
+.wrkmodaltextarea:focus{
+    background-color: rgba(245, 245, 245, 1);
+}
+.wrkmodaltextarea::placeholder{
+    font-size: 14px;
+    color: rgb(0,0,0,.5)
+}
+.wrkmodal-btnwrap{
+    text-align: right;
+    margin-top: 30px;
+    font-size: 14px;
+}
+.wrkmodal-cancelbtn{
+    cursor: pointer;
+}
+.wrkmodal-declinebtn{
+    display: inline-block;
+    background: #D00219;
+    color: #ffffff;
+    padding: 7px 46px 7px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 16px;
+}
+
+/* specialistpaymentinvoice styling */
+.spltpaybreakdwnwrapper{
+    background-color: #ffffff;
+    padding: 18px 40px 40px 40px;
+    border-radius: 5px;
+    font-family:'Nunito Sans', sans-serif;
+}
+.spltpaybreakdwn-logowrap{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+.brkdwn{
+    margin-bottom: 3px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    color: rgb(0,0,0,.5);
+}
+.brkdwn-id{
+    margin-bottom: 0;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 20px;
+    color: #000000;
+}
+.spltpaybreakdwn-title{
+    line-height: 32px;
+    font-size: 24px;
+    color: #000000;
+    font-weight: 700;
+    margin-bottom: 32px;
+}
+.spltpaybreakdwn-details{
+    display: flex;
+    justify-content: space-between;
+    width: 96%;
+    margin-bottom: 50px;
+}
+.detptg{
+    font-weight: 700;
+}
+.invpaystatwrap{
+    background-color: rgba(3, 133, 0, .1);
+    border-radius: 50px;
+    text-align: center;
+    font-size: 14px;
+    line-height: 16px;
+    padding: 6px;
+    width: 47%;
+}
+.paystatindcator{
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    background: #038500;
+    border-radius: 50%;
+}
+.paystattext{
+    display: inline-block;
+    color: #038500;
+    margin-left: 5px;
+}
+.pendinwrap{
+    background-color: rgba(253, 140, 0, .1);
+    width: 59%;
+}
+.pendininvoice{
+    background-color: rgba(253, 140, 0, 1);
+}
+.pendininvtext{
+    color: rgba(253, 140, 0, 1);
+}
+.splinvoitablehead{
+    background-color: rgba(196,196,196,.1)
+}
+.table thead th {
+    border-bottom: none;
+}
+.table td, .table th {
+    border-top: none;
+}
+.table th{
+    padding: 13px 0px;
+    color: rgb(0,0,0,.5);
+}
+.table td{
+    padding: 16px 0px;
+}
+/* secialist setting styling */
+.namestyle111 {
+    display: flex;
+    margin-left: 1rem;
+    padding: 0.5rem 1rem;
+}
+.upldtxt{
+    font-size: 14px;
+    color: #999999;
+    margin: 23px 0px 0px 0px;
+    cursor: pointer;
+}
+.username{
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 33px;
+    margin-bottom: 11px;
+}
+.splverifiduser{
+    display: inline-block;
+    background-color: rgba(3, 133, 0, .1);
+    color: #038500;
+    padding: 0px 15px;
+    font-size: 12px;
+    border-radius: 14px;
+    margin-top: 14px;
+}
+.splunverifieduser{
+    display: inline-block;
+    background-color: rgba(253, 140, 0, .1);
+    color:  rgba(253, 140, 0, 1);
+    padding: 0px 15px;
+    font-size: 12px;
+    border-radius: 14px;
+    margin-top: 14px;
+}
+.profpriski{
+    margin-bottom: 28px;
+}
+.weldinbox{
+    margin-left: 5px;
+}
+.profilecheckbox{
+    margin-right: 7px;
+}
+.sectndivider{
+    border-bottom: 1px solid #999999;
+    padding-top: 61px;
+}
+.profsettinformselect{
+    color: #333333;
+    font-size: 16px;
+}
+.profileceriticatesectn{
+    text-align: center;
+    padding: 30px 0px 58px;
+    border-bottom: 1px solid #999999;
+    margin-bottom: 30px;
+}
+.profcertbtn{
+    display: inline-block;
+    color: #ffffff;
+    background-color: #fd8c00;
+    padding: 10px 32px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: .4s;
+}
+.profcertbtn:hover{
+    filter: brightness(110%);
+}
+.profileexperiencesectn{
+    text-align: center;
+    padding: 50px 0px 58px;
+    border-bottom: 1px solid #999999;
+    margin-bottom: 30px;
+}
+.profileexperiencesectn>img{
+    margin-bottom: 10px;
+}
+.profileexperiencesectn>p{
+    margin-bottom: 30px;
+}
+.addexpbtn{
+    color: #ffffff;
+    background-color: #fd8c00;
+}
+.addexptitle{
+    margin-bottom: 30px;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 33px;
+    display: block;
+}
+.deactivebtn{
+    margin-left: 0px;
+}
+.exclamicon{
+    text-align: center;
+    border-radius: 100%;
+    padding: 15px 28px;
+    font-size: 38px;
+    border: 2px solid #fd8c00;
+    color: #fd8c00;
+}
+.usermodaltitle{
+    text-align: center;
+    padding-top: 20px;
+}
+.modalmessage{
+    text-align: center;
+    font-size: 18px;
+    font-weight: 700;
+}
+.hideeye {
+    position: relative;
+    bottom: 3.7rem;
+    right: 1.5rem;
+    cursor: pointer;
+  }

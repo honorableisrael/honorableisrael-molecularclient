@@ -1,0 +1,68 @@
+@font-face {font-family: "Brfirma-Regular"; src: url("./Fonts/Brfirma/BRFirma-Regular.ttf"); }
+
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* ///// 1a. Colors /////// */
+  /* Main Colors */
+  --light-orange: #fd8b003a;
+  --molecular-orange: #fd8c00;
+}
+body {
+  margin: 0;
+  font-family: 'Open Sans', sans-serif;
+  color: #150538;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden; /* Hide horizontal scrollbar */
+  scroll-behavior: smooth;
+  height: 100%;
+  background-color: #ffffff !important;
+  background: #ffffff;
+}
+@media (max-width: 700px) {
+  body {
+    font-size: 14px;
+  }
+}
+hr {
+  margin: 1.2rem 0 !important;
+}
+html {
+  scroll-behavior: smooth;
+}
+/* width */
+::-webkit-scrollbar {
+  width: 1px;
+  height: 4px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 5px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #9a9a9c;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #32335a;
+}
+.newitem {
+  overflow-y: scroll;
+  min-height: 500px;
+  max-height: 525px;
+}
+
+a,a:hover{
+  text-decoration: none;
+}
