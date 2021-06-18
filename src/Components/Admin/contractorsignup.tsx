@@ -16,7 +16,7 @@ const ContractorOnboarding = () => {
                 <form className="form-wrapper ml__">
                   <div className="padded-form-wrapper">
                     <div className="form-header">
-                      <h4 className="form-title">Contractor Onboarding</h4>
+                      <h4 className="form-title">Sign up to get Technical Specialist</h4>
                     </div>
                     <div className="form-descr-text">
                       <p>

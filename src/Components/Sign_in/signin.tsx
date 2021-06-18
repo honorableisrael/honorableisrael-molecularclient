@@ -51,7 +51,7 @@ const SignIn = withRouter((props) => {
           props.history.push("/contractor_dasboard")
         }
         if(res?.data?.user_type=="specialist"){
-          props.history.push("/speciailist_dasboard")
+          props.history.push("/specialistdashboard")
         }
         setState({
           ...state,

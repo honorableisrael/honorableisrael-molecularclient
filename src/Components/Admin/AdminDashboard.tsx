@@ -25,7 +25,7 @@ const AdminDashboard = withRouter((props) => {
     series: [
       {
         name: "Work Force",
-        data: [10, 41, 35, 51, 49, 62],
+        data: [0, 0, 1, 1, 1, 1],
       },
     ],
     options: {
@@ -72,7 +72,7 @@ const AdminDashboard = withRouter((props) => {
         categories: ["jan", "feb", "mar", "apr", "may", "june", "jul"],
       },
       title: {
-        text: "Cost of Deployment $300000",
+        text: "Cost of Deployment $0",
       },
       grid: {
         row: {
@@ -300,7 +300,7 @@ const AdminDashboard = withRouter((props) => {
                 </div>
                 <div className="app12 app23 app23">
                   <b> NASS Complex </b>
-                  <div className="amount2a">N3,000,000</div>
+                  <div className="amount2a">N0</div>
                 </div>
                 <div className="unpaid1">
                   <span className="paidd2 "></span>unpaid
@@ -313,7 +313,7 @@ const AdminDashboard = withRouter((props) => {
                 </div>
                 <div className="app12 app12 app23">
                   <b> NASS Complex </b>
-                  <div className="amount2a">N3,000,000</div>
+                  <div className="amount2a">N0</div>
                 </div>
                 <div className="paid1">
                   <span className="paidd2 paidd2g"></span>paid
@@ -326,7 +326,7 @@ const AdminDashboard = withRouter((props) => {
                 </div>
                 <div className="app12 app12 app23">
                   <b> NASS Complex </b>
-                  <div className="amount2a">N3,000,000</div>
+                  <div className="amount2a">N0</div>
                 </div>
                 <div className="paid1">
                   <span className="paidd2 paidd2g"></span>paid
@@ -339,7 +339,7 @@ const AdminDashboard = withRouter((props) => {
                 </div>
                 <div className="app12 app12 app23">
                   <b> NASS Complex </b>
-                  <div className="amount2a">N3,000,000</div>
+                  <div className="amount2a">N0</div>
                 </div>
                 <div className="paid1">
                   <span className="paidd2 paidd2g"></span>paid
@@ -352,7 +352,7 @@ const AdminDashboard = withRouter((props) => {
                 </div>
                 <div className="app12 app12 app23">
                   <b> NASS Complex </b>
-                  <div className="amount2a">N3,000,000</div>
+                  <div className="amount2a">N0</div>
                 </div>
                 <div className="paid1">
                   <span className="paidd2 paidd2g"></span>paid
