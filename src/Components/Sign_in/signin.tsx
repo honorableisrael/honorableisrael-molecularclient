@@ -48,7 +48,7 @@ const SignIn = withRouter((props) => {
           props.history.push("/admin_dasboard")
         }
         if(res?.data?.user_type=="contractor"){
-          props.history.push("/contractor_dasboard")
+          props.history.push("/contractor_dashboard")
         }
         if(res?.data?.user_type=="specialist"){
           props.history.push("/specialistdashboard")
