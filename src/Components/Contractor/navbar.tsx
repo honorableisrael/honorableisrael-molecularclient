@@ -143,7 +143,7 @@ const DashboardNav = withRouter((props) => {
                   <span
                     onClick={() => {
                       props.history.push("/");
-                      // localStorage.clear();
+                      localStorage.clear();
                     }}
                   >
                     Log out

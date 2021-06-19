@@ -60,18 +60,18 @@ const DashboardNav = withRouter((props) => {
         {true && (
           <div className="otherwrap">
             <div className="otherwrap23 otherwrap23admin">
-              <Link to={"/admin_dasboard"} className="flex-12a">
+              <Link to={"/admin_dashboard"} className="flex-12a">
                 {" "}
                 <span
                   className={
-                    window.location.pathname == "/admin_dasboard"
+                    window.location.pathname == "/admin_dashboard"
                       ? "navlink_is_active lightorange  "
                       : "navlink_is_active1"
                   }
                 >
                   <div className="speialcl">Dashboard</div>
                 </span>
-                {window.location.pathname == "/admin_dasboard" && (
+                {window.location.pathname == "/admin_dashboard" && (
                   <span className="boxdes"></span>
                 )}
               </Link>

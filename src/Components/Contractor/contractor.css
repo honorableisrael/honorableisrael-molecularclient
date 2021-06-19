@@ -289,7 +289,7 @@ text {
     flex-wrap: wrap;
   }
   .main_wrap_ws22 div {
-    min-width: 143px !important;
+    min-width: 43px !important;
   }
 }
 
@@ -752,6 +752,7 @@ text {
   display: flex;
   justify-content: space-between;
   padding-right: 4rem;
+  flex-wrap: nowrap !important;
 }
 .main_wrap_ws22 div {
   min-width: 200px;
@@ -772,6 +773,7 @@ text {
   padding-left: 2rem;
   border-radius: 10px;
   margin-bottom: 2rem;
+  flex-wrap: wrap;
 }
 .userprofile123 {
   font-size: 14px;
@@ -1376,6 +1378,10 @@ text {
   .boxwrapper__1 .rcomponent {
     text-align: left;
   }
+  .main_wrap_ws22 div {
+    padding-bottom: 1rem;
+    flex-wrap: wrap;
+  }
 }
 
 .mgg2 {
@@ -1673,4 +1679,21 @@ a{
   position: relative !important; 
   left: 4px !important;
   top: 5px !important;
+}
+
+@media (min-width: 1400px) {
+  .main_wrap_ws22 div {
+    margin-top: 1.3rem;
+  }
+}
+.userprofile123{
+  font-weight: 700;
+}
+@media (max-width: 1000px) {
+.main_wrap_ws{
+  flex-wrap: wrap;
+}
+}
+.ttp_{
+  padding-left: 0px;
 }

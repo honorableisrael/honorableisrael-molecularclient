@@ -183,7 +183,10 @@ const DashboardNav = props => {
                 anchorEl={anchorEl}
                 keepMounted
                 open={Boolean(anchorEl)}
-                onClose={handleClose}
+                onClick={() => {
+                  props.history.push("/");
+                  localStorage.clear();
+                }}
                 className="materldrpdwnwrap"
                 style={{width:'200px !important'}}
               >

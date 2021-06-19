@@ -45,7 +45,7 @@ const SignIn = withRouter((props) => {
         console.log(res.data);
         localStorage.setItem("loggedInDetails",JSON.stringify(res.data))
         if(res?.data?.user_type=="admin"){
-          props.history.push("/admin_dasboard")
+          props.history.push("/admin_dashboard")
         }
         if(res?.data?.user_type=="contractor"){
           props.history.push("/contractor_dashboard")

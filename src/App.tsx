@@ -40,6 +40,7 @@ import AdminWorkOrderEvaluationStep3 from "./Components/Admin/Work_Order_Evaluat
 import AdminWorkOrderEvaluationStep4 from "./Components/Admin/Work_Order_EvaluationStep4";
 import Admin_Notification from "./Components/Admin/Notification";
 
+
 class App extends Component {
   render() {
     return (
@@ -114,7 +115,7 @@ class App extends Component {
                 component={AdminWorkOrderEvaluationStep3}
               />
 
-              <Route path="/admin_dasboard" component={AdminDashboard} />
+              <Route path="/admin_dashboard" component={AdminDashboard} />
               <Route path="/contractor_list" component={ListOfContractor} />
               <Route
                 path="/contractor_onboarding"

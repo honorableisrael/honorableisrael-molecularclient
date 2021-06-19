@@ -79,7 +79,12 @@ const NewWorkOrderStep3 = () => {
     console.log(firstData);
     const secondList: any = localStorage.getItem("second_step");
     const secondData = secondList ? JSON.parse(secondList) : "";
-    console.log(firstData);
+    console.log(secondData);
+    setState({
+      ...state,
+      ...secondData,
+      ...firstData
+    })
   }, []);
   return (
     <>

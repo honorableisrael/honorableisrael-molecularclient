@@ -41,6 +41,7 @@ const NewWorkOrderStep2 = withRouter((props) => {
     pipelength: "",
     specialist_config: [],
     type_of_specialist: "",
+    title_of_specialist:"",
     pipe_config: [],
   });
   const inputHandler = (e) => {
@@ -53,6 +54,17 @@ const NewWorkOrderStep2 = withRouter((props) => {
       pipe_name: new_obj.name,
     });
   };
+  const onchange_Area_Of_Specialization = (e) => {
+    // if (e.target.name == "pipe_type") {
+    const new_obj = JSON.parse(e.target.value);
+    console.log(new_obj);
+    setState({
+      ...state,
+      type_of_specialist: new_obj.id,
+      title_of_specialist: new_obj.name,
+    });
+  };
+  
   const onchange = (e) => {
     setState({
       ...state,
@@ -97,6 +109,7 @@ const NewWorkOrderStep2 = withRouter((props) => {
     pipeList,
     pipe_type,
     billing_cycle,
+    title_of_specialist,
   }: any = state;
   useEffect(() => {
     const stored_stage_2 = localStorage.getItem("second_data");
@@ -128,6 +141,7 @@ const NewWorkOrderStep2 = withRouter((props) => {
         {
           no_of_specialist,
           type_of_specialist,
+          title_of_specialist,
         },
       ];
       if (!no_of_specialist || !type_of_specialist) {
@@ -137,7 +151,8 @@ const NewWorkOrderStep2 = withRouter((props) => {
         ...state,
         specialist_config: [...specialist_config, ...Specialist].reverse(),
         no_of_specialist: "",
-        type_of_specialist: "",
+        title_of_specialist: "",
+
       });
     }
     if (t === "pipe") {
@@ -412,14 +427,17 @@ const NewWorkOrderStep2 = withRouter((props) => {
                           </h6>
                           <select
                             id="type_of_specialist"
-                            onChange={onchange}
+                            onChange={onchange_Area_Of_Specialization}
                             className="userfield form-control"
                           >
                             <option value=""></option>
                             {types_of_Specialist.map((data, i) => (
                               <option
                                 className="specialization"
-                                value={data.id}
+                                value={JSON.stringify({
+                                  id: data.id,
+                                  name: data.name,
+                                })}
                               >
                                 {data.name}
                               </option>
