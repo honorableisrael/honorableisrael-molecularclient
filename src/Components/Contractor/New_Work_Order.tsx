@@ -14,13 +14,11 @@ import axios from "axios";
 import Axios, { AxiosResponse } from "axios";
 import { API } from "../../config";
 
-
-
 const NewWorkOrderForm = withRouter((props) => {
   const [state, setState] = useState<any>({
     work_orders: [],
     country: "",
-    state_:"",
+    state_: "",
     inprogress: true,
     pending_request: false,
     order_title: "",
@@ -28,7 +26,8 @@ const NewWorkOrderForm = withRouter((props) => {
     project_purpose: "",
     past: false,
     location_terrain: "",
-    terrains:[],
+    location_terrain_name:"",
+    terrains: [],
     end_date: "",
     start_date: "",
     hour: "",
@@ -61,12 +60,23 @@ const NewWorkOrderForm = withRouter((props) => {
       });
     }
   };
+  const inputHandler = (e) => {
+    // if (e.target.name == "pipe_type") {
+    const new_obj = JSON.parse(e.target.value);
+    console.log(new_obj);
+    setState({
+      ...state,
+      location_terrain: new_obj.id,
+      location_terrain_name: new_obj.name,
+    });
+  };
   const saveToBrowser = () => {
     const first_data = {
       order_title,
       work_order_description,
       project_purpose,
       location_terrain,
+      location_terrain_name,
       state_,
       country,
       end_date,
@@ -77,27 +87,30 @@ const NewWorkOrderForm = withRouter((props) => {
     localStorage.setItem("first_step", JSON.stringify(first_data));
     props.history.push("/contractor_work_order_step2");
   };
-  React.useEffect(()=>{
-    const stored_stage_2 = localStorage.getItem("second_data");
-    const stored2 = stored_stage_2 ? JSON.parse(stored_stage_2) : "";
-    console.log(stored2)
+  React.useEffect(() => {
+    const stored_stage_1 = localStorage.getItem("first_step");
+    const stored1 = stored_stage_1 ? JSON.parse(stored_stage_1) : "";
+    console.log(stored1);
+    setState({
+      ...state,
+      ...stored1,
+    })
     window.scrollTo(-0, -0);
-    Axios.all([
-      Axios.get<any, AxiosResponse<any>>(`${API}/terrains`),
-    ])
+    Axios.all([Axios.get<any, AxiosResponse<any>>(`${API}/terrains`)])
       .then(
         axios.spread((res) => {
           console.log(res.data.data);
           setState({
             ...state,
-            terrains:res.data.data
+            terrains: res.data.data,
+            ...stored1,
           });
         })
       )
       .catch((err) => {
         console.log(err);
       });
-  },[])
+  }, []);
   const {
     project_purpose,
     country,
@@ -108,6 +121,7 @@ const NewWorkOrderForm = withRouter((props) => {
     end_date,
     location_terrain,
     start_date,
+    location_terrain_name,
     hour,
   } = state;
   return (
@@ -196,9 +210,11 @@ const NewWorkOrderForm = withRouter((props) => {
                             onChange={onchange}
                             placeholder=""
                           >
-                            <option>Select Country</option>
+                            <option>
+                              {country ? country : "Select Country"}
+                            </option>
                             {allCountries.map((data, i) => (
-                              <option value="">{data.name}</option>
+                              <option value={data.name}>{data.name}</option>
                             ))}
                           </select>
                         </Form.Group>
@@ -224,14 +240,21 @@ const NewWorkOrderForm = withRouter((props) => {
                           <select
                             className="userfield form-control"
                             id="location_terrain"
-                            onChange={onchange}
+                            onChange={inputHandler}
                             placeholder=""
                           >
-                            <option>Select Terrain</option>
+                            <option>
+                              {location_terrain
+                                ? location_terrain
+                                : "Select Terrain"}
+                            </option>
                             {terrains.map((data, i) => (
                               <option
                                 className="specialization"
-                                value={data.id}
+                                value={JSON.stringify({
+                                  id: data.id,
+                                  name: data.name,
+                                })}
                               >
                                 {data.name}
                               </option>
@@ -303,7 +326,9 @@ const NewWorkOrderForm = withRouter((props) => {
                         <Link to="/contractor_dashboard">
                           <div className="job3 btn_outline">Back</div>
                         </Link>
-                          <div className="job31" onClick={saveToBrowser}>Next</div>
+                        <div className="job31" onClick={saveToBrowser}>
+                          Next
+                        </div>
                       </Col>
                     </Row>
                   </Form>

@@ -41,7 +41,7 @@ const NewWorkOrderStep2 = withRouter((props) => {
     pipelength: "",
     specialist_config: [],
     type_of_specialist: "",
-    title_of_specialist:"",
+    title_of_specialist: "",
     pipe_config: [],
   });
   const inputHandler = (e) => {
@@ -64,7 +64,7 @@ const NewWorkOrderStep2 = withRouter((props) => {
       title_of_specialist: new_obj.name,
     });
   };
-  
+
   const onchange = (e) => {
     setState({
       ...state,
@@ -93,7 +93,6 @@ const NewWorkOrderStep2 = withRouter((props) => {
     }
   };
   const {
-    project_purpose,
     type_of_specialist,
     specialist_config,
     no_of_joints,
@@ -102,19 +101,21 @@ const NewWorkOrderStep2 = withRouter((props) => {
     no_of_specialist,
     pipe_schedule,
     pipe_size,
-    start_date,
     pipe_config,
     types_of_Specialist,
-    hour,
     pipeList,
     pipe_type,
     billing_cycle,
     title_of_specialist,
   }: any = state;
   useEffect(() => {
-    const stored_stage_2 = localStorage.getItem("second_data");
+    const stored_stage_2 = localStorage.getItem("second_step");
     const stored2 = stored_stage_2 ? JSON.parse(stored_stage_2) : "";
-    console.log(stored2)
+    console.log(stored2);
+    setState({
+      ...state,
+      stored2,
+    });
     window.scrollTo(-0, -0);
     Axios.all([
       Axios.get<any, AxiosResponse<any>>(`${API}/skills`),
@@ -127,6 +128,7 @@ const NewWorkOrderStep2 = withRouter((props) => {
             ...state,
             types_of_Specialist: res.data.data,
             pipeList: res2.data.data,
+            ...stored2,
           });
         })
       )
@@ -152,7 +154,6 @@ const NewWorkOrderStep2 = withRouter((props) => {
         specialist_config: [...specialist_config, ...Specialist].reverse(),
         no_of_specialist: "",
         title_of_specialist: "",
-
       });
     }
     if (t === "pipe") {
@@ -208,17 +209,63 @@ const NewWorkOrderStep2 = withRouter((props) => {
   };
   const notify = (message: string) =>
     toast(message, { containerId: "B", position: "top-right" });
+  const multipleEntryController = () => {
+    if (no_of_specialist || type_of_specialist || title_of_specialist) {
+      const Specialist: any = [
+        {
+          no_of_specialist,
+          type_of_specialist,
+          title_of_specialist,
+        },
+      ];
+      setState({
+        ...state,
+        specialist_config: [...specialist_config, ...Specialist].reverse(),
+        no_of_specialist: "",
+        title_of_specialist: "",
+      });
+    }
+    const Pipe_Config: any = [
+      {
+        no_of_joints,
+        pipelength,
+        pipe_schedule,
+        pipe_size,
+        pipe_type,
+        pipe_name,
+      },
+    ];
+    if (
+      no_of_joints ||
+      pipelength ||
+      pipe_schedule ||
+      pipe_size ||
+      pipe_type
+    ) {
+      setState({
+        ...state,
+        pipe_config: [...pipe_config, ...Pipe_Config].reverse(),
+        no_of_joints: "",
+        pipelength: "",
+        pipe_schedule: "",
+        pipe_size: "",
+        pipe_type: "",
+        pipe_name: "",
+      });
+    }
+    saveToBrowser()
+  };
   const saveToBrowser = () => {
     const second_data = {
       pipe_config,
       specialist_config,
-      billing_cycle,
+      // billing_cycle,
     };
     console.log(second_data);
     localStorage.setItem("second_step", JSON.stringify(second_data));
     props.history.push("/contractor_work_order_step3");
   };
-  
+
   return (
     <>
       <Container fluid={true} className="dasbwr">
@@ -477,7 +524,7 @@ const NewWorkOrderStep2 = withRouter((props) => {
                                 Specialist Skill
                               </h6>
                               <div className="Construction12">
-                                {data?.type_of_specialist}
+                                {data?.title_of_specialist}
                               </div>
                             </div>
                             <div className="">
@@ -505,7 +552,7 @@ const NewWorkOrderStep2 = withRouter((props) => {
                       </Col>
                     </Row>
                     <Row>
-                      <Col md={12}>
+                      {/* <Col md={12}>
                         <div>
                           <h6 className="userprofile">Payment Cycle </h6>
                         </div>
@@ -544,7 +591,7 @@ const NewWorkOrderStep2 = withRouter((props) => {
                             <span className="checkmark"></span>
                           </label>
                         </span>
-                      </Col>
+                      </Col> */}
                     </Row>
                     <br></br>
                     <Row>
@@ -552,7 +599,7 @@ const NewWorkOrderStep2 = withRouter((props) => {
                         <Link to="/work_order">
                           <div className="job3 btn_outline">Back</div>
                         </Link>
-                        <div className="job31" onClick={saveToBrowser}>
+                        <div className="job31" onClick={multipleEntryController}>
                           Next
                         </div>
                       </Col>

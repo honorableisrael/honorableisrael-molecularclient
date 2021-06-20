@@ -31,47 +31,29 @@ const NewWorkOrderStep3 = () => {
     no_of_specialist: "",
     pipe_type: "",
     hour: "",
+    terrains:"",
+    location_terrain:"",
+    state_:"",
   });
-  const onchange = (e) => {
-    console.log(e.target.value);
-    setState({
-      ...state,
-      [e.target.id]: e.target.value,
-    });
-  };
-  const onInputChange = (e) => {
-    const letterNumber = /^[A-Za-z]+$/;
-    if (e.target.value) {
-      return setState({
-        ...state,
-        [e.target.name]: e.target.value.replace(/[^0-9]+/g, ""), //only accept numbers
-      });
-    }
-    if (e.target.value < 0) {
-      return setState({
-        ...state,
-        [e.target.name]: 0,
-      });
-    }
-    if (e.target.value === "") {
-      return setState({
-        ...state,
-        [e.target.name]: 0,
-      });
-    }
-  };
   const {
-    project_purpose,
     pipe_wieght,
     pipelength,
-    end_date,
     no_of_specialist,
-    start_date,
     hour,
     diameter,
     pipe_type,
     pipesize,
+    location_terrain,
+    state_,
+    end_date,
+    start_date,
+    project_purpose,
+    country,
+    work_order_description,
+    terrains,
+    order_title,
   } = state;
+
   useEffect(() => {
     window.scrollTo(-0, -0);
     const firstList: any = localStorage.getItem("first_step");
@@ -83,8 +65,8 @@ const NewWorkOrderStep3 = () => {
     setState({
       ...state,
       ...secondData,
-      ...firstData
-    })
+      ...firstData,
+    });
   }, []);
   return (
     <>

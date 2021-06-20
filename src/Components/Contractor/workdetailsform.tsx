@@ -48,6 +48,7 @@ const WorkDetails_Form_Preview = (props) => {
     specialist_config,
     work_order_description,
     terrains,
+    location_terrain_name,
     billing_cycle,
     isloading,
     order_title,
@@ -81,11 +82,10 @@ const WorkDetails_Form_Preview = (props) => {
       description: work_order_description,
       purpose: project_purpose,
       state: state_,
-      town: "",
       start_date,
       end_date,
       hours_per_day: hour,
-      project_terrain: terrains,
+      project_terrain: location_terrain,
       pipe_configs: pipe_config,
       skills: specialist_config,
     };
@@ -144,7 +144,7 @@ const WorkDetails_Form_Preview = (props) => {
                   <h6 className="userprofile12 userprofile123">
                     Location Terrain
                   </h6>
-                  <div className="Construction12">{location_terrain??"n/a"}</div>
+                  <div className="Construction12">{location_terrain_name??"n/a"}</div>
                 </div>
               </div>
               <div className="main_wrap_ws main_wrap_ws22">
