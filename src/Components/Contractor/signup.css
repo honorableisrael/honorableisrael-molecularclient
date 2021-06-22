@@ -218,3 +218,6 @@
     text-align: center;
     margin: 12px auto;
 }
+.bg-danger{
+    background: rgba(94, 4, 4, 0.884) !important;
+}

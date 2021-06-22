@@ -13,7 +13,11 @@ import { Link } from "react-router-dom";
 import no_work_order from "../../images/document 1.png";
 import no_work_order2 from "../../images/calendar 1.png";
 import AdminWorkOrderCards from "./WorkCardAdmin";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import New_Work_Order_Card from "./New_Work_Order_Card";
+import { API, capitalize } from "../../config";
+import axios from "axios";
 
 const AdminWorkOrder = () => {
   const [state, setState] = useState({
@@ -21,7 +25,7 @@ const AdminWorkOrder = () => {
     inprogress: true,
     pending_request: false,
     past: false,
-    new_order: true,
+    new_order: false,
     awaiting_assignment: false,
     work_order_title: "",
     work_order_description: "",
@@ -44,6 +48,8 @@ const AdminWorkOrder = () => {
         ...state,
         inprogress: true,
         pending_request: false,
+        new_order: false,
+        awaiting_assignment: false,
         past: false,
         fourthtab: false,
         fifthtab: false,
@@ -59,6 +65,8 @@ const AdminWorkOrder = () => {
         fourthtab: false,
         fifthtab: false,
         sixthtab: false,
+        new_order: true,
+        awaiting_assignment: false,
       });
     }
     if (a == "thirdtab") {
@@ -70,6 +78,8 @@ const AdminWorkOrder = () => {
         fourthtab: false,
         fifthtab: false,
         sixthtab: false,
+        new_order: false,
+        awaiting_assignment: false,
       });
     }
     if (a == "fourthtab") {
@@ -81,6 +91,8 @@ const AdminWorkOrder = () => {
         fourthtab: true,
         fifthtab: false,
         sixthtab: false,
+        new_order: false,
+        awaiting_assignment: false,
       });
     }
     if (a == "fifthtab") {
@@ -92,6 +104,8 @@ const AdminWorkOrder = () => {
         fourthtab: false,
         fifthtab: true,
         sixthtab: false,
+        new_order: false,
+        awaiting_assignment: false,
       });
     }
     if (a == "sixthtab") {
@@ -103,6 +117,8 @@ const AdminWorkOrder = () => {
         fourthtab: false,
         fifthtab: false,
         sixthtab: true,
+        new_order: false,
+        awaiting_assignment: false,
       });
     }
     if (a == "new_order") {
@@ -128,6 +144,28 @@ const AdminWorkOrder = () => {
   };
   useEffect(() => {
     window.scrollTo(-0, -0);
+    const availableToken: any = localStorage.getItem("loggedInDetails");
+    const token = availableToken
+      ? JSON.parse(availableToken)
+      : window.location.assign("/");
+    axios
+      .all([
+        axios.get(`${API}/admin/work-orders?paginate=1`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
+      ])
+      .then(
+        axios.spread((res) => {
+          console.log(res.data.data);
+          setState({
+            ...state,
+            work_orders: res.data.data.data,
+          });
+        })
+      )
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
   const {
     inprogress,
@@ -139,15 +177,7 @@ const AdminWorkOrder = () => {
     search,
     awaiting_assignment,
     new_order,
-    work_order_title,
-    work_order_description,
-    project_purpose,
-    location,
-    state_,
-    location_terrain,
-    start_date,
-    end_date,
-    hours_perday,
+    work_orders,
   } = state;
   return (
     <>
@@ -208,28 +238,32 @@ const AdminWorkOrder = () => {
                 On Hold
               </div>
             </div>
-            <div className="reqwrapper">
-              <div
-                className={
-                  new_order
-                    ? "req12 border__right__none"
-                    : "req12 border__right__none bgnone"
-                }
-                onClick={() => switchTab("new_order")}
-              >
-                New
+            {new_order == true || awaiting_assignment == true ? (
+              <div className="reqwrapper">
+                <div
+                  className={
+                    new_order
+                      ? "req12 border__right__none"
+                      : "req12 border__right__none bgnone"
+                  }
+                  onClick={() => switchTab("new_order")}
+                >
+                  New
+                </div>
+                <div
+                  onClick={() => switchTab("awaiting_assignment")}
+                  className={
+                    awaiting_assignment
+                      ? "assign__1 active_ border__left__none bgorange"
+                      : "assign__1 border__left__none"
+                  }
+                >
+                  Awaiting Assignment
+                </div>
               </div>
-              <div
-                onClick={() => switchTab("awaiting_assignment")}
-                className={
-                  awaiting_assignment
-                    ? "assign__1 active_ border__left__none bgorange"
-                    : "assign__1 border__left__none"
-                }
-              >
-                Awaiting Assignment
-              </div>
-            </div>
+            ) : (
+              ""
+            )}
             <Row>
               {false && (
                 <Col md={11} className="containerforemptyorder1">
@@ -250,7 +284,18 @@ const AdminWorkOrder = () => {
                   </div>
                 </Col>
               )}
-              {!awaiting_assignment && (
+              <div className="cardflex_jo">
+                {work_orders?.map((data: any, i) =>
+                  data?.status == "New" ? (
+                    <New_Work_Order_Card
+                      order_details={data}
+                      key={i}
+                      awaiting_assignment={false}
+                    />
+                  ) : null
+                )}
+              </div>
+              {/* {!awaiting_assignment && new_order && (
                 <div className="cardflex_jo">
                   <New_Work_Order_Card
                     title={"Pipeline construction with Sulejah"}
@@ -290,8 +335,8 @@ const AdminWorkOrder = () => {
                     />
                   </Link>
                 </div>
-              )}
-              {awaiting_assignment && (
+              )} */}
+              {/* {awaiting_assignment && (
                 <div className="cardflex_jo">
                   <New_Work_Order_Card
                     title={"Pipeline construction with Sulejah"}
@@ -299,7 +344,7 @@ const AdminWorkOrder = () => {
                     awaiting_assignment={true}
                   />
                 </div>
-              )}
+              )} */}
             </Row>
           </Col>
         </Row>

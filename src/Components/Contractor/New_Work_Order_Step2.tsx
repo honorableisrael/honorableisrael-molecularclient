@@ -209,8 +209,29 @@ const NewWorkOrderStep2 = withRouter((props) => {
   };
   const notify = (message: string) =>
     toast(message, { containerId: "B", position: "top-right" });
+
   const multipleEntryController = () => {
-    if (no_of_specialist || type_of_specialist || title_of_specialist) {
+    console.log("step1");
+    if (
+      no_of_specialist &&
+      type_of_specialist &&
+      title_of_specialist &&
+      no_of_joints &&
+      pipelength &&
+      pipe_schedule &&
+      pipe_size &&
+      pipe_type
+    ) {
+      const Pipe_Config: any = [
+        {
+          no_of_joints,
+          pipelength,
+          pipe_schedule,
+          pipe_size,
+          pipe_type,
+          pipe_name,
+        },
+      ];
       const Specialist: any = [
         {
           no_of_specialist,
@@ -218,52 +239,66 @@ const NewWorkOrderStep2 = withRouter((props) => {
           title_of_specialist,
         },
       ];
-      setState({
-        ...state,
-        specialist_config: [...specialist_config, ...Specialist].reverse(),
-        no_of_specialist: "",
-        title_of_specialist: "",
-      });
+      const second_data = {
+        specialist_config: [...specialist_config, ...Specialist],
+        pipe_config: [...pipe_config, ...Pipe_Config],
+        // billing_cycle,
+      };
+      localStorage.setItem("second_step", JSON.stringify(second_data));
+     return props.history.push("/contractor_work_order_step3");
     }
-    const Pipe_Config: any = [
-      {
-        no_of_joints,
-        pipelength,
-        pipe_schedule,
-        pipe_size,
-        pipe_type,
-        pipe_name,
-      },
-    ];
-    if (
-      no_of_joints ||
-      pipelength ||
-      pipe_schedule ||
-      pipe_size ||
-      pipe_type
-    ) {
-      setState({
-        ...state,
-        pipe_config: [...pipe_config, ...Pipe_Config].reverse(),
-        no_of_joints: "",
-        pipelength: "",
-        pipe_schedule: "",
-        pipe_size: "",
-        pipe_type: "",
-        pipe_name: "",
-      });
+
+    if (no_of_specialist && type_of_specialist && title_of_specialist) {
+      const Specialist: any = [
+        {
+          no_of_specialist,
+          type_of_specialist,
+          title_of_specialist,
+        },
+      ];
+      const second_data = {
+        specialist_config: [...specialist_config, ...Specialist],
+        // billing_cycle,
+      };
+      localStorage.setItem("second_step", JSON.stringify(second_data));
+      return props.history.push("/contractor_work_order_step3");
     }
-    saveToBrowser()
+
+    if (no_of_joints && pipelength && pipe_schedule && pipe_size && pipe_type) {
+      const Pipe_Config: any = [
+        {
+          no_of_joints,
+          pipelength,
+          pipe_schedule,
+          pipe_size,
+          pipe_type,
+          pipe_name,
+        },
+      ];
+      console.log(Pipe_Config);
+      const second_data = {
+        pipe_config: [...pipe_config, ...Pipe_Config],
+        // billing_cycle,
+      };
+      localStorage.setItem("second_step", JSON.stringify(second_data));
+      return props.history.push("/contractor_work_order_step3");
+    }
+
+    saveToBrowser();
   };
   const saveToBrowser = () => {
-    const second_data = {
-      pipe_config,
-      specialist_config,
-      // billing_cycle,
-    };
-    console.log(second_data);
-    localStorage.setItem("second_step", JSON.stringify(second_data));
-    props.history.push("/contractor_work_order_step3");
+    // setState({
+    //   ...state,
+    //   no_of_joints: "",
+    //   pipelength: "",
+    //   pipe_schedule: "",
+    //   pipe_size: "",
+    //   pipe_type: "",
+    //   pipe_name: "",
+    //   no_of_specialist: "",
+    //   title_of_specialist: "",
+    // });
+    return props.history.push("/contractor_work_order_step3");
   };
 
   return (
@@ -599,7 +634,10 @@ const NewWorkOrderStep2 = withRouter((props) => {
                         <Link to="/work_order">
                           <div className="job3 btn_outline">Back</div>
                         </Link>
-                        <div className="job31" onClick={multipleEntryController}>
+                        <div
+                          className="job31"
+                          onClick={multipleEntryController}
+                        >
                           Next
                         </div>
                       </Col>

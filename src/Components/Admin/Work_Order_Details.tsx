@@ -21,6 +21,9 @@ import WorkOrderCardsMinInfo from "./WorkOrderCardsMinInfo";
 import avatar_test from "../../images/avatar_test.png";
 import dwnload from "../../images/dwnload.png";
 import WorkDetails_Form_Preview from "./workdetailsform";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const AdminViewWorkOrderDetails = (props) => {
   const [state, setState] = useState({
@@ -69,6 +72,9 @@ const AdminViewWorkOrderDetails = (props) => {
       });
     }
   };
+
+  const notify = (message: string, type = "B") =>
+    toast(message, { containerId: type, position: "top-right" });
 
   const openModal = (e, x) => {
     setState({
@@ -347,7 +353,7 @@ const AdminViewWorkOrderDetails = (props) => {
                             Terminate Workorder
                           </h6>
                           <p className="Construction12">
-                            To terminate a workorder that has been placed, A req
+                            To terminate a new work order
                           </p>
                           <div className="wtext">
                             <div
@@ -367,6 +373,13 @@ const AdminViewWorkOrderDetails = (props) => {
           </Col>
         </Row>
       </Container>
+      <ToastContainer
+        enableMultiContainer
+        containerId={"D"}
+        toastClassName="bg-danger text-white"
+        hideProgressBar={true}
+        position={"top-right"}
+      />
     </>
   );
 };

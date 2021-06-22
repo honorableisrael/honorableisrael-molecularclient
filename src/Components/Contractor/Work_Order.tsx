@@ -12,6 +12,10 @@ import WorkOrderCards from "./WorkOrderCards";
 import { Link } from "react-router-dom";
 import no_work_order from "../../images/document 1.png";
 import no_work_order2 from "../../images/calendar 1.png";
+import { API, capitalize } from "../../config";
+import axios from "axios";
+import Axios, { AxiosResponse } from "axios";
+
 
 const ContractorWorkOrder = () => {
   const [state, setState] = useState({
@@ -63,6 +67,28 @@ const ContractorWorkOrder = () => {
   };
   useEffect(() => {
     window.scrollTo(-0, -0);
+    const availableToken: any = localStorage.getItem("loggedInDetails");
+    const token = availableToken
+      ? JSON.parse(availableToken)
+      : window.location.assign("/");
+    axios
+      .all([
+        axios.get(`${API}/admin/work-orders/new?paginate=1`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
+      ])
+      .then(
+        axios.spread((res) => {
+          console.log(res.data.data);
+          setState({
+            ...state,
+            work_orders: res.data.dta,
+          });
+        })
+      )
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
   const {
     inprogress,
@@ -74,10 +100,12 @@ const ContractorWorkOrder = () => {
     location,
     state_,
     location_terrain,
+    work_orders,
     start_date,
     end_date,
     hours_perday,
   } = state;
+  console.log(work_orders)
   return (
     <>
       <Container fluid={true} className="dasbwr">
