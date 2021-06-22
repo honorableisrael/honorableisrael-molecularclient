@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Col, Row, Container, Form, ProgressBar } from "react-bootstrap";
 import "./contractor.css";
 import DashboardNav from "./navbar";
@@ -33,6 +33,33 @@ const All_Specialist = () => {
     start_date: "",
     hour: "",
   });
+   useEffect(() => {
+    window.scrollTo(-0, -0);
+    const availableToken: any = localStorage.getItem("loggedInDetails");
+    const token = availableToken
+      ? JSON.parse(availableToken)
+      : window.location.assign("/");
+    axios
+      .all([
+        axios.get(`${API}/admin/specialist?paginate=1`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
+      ])
+      .then(
+        axios.spread((res) => {
+          console.log(res.data.data);
+          setState({
+            ...state,
+            all_specialist: res.data.data.data,
+            ...res.data.data.links,
+            ...res.data.data.meta
+          });
+        })
+      )
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
   const switchTab = (a) => {
     if (a == "firsttab") {
       return setState({
