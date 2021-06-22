@@ -40,6 +40,9 @@ const AdminWorkOrder = () => {
     fourthtab: false,
     fifthtab: false,
     sixthtab: false,
+    next_page: "",
+    prev_page: "",
+    current: "",
   });
 
   const switchTab = (a) => {
@@ -144,6 +147,9 @@ const AdminWorkOrder = () => {
   };
   useEffect(() => {
     window.scrollTo(-0, -0);
+    fetch_all();
+  }, []);
+  const fetch_all = () => {
     const availableToken: any = localStorage.getItem("loggedInDetails");
     const token = availableToken
       ? JSON.parse(availableToken)
@@ -160,13 +166,53 @@ const AdminWorkOrder = () => {
           setState({
             ...state,
             work_orders: res.data.data.data,
+            inprogress: true,
+            pending_request: false,
+            new_order: false,
+            awaiting_assignment: false,
+            past: false,
+            fourthtab: false,
+            fifthtab: false,
+            sixthtab: false,
           });
         })
       )
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  };
+  const filter_by_new = (fun) => {
+    const availableToken: any = localStorage.getItem("loggedInDetails");
+    const token = availableToken
+      ? JSON.parse(availableToken)
+      : window.location.assign("/");
+    axios
+      .all([
+        axios.get(`${API}/admin/work-orders/new?paginate=1`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
+      ])
+      .then(
+        axios.spread((res) => {
+          console.log(res.data.data);
+          setState({
+            ...state,
+            work_orders: res.data.data.data,
+            inprogress: false,
+            pending_request: true,
+            past: false,
+            fourthtab: false,
+            fifthtab: false,
+            sixthtab: false,
+            new_order: true,
+            awaiting_assignment: false,
+          });
+        })
+      )
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const {
     inprogress,
     pending_request,
@@ -206,13 +252,13 @@ const AdminWorkOrder = () => {
             </div>
             <div className="intab">
               <div
-                onClick={() => switchTab("firsttab")}
+                onClick={() => fetch_all()}
                 className={inprogress ? "inprogress tab_active" : "inprogress"}
               >
                 All
               </div>
               <div
-                onClick={() => switchTab("secondtab")}
+                onClick={() => filter_by_new(switchTab("secondtab"))}
                 className={
                   pending_request ? "inprogress tab_active" : "inprogress"
                 }
@@ -265,7 +311,7 @@ const AdminWorkOrder = () => {
               ""
             )}
             <Row>
-              {false && (
+              {work_orders?.length == 0 && (
                 <Col md={11} className="containerforemptyorder1">
                   <div className="containerforemptyorder">
                     <img
@@ -275,7 +321,7 @@ const AdminWorkOrder = () => {
                     />
                   </div>
                   <div className="no_work1">
-                    You have no Work Order In Progress
+                    You have no Work Order
                   </div>
                   <div className="nojob2 ">
                     <Link to="/work_order">
@@ -285,14 +331,52 @@ const AdminWorkOrder = () => {
                 </Col>
               )}
               <div className="cardflex_jo">
-                {work_orders?.map((data: any, i) =>
-                  data?.status == "New" ? (
-                    <New_Work_Order_Card
-                      order_details={data}
-                      key={i}
-                      awaiting_assignment={false}
-                    />
-                  ) : null
+                {work_orders?.map(
+                  (data: any, i) =>
+                    data?.status == "New" && (
+                      <New_Work_Order_Card
+                        order_details={data}
+                        key={i}
+                        awaiting_assignment={false}
+                      />
+                    )
+                )}
+              </div>
+              <div className="cardflex_jo">
+                {work_orders?.map(
+                  (data: any, i) =>
+                    data.status == "In Review" && (
+                      <AdminWorkOrderCards
+                        order_details={data}
+                        key={i}
+                        status={"In Review"}
+                      />
+                    )
+                )}
+              </div>
+              <div className="cardflex_jo">
+                {work_orders?.map(
+                  (data: any, i) =>
+                    data.status == "Terminated" && (
+                      <New_Work_Order_Card
+                        order_details={data}
+                        status={"Terminated"}
+                        awaiting_assignment={false}
+                      />
+                    )
+                )}
+              </div>
+              <div className="cardflex_jo">
+              {work_orders?.map(
+                  (data: any, i) =>
+                    data.status == "Terminated" && (
+                      <Link to="/admin_work_details">
+                      <AdminWorkOrderCards
+                        order_details={data}
+                        status={"Completed"}
+                      />
+                    </Link>
+                    )
                 )}
               </div>
               {/* {!awaiting_assignment && new_order && (

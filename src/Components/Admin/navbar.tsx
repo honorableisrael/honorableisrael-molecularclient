@@ -107,18 +107,18 @@ const DashboardNav = withRouter((props) => {
                     <span className="boxdes"></span>
                   ))}
               </Link>
-              <Link to={"/admin/specialist"} className="flex-12a">
+              <Link to={"/allspecialist"} className="flex-12a">
                 {" "}
                 <span
                   className={
-                    window.location.pathname == "/admin/specialist"
+                    window.location.pathname == "/allspecialist"
                       ? "navlink_is_active lightorange"
                       : "navlink_is_active1"
                   }
                 >
                   <div className="speialcl">Specialist</div>
                 </span>
-                {window.location.pathname == "/admin/specialist" && (
+                {window.location.pathname == "/allspecialist" && (
                   <span className="boxdes"></span>
                 )}
               </Link>

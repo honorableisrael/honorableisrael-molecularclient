@@ -11,7 +11,7 @@ import nextbtn from "../../images/nextbtn.png";
 
 const WorkOrderCardsMinInfo = (props) => {
   const [state, setState] = useState({
-    volume: props.status == "Awaiting Approval" ? 0 : 100,
+    volume: props.status == "Awaiting Approval" ? 0 : 0,
   });
   const handleOnChange = (value) => {
     setState({
@@ -28,7 +28,7 @@ const WorkOrderCardsMinInfo = (props) => {
         </div> */}
         <div className="c_ard_sec2">
           <div className="pipline pipline__">
-            <div className="crd23">{props.title}</div>
+            <div className="crd23"> {props?.order_detail?.title}</div>
             <div className="inprogr">
               <div
                 className={
@@ -45,8 +45,8 @@ const WorkOrderCardsMinInfo = (props) => {
                   }
                 ></span>
                 <span>
-                  {props.title == "Pipeline construction with Suleja"
-                    ? "In progress"
+                  {props?.order_detail?.status == "In Review"
+                    ? "In Review"
                     : props.status == "Awaiting Approval"
                     ? "Awaiting approval"
                     : "Completed"}
@@ -54,9 +54,7 @@ const WorkOrderCardsMinInfo = (props) => {
               </div>
             </div>
           </div>
-          <div className="mnversion">
-            Constructing a pipe from Lagos to Ofin State
-          </div>
+          <div className="mnversion">{props?.order_detail?.purpose}</div>
           <div className="slidd2">
             <Slider
               value={volume}

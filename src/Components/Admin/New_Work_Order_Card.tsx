@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Col, Row, Container, ProgressBar } from "react-bootstrap";
+import { Col, Row, Container, Modal, Form } from "react-bootstrap";
 import "./contractor.css";
 import DashboardNav from "../Contractor/navbar";
 import portfolio from "../../images/portfolio.png";
@@ -20,6 +20,8 @@ const New_Work_Order_Card = (props) => {
   const [state, setState] = useState({
     volume: props.status == "Awaiting Approval" ? 0 : 100,
     isloading: false,
+    show: true,
+    reason: "",
   });
   const handleOnChange = (value) => {
     setState({
@@ -27,7 +29,7 @@ const New_Work_Order_Card = (props) => {
       volume: value,
     });
   };
-  let { volume, isloading } = state;
+  let { volume, isloading, show, reason } = state;
   const Accept_work_order = () => {
     const availableToken: any = localStorage.getItem("loggedInDetails");
     const token = availableToken
@@ -41,13 +43,18 @@ const New_Work_Order_Card = (props) => {
       .all([
         axios.post(
           `${API}/admin/work-orders/${props?.order_details?.id}/accept`,
+          {},
           {
-            headers: { Authorization: `Bearer ${token.access_token}` },
+            headers: {
+              Authorization: `Bearer ${token.access_token}`,
+              "Content-Type": "application/json",
+            },
           }
         ),
       ])
       .then(
         axios.spread((res) => {
+          notify("Successfull");
           console.log(res.data);
           setState({
             ...state,
@@ -63,9 +70,66 @@ const New_Work_Order_Card = (props) => {
         });
       });
   };
+  const Reject_work_order = () => {
+    const availableToken: any = localStorage.getItem("loggedInDetails");
+    const token = availableToken
+      ? JSON.parse(availableToken)
+      : window.location.assign("/");
+    setState({
+      ...state,
+      isloading: true,
+    });
+    const data={
+      reason
+    }
+    axios
+      .all([
+        axios.post(
+          `${API}/admin/work-orders/${props?.order_details?.id}/accept`,
+          data,
+          {
+            headers: {
+              Authorization: `Bearer ${token.access_token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        ),
+      ])
+      .then(
+        axios.spread((res) => {
+          notify("Successfull");
+          console.log(res.data);
+          setState({
+            ...state,
+            isloading: false,
+            show:false
+          });
+        })
+      )
+      .catch((err) => {
+        console.log(err);
+        setState({
+          ...state,
+          isloading: false,
+          show:false
+        });
+      });
+  };
   const notify = (message: string, type = "B") =>
     toast(message, { containerId: type, position: "top-right" });
-
+  
+  const onchange = (e) => {
+    setState({
+      ...state,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const openModal = () => {
+    setState({
+      ...state,
+      show: true,
+    });
+  };
   return (
     <>
       <div className="cardwrap_jo">
@@ -144,7 +208,7 @@ const New_Work_Order_Card = (props) => {
                   <div className="accpt122" onClick={Accept_work_order}>
                     {isloading ? "Accepting" : "Accept"}
                   </div>
-                  <div className="decline122">Decline</div>
+                  <div className="decline122" onClick={openModal}>Decline</div>
                 </>
               )}
             </div>
@@ -153,6 +217,63 @@ const New_Work_Order_Card = (props) => {
           )}
         </div>
       </div>
+      <Modal
+        size="lg"
+        show={show}
+        onHide={() =>
+          setState({
+            ...state,
+            show: false,
+          })
+        }
+        dialogClassName="modal-90w"
+        className="mdl12"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="example-custom-modal-styling-title">
+            Terminate work order
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Row>
+            <Col md={12}>
+              <Form>
+                <textarea
+                  value={reason}
+                  name={"reason"}
+                  onChange={onchange}
+                  className="form-control reason12"
+                  placeholder="Reason for termination"
+                ></textarea>
+              </Form>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={12} className="terminate2">
+              <div
+                className="terminate1"
+                onClick={ Reject_work_order}
+              >
+               {isloading?"Processing":"Reject"}
+              </div>
+            </Col>
+          </Row>
+        </Modal.Body>
+      </Modal>
+      <ToastContainer
+        enableMultiContainer
+        containerId={"B"}
+        toastClassName="bg-orange text-white"
+        hideProgressBar={true}
+        position={"top-right"}
+      />
+      <ToastContainer
+        enableMultiContainer
+        containerId={"D"}
+        toastClassName="bg-danger text-white"
+        hideProgressBar={true}
+        position={"top-right"}
+      />
     </>
   );
 };

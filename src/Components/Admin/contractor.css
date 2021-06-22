@@ -472,7 +472,7 @@ text {
 .minicardwrapper {
   display: flex;
   justify-content: space-between;
-  width: 80%;
+  width: 95% !important;
 }
 
 .inprogress_4 {
@@ -1911,6 +1911,8 @@ a {
   border-radius: 9px;
   width: 245px;
   font-size: 14px;
+  margin-right: .5rem;
+  margin-top: .5rem;
 }
 .prim_skills {
   display: flex;
@@ -2481,4 +2483,22 @@ label i {
     padding-left: 12px !important;
     padding-right: 41px !important;
   }
+}
+.nojob2 a .job3{
+  margin: auto;
+}
+.workorderheader002{
+  width: 150px !important;
+}
+.btn_Cust{
+  border: 1px solid #fd8c00 !important;
+  background: white !important;
+  color: #fd8c00 !important;
+}
+.rowt3x{
+  padding-right: 4rem !important;
+  padding-left: 3rem !important;
+}
+.formCi{
+  padding: 1rem !important;
 }

@@ -97,7 +97,7 @@ const WorkDetails_Form_Preview = (props) => {
         number: no_of_specialist,
       })
     );
-    console.log(config_keys)
+    console.log(config_keys);
     // no_of_specialist,
     // type_of_specialist,
     // title_of_specialist,
@@ -117,8 +117,11 @@ const WorkDetails_Form_Preview = (props) => {
     };
     console.log(work_order_data);
     axios
-      .post(`${API}/contractor/work-orders`, work_order_data, {
-        headers: { Authorization: `Bearer ${token.access_token}` },
+      .post(`${API}/contractor/work-orders`,work_order_data,{
+        headers: {
+          "Authorization": `Bearer ${token.access_token}`,
+          "Content-Type": "application/json",
+        },
       })
       .then((res) => {
         console.log(res);

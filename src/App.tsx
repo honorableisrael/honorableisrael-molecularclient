@@ -24,7 +24,7 @@ import Payments from "./Components/Specialist/payments";
 import SpecialistSettings from "./Components/Specialist/settings";
 import Contractor_Profile from "./Components/Contractor/ContractorProfile/ProfileSettings";
 import AdminDashboard from "./Components/Admin/AdminDashboard";
-import SpecialistWorkOrderDetails from "./Components/Specialist/specialistWorkCardDetail"
+import SpecialistWorkOrderDetails from "./Components/Specialist/specialistWorkCardDetail";
 import ListOfContractor from "./Components/Admin/ContractorList";
 import ContractorOnboarding from "./Components/Admin/contractorsignup";
 import AdminViewWorkOrderDetails from "./Components/Admin/Work_Order_Details";
@@ -39,7 +39,7 @@ import AdminWorkOrderEvaluationStep2 from "./Components/Admin/Work_Order_Evaluat
 import AdminWorkOrderEvaluationStep3 from "./Components/Admin/Work_Order_EvaluationStep3";
 import AdminWorkOrderEvaluationStep4 from "./Components/Admin/Work_Order_EvaluationStep4";
 import Admin_Notification from "./Components/Admin/Notification";
-
+import All_Specialist from "./Components/Admin/All_Specialist";
 
 class App extends Component {
   render() {
@@ -130,6 +130,8 @@ class App extends Component {
                 path="/admin_work_details"
                 component={AdminViewWorkOrderDetails}
               />
+              <Route path="/allspecialist" component={All_Specialist} />
+
               <Route
                 path="/admin_evaluation_step4"
                 component={AdminWorkOrderEvaluationStep4}
@@ -166,8 +168,14 @@ class App extends Component {
               {/* specialist Dashboard */}
               <Route path="/specialist_signup" component={SignUp} />
               {/* <Route path="/signin" component={signIn} /> */}
-              <Route path="/specialistnotifications" component={SpecialistNotification} />
-              <Route path="/Specialist_Payment_Invoice" component={Specialist_Payment_Invoice} />
+              <Route
+                path="/specialistnotifications"
+                component={SpecialistNotification}
+              />
+              <Route
+                path="/Specialist_Payment_Invoice"
+                component={Specialist_Payment_Invoice}
+              />
               <Route path="/signin" component={SignIn} />
               <Route path="/forgot_password" component={ForgotPassword} />
               <Route path="/" component={Home} />

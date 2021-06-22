@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Col, Row, Container, ProgressBar } from "react-bootstrap";
 import "./contractor.css";
 import DashboardNav from "./navbar";
-import portfolio from "../../images/NNPC1.png";
+import portfolio from "../../images/portfolio.png";
 import group2 from "../../images/group2.png";
 import Slider from "react-rangeslider";
 import "react-rangeslider/lib/index.css";
@@ -26,13 +26,15 @@ const WorkOrderCards = (props) => {
     <>
       <div className="cardwrap_jo">
         <div className="cardwrap_cont">
-          <img src={portfolio} alt="portfolio" className="portfolio2" />
+          <img src={props.contractor?.logo?props?.contractor?.logo:portfolio} alt="portfolio" className="portfolio2" />
         </div>
         <div className="card_sec2">
           <div className="pipline">
             <div className="crd23">
               {" "}
-              <Link to="/admin_work_details?hide_info">{props.title}</Link>
+              {/* <Link to="/admin_work_details?hide_info"> */}
+                {props?.contractor?.company_name}
+              {/* </Link> */}
             </div>
             <div className="inprogr">
               <div
@@ -54,16 +56,16 @@ const WorkOrderCards = (props) => {
                     ? "In progress"
                     : props.status == "Awaiting Approval"
                     ? "Awaiting approval"
-                    : "Completed"}
+                    : props?.contractor?.status}
                 </span>
               </div>
             </div>
           </div>
           <div className="mnversion">
             {" "}
-            <Link to="/admin_work_details?hide_info">
-              Plot 721, NNPC House, Wuse II, Abuja
-            </Link>
+            {/* <Link to="/admin_work_details?hide_info"> */}
+              {props?.contractor?.address}
+            {/* </Link> */}
           </div>
           <div className="slidd2">
             <Slider
@@ -74,18 +76,18 @@ const WorkOrderCards = (props) => {
               className="sliderclass1"
               // onChange={handleOnChange}
             />
-            <Link to="/admin_work_details?hide_info">
+            {/* <Link to="/admin_work_details?hide_info">
               <div className="nextbtn">
                 <img src={nextbtn} alt="nxtbtn" className="nxtbtn3" />
               </div>
-            </Link>
+            </Link> */}
           </div>
           <div className="minicardwrapper">
             <div className="content24">
               <img src={group2} alt="cotn23" className="cotn232" />
               <div className="spcclst12">
                 <div className="spcclst1">Industry</div>
-                <div className="spcclst">Oil & Gas</div>
+                <div className="spcclst">{props?.contractor?.industry}</div>
               </div>
             </div>
             <div className="content24">

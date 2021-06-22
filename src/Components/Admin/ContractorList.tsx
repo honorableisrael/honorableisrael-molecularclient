@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Col, Row, Container, Modal, Form } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Col, Row, Container, Modal, Form,Pagination } from "react-bootstrap";
 import "./contractor.css";
 import DashboardNav from "./navbar";
 import portfolio from "../../images/portfolio.png";
@@ -14,11 +14,13 @@ import no_work_order from "../../images/document 1.png";
 import no_work_order2 from "../../images/calendar 1.png";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import axios from "axios";
+import { API } from "../../config";
 
 const MySwal = withReactContent(Swal);
 const ListOfContractor = () => {
   const [state, setState] = useState({
-    work_orders: [],
+    contractor_list: [],
     inprogress: true,
     pending_request: false,
     past: false,
@@ -37,6 +39,14 @@ const ListOfContractor = () => {
     rc_number: "",
     company_phone: "",
     company_email: "",
+    next:"",
+    prev:"",
+    first:"",
+    last:"",
+    current_page:"",
+    last_page:"",
+    to:"",
+    total:"",
   });
   const openModal = (e, x) => {
     setState({
@@ -114,22 +124,84 @@ const ListOfContractor = () => {
       show: false,
     });
   };
+  const nextPage=(x)=>{
+    const availableToken: any = localStorage.getItem("loggedInDetails");
+    const token = availableToken
+      ? JSON.parse(availableToken)
+      : window.location.assign("/");
+    axios
+      .all([
+        axios.get(`${x}`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
+      ])
+      .then(
+        axios.spread((res) => {
+          console.log(res.data.data);
+          window.scrollTo(-0, -0);
+          setState({
+            ...state,
+            contractor_list: res.data.data.data,
+            ...res.data.data.links,
+            ...res.data.data.meta
+          });
+        })
+      )
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+  useEffect(() => {
+    window.scrollTo(-0, -0);
+    const availableToken: any = localStorage.getItem("loggedInDetails");
+    const token = availableToken
+      ? JSON.parse(availableToken)
+      : window.location.assign("/");
+    axios
+      .all([
+        axios.get(`${API}/admin/contractors?paginate=1`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
+      ])
+      .then(
+        axios.spread((res) => {
+          console.log(res.data.data);
+          setState({
+            ...state,
+            contractor_list: res.data.data.data,
+            ...res.data.data.links,
+            ...res.data.data.meta
+          });
+        })
+      )
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
   const {
     inprogress,
     pending_request,
     past,
     first_name,
     last_name,
+    contractor_list,
     work_order_title,
     rc_number,
     work_order_description,
     project_purpose,
     location,
     show,
-    start_date,
+    last_page,
     end_date,
     company_phone,
     company_email,
+    next,
+    prev,
+    first,
+    last,
+    current_page,
+    to,
+    total,
   } = state;
   return (
     <>
@@ -175,7 +247,7 @@ const ListOfContractor = () => {
               </div>
             </div>
             <Row>
-              {false && (
+              {contractor_list?.length == 0 && (
                 <Col md={11} className="containerforemptyorder1">
                   <div className="containerforemptyorder">
                     <img
@@ -187,18 +259,33 @@ const ListOfContractor = () => {
                   <div className="no_work1">You have no contractor</div>
                 </Col>
               )}
-              {true && (
-                <div className="cardflex_jo">
-                  <WorkOrderCards title="Nigerian National Petroleum Corporation" />
+              <div className="cardflex_jo">
+                {contractor_list?.map((data, i) => (
                   <WorkOrderCards
-                    title={"Pipeline construction with Sulejah"}
+                    contractor={data}
+                    key={i}
+                    title="Nigerian National Petroleum Corporation"
                   />
-                  <WorkOrderCards
-                    title={"Pipeline construction with Sulejah"}
-                    status={"Awaiting Approval"}
-                  />
-                </div>
-              )}
+                  // <WorkOrderCards
+                  //   title={"Pipeline construction with Sulejah"}
+                  // />
+                  // <WorkOrderCards
+                  //   title={"Pipeline construction with Sulejah"}
+                  //   status={"Awaiting Approval"}
+                  // />
+                ))}
+              </div>
+              <div className="active_member2">
+                      <div>
+                        Displaying <b>{current_page}</b> of <b>{last_page}</b>
+                      </div>
+                      <Pagination>
+                        <Pagination.First onClick={()=>nextPage(first)}/>
+                        <Pagination.Prev onClick={()=>nextPage(prev)}/>
+                        <Pagination.Next onClick={()=>nextPage(next)}/>
+                        <Pagination.Last  onClick={()=>nextPage(last)}/>
+                      </Pagination>
+                    </div>
             </Row>
           </Col>
         </Row>
