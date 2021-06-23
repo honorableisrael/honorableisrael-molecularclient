@@ -22,7 +22,7 @@ import avatar_test from "../../images/avatar_test.png";
 import dwnload from "../../images/dwnload.png";
 import WorkDetails_Form_Preview from "./workdetailsform";
 
-const WorkOrderDetails = () => {
+const Contractor_Details = () => {
   const [state, setState] = useState({
     work_orders: [],
     country: "",
@@ -346,4 +346,4 @@ const WorkOrderDetails = () => {
   );
 };
 
-export default WorkOrderDetails;
+export default Contractor_Details;

@@ -17,6 +17,7 @@ import withReactContent from "sweetalert2-react-content";
 import axios from "axios";
 import { API } from "../../config";
 
+
 const MySwal = withReactContent(Swal);
 const ListOfContractor = () => {
   const [state, setState] = useState({
@@ -276,16 +277,16 @@ const ListOfContractor = () => {
                 ))}
               </div>
               <div className="active_member2">
-                      <div>
-                        Displaying <b>{current_page}</b> of <b>{last_page}</b>
-                      </div>
-                      <Pagination>
-                        <Pagination.First onClick={()=>nextPage(first)}/>
-                        <Pagination.Prev onClick={()=>nextPage(prev)}/>
-                        <Pagination.Next onClick={()=>nextPage(next)}/>
-                        <Pagination.Last  onClick={()=>nextPage(last)}/>
-                      </Pagination>
-                    </div>
+                <div>
+                  Displaying <b>{current_page}</b> of <b>{last_page}</b>
+                </div>
+                <Pagination>
+                  <Pagination.First onClick={()=>nextPage(first)}/>
+                  <Pagination.Prev onClick={()=>nextPage(prev)}/>
+                  <Pagination.Next onClick={()=>nextPage(next)}/>
+                  <Pagination.Last  onClick={()=>nextPage(last)}/>
+                </Pagination>
+              </div>
             </Row>
           </Col>
         </Row>

@@ -242,11 +242,11 @@ const All_Specialist = () => {
                         <div className="container_01">
                           <div className="checkbox_craftman">
                             {/* <input type="checkbox" className="selectcheck" /> */}
-                            <label className="container_box">
+                            {/* <label className="container_box">
                               Welder
                               <input type="checkbox" name="radio" />
                               <span className="checkmark"></span>
-                            </label>
+                            </label> */}
                           </div>
                           <div className="imagecontainer01">
                             <img src={welder} className="welder" alt="welder" />
@@ -292,11 +292,11 @@ const All_Specialist = () => {
                         <div className="container_01">
                           <div className="checkbox_craftman">
                             {/* <input type="checkbox" className="selectcheck" /> */}
-                            <label className="container_box">
+                            {/* <label className="container_box">
                               Welder
                               <input type="checkbox" name="radio" />
                               <span className="checkmark"></span>
-                            </label>
+                            </label> */}
                           </div>
                           <div className="imagecontainer01">
                             <img src={welder} className="welder" alt="welder" />
@@ -342,11 +342,11 @@ const All_Specialist = () => {
                         <div className="container_01">
                           <div className="checkbox_craftman">
                             {/* <input type="checkbox" className="selectcheck" /> */}
-                            <label className="container_box">
+                            {/* <label className="container_box">
                               Welder
                               <input type="checkbox" name="radio" />
                               <span className="checkmark"></span>
-                            </label>
+                            </label> */}
                           </div>
                           <div className="imagecontainer01">
                             <img src={welder} className="welder" alt="welder" />
@@ -392,11 +392,11 @@ const All_Specialist = () => {
                         <div className="container_01">
                           <div className="checkbox_craftman">
                             {/* <input type="checkbox" className="selectcheck" /> */}
-                            <label className="container_box">
+                            {/* <label className="container_box">
                               Welder
                               <input type="checkbox" name="radio" />
                               <span className="checkmark"></span>
-                            </label>
+                            </label> */}
                           </div>
                           <div className="imagecontainer01">
                             <img src={welder} className="welder" alt="welder" />

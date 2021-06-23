@@ -45,6 +45,17 @@ const AdminWorkOrder = () => {
     current: "",
   });
 
+
+  const onchange = (e) => {
+    setState({
+      ...state,
+      [e.target.name]: e.target.value,
+    });
+  };
+  useEffect(() => {
+    window.scrollTo(-0, -0);
+    fetch_all();
+  }, []);
   const switchTab = (a) => {
     if (a == "firsttab") {
       return setState({
@@ -139,16 +150,6 @@ const AdminWorkOrder = () => {
       });
     }
   };
-  const onchange = (e) => {
-    setState({
-      ...state,
-      [e.target.name]: e.target.value,
-    });
-  };
-  useEffect(() => {
-    window.scrollTo(-0, -0);
-    fetch_all();
-  }, []);
   const fetch_all = () => {
     const availableToken: any = localStorage.getItem("loggedInDetails");
     const token = availableToken
