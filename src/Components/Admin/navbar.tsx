@@ -11,7 +11,6 @@ import { API, capitalize } from "../../config";
 import axios from "axios";
 import Axios, { AxiosResponse } from "axios";
 
-
 const DashboardNav = withRouter((props) => {
   const [state, setState] = React.useState({
     NavisOpen: false,

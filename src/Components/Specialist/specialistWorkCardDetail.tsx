@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {Col,Row,Container,Form,Pagination,Modal} from "react-bootstrap";
+import { Col, Row, Container, Form, Pagination, Modal } from "react-bootstrap";
 import "../Admin/contractor.css";
 import DashboardNav from "./specialistNavbar";
 import portfolio from "../../images/portfolio.png";
@@ -13,6 +13,7 @@ import WorkOrderCardsMinInfo from "../Admin/WorkOrderCardsMinInfo";
 import avatar_test from "../../images/avatar_test.png";
 import dwnload from "../../images/dwnload.png";
 import WorkDetails_Form_Preview from "../Admin/workdetailsform";
+import { NavHashLink } from "react-router-hash-link";
 
 const SpecialistWorkOrderDetails = () => {
   const [state, setState] = useState({
@@ -30,33 +31,33 @@ const SpecialistWorkOrderDetails = () => {
     start_date: "",
     hour: "",
     show: false,
-    reason: "",
+    reason: ""
   });
-  const onchange = (e) => {
+  const onchange = e => {
     console.log(e.target.value);
     setState({
       ...state,
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.value
     });
   };
-  const onInputChange = (e) => {
+  const onInputChange = e => {
     const letterNumber = /^[A-Za-z]+$/;
     if (e.target.value) {
       return setState({
         ...state,
-        [e.target.name]: e.target.value.replace(/[^0-9]+/g, ""), //only accept numbers
+        [e.target.name]: e.target.value.replace(/[^0-9]+/g, "") //only accept numbers
       });
     }
     if (e.target.value < 0) {
       return setState({
         ...state,
-        [e.target.name]: 0,
+        [e.target.name]: 0
       });
     }
     if (e.target.value === "") {
       return setState({
         ...state,
-        [e.target.name]: 0,
+        [e.target.name]: 0
       });
     }
   };
@@ -64,7 +65,7 @@ const SpecialistWorkOrderDetails = () => {
   const openModal = (e, x) => {
     setState({
       ...state,
-      show: true,
+      show: true
     });
   };
   const {
@@ -77,7 +78,7 @@ const SpecialistWorkOrderDetails = () => {
     location_terrain,
     start_date,
     show,
-    hour,
+    hour
   } = state;
 
   return (
@@ -88,7 +89,7 @@ const SpecialistWorkOrderDetails = () => {
         onHide={() =>
           setState({
             ...state,
-            show: false,
+            show: false
           })
         }
         dialogClassName="modal-90w"
@@ -117,7 +118,7 @@ const SpecialistWorkOrderDetails = () => {
             <Col md={12} className="terminate2">
               <div
                 className="terminate1"
-                onClick={(e) => openModal(e, "Terminate")}
+                onClick={e => openModal(e, "Terminate")}
               >
                 Terminate
               </div>
@@ -134,6 +135,7 @@ const SpecialistWorkOrderDetails = () => {
         <Row>
           <DashboardNav />
         </Row>
+        <div id="overview"></div>
         <Row className="rowt3 row3t2">
           <Col md={12} className="job34">
             <div className="title_wo title_wo12">
@@ -150,12 +152,37 @@ const SpecialistWorkOrderDetails = () => {
                 <p className="exp23">
                   <img src={portfolio} alt="portfolio" className="portfolioq" />
                 </p>
-                <p className="bview">Over View</p>
-                <p className="bview inactive_bv">Specialist Details</p>
-                <p className="bview inactive_bv">Work Details</p>
-                <p className="bview inactive_bv">Actions</p>
+                <NavHashLink
+                  className="bview"
+                  to="#overview"
+                  activeStyle={{ backgroundColor: "#fd8b003b", color: "#fd8c00" }}
+                >
+                  Over View
+                </NavHashLink>
+                <NavHashLink
+                  className="bview"
+                  to="#specialist_details"
+                  activeStyle={{ background: "#fd8b003b", color: "#fd8c00" }}
+                >
+                  Specialist Details
+                </NavHashLink>
+                <NavHashLink
+                  className="bview"
+                  to="#work_details"
+                  activeStyle={{ background: "#fd8b003b", color: "#fd8c00" }}
+                >
+                  Work Details
+                </NavHashLink>
+                <NavHashLink
+                  className="bview"
+                  to="#actions"
+                  activeStyle={{ background: "#fd8b003b", color: "#fd8c00" }}
+                >
+                  Actions
+                </NavHashLink>
               </Col>
               <Col md={8} className="job23_1a_">
+                <div id="specialist_details"></div>
                 <div className="job23_1a">
                   <div className="">
                     <WorkOrderCardsMinInfo
@@ -187,25 +214,35 @@ const SpecialistWorkOrderDetails = () => {
                         Sunday Okoro Pascal
                       </div>
                       <div className="header_12 typ22">
-                        <div className="mobiletabledata mobiletabledata22 ">Type</div>
-                       <div> Fitter</div>
+                        <div className="mobiletabledata mobiletabledata22 ">
+                          Type
+                        </div>
+                        <div> Fitter</div>
                       </div>
                       <div className="header_12">
-                        <div className="mobiletabledata mobiletabledata22">Group Position</div>
-                       <div className="glead"> Group Lead </div>
+                        <div className="mobiletabledata mobiletabledata22">
+                          Group Position
+                        </div>
+                        <div className="glead"> Group Lead </div>
                       </div>
                       <div className="header_12 active_member">
-                        <div className="mobiletabledata mobiletabledata22">Status</div>
-                        <div className='active_member'> Active </div>
+                        <div className="mobiletabledata mobiletabledata22">
+                          Status
+                        </div>
+                        <div className="active_member"> Active </div>
                       </div>
                     </div>
                     <div className="tabledata">
                       <div className="header_12">
                         <img src={avatar_test} className="specialist_avatar" />
-                        Sandra John 
+                        Sandra John
                       </div>
-                      <div className="header_12"><div>Fitter</div></div>
-                      <div className="header_12"><div>Member</div></div>
+                      <div className="header_12">
+                        <div>Fitter</div>
+                      </div>
+                      <div className="header_12">
+                        <div>Member</div>
+                      </div>
                       <div className="header_12 suspended_member">
                         Suspended
                       </div>
@@ -258,6 +295,7 @@ const SpecialistWorkOrderDetails = () => {
                             <span>Worksheet Report 2</span>
                           </div>
                           <div className="tablecont1">
+                           <div id="work_details"></div>
                             <div className="worksheetdw worksheetdate1">
                               {" "}
                               <img
@@ -275,7 +313,9 @@ const SpecialistWorkOrderDetails = () => {
                     </div>
                   </div>
 
-                  <h6 className="title22 title22r2">Actions</h6>
+                  <h6 className="title22 title22r2" id="actions">
+                    Actions
+                  </h6>
                   <div className="job23_1a wrap_z">
                     {/* <div className="main_wrap_ws main_wrapp1">
                       <h6 className="userprofile12 userprofile123">
@@ -307,7 +347,7 @@ const SpecialistWorkOrderDetails = () => {
                       <div className="wtext">
                         <div
                           className="terminate1"
-                          onClick={(e) => openModal(e, "Terminate")}
+                          onClick={e => openModal(e, "Terminate")}
                         >
                           Terminate
                         </div>

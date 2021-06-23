@@ -330,7 +330,6 @@ text {
   color: #ffffff;
   background: #fd8c00;
 }
-
 .job3:hover,
 .job31:hover {
   box-shadow: 0px 4px 16px rgb(17 17 17 / 12%);
@@ -945,7 +944,6 @@ text {
   border: 1px solid #fd8c00;
   object-fit: cover;
 }
-
 .pleft {
   padding-left: 5rem;
 }
@@ -1690,9 +1688,9 @@ a{
   font-weight: 700;
 }
 @media (max-width: 1000px) {
-.main_wrap_ws{
-  flex-wrap: wrap;
-}
+  .main_wrap_ws{
+    flex-wrap: wrap;
+  }
 }
 .ttp_{
   padding-left: 0px;

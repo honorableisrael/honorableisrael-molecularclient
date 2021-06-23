@@ -401,14 +401,14 @@
 .upldtxt{
     font-size: 14px;
     color: #999999;
-    margin: 23px 0px 0px 0px;
     cursor: pointer;
+    margin-top: -24px;
 }
 .username{
     font-size: 24px;
     font-weight: 700;
     line-height: 33px;
-    margin-bottom: 11px;
+    margin-bottom: 5px;
 }
 .splverifiduser{
     display: inline-block;
@@ -512,3 +512,24 @@
     right: 1.5rem;
     cursor: pointer;
   }
+  .spluserimg{
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: #f7f7f7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    margin-right: 1rem;
+  }
+  .camdv{
+      text-align: right;
+      padding-right: 18px;
+    }
+  .user-cam-img{
+      position: relative;
+      top: -32px;
+      cursor: pointer;
+  }
+ 

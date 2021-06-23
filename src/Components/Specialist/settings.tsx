@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from "react";
 import { Col, Row, Container, Form, Modal } from "react-bootstrap";
 import "../Contractor/contractor.css";
 import DashboardNav from "./specialistNavbar";
-import Slider from "react-rangeslider";
 import "react-rangeslider/lib/index.css";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
@@ -13,6 +12,9 @@ import formCaret from "../../images/caret.png";
 import cert from "../../images/certificate.png";
 import helmet from "../../images/helmet.png";
 import closeimg from "../../images/closeimg.png";
+import { NavHashLink } from "react-router-hash-link";
+import StarRatingComponent from "react-star-rating-component";
+import camimg from "../../images/imagecam.png";
 
 const SpecialistSettings = () => {
   useEffect(() => {
@@ -20,31 +22,25 @@ const SpecialistSettings = () => {
   }, []);
   const [state, setState] = useState({
     work_orders: [],
-    country: "",
     firsttab: true,
     secondtab: false,
     thirdtab: false,
     fourthtab: false,
     show: false,
-    userName: "",
-    userEmail: "",
     user: "",
-    sector: "",
-    state_: "",
-    address: "",
-    phone_number: "",
     email: "",
+    city: "",
+    address: "",
+    dateOfBirth: "",
+    phoneNumber: "",
+    experienceYears: "",
+    bio: "",
     terminateWorkModal: false,
     messageModal: true,
     viewPopup: true,
-    first_name: "",
-    last_name: "",
-    middle_name: "",
-    current_password: "",
-    new_password: "",
-    confirm_password: "",
     reason: "",
-    isloading: false
+    isloading: false,
+    specialist_rating: 1
   });
 
   const {
@@ -54,52 +50,25 @@ const SpecialistSettings = () => {
     fourthtab,
     terminateWorkModal,
     messageModal,
+    email,
     viewPopup,
     show,
     user,
-    userName,
-    userEmail,
-    sector,
-    country,
-    state_,
+    city,
     address,
-    phone_number,
-    first_name,
-    last_name,
-    middle_name,
-    email,
+    phoneNumber,
+    dateOfBirth,
+    experienceYears,
+    bio,
+    specialist_rating,
     reason,
-    current_password,
-    new_password,
-    confirm_password
   }: any = state;
   const onchange = e => {
     console.log(e.target.value);
     setState({
       ...state,
-      [e.target.id]: e.target.value
+      [e.target.name]: e.target.value
     });
-  };
-  const onInputChange = e => {
-    const letterNumber = /^[A-Za-z]+$/;
-    if (e.target.value) {
-      return setState({
-        ...state,
-        [e.target.name]: e.target.value.replace(/[^0-9]+/g, "") //only accept numbers
-      });
-    }
-    if (e.target.value < 0) {
-      return setState({
-        ...state,
-        [e.target.name]: 0
-      });
-    }
-    if (e.target.value === "") {
-      return setState({
-        ...state,
-        [e.target.name]: 0
-      });
-    }
   };
   const switchTab = a => {
     window.scrollTo(400, 400);
@@ -140,21 +109,32 @@ const SpecialistSettings = () => {
       });
     }
   };
-  const SubmitProfile = () => {
+  const submitProfile = () => {
+    const availableToken = localStorage.getItem("loggedInDetails");
+    console.log(availableToken);
+    const token = availableToken ? JSON.parse(availableToken) : "";
+    console.log(token);
     const data = {
-      userName,
-      sector,
-      country,
-      state_,
-      address
+      phone: phoneNumber,
+      dob: dateOfBirth,
+      city: city,
+      address: address,
+      experience_years: experienceYears,
+      bio: bio,
     };
     axios
-      .post(`${API}/pi`, data)
+      .put(`${API}/specialist/update`, data,{
+        headers: { 
+        Authorization: `Bearer ${token.access_token}`, 
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+      })
       .then(res => {
         console.log(res);
       })
       .catch(err => {
-        console.log(err);
+        console.log(err.response);
       });
   };
   const workModal = () => {
@@ -169,12 +149,18 @@ const SpecialistSettings = () => {
       terminateWorkModal: false
     });
   };
-  const closeMessageModal=()=>{
+  const closeMessageModal = () => {
     setState({
       ...state,
-      viewPopup:false
-    })
-  }
+      viewPopup: false
+    });
+  };
+  const onStarClick = (nextValue, prevValue, name) => {
+    setState({
+      ...state,
+      [name]: nextValue.toString()
+    });
+  };
 
   useEffect(() => {
     window.scrollTo(-0, -0);
@@ -196,22 +182,21 @@ const SpecialistSettings = () => {
       .catch(err => {
         console.log(err);
       });
-      let visited = localStorage["alreadyVisited"];
-      if(visited) {
-           setState({ 
-             ...state,
-             viewPopup: false 
-            })
-           //do not view Popup
-      } 
-      else {
-           //this is the first time
-           localStorage["alreadyVisited"] = true;
-           setState({ 
-            ...state,
-            viewPopup: true
-            });
-      }
+    let visited = localStorage["alreadyVisited"];
+    if (visited) {
+      setState({
+        ...state,
+        viewPopup: false
+      });
+      //do not view Popup
+    } else {
+      //this is the first time
+      localStorage["alreadyVisited"] = true;
+      setState({
+        ...state,
+        viewPopup: true
+      });
+    }
   }, []);
 
   return (
@@ -243,22 +228,41 @@ const SpecialistSettings = () => {
                   ></i>
                 </div>
                 <Modal.Body>
-                  <div className="modalmessage">Please complete your profile for verification</div>
+                  <div className="modalmessage">
+                    Please complete your profile for verification
+                  </div>
                 </Modal.Body>
               </Modal>
               <div className="settings11">
                 <div className="titleprofile1">Settings</div>
+                <div id="skilltab"></div>
+                <div id="experiencetab"></div>
                 <div className="setting1">
                   <div className="namestyle111">
                     <div>
-                      <span className="namestyle">
-                        <img src={malemodel} />
+                      <span className="spluserimg">
+                        {/* <img src={malemodel} /> */}
                       </span>
+                      <div className="camdv">
+                        <img
+                          src={camimg}
+                          className="user-cam-img"
+                          alt="cam-img"
+                        />
+                      </div>
                       <p className="upldtxt">Upload Picture</p>
                     </div>
                     <div className="home_pone12">
                       <div className="username">{user.first_name}</div>
                       <div className="helmot11">{user.email}</div>
+                      <StarRatingComponent
+                        name="specialist_rating"
+                        className="specialist_rating"
+                        starCount={5}
+                        value={specialist_rating}
+                        onStarClick={onStarClick}
+                        emptyStarColor={"#444"}
+                      />
                       <div className="helmot112"></div>
                     </div>
                   </div>
@@ -341,24 +345,26 @@ const SpecialistSettings = () => {
                         <Col md={4} className="formsection1">
                           <Form.Group>
                             <h6 className="userprofile userprofile12">
-                              Full Name
+                              Fist Name
                             </h6>
                             <Form.Control
                               className="userfield"
-                              id="userName"
-                              value={userName}
+                              name="firstName"
+                              value={user.first_name}
                               onChange={onchange}
                             />
                           </Form.Group>
                         </Col>
                         <Col md={4} className="formsection1">
                           <Form.Group>
-                            <h6 className="userprofile userprofile12">Email</h6>
+                            <h6 className="userprofile userprofile12">
+                              Last Name
+                            </h6>
                             <Form.Control
                               type="text"
+                              name="lastName"
                               className="userfield"
-                              id="userEmail"
-                              value={userEmail}
+                              value={user.last_name}
                               onChange={onchange}
                               placeholder=""
                             />
@@ -366,25 +372,83 @@ const SpecialistSettings = () => {
                         </Col>
                       </Row>
                       <Row>
+                        <Col md={8} className="formsection1">
+                          <Form.Group>
+                            <h6 className="userprofile userprofile12">
+                              Email
+                            </h6>
+                            <Form.Control
+                              type="text"
+                              className="userfield"
+                              name="email"
+                              value={email}
+                              onChange={onchange}
+                            />
+                          </Form.Group>
+                        </Col>
+                      </Row>
+                      <Row className="section_form1">
                         <Col md={4} className="formsection1">
-                          <h6 className="userprofile userprofile12">Country</h6>
-                          <select
-                            className="forminput profsettinformselect form-control"
-                            required
-                          >
-                            <option
-                              value=""
-                              className="profsettinformselect"
-                              disabled
-                              selected
-                              hidden
-                            >
-                              Select your Country
-                            </option>
-                          </select>
-                          <div className="text-right">
-                            <img src={formCaret} className="drparr" />
-                          </div>
+                          <Form.Group>
+                            <h6 className="userprofile userprofile12">
+                              Date of Birth
+                            </h6>
+                            <Form.Control
+                              type="date"
+                              name="dateOfBirth"
+                              className="userfield"
+                              value={dateOfBirth}
+                              onChange={onchange}
+                            />
+                          </Form.Group>
+                        </Col>
+                        <Col md={4} className="formsection1">
+                          <Form.Group>
+                            <h6 className="userprofile userprofile12">
+                              Phone Number
+                            </h6>
+                            <Form.Control
+                              type="text"
+                              className="userfield"
+                              name="phoneNumber"
+                              value={phoneNumber}
+                              onChange={onchange}
+                              placeholder=""
+                            />
+                          </Form.Group>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col md={8} className="formsection1">
+                          <Form.Group>
+                            <h6 className="userprofile userprofile12">
+                              Home Address
+                            </h6>
+                            <Form.Control
+                              type="text-area"
+                              className="userfield"
+                              name="address"
+                              value={address}
+                              onChange={onchange}
+                            />
+                          </Form.Group>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col md={4} className="formsection1">
+                          <Form.Group>
+                            <h6 className="userprofile userprofile12">
+                              Experience Years
+                            </h6>
+                            <Form.Control
+                              type="number"
+                              name="experienceYears"
+                              value={experienceYears}
+                              className="userfield"
+                              onChange={onchange}
+                              placeholder=""
+                            />
+                          </Form.Group>
                         </Col>
                         <Col md={4} className="formsection1">
                           <h6 className="userprofile userprofile12">
@@ -395,7 +459,7 @@ const SpecialistSettings = () => {
                             required
                           >
                             <option
-                              value=""
+                              value= {city}
                               className="profsettinformselect"
                               disabled
                               selected
@@ -416,9 +480,10 @@ const SpecialistSettings = () => {
                               About yourself (Optional)
                             </h6>
                             <Form.Control
+                              type="text"
+                              name="bio"
+                              value={bio}
                               className="userfield"
-                              id="state"
-                              value={state_}
                               onChange={onchange}
                             />
                           </Form.Group>
@@ -426,12 +491,14 @@ const SpecialistSettings = () => {
                       </Row>
                       <Row>
                         <Col md={12}>
-                          <div
-                            className="job31"
-                            onClick={() => switchTab("secondtab")}
-                          >
-                            Next
-                          </div>
+                          <NavHashLink to="#skilltab">
+                            <div
+                              className="job31"
+                              onClick={() => switchTab("secondtab")}
+                            >
+                              Next
+                            </div>
+                          </NavHashLink>
                         </Col>
                       </Row>
                     </>
@@ -602,12 +669,14 @@ const SpecialistSettings = () => {
                       </div>
                       <Row>
                         <Col md={12}>
-                          <div
-                            className="job31"
-                            onClick={() => switchTab("thirdtab")}
-                          >
-                            Next
-                          </div>
+                          <NavHashLink to="#experiencetab">
+                            <div
+                              className="job31"
+                              onClick={() => switchTab("thirdtab")}
+                            >
+                              Next
+                            </div>
+                          </NavHashLink>
                         </Col>
                       </Row>
                     </>
@@ -682,7 +751,7 @@ const SpecialistSettings = () => {
                       </Modal>
                       <Row>
                         <Col md={12}>
-                          <div className="job31">Save</div>
+                          <div className="job31" onClick={submitProfile}>Save</div>
                         </Col>
                       </Row>
                     </>

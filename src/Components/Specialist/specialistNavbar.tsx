@@ -36,7 +36,7 @@ const DashboardNav = props => {
   useEffect(() => {
     const userData = localStorage.getItem("loggedInDetails");
     const currentUser = userData ? JSON.parse(userData) : null;
-    console.log(currentUser)
+    console.log(currentUser);
     if (currentUser) {
       setState({
         ...state,
@@ -176,22 +176,25 @@ const DashboardNav = props => {
               </NavLink>
               <span className="lfff">LF</span>
               <div className="chevron-imgwrap" onClick={handleClick}>
-                <img src={chevron} alt="img"  />
+                <img src={chevron} alt="img" />
               </div>
               <Menu
                 id="simple-menu"
                 anchorEl={anchorEl}
                 keepMounted
                 open={Boolean(anchorEl)}
-                onClick={() => {
-                  props.history.push("/");
-                  localStorage.clear();
-                }}
+                onClose={handleClose}
                 className="materldrpdwnwrap"
-                style={{width:'200px !important'}}
+                style={{ width: "200px !important" }}
               >
-                <MenuItem className="muilistitem" onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose} className="muilistitem">Logout</MenuItem>
+                <NavLink to="/settings" activeStyle={{ backgroundColor: "#fd8b003a"}}>
+                  <MenuItem className="muilistitem" onClick={handleClose}>
+                    Profile
+                  </MenuItem>
+                </NavLink>
+                  <MenuItem onClick={handleClose} className="muilistitem">
+                    Logout
+                  </MenuItem>
               </Menu>
             </div>
           </div>

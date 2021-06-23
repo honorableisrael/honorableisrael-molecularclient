@@ -189,6 +189,7 @@ const AdminWorkOrderEvaluation = () => {
                   <div className="job23_1a wrap_z wrap_p">
                     <div id="work"></div>
                     <WorkDetails_Form_Preview hide={true} />
+<<<<<<< HEAD
                     <div className="nxtbck">
                     <Link to="/admin_evaluation_step4">
                       <div className="gent122">Next</div>
@@ -237,6 +238,47 @@ const AdminWorkOrderEvaluation = () => {
                     </>
                   )}
 
+=======
+                  </div>
+
+                  <h6 className="title22 title22r2" id="actions">
+                    Actions
+                  </h6>
+                  <div className="job23_1a wrap_z">
+                    <div className="main_wrap_ws main_wrapp1">
+                      <h6 className="userprofile12 userprofile123">
+                        Accept Workorder
+                      </h6>
+                      <p className="Construction12">
+                        To accept a workorder that has been placed.
+                      </p>
+                      <div className="wtext">
+                        <div
+                          className="suspend1"
+                          // onClick={(e) => openModal(e, "Terminate")}
+                        >
+                          Accept
+                        </div>
+                      </div>
+                    </div>
+                    <div className="main_wrap_ws main_wrapp1">
+                      <h6 className="userprofile12 userprofile123">
+                        Terminate Workorder
+                      </h6>
+                      <p className="Construction12">
+                        To terminate a workorder that has been placed, A req
+                      </p>
+                      <div className="wtext">
+                        <div
+                          className="terminate1"
+                          onClick={(e) => openModal(e, "Terminate")}
+                        >
+                          Reject
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+>>>>>>> origin/molecular-alex
                 </div>
               </Col>
             </Row>

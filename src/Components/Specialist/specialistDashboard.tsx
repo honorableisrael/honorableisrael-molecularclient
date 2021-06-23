@@ -31,7 +31,7 @@ const SpecialistDashboard = () => {
                       <img src={checkmrk} alt="img" />
                     </div>
                   </div>
-                  <p>0</p>
+                  <p>25</p>
                 </div>
                 <div className="spldshbdcard-small">
                   <div className="spldshbdcardheader">
@@ -40,7 +40,7 @@ const SpecialistDashboard = () => {
                       <img src={third} alt="img" />
                     </div>
                   </div>
-                  <p>N0</p>
+                  <p>N1.2M</p>
                 </div>
                 <div className="spldshbdcard-small">
                   <div className="spldshbdcardheader">
@@ -114,4 +114,5 @@ const SpecialistDashboard = () => {
     </div>
   );
 };
+
 export default SpecialistDashboard;

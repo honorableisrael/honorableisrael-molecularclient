@@ -40,6 +40,8 @@ import AdminWorkOrderEvaluationStep3 from "./Components/Admin/Work_Order_Evaluat
 import AdminWorkOrderEvaluationStep4 from "./Components/Admin/Work_Order_EvaluationStep4";
 import Admin_Notification from "./Components/Admin/Notification";
 import All_Specialist from "./Components/Admin/All_Specialist";
+import ContactUs from "./Components/Landing_page/contactUs";
+import Projects from "./Components/Landing_page/projects";
 
 class App extends Component {
   render() {
@@ -74,6 +76,8 @@ class App extends Component {
               <Route path="/work_order" component={NewWorkOrderForm} />
               <Route path="/specialistlanding" component={SpecialistLanding} />
               <Route path="/Learnmore" component={Learnmore} />
+              <Route path="/projects" component={Projects} />
+              <Route path="/contactus" component={ContactUs} />
               <Route path="/contractorlanding" component={ContractorLanding} />
               <Route path="/work_order" component={NewWorkOrderForm} />
               <Route
@@ -145,7 +149,6 @@ class App extends Component {
                 path="/admin_evaluation_step2"
                 component={AdminWorkOrderEvaluationStep2}
               />
-
               <Route path="/admin_work_order" component={AdminWorkOrder} />
               <Route
                 path="/admin_assign_specialist"

@@ -97,15 +97,14 @@
 }
 .form-btn{
     display: inline-block;
-    background-color: #cccccc;
+    background-color: #fd8c00;
     color: #fff;
-    padding: 19px 24px;
+    padding: 19px 126px;
     font-size: 16px;
     border-radius: 7px;
     font-weight: 700;
     font-family: 'Noto Sans JP', sans-serif;
     cursor: pointer;
-    width: 100%;
 }
 .footer-rights{
     font-family: 'Noto Sans JP', sans-serif;

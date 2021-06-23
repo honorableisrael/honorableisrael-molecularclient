@@ -684,7 +684,10 @@
 }
 .fluid8 {
   width: -webkit-fill-available;
+<<<<<<< HEAD
   width: 100% !important;
+=======
+>>>>>>> origin/molecular-alex
 }
 .good12 {
   padding-left: 1rem;
@@ -695,10 +698,13 @@
     position: relative;
     right: 1rem;
   }
+<<<<<<< HEAD
   .fixedti22{
     flex: 0 0 82.666667%;
     max-width: 85.666667%;
   }
+=======
+>>>>>>> origin/molecular-alex
 }
 .section-three-col2 .img-fluid {
   border-radius: 1rem;
@@ -998,7 +1004,15 @@
 }
 .partner-logo{
     filter: grayscale(100%);
+<<<<<<< HEAD
 }
 .partner-logo:hover{
     filter: grayscale(1%);
 }
+=======
+    transition: .3s;
+}
+.partner-logo:hover{
+    filter: grayscale(1%);
+}
+>>>>>>> origin/molecular-alex

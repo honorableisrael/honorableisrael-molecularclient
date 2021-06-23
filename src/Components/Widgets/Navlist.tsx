@@ -1,12 +1,12 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
-import { NavHashLink } from 'react-router-hash-link';
+import { Link } from "react-router-dom";
+import { NavHashLink } from "react-router-hash-link";
 
 import styled from "styled-components";
 
 const Ul = styled.ul`
      display: flex !important;
-     width: 46%;
+     width: 50%;
      color: #999999;
      font-size: 16px;
      font-weight: 600;
@@ -25,7 +25,7 @@ const Ul = styled.ul`
       text-decoration: none;
   }
 @media screen and (max-width:1024px){
-     width: 60%;
+     width: 73%;
 }
 @media screen and (max-width:760px){
     position: fixed;
@@ -47,21 +47,61 @@ const Ul = styled.ul`
 const Navlist = ({ open }) => {
   return (
     <Ul open={open}>
-      <NavLink to="/" className="homenavlnks">
+      <NavHashLink
+        to="/#home"
+        className="homenavlnks"
+        activeStyle={{
+          color: "#222073",
+          lineHeight: "29px",
+          borderBottom: "4px solid #fd8c00"
+        }}
+      >
         <li>Home</li>
-      </NavLink>
-      <NavHashLink to="#our_services"  className="homenavlnks">
+      </NavHashLink>
+      <NavHashLink
+        to="/#our_services"
+        className="homenavlnks"
+        activeStyle={{
+          color: "#222073",
+          lineHeight: "29px",
+          borderBottom: "4px solid #fd8c00"
+        }}
+      >
         <li>Our Services</li>
       </NavHashLink>
-      <NavLink to="/projects" className="homenavlnks">
+      <NavHashLink
+        to="/projects"
+        className="homenavlnks"
+        activeStyle={{
+          color: "#222073",
+          lineHeight: "29px",
+          borderBottom: "4px solid #fd8c00"
+        }}
+      >
         <li>Project</li>
-      </NavLink>
-      <NavLink to="/learnmore" className="homenavlnks">
+      </NavHashLink>
+      <NavHashLink
+        to="/learnmore"
+        className="homenavlnks"
+        activeStyle={{
+          color: "#222073",
+          lineHeight: "29px",
+          borderBottom: "4px solid #fd8c00"
+        }}
+      >
         <li>Careers</li>
-      </NavLink>
-      <NavLink to="/contactus" className="homenavlnks">
+      </NavHashLink>
+      <NavHashLink
+        to="/contactus"
+        activeStyle={{
+          color: "#222073",
+          lineHeight: "29px",
+          borderBottom: "4px solid #fd8c00"
+        }}
+        className="homenavlnks"
+      >
         <li>Contact us</li>
-      </NavLink>
+      </NavHashLink>
       <Link to="/signin">
         <li className="nav-login-btn">Login</li>
       </Link>
