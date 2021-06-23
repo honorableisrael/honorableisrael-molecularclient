@@ -28,6 +28,7 @@ const SpecialistSettings = () => {
     fourthtab: false,
     show: false,
     user: "",
+    email: "",
     city: "",
     address: "",
     dateOfBirth: "",
@@ -49,6 +50,7 @@ const SpecialistSettings = () => {
     fourthtab,
     terminateWorkModal,
     messageModal,
+    email,
     viewPopup,
     show,
     user,
@@ -108,9 +110,11 @@ const SpecialistSettings = () => {
     }
   };
   const submitProfile = () => {
+    const availableToken = localStorage.getItem("loggedInDetails");
+    console.log(availableToken);
+    const token = availableToken ? JSON.parse(availableToken) : "";
+    console.log(token);
     const data = {
-      first_name: user.first_name,
-      last_name: user.last_name,
       phone: phoneNumber,
       dob: dateOfBirth,
       city: city,
@@ -119,12 +123,18 @@ const SpecialistSettings = () => {
       bio: bio,
     };
     axios
-      .put(`${API}/specialist/update`, data)
+      .put(`${API}/specialist/update`, data,{
+        headers: { 
+        Authorization: `Bearer ${token.access_token}`, 
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+      })
       .then(res => {
         console.log(res);
       })
       .catch(err => {
-        console.log(err);
+        console.log(err.response);
       });
   };
   const workModal = () => {
@@ -357,6 +367,22 @@ const SpecialistSettings = () => {
                               value={user.last_name}
                               onChange={onchange}
                               placeholder=""
+                            />
+                          </Form.Group>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col md={8} className="formsection1">
+                          <Form.Group>
+                            <h6 className="userprofile userprofile12">
+                              Email
+                            </h6>
+                            <Form.Control
+                              type="text"
+                              className="userfield"
+                              name="email"
+                              value={email}
+                              onChange={onchange}
                             />
                           </Form.Group>
                         </Col>
