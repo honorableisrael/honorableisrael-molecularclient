@@ -49,19 +49,12 @@ const Home = () => {
 
   return (
     <div>
-<<<<<<< HEAD
-=======
       <div id="home"></div>
->>>>>>> origin/molecular-alex
       <NavBar />
       <div className="section-one">
         <Container>
           <Row className="hmsectn1row">
-<<<<<<< HEAD
-            <Col md={8} className="fixedti22">
-=======
             <Col md={8}>
->>>>>>> origin/molecular-alex
               <div className="section-one-content">
                 <h4 className="section-one-heading">
                   We Empower you to get the work Done!
