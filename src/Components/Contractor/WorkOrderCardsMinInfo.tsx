@@ -11,7 +11,7 @@ import no_work_order from "../../images/document 1.png";
 
 const WorkOrderCardsMinInfo = (props) => {
   const [state, setState] = useState({
-    volume: props.status == "Awaiting Approval" ? 0 : 100,
+    volume: props.status == "Awaiting Approval" ? 0 : 0,
   });
   const handleOnChange = (value) => {
     setState({

@@ -23,6 +23,9 @@ import dwnload from "../../images/dwnload.png";
 import WorkDetails_Form_Preview from "./workdetailsform";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import axios, { AxiosResponse } from "axios";
+import { API } from "../../config";
+import WorkInformationBreakdown from "./Work_information_Breakdown";
 
 const WorkOrderDetails = withRouter((props: any) => {
   const [state, setState] = useState({
@@ -33,6 +36,7 @@ const WorkOrderDetails = withRouter((props: any) => {
     order_title: "",
     work_order_description: "",
     project_purpose: "",
+    workDetails:{},
     past: false,
     location_terrain: "",
     location: "",
@@ -90,6 +94,7 @@ const WorkOrderDetails = withRouter((props: any) => {
     end_date,
     already_approved,
     reason,
+    workDetails,
     location_terrain,
     start_date,
     work_order_detail,
@@ -108,9 +113,34 @@ const WorkOrderDetails = withRouter((props: any) => {
       work_order_detail: work_order_details,
     });
     let inreview = props.location.search;
-    console.log(inreview);
+    console.log(work_order_details);
+    const availableToken: any = localStorage.getItem("loggedInDetails");
+    const token = availableToken
+      ? JSON.parse(availableToken)
+      : window.location.assign("/login");
+    window.scrollTo(-0, -0);
+    axios.all([
+      axios.get<any, AxiosResponse<any>>(`${API}/contractor/work-orders/${work_order_details.id}`, {
+        headers: { Authorization: `Bearer ${token.access_token}` },
+      }),
+    ])
+      .then(
+        axios.spread((res) => {
+          console.log(res.data.data);
+          setState({
+            ...state,
+            workDetails:res.data.data,
+            work_order_detail: work_order_details,
+            already_approved: urlkey ? true : false,
+          });
+        })
+      )
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
-  console.log(already_approved);
+  console.log(workDetails);
+  
   return (
     <>
       <Modal
@@ -206,7 +236,6 @@ const WorkOrderDetails = withRouter((props: any) => {
                   <div className="">
                     <WorkOrderCardsMinInfo
                       order_detail={work_order_detail}
-                      title={"Building a Mini version of the Eifel Tower"}
                     />
                   </div>
                 </div>
@@ -364,8 +393,8 @@ const WorkOrderDetails = withRouter((props: any) => {
                         </>
                       )}
                       <div id="work"></div>
-                      <WorkDetails_Form_Preview
-                        order_detail={work_order_detail}
+                      <WorkInformationBreakdown
+                        order_detail={workDetails}
                         hide={true}
                       />
                     </div>

@@ -1705,3 +1705,10 @@ a{
   max-width: initial !important;
   width: 96%;
 }
+.main_wrap_forced{
+  flex-wrap: wrap !important;
+}
+.main_wrap_forced div{
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
