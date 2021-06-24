@@ -46,18 +46,18 @@ const WorkOrderCards = (props) => {
                   }
                 ></span>
                 <span>
-                  {props.title == "Pipeline construction with Suleja"
-                    ? "In progress"
-                    : props.status == "Awaiting Approval"
+                  {props?.order_details?.status == "New"
+                    ? "New"
+                    : props?.order_details?.status == "Awaiting Approval"
                     ? "Awaiting approval"
+                    : props?.order_details?.status == "In Review"
+                    ? "In Review"
                     : "Completed"}
                 </span>
               </div>
             </div>
           </div>
-          <div className="mnversion">
-          {props?.order_details?.purpose}
-          </div>
+          <div className="mnversion">{props?.order_details?.purpose}</div>
           <div className="slidd2">
             <Slider
               value={volume}
@@ -67,10 +67,20 @@ const WorkOrderCards = (props) => {
               className="sliderclass1"
               // onChange={handleOnChange}
             />
-            <Link to="/contractor_work_order_details">
-            <div className="nextbtn">
-              <img src={nextbtn} alt="nxtbtn" className="nxtbtn3" />
-            </div>
+            <Link to="/contractor_work_order_details?inreview=true">
+              <div className="nextbtn">
+                <img
+                  src={nextbtn}
+                  alt="nxtbtn"
+                  onClick={() =>
+                    localStorage.setItem(
+                      "work_order_details",
+                      JSON.stringify(props.order_details)
+                    )
+                  }
+                  className="nxtbtn3"
+                />
+              </div>
             </Link>
           </div>
           <div className="minicardwrapper">
@@ -78,21 +88,28 @@ const WorkOrderCards = (props) => {
               <img src={group2} alt="cotn23" className="cotn232" />
               <div className="spcclst12">
                 <div className="spcclst1">Total Specialist</div>
-                <div className="spcclst">23 Specialists</div>
+                <div className="spcclst">
+                  {props?.order_details?.total_specialists}
+                </div>
               </div>
             </div>
             <div className="content24">
               <img src={group2} alt="cotn23" className="cotn232" />
               <div className="spcclst12">
                 <div className="spcclst1">No of Groups</div>
-                <div className="spcclst">3</div>
-              </div>  
+                <div className="spcclst">
+                  {props?.order_details?.total_groups}
+                </div>
+              </div>
             </div>
             <div className="content24">
               <img src={group2} alt="cotn23" className="cotn232" />
               <div className="spcclst12">
                 <div className="spcclst1">Duration Completed</div>
-                <div className="spcclst">5 of 6 weeks</div>
+                <div className="spcclst">
+                  {props?.order_details?.current_week} of{" "}
+                  {props?.order_details?.duration} weeks
+                </div>
               </div>
             </div>
           </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Col,
   Row,
@@ -22,6 +22,8 @@ import avatar_test from "../../images/avatar_test.png";
 import dwnload from "../../images/dwnload.png";
 import WorkDetails_Form_Preview from "./workdetailsform";
 import New_Work_Order_Card from "./New_Work_Order_Card";
+import axios, { AxiosResponse } from "axios";
+import { API } from "../../config";
 
 const AdminWorkOrderEvaluationStep2 = () => {
   const [state, setState] = useState({
@@ -76,6 +78,35 @@ const AdminWorkOrderEvaluationStep2 = () => {
       show: true,
     });
   };
+  
+  useEffect(() => {
+    window.scrollTo(-0, -0);
+    const availableToken = localStorage.getItem("loggedInDetails");
+    console.log(availableToken);
+    const token = availableToken ? JSON.parse(availableToken) : "";
+    console.log(token);
+    axios.all([
+      axios.get(`${API}/pipe-schedules`, {
+        headers: { Authorization: `Bearer ${token.access_token}` },
+      }),
+      axios.get<any, AxiosResponse<any>>(`${API}/pipe-schedules`),
+    ])
+      .then(
+        axios.spread((res, res2) => {
+          console.log(res.data);
+          setState({
+            ...state,
+            ...res.data.data,
+            ...res2.data.data,
+            user: res.data.data,
+          });
+        })
+      )
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+  
   const {
     project_purpose,
     country,

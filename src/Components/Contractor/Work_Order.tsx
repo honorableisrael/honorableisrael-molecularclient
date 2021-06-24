@@ -19,10 +19,11 @@ import Axios, { AxiosResponse } from "axios";
 const ContractorWorkOrder = () => {
   const [state, setState] = useState({
     work_orders: [],
-    inprogress: true,
+    inprogress: false,
     pending_request: false,
     past: false,
     work_order_title: "",
+    new_order:true,
     work_order_description: "",
     project_purpose: "",
     location: "",
@@ -36,7 +37,8 @@ const ContractorWorkOrder = () => {
     if (a == "firsttab") {
       return setState({
         ...state,
-        inprogress: true,
+        inprogress: false,
+        new_order:true,
         pending_request: false,
         past: false,
       });
@@ -46,13 +48,24 @@ const ContractorWorkOrder = () => {
         ...state,
         inprogress: false,
         pending_request: true,
+        new_order:false,
         past: false,
       });
     }
     if (a == "thirdtab") {
       return setState({
         ...state,
+        inprogress: true,
+        new_order:false,
+        pending_request: false,
+        past: false,
+      });
+    }
+    if (a == "fourthtab") {
+      return setState({
+        ...state,
         inprogress: false,
+        new_order:false,
         pending_request: false,
         past: true,
       });
@@ -102,7 +115,7 @@ const ContractorWorkOrder = () => {
     work_orders,
     start_date,
     end_date,
-    hours_perday,
+    new_order,
   } = state;
   console.log(work_orders);
   return (
@@ -117,7 +130,7 @@ const ContractorWorkOrder = () => {
           <DashboardNav />
         </Row>
         <Row className="rowt3">
-          <Col md={12} className="job34">
+          <Col md={11} className="job34 job_btm">
             <div className="title_wo">
               <div className="jobs">Work Order</div>
               <div className="job2">
@@ -129,9 +142,9 @@ const ContractorWorkOrder = () => {
             <div className="intab">
               <div
                 onClick={() => switchTab("firsttab")}
-                className={inprogress ? "inprogress tab_active" : "inprogress"}
+                className={new_order ? "inprogress tab_active" : "inprogress"}
               >
-                In Progress
+                New
               </div>
               <div
                 onClick={() => switchTab("secondtab")}
@@ -143,6 +156,12 @@ const ContractorWorkOrder = () => {
               </div>
               <div
                 onClick={() => switchTab("thirdtab")}
+                className={inprogress ? "inprogress tab_active" : "inprogress"}
+              >
+                In Progress
+              </div>
+              <div
+                onClick={() => switchTab("fourthtab")}
                 className={past ? "inprogress tab_active" : "inprogress"}
               >
                 Past
@@ -158,9 +177,7 @@ const ContractorWorkOrder = () => {
                       className="no_work_order"
                     />
                   </div>
-                  <div className="no_work1">
-                    You have no work order
-                  </div>
+                  <div className="no_work1">You have no work order</div>
                   <div className="nojob2 ">
                     <Link to="/work_order">
                       <div className="job3">Raise Work Order</div>
@@ -178,13 +195,36 @@ const ContractorWorkOrder = () => {
                       />
                     )
                 )}
-
                 {/* <div className="jobs jobs2">Previous Work Order</div>
                 <WorkOrderCards title={"Pipeline construction with Sulejah"} />
                 <WorkOrderCards
                   title={"Pipeline construction with Sulejah"}
                   status={"Awaiting Approval"}
                 /> */}
+              </div>
+              <div className="cardflex_jo">
+                {work_orders?.map(
+                  (data: any, i) =>
+                    data?.status == "New" && (
+                      <WorkOrderCards
+                        order_details={data}
+                        key={i}
+                        status={"Awaiting Approval"}
+                      />
+                    )
+                )}
+              </div>
+              <div className="cardflex_jo">
+                {work_orders?.map(
+                  (data: any, i) =>
+                    data.status == "In Review" && (
+                      <WorkOrderCards
+                        order_details={data}
+                        key={i}
+                        status={"In Review"}
+                      />
+                    )
+                )}
               </div>
             </Row>
           </Col>

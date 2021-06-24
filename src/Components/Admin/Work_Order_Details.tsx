@@ -159,7 +159,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
       <Container fluid={true} className="dasbwr">
         <Helmet>
           <meta charSet="utf-8" />
-          <title>Molecular - Contractor Work Order</title>
+          <title>Molecular - Admin Work Order</title>
           <link />
         </Helmet>
         <Row>
@@ -206,7 +206,6 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                   <div className="">
                     <WorkOrderCardsMinInfo
                       order_detail={work_order_detail}
-                      title={"Building a Mini version of the Eifel Tower"}
                     />
                   </div>
                 </div>

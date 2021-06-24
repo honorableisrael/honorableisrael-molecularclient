@@ -1695,3 +1695,13 @@ a{
 .ttp_{
   padding-left: 0px;
 }
+.job_btm{
+  margin-top: 2rem !important;
+}
+.cust .containerforemptyorder {
+  width: inherit !important;
+}
+.cust{
+  max-width: initial !important;
+  width: 96%;
+}
