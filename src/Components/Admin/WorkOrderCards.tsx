@@ -94,14 +94,14 @@ const WorkOrderCards = (props) => {
               <img src={group2} alt="cotn23" className="cotn232" />
               <div className="spcclst12">
                 <div className="spcclst1">Groups Head</div>
-                <div className="spcclst">Ushman Rufai</div>
+                <div className="spcclst">n/a</div>
               </div>
             </div>
             <div className="content24">
               <img src={group2} alt="cotn23" className="cotn232" />
               <div className="spcclst12">
                 <div className="spcclst1">Contact Person</div>
-                <div className="spcclst">Ibrahim Seyi</div>
+                <div className="spcclst">n/a</div>
               </div>
             </div>
           </div>
