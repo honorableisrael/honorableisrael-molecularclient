@@ -102,7 +102,7 @@ const AdminDashboard = withRouter((props) => {
           console.log(res.data.data);
           setState({
             ...state,
-            admin: res.data.dta,
+            admin: res.data.data,
           });
         })
       )

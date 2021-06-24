@@ -1,5 +1,5 @@
-import React, { useState,useEffect } from "react";
-import { Col, Row, Container, Form, ProgressBar } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Col, Row, Container, Form, Pagination } from "react-bootstrap";
 import "./contractor.css";
 import DashboardNav from "./navbar";
 import portfolio from "../../images/portfolio.png";
@@ -9,11 +9,10 @@ import "react-rangeslider/lib/index.css";
 import { Helmet } from "react-helmet";
 import arrowback from "../../images/dtls.png";
 import { Link } from "react-router-dom";
-import StarRatingComponent from "react-star-rating-component";
-import checkcircle from "../../images/check-circle.png";
-import searchicon from "../../images/search.png";
+import no_work_order from "../../images/document 1.png";
 import axios from "axios";
 import { API } from "../../config";
+import Specialist_card from "./Specialist_Card";
 
 const All_Specialist = () => {
   const [state, setState] = useState({
@@ -32,8 +31,16 @@ const All_Specialist = () => {
     specialist_rating: 5,
     start_date: "",
     hour: "",
+    next: "",
+    prev: "",
+    first: "",
+    last: "",
+    current_page: "",
+    last_page: "",
+    to: "",
+    total: "",
   });
-   useEffect(() => {
+  useEffect(() => {
     window.scrollTo(-0, -0);
     const availableToken: any = localStorage.getItem("loggedInDetails");
     const token = availableToken
@@ -41,7 +48,7 @@ const All_Specialist = () => {
       : window.location.assign("/");
     axios
       .all([
-        axios.get(`${API}/admin/specialist?paginate=1`, {
+        axios.get(`${API}/admin/specialists?paginate=1`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }),
       ])
@@ -52,7 +59,7 @@ const All_Specialist = () => {
             ...state,
             all_specialist: res.data.data.data,
             ...res.data.data.links,
-            ...res.data.data.meta
+            ...res.data.data.meta,
           });
         })
       )
@@ -66,6 +73,7 @@ const All_Specialist = () => {
         ...state,
         inprogress: true,
         pending_request: false,
+        past:false,
       });
     }
     if (a == "secondtab") {
@@ -116,7 +124,7 @@ const All_Specialist = () => {
       : window.location.assign("/");
     axios
       .all([
-        axios.get(`${API}/admin/work-orders?paginate=1`, {
+        axios.get(`${API}/admin/specialists?paginate=1`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }),
       ])
@@ -126,6 +134,8 @@ const All_Specialist = () => {
           setState({
             ...state,
             all_specialist: res.data.data.data,
+            ...res.data.data.links,
+            ...res.data.data.meta,
             inprogress: true,
             pending_request: false,
           });
@@ -167,19 +177,46 @@ const All_Specialist = () => {
       [name]: nextValue.toString(),
     });
   };
+  const nextPage = (x) => {
+    const availableToken: any = localStorage.getItem("loggedInDetails");
+    const token = availableToken
+      ? JSON.parse(availableToken)
+      : window.location.assign("/");
+    axios
+      .all([
+        axios.get(`${x}`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
+      ])
+      .then(
+        axios.spread((res) => {
+          console.log(res.data.data);
+          window.scrollTo(-0, -0);
+          setState({
+            ...state,
+            contractor_list: res.data.data.data,
+            ...res.data.data.links,
+            ...res.data.data.meta,
+          });
+        })
+      )
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const {
     project_purpose,
-    country,
-    work_order_description,
-    order_title,
-    end_date,
-    location_terrain,
+    all_specialist,
     specialist_rating,
     inprogress,
     pending_request,
     past,
-    start_date,
-    hour,
+    last_page,
+    next,
+    prev,
+    first,
+    last,
+    current_page,
     search,
   } = state;
   return (
@@ -194,10 +231,12 @@ const All_Specialist = () => {
           <DashboardNav />
         </Row>
         <Row className="rowt3 rowt3x">
-          <Col md={12} className="job34">
+          <Col md={12} className="job34 job3x">
             <div className="title_wo flexgroup_ flexgroup_1">
               <div className="title_wo fl__l">
-                <div className="workorderheader workorderheader002">Specialist</div>
+                <div className="workorderheader workorderheader002">
+                  Specialist
+                </div>
                 <div className="searchcontrol_">
                   <input
                     type="text"
@@ -210,236 +249,65 @@ const All_Specialist = () => {
               </div>
             </div>
             <div className="intab">
-                <div
-                  onClick={() => fetch_all()}
-                  className={
-                    inprogress ? "inprogress tab_active" : "inprogress"
-                  }
-                >
-                  All
-                </div>
-                <div
-                  onClick={() => filter_by_new(switchTab("secondtab"))}
-                  className={
-                    pending_request ? "inprogress tab_active" : "inprogress"
-                  }
-                >
-                  Active
-                </div>
-                <div
-                  onClick={() => switchTab("thirdtab")}
-                  className={past ? "inprogress tab_active" : "inprogress"}
-                >
-                In Active
-                </div>
+              <div
+                onClick={() => fetch_all()}
+                className={inprogress ? "inprogress tab_active" : "inprogress"}
+              >
+                All
               </div>
+              <div
+                onClick={() => filter_by_new(switchTab("secondtab"))}
+                className={
+                  pending_request ? "inprogress tab_active" : "inprogress"
+                }
+              >
+                Active
+              </div>
+              <div
+                onClick={() => switchTab("thirdtab")}
+                className={past ? "inprogress tab_active" : "inprogress"}
+              >
+                In Active
+              </div>
+            </div>
             <Row>
               <Col md={12} className="job23">
                 <div className="formcontent formCi">
                   <Form>
                     <Row>
                       <div className="spread_">
-                        <div className="container_01">
-                          <div className="checkbox_craftman">
-                            {/* <input type="checkbox" className="selectcheck" /> */}
-                            {/* <label className="container_box">
-                              Welder
-                              <input type="checkbox" name="radio" />
-                              <span className="checkmark"></span>
-                            </label> */}
-                          </div>
-                          <div className="imagecontainer01">
-                            <img src={welder} className="welder" alt="welder" />
-                          </div>
-                          <div className="cardbody01">
-                            <div>
-                              <span className="cardname">Chiemezie Akato</span>{" "}
-                              <span className="cerfified1">
-                                Certified Welder
-                              </span>
-                            </div>
-                            <div className="prim_skills">
-                              Secondary Skills: Plumber & Fitter
-                            </div>
-                            <div className="prim_skills">
-                              <span className="leveltitle"> Expert Level:</span>{" "}
-                              <StarRatingComponent
-                                name="specialist_rating"
-                                className="specialist_rating"
-                                starCount={5}
-                                value={specialist_rating}
-                                onStarClick={onStarClick}
-                                emptyStarColor={"#444"}
+                        {all_specialist?.map((data, i) => (
+                          <Specialist_card specialist_data={data} key={i} />
+                        ))}
+                        {all_specialist?.length == 0 && (
+                          <Col md={11} className="containerforemptyorder1">
+                            <div className="containerforemptyorder">
+                              <img
+                                src={no_work_order}
+                                alt={"no_work_order"}
+                                className="no_work_order"
                               />
                             </div>
-                            <div className="assigncont">
-                              <button
-                                value="Assign"
-                                className="assign12 btn_Cust"
-                              >
-                                View Profile{" "}
-                                <span>
-                                  <img
-                                    src={checkcircle}
-                                    className="checkcircle1 "
-                                    alt=""
-                                  />
-                                </span>
-                              </button>
+                            <div className="no_work1">
+                              You have no specialist
                             </div>
-                          </div>
-                        </div>
-                        <div className="container_01">
-                          <div className="checkbox_craftman">
-                            {/* <input type="checkbox" className="selectcheck" /> */}
-                            {/* <label className="container_box">
-                              Welder
-                              <input type="checkbox" name="radio" />
-                              <span className="checkmark"></span>
-                            </label> */}
-                          </div>
-                          <div className="imagecontainer01">
-                            <img src={welder} className="welder" alt="welder" />
-                          </div>
-                          <div className="cardbody01">
-                            <div>
-                              <span className="cardname">Chiemezie Akato</span>{" "}
-                              <span className="cerfified1">
-                                Certified Welder
-                              </span>
-                            </div>
-                            <div className="prim_skills">
-                              Secondary Skills: Plumber & Fitter
-                            </div>
-                            <div className="prim_skills">
-                              <span className="leveltitle"> Expert Level:</span>{" "}
-                              <StarRatingComponent
-                                name="specialist_rating"
-                                className="specialist_rating"
-                                starCount={5}
-                                value={specialist_rating}
-                                onStarClick={onStarClick}
-                                emptyStarColor={"#444"}
-                              />
-                            </div>
-                            <div className="assigncont">
-                              <button
-                                value="Assign bgorange"
-                                className="assign12 btn_Cust"
-                              >
-                                View Profile{" "}
-                                <span>
-                                  <img
-                                    src={checkcircle}
-                                    className="checkcircle1 "
-                                    alt=""
-                                  />
-                                </span>
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="container_01">
-                          <div className="checkbox_craftman">
-                            {/* <input type="checkbox" className="selectcheck" /> */}
-                            {/* <label className="container_box">
-                              Welder
-                              <input type="checkbox" name="radio" />
-                              <span className="checkmark"></span>
-                            </label> */}
-                          </div>
-                          <div className="imagecontainer01">
-                            <img src={welder} className="welder" alt="welder" />
-                          </div>
-                          <div className="cardbody01">
-                            <div>
-                              <span className="cardname">Chiemezie Akato</span>{" "}
-                              <span className="cerfified1">
-                                Certified Welder
-                              </span>
-                            </div>
-                            <div className="prim_skills">
-                              Secondary Skills: Plumber & Fitter
-                            </div>
-                            <div className="prim_skills">
-                              <span className="leveltitle"> Expert Level:</span>{" "}
-                              <StarRatingComponent
-                                name="specialist_rating"
-                                className="specialist_rating"
-                                starCount={5}
-                                value={specialist_rating}
-                                onStarClick={onStarClick}
-                                emptyStarColor={"#444"}
-                              />
-                            </div>
-                            <div className="assigncont">
-                              <button
-                                value="Assign bgorange"
-                                className="assign12 btn_Cust"
-                              >
-                                View Profile{" "}
-                                <span>
-                                  <img
-                                    src={checkcircle}
-                                    className="checkcircle1 "
-                                    alt=""
-                                  />
-                                </span>
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="container_01">
-                          <div className="checkbox_craftman">
-                            {/* <input type="checkbox" className="selectcheck" /> */}
-                            {/* <label className="container_box">
-                              Welder
-                              <input type="checkbox" name="radio" />
-                              <span className="checkmark"></span>
-                            </label> */}
-                          </div>
-                          <div className="imagecontainer01">
-                            <img src={welder} className="welder" alt="welder" />
-                          </div>
-                          <div className="cardbody01">
-                            <div>
-                              <span className="cardname">Chiemezie Akato</span>{" "}
-                              <span className="cerfified1">
-                                Certified Welder
-                              </span>
-                            </div>
-                            <div className="prim_skills">
-                              Secondary Skills: Plumber & Fitter
-                            </div>
-                            <div className="prim_skills">
-                              <span className="leveltitle"> Expert Level:</span>{" "}
-                              <StarRatingComponent
-                                name="specialist_rating"
-                                className="specialist_rating"
-                                starCount={5}
-                                value={specialist_rating}
-                                onStarClick={onStarClick}
-                                emptyStarColor={"#444"}
-                              />
-                            </div>
-                            <div className="assigncont">
-                              <button
-                                value="Assign bgorange"
-                                className="assign12 btn_Cust"
-                              >
-                                View Profile{" "}
-                                <span>
-                                  <img
-                                    src={checkcircle}
-                                    className="checkcircle1 "
-                                    alt=""
-                                  />
-                                </span>
-                              </button>
-                            </div>
-                          </div>
-                        </div>
+                          </Col>
+                        )}
                       </div>
+                      {all_specialist?.length !== 0 && (
+                        <div className="active_member2">
+                          <div>
+                            Displaying <b>{current_page}</b> of{" "}
+                            <b>{last_page}</b>
+                          </div>
+                          <Pagination>
+                            <Pagination.First onClick={() => nextPage(first)} />
+                            <Pagination.Prev onClick={() => nextPage(prev)} />
+                            <Pagination.Next onClick={() => nextPage(next)} />
+                            <Pagination.Last onClick={() => nextPage(last)} />
+                          </Pagination>
+                        </div>
+                      )}
                     </Row>
                   </Form>
                 </div>
