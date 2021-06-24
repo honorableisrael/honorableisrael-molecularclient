@@ -20,7 +20,7 @@ const New_Work_Order_Card = (props) => {
   const [state, setState] = useState({
     volume: props.status == "Awaiting Approval" ? 0 : 100,
     isloading: false,
-    show: true,
+    show: false,
     reason: "",
   });
   const handleOnChange = (value) => {
