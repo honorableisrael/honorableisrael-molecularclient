@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Col, Row, Container, Form, ProgressBar } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { API, formatTime } from "../../config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -124,6 +124,9 @@ const WorkDetails_Form_Preview = (props) => {
         },
       })
       .then((res) => {
+        setTimeout(()=>{
+          window.location.assign("/contractor_work_order")
+        },2000)
         console.log(res);
         setState({
           ...state,
@@ -208,8 +211,6 @@ const WorkDetails_Form_Preview = (props) => {
                 <hr />
               </div>
               <h5 className="work_details worktitle wftitle">Work Force</h5>
-              <h6 className="userprofile12 userprofile123">Type of pipe</h6>
-              <p className="Construction12 Construction121">Galvanic Pipe</p>
               <h6 className="userprofile12 userprofile123 userprofile1231">
                 Pipe Configuration
               </h6>

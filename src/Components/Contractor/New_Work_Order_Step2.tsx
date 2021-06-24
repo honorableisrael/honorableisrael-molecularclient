@@ -32,6 +32,7 @@ const NewWorkOrderStep2 = withRouter((props) => {
     diameter: "",
     start_date: "",
     pipeList: [],
+    pipe_config_:[],
     types_of_Specialist: [],
     no_of_specialist: "",
     pipe_type: "",
@@ -107,6 +108,7 @@ const NewWorkOrderStep2 = withRouter((props) => {
     specialist_config,
     no_of_joints,
     pipe_schedules,
+    pipe_config_,
     pipe_name,
     pipelength,
     no_of_specialist,
@@ -205,6 +207,7 @@ const NewWorkOrderStep2 = withRouter((props) => {
         pipe_size: "",
         pipe_type: "",
         pipe_name: "",
+        pipe_schedule_name:"",
       });
     }
   };
@@ -268,6 +271,7 @@ const NewWorkOrderStep2 = withRouter((props) => {
     }
 
     if (no_of_specialist && type_of_specialist && title_of_specialist) {
+      
       const Specialist: any = [
         {
           no_of_specialist,
@@ -277,12 +281,11 @@ const NewWorkOrderStep2 = withRouter((props) => {
       ];
       const second_data = {
         specialist_config: [...specialist_config, ...Specialist],
-        // billing_cycle,
+        pipe_config:[...pipe_config],
       };
       localStorage.setItem("second_step", JSON.stringify(second_data));
       return props.history.push("/contractor_work_order_step3");
     }
-
     if (no_of_joints && pipelength && pipe_schedule && pipe_size && pipe_type) {
       const Pipe_Config: any = [
         {
@@ -297,12 +300,12 @@ const NewWorkOrderStep2 = withRouter((props) => {
       console.log(Pipe_Config);
       const second_data = {
         pipe_config: [...pipe_config, ...Pipe_Config],
+        specialist_config:[...specialist_config]
         // billing_cycle,
       };
       localStorage.setItem("second_step", JSON.stringify(second_data));
       return props.history.push("/contractor_work_order_step3");
     }
-
     saveToBrowser();
   };
   const saveToBrowser = () => {
@@ -405,7 +408,7 @@ const NewWorkOrderStep2 = withRouter((props) => {
                                 Pipe Schedule
                               </h6>
                               <div className="Construction12">
-                                {data?.pipe_schedule}
+                                {data?.pipe_schedule_name}
                               </div>
                             </div>
                           </div>

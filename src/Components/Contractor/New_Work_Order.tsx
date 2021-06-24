@@ -4,7 +4,8 @@ import "./contractor.css";
 import DashboardNav from "./navbar";
 import portfolio from "../../images/portfolio.png";
 import group2 from "../../images/group2.png";
-import Slider from "react-rangeslider";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "react-rangeslider/lib/index.css";
 import { Helmet } from "react-helmet";
 import arrowback from "../../images/dtls.png";
@@ -60,6 +61,23 @@ const NewWorkOrderForm = withRouter((props) => {
       });
     }
   };
+  const notify = (message: string, type = "B") =>
+  toast(message, { containerId: type, position: "top-right" });
+  const validation_Helper=()=>{
+    if(  !order_title ||
+      !work_order_description ||
+      !project_purpose ||
+      !location_terrain ||
+      !location_terrain_name ||
+      !state_||
+      !country||
+      !end_date||
+      !start_date
+      ){
+        return notify("All fields are required","D")
+      }
+      saveToBrowser()   
+  }
   const inputHandler = (e) => {
     // if (e.target.name == "pipe_type") {
     const new_obj = JSON.parse(e.target.value);
@@ -326,7 +344,7 @@ const NewWorkOrderForm = withRouter((props) => {
                         <Link to="/contractor_dashboard">
                           <div className="job3 btn_outline">Back</div>
                         </Link>
-                        <div className="job31" onClick={saveToBrowser}>
+                        <div className="job31" onClick={validation_Helper}>
                           Next
                         </div>
                       </Col>
@@ -338,6 +356,13 @@ const NewWorkOrderForm = withRouter((props) => {
           </Col>
         </Row>
       </Container>
+      <ToastContainer
+        enableMultiContainer
+        containerId={"D"}
+        toastClassName="bg-orange text-white"
+        hideProgressBar={true}
+        position={"top-right"}
+      />
     </>
   );
 });

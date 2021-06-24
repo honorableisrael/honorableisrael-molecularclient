@@ -32,6 +32,7 @@ const AdminWorkOrderEvaluationStep2 = () => {
     inprogress: true,
     pending_request: false,
     order_title: "",
+    pipe_schedules:"",
     work_order_description: "",
     project_purpose: "",
     past: false,
@@ -96,9 +97,7 @@ const AdminWorkOrderEvaluationStep2 = () => {
           console.log(res.data);
           setState({
             ...state,
-            ...res.data.data,
-            ...res2.data.data,
-            user: res.data.data,
+            pipe_schedules:res.data.data,
           });
         })
       )
@@ -115,7 +114,7 @@ const AdminWorkOrderEvaluationStep2 = () => {
     end_date,
     reason,
     location_terrain,
-    start_date,
+    pipe_schedules,
     show,
     hour,
   } = state;
@@ -176,7 +175,7 @@ const AdminWorkOrderEvaluationStep2 = () => {
           <div id="overview"></div>
         </Row>
         <Row className="rowt3 row3t2">
-          <Col md={11} className="job34">
+          <Col md={11} className="job34`">
             <div className="title_wo title_wo12 title_wo_ tbtom ttbom">
               <div className="workorderheader fixedtitle">
                 <Link to="/admin_work_order">

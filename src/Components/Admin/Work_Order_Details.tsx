@@ -27,6 +27,7 @@ import "react-toastify/dist/ReactToastify.css";
 const AdminViewWorkOrderDetails = withRouter((props: any) => {
   const [state, setState] = useState({
     work_order_detail: {},
+    workDetails:{},
     country: "",
     inprogress: true,
     pending_request: false,
