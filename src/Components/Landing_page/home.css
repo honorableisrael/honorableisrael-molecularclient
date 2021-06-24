@@ -685,6 +685,7 @@
 .fluid8 {
   width: -webkit-fill-available;
   width: 100% !important;
+  height: 100%;
 }
 .good12 {
   padding-left: 1rem;

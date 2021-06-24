@@ -192,7 +192,10 @@ const DashboardNav = props => {
                     Profile
                   </MenuItem>
                 </NavLink>
-                  <MenuItem onClick={handleClose} className="muilistitem">
+                  <MenuItem onClick={()=>{
+                    localStorage.clear()
+                    window.location.assign("/login")
+                  }} className="muilistitem">
                     Logout
                   </MenuItem>
               </Menu>
@@ -211,10 +214,6 @@ const DashboardNav = props => {
                   <Link to="/user-profile">Profile</Link>
                 </Dropdown.Item> */}
                 <Dropdown.Item className="animated fadeInLeft">
-                  {/* <img src={settings} className="exit" />{" "} */}
-                  {/* <Link onClick={checkifuserisverifiedbeforemovingtodashboard}>
-                    My Account
-                  </Link> */}
                   {isloading && <Spinner animation="grow" />}
                 </Dropdown.Item>
                 {/* <Dropdown.Item href="#/action-1"><Link to="/user-profile">Settings</Link></Dropdown.Item> */}
