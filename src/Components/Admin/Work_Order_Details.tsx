@@ -23,11 +23,12 @@ import dwnload from "../../images/dwnload.png";
 import WorkDetails_Form_Preview from "./workdetailsform";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import no_work_order from "../../images/document 1.png";
 
 const AdminViewWorkOrderDetails = withRouter((props: any) => {
   const [state, setState] = useState({
     work_order_detail: {},
-    workDetails:{},
+    workDetails: {},
     country: "",
     inprogress: true,
     pending_request: false,
@@ -205,135 +206,168 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
               <Col md={10} className="job23_1a_ job23_1a_p">
                 <div className="job23_1a">
                   <div className="">
-                    <WorkOrderCardsMinInfo
-                      order_detail={work_order_detail}
-                    />
+                    <WorkOrderCardsMinInfo order_detail={work_order_detail} />
                   </div>
                 </div>
                 <div className="job23_1a" id="details">
                   <h6 className="title22">Specialist Deployed</h6>
+                  {true && (
+                    <Col md={11} className="containerforemptyorder1 cust20">
+                      <div className="containerforemptyorder">
+                        <img
+                          src={no_work_order}
+                          alt={"no_work_order"}
+                          className="no_work_order"
+                        />
+                      </div>
+                      <div className="no_work1">
+                        No Specialist have been assigned
+                      </div>
+                      {/* <div className="nojob2 ">
+                            <div className="job3">Assign specialist</div>
+                        </div> */}
+                    </Col>
+                  )}
                   <div className="job23_1a wrap_z">
-                    <div className="group_flex">
-                      <div className="grpA">
-                        Group <b>A</b>
-                      </div>
-                      <div className="grpB">
-                        <b>27</b> Deployed
-                      </div>
-                    </div>
-                    <div className="tabledata tabledataweb">
-                      <div className="header_12 pleft">Fullname</div>
-                      <div className="header_12">Type</div>
-                      <div className="header_12">Group Position</div>
-                      <div className="header_12">Status</div>
-                    </div>
-                    <div className="tabledata tablecontent">
-                      <div className="header_12">
-                        <img src={avatar_test} className="specialist_avatar" />
-                        <div className="mobiletabledata">Fullname</div>
-                        Sunday Okoro Pascal
-                      </div>
-                      <div className="header_12 typ22">
-                        <div className="mobiletabledata mobiletabledata22 ">
-                          Type
+                    {false && (
+                      <>
+                        <div className="group_flex">
+                          <div className="grpA">
+                            Group <b>A</b>
+                          </div>
+                          <div className="grpB">
+                            <b>27</b> Deployed
+                          </div>
                         </div>
-                        <div> Fitter</div>
-                      </div>
-                      <div className="header_12">
-                        <div className="mobiletabledata mobiletabledata22">
-                          Group Position
+                        <div className="tabledata tabledataweb">
+                          <div className="header_12 pleft">Fullname</div>
+                          <div className="header_12">Type</div>
+                          <div className="header_12">Group Position</div>
+                          <div className="header_12">Status</div>
                         </div>
-                        <div className="glead"> Group Lead </div>
-                      </div>
-                      <div className="header_12 active_member">
-                        <div className="mobiletabledata mobiletabledata22">
-                          Status
+                        <div className="tabledata tablecontent">
+                          <div className="header_12">
+                            <img
+                              src={avatar_test}
+                              className="specialist_avatar"
+                            />
+                            <div className="mobiletabledata">Fullname</div>
+                            Sunday Okoro Pascal
+                          </div>
+                          <div className="header_12 typ22">
+                            <div className="mobiletabledata mobiletabledata22 ">
+                              Type
+                            </div>
+                            <div> Fitter</div>
+                          </div>
+                          <div className="header_12">
+                            <div className="mobiletabledata mobiletabledata22">
+                              Group Position
+                            </div>
+                            <div className="glead"> Group Lead </div>
+                          </div>
+                          <div className="header_12 active_member">
+                            <div className="mobiletabledata mobiletabledata22">
+                              Status
+                            </div>
+                            <div className="active_member"> Active </div>
+                          </div>
                         </div>
-                        <div className="active_member"> Active </div>
-                      </div>
-                    </div>
-                    <div className="tabledata">
-                      <div className="header_12">
-                        <img src={avatar_test} className="specialist_avatar" />
-                        Sandra John
-                      </div>
-                      <div className="header_12">
-                        <div>Fitter</div>
-                      </div>
-                      <div className="header_12">
-                        <div>Member</div>
-                      </div>
-                      <div className="header_12 suspended_member">
-                        Suspended
-                      </div>
-                    </div>
-                    <div className="tabledata tablecontent">
-                      <div className="header_12">
-                        <img src={avatar_test} className="specialist_avatar" />
-                        Sunday Okoro Pascal
-                      </div>
-                      <div className="header_12">Fitter</div>
-                      <div className="header_12">Member</div>
-                      <div className="header_12 active_member">Active</div>
-                    </div>
-                    <div className="active_member2">
-                      <div>
-                        Displaying <b> 1</b> of <b>2</b>
-                      </div>
-                      <Pagination>
-                        <Pagination.First />
-                        <Pagination.Prev />
-                        <Pagination.Next />
-                        <Pagination.Last />
-                      </Pagination>
-                    </div>
+                        <div className="tabledata">
+                          <div className="header_12">
+                            <img
+                              src={avatar_test}
+                              className="specialist_avatar"
+                            />
+                            Sandra John
+                          </div>
+                          <div className="header_12">
+                            <div>Fitter</div>
+                          </div>
+                          <div className="header_12">
+                            <div>Member</div>
+                          </div>
+                          <div className="header_12 suspended_member">
+                            Suspended
+                          </div>
+                        </div>
+                        <div className="tabledata tablecontent">
+                          <div className="header_12">
+                            <img
+                              src={avatar_test}
+                              className="specialist_avatar"
+                            />
+                            Sunday Okoro Pascal
+                          </div>
+                          <div className="header_12">Fitter</div>
+                          <div className="header_12">Member</div>
+                          <div className="header_12 active_member">Active</div>
+                        </div>
+                        <div className="active_member2">
+                          <div>
+                            Displaying <b> 1</b> of <b>2</b>
+                          </div>
+                          <Pagination>
+                            <Pagination.First />
+                            <Pagination.Prev />
+                            <Pagination.Next />
+                            <Pagination.Last />
+                          </Pagination>
+                        </div>
+                      </>
+                    )}
                     <div>
                       <hr />
                     </div>
-                    <div className="active_member23">
-                      <div className="active_worksheet">WORKS SHEETS</div>
-                      <div className="worksheet_1">
-                        <div className="tabledata tablecontent tablecont1">
-                          <div className="header_12 tablecont0">
-                            <span>Worksheet Report 1</span>
-                          </div>
-                          <div className="tablecont1">
-                            <div className="worksheetdw worksheetdate1">
-                              {" "}
-                              <img
-                                src={dwnload}
-                                alt="dwnload"
-                                className="dwnload1"
-                              />
-                              Download
+
+                      <div className="active_member23">
+                        <div className="active_worksheet">WORKS SHEETS</div>
+                        {false && (
+                          <>
+                        <div className="worksheet_1">
+                          <div className="tabledata tablecontent tablecont1">
+                            <div className="header_12 tablecont0">
+                              <span>Worksheet Report 1</span>
                             </div>
-                            <div className="worksheetdate">12/02/2021</div>
+                            <div className="tablecont1">
+                              <div className="worksheetdw worksheetdate1">
+                                {" "}
+                                <img
+                                  src={dwnload}
+                                  alt="dwnload"
+                                  className="dwnload1"
+                                />
+                                Download
+                              </div>
+                              <div className="worksheetdate">12/02/2021</div>
+                            </div>
+                          </div>
+                          <div className="tabledata tablecontent tablecont1">
+                            <div className="header_12 tablecont0">
+                              <span>Worksheet Report 2</span>
+                            </div>
+                            <div className="tablecont1">
+                              <div className="worksheetdw worksheetdate1">
+                                {" "}
+                                <img
+                                  src={dwnload}
+                                  alt="dwnload"
+                                  className="dwnload1"
+                                />
+                                Download
+                              </div>
+                              <div className="worksheetdate">12/02/2021</div>
+                            </div>
                           </div>
                         </div>
-                        <div className="tabledata tablecontent tablecont1">
-                          <div className="header_12 tablecont0">
-                            <span>Worksheet Report 2</span>
-                          </div>
-                          <div className="tablecont1">
-                            <div className="worksheetdw worksheetdate1">
-                              {" "}
-                              <img
-                                src={dwnload}
-                                alt="dwnload"
-                                className="dwnload1"
-                              />
-                              Download
-                            </div>
-                            <div className="worksheetdate">12/02/2021</div>
-                          </div>
-                        </div>
+                      </>  
+                        )}
+                        <div id="work"></div>
+                        <WorkDetails_Form_Preview
+                          order_detail={work_order_detail}
+                          hide={true}
+                        />
                       </div>
-                      <div id="work"></div>
-                      <WorkDetails_Form_Preview
-                        order_detail={work_order_detail}
-                        hide={true}
-                      />
-                    </div>
                   </div>
                   {!already_approved && (
                     <>

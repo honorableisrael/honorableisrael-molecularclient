@@ -2513,3 +2513,10 @@ label i {
   flex-direction: column;
   min-height: 236px;
 }
+.cust20{
+  margin: auto;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  position: relative;
+  top: 1rem;
+}
