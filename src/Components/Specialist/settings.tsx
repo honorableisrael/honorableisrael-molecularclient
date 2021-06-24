@@ -234,6 +234,46 @@ const SpecialistSettings = () => {
       });
     }
   }, []);
+
+  const add_certification = () => {
+    const availableToken = localStorage.getItem("loggedInDetails");
+    console.log(availableToken);
+    const token = availableToken ? JSON.parse(availableToken) : "";
+    console.log(token);
+    const data1 = {
+      certification: "associate fitter",
+      year: "2018-04-05",
+      description: "associate description",
+    };
+    const data2 = {
+      id:"1"
+    };
+    Axios.all([
+      Axios.post(`${API}/specialist/certifications`, data1, {
+        headers: { Authorization: `Bearer ${token.access_token}` },
+      }),
+      Axios.post(`${API}/specialist/skills`, data2, {
+        headers: { Authorization: `Bearer ${token.access_token}` },
+      }),
+    ])
+      .then(
+        axios.spread((res, res2) => {
+          console.log(res.data);
+          setState({
+            ...state,
+            firsttab: false,
+            secondtab: false,
+            thirdtab: true,
+            fourthtab: false,
+          });
+          notify("Successful");
+        })
+      )
+      .catch((err) => {
+        console.log(err);
+        notify("Failed to save", "D");
+      });
+  };
   return (
     <>
       <Container fluid={true}>
@@ -706,7 +746,7 @@ const SpecialistSettings = () => {
                           <NavHashLink to="#experiencetab">
                             <div
                               className="job31"
-                              onClick={() => switchTab("thirdtab")}
+                              onClick={() => add_certification}
                             >
                               Next
                             </div>
@@ -881,3 +921,18 @@ const SpecialistSettings = () => {
 };
 
 export default SpecialistSettings;
+function data1(
+  arg0: string,
+  data1: any,
+  arg2: { headers: { Authorization: string } }
+): AxiosResponse<any> | Promise<AxiosResponse<any>> {
+  throw new Error("Function not implemented.");
+}
+
+function data2(
+  arg0: string,
+  data2: any,
+  arg2: { headers: { Authorization: string } }
+): AxiosResponse<any> | Promise<AxiosResponse<any>> {
+  throw new Error("Function not implemented.");
+}
