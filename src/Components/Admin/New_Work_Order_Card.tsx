@@ -144,9 +144,9 @@ const New_Work_Order_Card = (props) => {
           <div className="pipline">
             <div className="crd23">
               {" "}
-              <Link to="/admin_work_details">
+              {/* <Link to="/admin_work_details"> */}
                 {props?.order_details?.title}
-              </Link>
+              {/* </Link> */}
             </div>
             <div className="inprogr">
               {props?.hide == false || props?.hide == undefined ? (
@@ -160,9 +160,9 @@ const New_Work_Order_Card = (props) => {
             </div>
           </div>
           <div className="mnversion mnversion11">
-            <Link to="/admin_work_details">
+            {/* <Link to="/admin_work_details"> */}
               {props?.order_details?.purpose}
-            </Link>
+            {/* </Link> */}
           </div>
           <div className="minicardwrapper mnversion11">
             <div className="content24">
