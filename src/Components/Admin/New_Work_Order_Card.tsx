@@ -99,6 +99,9 @@ const New_Work_Order_Card = (props) => {
         axios.spread((res) => {
           notify("Successfull");
           console.log(res.data);
+          setTimeout(()=>{
+            window.location.reload()
+          },2000)
           setState({
             ...state,
             isloading: false,
@@ -108,6 +111,7 @@ const New_Work_Order_Card = (props) => {
       )
       .catch((err) => {
         console.log(err);
+        notify("Failed to process","D")
         setState({
           ...state,
           isloading: false,
