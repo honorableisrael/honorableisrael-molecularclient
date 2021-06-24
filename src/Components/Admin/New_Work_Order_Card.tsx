@@ -55,6 +55,9 @@ const New_Work_Order_Card = (props) => {
       .then(
         axios.spread((res) => {
           notify("Successfull");
+          setTimeout(()=>{
+            window.location.assign("/admin_work_order")
+          },2000)
           console.log(res.data);
           setState({
             ...state,
