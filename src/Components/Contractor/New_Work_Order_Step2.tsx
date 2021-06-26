@@ -32,7 +32,7 @@ const NewWorkOrderStep2 = withRouter((props) => {
     diameter: "",
     start_date: "",
     pipeList: [],
-    pipe_config_:[],
+    pipe_config_: [],
     types_of_Specialist: [],
     no_of_specialist: "",
     pipe_type: "",
@@ -207,7 +207,7 @@ const NewWorkOrderStep2 = withRouter((props) => {
         pipe_size: "",
         pipe_type: "",
         pipe_name: "",
-        pipe_schedule_name:"",
+        pipe_schedule_name: "",
       });
     }
   };
@@ -233,80 +233,116 @@ const NewWorkOrderStep2 = withRouter((props) => {
     toast(message, { containerId: "B", position: "top-right" });
 
   const multipleEntryController = () => {
-    console.log("step1");
-    if (
-      no_of_specialist &&
-      type_of_specialist &&
-      title_of_specialist &&
-      no_of_joints &&
-      pipelength &&
-      pipe_schedule &&
-      pipe_size &&
-      pipe_type
-    ) {
-      const Pipe_Config: any = [
-        {
-          no_of_joints,
-          pipelength,
-          pipe_schedule,
-          pipe_size,
-          pipe_type,
-          pipe_name,
-        },
-      ];
-      const Specialist: any = [
-        {
-          no_of_specialist,
-          type_of_specialist,
-          title_of_specialist,
-        },
-      ];
-      const second_data = {
-        specialist_config: [...specialist_config, ...Specialist],
-        pipe_config: [...pipe_config, ...Pipe_Config],
-        // billing_cycle,
-      };
-      localStorage.setItem("second_step", JSON.stringify(second_data));
-      return props.history.push("/contractor_work_order_step3");
-    }
+    try {
+      if (
+        no_of_specialist &&
+        type_of_specialist &&
+        title_of_specialist &&
+        no_of_joints &&
+        pipelength &&
+        pipe_schedule &&
+        pipe_size &&
+        pipe_type
+      ) {
+        const Pipe_Config: any = [
+          {
+            no_of_joints,
+            pipelength,
+            pipe_schedule,
+            pipe_size,
+            pipe_type,
+            pipe_name,
+          },
+        ];
+        const Specialist: any = [
+          {
+            no_of_specialist,
+            type_of_specialist,
+            title_of_specialist,
+          },
+        ];
+        const second_data = {
+          specialist_config: [...specialist_config, ...Specialist],
+          pipe_config: [...pipe_config, ...Pipe_Config],
+          // billing_cycle,
+        };
+        localStorage.setItem("second_step", JSON.stringify(second_data));
+        return props.history.push("/contractor_work_order_step3");
+      }
 
-    if (no_of_specialist && type_of_specialist && title_of_specialist) {
-      
-      const Specialist: any = [
-        {
-          no_of_specialist,
-          type_of_specialist,
-          title_of_specialist,
-        },
-      ];
-      const second_data = {
-        specialist_config: [...specialist_config, ...Specialist],
-        pipe_config:[...pipe_config],
-      };
-      localStorage.setItem("second_step", JSON.stringify(second_data));
-      return props.history.push("/contractor_work_order_step3");
+      if (
+        no_of_specialist &&
+        type_of_specialist &&
+        title_of_specialist &&
+        pipe_config &&
+        Object.keys(pipe_config[0]).length === 0
+      ) {
+        console.log("spec");
+        const Specialist: any = [
+          {
+            no_of_specialist,
+            type_of_specialist,
+            title_of_specialist,
+          },
+        ];
+        const second_data = {
+          specialist_config: [...specialist_config, ...Specialist],
+          pipe_config: [...pipe_config],
+        };
+        localStorage.setItem("second_step", JSON.stringify(second_data));
+        return props.history.push("/contractor_work_order_step3");
+      }
+      if (
+        no_of_joints &&
+        pipelength &&
+        pipe_schedule &&
+        pipe_size &&
+        pipe_type &&
+        specialist_config &&
+        Object.keys(specialist_config[0]).length > 0
+      ) {
+        console.log("pipe");
+        const Pipe_Config: any = [
+          {
+            no_of_joints,
+            pipelength,
+            pipe_schedule,
+            pipe_size,
+            pipe_type,
+            pipe_name,
+          },
+        ];
+        console.log(Pipe_Config);
+        const second_data = {
+          pipe_config: [...pipe_config, ...Pipe_Config],
+          specialist_config: [...specialist_config],
+          // billing_cycle,
+        };
+        localStorage.setItem("second_step", JSON.stringify(second_data));
+        return props.history.push("/contractor_work_order_step3");
+      }
+      if (specialist_config && pipe_config) {
+        if (
+          Object.keys(pipe_config[0]).length > 0 ||
+          Object.keys(specialist_config[0]).length > 0
+        ) {
+          const second_data = {
+            pipe_config,
+            specialist_config,
+          };
+          localStorage.setItem("second_step", JSON.stringify(second_data));
+          return props.history.push("/contractor_work_order_step3");
+        }
+      }
+      if (
+        Object.keys(pipe_config === null) ||
+        Object.keys(specialist_config === null )
+      ) {
+        return notify("Pipe config and specialist config cannot be empty");
+      }
+    } catch (error) {
+      return notify("Pipe config and specialist config cannot be empty");
     }
-    if (no_of_joints && pipelength && pipe_schedule && pipe_size && pipe_type) {
-      const Pipe_Config: any = [
-        {
-          no_of_joints,
-          pipelength,
-          pipe_schedule,
-          pipe_size,
-          pipe_type,
-          pipe_name,
-        },
-      ];
-      console.log(Pipe_Config);
-      const second_data = {
-        pipe_config: [...pipe_config, ...Pipe_Config],
-        specialist_config:[...specialist_config]
-        // billing_cycle,
-      };
-      localStorage.setItem("second_step", JSON.stringify(second_data));
-      return props.history.push("/contractor_work_order_step3");
-    }
-    saveToBrowser();
   };
   const saveToBrowser = () => {
     // setState({
