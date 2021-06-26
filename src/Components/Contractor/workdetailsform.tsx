@@ -127,6 +127,8 @@ const WorkDetails_Form_Preview = (props) => {
         setTimeout(()=>{
           window.location.assign("/contractor_work_order")
         },2000)
+        localStorage.removeItem("second_step")
+        localStorage.removeItem("first_step")
         console.log(res);
         setState({
           ...state,
