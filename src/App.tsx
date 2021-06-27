@@ -42,6 +42,10 @@ import Admin_Notification from "./Components/Admin/Notification";
 import All_Specialist from "./Components/Admin/All_Specialist";
 import ContactUs from "./Components/Landing_page/contactUs";
 import Projects from "./Components/Landing_page/projects";
+import Admin_Payment_Invoice from "./Components/Admin/Payment_Invoice";
+import DeployedSpecialist from "./Components/Admin/deployedSpecialist";
+
+
 
 class App extends Component {
   render() {
@@ -72,7 +76,6 @@ class App extends Component {
                 path="/molecular_OTP"
                 component={ContractorOTP}
               />
-
               <Route path="/work_order" component={NewWorkOrderForm} />
               <Route path="/specialistlanding" component={SpecialistLanding} />
               <Route path="/Learnmore" component={Learnmore} />
@@ -131,11 +134,16 @@ class App extends Component {
                 component={ContractorOnboarding}
               />
               <Route
+                path="/deployedspecialist"
+                component={DeployedSpecialist}
+              />
+              <Route
                 path="/admin_work_details"
                 component={AdminViewWorkOrderDetails}
               />
               <Route path="/allspecialist" component={All_Specialist} />
-
+              <Route path="/admin_payment_invoice" component={Admin_Payment_Invoice} />
+              
               <Route
                 path="/admin_evaluation_step4"
                 component={AdminWorkOrderEvaluationStep4}

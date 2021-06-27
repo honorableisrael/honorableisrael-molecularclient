@@ -532,4 +532,16 @@
       top: -32px;
       cursor: pointer;
   }
+ .status_1{
+    background: orange;
+    padding: .5rem;
+    border-radius: 1rem;    
+    font-size: 12px;
+ }
+ .status_2{
+    background: rgb(28, 116, 28);
+    padding: .5rem;
+    border-radius: 1rem;    
+    font-size: 12px;
+ }
  

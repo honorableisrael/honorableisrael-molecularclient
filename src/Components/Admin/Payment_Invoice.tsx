@@ -13,7 +13,7 @@ import no_work_order from "../../images/document 1.png";
 import nextbtn from "../../images/nextbtn.png";
 import PaymentCards_1 from "./PaymentCards_1";
 
-const Contractor_Payment_Invoice = () => {
+const Admin_Payment_Invoice = () => {
   const [state, setState] = useState({
     work_orders: [],
     country: "",
@@ -101,7 +101,7 @@ const Contractor_Payment_Invoice = () => {
       <Container fluid={true} className="dasbwr">
         <Helmet>
           <meta charSet="utf-8" />
-          <title>Molecular - Contractor Payment</title>
+          <title>Molecular - Admin Invoice</title>
           <link />
         </Helmet>
         <Row>
@@ -178,4 +178,4 @@ const Contractor_Payment_Invoice = () => {
   );
 };
 
-export default Contractor_Payment_Invoice;
+export default Admin_Payment_Invoice;

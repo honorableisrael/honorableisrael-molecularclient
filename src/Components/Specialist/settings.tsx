@@ -15,6 +15,10 @@ import closeimg from "../../images/closeimg.png";
 import { NavHashLink } from "react-router-hash-link";
 import StarRatingComponent from "react-star-rating-component";
 import camimg from "../../images/imagecam.png";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Axios, { AxiosResponse } from "axios";
+
 
 const SpecialistSettings = () => {
   useEffect(() => {
@@ -31,16 +35,25 @@ const SpecialistSettings = () => {
     email: "",
     city: "",
     address: "",
-    dateOfBirth: "",
-    phoneNumber: "",
-    experienceYears: "",
+    experience_years: "",
     bio: "",
     terminateWorkModal: false,
     messageModal: true,
     viewPopup: true,
     reason: "",
     isloading: false,
-    specialist_rating: 1
+    specialist_rating: 1,
+    age: null,
+    certifications: [],
+    dob: null,
+    experience: null,
+    experiences: [],
+    first_name: "",
+    last_name: "",
+    phone: "",
+    photo: null,
+    qualifications: [],
+    skills: [],
   });
 
   const {
@@ -56,21 +69,24 @@ const SpecialistSettings = () => {
     user,
     city,
     address,
-    phoneNumber,
-    dateOfBirth,
-    experienceYears,
+    phone,
+    dob,
+    experience_years,
     bio,
     specialist_rating,
     reason,
+    skills,
+    first_name,
+    last_name,
   }: any = state;
-  const onchange = e => {
+  const onchange = (e) => {
     console.log(e.target.value);
     setState({
       ...state,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
-  const switchTab = a => {
+  const switchTab = (a) => {
     window.scrollTo(400, 400);
     if (a == "firsttab") {
       return setState({
@@ -78,7 +94,7 @@ const SpecialistSettings = () => {
         firsttab: true,
         secondtab: false,
         thirdtab: false,
-        fourthtab: false
+        fourthtab: false,
       });
     }
     if (a == "secondtab") {
@@ -87,7 +103,7 @@ const SpecialistSettings = () => {
         firsttab: false,
         secondtab: true,
         thirdtab: false,
-        fourthtab: false
+        fourthtab: false,
       });
     }
     if (a == "thirdtab") {
@@ -96,7 +112,7 @@ const SpecialistSettings = () => {
         firsttab: false,
         secondtab: false,
         thirdtab: true,
-        fourthtab: false
+        fourthtab: false,
       });
     }
     if (a == "fourthtab") {
@@ -105,7 +121,7 @@ const SpecialistSettings = () => {
         firsttab: false,
         secondtab: false,
         thirdtab: false,
-        fourthtab: true
+        fourthtab: true,
       });
     }
   };
@@ -115,78 +131,99 @@ const SpecialistSettings = () => {
     const token = availableToken ? JSON.parse(availableToken) : "";
     console.log(token);
     const data = {
-      phone: phoneNumber,
-      dob: dateOfBirth,
+      phone,
+      dob,
       city: city,
       address: address,
-      experience_years: experienceYears,
+      experience_years,
       bio: bio,
+      first_name,
+      last_name,
     };
+    console.log(data);
     axios
-      .put(`${API}/specialist/update`, data,{
-        headers: { 
-        Authorization: `Bearer ${token.access_token}`, 
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
+      .put(`${API}/specialist/update`, data, {
+        headers: {
+          Authorization: `Bearer ${token.access_token}`,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
       })
-      .then(res => {
+      .then((res) => {
+        notify("Successfull");
+        setTimeout(() => {
+          setState({
+            ...state,
+            firsttab: false,
+            secondtab: true,
+            thirdtab: false,
+            fourthtab: false,
+          });
+        }, 2000);
         console.log(res);
       })
-      .catch(err => {
+      .catch((err) => {
+        notify("Failed to save", "D");
         console.log(err.response);
       });
   };
   const workModal = () => {
     setState({
       ...state,
-      terminateWorkModal: true
+      terminateWorkModal: true,
     });
   };
   const closeworkModal = () => {
     setState({
       ...state,
-      terminateWorkModal: false
+      terminateWorkModal: false,
     });
   };
   const closeMessageModal = () => {
     setState({
       ...state,
-      viewPopup: false
+      viewPopup: false,
     });
   };
   const onStarClick = (nextValue, prevValue, name) => {
     setState({
       ...state,
-      [name]: nextValue.toString()
+      [name]: nextValue.toString(),
     });
   };
-
+  const notify = (message: string, type = "B") =>
+    toast(message, { containerId: type, position: "top-right" });
   useEffect(() => {
     window.scrollTo(-0, -0);
     const availableToken = localStorage.getItem("loggedInDetails");
     console.log(availableToken);
     const token = availableToken ? JSON.parse(availableToken) : "";
     console.log(token);
-    axios
-      .get(`${API}/specialist`, {
-        headers: { Authorization: `Bearer ${token.access_token}` }
-      })
-      .then(res => {
-        console.log(res.data);
-        setState({
-          ...state,
-          user: res.data.data
-        });
-      })
-      .catch(err => {
+    Axios.all([
+      Axios.get(`${API}/specialist`, {
+        headers: { Authorization: `Bearer ${token.access_token}` },
+      }),
+      Axios.get<any, AxiosResponse<any>>(`${API}/skills`),
+    ])
+      .then(
+        axios.spread((res, res2) => {
+          console.log(res.data);
+          setState({
+            ...state,
+            ...res.data.data,
+            ...res2.data.data,
+            user: res.data.data,
+          });
+        })
+      )
+      .catch((err) => {
         console.log(err);
       });
     let visited = localStorage["alreadyVisited"];
     if (visited) {
       setState({
         ...state,
-        viewPopup: false
+        viewPopup: false,
       });
       //do not view Popup
     } else {
@@ -194,11 +231,50 @@ const SpecialistSettings = () => {
       localStorage["alreadyVisited"] = true;
       setState({
         ...state,
-        viewPopup: true
+        viewPopup: true,
       });
     }
   }, []);
 
+  const add_certification = () => {
+    const availableToken = localStorage.getItem("loggedInDetails");
+    console.log(availableToken);
+    const token = availableToken ? JSON.parse(availableToken) : "";
+    console.log(token);
+    const data1 = {
+      certification: "associate fitter",
+      year: "2018-04-05",
+      description: "associate description",
+    };
+    const data2 = {
+      id:"1"
+    };
+    Axios.all([
+      Axios.post(`${API}/specialist/certifications`, data1, {
+        headers: { Authorization: `Bearer ${token.access_token}` },
+      }),
+      Axios.post(`${API}/specialist/skills`, data2, {
+        headers: { Authorization: `Bearer ${token.access_token}` },
+      }),
+    ])
+      .then(
+        axios.spread((res, res2) => {
+          console.log(res.data);
+          setState({
+            ...state,
+            firsttab: false,
+            secondtab: false,
+            thirdtab: true,
+            fourthtab: false,
+          });
+          notify("Successful");
+        })
+      )
+      .catch((err) => {
+        console.log(err);
+        notify("Failed to save", "D");
+      });
+  };
   return (
     <>
       <Container fluid={true}>
@@ -260,7 +336,7 @@ const SpecialistSettings = () => {
                         className="specialist_rating"
                         starCount={5}
                         value={specialist_rating}
-                        onStarClick={onStarClick}
+                        // onStarClick={onStarClick}
                         emptyStarColor={"#444"}
                       />
                       <div className="helmot112"></div>
@@ -342,7 +418,7 @@ const SpecialistSettings = () => {
                     <>
                       {" "}
                       <Row className="section_form1">
-                        <Col md={4} className="formsection1">
+                        <Col md={6} className="formsection1">
                           <Form.Group>
                             <h6 className="userprofile userprofile12">
                               Fist Name
@@ -355,7 +431,7 @@ const SpecialistSettings = () => {
                             />
                           </Form.Group>
                         </Col>
-                        <Col md={4} className="formsection1">
+                        <Col md={6} className="formsection1">
                           <Form.Group>
                             <h6 className="userprofile userprofile12">
                               Last Name
@@ -372,11 +448,9 @@ const SpecialistSettings = () => {
                         </Col>
                       </Row>
                       <Row>
-                        <Col md={8} className="formsection1">
+                        <Col md={12} className="formsection1">
                           <Form.Group>
-                            <h6 className="userprofile userprofile12">
-                              Email
-                            </h6>
+                            <h6 className="userprofile userprofile12">Email</h6>
                             <Form.Control
                               type="text"
                               className="userfield"
@@ -388,21 +462,21 @@ const SpecialistSettings = () => {
                         </Col>
                       </Row>
                       <Row className="section_form1">
-                        <Col md={4} className="formsection1">
+                        <Col md={6} className="formsection1">
                           <Form.Group>
                             <h6 className="userprofile userprofile12">
                               Date of Birth
                             </h6>
                             <Form.Control
                               type="date"
-                              name="dateOfBirth"
+                              name="dob"
                               className="userfield"
-                              value={dateOfBirth}
+                              value={dob}
                               onChange={onchange}
                             />
                           </Form.Group>
                         </Col>
-                        <Col md={4} className="formsection1">
+                        <Col md={6} className="formsection1">
                           <Form.Group>
                             <h6 className="userprofile userprofile12">
                               Phone Number
@@ -410,8 +484,8 @@ const SpecialistSettings = () => {
                             <Form.Control
                               type="text"
                               className="userfield"
-                              name="phoneNumber"
-                              value={phoneNumber}
+                              name="phone"
+                              value={phone}
                               onChange={onchange}
                               placeholder=""
                             />
@@ -419,7 +493,7 @@ const SpecialistSettings = () => {
                         </Col>
                       </Row>
                       <Row>
-                        <Col md={8} className="formsection1">
+                        <Col md={12} className="formsection1">
                           <Form.Group>
                             <h6 className="userprofile userprofile12">
                               Home Address
@@ -435,49 +509,51 @@ const SpecialistSettings = () => {
                         </Col>
                       </Row>
                       <Row>
-                        <Col md={4} className="formsection1">
+                        <Col md={6} className="formsection1">
                           <Form.Group>
                             <h6 className="userprofile userprofile12">
                               Experience Years
                             </h6>
                             <Form.Control
                               type="number"
-                              name="experienceYears"
-                              value={experienceYears}
+                              name="experience_years"
+                              value={experience_years}
                               className="userfield"
                               onChange={onchange}
                               placeholder=""
                             />
                           </Form.Group>
                         </Col>
-                        <Col md={4} className="formsection1">
-                          <h6 className="userprofile userprofile12">
-                            Province/State
-                          </h6>
-                          <select
+                        <Col md={6} className="formsection1">
+                          <h6 className="userprofile userprofile12">City</h6>
+                          <Form.Control
+                            type="text"
+                            name="city"
+                            value={city}
+                            className="userfield"
+                            onChange={onchange}
+                          />
+                          {/* <select
                             className="forminput profsettinformselect form-control"
                             required
                           >
                             <option
-                              value= {city}
+                              value={city}
                               className="profsettinformselect"
-                              disabled
-                              selected
-                              hidden
                             >
                               Select Province/state
                             </option>
                           </select>
                           <div className="text-right">
                             <img src={formCaret} className="drparr" />
-                          </div>
+                          </div> */}
                         </Col>
                       </Row>
                       <Row>
-                        <Col md={8} className="formsection1">
+                        <Col md={12} className="formsection1">
                           <Form.Group>
                             <h6 className="userprofile userprofile12">
-                              About yourself (Optional)
+                              About yourself (Professional Bio)
                             </h6>
                             <Form.Control
                               type="text"
@@ -494,7 +570,7 @@ const SpecialistSettings = () => {
                           <NavHashLink to="#skilltab">
                             <div
                               className="job31"
-                              onClick={() => switchTab("secondtab")}
+                              onClick={() => submitProfile()}
                             >
                               Next
                             </div>
@@ -515,15 +591,14 @@ const SpecialistSettings = () => {
                             className="forminput profsettinformselect form-control"
                             required
                           >
-                            <option
-                              value=""
-                              className="profsettinformselect"
-                              disabled
-                              selected
-                              hidden
-                            >
-                              Plumbing
-                            </option>
+                            {skills?.map((data, i) => (
+                              <option
+                                value={data.id}
+                                className="profsettinformselect"
+                              >
+                                {data.name}
+                              </option>
+                            ))}
                           </select>
                           <div className="text-right">
                             <img src={formCaret} className="drparr" />
@@ -672,7 +747,7 @@ const SpecialistSettings = () => {
                           <NavHashLink to="#experiencetab">
                             <div
                               className="job31"
-                              onClick={() => switchTab("thirdtab")}
+                              onClick={() => add_certification}
                             >
                               Next
                             </div>
@@ -751,7 +826,9 @@ const SpecialistSettings = () => {
                       </Modal>
                       <Row>
                         <Col md={12}>
-                          <div className="job31" onClick={submitProfile}>Save</div>
+                          <div className="job31" onClick={submitProfile}>
+                            Save
+                          </div>
                         </Col>
                       </Row>
                     </>
@@ -799,7 +876,7 @@ const SpecialistSettings = () => {
         onHide={() =>
           setState({
             ...state,
-            show: false
+            show: false,
           })
         }
         dialogClassName="modal-90w"
@@ -826,8 +903,37 @@ const SpecialistSettings = () => {
           </Row>
         </Modal.Body>
       </Modal>
+      <ToastContainer
+        enableMultiContainer
+        containerId={"B"}
+        toastClassName="bg-orange text-white"
+        hideProgressBar={true}
+        position={"top-right"}
+      />
+      <ToastContainer
+        enableMultiContainer
+        containerId={"D"}
+        toastClassName="bg-danger text-white"
+        hideProgressBar={true}
+        position={"top-right"}
+      />
     </>
   );
 };
 
 export default SpecialistSettings;
+function data1(
+  arg0: string,
+  data1: any,
+  arg2: { headers: { Authorization: string } }
+): AxiosResponse<any> | Promise<AxiosResponse<any>> {
+  throw new Error("Function not implemented.");
+}
+
+function data2(
+  arg0: string,
+  data2: any,
+  arg2: { headers: { Authorization: string } }
+): AxiosResponse<any> | Promise<AxiosResponse<any>> {
+  throw new Error("Function not implemented.");
+}

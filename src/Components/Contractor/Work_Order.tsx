@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Col, Row, Container, ProgressBar } from "react-bootstrap";
 import "./contractor.css";
 import DashboardNav from "./navbar";
@@ -15,7 +15,6 @@ import no_work_order2 from "../../images/calendar 1.png";
 import { API, capitalize } from "../../config";
 import axios from "axios";
 import Axios, { AxiosResponse } from "axios";
-
 
 const ContractorWorkOrder = () => {
   const [state, setState] = useState({
@@ -73,7 +72,7 @@ const ContractorWorkOrder = () => {
       : window.location.assign("/");
     axios
       .all([
-        axios.get(`${API}/admin/work-orders/new?paginate=1`, {
+        axios.get(`${API}/contractor/work-orders?paginate=1`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }),
       ])
@@ -82,7 +81,7 @@ const ContractorWorkOrder = () => {
           console.log(res.data.data);
           setState({
             ...state,
-            work_orders: res.data.dta,
+            work_orders: res.data.data.data,
           });
         })
       )
@@ -105,7 +104,7 @@ const ContractorWorkOrder = () => {
     end_date,
     hours_perday,
   } = state;
-  console.log(work_orders)
+  console.log(work_orders);
   return (
     <>
       <Container fluid={true} className="dasbwr">
@@ -150,7 +149,7 @@ const ContractorWorkOrder = () => {
               </div>
             </div>
             <Row>
-              {false && (
+              {work_orders.length == 0 && (
                 <Col md={11} className="containerforemptyorder1">
                   <div className="containerforemptyorder">
                     <img
@@ -160,7 +159,7 @@ const ContractorWorkOrder = () => {
                     />
                   </div>
                   <div className="no_work1">
-                    You have no Work Order In Progress
+                    You have no work order
                   </div>
                   <div className="nojob2 ">
                     <Link to="/work_order">
@@ -169,19 +168,24 @@ const ContractorWorkOrder = () => {
                   </div>
                 </Col>
               )}
-              {true && (
-                <div className="cardflex_jo">
-                  <WorkOrderCards title="Pipeline construction from Lagos to Ogun State" />
-                  <div className="jobs jobs2">Previous Work Order</div>
-                  <WorkOrderCards
-                    title={"Pipeline construction with Sulejah"}
-                  />
-                  <WorkOrderCards
-                    title={"Pipeline construction with Sulejah"}
-                    status={"Awaiting Approval"}
-                  />
-                </div>
-              )}
+              <div className="cardflex_jo">
+                {work_orders?.map(
+                  (data: any, i) =>
+                    data.status == "Terminated" && (
+                      <WorkOrderCards
+                        order_details={data}
+                        title="Pipeline construction from Lagos to Ogun State"
+                      />
+                    )
+                )}
+
+                {/* <div className="jobs jobs2">Previous Work Order</div>
+                <WorkOrderCards title={"Pipeline construction with Sulejah"} />
+                <WorkOrderCards
+                  title={"Pipeline construction with Sulejah"}
+                  status={"Awaiting Approval"}
+                /> */}
+              </div>
             </Row>
           </Col>
         </Row>

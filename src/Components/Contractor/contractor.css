@@ -567,8 +567,8 @@ text {
   display: flex;
   align-items: center;
   width: 240px;
-  justify-content: inherit;
-  margin-bottom: 2rem;
+  justify-content: space-around !important;
+  margin-bottom: 1rem;
 }
 
 .form_header1 {
@@ -839,6 +839,7 @@ text {
 }
 .bview,
 .bview:hover {
+  display: block;
   background: #fd8b003b;
   color: #fd8c00;
   padding: 1rem;
@@ -1396,7 +1397,7 @@ text {
   display: block; 
 }
 .rowt3{
-  font-family: "Brfirma-Regular";
+  font-family: 'Open Sans', sans-serif;
 }
 .psettings {
   /* display: block; */
@@ -1694,4 +1695,95 @@ a{
 }
 .ttp_{
   padding-left: 0px;
+}
+.depsplstrow{
+  padding: 9rem 5rem 10rem 3rem;
+  background: #e5e5e5;
+  min-height: 97vh;
+  justify-content: center;
+}
+.dpsplsttabs{
+ display: flex;
+ margin-bottom: 2rem;
+ padding-left: 3rem;
+}
+.deploysplstheader{
+  display: flex;
+  align-items: baseline;
+  background-color: #E0EDFB;
+  padding: 25px 11px 15px 67px;
+  border-radius: 10px;
+}
+.depsplstimg{
+  margin-right: 1rem;
+}
+.dplsplsacc{
+  background-color: #fff;
+  border-radius: 10px;
+  margin: 28px 0px;
+}
+.card {
+   border: none; 
+   border-radius: 10px !important; 
+}
+.card-header {
+  padding: 0px;
+  margin-bottom: 0;
+   border-bottom: 0px; 
+   background-color: #ffff;
+}
+.deploydsplstwrapp{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 38px 11px 38px 64px;
+  cursor: pointer;
+}
+.dploygrpsalpbt{
+  font-weight: 700;
+  font-size: 14px;
+  padding: 8px 13px;
+  color: #222073;
+  background-color: rgba(34, 32, 115, .2);
+  margin-right: 40px;
+  border-radius: 4px;
+}
+.deplyeaggrgt{
+  font-weight: 700;
+  font-size: 14px;
+  padding: 5px 13px;
+  color: rgba(3, 133, 0, 1);
+}
+.splstsuspdbtn{
+  font-weight: 700;
+  font-size: 14px;
+  padding: 8px 28px;
+  border-radius: 4px;
+  color: rgba(51, 51, 51, 1);
+  background-color: rgba(204, 204, 204, 1);
+}
+.deployedsplsttable{
+  background-color: #fff;
+  padding: 0px 30px 3px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.depspltabcol1{
+  padding: 15px 0px 13px 4px !important;
+}
+.dpslstnamecell{
+  padding: 0px !important;
+}
+.dplsplusernmeimg{
+   display: flex;
+   align-items: center;
+   padding-bottom: 7px;
+  }
+.dplsplusernmeimg>span{ 
+   width: 50px;
+   height: 50px;
+   border-radius: 50%;
+   background-color: #f7f7f7;
+   margin: 5px 13px 4px 0px;
+   border: 1px solid #fd8c00;
 }

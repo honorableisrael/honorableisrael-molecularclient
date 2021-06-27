@@ -1,7 +1,7 @@
 .dasbwr {
-  font-size: 14px;
-  font-family: "Brfirma-Regular";
+  font-size: 16px;
   object-fit: cover;
+  font-family: 'Open Sans', sans-serif;
 }
 .lfff {
   color: #222073;
@@ -78,7 +78,6 @@
 }
 .dshb12 {
   padding-top: 4rem;
-  border-radius: 20px;
   display: flex;
   align-items: center;
 }
@@ -1802,6 +1801,7 @@ a {
 }
 .fl__l {
   justify-content: flex-start;
+  flex-wrap: wrap;
 }
 .reason122 {
   height: 180px !important;
@@ -2163,6 +2163,8 @@ label i {
 .spread_ {
   display: flex;
   flex-wrap: wrap;
+  width: 100%;
+  justify-content: space-between;
 }
 .job23_1a_p {
   margin-left: 21% !important;
@@ -2500,4 +2502,13 @@ label i {
 }
 .formCi{
   padding: 1rem !important;
+}
+.job3x{
+  margin-top:1rem !important;
+}
+.flex_card1{
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  min-height: 236px;
 }

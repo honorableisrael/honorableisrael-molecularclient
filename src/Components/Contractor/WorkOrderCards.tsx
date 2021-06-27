@@ -29,7 +29,7 @@ const WorkOrderCards = (props) => {
         </div>
         <div className="card_sec2">
           <div className="pipline">
-            <div className="crd23">{props.title}</div>
+            <div className="crd23">{props?.order_details?.title}</div>
             <div className="inprogr">
               <div
                 className={
@@ -56,7 +56,7 @@ const WorkOrderCards = (props) => {
             </div>
           </div>
           <div className="mnversion">
-            Building a Mini version of the Eifel Tower
+          {props?.order_details?.purpose}
           </div>
           <div className="slidd2">
             <Slider

@@ -31,7 +31,7 @@ const SpecialistDashboard = () => {
                       <img src={checkmrk} alt="img" />
                     </div>
                   </div>
-                  <p>25</p>
+                  <p>0</p>
                 </div>
                 <div className="spldshbdcard-small">
                   <div className="spldshbdcardheader">
@@ -40,7 +40,7 @@ const SpecialistDashboard = () => {
                       <img src={third} alt="img" />
                     </div>
                   </div>
-                  <p>N1.2M</p>
+                  <p>N0</p>
                 </div>
                 <div className="spldshbdcard-small">
                   <div className="spldshbdcardheader">
@@ -49,7 +49,7 @@ const SpecialistDashboard = () => {
                       <img src={fourth} className="img-fluid" alt="img" />
                     </div>
                   </div>
-                  <p>1</p>
+                  <p>0</p>
                 </div>
               </div>
               <WorkOrderCards title="Pipeline construction from Lagos to Ogun State" />

@@ -121,18 +121,18 @@ const DashboardNav = withRouter((props) => {
                   <span className="boxdes"></span>
                 )}
               </Link>
-              <Link to={"/admin/settings"} className="flex-12a">
+              <Link to={"/admin_payment_invoice"} className="flex-12a">
                 {" "}
                 <span
                   className={
-                    window.location.pathname == "/admin/settings"
+                    window.location.pathname == "/admin_payment_invoice"
                       ? "navlink_is_active lightorange"
                       : "navlink_is_active1"
                   }
                 >
                   <div className="speialcl">Payment</div>
                 </span>
-                {window.location.pathname == "/admin/settings" && (
+                {window.location.pathname == "/admin_payment_invoice" && (
                   <span className="boxdes"></span>
                 )}
               </Link>
