@@ -2,7 +2,7 @@ import React,{ useState, useEffect, useRef } from "react";
 import { Col, Row, Container, Alert} from "react-bootstrap";
 import { withRouter } from "react-router-dom";
 import "./signup.css";
-import otplogo from "../../images/otplogo.png";
+import otplogo from "../../images/dashbdlogo.png";
 import axios from "axios";
 import { API } from "../../config";
 

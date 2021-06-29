@@ -54,7 +54,7 @@ const Home = () => {
       <div className="section-one">
         <Container>
           <Row className="hmsectn1row">
-            <Col md={8}>
+            <Col md={8} className="fixedti22">
               <div className="section-one-content">
                 <h4 className="section-one-heading">
                   We Empower you to get the work Done!

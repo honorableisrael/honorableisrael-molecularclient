@@ -18,7 +18,7 @@ import { Link, withRouter } from "react-router-dom";
 import suitcase1 from "../../images/suitcase1.png";
 import specialist1 from "../../images/specialist1.png";
 import axios, { AxiosResponse } from "axios";
-import { API } from "../../config";
+import { ageCalculator, API, capitalize } from "../../config";
 
 const AdminDashboard = withRouter((props) => {
   const [state, setState] = useState({
@@ -33,7 +33,7 @@ const AdminDashboard = withRouter((props) => {
         id: "WorkForce",
         zoom: {
           enabled: false,
-        }, 
+        },
       },
       dataLabels: {
         enabled: false,
@@ -82,6 +82,7 @@ const AdminDashboard = withRouter((props) => {
       },
     },
     admin: {},
+    all_specialist: [],
   });
   useEffect(() => {
     const availableToken: any = localStorage.getItem("loggedInDetails");
@@ -96,13 +97,17 @@ const AdminDashboard = withRouter((props) => {
         axios.get(`${API}/admin/dashboard`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }),
+        axios.get(`${API}/admin/specialists?paginate=1`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
       ])
       .then(
-        axios.spread((res) => {
+        axios.spread((res, res2) => {
           console.log(res.data.data);
           setState({
             ...state,
             admin: res.data.data,
+            all_specialist: res2.data.data.data,
           });
         })
       )
@@ -110,7 +115,7 @@ const AdminDashboard = withRouter((props) => {
         console.log(err);
       });
   }, []);
-  const { admin }: any = state;
+  const { admin, all_specialist }: any = state;
   return (
     <>
       <Container fluid={true} className="dasbwr">
@@ -129,15 +134,21 @@ const AdminDashboard = withRouter((props) => {
                 <div className="raise_joborder">
                   Number of <div>Contractors</div>
                 </div>
-                <div className="num_round">{admin?.contractors?.total??0}</div>
+                <div className="num_round">
+                  {admin?.contractors?.total ?? 0}
+                </div>
               </div>
               <div className="cardzero12 cardzeronone">
                 <div className="enfgaged">Active</div>
                 <div className="enfgaged">In active</div>
               </div>
               <div className="cardzero12 cardzeronone bdtop">
-                <div className="enfgaged1">{admin?.contractors?.active??0}</div>
-                <div className="enfgaged1">{admin?.contractors?.inactive??0} </div>
+                <div className="enfgaged1">
+                  {admin?.contractors?.active ?? 0}
+                </div>
+                <div className="enfgaged1">
+                  {admin?.contractors?.inactive ?? 0}{" "}
+                </div>
               </div>
             </div>
             <div className="carderw cardzero">
@@ -145,15 +156,21 @@ const AdminDashboard = withRouter((props) => {
                 <div className="raise_joborder">
                   Number of <div>Specialist</div>
                 </div>
-                <div className="num_round green_bg1">{admin?.specialists?.total??0}</div>
+                <div className="num_round green_bg1">
+                  {admin?.specialists?.total ?? 0}
+                </div>
               </div>
               <div className="cardzero12 cardzeronone">
                 <div className="enfgaged">Deployed</div>
                 <div className="enfgaged">Inactive </div>
               </div>
               <div className="cardzero12 cardzeronone bdtop">
-                <div className="enfgaged1">{admin?.specialists?.active??0}</div>
-                <div className="enfgaged1">{admin?.specialists?.inactive??0}</div>
+                <div className="enfgaged1">
+                  {admin?.specialists?.active ?? 0}
+                </div>
+                <div className="enfgaged1">
+                  {admin?.specialists?.inactive ?? 0}
+                </div>
               </div>
             </div>
             <div className="carderw cardzero">
@@ -162,7 +179,7 @@ const AdminDashboard = withRouter((props) => {
                   Number of <div>Works</div>
                 </div>
                 <div className="num_round yellow_bg1">
-                  {admin?.workorders?.total??0}{" "}
+                  {admin?.workorders?.total ?? 0}{" "}
                 </div>
               </div>
               <div className="cardzero12 cardzeronone">
@@ -170,8 +187,12 @@ const AdminDashboard = withRouter((props) => {
                 <div className="enfgaged">Ongoing </div>
               </div>
               <div className="cardzero12 cardzeronone bdtop">
-                <div className="enfgaged1">{admin?.workorders?.active??0} </div>
-                <div className="enfgaged1">{admin?.workorders?.inactive??0} </div>
+                <div className="enfgaged1">
+                  {admin?.workorders?.active ?? 0}{" "}
+                </div>
+                <div className="enfgaged1">
+                  {admin?.workorders?.inactive ?? 0}{" "}
+                </div>
               </div>
             </div>
             <div className="carderw cardzero">
@@ -184,7 +205,9 @@ const AdminDashboard = withRouter((props) => {
                 </div>
               </div>
               <div className="cardzero12 cardzeronone bdtop1">
-                <div className="rolap">${admin?.workorders?.total_value??0}</div>
+                <div className="rolap">
+                  ${admin?.workorders?.total_value ?? 0}
+                </div>
               </div>
             </div>
           </Col>
@@ -375,89 +398,70 @@ const AdminDashboard = withRouter((props) => {
             <div className="carderw carderwax carderwaxx fc14 specialist_one">
               <div className="Projectsx">Specialists Awaiting Approval</div>
               <div className="specialistrow">
-                <div className="specialistwrapper">
-                  <img
-                    src={specialist1}
-                    className="specialist1"
-                    alt="specialist1"
-                  />
-                  <div className="name_of_specialist">
-                    <div className="name_specailist">Samson John</div>
-                    <div className="name_specailist1">2nd Oct 2022</div>
-                  </div>
-                  <div className="skill_of_specialist1">Fitter</div>
-                  <div className="skill_of_specialist1">
-                    <div>Welding, Plumbing</div>
-                  </div>
-                </div>
-                <div className="specialistwrapper">
-                  <img
-                    src={specialist1}
-                    className="specialist1"
-                    alt="specialist1"
-                  />
-                  <div className="name_of_specialist">
-                    <div className="name_specailist">Samson John</div>
-                    <div className="name_specailist1">2nd Oct 2022</div>
-                  </div>
-                  <div className="skill_of_specialist1">Fitter</div>
-                  <div className="skill_of_specialist1">
-                    <div>Welding, Plumbing</div>
-                  </div>
-                </div>
+                {all_specialist.map((data, i) =>
+                  data.status == "Inactive" ? (
+                    <div className="specialistwrapper">
+                      {false && (
+                        <img
+                          src={specialist1}
+                          className="specialist1"
+                          alt="specialist1"
+                        />
+                      )}
+                      {
+                        <span className="lfff dashboard_userfoto">
+                          {capitalize(data?.first_name?.split("")[0])}
+                          {capitalize(data?.last_name?.split("")[0])}
+                        </span>
+                      }
+                      <div className="name_of_specialist">
+                        <div
+                          className="name_specailist"
+                          onClick={(e) => {
+                            localStorage.setItem(
+                              "specialist_info",
+                              JSON.stringify(data)
+                            );
+                            props.history.push("/specialistdetails");
+                          }}
+                        >
+                          {data.first_name} {data.last_name}
+                        </div>
+                        <div className="name_specailist1">
+                          {data?.registered_on}
+                        </div>
+                      </div>
+                      <div className="skill_of_specialist1">
+                        {capitalize(data?.skills?.[0]?.title)}
+                      </div>
+                      <div className="skill_of_specialist1">
+                        <div>
+                          {" "}
+                          {data?.skills?.map((data1, i) => (
+                            <span key={i}>{capitalize(data1.name)}</span>
+                          ))}
+                        </div>
+                      </div>
+                      <div className="skill_of_specialist1">
+                        <div>{ageCalculator(data?.dob)}</div>
+                      </div>
+                      <div className="accpt3">
+                        <button className="accpt2">Accept</button>
+                        <button className="rejct2">Reject</button>
+                      </div>
+                    </div>
+                  ) : (
+                    ""
+                  )
+                )}
               </div>
               <div className="text_align2">
-                <Link to="/admin_work_order">
+                <Link to="/allspecialist">
                   <span className="arrow21 _arrow21 text11 "></span>{" "}
                   <img
                     src={arrow}
                     title="See more"
                     className="arrow21c arrow2x top__t1"
-                    alt="arrow"
-                  />
-                </Link>
-              </div>
-            </div>
-            <div className="carderw carderwax carderwaxx fc14 specialist_one">
-              <div className="Projectsx">Specialists Awaiting Approval</div>
-              <div className="specialistrow">
-                <div className="specialistwrapper">
-                  <img
-                    src={specialist1}
-                    className="specialist1"
-                    alt="specialist1"
-                  />
-                  <div className="name_of_specialist">
-                    <div className="name_specailist">Samson John</div>
-                    <div className="name_specailist1">2nd Oct 2022</div>
-                  </div>
-                  <div className="skill_of_specialist1">Fitter</div>
-                  <div className="skill_of_specialist1">
-                    <div>Welding, Plumbing</div>
-                  </div>
-                </div>
-                <div className="specialistwrapper">
-                  <img
-                    src={specialist1}
-                    className="specialist1"
-                    alt="specialist1"
-                  />
-                  <div className="name_of_specialist">
-                    <div className="name_specailist">Samson John</div>
-                    <div className="name_specailist1">2nd Oct 2022</div>
-                  </div>
-                  <div className="skill_of_specialist1">Fitter</div>
-                  <div className="skill_of_specialist1">
-                    <div>Welding, Plumbing</div>
-                  </div>
-                </div>
-              </div>
-              <div className="text_align2">
-                <Link to="/admin_work_order">
-                  <img
-                    src={arrow}
-                    title="See more"
-                    className="arrow21c arrow2x arrow22x todd_dirr_"
                     alt="arrow"
                   />
                 </Link>

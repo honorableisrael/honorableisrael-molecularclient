@@ -19,6 +19,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Axios, { AxiosResponse } from "axios";
 
+
 const SpecialistSettings = () => {
   useEffect(() => {
     window.scrollTo(-0, -0);
