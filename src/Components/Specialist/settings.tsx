@@ -888,8 +888,8 @@ const SpecialistSettings = () => {
                       </Modal>
                       <Row>
                         <Col md={12}>
-                          <div className="job31" onClick={submitProfile}>
-                            Save
+                          <div className="job31" onClick={workModal}>
+                            Add more
                           </div>
                         </Col>
                       </Row>
