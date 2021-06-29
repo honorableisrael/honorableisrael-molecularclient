@@ -1736,7 +1736,7 @@ a{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 38px 11px 38px 64px;
+  padding: 38px 48px 38px 64px;
   cursor: pointer;
 }
 .dploygrpsalpbt{
@@ -1761,6 +1761,7 @@ a{
   border-radius: 4px;
   color: rgba(51, 51, 51, 1);
   background-color: rgba(204, 204, 204, 1);
+  margin-right: 12px;
 }
 .deployedsplsttable{
   background-color: #fff;
@@ -1786,4 +1787,129 @@ a{
    background-color: #f7f7f7;
    margin: 5px 13px 4px 0px;
    border: 1px solid #fd8c00;
+}
+.accimgwrap{
+  display: flex;
+}
+/* Personal details styling */
+.pdtitleheader{
+  width: 37% !important;
+  margin-bottom: 45px !important;
+}
+.pdetbtnwrap{
+  width: 27% !important;
+}
+.pdetssupnbtn{
+  display: inline-block;
+  border: 1px solid #333333;
+  padding: 7px 24px;
+  font-size: 14px;
+  border-radius: 5px;
+  margin-right: 11px;
+  cursor: pointer;
+}
+.pdetasgnspltbtn{
+  display: inline-block;
+  background-color: #fd8c00;
+  padding: 8px 21px;
+  font-size: 14px;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+}
+.pdwrapper{
+  background-color: #fff;
+  border-radius: 20px;
+}
+.pdheader{
+  color: #fff;
+  background-color: #fd8c00;
+  padding: 12px 12px 12px 57px;
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+}
+.pesonainforow1{
+  display: flex;
+}
+.pdspluserimg{
+    display: inline-block;
+    width: 141px;
+    height: 141px;
+    border-radius: 50%;
+    background-color: #f7f7f7;
+    margin-bottom: 14px;
+}
+.pesonainfocol1{
+  width: 30%;
+  text-align: center;
+  padding-top: 38px;
+}
+.pesonainfocol2{
+ width: 70%;
+ background-color: #f8fbff;
+ padding: 51px 34px 11px;
+}
+.pdheading-primary{
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 19px;
+  color: #222073;
+}
+.pduserocupation{
+  font-size: 13px;
+  font-weight: 600;
+  color: #828282;
+}
+.pdcontent{
+  font-size: 14px;
+  font-weight: 600;
+}
+.pesonainforow2{
+  display: flex;
+  background-color: #E0EDFB;
+  justify-content: space-between;
+  padding: 21px 52px 0px;
+  font-size: 14px;
+}
+.pdrow2content{
+  padding-left: 8px;
+}
+.pesonainforow3{
+  padding: 47px 52px 24px;
+}
+.pesonainforow3-title{
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 19px;
+  color: #222073;
+  margin-bottom: 30px;
+}
+.pesonainforow3-content{
+  display: flex;
+  justify-content: space-between;
+}
+.pdbulleticon{
+  position: relative;
+  top: -2px;
+  font-size: 7px;
+  margin-right: 9px;
+}
+.pdrowdemacator{
+  border-top: 1px solid #b6b6b6;
+  margin: 0px 23px;
+}
+.pesonainforow4{
+  padding: 52px 52px 62px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+.pesonainforow4-headers{
+  color:#333;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 19px;
+  margin-bottom: 16px
+}
+.pdrow4content{
+  margin-bottom: 30px;
 }

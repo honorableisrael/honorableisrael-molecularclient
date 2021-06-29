@@ -44,6 +44,8 @@ import ContactUs from "./Components/Landing_page/contactUs";
 import Projects from "./Components/Landing_page/projects";
 import Admin_Payment_Invoice from "./Components/Admin/Payment_Invoice";
 import DeployedSpecialist from "./Components/Admin/deployedSpecialist";
+import Specialistdetails from "./Components/Admin/SpecialistPersonalDetails"
+
 
 
 
@@ -161,6 +163,10 @@ class App extends Component {
               <Route
                 path="/admin_assign_specialist"
                 component={AssignSpecialist}
+              />
+                <Route
+                path="/specialistdetails"
+                component={Specialistdetails}
               />
 
               {/* Admin Dashboard ends */}

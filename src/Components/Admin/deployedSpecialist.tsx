@@ -7,13 +7,16 @@ import { Helmet } from "react-helmet";
 import arrowback from "../../images/dtls.png";
 import { Link, withRouter } from "react-router-dom";
 import blueavatar from "../../images/group2.png";
+import chevron from "../../images/chevrondown.png";
 
 const DeployedSpecialist = withRouter(() => {
   const [state, setState] = useState({
     overview: true,
-    deployedspecialist: false
+    deployedspecialist: false,
+    active: false,
+    chevron: ""
   });
-  const { overview, deployedspecialist } = state;
+  const { overview, deployedspecialist, active, chevron } = state;
 
   const switchTab = a => {
     if (a == "firsttab") {
@@ -78,13 +81,18 @@ const DeployedSpecialist = withRouter(() => {
                   </div>
                   <Accordion className="dplsplsacc">
                     <Card>
-                      <Accordion.Toggle  as={Card.Header} eventKey="0">
+                      <Accordion.Toggle as={Card.Header} eventKey="0">
                         <div className="deploydsplstwrapp">
                           <div>
                             <span className="dploygrpsalpbt">GROUP A</span>
                             <span className="deplyeaggrgt">24 DEPLOYED</span>
                           </div>
-                          <div className="splstsuspdbtn">Suspend</div>
+                          <div className="accimgwrap">
+                            <div className="splstsuspdbtn">Suspend</div>
+                            <span>
+                              <img src={chevron} />
+                            </span>
+                          </div>
                         </div>
                       </Accordion.Toggle>
                     </Card>
