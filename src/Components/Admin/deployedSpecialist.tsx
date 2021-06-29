@@ -7,7 +7,9 @@ import { Helmet } from "react-helmet";
 import arrowback from "../../images/dtls.png";
 import { Link, withRouter } from "react-router-dom";
 import blueavatar from "../../images/group2.png";
-import chevron from "../../images/chevrondown.png";
+import Accordions from "../Widgets/Accordion"
+
+
 
 const DeployedSpecialist = withRouter(() => {
   const [state, setState] = useState({
@@ -79,69 +81,8 @@ const DeployedSpecialist = withRouter(() => {
                     </div>
                     <p>Specialists and groups deployed to</p>
                   </div>
-                  <Accordion className="dplsplsacc">
-                    <Card>
-                      <Accordion.Toggle as={Card.Header} eventKey="0">
-                        <div className="deploydsplstwrapp">
-                          <div>
-                            <span className="dploygrpsalpbt">GROUP A</span>
-                            <span className="deplyeaggrgt">24 DEPLOYED</span>
-                          </div>
-                          <div className="accimgwrap">
-                            <div className="splstsuspdbtn">Suspend</div>
-                            <span>
-                              <img src={chevron} />
-                            </span>
-                          </div>
-                        </div>
-                      </Accordion.Toggle>
-                    </Card>
-                    <Accordion.Collapse eventKey="0">
-                      <div className="deployedsplsttable">
-                        <Table hover>
-                          <thead>
-                            <tr>
-                              <th className="depspltabcol1"></th>
-                              <th>Full Name</th>
-                              <th>Skill</th>
-                              <th>Position</th>
-                              <th>Status</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td className="depspltabcol1">
-                                <input type="checkbox" />
-                              </td>
-                              <td className="dpslstnamecell">
-                                <div className="dplsplusernmeimg">
-                                  <span></span>
-                                  <div>Sunday Okoro Pascal</div>
-                                </div>
-                              </td>
-                              <td>Fitter</td>
-                              <td>Group Lead</td>
-                              <td>Active</td>
-                            </tr>
-                            <tr>
-                              <td className="depspltabcol1">
-                                <input type="checkbox" />
-                              </td>
-                              <td className="dpslstnamecell">
-                                <div className="dplsplusernmeimg">
-                                  <span></span>
-                                  <div>Sunday Okoro Pascal</div>
-                                </div>
-                              </td>
-                              <td>Fitter</td>
-                              <td>Member</td>
-                              <td>23-04-2021</td>
-                            </tr>
-                          </tbody>
-                        </Table>
-                      </div>
-                    </Accordion.Collapse>
-                  </Accordion>
+                <Accordions title="Group A"/>
+                <Accordions title="Group B"/>
                 </div>
               )}
             </div>
