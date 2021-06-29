@@ -53,6 +53,8 @@ const SpecialistSettings = () => {
     photo: null,
     qualifications: [],
     skills: [],
+    title: "",
+    description: "",
   });
 
   const {
@@ -76,7 +78,12 @@ const SpecialistSettings = () => {
     reason,
     skills,
     first_name,
+    experiences,
+    certifications,
+    qualifications,
     last_name,
+    title,
+    description,
   }: any = state;
   const onchange = (e) => {
     console.log(e.target.value);
@@ -166,6 +173,43 @@ const SpecialistSettings = () => {
         console.log(err.response);
       });
   };
+  const SubmitExperience = () => {
+    const availableToken = localStorage.getItem("loggedInDetails");
+    const token = availableToken ? JSON.parse(availableToken) : "";
+    if (!title || !description) {
+      return notify("Please fill all entries", "D");
+    }
+    const data = {
+      title,
+      description,
+    };
+    axios
+      .post(`${API}/specialist/experiences`, data, {
+        headers: {
+          Authorization: `Bearer ${token.access_token}`,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => {
+        notify("Successfull");
+        setTimeout(() => {
+          setState({
+            ...state,
+            firsttab: false,
+            secondtab: false,
+            thirdtab: true,
+            fourthtab: false,
+          });
+          window.location.reload();
+        }, 2000);
+        console.log(res);
+      })
+      .catch((err) => {
+        notify("Failed to save", "D");
+        console.log(err.response);
+      });
+  };
   const workModal = () => {
     setState({
       ...state,
@@ -205,12 +249,11 @@ const SpecialistSettings = () => {
       Axios.get<any, AxiosResponse<any>>(`${API}/skills`),
     ])
       .then(
-        axios.spread((res, res2) => {
+        axios.spread((res) => {
           console.log(res.data);
           setState({
             ...state,
             ...res.data.data,
-            ...res2.data.data,
             user: res.data.data,
           });
         })
@@ -246,7 +289,7 @@ const SpecialistSettings = () => {
       description: "associate description",
     };
     const data2 = {
-      id:"1"
+      id: "1",
     };
     Axios.all([
       Axios.post(`${API}/specialist/certifications`, data1, {
@@ -274,6 +317,7 @@ const SpecialistSettings = () => {
         notify("Failed to save", "D");
       });
   };
+  console.log(experiences);
   return (
     <>
       <Container fluid={true}>
@@ -761,13 +805,27 @@ const SpecialistSettings = () => {
                     <>
                       <Row className="section_form1">
                         <Col md={12}>
-                          <div className="profileexperiencesectn">
-                            <img src={helmet} alt="img" />
-                            <p>You have no Experience Added</p>
-                            <span className="profcertbtn" onClick={workModal}>
-                              Add Experience
-                            </span>
+                          {experiences.length == 0 && (
+                            <div className="profileexperiencesectn">
+                              <img src={helmet} alt="img" />
+                              <p>You have no Experience Added</p>
+                              <span className="profcertbtn" onClick={workModal}>
+                                Add Experience
+                              </span>
+                            </div>
+                          )}
+                        </Col>
+                        <Col>
+                          <div className="exp09">
+                            <div>Title</div>
+                            <div>Description</div>
                           </div>
+                          {experiences.map((data, i) => (
+                            <div className="exp09" key={i}>
+                              <span>{data.title}</span>
+                              <span>{data.description}</span>
+                            </div>
+                          ))}
                         </Col>
                       </Row>
                       <Modal
@@ -792,8 +850,8 @@ const SpecialistSettings = () => {
                               <input
                                 type="text"
                                 className="userfield form-control"
-                                id="address"
-                                value={address}
+                                name="title"
+                                value={title}
                                 onChange={onchange}
                                 placeholder="Enter Title"
                                 size={70}
@@ -802,7 +860,9 @@ const SpecialistSettings = () => {
                             <label className="addexptitle">
                               Description
                               <textarea
-                                name={"reason"}
+                                name={"description"}
+                                value={description}
+                                onChange={onchange}
                                 className="form-control wrkmodaltextarea"
                                 placeholder="Enter Experience"
                                 rows={5}
@@ -817,7 +877,10 @@ const SpecialistSettings = () => {
                             >
                               Cancel
                             </span>
-                            <span className="wrkmodal-declinebtn addexpbtn">
+                            <span
+                              className="wrkmodal-declinebtn addexpbtn"
+                              onClick={SubmitExperience}
+                            >
                               Add Experience
                             </span>
                           </div>

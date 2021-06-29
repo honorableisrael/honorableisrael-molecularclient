@@ -232,7 +232,7 @@ const NewWorkOrderStep2 = withRouter((props) => {
   const notify = (message: string) =>
     toast(message, { containerId: "B", position: "top-right" });
 
-  const multipleEntryController = () => {
+  const multipleEntryController = () => { 
     try {
       if (
         no_of_specialist &&
@@ -341,7 +341,7 @@ const NewWorkOrderStep2 = withRouter((props) => {
         return notify("Pipe config and specialist config cannot be empty");
       }
     } catch (error) {
-      return notify("Pipe config and specialist config cannot be empty");
+      return notify("Pipe config or specialist config cannot be empty");
     }
   };
   const saveToBrowser = () => {
