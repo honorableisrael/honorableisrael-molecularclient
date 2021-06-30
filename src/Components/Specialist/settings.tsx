@@ -99,7 +99,6 @@ const SpecialistSettings = () => {
     });
   };
   const switchTab = (a) => {
-    window.scrollTo(400, 400);
     if (a == "firsttab") {
       return setState({
         ...state,
@@ -178,6 +177,9 @@ const SpecialistSettings = () => {
         notify("Failed to save", "D");
         console.log(err.response);
       });
+
+      //activate next button
+      switchTab("secondtab");
   };
   
   const certModal = () => {
@@ -262,6 +264,7 @@ const SpecialistSettings = () => {
   }, []);
   
   const displayCertification =()=>{
+    //add certhification to UI
     if (certification && year){
      setState({
        ...state,
@@ -316,6 +319,9 @@ const SpecialistSettings = () => {
         console.log(err);
         notify("Failed to save", "D");
       });
+
+      //activate next button
+      switchTab("thirdtab");
   };
   return (
     <>
@@ -595,7 +601,7 @@ const SpecialistSettings = () => {
                         <Col md={12} className="formsection1">
                           <Form.Group>
                             <h6 className="userprofile userprofile12">
-                              About yourself (Professional Bio)
+                              About yourself (Optional)
                             </h6>
                             <Form.Control
                               type="text"
@@ -874,7 +880,7 @@ const SpecialistSettings = () => {
                           <NavHashLink to="#experiencetab">
                             <div
                               className="job31"
-                              onClick={() => add_certification}
+                              onClick={add_certification}
                             >
                               Next
                             </div>
@@ -889,20 +895,11 @@ const SpecialistSettings = () => {
                     <>
                       <Row className="section_form1">
                         <Col md={12}>
-                          <div className="profileexperiencesectn">
-                            <img src={helmet} alt="img" />
-                            <p>You have no Experience Added</p>
-                            <span className="profcertbtn" onClick={workModal}>
-                              Add Experience
-                            </span>
-                          </div>
-                        </Col>
-                      </Row>
-                      <Modal
+                        <Modal
                         centered={true}
                         onHide={closeworkModal}
                         show={terminateWorkModal}
-                      >
+                        >
                         <div className="terminateworkmodalwrap">
                           <div className="terminateworkmodalimg">
                             <img
@@ -932,7 +929,7 @@ const SpecialistSettings = () => {
                               <textarea
                                 name={"reason"}
                                 className="form-control wrkmodaltextarea"
-                                placeholder="Enter Experience"
+                                placeholder="Enter Description"
                                 rows={5}
                                 cols={5}
                               />
@@ -951,6 +948,20 @@ const SpecialistSettings = () => {
                           </div>
                         </div>
                       </Modal>
+                          <div className="profileexperiencesectn">
+                          <div>
+                            <img src={helmet} alt="img" />
+                            <p>You have no Experience Added</p>
+                            <span className="profcertbtn" onClick={workModal}>
+                              Add Experience
+                            </span>
+                           </div>
+                           <div>
+                             
+                           </div>
+                          </div>
+                        </Col>
+                      </Row>
                       <Row>
                         <Col md={12}>
                           <div className="job31" onClick={submitProfile}>
