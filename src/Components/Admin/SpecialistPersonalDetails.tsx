@@ -6,8 +6,23 @@ import "./contractor.css";
 import { Helmet } from "react-helmet";
 import arrowback from "../../images/dtls.png";
 import { Link } from "react-router-dom";
+import StarRatingComponent from "react-star-rating-component";
+
 
 const Specialistdetais = () => {
+const[ state, setState] =useState({
+  specialist_rating: 1,
+})
+const{
+  specialist_rating
+}=state;
+
+  const onStarClick = (nextValue, prevValue, name) => {
+    setState({
+      ...state,
+      [name]: nextValue.toString(),
+    });
+  };
   return (
     <>
       <Helmet>
@@ -39,6 +54,14 @@ const Specialistdetais = () => {
                   <span className="pdspluserimg"></span>
                   <p className="pdheading-primary">Ikechukwu Agbai</p>
                   <p className="pduserocupation">Certified Welder</p>
+                  <StarRatingComponent
+                        name="specialist_rating"
+                        className="specialist_rating"
+                        starCount={5}
+                        value={specialist_rating}
+                        // onStarClick={onStarClick}
+                        emptyStarColor={"#444"}
+                      />
                 </div>
                 <div className="pesonainfocol2">
                   <p className="pdheading-primary">About</p>

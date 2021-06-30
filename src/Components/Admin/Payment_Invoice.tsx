@@ -108,7 +108,7 @@ const Admin_Payment_Invoice = () => {
           <DashboardNav />
         </Row>
         <Row className="rowt3">
-          <Col md={12} className="job34">
+          <Col md={11} className="job34">
             <div className="title_wo">
               <div className="workorderheader porderheader">
                 <Link to="/contractor_dashboard">

@@ -55,7 +55,7 @@ const Invoice_details = () => {
           <DashboardNav />
         </Row>
         <Row className="rowt3 rowta">
-          <Col md={12} className="job34">
+          <Col md={11} className="job34">
             <div className="title_wo">
               <div className="workorderheader porderheader1">
                 <Link to="/contractor_dashboard">

@@ -32,14 +32,14 @@ const WorkOrderCardsMinInfo = (props) => {
             <div className="inprogr">
               <div
                 className={
-                  props.title == "Pipeline construction with Sulejah"
+                  props?.order_detail?.status == "New"
                     ? "unpaid1 inprogress_4"
                     : "unpaidgreen inprogress_4"
                 }
               >
                 <span
                   className={
-                    props.title == "Pipeline construction with Sulejah"
+                    props?.order_detail?.status == "New"
                       ? "paidd2 box_cust"
                       : "paidd2green box_cust"
                   }
@@ -49,7 +49,7 @@ const WorkOrderCardsMinInfo = (props) => {
                     ? "In Review"
                     : props.status == "Awaiting Approval"
                     ? "Awaiting approval"
-                    : "Completed"}
+                    : props?.order_detail?.status}
                 </span>
               </div>
             </div>

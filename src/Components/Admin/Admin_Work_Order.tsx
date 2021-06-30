@@ -231,7 +231,7 @@ const AdminWorkOrder = () => {
       <Container fluid={true} className="dasbwr">
         <Helmet>
           <meta charSet="utf-8" />
-          <title>Molecular - Contractor Work Order</title>
+          <title>Molecular - Admin Work Order</title>
           <link />
         </Helmet>
         <Row>

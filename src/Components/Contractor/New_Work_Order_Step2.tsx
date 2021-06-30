@@ -32,10 +32,12 @@ const NewWorkOrderStep2 = withRouter((props) => {
     diameter: "",
     start_date: "",
     pipeList: [],
+    pipe_config_: [],
     types_of_Specialist: [],
     no_of_specialist: "",
     pipe_type: "",
     pipe_schedule: "",
+    pipe_schedules: [],
     pipe_size: "",
     pipe_name: "",
     pipelength: "",
@@ -64,7 +66,16 @@ const NewWorkOrderStep2 = withRouter((props) => {
       title_of_specialist: new_obj.name,
     });
   };
-
+  const onchange_pipeschedule = (e) => {
+    // if (e.target.name == "pipe_type") {
+    const new_obj = JSON.parse(e.target.value);
+    console.log(new_obj);
+    setState({
+      ...state,
+      pipe_schedule_name: new_obj.name,
+      pipe_schedule: new_obj.id,
+    });
+  };
   const onchange = (e) => {
     setState({
       ...state,
@@ -96,6 +107,8 @@ const NewWorkOrderStep2 = withRouter((props) => {
     type_of_specialist,
     specialist_config,
     no_of_joints,
+    pipe_schedules,
+    pipe_config_,
     pipe_name,
     pipelength,
     no_of_specialist,
@@ -105,13 +118,16 @@ const NewWorkOrderStep2 = withRouter((props) => {
     types_of_Specialist,
     pipeList,
     pipe_type,
-    billing_cycle,
+    pipe_schedule_name,
     title_of_specialist,
   }: any = state;
   useEffect(() => {
     const stored_stage_2 = localStorage.getItem("second_step");
     const stored2 = stored_stage_2 ? JSON.parse(stored_stage_2) : "";
-    console.log(stored2);
+    const availableToken: any = localStorage.getItem("loggedInDetails");
+    const token = availableToken
+      ? JSON.parse(availableToken)
+      : window.location.assign("/");
     setState({
       ...state,
       stored2,
@@ -120,14 +136,18 @@ const NewWorkOrderStep2 = withRouter((props) => {
     Axios.all([
       Axios.get<any, AxiosResponse<any>>(`${API}/skills`),
       Axios.get<any, AxiosResponse<any>>(`${API}/pipes`),
+      Axios.get<any, AxiosResponse<any>>(`${API}/pipe-schedules`, {
+        headers: { Authorization: `Bearer ${token.access_token}` },
+      }),
     ])
       .then(
-        axios.spread((res, res2) => {
-          console.log(res2.data.data);
+        axios.spread((res, res2, res3) => {
+          console.log(res3.data.data);
           setState({
             ...state,
             types_of_Specialist: res.data.data,
             pipeList: res2.data.data,
+            pipe_schedules: res3.data.data,
             ...stored2,
           });
         })
@@ -162,6 +182,7 @@ const NewWorkOrderStep2 = withRouter((props) => {
           no_of_joints,
           pipelength,
           pipe_schedule,
+          pipe_schedule_name,
           pipe_size,
           pipe_type,
           pipe_name,
@@ -186,6 +207,7 @@ const NewWorkOrderStep2 = withRouter((props) => {
         pipe_size: "",
         pipe_type: "",
         pipe_name: "",
+        pipe_schedule_name: "",
       });
     }
   };
@@ -211,80 +233,116 @@ const NewWorkOrderStep2 = withRouter((props) => {
     toast(message, { containerId: "B", position: "top-right" });
 
   const multipleEntryController = () => {
-    console.log("step1");
-    if (
-      no_of_specialist &&
-      type_of_specialist &&
-      title_of_specialist &&
-      no_of_joints &&
-      pipelength &&
-      pipe_schedule &&
-      pipe_size &&
-      pipe_type
-    ) {
-      const Pipe_Config: any = [
-        {
-          no_of_joints,
-          pipelength,
-          pipe_schedule,
-          pipe_size,
-          pipe_type,
-          pipe_name,
-        },
-      ];
-      const Specialist: any = [
-        {
-          no_of_specialist,
-          type_of_specialist,
-          title_of_specialist,
-        },
-      ];
-      const second_data = {
-        specialist_config: [...specialist_config, ...Specialist],
-        pipe_config: [...pipe_config, ...Pipe_Config],
-        // billing_cycle,
-      };
-      localStorage.setItem("second_step", JSON.stringify(second_data));
-     return props.history.push("/contractor_work_order_step3");
-    }
+    try {
+      if (
+        no_of_specialist &&
+        type_of_specialist &&
+        title_of_specialist &&
+        no_of_joints &&
+        pipelength &&
+        pipe_schedule &&
+        pipe_size &&
+        pipe_type
+      ) {
+        const Pipe_Config: any = [
+          {
+            no_of_joints,
+            pipelength,
+            pipe_schedule,
+            pipe_size,
+            pipe_type,
+            pipe_name,
+          },
+        ];
+        const Specialist: any = [
+          {
+            no_of_specialist,
+            type_of_specialist,
+            title_of_specialist,
+          },
+        ];
+        const second_data = {
+          specialist_config: [...specialist_config, ...Specialist],
+          pipe_config: [...pipe_config, ...Pipe_Config],
+          // billing_cycle,
+        };
+        localStorage.setItem("second_step", JSON.stringify(second_data));
+        return props.history.push("/contractor_work_order_step3");
+      }
 
-    if (no_of_specialist && type_of_specialist && title_of_specialist) {
-      const Specialist: any = [
-        {
-          no_of_specialist,
-          type_of_specialist,
-          title_of_specialist,
-        },
-      ];
-      const second_data = {
-        specialist_config: [...specialist_config, ...Specialist],
-        // billing_cycle,
-      };
-      localStorage.setItem("second_step", JSON.stringify(second_data));
-      return props.history.push("/contractor_work_order_step3");
+      if (
+        no_of_specialist &&
+        type_of_specialist &&
+        title_of_specialist &&
+        pipe_config &&
+        Object.keys(pipe_config[0]).length === 0
+      ) {
+        console.log("spec");
+        const Specialist: any = [
+          {
+            no_of_specialist,
+            type_of_specialist,
+            title_of_specialist,
+          },
+        ];
+        const second_data = {
+          specialist_config: [...specialist_config, ...Specialist],
+          pipe_config: [...pipe_config],
+        };
+        localStorage.setItem("second_step", JSON.stringify(second_data));
+        return props.history.push("/contractor_work_order_step3");
+      }
+      if (
+        no_of_joints &&
+        pipelength &&
+        pipe_schedule &&
+        pipe_size &&
+        pipe_type &&
+        specialist_config &&
+        Object.keys(specialist_config[0]).length > 0
+      ) {
+        console.log("pipe");
+        const Pipe_Config: any = [
+          {
+            no_of_joints,
+            pipelength,
+            pipe_schedule,
+            pipe_size,
+            pipe_type,
+            pipe_name,
+          },
+        ];
+        console.log(Pipe_Config);
+        const second_data = {
+          pipe_config: [...pipe_config, ...Pipe_Config],
+          specialist_config: [...specialist_config],
+          // billing_cycle,
+        };
+        localStorage.setItem("second_step", JSON.stringify(second_data));
+        return props.history.push("/contractor_work_order_step3");
+      }
+      if (specialist_config && pipe_config) {
+        if (
+          Object.keys(pipe_config[0]).length > 0 ||
+          Object.keys(specialist_config[0]).length > 0
+        ) {
+          const second_data = {
+            pipe_config,
+            specialist_config,
+          };
+          localStorage.setItem("second_step", JSON.stringify(second_data));
+          return props.history.push("/contractor_work_order_step3");
+        }
+      }
+      if (
+        Object.keys(pipe_config === null) ||
+        Object.keys(specialist_config === null )
+      ) {
+        return notify("Pipe config and specialist config cannot be empty");
+      }
+    } catch (error) {
+      return notify("Pipe config and specialist config cannot be empty");
     }
-
-    if (no_of_joints && pipelength && pipe_schedule && pipe_size && pipe_type) {
-      const Pipe_Config: any = [
-        {
-          no_of_joints,
-          pipelength,
-          pipe_schedule,
-          pipe_size,
-          pipe_type,
-          pipe_name,
-        },
-      ];
-      console.log(Pipe_Config);
-      const second_data = {
-        pipe_config: [...pipe_config, ...Pipe_Config],
-        // billing_cycle,
-      };
-      localStorage.setItem("second_step", JSON.stringify(second_data));
-      return props.history.push("/contractor_work_order_step3");
-    }
-
-    saveToBrowser();
   };
   const saveToBrowser = () => {
     // setState({
@@ -386,7 +444,7 @@ const NewWorkOrderStep2 = withRouter((props) => {
                                 Pipe Schedule
                               </h6>
                               <div className="Construction12">
-                                {data?.pipe_schedule}
+                                {data?.pipe_schedule_name}
                               </div>
                             </div>
                           </div>
@@ -458,14 +516,24 @@ const NewWorkOrderStep2 = withRouter((props) => {
                           <h6 className="userprofile userprofile12">
                             Pipe Schedule
                           </h6>
-                          <Form.Control
-                            type="number"
-                            value={pipe_schedule}
-                            className="userfield"
+                          <select
                             id="pipe_schedule"
-                            onChange={onchange}
-                            placeholder=""
-                          />
+                            onChange={onchange_pipeschedule}
+                            className="userfield form-control"
+                          >
+                            <option value=""></option>
+                            {pipe_schedules.map((data, i) => (
+                              <option
+                                className="specialization"
+                                value={JSON.stringify({
+                                  id: data.id,
+                                  name: data.name,
+                                })}
+                              >
+                                {data.name}
+                              </option>
+                            ))}
+                          </select>
                         </Form.Group>
                       </Col>
                       <Col md={3} className="formsection1">

@@ -544,4 +544,18 @@
     border-radius: 1rem;    
     font-size: 12px;
  }
- 
+ .profcertifncntent{
+     display: flex;
+     text-align: initial;
+     justify-content: space-between;
+ }
+ .profcertdate{
+     width: 43%;
+ }
+ .profcertheading{
+     margin-bottom: 10px;
+     font-weight: 600;
+ }
+ .profcerbtnwrapper{
+     text-align: right;
+ }

@@ -7,11 +7,11 @@ import group2 from "../../images/group2.png";
 import Slider from "react-rangeslider";
 import "react-rangeslider/lib/index.css";
 import { Helmet } from "react-helmet";
-import nextbtn from "../../images/nextbtn.png";
+import no_work_order from "../../images/document 1.png";
 
 const WorkOrderCardsMinInfo = (props) => {
   const [state, setState] = useState({
-    volume: props.status == "Awaiting Approval" ? 0 : 100,
+    volume: props.status == "Awaiting Approval" ? 0 : 0,
   });
   const handleOnChange = (value) => {
     setState({
@@ -28,35 +28,33 @@ const WorkOrderCardsMinInfo = (props) => {
         </div> */}
         <div className="c_ard_sec2">
           <div className="pipline pipline__">
-            <div className="crd23">{props.title}</div>
+            <div className="crd23">{props?.order_detail?.title}</div>
             <div className="inprogr">
               <div
                 className={
-                  props.title == "Pipeline construction with Sulejah"
+                  props?.order_detail?.status == "New"
                     ? "unpaid1 inprogress_4"
                     : "unpaidgreen inprogress_4"
                 }
               >
                 <span
                   className={
-                    props.title == "Pipeline construction with Sulejah"
+                    props?.order_detail?.status == "New"
                       ? "paidd2 box_cust"
                       : "paidd2green box_cust"
                   }
                 ></span>
                 <span>
-                  {props.title == "Pipeline construction with Suleja"
-                    ? "In progress"
-                    : props.status == "Awaiting Approval"
-                    ? "Awaiting approval"
-                    : "Completed"}
+                  {props?.order_detail?.status  == "New"
+                    ? "New"
+                    : props?.order_detail?.status == "In Review"
+                    ? "In Review"
+                    : props?.order_detail?.status}
                 </span>
               </div>
             </div>
           </div>
-          <div className="mnversion">
-            Constructing a pipe from Lagos to Ofin State
-          </div>
+          <div className="mnversion">{props?.order_detail?.purpose}</div>
           <div className="slidd2">
             <Slider
               value={volume}

@@ -38,6 +38,12 @@ const SpecialistSettings = () => {
     experience_years: "",
     bio: "",
     terminateWorkModal: false,
+    certificateModal:false,
+    certificateDisplay: false,
+    noCertificateAdded: true,
+    certification:"",
+    year:"",
+    description:"",
     messageModal: true,
     viewPopup: true,
     reason: "",
@@ -62,6 +68,12 @@ const SpecialistSettings = () => {
     thirdtab,
     fourthtab,
     terminateWorkModal,
+    certificateModal,
+    certificateDisplay,
+    noCertificateAdded,
+    certification,
+    year,
+    description,
     messageModal,
     email,
     viewPopup,
@@ -167,6 +179,19 @@ const SpecialistSettings = () => {
         console.log(err.response);
       });
   };
+  
+  const certModal = () => {
+    setState({
+      ...state,
+      certificateModal: true,
+    });
+  };
+  const closecertModal = () => {
+    setState({
+      ...state,
+      certificateModal: false,
+    });
+  };
   const workModal = () => {
     setState({
       ...state,
@@ -235,6 +260,23 @@ const SpecialistSettings = () => {
       });
     }
   }, []);
+  
+  const displayCertification =()=>{
+    if (certification && year){
+     setState({
+       ...state,
+       noCertificateAdded: false,
+       certificateDisplay: true,
+     })
+    }
+    else{
+      setState({
+        ...state,
+        noCertificateAdded: true,
+        certificateDisplay: false,
+      })
+    }
+  };
 
   const add_certification = () => {
     const availableToken = localStorage.getItem("loggedInDetails");
@@ -242,9 +284,9 @@ const SpecialistSettings = () => {
     const token = availableToken ? JSON.parse(availableToken) : "";
     console.log(token);
     const data1 = {
-      certification: "associate fitter",
-      year: "2018-04-05",
-      description: "associate description",
+      certification,
+      year,
+      description
     };
     const data2 = {
       id:"1"
@@ -737,10 +779,95 @@ const SpecialistSettings = () => {
                         </Col>
                       </Row>
                       <div className="sectndivider"></div>
-                      <div className="profileceriticatesectn">
-                        <img src={cert} alt="img" />
-                        <p>You have no Certificates Added</p>
-                        <span className="profcertbtn">Add Certificate</span>
+                      <Modal
+                        centered={true}
+                        onHide={closecertModal}
+                        show={certificateModal}
+                      >
+                        <div className="terminateworkmodalwrap">
+                          <div className="terminateworkmodalimg">
+                            <img
+                              src={closeimg}
+                              alt="close"
+                              onClick={closecertModal}
+                            />
+                          </div>
+                          <div className="terminateworkmodaltitle">
+                            Add Certification
+                          </div>
+                          <form>
+                            <label className="addexptitle">
+                              Certification
+                              <input
+                                type="text"
+                                className="userfield form-control"
+                                name="certification"
+                                value={certification}
+                                onChange={onchange}
+                                placeholder="Enter Certification"
+                                size={70}
+                              />
+                            </label>
+                            <label className="addexptitle">
+                              Year
+                              <input
+                                type="date"
+                                className="userfield form-control"
+                                name="year"
+                                value={year}
+                                onChange={onchange}
+                                placeholder="Enter Title"
+                                size={70}
+                              />
+                            </label>
+                            <label className="addexptitle">
+                              Description
+                              <textarea
+                                name="description"
+                                value={description}
+                                className="form-control wrkmodaltextarea"
+                                placeholder="Enter Description"
+                                rows={5}
+                                cols={5}
+                              />
+                            </label>
+                          </form>
+                          <div className="wrkmodal-btnwrap">
+                            <span
+                              className="wrkmodal-cancelbtn"
+                              onClick={closecertModal}
+                            >
+                              Cancel
+                            </span>
+                            <span className="wrkmodal-declinebtn addexpbtn" onClick={displayCertification}>
+                            Add Certificate
+                            </span>
+                          </div>
+                        </div>
+                      </Modal>
+                       <div className="profileceriticatesectn">
+                       {noCertificateAdded && (<div>
+                         <img src={cert} alt="img" />
+                         <p>You have no Certificates Added</p>
+                         <span className="profcertbtn" onClick={certModal}>Add Certificate</span>
+                        </div>
+                       )}:
+                        {certificateDisplay &&(<div>
+                          <div className="profcertifncntent">
+                            <div>
+                              <p className="profcertheading">Certification</p>
+                              <p>{certification}</p>
+                            </div>
+                            <div className="profcertdate">
+                              <p className="profcertheading">Year</p>
+                              <p>{year}</p>
+                            </div>
+                          </div>
+                          <div className="profcerbtnwrapper">
+                            <span className="profcertbtn" onClick={certModal}>Add Certificate</span>
+                          </div>
+                        </div>
+                        )}
                       </div>
                       <Row>
                         <Col md={12}>

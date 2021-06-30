@@ -1,23 +1,29 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Col, Row, Container, Form, ProgressBar } from "react-bootstrap";
-import { Link, withRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { API, formatTime } from "../../config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Axios, { AxiosResponse } from "axios";
 
-const WorkDetails_Form_Preview = (props) => {
+const WorkInformationBreakdown = (props) => {
   const [state, setState] = useState<any>({
     work_orders: [],
     country: "",
     inprogress: true,
     pipesize: "",
+    hours_per_day:"",
+    duration:"",
+    workDetails:{},
     pending_request: false,
     order_title: "",
     work_order_description: "",
     project_purpose: "",
     past: false,
+    title:"",
+    description:"",
+    purpose:"",
     end_date: "",
     diameter: "",
     start_date: "",
@@ -30,25 +36,28 @@ const WorkDetails_Form_Preview = (props) => {
     terrains: "",
     location_terrain: "",
     state_: "",
-    specialist_config: [],
-    pipe_config: [],
+    specialist_requests: [],
+    pipe_configs: [],
   });
   const {
     pipe_wieght,
     pipelength,
     no_of_specialist,
+    workDetails,
     hour,
-    diameter,
-    pipe_type,
-    pipesize,
-    pipe_config,
+    title,
+    description,
+    hours_per_day,
+    duration,
+    purpose,
+    pipe_configs,
     location_terrain,
     state_,
     end_date,
     start_date,
     project_purpose,
     country,
-    specialist_config,
+    specialist_requests,
     work_order_description,
     terrains,
     location_terrain_name,
@@ -64,90 +73,42 @@ const WorkDetails_Form_Preview = (props) => {
     console.log(firstData);
     const secondList: any = localStorage.getItem("second_step");
     const secondData = secondList ? JSON.parse(secondList) : "";
-    console.log(secondData);
-    setState({
-      ...state,
-      ...secondData,
-      ...firstData,
-    });
-  }, []);
-  const submitForm = () => {
-    setState({
-      ...state,
-      isloading: true,
-    });
     const availableToken: any = localStorage.getItem("loggedInDetails");
     const token = availableToken
       ? JSON.parse(availableToken)
-      : window.location.assign("/");
-
-    const pipe_keys = pipe_config.map(
-      ({ no_of_joints, pipelength, pipe_schedule, pipe_size, pipe_type }) => ({
-        joints: no_of_joints,
-        length: pipelength,
-        pipe_schedule: pipe_schedule,
-        size: pipe_size,
-        type: pipe_type,
-      })
-    );
-
-    const config_keys = specialist_config.map(
-      ({ no_of_specialist, type_of_specialist }) => ({
-        skill: type_of_specialist,
-        number: no_of_specialist,
-      })
-    );
-    console.log(config_keys);
-    // no_of_specialist,
-    // type_of_specialist,
-    // title_of_specialist,
-    console.log(pipe_keys);
-    const work_order_data = {
-      title: order_title,
-      description: work_order_description,
-      purpose: project_purpose,
-      state: state_,
-      start_date,
-      end_date,
-      country,
-      hours_per_day: hour,
-      project_terrain: location_terrain,
-      pipe_configs: pipe_keys,
-      skills: config_keys,
-    };
-    console.log(work_order_data);
-    axios
-      .post(`${API}/contractor/work-orders`,work_order_data,{
-        headers: {
-          "Authorization": `Bearer ${token.access_token}`,
-          "Content-Type": "application/json",
-        },
-      })
-      .then((res) => {
-        setTimeout(()=>{
-          window.location.assign("/contractor_work_order")
-        },2000)
-        localStorage.removeItem("second_step")
-        localStorage.removeItem("first_step")
-        console.log(res);
-        setState({
-          ...state,
-          isloading: false,
-        });
-        notify("Successful");
-      })
+      : window.location.assign("/login");
+      console.log(props)
+    window.scrollTo(-0, -0);
+    const work_order = localStorage.getItem("work_order_details");
+    const work_order_details = work_order ? JSON.parse(work_order) : "";
+    setState({
+      ...state,
+      work_order_detail: work_order_details,
+    });
+    axios.all([
+      axios.get<any, AxiosResponse<any>>(`${API}/contractor/work-orders/${work_order_details.id}`, {
+        headers: { Authorization: `Bearer ${token.access_token}` },
+      }),
+    ])
+      .then(
+        axios.spread((res) => {
+          console.log(res.data.data);
+          setState({
+            ...state,
+            ...res.data.data,
+            workDetails:res.data.data,
+            state_:res.data.data.state,
+          });
+        })
+      )
       .catch((err) => {
-        setState({
-          ...state,
-          isloading: false,
-        });
-        notify("Sorry failed to process, try again later", "D");
-        console.log(err.response);
+        console.log(err);
       });
-  };
+  }, []);
+  
   const notify = (message: string, type = "B") =>
     toast(message, { containerId: type, position: "top-right" });
-
+console.log(workDetails)
   return (
     <>
       <div className="formcontent">
@@ -157,21 +118,21 @@ const WorkDetails_Form_Preview = (props) => {
               <h5 className="work_details worktitle">Work Details</h5>
               <div className="main_wrap_ws">
                 <h6 className="userprofile12 userprofile123">Work Title</h6>
-                <p className="Construction12">{order_title}</p>
+                <p className="Construction12">{title}</p>
               </div>
               <div className="main_wrap_ws">
                 <h6 className="userprofile12 userprofile123">
                   Work Description
                 </h6>
                 <p className="Construction12">
-                  {work_order_description ?? "n/a"}
+                  {description ?? "n/a"}
                 </p>
               </div>
               <div className="main_wrap_ws">
                 <h6 className="userprofile12 userprofile123">
                   Project Purpose
                 </h6>
-                <p className="Construction12">{project_purpose ?? "n/a"}</p>
+                <p className="Construction12">{purpose ?? "n/a"}</p>
               </div>
               <div className="main_wrap_ws main_wrap_ws22">
                 <div>
@@ -191,7 +152,7 @@ const WorkDetails_Form_Preview = (props) => {
                   </div>
                 </div>
               </div>
-              <div className="main_wrap_ws main_wrap_ws22">
+              <div className="main_wrap_ws main_wrap_ws22 main_wrap_forced">
                 <div>
                   <h6 className="userprofile12 userprofile123">Start Date</h6>
                   <div className="Construction12">{formatTime(start_date)}</div>
@@ -202,11 +163,11 @@ const WorkDetails_Form_Preview = (props) => {
                 </div>
                 <div className="">
                   <h6 className="userprofile12 userprofile123">Hours/day</h6>
-                  <div className="Construction12">{hour ?? "n/a"}</div>
+                  <div className="Construction12">{hours_per_day ?? "n/a"}</div>
                 </div>
                 <div className="">
-                  <h6 className="userprofile12 userprofile123">Duration</h6>
-                  <div className="Construction12">{billing_cycle ?? "n/a"}</div>
+                  <h6 className="userprofile12 userprofile123">Duration (Weeks)</h6>
+                  <div className="Construction12">{duration ?? "n/a"}</div>
                 </div>
               </div>
               <div>
@@ -216,16 +177,16 @@ const WorkDetails_Form_Preview = (props) => {
               <h6 className="userprofile12 userprofile123 userprofile1231">
                 Pipe Configuration
               </h6>
-              {pipe_config?.map((data, i) => (
+              {pipe_configs?.map((data, i) => (
                 <Col md={12} className="ttp_" key={i}>
                   <div className="closticon"></div>
-                  <div className="main_wrap_ws main_wrap_ws22 graybg">
+                  <div className="main_wrap_ws main_wrap_ws22 main_wrap_forced graybg">
                     <div>
                       <h6 className="userprofile12 userprofile123">
                         Type of Pipe
                       </h6>
                       <div className="Construction12">
-                        {data.pipe_name ?? "n/a"}
+                        {data.pipe_type ?? "n/a"}
                       </div>
                     </div>
                     <div className="">
@@ -234,7 +195,7 @@ const WorkDetails_Form_Preview = (props) => {
                       </h6>
                       <div className="Construction12">
                         {" "}
-                        {data?.pipelength ?? "n/a"}
+                        {data?.length ?? "n/a"}
                       </div>
                     </div>
                     <div className="">
@@ -251,7 +212,7 @@ const WorkDetails_Form_Preview = (props) => {
                         No of Joint
                       </h6>
                       <div className="Construction12">
-                        {data?.no_of_joints ?? "n/a"}
+                        {data?.joints ?? "n/a"}
                       </div>
                     </div>
                     <div className="">
@@ -268,7 +229,7 @@ const WorkDetails_Form_Preview = (props) => {
               <h6 className="userprofile12 userprofile123 userprofile1231">
                 Types and number of specialist
               </h6>
-              {specialist_config?.map((data, i) => (
+              {specialist_requests?.map((data, i) => (
                 <Col md={12} className="ttp_" key={i}>
                   <div className="closticon"></div>
                   <div className="main_wrap_ws main_wrap_ws22 graybg">
@@ -277,7 +238,7 @@ const WorkDetails_Form_Preview = (props) => {
                         Specialist Skill
                       </h6>
                       <div className="Construction12">
-                        {data?.title_of_specialist}
+                        {data?.skill}
                       </div>
                     </div>
                     <div className="">
@@ -285,7 +246,7 @@ const WorkDetails_Form_Preview = (props) => {
                         Number of Specialist
                       </h6>
                       <div className="Construction12">
-                        {data?.no_of_specialist}
+                        {data?.number}
                       </div>
                     </div>
                   </div>
@@ -296,18 +257,6 @@ const WorkDetails_Form_Preview = (props) => {
               </h6>
               <div>{billing_cycle ?? "n/a"}</div>
             </Col>
-          </Row>
-          <Row className="nxt90">
-            {props.hide == false && (
-              <Col md={12} className="flex_btns">
-                <Link to="/contractor_work_order_step2">
-                  <div className="job3 btn_outline">Back</div>
-                </Link>
-                <div className="job31" onClick={submitForm}>
-                  {isloading ? "processing" : "Submit"}
-                </div>
-              </Col>
-            )}
           </Row>
         </Form>
       </div>
@@ -328,4 +277,4 @@ const WorkDetails_Form_Preview = (props) => {
     </>
   );
 };
-export default WorkDetails_Form_Preview;
+export default WorkInformationBreakdown;

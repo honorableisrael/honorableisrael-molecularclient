@@ -20,7 +20,7 @@ const New_Work_Order_Card = (props) => {
   const [state, setState] = useState({
     volume: props.status == "Awaiting Approval" ? 0 : 100,
     isloading: false,
-    show: true,
+    show: false,
     reason: "",
   });
   const handleOnChange = (value) => {
@@ -55,6 +55,9 @@ const New_Work_Order_Card = (props) => {
       .then(
         axios.spread((res) => {
           notify("Successfull");
+          setTimeout(()=>{
+            window.location.assign("/admin_work_order")
+          },2000)
           console.log(res.data);
           setState({
             ...state,
@@ -99,6 +102,9 @@ const New_Work_Order_Card = (props) => {
         axios.spread((res) => {
           notify("Successfull");
           console.log(res.data);
+          setTimeout(()=>{
+            window.location.reload()
+          },2000)
           setState({
             ...state,
             isloading: false,
@@ -108,6 +114,7 @@ const New_Work_Order_Card = (props) => {
       )
       .catch((err) => {
         console.log(err);
+        notify("Failed to process","D")
         setState({
           ...state,
           isloading: false,
@@ -140,9 +147,9 @@ const New_Work_Order_Card = (props) => {
           <div className="pipline">
             <div className="crd23">
               {" "}
-              <Link to="/admin_work_details">
+              {/* <Link to="/admin_work_details"> */}
                 {props?.order_details?.title}
-              </Link>
+              {/* </Link> */}
             </div>
             <div className="inprogr">
               {props?.hide == false || props?.hide == undefined ? (
@@ -156,9 +163,9 @@ const New_Work_Order_Card = (props) => {
             </div>
           </div>
           <div className="mnversion mnversion11">
-            <Link to="/admin_work_details">
+            {/* <Link to="/admin_work_details"> */}
               {props?.order_details?.purpose}
-            </Link>
+            {/* </Link> */}
           </div>
           <div className="minicardwrapper mnversion11">
             <div className="content24">
