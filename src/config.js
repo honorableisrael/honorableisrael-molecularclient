@@ -1,3 +1,4 @@
+import { ToastContainer, toast } from "react-toastify";
 const moment = require("moment");
 // Molecular Production API
 export const API = "http://api.molecular.elostage.xyz/api/v1";
@@ -21,11 +22,14 @@ export const ageCalculator = (dateString) => {
     if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
       age--;
     }
-    return age+"years";
+    return age + "years";
   } else {
     return "n/a";
   }
 };
+export const notify = (message) =>
+  toast(message, { containerId: "B", position: "top-right" });
+
 // // Clarity Production API
 // export const API = "http://api.molecular.elostage.xyz/api/v1"
 // // Clarity Staging API

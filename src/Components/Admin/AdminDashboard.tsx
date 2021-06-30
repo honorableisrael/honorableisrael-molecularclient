@@ -19,6 +19,7 @@ import suitcase1 from "../../images/suitcase1.png";
 import specialist1 from "../../images/specialist1.png";
 import axios, { AxiosResponse } from "axios";
 import { ageCalculator, API, capitalize } from "../../config";
+import Specialist_Awaiting_Admin from "./SubComponents/Specailist_Awaiting_Admin_Approval";
 
 const AdminDashboard = withRouter((props) => {
   const [state, setState] = useState({
@@ -97,7 +98,7 @@ const AdminDashboard = withRouter((props) => {
         axios.get(`${API}/admin/dashboard`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }),
-        axios.get(`${API}/admin/specialists?paginate=1`, {
+        axios.get(`${API}/admin/specialists?paginate=1&limit=5`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }),
       ])
@@ -394,80 +395,7 @@ const AdminDashboard = withRouter((props) => {
               </div>
             </div>
           </Col>
-          <Col className="fc12" md={12}>
-            <div className="carderw carderwax carderwaxx fc14 specialist_one">
-              <div className="Projectsx">Specialists Awaiting Approval</div>
-              <div className="specialistrow">
-                {all_specialist.map((data, i) =>
-                  data.status == "Inactive" ? (
-                    <div className="specialistwrapper">
-                      {false && (
-                        <img
-                          src={specialist1}
-                          className="specialist1"
-                          alt="specialist1"
-                        />
-                      )}
-                      {
-                        <span className="lfff dashboard_userfoto">
-                          {capitalize(data?.first_name?.split("")[0])}
-                          {capitalize(data?.last_name?.split("")[0])}
-                        </span>
-                      }
-                      <div className="name_of_specialist">
-                        <div
-                          className="name_specailist"
-                          onClick={(e) => {
-                            localStorage.setItem(
-                              "specialist_info",
-                              JSON.stringify(data)
-                            );
-                            props.history.push("/specialistdetails");
-                          }}
-                        >
-                          {data.first_name} {data.last_name}
-                        </div>
-                        <div className="name_specailist1">
-                          {data?.registered_on}
-                        </div>
-                      </div>
-                      <div className="skill_of_specialist1">
-                        {capitalize(data?.skills?.[0]?.title)}
-                      </div>
-                      <div className="skill_of_specialist1">
-                        <div>
-                          {" "}
-                          {data?.skills?.map((data1, i) => (
-                            <span key={i}>{capitalize(data1.name)}</span>
-                          ))}
-                        </div>
-                      </div>
-                      <div className="skill_of_specialist1">
-                        <div>{ageCalculator(data?.dob)}</div>
-                      </div>
-                      <div className="accpt3">
-                        <button className="accpt2">Accept</button>
-                        <button className="rejct2">Reject</button>
-                      </div>
-                    </div>
-                  ) : (
-                    ""
-                  )
-                )}
-              </div>
-              <div className="text_align2">
-                <Link to="/allspecialist">
-                  <span className="arrow21 _arrow21 text11 "></span>{" "}
-                  <img
-                    src={arrow}
-                    title="See more"
-                    className="arrow21c arrow2x top__t1"
-                    alt="arrow"
-                  />
-                </Link>
-              </div>
-            </div>
-          </Col>
+          <Specialist_Awaiting_Admin/>
         </Row>
       </Container>
     </>
