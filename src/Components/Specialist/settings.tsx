@@ -67,6 +67,12 @@ const SpecialistSettings = () => {
     photo: null,
     qualifications: [],
     skills: [],
+    id: null,
+    qualification: "",
+    institution: "",
+    field: "",
+    from: "",
+    to: "",
   });
 
   const {
@@ -82,6 +88,12 @@ const SpecialistSettings = () => {
     experienceAdded,
     certification,
     year,
+    id,
+    qualification,
+    institution,
+    field,
+    from,
+    to,
     description,
     title,
     experienceDescription,
@@ -229,9 +241,10 @@ const SpecialistSettings = () => {
       [name]: nextValue.toString(),
     });
   };
-  const notify = (message: string, type = "B") =>
+  const notify = (message: string, type = "B") =>{
     toast(message, { containerId: type, position: "top-right" });
-  useEffect(() => {
+  }
+   useEffect(() => {
     window.scrollTo(-0, -0);
     const availableToken = localStorage.getItem("loggedInDetails");
     console.log(availableToken);
@@ -317,24 +330,36 @@ const SpecialistSettings = () => {
     const token = availableToken ? JSON.parse(availableToken) : "";
     console.log(token);
     const data1 = {
+      id
+    };
+    const data2 ={
+      qualification,
+      institution,
+      field,
+      from,
+      to
+    }
+    const data3 = {
       certification,
       year,
-      description
-    };
-    const data2 = {
-      id:"1"
+      description,
     };
     Axios.all([
-      Axios.post(`${API}/specialist/certifications`, data1, {
+      Axios.post(`${API}/specialist/skills`, data1, {
         headers: { Authorization: `Bearer ${token.access_token}` },
       }),
-      Axios.post(`${API}/specialist/skills`, data2, {
+      Axios.post(`${API}/specialist/qualifications`, data2, {
+        headers: { Authorization: `Bearer ${token.access_token}` },
+      }),
+      Axios.post(`${API}/specialist/certifications`, data3, {
         headers: { Authorization: `Bearer ${token.access_token}` },
       }),
     ])
       .then(
-        axios.spread((res, res2) => {
+        axios.spread((res, res2, res3) => {
           console.log(res.data);
+          console.log(res2.data);
+          console.log(res3.data);
           setState({
             ...state,
             firsttab: false,
@@ -493,13 +518,13 @@ const SpecialistSettings = () => {
                     )}
                   </div>
                   {firsttab && (
-                    <>
+                    <div>
                       {" "}
                       <Row className="section_form1">
                         <Col md={6} className="formsection1">
                           <Form.Group>
                             <h6 className="userprofile userprofile12">
-                              Fist Name
+                              First Name
                             </h6>
                             <Form.Control
                               className="userfield"
@@ -655,7 +680,7 @@ const SpecialistSettings = () => {
                           </NavHashLink>
                         </Col>
                       </Row>
-                    </>
+                    </div>
                   )}
                   {/* Second Tab Starts*/}
                   {secondtab && (
@@ -694,8 +719,8 @@ const SpecialistSettings = () => {
                               <input
                                 className="profilecheckbox"
                                 type="checkbox"
-                                value=""
-                                id="flexCheckDefault"
+                                value={id}
+                                name="id"
                               />
                               Fitting
                             </label>
@@ -703,8 +728,8 @@ const SpecialistSettings = () => {
                               <input
                                 className="profilecheckbox "
                                 type="checkbox"
-                                value=""
-                                id="flexCheckDefault"
+                                value={id}
+                                name="id"
                               />
                               Welding
                             </label>
@@ -719,99 +744,71 @@ const SpecialistSettings = () => {
                           </h3>
                         </Col>
                         <Col md={6}>
-                          <select
-                            className="forminput profsettinformselect form-control"
-                            required
-                          >
-                            <option
-                              value=""
-                              className="profsettinformselect"
-                              disabled
-                              selected
-                              hidden
-                            >
-                              Select Qualification
-                            </option>
-                          </select>
-                          <div className="text-right">
-                            <img src={formCaret} className="drparr" />
-                          </div>
+                        <Form.Group>
+                            <h6 className="userprofile userprofile12">
+                              Enter Qualification
+                            </h6>
+                            <Form.Control
+                              className="userfield"
+                              name="qualification"
+                              value={qualification}
+                              onChange={onchange}
+                            />
+                          </Form.Group>
                         </Col>
                         <Col md={6}>
-                          <select
-                            className="forminput profsettinformselect form-control"
-                            required
-                          >
-                            <option
-                              value=""
-                              className="profsettinformselect"
-                              disabled
-                              selected
-                              hidden
-                            >
-                              field of Study
-                            </option>
-                          </select>
-                          <div className="text-right">
-                            <img src={formCaret} className="drparr" />
-                          </div>
-                        </Col>
-                        <Col md={6}>
-                          <select
-                            className="forminput profsettinformselect form-control"
-                            required
-                          >
-                            <option
-                              value=""
-                              className="profsettinformselect"
-                              disabled
-                              selected
-                              hidden
-                            >
+                        <Form.Group>
+                            <h6 className="userprofile userprofile12">
                               Institution
-                            </option>
-                          </select>
-                          <div className="text-right">
-                            <img src={formCaret} className="drparr" />
-                          </div>
+                            </h6>
+                            <Form.Control
+                              className="userfield"
+                              name="institution"
+                              value={institution}
+                              onChange={onchange}
+                            />
+                          </Form.Group>
+                        </Col>
+                        <Col md={6}>
+                        <Form.Group>
+                            <h6 className="userprofile userprofile12">
+                              Field of Study
+                            </h6>
+                            <Form.Control
+                              className="userfield"
+                              name="field"
+                              value={field}
+                              onChange={onchange}
+                            />
+                          </Form.Group>
                         </Col>
                         <Col md={3}>
-                          <select
-                            className="forminput profsettinformselect form-control"
-                            required
-                          >
-                            <option
-                              value=""
-                              className="profsettinformselect"
-                              disabled
-                              selected
-                              hidden
-                            >
+                        <label className="addexptitle">
                               From
-                            </option>
-                          </select>
-                          <div className="text-right">
-                            <img src={formCaret} className="drparr" />
-                          </div>
+                              <input
+                                type="date"
+                                className="userfield form-control"
+                                name="from"
+                                value={from}
+                                onChange={onchange}
+                                placeholder="From"
+                                size={70}
+                              />
+                            </label>
                         </Col>
                         <Col md={3}>
-                          <select
-                            className="forminput profsettinformselect form-control"
-                            required
-                          >
-                            <option
-                              value=""
-                              className="profsettinformselect"
-                              disabled
-                              selected
-                              hidden
-                            >
-                              To
-                            </option>
-                          </select>
-                          <div className="text-right">
-                            <img src={formCaret} className="drparr" />
-                          </div>
+                        <label className="addexptitle">
+                                To
+                              <input
+                                type="date"
+                                className="userfield form-control"
+                                name="to"
+                                value={to}
+                                onChange={onchange}
+                                placeholder="TO"
+                                size={70}
+                              />
+                            </label>
                         </Col>
                       </Row>
                       <div className="sectndivider"></div>
@@ -861,6 +858,7 @@ const SpecialistSettings = () => {
                               <textarea
                                 name="description"
                                 value={description}
+                                onChange={onchange}
                                 className="form-control wrkmodaltextarea"
                                 placeholder="Enter Description"
                                 rows={5}
@@ -887,7 +885,7 @@ const SpecialistSettings = () => {
                          <p>You have no Certificates Added</p>
                          <span className="profcertbtn" onClick={certModal}>Add Certificate</span>
                         </div>
-                       )}:
+                       )}
                         {certificateDisplay &&(<div>
                           <div className="profcertifncntent">
                             <div>
@@ -989,7 +987,7 @@ const SpecialistSettings = () => {
                                Add Experience
                              </span>
                            </div>
-                           )}:
+                           )}
                            {experienceAdded &&(
                            <div className="profecperince-content">
                              <div className="profiexpernceheaderwrap">

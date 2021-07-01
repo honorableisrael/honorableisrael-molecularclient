@@ -573,3 +573,11 @@
  .editimg{
      cursor: pointer;
  }
+ .instndrparr {
+    position: relative;
+    top: -71px;
+    left: -28px;
+}
+.userprofile12{
+    font-weight: 600 !important;
+}

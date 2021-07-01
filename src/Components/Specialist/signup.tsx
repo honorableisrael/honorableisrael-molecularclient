@@ -62,6 +62,7 @@ const onSubmit = () => {
         localStorage.setItem("userdata", JSON.stringify(userdata));
         //store user token to to local storage 
         localStorage.setItem("loggedInDetails", JSON.stringify(response.data));
+        //push to otp page
         setTimeout(() => {
           props?.history?.push("/molecular_otp");
           console.log(props);
