@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Col, Row, Container, ProgressBar } from "react-bootstrap";
+import { Col, Row, Container, Modal, Spinner, Form } from "react-bootstrap";
 import "../contractor.css";
 import arrow from "../../../images/arrow.png";
 import { Link, withRouter } from "react-router-dom";
@@ -10,10 +10,6 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Specialist_Awaiting_Admin = withRouter((props) => {
-  const [state, setState] = useState({
-    all_specialist: [],
-    isloading: false,
-  });
 
   useEffect(() => {
     const availableToken: any = localStorage.getItem("loggedInDetails");
@@ -42,6 +38,20 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
         console.log(err);
       });
   }, []);
+  const openModal = (id) => {
+    setState({
+      ...state,
+      show: true,
+      selected_specialist: id,
+    });
+  };
+  const [state, setState] = useState({
+    all_specialist: [],
+    isloading: false,
+    reason: "",
+    show: false,
+    selected_specialist: "",
+  });
 
   const accept_new_specailist = (id) => {
     const availableToken: any = localStorage.getItem("loggedInDetails");
@@ -57,9 +67,13 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
     });
     axios
       .all([
-        axios.post(`${API}/admin/specialists/${id}/accept`, {
-          headers: { Authorization: `Bearer ${token.access_token}` },
-        }),
+        axios.post(
+          `${API}/admin/specialists/${id}/accept`,
+          {},
+          {
+            headers: { Authorization: `Bearer ${token.access_token}` },
+          }
+        ),
       ])
       .then(
         axios.spread((res) => {
@@ -67,14 +81,30 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
           console.log(res.data.data);
           setState({
             ...state,
+            isloading: false,
           });
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
         })
       )
       .catch((err) => {
+        notify("Specialist successfully verified", "D");
+        setState({
+          ...state,
+          isloading: false,
+        });
         console.log(err);
       });
   };
-  const reject_new_specailist = (id) => {
+  const onchange = (e) => {
+    console.log(e.target.value);
+    setState({
+      ...state,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const reject_new_specailist = () => {
     const availableToken: any = localStorage.getItem("loggedInDetails");
     const token = availableToken
       ? JSON.parse(availableToken)
@@ -86,32 +116,53 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
       ...state,
       isloading: true,
     });
+    const data = {
+      reason,
+    };
+    setState({
+      ...state,
+      isloading: true,
+    });
     axios
       .all([
-        axios.post(`${API}/admin/specialists/${id}/decline`, {
-          headers: { Authorization: `Bearer ${token.access_token}` },
-        }),
+        axios.post(
+          `${API}/admin/specialists/${state.selected_specialist}/decline`,data,
+          {
+            headers: { Authorization: `Bearer ${token.access_token}` },
+          }
+        ),
       ])
       .then(
         axios.spread((res) => {
-          notify("Specialist successfully verified");
+          notify("Specialist application rejected");
           console.log(res.data.data);
           setState({
             ...state,
+            isloading: false,
           });
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
         })
       )
       .catch((err) => {
+        notify("Failed to process", "D");
+        setState({
+          ...state,
+          isloading: false,
+          show:false
+        });
         console.log(err);
       });
   };
-  const { admin, all_specialist,isloading }: any = state;
+  const { admin, all_specialist, isloading, reason, show }: any = state;
   console.log(all_specialist);
   return (
     <>
       <Col className="fc12" md={12}>
         <div className="carderw carderwax carderwaxx fc14 specialist_one">
           <div className="Projectsx">Specialists Awaiting Approval</div>
+          {isloading && <Spinner variant="info" animation={"grow"} />}
           <div className="specialistrow">
             {all_specialist.map((data, i) =>
               data.status == "Inactive" ? (
@@ -165,11 +216,11 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
                       className="accpt2"
                       onClick={() => accept_new_specailist(data.id)}
                     >
-                      {isloading?"Accept":"Accepting"}
+                      {!isloading ? "Accept" : "Accepting"}
                     </button>
                     <button
                       className="rejct2"
-                      onClick={() => accept_new_specailist(data.id)}
+                      onClick={() => openModal(data.id)}
                     >
                       Reject
                     </button>
@@ -200,6 +251,59 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
         hideProgressBar={true}
         position={"top-right"}
       />
+      <ToastContainer
+        enableMultiContainer
+        containerId={"D"}
+        toastClassName="bg-danger text-white"
+        hideProgressBar={true}
+        position={"top-right"}
+      />
+      <Modal
+        size="lg"
+        show={show}
+        onHide={() =>
+          setState({
+            ...state,
+            show: false,
+          })
+        }
+        dialogClassName="modal-90w"
+        className="mdl12"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="example-custom-modal-styling-title">
+            Reject Specialist
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Row>
+            <Col md={12}>
+              {isloading && <Spinner variant="info" animation={"grow"} />}
+            </Col>
+            <Col md={12}>
+              <Form>
+                <textarea
+                  value={reason}
+                  name={"reason"}
+                  onChange={onchange}
+                  className="form-control reason12 reason122"
+                  placeholder="Reason for termination"
+                ></textarea>
+              </Form>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={12} className="terminate2">
+              <div
+                className="terminate1"
+                onClick={reject_new_specailist}
+              >
+                Reject
+              </div>
+            </Col>
+          </Row>
+        </Modal.Body>
+      </Modal>
     </>
   );
 });

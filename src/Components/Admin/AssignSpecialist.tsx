@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Col, Row, Container, Form, ProgressBar } from "react-bootstrap";
+import React, { useState, useEffect, useContext } from "react";
+import { Col, Row, Container, Form, Pagination } from "react-bootstrap";
 import "./contractor.css";
 import DashboardNav from "./navbar";
 import portfolio from "../../images/portfolio.png";
@@ -12,10 +12,102 @@ import { Link } from "react-router-dom";
 import StarRatingComponent from "react-star-rating-component";
 import checkcircle from "../../images/check-circle.png";
 import searchicon from "../../images/search.png";
+import no_work_order from "../../images/document 1.png";
+import axios from "axios";
+import { API, notify } from "../../config";
+import { capitalize } from "@material-ui/core";
+import { ToastContainer } from "react-toastify";
+
+const SpecialistContext: any = React.createContext({
+  state: {},
+  setState: () => {},
+  assignToWorkOrder: () => {},
+});
+const Specialist_card = (props) => {
+  const { state, setState, assignToWorkOrder }: any =
+    useContext(SpecialistContext);
+  const sendSpecialistId = (id: any) => {
+    const add_new: any = [id];
+    const old_array = state.selectedspecialist;
+    const index = old_array.indexOf(id);
+    if (index > -1) {
+      old_array.splice(index, 1);
+      return setState({
+        ...state,
+        selectedspecialist: [...old_array],
+      });
+    }
+    setState({
+      ...state,
+      selectedspecialist: [...state.selectedspecialist, ...add_new],
+    });
+  };
+  return (
+    <>
+      <div className="container_01">
+        <div className="checkbox_craftman">
+          {/* <input type="checkbox" className="selectcheck" /> */}
+          <label className="container_box">
+            {capitalize(props?.specialist_data?.skills[0]?.name)}
+            <input
+              type="checkbox"
+              name="radio"
+              onClick={() => sendSpecialistId(props.specialist_data.id)}
+            />
+            <span className="checkmark"></span>
+          </label>
+        </div>
+        <div className="imagecontainer01">
+          <img src={welder} className="welder" alt="welder" />
+        </div>
+        <div className="cardbody01">
+          <div>
+            <span className="cardname">
+              {" "}
+              {props?.specialist_data?.last_name ?? "n/a"}{" "}
+              {props?.specialist_data?.first_name ?? "n/a"}
+            </span>{" "}
+            <span className="cerfified1">
+              {capitalize(props?.specialist_data?.skills[0]?.name)}
+            </span>
+          </div>
+          <div className="prim_skills">
+            Secondary Skills:{" "}
+            {props.specialist_data.skills?.map((data, i) => (
+              <span key={i}> {capitalize(data.name)}</span>
+            ))}
+          </div>
+          <div className="prim_skills">
+            <span className="leveltitle"> Expert Level:</span>{" "}
+            <StarRatingComponent
+              name="specialist_rating"
+              className="specialist_rating"
+              starCount={5}
+              emptyStarColor={"#444"}
+            />
+          </div>
+          <div className="assigncont">
+            <button
+              value="Assign bgorange"
+              className="assign12"
+              onClick={assignToWorkOrder}
+            >
+              Assign{" "}
+              <span>
+                <img src={checkcircle} className="checkcircle1 " alt="" />
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
 
 const AssignSpecialist = () => {
   const [state, setState] = useState({
-    work_orders: [],
+    all_specialist: [],
+    selectedspecialist: [],
     country: "",
     inprogress: true,
     pending_request: false,
@@ -28,36 +120,103 @@ const AssignSpecialist = () => {
     location: "",
     end_date: "",
     specialist_rating: 5,
+    order_id: "",
     start_date: "",
     hour: "",
+    next: "",
+    prev: "",
+    first: "",
+    last: "",
+    current_page: "",
+    last_page: "",
+    to: "",
+    total: "",
   });
-  const onchange = (e) => {
-    console.log(e.target.value);
-    setState({
-      ...state,
-      [e.target.id]: e.target.value,
-    });
+  const workOrder = localStorage.getItem("work_order_details");
+  const workorder = workOrder ? JSON.parse(workOrder) : "";
+  useEffect(() => {
+    window.scrollTo(-0, -0);
+    const availableToken: any = localStorage.getItem("loggedInDetails");
+    const token = availableToken
+      ? JSON.parse(availableToken)
+      : window.location.assign("/");
+    axios
+      .all([
+        axios.get(`${API}/admin/specialists/inactive?paginate=true`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
+      ])
+      .then(
+        axios.spread((res) => {
+          console.log(res.data.data);
+          setState({
+            ...state,
+            all_specialist: res.data.data.data,
+            order_id: workorder.id,
+            ...res.data.data.links,
+            ...res.data.data.meta,
+          });
+        })
+      )
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  const fetch_all = () => {
+    const availableToken: any = localStorage.getItem("loggedInDetails");
+    const token = availableToken
+      ? JSON.parse(availableToken)
+      : window.location.assign("/");
+    axios
+      .all([
+        axios.get(`${API}/admin/specialists?paginate=1`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
+      ])
+      .then(
+        axios.spread((res) => {
+          console.log(res.data.data);
+          setState({
+            ...state,
+            all_specialist: res.data.data.data,
+            ...res.data.data.links,
+            ...res.data.data.meta,
+            inprogress: true,
+            pending_request: false,
+            past: false,
+          });
+        })
+      )
+      .catch((err) => {
+        console.log(err);
+      });
   };
-  const onInputChange = (e) => {
-    const letterNumber = /^[A-Za-z]+$/;
-    if (e.target.value) {
-      return setState({
-        ...state,
-        [e.target.name]: e.target.value.replace(/[^0-9]+/g, ""), //only accept numbers
+  const filter_by_new = (fun) => {
+    const availableToken: any = localStorage.getItem("loggedInDetails");
+    const token = availableToken
+      ? JSON.parse(availableToken)
+      : window.location.assign("/");
+    axios
+      .all([
+        axios.get(`${API}/admin/work-orders/new?paginate=1`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
+      ])
+      .then(
+        axios.spread((res) => {
+          console.log(res.data.data);
+          setState({
+            ...state,
+            all_specialist: res.data.data.data,
+            inprogress: false,
+            pending_request: true,
+          });
+        })
+      )
+      .catch((err) => {
+        console.log(err);
       });
-    }
-    if (e.target.value < 0) {
-      return setState({
-        ...state,
-        [e.target.name]: 0,
-      });
-    }
-    if (e.target.value === "") {
-      return setState({
-        ...state,
-        [e.target.name]: 0,
-      });
-    }
   };
   const onStarClick = (nextValue, prevValue, name) => {
     setState({
@@ -65,8 +224,62 @@ const AssignSpecialist = () => {
       [name]: nextValue.toString(),
     });
   };
+  const nextPage = (x) => {
+    const availableToken: any = localStorage.getItem("loggedInDetails");
+    const token = availableToken
+      ? JSON.parse(availableToken)
+      : window.location.assign("/");
+    axios
+      .all([
+        axios.get(`${x}`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
+      ])
+      .then(
+        axios.spread((res) => {
+          console.log(res.data.data);
+          window.scrollTo(-0, -0);
+          setState({
+            ...state,
+            contractor_list: res.data.data.data,
+            ...res.data.data.links,
+            ...res.data.data.meta,
+          });
+        })
+      )
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const assignToWorkOrder = (e) => {
+    e.preventDefault();
+    const availableToken: any = localStorage.getItem("loggedInDetails");
+    const token = availableToken
+      ? JSON.parse(availableToken)
+      : window.location.assign("/");
+    const data = {
+      specialists: selectedspecialist,
+    };
+    console.log("here now");
+    axios
+      .post(`${API}/admin/work-orders/${state.order_id}/specialists`, data, {
+        headers: { Authorization: `Bearer ${token.access_token}` },
+      })
+      .then((res) => {
+        console.log(res);
+        notify("Successfully assigned specialist");
+        setTimeout(() => {
+          window.location.assign("/admin_work_details?inreview=true");
+        }, 2000);
+      })
+      .catch((err) => {
+        console.log(err);
+        notify("Failed to assign specialist", "D");
+      });
+  };
+
   const {
-    project_purpose,
+    selectedspecialist,
     country,
     work_order_description,
     order_title,
@@ -74,9 +287,16 @@ const AssignSpecialist = () => {
     location_terrain,
     specialist_rating,
     start_date,
-    hour,
+    all_specialist,
+    last_page,
+    next,
+    prev,
+    first,
+    last,
+    current_page,
     search,
   } = state;
+  console.log(selectedspecialist);
   return (
     <>
       <Container fluid={true} className="dasbwr">
@@ -93,7 +313,7 @@ const AssignSpecialist = () => {
             <div className="title_wo flexgroup_ flexgroup_1">
               <div className="fl-11">
                 <div className="workorderheader workorderheaderpp title_color_orange">
-                  <Link to="/contractor_work_order">
+                  <Link to="/admin_work_details?inreview=true">
                     {" "}
                     <img src={arrowback} className="arrowback" />
                   </Link>
@@ -113,7 +333,9 @@ const AssignSpecialist = () => {
                 </div>
               </div>
               <div>
-                <span className="assign_specailist">Assign Specialist</span>
+                <span className="assign_specailist" onClick={assignToWorkOrder}>
+                  Assign Specialist
+                </span>
               </div>
             </div>
             <Row>
@@ -122,218 +344,64 @@ const AssignSpecialist = () => {
                   <span> Best matched Specialists</span>
                 </div>
                 <div className="formcontent">
-                  <Form>
-                    <Row>
+                  <Row>
+                    <SpecialistContext.Provider
+                      value={{ state, setState, assignToWorkOrder }}
+                    >
                       <div className="spread_">
-                        <div className="container_01">
-                          <div className="checkbox_craftman">
-                            {/* <input type="checkbox" className="selectcheck" /> */}
-                            <label className="container_box">
-                              Welder
-                              <input type="checkbox" name="radio" />
-                              <span className="checkmark"></span>
-                            </label>
-                          </div>
-                          <div className="imagecontainer01">
-                            <img src={welder} className="welder" alt="welder" />
-                          </div>
-                          <div className="cardbody01">
-                            <div>
-                              <span className="cardname">Chiemezie Akato</span>{" "}
-                              <span className="cerfified1">
-                                Certified Welder
-                              </span>
-                            </div>
-                            <div className="prim_skills">
-                              Secondary Skills: Plumber & Fitter
-                            </div>
-                            <div className="prim_skills">
-                              <span className="leveltitle"> Expert Level:</span>{" "}
-                              <StarRatingComponent
-                                name="specialist_rating"
-                                className="specialist_rating"
-                                starCount={5}
-                                value={specialist_rating}
-                                onStarClick={onStarClick}
-                                emptyStarColor={"#444"}
+                        {all_specialist?.map((data, i) => (
+                          <Specialist_card specialist_data={data} key={i} />
+                        ))}
+                        {all_specialist?.length == 0 && (
+                          <Col md={11} className="containerforemptyorder1">
+                            <div className="containerforemptyorder">
+                              <img
+                                src={no_work_order}
+                                alt={"no_work_order"}
+                                className="no_work_order"
                               />
                             </div>
-                            <div className="assigncont">
-                              <button
-                                value="Assign bgorange"
-                                className="assign12"
-                              >
-                                Assign{" "}
-                                <span>
-                                  <img
-                                    src={checkcircle}
-                                    className="checkcircle1 "
-                                    alt=""
-                                  />
-                                </span>
-                              </button>
+                            <div className="no_work1">
+                              You have no specialist
                             </div>
-                          </div>
-                        </div>
-                        <div className="container_01">
-                          <div className="checkbox_craftman">
-                            {/* <input type="checkbox" className="selectcheck" /> */}
-                            <label className="container_box">
-                              Welder
-                              <input type="checkbox" name="radio" />
-                              <span className="checkmark"></span>
-                            </label>
-                          </div>
-                          <div className="imagecontainer01">
-                            <img src={welder} className="welder" alt="welder" />
-                          </div>
-                          <div className="cardbody01">
-                            <div>
-                              <span className="cardname">Chiemezie Akato</span>{" "}
-                              <span className="cerfified1">
-                                Certified Welder
-                              </span>
-                            </div>
-                            <div className="prim_skills">
-                              Secondary Skills: Plumber & Fitter
-                            </div>
-                            <div className="prim_skills">
-                              <span className="leveltitle"> Expert Level:</span>{" "}
-                              <StarRatingComponent
-                                name="specialist_rating"
-                                className="specialist_rating"
-                                starCount={5}
-                                value={specialist_rating}
-                                onStarClick={onStarClick}
-                                emptyStarColor={"#444"}
-                              />
-                            </div>
-                            <div className="assigncont">
-                              <button
-                                value="Assign bgorange"
-                                className="assign12"
-                              >
-                                Assign{" "}
-                                <span>
-                                  <img
-                                    src={checkcircle}
-                                    className="checkcircle1 "
-                                    alt=""
-                                  />
-                                </span>
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="container_01">
-                          <div className="checkbox_craftman">
-                            {/* <input type="checkbox" className="selectcheck" /> */}
-                            <label className="container_box">
-                              Welder
-                              <input type="checkbox" name="radio" />
-                              <span className="checkmark"></span>
-                            </label>
-                          </div>
-                          <div className="imagecontainer01">
-                            <img src={welder} className="welder" alt="welder" />
-                          </div>
-                          <div className="cardbody01">
-                            <div>
-                              <span className="cardname">Chiemezie Akato</span>{" "}
-                              <span className="cerfified1">
-                                Certified Welder
-                              </span>
-                            </div>
-                            <div className="prim_skills">
-                              Secondary Skills: Plumber & Fitter
-                            </div>
-                            <div className="prim_skills">
-                              <span className="leveltitle"> Expert Level:</span>{" "}
-                              <StarRatingComponent
-                                name="specialist_rating"
-                                className="specialist_rating"
-                                starCount={5}
-                                value={specialist_rating}
-                                onStarClick={onStarClick}
-                                emptyStarColor={"#444"}
-                              />
-                            </div>
-                            <div className="assigncont">
-                              <button
-                                value="Assign bgorange"
-                                className="assign12"
-                              >
-                                Assign{" "}
-                                <span>
-                                  <img
-                                    src={checkcircle}
-                                    className="checkcircle1 "
-                                    alt=""
-                                  />
-                                </span>
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="container_01">
-                          <div className="checkbox_craftman">
-                            {/* <input type="checkbox" className="selectcheck" /> */}
-                            <label className="container_box">
-                              Welder
-                              <input type="checkbox" name="radio" />
-                              <span className="checkmark"></span>
-                            </label>
-                          </div>
-                          <div className="imagecontainer01">
-                            <img src={welder} className="welder" alt="welder" />
-                          </div>
-                          <div className="cardbody01">
-                            <div>
-                              <span className="cardname">Chiemezie Akato</span>{" "}
-                              <span className="cerfified1">
-                                Certified Welder
-                              </span>
-                            </div>
-                            <div className="prim_skills">
-                              Secondary Skills: Plumber & Fitter
-                            </div>
-                            <div className="prim_skills">
-                              <span className="leveltitle"> Expert Level:</span>{" "}
-                              <StarRatingComponent
-                                name="specialist_rating"
-                                className="specialist_rating"
-                                starCount={5}
-                                value={specialist_rating}
-                                onStarClick={onStarClick}
-                                emptyStarColor={"#444"}
-                              />
-                            </div>
-                            <div className="assigncont">
-                              <button
-                                value="Assign bgorange"
-                                className="assign12"
-                              >
-                                Assign{" "}
-                                <span>
-                                  <img
-                                    src={checkcircle}
-                                    className="checkcircle1 "
-                                    alt=""
-                                  />
-                                </span>
-                              </button>
-                            </div>
-                          </div>
-                        </div>
+                          </Col>
+                        )}
                       </div>
-                    </Row>
-                  </Form>
+                    </SpecialistContext.Provider>
+                  </Row>
+                  {all_specialist?.length !== 0 && (
+                    <div className="active_member2">
+                      <div>
+                        Displaying <b>{current_page}</b> of <b>{last_page}</b>
+                      </div>
+                      <Pagination>
+                        <Pagination.First onClick={() => nextPage(first)} />
+                        <Pagination.Prev onClick={() => nextPage(prev)} />
+                        <Pagination.Next onClick={() => nextPage(next)} />
+                        <Pagination.Last onClick={() => nextPage(last)} />
+                      </Pagination>
+                    </div>
+                  )}
                 </div>
               </Col>
             </Row>
           </Col>
         </Row>
       </Container>
+      <ToastContainer
+        enableMultiContainer
+        containerId={"D"}
+        toastClassName="bg-danger text-white"
+        hideProgressBar={true}
+        position={"top-right"}
+      />
+      <ToastContainer
+        enableMultiContainer
+        containerId={"B"}
+        toastClassName="bg-info text-white"
+        hideProgressBar={true}
+        position={"top-right"}
+      />
     </>
   );
 };

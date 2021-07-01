@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Col, Row, Container, ProgressBar } from "react-bootstrap";
+import { Col, Row, Container, Pagination } from "react-bootstrap";
 import "./contractor.css";
 import DashboardNav from "./navbar";
 import portfolio from "../../images/portfolio.png";
@@ -43,8 +43,15 @@ const AdminWorkOrder = () => {
     next_page: "",
     prev_page: "",
     current: "",
+    next: "",
+    prev: "",
+    first: "",
+    last: "",
+    current_page: "",
+    last_page: "",
+    to: "",
+    total: "",
   });
-
 
   const onchange = (e) => {
     setState({
@@ -167,6 +174,8 @@ const AdminWorkOrder = () => {
           setState({
             ...state,
             work_orders: res.data.data.data,
+            ...res.data.data.links,
+            ...res.data.data.meta,
             inprogress: true,
             pending_request: false,
             new_order: false,
@@ -198,6 +207,8 @@ const AdminWorkOrder = () => {
           console.log(res.data.data);
           setState({
             ...state,
+            ...res.data.data.links,
+            ...res.data.data.meta,
             work_orders: res.data.data.data,
             inprogress: false,
             pending_request: true,
@@ -214,6 +225,110 @@ const AdminWorkOrder = () => {
         console.log(err);
       });
   };
+  const filter_by_active = (fun) => {
+    const availableToken: any = localStorage.getItem("loggedInDetails");
+    const token = availableToken
+      ? JSON.parse(availableToken)
+      : window.location.assign("/");
+    axios
+      .all([
+        axios.get(`${API}/admin/work-orders/active?paginate=1`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
+      ])
+      .then(
+        axios.spread((res) => {
+          console.log(res.data.data);
+          setState({
+            ...state,
+            ...res.data.data.links,
+            ...res.data.data.meta,
+            work_orders: res.data.data.data,
+            inprogress: false,
+            pending_request: false,
+            past: true,
+            fourthtab: false,
+            fifthtab: false,
+            sixthtab: false,
+            new_order: false,
+            awaiting_assignment: false,
+          });
+        })
+      )
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const filter_by_onhold = (fun) => {
+    const availableToken: any = localStorage.getItem("loggedInDetails");
+    const token = availableToken
+      ? JSON.parse(availableToken)
+      : window.location.assign("/");
+    axios
+      .all([
+        axios.get(`${API}/admin/work-orders/onhold?paginate=1`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
+      ])
+      .then(
+        axios.spread((res) => {
+          console.log(res.data.data);
+          setState({
+            ...state,
+            ...res.data.data.links,
+            ...res.data.data.meta,
+            work_orders: res.data.data.data,
+            inprogress: false,
+            pending_request: false,
+            past: false,
+            fourthtab: false,
+            fifthtab: false,
+            sixthtab: true,
+            new_order: false,
+            awaiting_assignment: false,
+          });
+        })
+      )
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  
+  const nextPage=(x)=>{
+    const availableToken: any = localStorage.getItem("loggedInDetails");
+    const token = availableToken
+      ? JSON.parse(availableToken)
+      : window.location.assign("/");
+    axios
+      .all([
+        axios.get(`${x}`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
+      ])
+      .then(
+        axios.spread((res) => {
+          console.log(res.data.data);
+          window.scrollTo(-0, -0);
+          setState({
+            ...state,
+            ...res.data.data.links,
+            ...res.data.data.meta,
+            work_orders: res.data.data.data,
+            inprogress: true,
+            pending_request: false,
+            new_order: false,
+            awaiting_assignment: false,
+            past: false,
+            fourthtab: false,
+            fifthtab: false,
+            sixthtab: false,
+          });
+        })
+      )
+      .catch((err) => {
+        console.log(err);
+      });
+  }
   const {
     inprogress,
     pending_request,
@@ -225,6 +340,12 @@ const AdminWorkOrder = () => {
     awaiting_assignment,
     new_order,
     work_orders,
+    last_page,
+    next,
+    prev,
+    first,
+    last,
+    current_page,
   } = state;
   return (
     <>
@@ -267,7 +388,7 @@ const AdminWorkOrder = () => {
                 New
               </div>
               <div
-                onClick={() => switchTab("thirdtab")}
+                onClick={() => filter_by_active(switchTab("thirdtab"))}
                 className={past ? "inprogress tab_active" : "inprogress"}
               >
                 In Progress
@@ -279,7 +400,7 @@ const AdminWorkOrder = () => {
                 Completed
               </div>
               <div
-                onClick={() => switchTab("sixthtab")}
+                onClick={() => filter_by_onhold(switchTab("sixthtab"))}
                 className={sixthtab ? "inprogress tab_active" : "inprogress"}
               >
                 On Hold
@@ -321,9 +442,7 @@ const AdminWorkOrder = () => {
                       className="no_work_order"
                     />
                   </div>
-                  <div className="no_work1">
-                    You have no Work Order
-                  </div>
+                  <div className="no_work1">You have no Work Order</div>
                   <div className="nojob2 ">
                     <Link to="/work_order">
                       <div className="job3">New Work Order</div>
@@ -368,18 +487,31 @@ const AdminWorkOrder = () => {
                 )}
               </div>
               <div className="cardflex_jo">
-              {work_orders?.map(
+                {work_orders?.map(
                   (data: any, i) =>
                     data.status == "Terminated" && (
                       <Link to="/admin_work_details">
-                      <AdminWorkOrderCards
-                        order_details={data}
-                        status={"Completed"}
-                      />
-                    </Link>
+                        <AdminWorkOrderCards
+                          order_details={data}
+                          status={"Completed"}
+                        />
+                      </Link>
                     )
                 )}
               </div>
+              {work_orders?.length !== 0 && (
+                <div className="active_member2">
+                  <div>
+                    Displaying <b>{current_page}</b> of <b>{last_page}</b>
+                  </div>
+                  <Pagination>
+                    <Pagination.First onClick={() => nextPage(first)} />
+                    <Pagination.Prev onClick={() => nextPage(prev)} />
+                    <Pagination.Next onClick={() => nextPage(next)} />
+                    <Pagination.Last onClick={() => nextPage(last)} />
+                  </Pagination>
+                </div>
+              )}
               {/* {!awaiting_assignment && new_order && (
                 <div className="cardflex_jo">
                   <New_Work_Order_Card

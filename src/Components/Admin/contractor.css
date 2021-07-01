@@ -2556,3 +2556,6 @@ label i {
 .dashboard_userphone{
   /* width: ; */
 }
+.pending_color{
+  color: #fd8c00 !important;
+}

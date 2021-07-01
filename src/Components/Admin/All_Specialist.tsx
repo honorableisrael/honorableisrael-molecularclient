@@ -138,6 +138,7 @@ const All_Specialist = () => {
             ...res.data.data.meta,
             inprogress: true,
             pending_request: false,
+            past:false
           });
         })
       )

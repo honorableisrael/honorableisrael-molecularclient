@@ -45,6 +45,7 @@ import Projects from "./Components/Landing_page/projects";
 import Admin_Payment_Invoice from "./Components/Admin/Payment_Invoice";
 import DeployedSpecialist from "./Components/Admin/deployedSpecialist";
 import Specialistdetails from "./Components/Admin/SpecialistPersonalDetails"
+import "react-toastify/dist/ReactToastify.css";
 
 
 

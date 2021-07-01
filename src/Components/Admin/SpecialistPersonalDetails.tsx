@@ -1,19 +1,30 @@
 import React, { useEffect, useState } from "react";
-import { Col, Row, Container } from "react-bootstrap";
+import { Col, Row, Container,Modal, Spinner, Form } from "react-bootstrap";
 import "./contractor.css";
 import DashboardNav from "./navbar";
 import "./contractor.css";
 import { Helmet } from "react-helmet";
 import arrowback from "../../images/dtls.png";
 import { Link } from "react-router-dom";
-import { ageCalculator, capitalize } from "../../config";
+import { ageCalculator, API, capitalize, notify } from "../../config";
+import axios from "axios";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-const Specialistdetais = () => {
+
+
+const Specialistdetais = (props) => {
   const [state, setState] = useState<any>({
     user: {},
+    all_specialist: [],
+    isloading: false,
+    reason: "",
+    show: false,
+    selected_specialist: "",
   });
+
   useEffect(() => {
-    window.scrollTo(-0,-0)
+    window.scrollTo(-0, -0);
     const specialist1 = localStorage.getItem("specialist_info");
     const retrieved_specialist = specialist1 ? JSON.parse(specialist1) : "";
     setState({
@@ -21,7 +32,120 @@ const Specialistdetais = () => {
       user: retrieved_specialist,
     });
   }, []);
-  const { user } = state;
+
+  const openModal = (id) => {
+    setState({
+      ...state,
+      show: true,
+      selected_specialist: id,
+    });
+  };
+
+  const accept_new_specailist = (id) => {
+    const availableToken: any = localStorage.getItem("loggedInDetails");
+    const token = availableToken
+      ? JSON.parse(availableToken)
+      : window.location.assign("/");
+    if (token.user_type !== "admin") {
+      return props.history.push("/login");
+    }
+    setState({
+      ...state,
+      isloading: true,
+    });
+    axios
+      .all([
+        axios.post(
+          `${API}/admin/specialists/${id}/accept`,
+          {},
+          {
+            headers: { Authorization: `Bearer ${token.access_token}` },
+          }
+        ),
+      ])
+      .then(
+        axios.spread((res) => {
+          notify("Specialist successfully verified");
+          console.log(res.data.data);
+          setState({
+            ...state,
+            isloading: false,
+          });
+          setTimeout(() => {
+            window.location.assign("/allspecialist")
+          }, 2000);
+        })
+      )
+      .catch((err) => {
+        notify("Specialist successfully verified", "D");
+        setState({
+          ...state,
+          isloading: false,
+        });
+        console.log(err);
+      });
+  };
+  const onchange = (e) => {
+    console.log(e.target.value);
+    setState({
+      ...state,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const reject_new_specailist = () => {
+    const availableToken: any = localStorage.getItem("loggedInDetails");
+    const token = availableToken
+      ? JSON.parse(availableToken)
+      : window.location.assign("/");
+    if (token.user_type !== "admin") {
+      return props.history.push("/login");
+    }
+    setState({
+      ...state,
+      isloading: true,
+    });
+    const data = {
+      reason,
+    };
+    setState({
+      ...state,
+      isloading: true,
+    });
+    axios
+      .all([
+        axios.post(
+          `${API}/admin/specialists/${state.selected_specialist}/decline`,
+          data,
+          {
+            headers: { Authorization: `Bearer ${token.access_token}` },
+          }
+        ),
+      ])
+      .then(
+        axios.spread((res) => {
+          notify("Specialist application rejected");
+          console.log(res.data.data);
+          setState({
+            ...state,
+            isloading: false,
+          });
+          setTimeout(() => {
+            window.location.assign("/allspecialist");
+          }, 2000);
+        })
+      )
+      .catch((err) => {
+        notify("Failed to process", "D");
+        setState({
+          ...state,
+          isloading: false,
+          show: false,
+        });
+        console.log(err);
+      });
+  };
+  const { admin, all_specialist, isloading, reason, show, user }: any = state;
+
   return (
     <>
       <Helmet>
@@ -47,6 +171,22 @@ const Specialistdetais = () => {
                   <span className="pdetasgnspltbtn">Assign Specialist</span>
                 </div>
               )}
+              {user.status == "Inactive" && (
+                <div className="pdetbtnwrap">
+                  <span
+                    className="pdetssupnbtn"
+                    onClick={() => openModal(user.id)}
+                  >
+                    {!isloading ? "Reject" : "Rejecting"}
+                  </span>
+                  <span
+                    className="pdetasgnspltbtn"
+                    onClick={accept_new_specailist}
+                  >
+                    {!isloading ? "Accept" : "Accepting"}
+                  </span>
+                </div>
+              )}
             </div>
             <div className="pdwrapper">
               <div className="pdheader">Personal Information</div>
@@ -62,7 +202,7 @@ const Specialistdetais = () => {
                 </div>
                 <div className="pesonainfocol2">
                   <p className="pdheading-primary">About</p>
-                  <p className="pdcontent">{user?.bio??"n/a"}</p>
+                  <p className="pdcontent">{user?.bio ?? "n/a"}</p>
                   <p className="pdcontent"></p>
                   <br />
                   <p className="pdheading-primary">dob</p>
@@ -134,6 +274,66 @@ const Specialistdetais = () => {
           </Col>
         </Row>
       </Container>
+      <ToastContainer
+        enableMultiContainer
+        containerId={"B"}
+        toastClassName="bg-orange text-white"
+        hideProgressBar={true}
+        position={"top-right"}
+      />
+      <ToastContainer
+        enableMultiContainer
+        containerId={"D"}
+        toastClassName="bg-danger text-white"
+        hideProgressBar={true}
+        position={"top-right"}
+      />
+      <Modal
+        size="lg"
+        show={show}
+        onHide={() =>
+          setState({
+            ...state,
+            show: false,
+          })
+        }
+        dialogClassName="modal-90w"
+        className="mdl12"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="example-custom-modal-styling-title">
+            Reject Specialist
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Row>
+            <Col md={12}>
+              {isloading && <Spinner variant="info" animation={"grow"} />}
+            </Col>
+            <Col md={12}>
+              <Form>
+                <textarea
+                  value={reason}
+                  name={"reason"}
+                  onChange={onchange}
+                  className="form-control reason12 reason122"
+                  placeholder="Reason for termination"
+                ></textarea>
+              </Form>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={12} className="terminate2">
+              <div
+                className="terminate1"
+                onClick={reject_new_specailist}
+              >
+                Reject
+              </div>
+            </Col>
+          </Row>
+        </Modal.Body>
+      </Modal>
     </>
   );
 };
