@@ -559,3 +559,17 @@
  .profcerbtnwrapper{
      text-align: right;
  }
+ .profiexpernceheaderwrap{
+     display: flex;
+     justify-content: space-between;
+ }
+ .profecperince-content{
+     text-align: initial;
+     font-size: 15px;
+    }
+ .profiexpetitle{
+     font-weight: 600;
+ }
+ .editimg{
+     cursor: pointer;
+ }

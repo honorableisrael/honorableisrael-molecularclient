@@ -18,6 +18,9 @@ import camimg from "../../images/imagecam.png";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Axios, { AxiosResponse } from "axios";
+import editicon from "../../images/editicon.png";
+
+
 
 
 const SpecialistSettings = () => {
@@ -44,6 +47,8 @@ const SpecialistSettings = () => {
     certification:"",
     year:"",
     description:"",
+    noExperienceAdded: true,
+    experienceAdded: false,
     messageModal: true,
     viewPopup: true,
     reason: "",
@@ -54,6 +59,8 @@ const SpecialistSettings = () => {
     dob: null,
     experience: null,
     experiences: [],
+    experienceDescription:"",
+    title: "",
     first_name: "",
     last_name: "",
     phone: "",
@@ -71,9 +78,13 @@ const SpecialistSettings = () => {
     certificateModal,
     certificateDisplay,
     noCertificateAdded,
+    noExperienceAdded,
+    experienceAdded,
     certification,
     year,
     description,
+    title,
+    experienceDescription,
     messageModal,
     email,
     viewPopup,
@@ -270,6 +281,7 @@ const SpecialistSettings = () => {
        ...state,
        noCertificateAdded: false,
        certificateDisplay: true,
+       certificateModal: false,
      })
     }
     else{
@@ -277,6 +289,24 @@ const SpecialistSettings = () => {
         ...state,
         noCertificateAdded: true,
         certificateDisplay: false,
+      })
+    }
+  };
+  const displayExperience =()=>{
+    //add experience to UI
+    if (title && experienceDescription){
+     setState({
+       ...state,
+       noExperienceAdded: false,
+       experienceAdded: true,
+       terminateWorkModal: false,
+     })
+    }
+    else{
+      setState({
+        ...state,
+        noExperienceAdded: true,
+        experienceAdded: false,
       })
     }
   };
@@ -917,8 +947,8 @@ const SpecialistSettings = () => {
                               <input
                                 type="text"
                                 className="userfield form-control"
-                                id="address"
-                                value={address}
+                                name="title"
+                                value={title}
                                 onChange={onchange}
                                 placeholder="Enter Title"
                                 size={70}
@@ -927,7 +957,9 @@ const SpecialistSettings = () => {
                             <label className="addexptitle">
                               Description
                               <textarea
-                                name={"reason"}
+                                name= "experienceDescription"
+                                value={experienceDescription}
+                                onChange={onchange}
                                 className="form-control wrkmodaltextarea"
                                 placeholder="Enter Description"
                                 rows={5}
@@ -942,29 +974,41 @@ const SpecialistSettings = () => {
                             >
                               Cancel
                             </span>
-                            <span className="wrkmodal-declinebtn addexpbtn">
+                            <span className="wrkmodal-declinebtn addexpbtn" onClick={displayExperience}>
                               Add Experience
                             </span>
                           </div>
                         </div>
                       </Modal>
                           <div className="profileexperiencesectn">
-                          <div>
-                            <img src={helmet} alt="img" />
-                            <p>You have no Experience Added</p>
-                            <span className="profcertbtn" onClick={workModal}>
-                              Add Experience
-                            </span>
-                           </div>
+                          {noExperienceAdded &&(
                            <div>
-                             
+                             <img src={helmet} alt="img" />
+                             <p>You have no Experience Added</p>
+                             <span className="profcertbtn" onClick={workModal}>
+                               Add Experience
+                             </span>
                            </div>
+                           )}:
+                           {experienceAdded &&(
+                           <div className="profecperince-content">
+                             <div className="profiexpernceheaderwrap">
+                               <p className="profiexpetitle">Title</p>
+                               <div>
+                                 <img src={editicon} onClick={workModal} className="editimg"/>
+                               </div>
+                             </div>
+                             <p>{title}</p>
+                             <p className="profiexpetitle">Experience</p>
+                             <p>{experienceDescription}</p>
+                           </div>
+                           )}
                           </div>
                         </Col>
                       </Row>
                       <Row>
                         <Col md={12}>
-                          <div className="job31" onClick={submitProfile}>
+                          <div className="job31">
                             Save
                           </div>
                         </Col>
