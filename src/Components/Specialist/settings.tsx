@@ -67,7 +67,7 @@ const SpecialistSettings = () => {
     photo: null,
     qualifications: [],
     skills: [],
-    id: null,
+    sKill_id: "",
     qualification: "",
     institution: "",
     field: "",
@@ -88,7 +88,7 @@ const SpecialistSettings = () => {
     experienceAdded,
     certification,
     year,
-    id,
+    skill_id,
     qualification,
     institution,
     field,
@@ -200,9 +200,6 @@ const SpecialistSettings = () => {
         notify("Failed to save", "D");
         console.log(err.response);
       });
-
-      //activate next button
-      switchTab("secondtab");
   };
   
   const certModal = () => {
@@ -330,8 +327,9 @@ const SpecialistSettings = () => {
     const token = availableToken ? JSON.parse(availableToken) : "";
     console.log(token);
     const data1 = {
-      id
+      skill_id
     };
+    console.log(skill_id)
     const data2 ={
       qualification,
       institution,
@@ -356,10 +354,10 @@ const SpecialistSettings = () => {
       }),
     ])
       .then(
-        axios.spread((res, res2, res3) => {
-          console.log(res.data);
-          console.log(res2.data);
-          console.log(res3.data);
+        axios.spread((...responses) => {
+          console.log(responses[0]);
+          console.log(responses[1]);
+          console.log(responses[2]);
           setState({
             ...state,
             firsttab: false,
@@ -371,13 +369,37 @@ const SpecialistSettings = () => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        console.log(err.response);
         notify("Failed to save", "D");
       });
-
-      //activate next button
-      switchTab("thirdtab");
   };
+  const add_Experience =()=>{
+    const availableToken = localStorage.getItem("loggedInDetails");
+    console.log(availableToken);
+    const token = availableToken ? JSON.parse(availableToken) : "";
+    console.log(token);
+    const data4={
+       title,
+      description: experienceDescription,
+    }
+    axios.post(`${API}/specialist/experiences`,data4 , {
+      headers: { Authorization: `Bearer ${token.access_token}` },
+    })
+    .then((response)=>{
+        console.log(response);
+       if(response.status==201){ 
+         notify("Profile Successfully Completed");
+       }
+       else{
+        notify("unSuccessfull");
+       }
+        })
+    .catch((err)=>{
+      console.log(err.response);
+      notify("Failed to save", "D");
+    })
+  }
+
   return (
     <>
       <Container fluid={true}>
@@ -684,7 +706,7 @@ const SpecialistSettings = () => {
                   )}
                   {/* Second Tab Starts*/}
                   {secondtab && (
-                    <>
+                    <div>
                       <Row className="section_form1">
                         <Col md={12} className="profpriski">
                           <h6 className="userprofile userprofile12">
@@ -719,8 +741,10 @@ const SpecialistSettings = () => {
                               <input
                                 className="profilecheckbox"
                                 type="checkbox"
-                                value={id}
-                                name="id"
+                                value="1"
+                                name="skill_id"
+                                onChange={onchange}
+                                checked={skill_id ==="1"}
                               />
                               Fitting
                             </label>
@@ -728,8 +752,11 @@ const SpecialistSettings = () => {
                               <input
                                 className="profilecheckbox "
                                 type="checkbox"
-                                value={id}
-                                name="id"
+                                value= "2"
+                                name="skill_id"
+                                id="flexCheckDefault"
+                                onChange={onchange}
+                                checked={skill_id ==="2"}
                               />
                               Welding
                             </label>
@@ -915,12 +942,12 @@ const SpecialistSettings = () => {
                           </NavHashLink>
                         </Col>
                       </Row>
-                    </>
+                    </div>
                   )}
                   {/* Second Tab ends*/}
                   {/* Third Tab start*/}
                   {thirdtab && (
-                    <>
+                    <div>
                       <Row className="section_form1">
                         <Col md={12}>
                         <Modal
@@ -1006,12 +1033,12 @@ const SpecialistSettings = () => {
                       </Row>
                       <Row>
                         <Col md={12}>
-                          <div className="job31">
+                          <div className="job31" onClick={add_Experience}>
                             Save
                           </div>
                         </Col>
                       </Row>
-                    </>
+                    </div>
                   )}
                   {/* Third Tab ends*/}
                   {fourthtab && (
