@@ -544,9 +544,40 @@
     border-radius: 1rem;    
     font-size: 12px;
  }
- .exp09{
+ .profcertifncntent{
+     display: flex;
+     text-align: initial;
+     justify-content: space-between;
+ }
+ .profcertdate{
+     width: 43%;
+ }
+ .profcertheading{
+     margin-bottom: 10px;
+     font-weight: 600;
+ }
+ .profcerbtnwrapper{
+     text-align: right;
+ }
+ .profiexpernceheaderwrap{
      display: flex;
      justify-content: space-between;
-     padding-bottom: 1rem;
  }
- 
+ .profecperince-content{
+     text-align: initial;
+     font-size: 15px;
+    }
+ .profiexpetitle{
+     font-weight: 600;
+ }
+ .editimg{
+     cursor: pointer;
+ }
+ .instndrparr {
+    position: relative;
+    top: -71px;
+    left: -28px;
+}
+.userprofile12{
+    font-weight: 600 !important;
+}

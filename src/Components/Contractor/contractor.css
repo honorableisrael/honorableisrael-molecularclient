@@ -1872,6 +1872,7 @@ a{
   font-size: 13px;
   font-weight: 600;
   color: #828282;
+  margin-bottom: 0px;
 }
 .pdcontent{
   font-size: 14px;
@@ -1925,4 +1926,21 @@ a{
 }
 .pdrow4content{
   margin-bottom: 30px;
+}
+.job_btm{
+  margin-top: 2rem !important;
+}
+.cust .containerforemptyorder {
+  width: inherit !important;
+}
+.cust{
+  max-width: initial !important;
+  width: 96%;
+}
+.main_wrap_forced{
+  flex-wrap: wrap !important;
+}
+.main_wrap_forced div{
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }

@@ -18,6 +18,9 @@ import camimg from "../../images/imagecam.png";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Axios, { AxiosResponse } from "axios";
+import editicon from "../../images/editicon.png";
+
+
 
 
 const SpecialistSettings = () => {
@@ -38,6 +41,14 @@ const SpecialistSettings = () => {
     experience_years: "",
     bio: "",
     terminateWorkModal: false,
+    certificateModal:false,
+    certificateDisplay: false,
+    noCertificateAdded: true,
+    certification:"",
+    year:"",
+    description:"",
+    noExperienceAdded: true,
+    experienceAdded: false,
     messageModal: true,
     viewPopup: true,
     reason: "",
@@ -48,14 +59,20 @@ const SpecialistSettings = () => {
     dob: null,
     experience: null,
     experiences: [],
+    experienceDescription:"",
+    title: "",
     first_name: "",
     last_name: "",
     phone: "",
     photo: null,
     qualifications: [],
     skills: [],
-    title: "",
-    description: "",
+    sKill_id: "",
+    qualification: "",
+    institution: "",
+    field: "",
+    from: "",
+    to: "",
   });
 
   const {
@@ -64,6 +81,22 @@ const SpecialistSettings = () => {
     thirdtab,
     fourthtab,
     terminateWorkModal,
+    certificateModal,
+    certificateDisplay,
+    noCertificateAdded,
+    noExperienceAdded,
+    experienceAdded,
+    certification,
+    year,
+    skill_id,
+    qualification,
+    institution,
+    field,
+    from,
+    to,
+    description,
+    title,
+    experienceDescription,
     messageModal,
     email,
     viewPopup,
@@ -94,7 +127,6 @@ const SpecialistSettings = () => {
     });
   };
   const switchTab = (a) => {
-    window.scrollTo(400, 400);
     if (a == "firsttab") {
       return setState({
         ...state,
@@ -174,42 +206,18 @@ const SpecialistSettings = () => {
         console.log(err.response);
       });
   };
-  const SubmitExperience = () => {
-    const availableToken = localStorage.getItem("loggedInDetails");
-    const token = availableToken ? JSON.parse(availableToken) : "";
-    if (!title || !description) {
-      return notify("Please fill all entries", "D");
-    }
-    const data = {
-      title,
-      description,
-    };
-    axios
-      .post(`${API}/specialist/experiences`, data, {
-        headers: {
-          Authorization: `Bearer ${token.access_token}`,
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      })
-      .then((res) => {
-        notify("Successfull");
-        setTimeout(() => {
-          setState({
-            ...state,
-            firsttab: false,
-            secondtab: false,
-            thirdtab: true,
-            fourthtab: false,
-          });
-          window.location.reload();
-        }, 2000);
-        console.log(res);
-      })
-      .catch((err) => {
-        notify("Failed to save", "D");
-        console.log(err.response);
-      });
+  
+  const certModal = () => {
+    setState({
+      ...state,
+      certificateModal: true,
+    });
+  };
+  const closecertModal = () => {
+    setState({
+      ...state,
+      certificateModal: false,
+    });
   };
   const workModal = () => {
     setState({
@@ -235,9 +243,10 @@ const SpecialistSettings = () => {
       [name]: nextValue.toString(),
     });
   };
-  const notify = (message: string, type = "B") =>
+  const notify = (message: string, type = "B") =>{
     toast(message, { containerId: type, position: "top-right" });
-  useEffect(() => {
+  }
+   useEffect(() => {
     window.scrollTo(-0, -0);
     const availableToken = localStorage.getItem("loggedInDetails");
     console.log(availableToken);
@@ -278,6 +287,43 @@ const SpecialistSettings = () => {
       });
     }
   }, []);
+  
+  const displayCertification =()=>{
+    //add certhification to UI
+    if (certification && year){
+     setState({
+       ...state,
+       noCertificateAdded: false,
+       certificateDisplay: true,
+       certificateModal: false,
+     })
+    }
+    else{
+      setState({
+        ...state,
+        noCertificateAdded: true,
+        certificateDisplay: false,
+      })
+    }
+  };
+  const displayExperience =()=>{
+    //add experience to UI
+    if (title && experienceDescription){
+     setState({
+       ...state,
+       noExperienceAdded: false,
+       experienceAdded: true,
+       terminateWorkModal: false,
+     })
+    }
+    else{
+      setState({
+        ...state,
+        noExperienceAdded: true,
+        experienceAdded: false,
+      })
+    }
+  };
 
   const add_certification = () => {
     const availableToken = localStorage.getItem("loggedInDetails");
@@ -285,24 +331,37 @@ const SpecialistSettings = () => {
     const token = availableToken ? JSON.parse(availableToken) : "";
     console.log(token);
     const data1 = {
-      certification: "associate fitter",
-      year: "2018-04-05",
-      description: "associate description",
+      skill_id
     };
-    const data2 = {
-      id: "1",
+    console.log(skill_id)
+    const data2 ={
+      qualification,
+      institution,
+      field,
+      from,
+      to
+    }
+    const data3 = {
+      certification,
+      year,
+      description,
     };
     Axios.all([
-      Axios.post(`${API}/specialist/certifications`, data1, {
+      Axios.post(`${API}/specialist/skills`, data1, {
         headers: { Authorization: `Bearer ${token.access_token}` },
       }),
-      Axios.post(`${API}/specialist/skills`, data2, {
+      Axios.post(`${API}/specialist/qualifications`, data2, {
+        headers: { Authorization: `Bearer ${token.access_token}` },
+      }),
+      Axios.post(`${API}/specialist/certifications`, data3, {
         headers: { Authorization: `Bearer ${token.access_token}` },
       }),
     ])
       .then(
-        axios.spread((res, res2) => {
-          console.log(res.data);
+        axios.spread((...responses) => {
+          console.log(responses[0]);
+          console.log(responses[1]);
+          console.log(responses[2]);
           setState({
             ...state,
             firsttab: false,
@@ -314,11 +373,37 @@ const SpecialistSettings = () => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        console.log(err.response);
         notify("Failed to save", "D");
       });
   };
-  console.log(experiences);
+  const add_Experience =()=>{
+    const availableToken = localStorage.getItem("loggedInDetails");
+    console.log(availableToken);
+    const token = availableToken ? JSON.parse(availableToken) : "";
+    console.log(token);
+    const data4={
+       title,
+      description: experienceDescription,
+    }
+    axios.post(`${API}/specialist/experiences`,data4 , {
+      headers: { Authorization: `Bearer ${token.access_token}` },
+    })
+    .then((response)=>{
+        console.log(response);
+       if(response.status==201){ 
+         notify("Profile Successfully Completed");
+       }
+       else{
+        notify("unSuccessfull");
+       }
+        })
+    .catch((err)=>{
+      console.log(err.response);
+      notify("Failed to save", "D");
+    })
+  }
+
   return (
     <>
       <Container fluid={true}>
@@ -459,13 +544,13 @@ const SpecialistSettings = () => {
                     )}
                   </div>
                   {firsttab && (
-                    <>
+                    <div>
                       {" "}
                       <Row className="section_form1">
                         <Col md={6} className="formsection1">
                           <Form.Group>
                             <h6 className="userprofile userprofile12">
-                              Fist Name
+                              First Name
                             </h6>
                             <Form.Control
                               className="userfield"
@@ -597,7 +682,7 @@ const SpecialistSettings = () => {
                         <Col md={12} className="formsection1">
                           <Form.Group>
                             <h6 className="userprofile userprofile12">
-                              About yourself (Professional Bio)
+                              About yourself (Optional)
                             </h6>
                             <Form.Control
                               type="text"
@@ -621,11 +706,11 @@ const SpecialistSettings = () => {
                           </NavHashLink>
                         </Col>
                       </Row>
-                    </>
+                    </div>
                   )}
                   {/* Second Tab Starts*/}
                   {secondtab && (
-                    <>
+                    <div>
                       <Row className="section_form1">
                         <Col md={12} className="profpriski">
                           <h6 className="userprofile userprofile12">
@@ -660,8 +745,10 @@ const SpecialistSettings = () => {
                               <input
                                 className="profilecheckbox"
                                 type="checkbox"
-                                value=""
-                                id="flexCheckDefault"
+                                value="1"
+                                name="skill_id"
+                                onChange={onchange}
+                                checked={skill_id ==="1"}
                               />
                               Fitting
                             </label>
@@ -669,8 +756,11 @@ const SpecialistSettings = () => {
                               <input
                                 className="profilecheckbox "
                                 type="checkbox"
-                                value=""
+                                value= "2"
+                                name="skill_id"
                                 id="flexCheckDefault"
+                                onChange={onchange}
+                                checked={skill_id ==="2"}
                               />
                               Welding
                             </label>
@@ -685,155 +775,190 @@ const SpecialistSettings = () => {
                           </h3>
                         </Col>
                         <Col md={6}>
-                          <select
-                            className="forminput profsettinformselect form-control"
-                            required
-                          >
-                            <option
-                              value=""
-                              className="profsettinformselect"
-                              disabled
-                              selected
-                              hidden
-                            >
-                              Select Qualification
-                            </option>
-                          </select>
-                          <div className="text-right">
-                            <img src={formCaret} className="drparr" />
-                          </div>
+                        <Form.Group>
+                            <h6 className="userprofile userprofile12">
+                              Enter Qualification
+                            </h6>
+                            <Form.Control
+                              className="userfield"
+                              name="qualification"
+                              value={qualification}
+                              onChange={onchange}
+                            />
+                          </Form.Group>
                         </Col>
                         <Col md={6}>
-                          <select
-                            className="forminput profsettinformselect form-control"
-                            required
-                          >
-                            <option
-                              value=""
-                              className="profsettinformselect"
-                              disabled
-                              selected
-                              hidden
-                            >
-                              field of Study
-                            </option>
-                          </select>
-                          <div className="text-right">
-                            <img src={formCaret} className="drparr" />
-                          </div>
-                        </Col>
-                        <Col md={6}>
-                          <select
-                            className="forminput profsettinformselect form-control"
-                            required
-                          >
-                            <option
-                              value=""
-                              className="profsettinformselect"
-                              disabled
-                              selected
-                              hidden
-                            >
+                        <Form.Group>
+                            <h6 className="userprofile userprofile12">
                               Institution
-                            </option>
-                          </select>
-                          <div className="text-right">
-                            <img src={formCaret} className="drparr" />
-                          </div>
+                            </h6>
+                            <Form.Control
+                              className="userfield"
+                              name="institution"
+                              value={institution}
+                              onChange={onchange}
+                            />
+                          </Form.Group>
+                        </Col>
+                        <Col md={6}>
+                        <Form.Group>
+                            <h6 className="userprofile userprofile12">
+                              Field of Study
+                            </h6>
+                            <Form.Control
+                              className="userfield"
+                              name="field"
+                              value={field}
+                              onChange={onchange}
+                            />
+                          </Form.Group>
                         </Col>
                         <Col md={3}>
-                          <select
-                            className="forminput profsettinformselect form-control"
-                            required
-                          >
-                            <option
-                              value=""
-                              className="profsettinformselect"
-                              disabled
-                              selected
-                              hidden
-                            >
+                        <label className="addexptitle">
                               From
-                            </option>
-                          </select>
-                          <div className="text-right">
-                            <img src={formCaret} className="drparr" />
-                          </div>
+                              <input
+                                type="date"
+                                className="userfield form-control"
+                                name="from"
+                                value={from}
+                                onChange={onchange}
+                                placeholder="From"
+                                size={70}
+                              />
+                            </label>
                         </Col>
                         <Col md={3}>
-                          <select
-                            className="forminput profsettinformselect form-control"
-                            required
-                          >
-                            <option
-                              value=""
-                              className="profsettinformselect"
-                              disabled
-                              selected
-                              hidden
-                            >
-                              To
-                            </option>
-                          </select>
-                          <div className="text-right">
-                            <img src={formCaret} className="drparr" />
-                          </div>
+                        <label className="addexptitle">
+                                To
+                              <input
+                                type="date"
+                                className="userfield form-control"
+                                name="to"
+                                value={to}
+                                onChange={onchange}
+                                placeholder="TO"
+                                size={70}
+                              />
+                            </label>
                         </Col>
                       </Row>
                       <div className="sectndivider"></div>
-                      <div className="profileceriticatesectn">
-                        <img src={cert} alt="img" />
-                        <p>You have no Certificates Added</p>
-                        <span className="profcertbtn">Add Certificate</span>
+                      <Modal
+                        centered={true}
+                        onHide={closecertModal}
+                        show={certificateModal}
+                      >
+                        <div className="terminateworkmodalwrap">
+                          <div className="terminateworkmodalimg">
+                            <img
+                              src={closeimg}
+                              alt="close"
+                              onClick={closecertModal}
+                            />
+                          </div>
+                          <div className="terminateworkmodaltitle">
+                            Add Certification
+                          </div>
+                          <form>
+                            <label className="addexptitle">
+                              Certification
+                              <input
+                                type="text"
+                                className="userfield form-control"
+                                name="certification"
+                                value={certification}
+                                onChange={onchange}
+                                placeholder="Enter Certification"
+                                size={70}
+                              />
+                            </label>
+                            <label className="addexptitle">
+                              Year
+                              <input
+                                type="date"
+                                className="userfield form-control"
+                                name="year"
+                                value={year}
+                                onChange={onchange}
+                                placeholder="Enter Title"
+                                size={70}
+                              />
+                            </label>
+                            <label className="addexptitle">
+                              Description
+                              <textarea
+                                name="description"
+                                value={description}
+                                onChange={onchange}
+                                className="form-control wrkmodaltextarea"
+                                placeholder="Enter Description"
+                                rows={5}
+                                cols={5}
+                              />
+                            </label>
+                          </form>
+                          <div className="wrkmodal-btnwrap">
+                            <span
+                              className="wrkmodal-cancelbtn"
+                              onClick={closecertModal}
+                            >
+                              Cancel
+                            </span>
+                            <span className="wrkmodal-declinebtn addexpbtn" onClick={displayCertification}>
+                            Add Certificate
+                            </span>
+                          </div>
+                        </div>
+                      </Modal>
+                       <div className="profileceriticatesectn">
+                       {noCertificateAdded && (<div>
+                         <img src={cert} alt="img" />
+                         <p>You have no Certificates Added</p>
+                         <span className="profcertbtn" onClick={certModal}>Add Certificate</span>
+                        </div>
+                       )}
+                        {certificateDisplay &&(<div>
+                          <div className="profcertifncntent">
+                            <div>
+                              <p className="profcertheading">Certification</p>
+                              <p>{certification}</p>
+                            </div>
+                            <div className="profcertdate">
+                              <p className="profcertheading">Year</p>
+                              <p>{year}</p>
+                            </div>
+                          </div>
+                          <div className="profcerbtnwrapper">
+                            <span className="profcertbtn" onClick={certModal}>Add Certificate</span>
+                          </div>
+                        </div>
+                        )}
                       </div>
                       <Row>
                         <Col md={12}>
                           <NavHashLink to="#experiencetab">
                             <div
                               className="job31"
-                              onClick={() => add_certification}
+                              onClick={add_certification}
                             >
                               Next
                             </div>
                           </NavHashLink>
                         </Col>
                       </Row>
-                    </>
+                    </div>
                   )}
                   {/* Second Tab ends*/}
                   {/* Third Tab start*/}
                   {thirdtab && (
-                    <>
+                    <div>
                       <Row className="section_form1">
                         <Col md={12}>
-                          {experiences.length == 0 && (
-                            <div className="profileexperiencesectn">
-                              <img src={helmet} alt="img" />
-                              <p>You have no Experience Added</p>
-                              <span className="profcertbtn" onClick={workModal}>
-                                Add Experience
-                              </span>
-                            </div>
-                          )}
-                        </Col>
-                        <Col>
-                          <div className="exp09">
-                            <div>Title</div>
-                            <div>Description</div>
-                          </div>
-                          {experiences.map((data, i) => (
-                            <div className="exp09" key={i}>
-                              <span>{data.title}</span>
-                              <span>{data.description}</span>
-                            </div>
-                          ))}
-                        </Col>
-                      </Row>
-                      <Modal
+                        <Modal
                         centered={true}
                         onHide={closeworkModal}
                         show={terminateWorkModal}
-                      >
+                        >
                         <div className="terminateworkmodalwrap">
                           <div className="terminateworkmodalimg">
                             <img
@@ -861,11 +986,11 @@ const SpecialistSettings = () => {
                             <label className="addexptitle">
                               Description
                               <textarea
-                                name={"description"}
-                                value={description}
+                                name= "experienceDescription"
+                                value={experienceDescription}
                                 onChange={onchange}
                                 className="form-control wrkmodaltextarea"
-                                placeholder="Enter Experience"
+                                placeholder="Enter Description"
                                 rows={5}
                                 cols={5}
                               />
@@ -878,23 +1003,46 @@ const SpecialistSettings = () => {
                             >
                               Cancel
                             </span>
-                            <span
-                              className="wrkmodal-declinebtn addexpbtn"
-                              onClick={SubmitExperience}
-                            >
+                            <span className="wrkmodal-declinebtn addexpbtn" onClick={displayExperience}>
                               Add Experience
                             </span>
                           </div>
                         </div>
                       </Modal>
-                      <Row>
-                        <Col md={12}>
-                          <div className="job31" onClick={workModal}>
-                            Add more
+                          <div className="profileexperiencesectn">
+                          {noExperienceAdded &&(
+                           <div>
+                             <img src={helmet} alt="img" />
+                             <p>You have no Experience Added</p>
+                             <span className="profcertbtn" onClick={workModal}>
+                               Add Experience
+                             </span>
+                           </div>
+                           )}
+                           {experienceAdded &&(
+                           <div className="profecperince-content">
+                             <div className="profiexpernceheaderwrap">
+                               <p className="profiexpetitle">Title</p>
+                               <div>
+                                 <img src={editicon} onClick={workModal} className="editimg"/>
+                               </div>
+                             </div>
+                             <p>{title}</p>
+                             <p className="profiexpetitle">Experience</p>
+                             <p>{experienceDescription}</p>
+                           </div>
+                           )}
                           </div>
                         </Col>
                       </Row>
-                    </>
+                      <Row>
+                        <Col md={12}>
+                          <div className="job31" onClick={add_Experience}>
+                            Save
+                          </div>
+                        </Col>
+                      </Row>
+                    </div>
                   )}
                   {/* Third Tab ends*/}
                   {fourthtab && (
