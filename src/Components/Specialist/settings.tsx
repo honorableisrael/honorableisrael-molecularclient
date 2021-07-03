@@ -94,8 +94,6 @@ const SpecialistSettings = () => {
     field,
     from,
     to,
-    description,
-    title,
     experienceDescription,
     messageModal,
     email,
