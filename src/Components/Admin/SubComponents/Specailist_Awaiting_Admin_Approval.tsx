@@ -10,7 +10,6 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Specialist_Awaiting_Admin = withRouter((props) => {
-
   useEffect(() => {
     const availableToken: any = localStorage.getItem("loggedInDetails");
     const token = availableToken
@@ -126,7 +125,8 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
     axios
       .all([
         axios.post(
-          `${API}/admin/specialists/${state.selected_specialist}/decline`,data,
+          `${API}/admin/specialists/${state.selected_specialist}/decline`,
+          data,
           {
             headers: { Authorization: `Bearer ${token.access_token}` },
           }
@@ -150,7 +150,7 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
         setState({
           ...state,
           isloading: false,
-          show:false
+          show: false,
         });
         console.log(err);
       });
@@ -164,6 +164,18 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
           <div className="Projectsx">Specialists Awaiting Approval</div>
           {isloading && <Spinner variant="info" animation={"grow"} />}
           <div className="specialistrow">
+            <div className="specialistwrapper">
+              <div className="skill_of_specialist1 itemwidth"> Full name</div>
+              <div className="skill_of_specialist1">email</div>
+
+              <div className="skill_of_specialist1">
+                <div>Skills</div>
+              </div>
+              <div className="skill_of_specialist1">
+                <div>Age</div>
+              </div>
+              <div className="accpt3"></div>
+            </div>
             {all_specialist.map((data, i) =>
               data.status == "Inactive" ? (
                 <div className="specialistwrapper">
@@ -197,9 +209,7 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
                       {data?.registered_on}
                     </div>
                   </div>
-                  <div className="skill_of_specialist1">
-                    {capitalize(data?.skills?.[0]?.title)}
-                  </div>
+                  <div className="skill_of_specialist1">{data?.email}</div>
                   <div className="skill_of_specialist1">
                     <div>
                       {" "}
@@ -207,6 +217,9 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
                         <span key={i}>{capitalize(data1.name)}</span>
                       ))}
                     </div>
+                    <div className="skill_of_specialist1">
+                      {capitalize(data?.skills?.[0]?.title)}
+                    </div>  
                   </div>
                   <div className="skill_of_specialist1">
                     <div>{ageCalculator(data?.dob)}</div>
@@ -294,10 +307,7 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
           </Row>
           <Row>
             <Col md={12} className="terminate2">
-              <div
-                className="terminate1"
-                onClick={reject_new_specailist}
-              >
+              <div className="terminate1" onClick={reject_new_specailist}>
                 Reject
               </div>
             </Col>

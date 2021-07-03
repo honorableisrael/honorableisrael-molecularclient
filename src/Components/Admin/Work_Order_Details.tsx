@@ -346,7 +346,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                       </div>
                       <div className="nojob2 ">
                         <div
-                          className="job3"
+                          className="job3 job_1"
                           onClick={() => {
                             localStorage.setItem(
                               "work_order_details",
@@ -367,7 +367,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                           Group <b>A</b>
                         </div>
                         <div className="grpB">
-                          <b>27</b> Deployed
+                          <b>0</b> Deployed
                         </div>
                       </div>
                       <div className="tabledata tabledataweb">

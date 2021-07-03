@@ -293,8 +293,8 @@ const AdminWorkOrder = () => {
         console.log(err);
       });
   };
-  
-  const nextPage=(x)=>{
+
+  const nextPage = (x) => {
     const availableToken: any = localStorage.getItem("loggedInDetails");
     const token = availableToken
       ? JSON.parse(availableToken)
@@ -328,7 +328,7 @@ const AdminWorkOrder = () => {
       .catch((err) => {
         console.log(err);
       });
-  }
+  };
   const {
     inprogress,
     pending_request,
@@ -360,16 +360,23 @@ const AdminWorkOrder = () => {
         </Row>
         <Row className="rowt3">
           <Col md={11} className="job34 job_4">
-            <div className="title_wo fl__l">
-              <div className="workorderheader">Work Order</div>
-              <div className="searchcontrol_">
-                <input
-                  type="text"
-                  className="form-control search_field"
-                  value={search}
-                  name="search"
-                  placeholder="Search"
-                />
+            <div className="title_wo fl__l fll12">
+              <div>
+                <div className="workorderheader adjustcontent">Work Order</div>
+                <div className="searchcontrol_">
+                  <input
+                    type="text"
+                    className="form-control search_field"
+                    value={search}
+                    name="search"
+                    placeholder="Search"
+                  />
+                </div>
+              </div>
+              <div>
+                <Link to={"/admin_new_work_order"}>
+                  <span className="assign_specailist">New Work Order</span>
+                </Link>
               </div>
             </div>
             <div className="intab">

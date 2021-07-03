@@ -40,33 +40,6 @@ const All_Specialist = () => {
     to: "",
     total: "",
   });
-  useEffect(() => {
-    window.scrollTo(-0, -0);
-    const availableToken: any = localStorage.getItem("loggedInDetails");
-    const token = availableToken
-      ? JSON.parse(availableToken)
-      : window.location.assign("/");
-    axios
-      .all([
-        axios.get(`${API}/admin/specialists?paginate=1`, {
-          headers: { Authorization: `Bearer ${token.access_token}` },
-        }),
-      ])
-      .then(
-        axios.spread((res) => {
-          console.log(res.data.data);
-          setState({
-            ...state,
-            all_specialist: res.data.data.data,
-            ...res.data.data.links,
-            ...res.data.data.meta,
-          });
-        })
-      )
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
   const switchTab = (a) => {
     if (a == "firsttab") {
       return setState({
@@ -117,6 +90,34 @@ const All_Specialist = () => {
       });
     }
   };
+  useEffect(() => {
+    window.scrollTo(-0, -0);
+    const availableToken: any = localStorage.getItem("loggedInDetails");
+    const token = availableToken
+      ? JSON.parse(availableToken)
+      : window.location.assign("/");
+    axios
+      .all([
+        axios.get(`${API}/admin/specialists?paginate=1`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
+      ])
+      .then(
+        axios.spread((res) => {
+          console.log(res.data.data);
+          setState({
+            ...state,
+            all_specialist: res.data.data.data,
+            ...res.data.data.links,
+            ...res.data.data.meta,
+          });
+        })
+      )
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+ 
   const fetch_all = () => {
     const availableToken: any = localStorage.getItem("loggedInDetails");
     const token = availableToken

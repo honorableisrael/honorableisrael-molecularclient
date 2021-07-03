@@ -649,6 +649,7 @@ a:hover {
     padding-left: 0.6rem;
     padding-right: 0.9rem;
   }
+
 }
 .text_align2 {
   text-align: right;
@@ -1759,6 +1760,9 @@ a:hover {
   .title_wo12 div {
     white-space: nowrap;
   }
+  .itemwidth{
+    min-width: 255px;
+  }
 }
 .mdl12 .modal-dialog .modal-content .modal-body {
   padding-bottom: 2rem;
@@ -2429,10 +2433,12 @@ label i {
   font-size: 12px;
   line-height: 19px;
   color: #1e428a;
+  cursor: pointer;
 }
 .name_of_specialist {
-  width: 40%;
+  width: 45%;
   margin-left: 0.5rem;
+  min-width: 204px;
 }
 .name_specailist1 {
   font-style: normal;
@@ -2558,4 +2564,13 @@ label i {
 }
 .pending_color{
   color: #fd8c00 !important;
+}
+.fll12{
+  justify-content: space-between;
+}
+.adjustcontent{
+  justify-content: initial !important;
+}
+.job_1{
+  width: 203px !important;
 }

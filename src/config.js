@@ -33,6 +33,13 @@ export const notify = (message, d = "B") =>
 export const checkIfIsOdd = (n) => {
   return Math.abs(n % 2) == 1;
 };
+export const returnAdminToken=()=>{
+  const availableToken = localStorage.getItem("loggedInDetails");
+  const token = availableToken
+    ? JSON.parse(availableToken)
+    : window.location.assign("/");
+    return token
+}
 // // Clarity Production API
 // export const API = "http://api.molecular.elostage.xyz/api/v1"
 // // Clarity Staging API

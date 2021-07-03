@@ -46,6 +46,9 @@ import Admin_Payment_Invoice from "./Components/Admin/Payment_Invoice";
 import DeployedSpecialist from "./Components/Admin/deployedSpecialist";
 import Specialistdetails from "./Components/Admin/SpecialistPersonalDetails"
 import "react-toastify/dist/ReactToastify.css";
+import Admin_NewWorkOrderForm from "./Components/Admin/Admin_Raise_Work_Order/New_Work_Order";
+import Admin_NewWorkOrderStep2 from "./Components/Admin/Admin_Raise_Work_Order/New_Work_Order_Step2";
+import Amin_NewWorkOrderStep3 from "./Components/Admin/Admin_Raise_Work_Order/New_Work_Order_Step3";
 
 
 
@@ -161,6 +164,10 @@ class App extends Component {
                 component={AdminWorkOrderEvaluationStep2}
               />
               <Route path="/admin_work_order" component={AdminWorkOrder} />
+              <Route path="/admin_new_work_order" component={Admin_NewWorkOrderForm} />
+              <Route path="/admin_new_work_order_step2" component={Admin_NewWorkOrderStep2} />
+              <Route path="/admin_new_work_order_step3" component={Amin_NewWorkOrderStep3} />
+              
               <Route
                 path="/admin_assign_specialist"
                 component={AssignSpecialist}
