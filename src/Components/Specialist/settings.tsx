@@ -859,7 +859,7 @@ const SpecialistSettings = () => {
                             <label className="addexptitle">
                               Certification
                               <input
-                                type="file"
+                                type="text"
                                 className="userfield form-control"
                                 name="certification"
                                 value={certification}
