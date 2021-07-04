@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Col, Row, Container, Alert } from "react-bootstrap";
 import { Link, withRouter } from "react-router-dom";
 import "./signup.css";
@@ -6,6 +6,9 @@ import formCaret from "../../images/caret.png";
 import axios from "axios";
 import { API } from "../../config";
 import Axios, { AxiosResponse } from "axios";
+import eye from "../../images/eye.png";
+import eyeclose from "../../images/eye-off.png";
+
 
 const Contractorsignup = withRouter((props) => {
   const [state, setState] = useState({
@@ -16,6 +19,7 @@ const Contractorsignup = withRouter((props) => {
     phone: "",
     company_name: "",
     website_url: "",
+    passwordIsOpen: true,
     industry: "1",
     isloading: false,
     listOfIndustries: [],
@@ -39,6 +43,7 @@ const Contractorsignup = withRouter((props) => {
     industry,
     errorMessage,
     isloading,
+    passwordIsOpen,
   } = state;
   const validateForm = (e) => {
     e.preventDefault();
@@ -159,7 +164,28 @@ const Contractorsignup = withRouter((props) => {
       successMessage: "",
     });
   };
+  const onChangepassword = (e) => {
+    setState({
+      ...state,
+      password: e.target.value,
+    });
+  };
+  const hidePassword = () => {
+    setState({
+      ...state,
+      passwordIsOpen: passwordIsOpen ? false : true
+    });
+  };
+  const fieldRef: any = useRef();
   useEffect(() => {
+    if (errorMessage || successMessage && fieldRef) {
+      fieldRef.current.scrollIntoView({
+        behavior: "smooth"
+      });
+    }
+  }, [errorMessage, successMessage]);
+  useEffect(() => {
+    window.scrollTo(-0,-0);
     Axios.all([
       Axios.get<any, AxiosResponse<any>>(`${API}/industries`),
       Axios.get<any, AxiosResponse<any>>(`${API}/contractor-needs`),
@@ -191,7 +217,7 @@ const Contractorsignup = withRouter((props) => {
                 <form className="form-wrapper ml__">
                   <div className="padded-form-wrapper">
                     <div className="form-header">
-                      <h4 className="form-title">Contractor Onboarding</h4>
+                      <h4 className="form-title">Sign up to get Technical Specialist</h4>
                     </div>
                     <div className="form-descr-text">
                       <p>
@@ -200,17 +226,17 @@ const Contractorsignup = withRouter((props) => {
                       </p>
                     </div>
                   </div>
-                  <div className="padded-input-wrapper">
+                  <div className="padded-input-wrapper" ref={fieldRef}>
                     <Row>
                       <Col md={12} className="col_space">
                         {errorMessage && (
                           <div className="text-center">
-                            <Alert variant={"danger"}>{errorMessage}</Alert>
+                            <Alert variant="danger" className="cntralertmessg">{errorMessage}</Alert>
                           </div>
                         )}
                         {successMessage && (
-                          <div className="text-center">
-                            <Alert variant={"info"}>{successMessage}</Alert>
+                          <div className="text-center ">
+                            <Alert variant="success" className="cntralertmessg">{successMessage}</Alert>
                           </div>
                         )}
                       </Col>
@@ -277,15 +303,32 @@ const Contractorsignup = withRouter((props) => {
                             Password <span className="asteric">*</span>
                           </span>
                           <input
-                            type="password"
+                            type={passwordIsOpen ? "password" : "text"}
                             name="password"
-                            onChange={onchange}
+                            onChange={onChangepassword}
                             value={password}
                             placeholder="Enter your password"
                             size={75}
                             className="form-control forminput"
                           />
                         </label>
+                        <div className="text-right">
+                  {passwordIsOpen ? (
+                    <img
+                      src={eye}
+                      className="hideeye"
+                      onClick={hidePassword}
+                      alt="hideeye"
+                    />
+                  ) : (
+                    <img
+                      src={eyeclose}
+                      className="hideeye"
+                      onClick={hidePassword}
+                      alt="hideeye"
+                    />
+                  )}
+                </div>
                       </Col>
                     </Row>
                     <Row>

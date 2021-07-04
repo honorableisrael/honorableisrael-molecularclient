@@ -1931,3 +1931,8 @@ a{
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
+.cntralertmessg{
+  text-align: center;
+    width: 100% !important;
+    margin-bottom: 20px !important;
+}

@@ -97,13 +97,13 @@
     display: inline-block;
     background-color: #cccccc;
     color: #fff;
-    padding: 19px 24px;
+    padding: 19px;
+    width: 50%;
     font-size: 16px;
     border-radius: 7px;
     font-weight: 700;
     font-family: 'Noto Sans JP', sans-serif;
     cursor: pointer;
-    width: 100%;
 }
 .footer-rights{
     font-family: 'Noto Sans JP', sans-serif;

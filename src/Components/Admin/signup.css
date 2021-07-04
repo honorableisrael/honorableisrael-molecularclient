@@ -89,21 +89,6 @@
     font-weight: normal;
     font-family: 'Noto Sans JP', sans-serif;
 }
-.form-btn-wrapper{
-    text-align: center;
-    margin-top: 86px;
-}
-.form-btn{
-    display: inline-block;
-    background-color: #cccccc;
-    color: #fff;
-    padding: 19px 126px;
-    font-size: 16px;
-    border-radius: 7px;
-    font-weight: 700;
-    font-family: 'Noto Sans JP', sans-serif;
-    cursor: pointer;
-}
 .footer-rights{
     font-family: 'Noto Sans JP', sans-serif;
     text-align: center;
