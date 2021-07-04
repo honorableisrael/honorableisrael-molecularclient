@@ -25,7 +25,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import no_work_order from "../../images/document 1.png";
 import axios from "axios";
-import { API } from "../../config";
+import { API, capitalize, checkIfIsOdd } from "../../config";
 
 const AdminViewWorkOrderDetails = withRouter((props: any) => {
   const [state, setState] = useState<any>({
@@ -36,7 +36,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
     pending_request: false,
     order_title: "",
     work_order_description: "",
-    project_purpose: "",
+    assigned_specialists: "",
     past: false,
     location_terrain: "",
     location: "",
@@ -87,7 +87,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
     });
   };
   const {
-    project_purpose,
+    assigned_specialists,
     country,
     work_order_description,
     order_title,
@@ -191,16 +191,36 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
       });
   };
   useEffect(() => {
-    // hide_info
+    window.scrollTo(-0, -0);
+    const availableToken: any = localStorage.getItem("loggedInDetails");
+    const token = availableToken
+      ? JSON.parse(availableToken)
+      : window.location.assign("/");
     const urlParams = new URLSearchParams(window.location.search);
     let urlkey = props.location.search;
     const work_order = localStorage.getItem("work_order_details");
     const work_order_details = work_order ? JSON.parse(work_order) : "";
-    setState({
-      ...state,
-      already_approved: urlkey ? true : false,
-      work_order_detail: work_order_details,
-    });
+    axios
+      .get(`${API}/admin/work-orders/${work_order_details?.id}`, {
+        headers: { Authorization: `Bearer ${token.access_token}` },
+      })
+      .then((res) => {
+        console.log(res.data.data);
+        setState({
+          ...state,
+          ...res.data.data,
+          already_approved: urlkey ? true : false,
+          work_order_detail: res.data.data,
+        });
+      })
+      .catch((err) => {
+        setState({
+          ...state,
+          already_approved: urlkey ? true : false,
+          work_order_detail: work_order_details,
+        });
+        console.log(err);
+      });
     let inreview = props.location.search;
     console.log(inreview);
   }, []);
@@ -240,10 +260,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
           </Row>
           <Row>
             <Col md={12} className="terminate2">
-              <div
-                className="terminate1"
-                onClick={(e) => Reject_work_order()}
-              >
+              <div className="terminate1" onClick={(e) => Reject_work_order()}>
                 Reject
               </div>
             </Col>
@@ -282,10 +299,10 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                     });
                   }}
                 >
-                  {isloading?"Processing":"Reject"}
+                  {isloading ? "Processing" : "Reject"}
                 </Button>
                 <Button className="rejct1" onClick={Accept_work_order}>
-                  {isloading?"Processing":"Accept"}
+                  {isloading ? "Processing" : "Accept"}
                 </Button>
               </div>
             )}
@@ -315,7 +332,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                 </div>
                 <div className="job23_1a" id="details">
                   <h6 className="title22">Specialist Deployed</h6>
-                  {true && (
+                  {assigned_specialists.length == 0 && (
                     <Col md={11} className="containerforemptyorder1 cust20">
                       <div className="containerforemptyorder">
                         <img
@@ -327,103 +344,132 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                       <div className="no_work1">
                         No Specialist have been assigned
                       </div>
-                      {/* <div className="nojob2 ">
-                            <div className="job3">Assign specialist</div>
-                        </div> */}
+                      <div className="nojob2 ">
+                        <div
+                          className="job3 job_1"
+                          onClick={() => {
+                            localStorage.setItem(
+                              "work_order_details",
+                              JSON.stringify(work_order_detail)
+                            );
+                            props.history.push("/admin_assign_specialist");
+                          }}
+                        >
+                          Assign specialist
+                        </div>
+                      </div>
                     </Col>
                   )}
                   <div className="job23_1a wrap_z">
-                    {false && (
-                      <>
-                        <div className="group_flex">
-                          <div className="grpA">
-                            Group <b>A</b>
-                          </div>
-                          <div className="grpB">
-                            <b>27</b> Deployed
-                          </div>
+                    <>
+                      <div className="group_flex">
+                        <div className="grpA">
+                          Group <b>A</b>
                         </div>
-                        <div className="tabledata tabledataweb">
-                          <div className="header_12 pleft">Fullname</div>
-                          <div className="header_12">Type</div>
-                          <div className="header_12">Group Position</div>
-                          <div className="header_12">Status</div>
+                        <div className="grpB">
+                          <b>0</b> Deployed
                         </div>
-                        <div className="tabledata tablecontent">
-                          <div className="header_12">
-                            <img
-                              src={avatar_test}
-                              className="specialist_avatar"
-                            />
-                            <div className="mobiletabledata">Fullname</div>
-                            Sunday Okoro Pascal
-                          </div>
-                          <div className="header_12 typ22">
-                            <div className="mobiletabledata mobiletabledata22 ">
-                              Type
+                      </div>
+                      <div className="tabledata tabledataweb">
+                        <div className="header_12 pleft">Fullname</div>
+                        <div className="header_12">Type</div>
+                        <div className="header_12">Group Position</div>
+                        <div className="header_12">Status</div>
+                      </div>
+                      {assigned_specialists.length !== 0 &&
+                        assigned_specialists.map((data, i) => (
+                          <>
+                            <div
+                              className={
+                                checkIfIsOdd(i)
+                                  ? "tabledata"
+                                  : "tabledata tablecontent"
+                              }
+                            >
+                              <div className="header_12">
+                                <img
+                                  src={avatar_test}
+                                  className="specialist_avatar"
+                                />
+                                <div className="mobiletabledata">Fullname</div>
+                                {data.first_name}
+                                {data.last_name}
+                              </div>
+                              <div className="header_12 typ22">
+                                <div className="mobiletabledata mobiletabledata22 ">
+                                  Type
+                                </div>
+                                <div> {capitalize(data.skills?.[0].name)}</div>
+                              </div>
+                              <div className="header_12">
+                                <div className="mobiletabledata mobiletabledata22">
+                                  Group Position
+                                </div>
+                                <div className="glead"> Member </div>
+                              </div>
+                              <div className="header_12 active_member">
+                                <div className="mobiletabledata mobiletabledata22">
+                                  Status
+                                </div>
+                                <div className="active_member">
+                                  {" "}
+                                  {data.status == "Pending" ? (
+                                    <span className="pending_color">
+                                      {data.status}
+                                    </span>
+                                  ) : (
+                                    data.status
+                                  )}
+                                </div>
+                              </div>
                             </div>
-                            <div> Fitter</div>
-                          </div>
-                          <div className="header_12">
-                            <div className="mobiletabledata mobiletabledata22">
-                              Group Position
-                            </div>
-                            <div className="glead"> Group Lead </div>
-                          </div>
-                          <div className="header_12 active_member">
-                            <div className="mobiletabledata mobiletabledata22">
-                              Status
-                            </div>
-                            <div className="active_member"> Active </div>
-                          </div>
+                          </>
+                        ))}
+                      {/* <div className="tabledata">
+                        <div className="header_12">
+                          <img
+                            src={avatar_test}
+                            className="specialist_avatar"
+                          />
+                          Sandra John
                         </div>
-                        <div className="tabledata">
-                          <div className="header_12">
-                            <img
-                              src={avatar_test}
-                              className="specialist_avatar"
-                            />
-                            Sandra John
-                          </div>
-                          <div className="header_12">
-                            <div>Fitter</div>
-                          </div>
-                          <div className="header_12">
-                            <div>Member</div>
-                          </div>
-                          <div className="header_12 suspended_member">
-                            Suspended
-                          </div>
+                        <div className="header_12">
+                          <div>Fitter</div>
                         </div>
-                        <div className="tabledata tablecontent">
-                          <div className="header_12">
-                            <img
-                              src={avatar_test}
-                              className="specialist_avatar"
-                            />
-                            Sunday Okoro Pascal
-                          </div>
-                          <div className="header_12">Fitter</div>
-                          <div className="header_12">Member</div>
-                          <div className="header_12 active_member">Active</div>
+                        <div className="header_12">
+                          <div>Member</div>
                         </div>
-                        <div className="active_member2">
-                          <div>
-                            Displaying <b> 1</b> of <b>2</b>
-                          </div>
-                          <Pagination>
-                            <Pagination.First />
-                            <Pagination.Prev />
-                            <Pagination.Next />
-                            <Pagination.Last />
-                          </Pagination>
+                        <div className="header_12 suspended_member">
+                          Suspended
                         </div>
-                      </>
-                    )}
+                      </div>
+                      <div className="tabledata tablecontent">
+                        <div className="header_12">
+                          <img
+                            src={avatar_test}
+                            className="specialist_avatar"
+                          />
+                          Sunday Okoro Pascal
+                        </div>
+                        <div className="header_12">Fitter</div>
+                        <div className="header_12">Member</div>
+                        <div className="header_12 active_member">Active</div>
+                      </div> */}
+                      {/* <div className="active_member2">
+                        <div>
+                          Displaying <b> 1</b> of <b>2</b>
+                        </div>
+                        <Pagination>
+                          <Pagination.First />
+                          <Pagination.Prev />
+                          <Pagination.Next />
+                          <Pagination.Last />
+                        </Pagination>
+                      </div> */}
+                    </>
                     <div>
                       <hr />
                     </div>
-
                     <div className="active_member23">
                       <div className="active_worksheet">WORKS SHEETS</div>
                       {false && (

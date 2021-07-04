@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { Col, Row, Container, Form, ProgressBar } from "react-bootstrap";
-import "./contractor.css";
-import DashboardNav from "./navbar";
-import portfolio from "../../images/portfolio.png";
-import group2 from "../../images/group2.png";
+import "../contractor.css";
+import DashboardNav from "../navbar";
+import portfolio from "../../../images/portfolio.png";
+import group2 from "../../../images/group2.png";
 import Slider from "react-rangeslider";
 import "react-rangeslider/lib/index.css";
 import { Helmet } from "react-helmet";
-import arrowback from "../../images/dtls.png";
+import arrowback from "../../../images/dtls.png";
 import { Link, withRouter } from "react-router-dom";
-import Addmore from "../../images/Add more.png";
+import Addmore from "../../../images/Add more.png";
 import axios from "axios";
-import { API } from "../../config";
+import { API } from "../../../config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Axios, { AxiosResponse } from "axios";
 
-const NewWorkOrderStep2 = withRouter((props) => {
+const Admin_NewWorkOrderStep2 = withRouter((props) => {
   const inputEl: any = React.useRef("");
   const [state, setState] = useState<any>({
     work_orders: [],
@@ -122,7 +122,7 @@ const NewWorkOrderStep2 = withRouter((props) => {
     title_of_specialist,
   }: any = state;
   useEffect(() => {
-    const stored_stage_2 = localStorage.getItem("second_step");
+    const stored_stage_2 = localStorage.getItem("admin_second_step");
     const stored2 = stored_stage_2 ? JSON.parse(stored_stage_2) : "";
     const availableToken: any = localStorage.getItem("loggedInDetails");
     const token = availableToken
@@ -266,8 +266,8 @@ const NewWorkOrderStep2 = withRouter((props) => {
           pipe_config: [...pipe_config, ...Pipe_Config],
           // billing_cycle,
         };
-        localStorage.setItem("second_step", JSON.stringify(second_data));
-        return props.history.push("/contractor_work_order_step3");
+        localStorage.setItem("admin_second_step", JSON.stringify(second_data));
+        return props.history.push("/admin_new_work_order_step3");
       }
 
       if (
@@ -289,8 +289,8 @@ const NewWorkOrderStep2 = withRouter((props) => {
           specialist_config: [...specialist_config, ...Specialist],
           pipe_config: [...pipe_config],
         };
-        localStorage.setItem("second_step", JSON.stringify(second_data));
-        return props.history.push("/contractor_work_order_step3");
+        localStorage.setItem("admin_second_step", JSON.stringify(second_data));
+        return props.history.push("/admin_new_work_order_step3");
       }
       if (
         no_of_joints &&
@@ -318,8 +318,8 @@ const NewWorkOrderStep2 = withRouter((props) => {
           specialist_config: [...specialist_config],
           // billing_cycle,
         };
-        localStorage.setItem("second_step", JSON.stringify(second_data));
-        return props.history.push("/contractor_work_order_step3");
+        localStorage.setItem("admin_second_step", JSON.stringify(second_data));
+        return props.history.push("/admin_new_work_order_step3");
       }
       if (specialist_config && pipe_config) {
         if (
@@ -330,8 +330,8 @@ const NewWorkOrderStep2 = withRouter((props) => {
             pipe_config,
             specialist_config,
           };
-          localStorage.setItem("second_step", JSON.stringify(second_data));
-          return props.history.push("/contractor_work_order_step3");
+          localStorage.setItem("admin_second_step", JSON.stringify(second_data));
+          return props.history.push("/admin_new_work_order_step3");
         }
       }
       if (
@@ -356,7 +356,7 @@ const NewWorkOrderStep2 = withRouter((props) => {
     //   no_of_specialist: "",
     //   title_of_specialist: "",
     // });
-    return props.history.push("/contractor_work_order_step3");
+    return props.history.push("/admin_new_work_order_step3");
   };
 
   return (
@@ -374,7 +374,7 @@ const NewWorkOrderStep2 = withRouter((props) => {
           <Col md={12} className="job34">
             <div className="title_wo">
               <div className="workorderheader workorder_header">
-                <Link to="/work_order">
+                <Link to="/admin_new_work_order">
                   {" "}
                   <img src={arrowback} className="arrowback" />
                 </Link>
@@ -699,7 +699,7 @@ const NewWorkOrderStep2 = withRouter((props) => {
                     <br></br>
                     <Row>
                       <Col md={12} className="flex_btns">
-                        <Link to="/work_order">
+                        <Link to="/admin_new_work_order">
                           <div className="job3 btn_outline">Back</div>
                         </Link>
                         <div
@@ -728,4 +728,4 @@ const NewWorkOrderStep2 = withRouter((props) => {
   );
 });
 
-export default NewWorkOrderStep2;
+export default Admin_NewWorkOrderStep2;

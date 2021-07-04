@@ -1,3 +1,4 @@
+import { ToastContainer, toast } from "react-toastify";
 const moment = require("moment");
 // Molecular Production API
 export const API = "http://api.molecular.elostage.xyz/api/v1";
@@ -12,6 +13,33 @@ export const formatTime = (date) => {
 export const FormatAmount = (amount) => {
   return amount?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
+export const ageCalculator = (dateString) => {
+  if (dateString) {
+    var today = new Date();
+    var birthDate = new Date(dateString);
+    var age = today.getFullYear() - birthDate.getFullYear();
+    var m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    return age + "years";
+  } else {
+    return "n/a";
+  }
+};
+export const notify = (message, d = "B") =>
+  toast(message, { containerId: d, position: "top-right" });
+  
+export const checkIfIsOdd = (n) => {
+  return Math.abs(n % 2) == 1;
+};
+export const returnAdminToken=()=>{
+  const availableToken = localStorage.getItem("loggedInDetails");
+  const token = availableToken
+    ? JSON.parse(availableToken)
+    : window.location.assign("/");
+    return token
+}
 // // Clarity Production API
 // export const API = "http://api.molecular.elostage.xyz/api/v1"
 // // Clarity Staging API

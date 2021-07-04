@@ -15,8 +15,9 @@ import "react-rangeslider/lib/index.css";
 import axios from "axios";
 import { API } from "../../config";
 import welder from "../../images/welder.png";
+import { withRouter } from "react-router-dom";
 
-const Specialist_card = (props: any) => {
+const Specialist_card = withRouter((props: any) => {
   const [state, setState] = useState({
     all_specialist: [],
     country: "",
@@ -42,9 +43,10 @@ const Specialist_card = (props: any) => {
               <span className="status_1">{props?.specialist_data?.status}</span>
             )}
             {props?.specialist_data?.status == "Active" && (
-              <span className="status_2">{props?.specialist_data?.status?"Deployed":""}</span>
+              <span className="status_2">
+                {props?.specialist_data?.status ? "Active" : ""}
+              </span>
             )}
-            
           </label>
         </div>
 
@@ -77,7 +79,18 @@ const Specialist_card = (props: any) => {
           </div>
 
           <div className="assigncont">
-            <button value="Assign" className="assign12 btn_Cust">
+            <button
+              value="Assign"
+              className="assign12 btn_Cust"
+              onClick={(e) => {
+                e.preventDefault();
+                localStorage.setItem(
+                  "specialist_info",
+                  JSON.stringify(props.specialist_data)
+                );
+                props.history.push("/specialistdetails");
+              }}
+            >
               View Profile{" "}
               <span>
                 <img src={checkcircle} className="checkcircle1 " alt="" />
@@ -88,6 +101,6 @@ const Specialist_card = (props: any) => {
       </div>
     </>
   );
-};
+});
 
 export default Specialist_card;

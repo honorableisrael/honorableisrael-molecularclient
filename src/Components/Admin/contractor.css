@@ -1,7 +1,7 @@
 .dasbwr {
   font-size: 16px;
   object-fit: cover;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
 }
 .lfff {
   color: #222073;
@@ -649,6 +649,7 @@ a:hover {
     padding-left: 0.6rem;
     padding-right: 0.9rem;
   }
+
 }
 .text_align2 {
   text-align: right;
@@ -831,6 +832,10 @@ a:hover {
 }
 .title_wo12 div {
   width: 197px;
+}
+.pdetbtnwrap {
+  width: 31% !important;
+  min-width: 302px;
 }
 .job23_ {
   text-align: center;
@@ -1752,6 +1757,12 @@ a:hover {
   .arrow22x {
     top: 1.5rem;
   }
+  .title_wo12 div {
+    white-space: nowrap;
+  }
+  .itemwidth{
+    min-width: 255px;
+  }
 }
 .mdl12 .modal-dialog .modal-content .modal-body {
   padding-bottom: 2rem;
@@ -1910,8 +1921,8 @@ a {
   border-radius: 9px;
   width: 245px;
   font-size: 14px;
-  margin-right: .5rem;
-  margin-top: .5rem;
+  margin-right: 0.5rem;
+  margin-top: 0.5rem;
 }
 .prim_skills {
   display: flex;
@@ -2422,10 +2433,12 @@ label i {
   font-size: 12px;
   line-height: 19px;
   color: #1e428a;
+  cursor: pointer;
 }
 .name_of_specialist {
-  width: 40%;
+  width: 45%;
   margin-left: 0.5rem;
+  min-width: 204px;
 }
 .name_specailist1 {
   font-style: normal;
@@ -2455,6 +2468,11 @@ label i {
   max-width: 35px;
   max-height: 35px;
 }
+.dashboard_userfoto{
+  width: 90px !important;
+  max-width: 90px;
+  height: 80px;
+}
 ._arrow21 {
   right: 5.5rem;
   bottom: 2.9rem;
@@ -2475,7 +2493,7 @@ label i {
 .enfgaged {
   font-size: 12px;
 }
-@media(max-width:800px){
+@media (max-width: 800px) {
   .carderw_no00 {
     margin-left: 0rem !important;
     margin-top: 2rem !important;
@@ -2485,37 +2503,74 @@ label i {
     padding-right: 41px !important;
   }
 }
-.nojob2 a .job3{
+.nojob2 a .job3 {
   margin: auto;
 }
-.workorderheader002{
+.workorderheader002 {
   width: 150px !important;
 }
-.btn_Cust{
+.btn_Cust {
   border: 1px solid #fd8c00 !important;
   background: white !important;
   color: #fd8c00 !important;
 }
-.rowt3x{
+.rowt3x {
   padding-right: 4rem !important;
   padding-left: 3rem !important;
 }
-.formCi{
+.formCi {
   padding: 1rem !important;
 }
-.job3x{
-  margin-top:1rem !important;
+.job3x {
+  margin-top: 1rem !important;
 }
-.flex_card1{
+.flex_card1 {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
   min-height: 236px;
 }
-.cust20{
+.cust20 {
   margin: auto;
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 0px;
   position: relative;
   top: 1rem;
+}
+.accpt3 {
+  width: 13%;
+  min-width: 230px;
+  display: flex;
+}
+
+.accpt2,
+.rejct2 {
+  width: 100px;
+  border: 0px;
+  font-size: 12px;
+  color: white;
+  padding: 0.4rem 1rem;
+  border-radius: 5px;
+}
+.accpt2 {
+  background: #038500;
+  margin-right: .2rem;
+}
+.rejct2 {
+  background: #cccccc;
+}
+.dashboard_userphone{
+  /* width: ; */
+}
+.pending_color{
+  color: #fd8c00 !important;
+}
+.fll12{
+  justify-content: space-between;
+}
+.adjustcontent{
+  justify-content: initial !important;
+}
+.job_1{
+  width: 203px !important;
 }

@@ -162,12 +162,12 @@ const DashboardNav = withRouter((props) => {
               </span>
               <Dropdown.Toggle id="dropdown-basic" className="usernavdrpdwn" />
               <Dropdown.Menu className="animated fadeIn">
-                <Dropdown.Item
+                {/* <Dropdown.Item
                   href="#/action-1"
                   className="animated fadeInLeft"
                 >
                   <Link to="/user-profile">Profile</Link>
-                </Dropdown.Item>
+                </Dropdown.Item> */}
                 <Dropdown.Item className="animated fadeInLeft">
                   {/* <img src={settings} className="exit" />{" "} */}
                   <span

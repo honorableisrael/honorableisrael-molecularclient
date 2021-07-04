@@ -82,7 +82,7 @@ const AdminWorkOrderCards = (props) => {
             </div>
           </div>
           <div className="mnversion">
-            Building a Mini version of the Eifel Tower
+            {props?.order_details?.purpose}
           </div>
           <div className="slidd2">
             <Slider

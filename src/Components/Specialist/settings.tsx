@@ -94,8 +94,6 @@ const SpecialistSettings = () => {
     field,
     from,
     to,
-    description,
-    title,
     experienceDescription,
     messageModal,
     email,
@@ -112,7 +110,12 @@ const SpecialistSettings = () => {
     reason,
     skills,
     first_name,
+    experiences,
+    certifications,
+    qualifications,
     last_name,
+    title,
+    description,
   }: any = state;
   const onchange = (e) => {
     console.log(e.target.value);
@@ -254,12 +257,11 @@ const SpecialistSettings = () => {
       Axios.get<any, AxiosResponse<any>>(`${API}/skills`),
     ])
       .then(
-        axios.spread((res, res2) => {
+        axios.spread((res) => {
           console.log(res.data);
           setState({
             ...state,
             ...res.data.data,
-            ...res2.data.data,
             user: res.data.data,
           });
         })
