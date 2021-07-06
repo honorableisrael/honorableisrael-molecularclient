@@ -35,6 +35,7 @@ const SpecialistSettings = () => {
     fourthtab: false,
     show: false,
     user: "",
+    userExperience:"",
     email: "",
     city: "",
     address: "",
@@ -55,10 +56,10 @@ const SpecialistSettings = () => {
     isloading: false,
     specialist_rating: 1,
     age: null,
-    certifications: [],
+    certifications: [{}],
     dob: null,
     experience: null,
-    experiences: [],
+    experiences: [{}],
     experienceDescription:"",
     title: "",
     first_name: "",
@@ -70,6 +71,10 @@ const SpecialistSettings = () => {
     sKill_id: "",
     qualification: "",
     institution: "",
+    experienceActive: "",
+    addexperiencebtn:"",
+    certificationActive: "",
+    certificationbtn: "",
     field: "",
     from: "",
     to: "",
@@ -79,12 +84,17 @@ const SpecialistSettings = () => {
     firsttab,
     secondtab,
     thirdtab,
+    experienceActive,
+    certificationActive,
+    certificationbtn,
+    addexperiencebtn,
     fourthtab,
     terminateWorkModal,
     certificateModal,
     certificateDisplay,
     noCertificateAdded,
     noExperienceAdded,
+    userExperience,
     experienceAdded,
     certification,
     year,
@@ -263,6 +273,8 @@ const SpecialistSettings = () => {
             ...state,
             ...res.data.data,
             user: res.data.data,
+            noExperienceAdded: experiences.length>0? false: true,
+            noCertificateAdded: certifications.length>0? false:true,
           });
         })
       )
@@ -286,42 +298,42 @@ const SpecialistSettings = () => {
     }
   }, []);
   
+  useEffect(()=>{
+    setState({
+      ...state,
+      experienceActive: experiences.length<0? "wrapdemacator":"nowrapdemacator",
+      addexperiencebtn: experiences.length<0? "profcerbtnwrapper":"noprofcerbtnwrapper",
+      certificationActive: certifications.length<0? "profcertifncntent":"nowrapdemacator",
+      certificationbtn: certifications.length<0? "profcerbtnwrapper":"nowrapdemacator",
+    })
+  },[])
   const displayCertification =()=>{
     //add certhification to UI
     if (certification && year){
      setState({
        ...state,
        noCertificateAdded: false,
-       certificateDisplay: true,
+       certifications: [...certifications, {title:certification, year:year}],
        certificateModal: false,
+       certificationActive: certifications.length>0? "profcertifncntent":"nowrapdemacator",
+       certificationbtn: certifications.length>0? "profcerbtnwrapper":"nowrapdemacator",
      })
-    }
-    else{
-      setState({
-        ...state,
-        noCertificateAdded: true,
-        certificateDisplay: false,
-      })
     }
   };
   const displayExperience =()=>{
     //add experience to UI
-    if (title && experienceDescription){
-     setState({
-       ...state,
-       noExperienceAdded: false,
-       experienceAdded: true,
-       terminateWorkModal: false,
-     })
-    }
-    else{
+    if(title && experienceDescription){
       setState({
         ...state,
-        noExperienceAdded: true,
-        experienceAdded: false,
+        terminateWorkModal: false,
+        noExperienceAdded: experiences.length>0? false: true,
+        experiences : [...experiences, {title: title, description: experienceDescription}],
+        experienceActive: experiences.length>0? "wrapdemacator":"nowrapdemacator",
+        addexperiencebtn: experiences.length>0? "profcerbtnwrapper":"noprofcerbtnwrapper",
       })
-    }
+    }  
   };
+
 
   const add_certification = () => {
     const availableToken = localStorage.getItem("loggedInDetails");
@@ -401,7 +413,7 @@ const SpecialistSettings = () => {
       notify("Failed to save", "D");
     })
   }
-
+  
   return (
     <>
       <Container fluid={true}>
@@ -915,22 +927,22 @@ const SpecialistSettings = () => {
                          <span className="profcertbtn" onClick={certModal}>Add Certificate</span>
                         </div>
                        )}
-                        {certificateDisplay &&(<div>
-                          <div className="profcertifncntent">
+                        {certifications.map((item, index)=>{
+                          return(
+                          <div  className={`profcertifncntent ${certificationActive}`} key={index}>
                             <div>
                               <p className="profcertheading">Certification</p>
-                              <p>{certification}</p>
+                              <p>{item.title}</p>
                             </div>
                             <div className="profcertdate">
                               <p className="profcertheading">Year</p>
-                              <p>{year}</p>
+                              <p>{item.year}</p>
                             </div>
                           </div>
-                          <div className="profcerbtnwrapper">
-                            <span className="profcertbtn" onClick={certModal}>Add Certificate</span>
-                          </div>
-                        </div>
-                        )}
+                        )})}
+                        <div  className={`profcerbtnwrapper ${certificationbtn}`}>
+                          <span className="profcertbtn" onClick={certModal}>Add Certificate</span>
+                       </div>
                       </div>
                       <Row>
                         <Col md={12}>
@@ -1017,19 +1029,29 @@ const SpecialistSettings = () => {
                              </span>
                            </div>
                            )}
-                           {experienceAdded &&(
                            <div className="profecperince-content">
-                             <div className="profiexpernceheaderwrap">
-                               <p className="profiexpetitle">Title</p>
-                               <div>
-                                 <img src={editicon} onClick={workModal} className="editimg"/>
-                               </div>
-                             </div>
-                             <p>{title}</p>
-                             <p className="profiexpetitle">Experience</p>
-                             <p>{experienceDescription}</p>
+                            {experiences.map((item, index)=>{
+                                return(
+                                  <div key={index} className={`wrapdemacator ${experienceActive}`}>
+                                    <div className="profiexpernceheaderwrap">
+                                      <p className="profiexpetitle">Title</p>
+                                     <div>
+                                       <img src={editicon} onClick={workModal} className="editimg"/>
+                                    </div>
+                                    </div>
+                                    <p>{item.title}</p>
+                                    <p className="profiexpetitle">Experience</p>
+                                    <p>{item.description}</p>
+                                
+                                </div>
+                              )
+                            })}
+                                <div className={`profcerbtnwrapper ${addexperiencebtn}`}>
+                             <span className="wrkmodal-declinebtn profcertbtn" onClick={workModal}>
+                               Add Experience
+                             </span>
+                            </div>
                            </div>
-                           )}
                           </div>
                         </Col>
                       </Row>

@@ -581,3 +581,13 @@
 .userprofile12{
     font-weight: 600 !important;
 }
+.wrapdemacator:not(:first-child){
+    border-top: 1px solid #999999;
+    padding-top: 16px;
+}
+.nowrapdemacator{
+    display: none;
+}
+.noprofcerbtnwrapper{
+    display: none;
+}
