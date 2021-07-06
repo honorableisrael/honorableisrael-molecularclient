@@ -2,17 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Col, Row, Container, Form, Pagination } from "react-bootstrap";
 import "./contractor.css";
 import DashboardNav from "./navbar";
-import portfolio from "../../images/portfolio.png";
-import welder from "../../images/welder.png";
-import Slider from "react-rangeslider";
 import "react-rangeslider/lib/index.css";
 import { Helmet } from "react-helmet";
-import arrowback from "../../images/dtls.png";
-import { Link } from "react-router-dom";
 import no_work_order from "../../images/document 1.png";
 import axios from "axios";
 import { API } from "../../config";
 import Specialist_card from "./Specialist_Card";
+
 
 const All_Specialist = () => {
   const [state, setState] = useState({

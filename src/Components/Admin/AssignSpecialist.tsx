@@ -23,6 +23,33 @@ const SpecialistContext: any = React.createContext({
   setState: () => {},
   assignToWorkOrder: () => {},
 });
+const assignOneSpecialist = (x) => {
+  const workOrder = localStorage.getItem("work_order_details");
+  const workorder = workOrder ? JSON.parse(workOrder) : "";
+  const availableToken: any = localStorage.getItem("loggedInDetails");
+  const token = availableToken
+    ? JSON.parse(availableToken)
+    : window.location.assign("/");
+  const data = {
+    specialists: [x],
+  };
+  console.log("here now");
+  axios
+    .post(`${API}/admin/work-orders/${workorder.id}/specialists`, data, {
+      headers: { Authorization: `Bearer ${token.access_token}` },
+    })
+    .then((res) => {
+      console.log(res);
+      notify("Successfully assigned specialist");
+      setTimeout(() => {
+        window.location.assign("/admin_work_details?inreview=true");
+      }, 2000);
+    })
+    .catch((err) => {
+      console.log(err);
+      notify("Failed to assign specialist", "D");
+    });
+};
 const Specialist_card = (props) => {
   const { state, setState, assignToWorkOrder }: any =
     useContext(SpecialistContext);
@@ -42,6 +69,7 @@ const Specialist_card = (props) => {
       selectedspecialist: [...state.selectedspecialist, ...add_new],
     });
   };
+
   return (
     <>
       <div className="container_01">
@@ -90,7 +118,7 @@ const Specialist_card = (props) => {
             <button
               value="Assign bgorange"
               className="assign12"
-              onClick={assignToWorkOrder}
+              onClick={()=>assignOneSpecialist(props?.specialist_data?.id)}
             >
               Assign{" "}
               <span>
@@ -252,7 +280,7 @@ const AssignSpecialist = () => {
       });
   };
   const assignToWorkOrder = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     const availableToken: any = localStorage.getItem("loggedInDetails");
     const token = availableToken
       ? JSON.parse(availableToken)
@@ -277,7 +305,7 @@ const AssignSpecialist = () => {
         notify("Failed to assign specialist", "D");
       });
   };
-
+  
   const {
     selectedspecialist,
     country,
@@ -346,7 +374,11 @@ const AssignSpecialist = () => {
                 <div className="formcontent">
                   <Row>
                     <SpecialistContext.Provider
-                      value={{ state, setState, assignToWorkOrder }}
+                      value={{
+                        state,
+                        setState,
+                        assignToWorkOrder,
+                      }}
                     >
                       <div className="spread_">
                         {all_specialist?.map((data, i) => (

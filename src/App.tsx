@@ -143,7 +143,7 @@ class App extends Component {
                 path="/deployedspecialist"
                 component={DeployedSpecialist}
               />
-              <Route
+              <Route  
                 path="/admin_work_details"
                 component={AdminViewWorkOrderDetails}
               />
