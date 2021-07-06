@@ -527,6 +527,14 @@ a:hover {
 .nxtbtn3:hover {
   cursor: pointer;
 }
+@media (max-width: 1500px) {
+  .main_wrap_ws22{
+    flex-wrap: wrap !important;
+  }
+  .main_wrap_ws22 div{
+    margin-top: 1.5rem;
+  }
+}
 @media (max-width: 1000px) {
   .cardwrap_jo {
     flex-wrap: wrap;
@@ -540,6 +548,12 @@ a:hover {
   }
   .card_sec2 {
     width: 93%;
+  }
+  .main_wrap_ws22{
+    flex-wrap: wrap !important;
+  }
+  .main_wrap_ws22 div{
+    margin-top: 1rem;
   }
   .minicardwrapper {
     width: 100%;

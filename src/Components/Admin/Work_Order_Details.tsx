@@ -224,7 +224,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
     let inreview = props.location.search;
     console.log(inreview);
   }, []);
-  console.log(already_approved);
+  console.log(work_order_detail);
   return (
     <>
       <Modal
