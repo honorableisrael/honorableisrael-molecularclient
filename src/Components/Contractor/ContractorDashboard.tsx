@@ -18,8 +18,6 @@ import { Link, withRouter } from "react-router-dom";
 import axios, { AxiosResponse } from "axios";
 import { API } from "../../config";
 
-
-
 const Notification = (props) => {
   console.log(props);
   return (
@@ -108,12 +106,13 @@ const ContractorDashboard = withRouter((props) => {
         },
       },
     },
-    notification:[],
-    contractor:{},
+    work_orders: [],
+    notification: [],
+    contractor: {},
   });
-  
+
   useEffect(() => {
-    window.scrollTo(0,0)
+    window.scrollTo(0, 0);
     const availableToken: any = localStorage.getItem("loggedInDetails");
     const token = availableToken
       ? JSON.parse(availableToken)
@@ -129,14 +128,18 @@ const ContractorDashboard = withRouter((props) => {
         axios.get(`${API}/notifications?paginate=1&limit=5`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }),
+        axios.get(`${API}/contractor/work-orders?paginate=1`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
       ])
       .then(
-        axios.spread((res,res2) => {
-          console.log(res.data.data);
+        axios.spread((res, res2, res3) => {
+          console.log(res3.data.data);
           setState({
             ...state,
             contractor: res.data.data,
             notification: res2.data.data.data,
+            work_orders: res3.data.data.data,
           });
         })
       )
@@ -144,7 +147,7 @@ const ContractorDashboard = withRouter((props) => {
         console.log(err);
       });
   }, []);
-  const { contractor,notification }: any = state;
+  const { contractor, notification, work_orders }: any = state;
   return (
     <>
       <Container fluid={true} className="dasbwr">
@@ -159,11 +162,13 @@ const ContractorDashboard = withRouter((props) => {
         <Row className="dshb12 dshb12m">
           <Col md={12} className="fc12 fc12ax">
             <div className="carderw">
-            <div className="raise_joborder12">
-              <div className="raisejob">
-                New Work <div>order</div>
-              </div>
-              <div className="raise_joborder12a">{contractor?.newWorkOrders??0}</div>
+              <div className="raise_joborder12">
+                <div className="raisejob">
+                  New Work <div>order</div>
+                </div>
+                <div className="raise_joborder12a">
+                  {contractor?.newWorkOrders ?? 0}
+                </div>
               </div>
               <Link to="/work_order">
                 <img src={addmore} alt={"jobscheck"} className="pollio" />
@@ -174,7 +179,9 @@ const ContractorDashboard = withRouter((props) => {
                 <div className="raisejob">
                   Completed <div>Projects</div>
                 </div>
-                <div className="raise_joborder12a">{contractor?.completedWorks??0}</div>
+                <div className="raise_joborder12a">
+                  {contractor?.completedWorks ?? 0}
+                </div>
               </div>
               <img src={jobscheck} alt={"jobscheck"} className="pollio" />
             </div>
@@ -183,7 +190,9 @@ const ContractorDashboard = withRouter((props) => {
                 <div className="raisejob">
                   Ongoing <div>Projects</div>
                 </div>
-                <div className="raise_joborder12a">{contractor?.ongoingWorks??0}</div>
+                <div className="raise_joborder12a">
+                  {contractor?.ongoingWorks ?? 0}
+                </div>
               </div>
               <img src={third} alt={"jobscheck"} className="pollio" />
             </div>
@@ -192,7 +201,9 @@ const ContractorDashboard = withRouter((props) => {
                 <div className="raisejob">
                   Total <div> Projects</div>
                 </div>
-                <div className="raise_joborder12a">{contractor?.totalWorks??0}</div>
+                <div className="raise_joborder12a">
+                  {contractor?.totalWorks ?? 0}
+                </div>
               </div>
               <img src={fourth} alt={"jobscheck"} className="pollio" />
             </div>
@@ -221,51 +232,72 @@ const ContractorDashboard = withRouter((props) => {
           <Col className="fc12 " md={12}>
             <div className="carderw carderwax carderwaxx fc14">
               <div className="Projectsx">Projects</div>
-              <div className="notif12v textxenter">
-                <div className="project_title">
-                  <div className={"title_221"}>Brass to Kano pipeline</div>
-                  <div className={"title_221a completedcol"}>Completed</div>
-                </div>
-                <ProgressBar>
-                  <ProgressBar
-                    striped
-                    variant=""
-                    className="colorgreen"
-                    now={100}
-                    key={1}
-                  />
-                  <ProgressBar variant="gray" now={0} key={3} />
-                </ProgressBar>
-                <div className="mlstones2">
-                  <div className="mlstones">Milestones : Completed</div>
-                  <div className="mlstones">Total Specialist Involved: 0</div>
-                </div>
-              </div>
-              <div className="notif12v textxenter">
-                <div className="project_title">
-                  <div className={"title_221"}>PNG Pipeline Fitting</div>
-                  <div className={"title_221a completedcol suspended"}>
-                    Suspended
+              {work_orders?.slice(0, 2)?.map((data, i) =>
+                data.status !== "On Hold" ? (
+                  <div className="notif12v textxenter" key={i}>
+                    <div className="project_title">
+                      <div className={"title_221"}>{data.title}</div>
+                      <div className={"title_221a completedcol"}>
+                        {data.status}
+                      </div>
+                    </div>
+                    <ProgressBar>
+                      <ProgressBar
+                        striped
+                        variant=""
+                        className="colorgreen"
+                        now={data.progress}
+                        key={i}
+                      />
+                      <ProgressBar variant="gray" now={data.progress} key={3} />
+                    </ProgressBar>
+                    <div className="mlstones2">
+                      <div className="mlstones">
+                        Milestones : {data.payment_cycle}
+                      </div>
+                      <div className="mlstones">
+                        Total Specialist Involved: {data.total_specialists}
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <ProgressBar>
-                  <ProgressBar
-                    striped
-                    variant=""
-                    className="coloryell"
-                    now={100}
-                    key={1}
-                  />
-                  <ProgressBar variant="gray" now={0} key={3} />
-                </ProgressBar>
-                <div className="mlstones2">
-                  <div className="mlstones">Milestones : Completed</div>
-                  <div className="mlstones">Total Specialist Involved: 0</div>
-                </div>
-              </div>
+                ) : (
+                  <div className="notif12v textxenter">
+                    <div className="project_title">
+                      <div className={"title_221"}>{data.title}</div>
+                      <div className={"title_221a completedcol suspended"}>
+                        Suspended
+                      </div>
+                    </div>
+                    <ProgressBar>
+                      <ProgressBar
+                        striped
+                        variant=""
+                        className="coloryell"
+                        now={100}
+                        key={1}
+                      />
+                      <ProgressBar variant="gray" now={0} key={3} />
+                    </ProgressBar>
+                    <div className="mlstones2">
+                      <div className="mlstones">
+                        Milestones : {data.payment_cycle}
+                      </div>
+                      <div className="mlstones">
+                        Total Specialist Involved: {data.total_specialists}
+                      </div>
+                    </div>
+                  </div>
+                )
+              )}
+
               <div className="text_align2">
                 <Link to="/contractor_work_order">
-                  <img src={arrow} className="arrow21c arrow2x" alt="arrow" />
+                  <img
+                    src={arrow}
+                    title="See more"
+                    className="arrow21c arrow2x"
+                    alt="arrow"
+                  />
                 </Link>
               </div>
             </div>

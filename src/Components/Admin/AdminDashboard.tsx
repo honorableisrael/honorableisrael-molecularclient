@@ -110,9 +110,11 @@ const AdminDashboard = withRouter((props) => {
       },
     },
     admin: {},
+    work_orders: [],
     all_specialist: [],
     notification: [],
   });
+
   useEffect(() => {
     const availableToken: any = localStorage.getItem("loggedInDetails");
     const token = availableToken
@@ -132,15 +134,19 @@ const AdminDashboard = withRouter((props) => {
         axios.get(`${API}/notifications?paginate=1&limit=5`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }),
+        axios.get(`${API}/admin/work-orders?paginate=1`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
       ])
       .then(
-        axios.spread((res, res2, res3) => {
-          console.log(res3.data);
+        axios.spread((res, res2, res3, res4) => {
+          console.log(res4.data);
           setState({
             ...state,
             admin: res.data.data,
             all_specialist: res2.data.data.data,
             notification: res3.data.data.data,
+            work_orders: res4.data.data.data,
           });
         })
       )
@@ -148,7 +154,7 @@ const AdminDashboard = withRouter((props) => {
         console.log(err);
       });
   }, []);
-  const { admin, all_specialist }: any = state;
+  const { admin, work_orders }: any = state;
   return (
     <>
       <Container fluid={true} className="dasbwr">
@@ -268,48 +274,62 @@ const AdminDashboard = withRouter((props) => {
           <Col className="fc12 " md={12}>
             <div className="carderw carderwax carderwaxx fc14">
               <div className="Projectsx">Projects</div>
-              <div className="notif12v textxenter">
-                <div className="project_title">
-                  <div className={"title_221"}>Brass to Kano pipeline</div>
-                  <div className={"title_221a completedcol"}>Completed</div>
-                </div>
-                <ProgressBar>
-                  <ProgressBar
-                    striped
-                    variant=""
-                    className="colorgreen"
-                    now={100}
-                    key={1}
-                  />
-                  <ProgressBar variant="gray" now={0} key={3} />
-                </ProgressBar>
-                <div className="mlstones2">
-                  <div className="mlstones">Milestones : Completed</div>
-                  <div className="mlstones">Total Specialist Involved: 23</div>
-                </div>
-              </div>
-              <div className="notif12v textxenter">
-                <div className="project_title">
-                  <div className={"title_221"}>PNG Pipeline Fitting</div>
-                  <div className={"title_221a completedcol suspended"}>
-                    Suspended
+              {work_orders?.slice(0, 2)?.map((data, i) =>
+                data.status !== "On Hold" ? (
+                  <div className="notif12v textxenter" key={i}>
+                    <div className="project_title">
+                      <div className={"title_221"}>{data.title}</div>
+                      <div className={"title_221a completedcol"}>
+                        {data.status}
+                      </div>
+                    </div>
+                    <ProgressBar>
+                      <ProgressBar
+                        striped
+                        variant=""
+                        className="colorgreen"
+                        now={data.progress}
+                        key={i}
+                      />
+                      <ProgressBar variant="gray" now={data.progress} key={3} />
+                    </ProgressBar>
+                    <div className="mlstones2">
+                      <div className="mlstones">
+                        Milestones : {data.payment_cycle}
+                      </div>
+                      <div className="mlstones">
+                        Total Specialist Involved: {data.total_specialists}
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <ProgressBar>
-                  <ProgressBar
-                    striped
-                    variant=""
-                    className="coloryell"
-                    now={100}
-                    key={1}
-                  />
-                  <ProgressBar variant="gray" now={0} key={3} />
-                </ProgressBar>
-                <div className="mlstones2">
-                  <div className="mlstones">Milestones : Completed</div>
-                  <div className="mlstones">Total Specialist Involved: 23</div>
-                </div>
-              </div>
+                ) : (
+                  <div className="notif12v textxenter">
+                    <div className="project_title">
+                      <div className={"title_221"}>{data.title}</div>
+                      <div className={"title_221a completedcol suspended"}>
+                        Suspended
+                      </div>
+                    </div>
+                    <ProgressBar>
+                      <ProgressBar
+                        striped
+                        variant=""
+                        className="coloryell"
+                        now={100}
+                        key={1}
+                      />
+                      <ProgressBar variant="gray" now={0} key={3} />
+                    </ProgressBar>
+                    <div className="mlstones2">
+                      <div className="mlstones">Milestones : {data.payment_cycle}</div>
+                      <div className="mlstones">
+                        Total Specialist Involved: {data.total_specialists}
+                      </div>
+                    </div>
+                  </div>
+                )
+              )}
+
               <div className="text_align2">
                 <Link to="/admin_work_order">
                   <img

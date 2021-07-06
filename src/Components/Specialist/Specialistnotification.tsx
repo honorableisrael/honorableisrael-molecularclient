@@ -108,7 +108,7 @@ const SpecialistNotification = withRouter((props) => {
               <div className="">
                 <div className="title_wo">
                   <div className="workorderheader">
-                    <Link to="/contractor_dashboard">
+                    <Link to="/specialistdashboard">
                       {" "}
                       <img src={arrowback} className="arrowback" />
                     </Link>

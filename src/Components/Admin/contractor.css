@@ -2595,5 +2595,6 @@ label i {
 }
 .container_box11 {
   left: 2px !important;
+  padding-left:0px !important;
 }
 
