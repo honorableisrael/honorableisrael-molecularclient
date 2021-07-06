@@ -19,6 +19,34 @@ import axios, { AxiosResponse } from "axios";
 import { API } from "../../config";
 
 
+
+const Notification = (props) => {
+  console.log(props);
+  return (
+    <>
+      <div className="carderw carderwxc">
+        <div className="text-center">
+          <div className="notif12v textxenter1">Notification </div>
+        </div>
+        {props?.all_notification?.slice(0, 3)?.map((data, i) => (
+          <>
+            <Link to={"/notification"}>
+              <div className="helloworld1" title={data.message}>
+                <div className="helloworld2">
+                  <img src={avatar} className="avatar1" />
+                </div>
+                <div className="app12">{data?.title}</div>
+              </div>
+            </Link>
+            <div className="timesection">{data?.sent_since}</div>
+            <div className="dottedlines"></div>
+          </>
+        ))}
+      </div>
+    </>
+  );
+};
+
 const ContractorDashboard = withRouter((props) => {
   const [state, setState] = useState({
     series: [
@@ -80,6 +108,7 @@ const ContractorDashboard = withRouter((props) => {
         },
       },
     },
+    notification:[],
     contractor:{},
   });
   
@@ -97,13 +126,17 @@ const ContractorDashboard = withRouter((props) => {
         axios.get(`${API}/contractor/dashboard`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }),
+        axios.get(`${API}/notifications?paginate=1&limit=5`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
       ])
       .then(
-        axios.spread((res) => {
+        axios.spread((res,res2) => {
           console.log(res.data.data);
           setState({
             ...state,
             contractor: res.data.data,
+            notification: res2.data.data.data,
           });
         })
       )
@@ -111,7 +144,7 @@ const ContractorDashboard = withRouter((props) => {
         console.log(err);
       });
   }, []);
-  const { contractor }: any = state;
+  const { contractor,notification }: any = state;
   return (
     <>
       <Container fluid={true} className="dasbwr">
@@ -183,31 +216,7 @@ const ContractorDashboard = withRouter((props) => {
                 />
               </div>
             </div>
-            <div className="carderw carderwxc">
-              <div className="text-center">
-                <div className="notif12v textxenter1">Notification </div>
-              </div>
-              <div className="helloworld1">
-                <div className="helloworld2">
-                  <img src={avatar} className="avatar1" />
-                </div>
-                <div className="app12">
-                  Your pay check for milestone 1 has been approved.
-                </div>
-              </div>
-              <div className="timesection">1 min ago</div>
-              <div className="dottedlines"></div>
-              <div className="helloworld1">
-                <div className="helloworld2">
-                  <img src={avatar2} className="avatar1" />
-                </div>
-                <div className="app12">
-                  Your pay check for milestone 2 has been rejected.
-                </div>
-              </div>
-              <div className="timesection">12 min ago</div>
-              <div className="dottedlines"></div>
-            </div>
+            <Notification all_notification={state.notification} />
           </Col>
           <Col className="fc12 " md={12}>
             <div className="carderw carderwax carderwaxx fc14">

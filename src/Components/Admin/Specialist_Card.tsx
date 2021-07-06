@@ -38,7 +38,7 @@ const Specialist_card = withRouter((props: any) => {
       <div className="container_01">
         <div className="checkbox_craftman">
           {/* <input type="checkbox" className="selectcheck" /> */}
-          <label className="container_box">
+          <label className="container_box container_box11">
             {props?.specialist_data?.status == "Inactive" && (
               <span className="status_1">{props?.specialist_data?.status}</span>
             )}

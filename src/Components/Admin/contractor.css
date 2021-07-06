@@ -2588,3 +2588,12 @@ label i {
 .job_1{
   width: 203px !important;
 }
+.centerednotification{
+  display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.container_box11 {
+  left: 2px !important;
+}
+

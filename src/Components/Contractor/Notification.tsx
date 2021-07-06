@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Col, Row, Container, Form, ProgressBar } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Col, Row, Container, Form, Pagination } from "react-bootstrap";
 import "./contractor.css";
 import DashboardNav from "./navbar";
 import portfolio from "../../images/portfolio.png";
@@ -8,67 +8,92 @@ import Slider from "react-rangeslider";
 import "react-rangeslider/lib/index.css";
 import { Helmet } from "react-helmet";
 import arrowback from "../../images/dtls.png";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import no_work_order from "../../images/document 1.png";
+import { ageCalculator, API, capitalize } from "../../config";
 import nextbtn from "../../images/nextbtn.png";
+import axios from "axios";
 
-
-
-
-const Notification = () => {
+const Notification = withRouter((props) => {
   const [state, setState] = useState({
-    work_orders: [],
-    country: "",
-    inprogress: true,
-    pending_request: false,
-    order_title: "",
-    work_order_description: "",
-    project_purpose: "",
-    past: false,
-    location_terrain: "",
-    location: "",
-    end_date: "",
-    start_date: "",
-    hour: "",
+    next: "",
+    prev: "",
+    first: "",
+    last: "",
+    current_page: "",
+    last_page: "",
+    to: "",
+    total: "",
+    all_specialist: [],
+    notification: [],
   });
-  const onchange = (e) => {
-    console.log(e.target.value);
-    setState({
-      ...state,
-      [e.target.id]: e.target.value,
-    });
-  };
-  const onInputChange = (e) => {
-    const letterNumber = /^[A-Za-z]+$/;
-    if (e.target.value) {
-      return setState({
-        ...state,
-        [e.target.name]: e.target.value.replace(/[^0-9]+/g, ""), //only accept numbers
-      });
+  useEffect(() => {
+    const availableToken: any = localStorage.getItem("loggedInDetails");
+    const token = availableToken
+      ? JSON.parse(availableToken)
+      : window.location.assign("/");
+    if (token.user_type !== "contractor") {
+      return props.history.push("/login");
     }
-    if (e.target.value < 0) {
-      return setState({
-        ...state,
-        [e.target.name]: 0,
+    axios
+      .all([
+        axios.get(`${API}/notifications?paginate=1&limit=5`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
+      ])
+      .then(
+        axios.spread((res) => {
+          console.log(res.data);
+          setState({
+            ...state,
+            notification: res.data.data.data,
+            ...res.data.data.links,
+            ...res.data.data.meta,
+          });
+        })
+      )
+      .catch((err) => {
+        console.log(err);
       });
-    }
-    if (e.target.value === "") {
-      return setState({
-        ...state,
-        [e.target.name]: 0,
+  }, []);
+  const nextPage = (x) => {
+    const availableToken: any = localStorage.getItem("loggedInDetails");
+    const token = availableToken
+      ? JSON.parse(availableToken)
+      : window.location.assign("/");
+    axios
+      .all([
+        axios.get(`${x}`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
+      ])
+      .then(
+        axios.spread((res) => {
+          console.log(res.data.data);
+          window.scrollTo(-0, -0);
+          setState({
+            ...state,
+            contractor_list: res.data.data.data,
+            ...res.data.data.links,
+            ...res.data.data.meta,
+          });
+        })
+      )
+      .catch((err) => {
+        console.log(err);
       });
-    }
   };
   const {
-    project_purpose,
-    country,
-    work_order_description,
-    order_title,
-    end_date,
-    location_terrain,
-    start_date,
-    hour,
-  } = state;
+    last_page,
+    next,
+    prev,
+    first,
+    last,
+    current_page,
+    to,
+    total,
+    notification,
+  }: any = state;
   return (
     <>
       <Container fluid={true} className="dasbwr">
@@ -82,17 +107,21 @@ const Notification = () => {
         </Row>
         <Row className="rowt3">
           <Col md={12} className="job34">
-            <div className="title_wo">
-              <div className="workorderheader">
-                <Link to="/contractor_dashboard">
-                  {" "}
-                  <img src={arrowback} className="arrowback" />
-                </Link>
-                Notification
+            <Col md={11} className="">
+              <div className="">
+                <div className="title_wo">
+                  <div className="workorderheader">
+                    <Link to="/contractor_dashboard">
+                      {" "}
+                      <img src={arrowback} className="arrowback" />
+                    </Link>
+                    Notification
+                  </div>
+                </div>
               </div>
-            </div>
+            </Col>
             <Row>
-              {false && (
+              {notification.length == 0 && (
                 <Col md={11} className="containerforemptyorder1">
                   <div className="containerforemptyorder">
                     <img
@@ -109,63 +138,58 @@ const Notification = () => {
                   </div>
                 </Col>
               )}
-              <Col md={12}>
-                <div className="work_order212">
-                  <div className="flex-col">
-                    <div className="nwraper">
-                      <div className="notification_desc">
-                        Work Order Now awaiting Review
-                      </div>
-                      <div>
-                        <div className={"unpaidgreen inprogress_4"}>
-                          <span className={"paidd2green box_cust"}></span>
-                          <span>In Review</span>
+              <Col md={12} className="centerednotification">
+                {notification.map((data, i) => (
+                  <div className="work_order212">
+                    <div className="flex-col">
+                      <div className="nwraper">
+                        <div className="notification_desc">{data.title}</div>
+                        <div>
+                          <div className={"unpaidgreen inprogress_4"}>
+                            <span className={"paidd2green box_cust"}></span>
+                            <span>{data?.category}</span>
+                          </div>
                         </div>
                       </div>
+                      <div className="nextbtn nextbtn_2">
+                        {data?.category == "work order" ? (
+                          <Link to={"/admin_work_order"}>
+                            <img
+                              src={nextbtn}
+                              alt="nxtbtn"
+                              className="nxtbtn3 nxtbtn3_1"
+                            />
+                          </Link>
+                        ) : (
+                          ""
+                        )}
+                      </div>
                     </div>
-                    <div className="nextbtn nextbtn_2">
-                      <img src={nextbtn} alt="nxtbtn" className="nxtbtn3 nxtbtn3_1" />
-                    </div>
-                  </div>
-                  <div className="nwraper">
-                    <div className="ppp1">
-                      Constructing a pipe from Lagos to Ofin State
-                    </div>
-                    <div className="nnw12">Just Now</div>
-                  </div>
-                </div>
-                <div className="work_order212">
-                  <div className="flex-col">
                     <div className="nwraper">
-                      <div className="notification_desc">
-                        Work Order Now awaiting Review
-                      </div>
-                      <div>
-                        <div className={"unpaidgreen inprogress_4 inreview"}>
-                          <span className={"paidd2green box_cust inreview"}></span>
-                          <span>Invoice</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="nextbtn nextbtn_2">
-                      <img src={nextbtn} alt="nxtbtn" className="nxtbtn3 nxtbtn3_1" />
+                      <div className="ppp1">{data?.message}</div>
+                      <div className="nnw12">{data?.sent_since}</div>
                     </div>
                   </div>
-                  <div className="nwraper">
-                    <div className="ppp1">
-                      Constructing a pipe from Lagos to Ofin State
-                    </div>
-                    <div className="nnw12">Just Now</div>
+                ))}
+
+                <div className="active_member2">
+                  <div>
+                    Displaying <b>{current_page}</b> of <b>{last_page}</b>
                   </div>
+                  <Pagination>
+                    <Pagination.First onClick={() => nextPage(first)} />
+                    <Pagination.Prev onClick={() => nextPage(prev)} />
+                    <Pagination.Next onClick={() => nextPage(next)} />
+                    <Pagination.Last onClick={() => nextPage(last)} />
+                  </Pagination>
                 </div>
               </Col>
-              
             </Row>
           </Col>
         </Row>
       </Container>
     </>
   );
-};
+});
 
 export default Notification;

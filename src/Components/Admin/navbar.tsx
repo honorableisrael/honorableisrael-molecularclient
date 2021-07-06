@@ -21,6 +21,7 @@ const DashboardNav = withRouter((props) => {
   const { NavisOpen, isloading, user_details }: any = state;
 
   useEffect(() => {
+    window.scrollTo(0,0)
     const availableToken: any = localStorage.getItem("loggedInDetails");
     const token = availableToken
       ? JSON.parse(availableToken)
@@ -154,7 +155,10 @@ const DashboardNav = withRouter((props) => {
             </div>
             <Dropdown className="uddrpdwndiv">
               <div className="bell2">
-                <img src={bell} className="bell" alt="bell" />
+                <Link to={"/admin_notification"}>
+                  {" "}
+                  <img src={bell} className="bell" alt="bell" />
+                </Link>
               </div>
               <span className="lfff">
                 {capitalize(user_details?.first_name?.split("")[0])}

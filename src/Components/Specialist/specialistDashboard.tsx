@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import DashboardNav from "./specialistNavbar";
 import "./specialistdshboard.css";
 import { Container, Row, Col } from "react-bootstrap";
@@ -8,9 +8,68 @@ import third from "../../images/third.png";
 import avatar from "../../images/greyavatar.png";
 import WorkOrderCards from "./specialistWorkCards";
 import { Helmet } from "react-helmet";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import { API } from "../../config";
 
+const Notification = (props) => {
+  console.log(props);
+  return (
+    <>
+      <div className="spcdshbdnotificndv">
+        <p className="splstdshnotifcntitle">Notifications</p>
+        {props?.all_notification?.slice(0, 3)?.map((data, i) => (
+          <>
+            <Link to={"/specialistnotifications"}>
+              <div className="splstdshbdnotifctnsectns" title={data.message}>
+                <div>
+                  <span className="spclsuserimgspn lemonbacgrd">
+                    <img src={avatar} alt="img" />
+                  </span>
+                </div>
+                <p>{data?.title}</p>
+              </div>
+            </Link>
+            <div className="notificntimelinedv">{data?.sent_since}</div>
+          </>
+        ))}
+      </div>
+    </>
+  );
+};
 
-const SpecialistDashboard = () => {
+const SpecialistDashboard = (props) => {
+  const [state, setState] = useState({
+    notification: [],
+  });
+
+  useEffect(() => {
+    const availableToken: any = localStorage.getItem("loggedInDetails");
+    const token = availableToken
+      ? JSON.parse(availableToken)
+      : window.location.assign("/");
+    if (token.user_type !== "specialist") {
+      return props.history.push("/login");
+    }
+    axios
+      .all([
+        axios.get(`${API}/notifications?paginate=1&limit=5`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
+      ])
+      .then(
+        axios.spread((res) => {
+          console.log(res.data);
+          setState({
+            ...state,
+            notification: res.data.data.data,
+          });
+        })
+      )
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
   return (
     <div>
       <Helmet>
@@ -55,45 +114,7 @@ const SpecialistDashboard = () => {
               <WorkOrderCards title="Pipeline construction from Lagos to Ogun State" />
             </Col>
             <Col md={3}>
-              <div className="spcdshbdnotificndv">
-                <p className="splstdshnotifcntitle">Notifications</p>
-                <div className="splstdshbdnotifctnsectns">
-                  <div>
-                    <span className="spclsuserimgspn lemonbacgrd">
-                      <img src={avatar} alt="img" />
-                    </span>
-                  </div>
-                  <p>Invoice ready for the first payment cycle</p>
-                </div>
-                <div className="notificntimelinedv">1 min ago</div>
-                <div className="splstdshbdnotifctnsectns pddedsctns">
-                  <div>
-                    <span className="spclsuserimgspn bluespnbackgd">
-                      <img src={avatar} alt="img" />
-                    </span>
-                  </div>
-                  <p>Work order in awaiting review</p>
-                </div>
-                <div className="notificntimelinedv">1 min ago</div>
-                <div className="splstdshbdnotifctnsectns pddedsctns">
-                  <div>
-                    <span className="spclsuserimgspn pinkspnbackd">
-                      <img src={avatar} alt="img" />
-                    </span>
-                  </div>
-                  <p>Work order awaiting review to move on</p>
-                </div>
-                <div className="notificntimelinedv">1 min ago</div>
-                <div className="splstdshbdnotifctnsectns pddedsctns">
-                  <div>
-                    <span className="spclsuserimgspn skyspnbackgrnd">
-                      <img src={avatar} alt="img" />
-                    </span>
-                  </div>
-                  <p>Invoice ready for final payment cycle.</p>
-                </div>
-                <div className="notificntimelinedv rmvdshdlines">1 min ago</div>
-              </div>
+              <Notification all_notification={state.notification} />
             </Col>
           </Row>
           <Row>
