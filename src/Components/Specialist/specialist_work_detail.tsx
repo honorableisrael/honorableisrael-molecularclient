@@ -82,69 +82,6 @@ const Specialist_Work_details= (props) => {
               <div>
                 <hr />
               </div>
-              <h5 className="work_details worktitle wftitle">Work Force</h5>
-              <h6 className="userprofile12 userprofile123">Type of pipe</h6>
-              <p className="Construction12 Construction121">Galvanic Pipe</p>
-              <h6 className="userprofile12 userprofile123 userprofile1231">
-                Pipe Configuration
-              </h6>
-              <div className="main_wrap_ws main_wrap_ws22 graybg">
-                <div>
-                  <h6 className="userprofile12 userprofile123">
-                    Pipe length(Inches)
-                  </h6>
-                  <div className="Construction12">12</div>
-                </div>
-                <div className="">
-                  <h6 className="userprofile12 userprofile123">
-                    Pipe Weight(g)
-                  </h6>
-                  <div className="Construction12">220</div>
-                </div>
-                <div className="">
-                  <h6 className="userprofile12 userprofile123">
-                    Pipe Diameter
-                  </h6>
-                  <div className="Construction12">21m</div>
-                </div>
-              </div>
-              <div className="main_wrap_ws main_wrap_ws22 graybg">
-                <div>
-                  <h6 className="userprofile12 userprofile123">
-                    Pipe length(Inches)
-                  </h6>
-                  <div className="Construction12">12</div>
-                </div>
-                <div className="">
-                  <h6 className="userprofile12 userprofile123">
-                    Pipe Weight(g)
-                  </h6>
-                  <div className="Construction12">220</div>
-                </div>
-                <div className="">
-                  <h6 className="userprofile12 userprofile123">
-                    Pipe Diameter
-                  </h6>
-                  <div className="Construction12">21m</div>
-                </div>
-              </div>
-              <h6 className="userprofile12 userprofile123 userprofile1231">
-                Types and number of specialist
-              </h6>
-              <div className="main_wrap_ws main_wrap_ws22 graybg">
-                <div>
-                  <h6 className="userprofile12 userprofile123">
-                    Specialist Type
-                  </h6>
-                  <div className="Construction12">Welder</div>
-                </div>
-                <div className="">
-                  <h6 className="userprofile12 userprofile123">
-                    Number Required
-                  </h6>
-                  <div className="Construction12">20</div>
-                </div>
-              </div>
               <h6 className="userprofile12 userprofile123 userprofile1231">
                 Payment Cycle
               </h6>

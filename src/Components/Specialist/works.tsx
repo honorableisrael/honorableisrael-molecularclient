@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import DashboardNav from "./specialistNavbar";
-import { Col, Row, Container, ProgressBar, Modal } from "react-bootstrap";
+import { Col, Row, Container, ProgressBar, Modal, Form } from "react-bootstrap";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import no_work_order from "../../images/document 1.png";
@@ -13,7 +13,7 @@ import location from "../../images/location.png";
 import Specialist_Work_details from "./specialist_work_detail";
 import closeimg from "../../images/closeimg.png";
 
-const Works = () => {
+const Works = (props) => {
   const [state, setState] = useState({
     work_orders: [],
     inprogress: true,
@@ -265,7 +265,116 @@ const Works = () => {
                   </div>
                   <div>
                     <h5 className="work_details worktitle">Work Details</h5>
-                    <Specialist_Work_details />
+                    {/* <Specialist_Work_details /> */}
+                    <div className="splstworkdetailwrapper">
+                      <Form>
+                        <Row>
+                          <Col md={12}>
+                            <div className="main_wrap_ws">
+                              <h6 className="userprofile12 userprofile123">
+                                Work Title
+                              </h6>
+                              <p className="Construction12">
+                                Construction of Gas pipes from Lagos to Abuja.
+                              </p>
+                            </div>
+                            <div className="main_wrap_ws">
+                              <h6 className="userprofile12 userprofile123">
+                                Work Description
+                              </h6>
+                              <p className="Construction12">
+                                This project involves the installation of
+                                cooking gas pipes from Lagos to Abuja to serve
+                                over 500,000 users. It is the first of its kind
+                                and would require the highest resource ever
+                                taken in the Pipe fitting industry.
+                              </p>
+                            </div>
+                            <div className="main_wrap_ws">
+                              <h6 className="userprofile12 userprofile123">
+                                Project Purpose
+                              </h6>
+                              <p className="Construction12">
+                                This project involves the installation of
+                                cooking gas pipes from Lagos to Abuja to serve
+                                over 500,000 users. It is the first of its kind
+                                and would require the highest resource ever
+                                taken in the Pipe fitting industry
+                              </p>
+                            </div>
+                            <div className="main_wrap_ws main_wrap_ws22">
+                              <div>
+                                <h6 className="userprofile12 userprofile123">
+                                  Location
+                                </h6>
+                                <div className="Construction12">Nigeria</div>
+                              </div>
+                              <div className="">
+                                <h6 className="userprofile12 userprofile123">
+                                  State
+                                </h6>
+                                <div className="Construction12">Lagos</div>
+                              </div>
+                              <div className="">
+                                <h6 className="userprofile12 userprofile123">
+                                  Town
+                                </h6>
+                                <div className="Construction12">Ikeja</div>
+                              </div>
+                              <div className="">
+                                <h6 className="userprofile12 userprofile123">
+                                  Location Terrain
+                                </h6>
+                                <div className="Construction12">Urban</div>
+                              </div>
+                            </div>
+                            <div className="main_wrap_ws main_wrap_ws22">
+                              <div>
+                                <h6 className="userprofile12 userprofile123">
+                                  Start Date
+                                </h6>
+                                <div className="Construction12">01/02/2021</div>
+                              </div>
+                              <div className="">
+                                <h6 className="userprofile12 userprofile123">
+                                  End Date
+                                </h6>
+                                <div className="Construction12">01/02/2023</div>
+                              </div>
+                              <div className="">
+                                <h6 className="userprofile12 userprofile123">
+                                  Hours/day
+                                </h6>
+                                <div className="Construction12">4</div>
+                              </div>
+                              <div className="">
+                                <h6 className="userprofile12 userprofile123">
+                                  Duration
+                                </h6>
+                                <div className="Construction12">3</div>
+                              </div>
+                            </div>
+                            <div>
+                              <hr />
+                            </div>
+                            <h6 className="userprofile12 userprofile123 userprofile1231">
+                              Payment Cycle
+                            </h6>
+                            <div>Bi weekly</div>
+                            <div className="splstworkdetaildiv">
+                              <div className="pendingwrkcard-btndv1">
+                                <span className="pendingwrkcard-accptbtn">
+                                  Accept
+                                </span>
+                                <span className="pendingwrkcard-declinebtn">
+                                  Decline
+                                </span>
+                              </div>
+                            </div>
+                          </Col>
+                        </Row>
+                      </Form>
+                    </div>
                   </div>
                 </div>
               )}

@@ -51,7 +51,7 @@ const SpecialistSettings = () => {
     noExperienceAdded: true,
     experienceAdded: false,
     messageModal: true,
-    viewPopup: true,
+    viewPopup: false,
     reason: "",
     isloading: false,
     specialist_rating: 1,
@@ -239,14 +239,10 @@ const SpecialistSettings = () => {
         notify("Failed to save", "D");
         console.log(err.response);
       });
-      // upload image to server;
       
-      // const imageData = new FormData()
-      // imageData.append("image" , photo);
-     
-     const imageData ={
-       image: photo
-     }
+      // upload image to server; 
+       const imageData = new FormData()
+       imageData.append("image" , photo);
      console.log(imageData);
       axios.post(`${API}/photo`,imageData, {
         headers: {
@@ -329,6 +325,7 @@ const SpecialistSettings = () => {
             noCertificateAdded: user.certifications.length<=0? true:false,
             verified: user.status === "Active"? true: false,
             unverified: user.status === "Inactive"? true : false,
+            viewPopup: user.status === "Active"? false : true,
             experienceActive: user.experiences.length<=0? "nowrapdemacator":"wrapdemacator",
             addexperiencebtn: user.experiences.length<=0? "noprofcerbtnwrapper":"profcerbtnwrapper",
             certificationActive: user.certifications.length<=0? "nowrapdemacator":"profcertifncntent",
@@ -339,18 +336,6 @@ const SpecialistSettings = () => {
       .catch((err) => {
         console.log(err.response);
       });
-    //do not view Popup modal
-    // if () {
-    //   setState({
-    //     ...state,
-    //     viewPopup: false,
-    //   });
-    // } else {
-    //   setState({
-    //     ...state,
-    //     viewPopup: true,
-    //   });
-    // }
   }, []);
   
   const displayCertification =()=>{
