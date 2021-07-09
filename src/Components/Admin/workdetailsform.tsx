@@ -4,7 +4,7 @@ import { formatTime } from "../../config";
 
 const WorkDetails_Form_Preview = (props) => {
   useEffect(() => {}, []);
-  console.log(props.order_detail.pipe_configs)
+  console.log(props?.order_detail?.pipe_configs)
   return (
     <>
       <div className="formcontent">
