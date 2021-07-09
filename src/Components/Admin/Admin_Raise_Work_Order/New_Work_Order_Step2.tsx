@@ -46,6 +46,7 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
     title_of_specialist: "",
     pipe_config: [],
   });
+  
   const inputHandler = (e) => {
     // if (e.target.name == "pipe_type") {
     const new_obj = JSON.parse(e.target.value);
@@ -56,6 +57,7 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
       pipe_name: new_obj.name,
     });
   };
+
   const onchange_Area_Of_Specialization = (e) => {
     // if (e.target.name == "pipe_type") {
     const new_obj = JSON.parse(e.target.value);
@@ -66,6 +68,7 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
       title_of_specialist: new_obj.name,
     });
   };
+
   const onchange_pipeschedule = (e) => {
     // if (e.target.name == "pipe_type") {
     const new_obj = JSON.parse(e.target.value);

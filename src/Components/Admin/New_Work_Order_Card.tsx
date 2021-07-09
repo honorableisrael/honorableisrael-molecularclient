@@ -55,9 +55,9 @@ const New_Work_Order_Card = (props) => {
       .then(
         axios.spread((res) => {
           notify("Successfull");
-          setTimeout(()=>{
-            window.location.assign("/admin_work_order")
-          },2000)
+          setTimeout(() => {
+            window.location.assign("/admin_work_order");
+          }, 2000);
           console.log(res.data);
           setState({
             ...state,
@@ -82,9 +82,9 @@ const New_Work_Order_Card = (props) => {
       ...state,
       isloading: true,
     });
-    const data={
-      reason
-    }
+    const data = {
+      reason,
+    };
     axios
       .all([
         axios.post(
@@ -102,29 +102,29 @@ const New_Work_Order_Card = (props) => {
         axios.spread((res) => {
           notify("Successfull");
           console.log(res.data);
-          setTimeout(()=>{
-            window.location.reload()
-          },2000)
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
           setState({
             ...state,
             isloading: false,
-            show:false
+            show: false,
           });
         })
       )
       .catch((err) => {
         console.log(err);
-        notify("Failed to process","D")
+        notify("Failed to process", "D");
         setState({
           ...state,
           isloading: false,
-          show:false
+          show: false,
         });
       });
   };
   const notify = (message: string, type = "B") =>
     toast(message, { containerId: type, position: "top-right" });
-  
+
   const onchange = (e) => {
     setState({
       ...state,
@@ -147,9 +147,17 @@ const New_Work_Order_Card = (props) => {
           <div className="pipline">
             <div className="crd23">
               {" "}
-              {/* <Link to="/admin_work_details"> */}
+              <Link
+                onClick={() =>
+                  localStorage.setItem(
+                    "work_order_details",
+                    JSON.stringify(props.order_details)
+                  )
+                }
+                to="/admin_work_details"
+              >
                 {props?.order_details?.title}
-              {/* </Link> */}
+              </Link>
             </div>
             <div className="inprogr">
               {props?.hide == false || props?.hide == undefined ? (
@@ -164,7 +172,7 @@ const New_Work_Order_Card = (props) => {
           </div>
           <div className="mnversion mnversion11">
             {/* <Link to="/admin_work_details"> */}
-              {props?.order_details?.purpose}
+            {props?.order_details?.purpose}
             {/* </Link> */}
           </div>
           <div className="minicardwrapper mnversion11">
@@ -215,7 +223,9 @@ const New_Work_Order_Card = (props) => {
                   <div className="accpt122" onClick={Accept_work_order}>
                     {isloading ? "Accepting" : "Accept"}
                   </div>
-                  <div className="decline122" onClick={openModal}>Decline</div>
+                  <div className="decline122" onClick={openModal}>
+                    Decline
+                  </div>
                 </>
               )}
             </div>
@@ -257,11 +267,8 @@ const New_Work_Order_Card = (props) => {
           </Row>
           <Row>
             <Col md={12} className="terminate2">
-              <div
-                className="terminate1"
-                onClick={ Reject_work_order}
-              >
-               {isloading?"Processing":"Reject"}
+              <div className="terminate1" onClick={Reject_work_order}>
+                {isloading ? "Processing" : "Reject"}
               </div>
             </Col>
           </Row>
