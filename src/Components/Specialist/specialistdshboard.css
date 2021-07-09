@@ -516,11 +516,9 @@
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    background-color: #f7f7f7;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: white;
     margin-right: 1rem;
   }
   .camdv{
@@ -590,4 +588,10 @@
 }
 .noprofcerbtnwrapper{
     display: none;
+}
+.useravatar{
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
 }

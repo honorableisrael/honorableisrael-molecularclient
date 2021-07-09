@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import   React, { useState, useRef, useEffect } from "react";
 import { Col, Row, Container, Form, Modal } from "react-bootstrap";
 import "../Contractor/contractor.css";
 import DashboardNav from "./specialistNavbar";
@@ -7,7 +7,7 @@ import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { API } from "../../config";
-import malemodel from "../../images/malemodel.png";
+import useravatar from "../../images/user-avatar.png";
 import formCaret from "../../images/caret.png";
 import cert from "../../images/certificate.png";
 import helmet from "../../images/helmet.png";
@@ -78,6 +78,9 @@ const SpecialistSettings = () => {
     field: "",
     from: "",
     to: "",
+    verified: false,
+    unverified: false,
+    status: "",
   });
 
   const {
@@ -95,9 +98,13 @@ const SpecialistSettings = () => {
     noCertificateAdded,
     noExperienceAdded,
     userExperience,
+    status,
     experienceAdded,
     certification,
     year,
+    verified,
+    unverified,
+    photo,
     skill_id,
     qualification,
     institution,
@@ -134,6 +141,25 @@ const SpecialistSettings = () => {
       [e.target.name]: e.target.value,
     });
   };
+ const handleImageChange = (e) => {
+
+  const reader: any= new FileReader();
+  reader.onload =()=>{
+    if(reader.readyState === 2){
+      setState({
+        ...state,
+        photo: reader.result
+      })
+    }
+  }
+  reader.readAsDataURL(e.target.files[0]);
+};
+  console.log("image",photo)
+  const hiddenFileInput: any= useRef();
+  const handleClick = event => {
+    hiddenFileInput.current.click();
+  };
+
   const switchTab = (a) => {
     if (a == "firsttab") {
       return setState({
@@ -213,8 +239,33 @@ const SpecialistSettings = () => {
         notify("Failed to save", "D");
         console.log(err.response);
       });
-  };
-  
+      // upload image to server;
+      
+      // const imageData = new FormData()
+      // imageData.append("image" , photo);
+     
+     const imageData ={
+       image: photo
+     }
+     console.log(imageData);
+      axios.post(`${API}/photo`,imageData, {
+        headers: {
+          Authorization: `Bearer ${token.access_token}`,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res)=>{
+        console.log(res.data);
+        setTimeout(()=>{
+           notify("Successful")
+        },1000)
+      })
+      .catch((err)=>{
+        console.log(err.response)
+        notify("failed to Upload Image")
+      })
+  }
   const certModal = () => {
     setState({
       ...state,
@@ -269,44 +320,39 @@ const SpecialistSettings = () => {
       .then(
         axios.spread((res) => {
           console.log(res.data);
+          const user = res.data.data
           setState({
             ...state,
             ...res.data.data,
             user: res.data.data,
-            noExperienceAdded: experiences.length>0? false: true,
-            noCertificateAdded: certifications.length>0? false:true,
+            noExperienceAdded: user.experiences.length<=0? true: false,
+            noCertificateAdded: user.certifications.length<=0? true:false,
+            verified: user.status === "Active"? true: false,
+            unverified: user.status === "Inactive"? true : false,
+            experienceActive: user.experiences.length<=0? "nowrapdemacator":"wrapdemacator",
+            addexperiencebtn: user.experiences.length<=0? "noprofcerbtnwrapper":"profcerbtnwrapper",
+            certificationActive: user.certifications.length<=0? "nowrapdemacator":"profcertifncntent",
+            certificationbtn: user.certifications.length<=0? "nowrapdemacator":"profcerbtnwrapper",
           });
         })
       )
       .catch((err) => {
-        console.log(err);
+        console.log(err.response);
       });
-    let visited = localStorage["alreadyVisited"];
-    if (visited) {
-      setState({
-        ...state,
-        viewPopup: false,
-      });
-      //do not view Popup
-    } else {
-      //this is the first time
-      localStorage["alreadyVisited"] = true;
-      setState({
-        ...state,
-        viewPopup: true,
-      });
-    }
+    //do not view Popup modal
+    // if () {
+    //   setState({
+    //     ...state,
+    //     viewPopup: false,
+    //   });
+    // } else {
+    //   setState({
+    //     ...state,
+    //     viewPopup: true,
+    //   });
+    // }
   }, []);
   
-  useEffect(()=>{
-    setState({
-      ...state,
-      experienceActive: experiences.length<0? "wrapdemacator":"nowrapdemacator",
-      addexperiencebtn: experiences.length<0? "profcerbtnwrapper":"noprofcerbtnwrapper",
-      certificationActive: certifications.length<0? "profcertifncntent":"nowrapdemacator",
-      certificationbtn: certifications.length<0? "profcerbtnwrapper":"nowrapdemacator",
-    })
-  },[])
   const displayCertification =()=>{
     //add certhification to UI
     if (certification && year){
@@ -315,8 +361,8 @@ const SpecialistSettings = () => {
        noCertificateAdded: false,
        certifications: [...certifications, {title:certification, year:year}],
        certificateModal: false,
-       certificationActive: certifications.length>0? "profcertifncntent":"nowrapdemacator",
-       certificationbtn: certifications.length>0? "profcerbtnwrapper":"nowrapdemacator",
+       certificationActive: certifications.length>=0? "profcertifncntent":"nowrapdemacator",
+       certificationbtn: certifications.length>=0? "profcerbtnwrapper":"nowrapdemacator",
      })
     }
   };
@@ -326,10 +372,10 @@ const SpecialistSettings = () => {
       setState({
         ...state,
         terminateWorkModal: false,
-        noExperienceAdded: experiences.length>0? false: true,
+        noExperienceAdded: experiences.length>=0? false: true,
         experiences : [...experiences, {title: title, description: experienceDescription}],
-        experienceActive: experiences.length>0? "wrapdemacator":"nowrapdemacator",
-        addexperiencebtn: experiences.length>0? "profcerbtnwrapper":"noprofcerbtnwrapper",
+        experienceActive: experiences.length>=0? "wrapdemacator":"nowrapdemacator",
+        addexperiencebtn: experiences.length<=0? "profcerbtnwrapper":"noprofcerbtnwrapper",
       })
     }  
   };
@@ -413,7 +459,7 @@ const SpecialistSettings = () => {
       notify("Failed to save", "D");
     })
   }
-  
+
   return (
     <>
       <Container fluid={true}>
@@ -456,16 +502,24 @@ const SpecialistSettings = () => {
                   <div className="namestyle111">
                     <div>
                       <span className="spluserimg">
-                        {/* <img src={malemodel} /> */}
+                         <img src={photo !== null ? photo: useravatar} className="useravatar" /> 
                       </span>
                       <div className="camdv">
                         <img
                           src={camimg}
                           className="user-cam-img"
                           alt="cam-img"
+                          onClick={handleClick}
                         />
                       </div>
-                      <p className="upldtxt">Upload Picture</p>
+                      <input
+                        type="file"
+                        onChange={handleImageChange}
+                        style={{ display: "none" }}
+                        accept="image/*"
+                        ref={hiddenFileInput}
+                        />
+                      <p className="upldtxt" onClick={handleClick}>Upload Picture</p>
                     </div>
                     <div className="home_pone12">
                       <div className="username">{user.first_name}</div>
@@ -486,9 +540,13 @@ const SpecialistSettings = () => {
                     <div>
                       <span className="num12a">2</span>
                     </div>
-                    {/* <span className="splverifiduser">Verified user</span> */}
-                    <span className="splunverifieduser ">Unverified user</span>
-                  </div>
+                    {verified  &&( 
+                     <span className="splverifiduser">Verified user</span> 
+                    )}
+                    {unverified &&(
+                     <span className="splunverifieduser ">Unverified user</span>
+                    )}
+                     </div>
                 </div>
                 <div className="section_form">
                   <div className="profile__001">
