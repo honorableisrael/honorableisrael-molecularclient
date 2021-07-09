@@ -411,7 +411,7 @@ const AdminDashboard = withRouter((props) => {
                 </div>
               </div>
               <div>
-                <Link to="/admin_notification">
+                <Link to="/admin_payment_invoice">
                   <span className="arrow21 text11"></span>{" "}
                   <img
                     src={arrow}

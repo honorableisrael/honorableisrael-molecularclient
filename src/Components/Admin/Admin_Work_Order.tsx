@@ -451,7 +451,7 @@ const AdminWorkOrder = () => {
                   </div>
                   <div className="no_work1">You have no Work Order</div>
                   <div className="nojob2 ">
-                    <Link to="/work_order">
+                    <Link to="/admin_new_work_order">
                       <div className="job3">New Work Order</div>
                     </Link>
                   </div>

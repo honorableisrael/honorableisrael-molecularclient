@@ -133,6 +133,7 @@
   width: 100%;
   background: white;
   z-index: 1000;
+  top: 1px !important;
 }
 
 .pushtopundernav {
