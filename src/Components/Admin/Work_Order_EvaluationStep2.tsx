@@ -94,7 +94,8 @@ const AdminWorkOrderEvaluationStep2 = () => {
       setState({
         ...state,
         show: true,
-        type_of_specialist:data.skill,
+        type_of_specialist:data.id,
+        title_of_specialist:data.skill,
         number:data.number,
         s_config_modal:true
       });      
@@ -184,7 +185,7 @@ const AdminWorkOrderEvaluationStep2 = () => {
         isloading:true
       })
     const data = {
-      skill: id,
+      skill:type_of_specialist,
       number
     }
     axios
@@ -257,8 +258,8 @@ const AdminWorkOrderEvaluationStep2 = () => {
     id,
     s_config_modal,
     pipe_schedules,
+    title_of_specialist,
     type_of_specialist,
-    pipeList,
     number,
     p_config_modal,
     types_of_Specialist,
@@ -409,11 +410,12 @@ const AdminWorkOrderEvaluationStep2 = () => {
                           </div>
                           <div className="pipelength1 pipelng__1">
                           <select
-                            id="type_of_specialist"
+                            id="title_of_specialist"
+                            name="title_of_specialist"
                             onChange={onchange_Area_Of_Specialization}
                             className="userfield form-control"
                           >
-                            <option>{type_of_specialist}</option>
+                            <option>{title_of_specialist}</option>
                             {types_of_Specialist.map((data, i) => (
                               <option
                                 className="specialization"
