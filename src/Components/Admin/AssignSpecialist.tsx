@@ -168,9 +168,12 @@ const AssignSpecialist = () => {
     const token = availableToken
       ? JSON.parse(availableToken)
       : window.location.assign("/");
+      const workOrder = localStorage.getItem("work_order_details");
+      const workorder = workOrder ? JSON.parse(workOrder) : "";
+      console.log(workorder)
     axios
       .all([
-        axios.get(`${API}/admin/specialists/inactive`, {
+        axios.get(`${API}/admin/work-orders/${workorder.id}/recommend-specialists?paginate=1`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }),
       ])
@@ -395,7 +398,7 @@ const AssignSpecialist = () => {
                               />
                             </div>
                             <div className="no_work1">
-                              You have no specialist
+                              You have no recommended specialist
                             </div>
                           </Col>
                         )}

@@ -177,7 +177,7 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
               <div className="accpt3"></div>
             </div>
             {all_specialist.map((data, i) =>
-              data.status == "Pending" ? (
+              data.status ? (
                 <div className="specialistwrapper">
                   {false && (
                     <img
