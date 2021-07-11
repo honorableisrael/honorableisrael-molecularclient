@@ -61,7 +61,7 @@
     "typescript": "^3.9.7"
   },
   "scripts": {
-    "start": "serve -s build",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "dev": "react-scripts start",
     "test": "react-scripts test",
