@@ -415,7 +415,7 @@ const NewWorkOrderStep2 = withRouter((props) => {
                             </div>
                             <div className="">
                               <h6 className="userprofile12 userprofile123">
-                                Pipe Length
+                                Pipeline Length
                               </h6>
                               <div className="Construction12">
                                 {" "}
@@ -484,7 +484,7 @@ const NewWorkOrderStep2 = withRouter((props) => {
                       <Col md={3} className="formsection1">
                         <Form.Group>
                           <h6 className="userprofile userprofile12">
-                            Pipe Length (Meters)
+                            Pipeline Length (Meters)
                           </h6>
                           <Form.Control
                             type="number"
