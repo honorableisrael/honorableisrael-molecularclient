@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
 import DashboardNav from "./specialistNavbar";
-import { Col, Row, Container, ProgressBar, Modal } from "react-bootstrap";
+import { Col, Row, Container, ProgressBar, Modal, Form } from "react-bootstrap";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import no_work_order from "../../images/document 1.png";
@@ -12,6 +12,9 @@ import calenda from "../../images/calendarr.png";
 import location from "../../images/location.png";
 import Specialist_Work_details from "./specialist_work_detail";
 import closeimg from "../../images/closeimg.png";
+import Axios, { AxiosResponse } from "axios";
+import { API } from "../../config";
+
 
 const Works = () => {
   const [state, setState] = useState({
@@ -28,7 +31,7 @@ const Works = () => {
     start_date: "",
     end_date: "",
     hours_perday: "",
-    terminateWorkModal: false
+    terminateWorkModal: false,
   });
   const {
     inprogress,
@@ -91,6 +94,28 @@ const Works = () => {
       terminateWorkModal: false
     });
   };
+  useEffect(() => {
+    window.scrollTo(-0, -0);
+    const availableToken = localStorage.getItem("loggedInDetails");
+    console.log(availableToken);
+  
+    const token = availableToken ? JSON.parse(availableToken) : "";
+    console.log(token);
+
+      Axios.get<any, AxiosResponse<any>>(`${API}/specialist/work-orders/pending`, {
+        headers: { Authorization: `Bearer ${token.access_token}` },
+      })
+      .then((res)=>{
+            console.log(res.data)
+            console.log(res.data.data)
+            setState({
+              ...state,
+              ...res.data.data
+
+            })
+      })
+  },[])
+
 
   return (
     <div>
@@ -163,111 +188,9 @@ const Works = () => {
                 </div>
               )}
               {pending_request && (
-                <div className="cardflex_jo">
-                  <Modal
-                    centered={true}
-                    onHide={closeworkModal}
-                    show={terminateWorkModal}
-                  >
-                    <div className="terminateworkmodalwrap">
-                      <div className="terminateworkmodalimg">
-                        <img
-                          src={closeimg}
-                          alt="close"
-                          onClick={closeworkModal}
-                        />
-                      </div>
-                      <div className="terminateworkmodaltitle">
-                        Decline Work
-                      </div>
-                      <form>
-                        <textarea
-                          name={"reason"}
-                          className="form-control wrkmodaltextarea"
-                          placeholder="Reason for Decline"
-                          rows={5}
-                          cols={5}
-                        ></textarea>
-                      </form>
-                      <div className="wrkmodal-btnwrap">
-                        <span
-                          className="wrkmodal-cancelbtn"
-                          onClick={closeworkModal}
-                        >
-                          Cancel
-                        </span>
-                        <span className="wrkmodal-declinebtn">Decline</span>
-                      </div>
-                    </div>
-                  </Modal>
-                  <div className="wrktimelinediv">
-                    <img src={exclam} alt="img" />
-                    <p>This job offer expires in 24 Hours</p>
-                  </div>
-                  <div className="pendingwrkcard">
-                    <div className="pendingwrkcard-imgwrper">
-                      <img src={portfolio} alt="img" />
-                    </div>
-                    <div className="pendingwrkcard-contntwraper">
-                      <div className="pendingwrkcard-headingdiv">
-                        <div className="pendingwrkcard-heading">
-                          Pipeline construction with Sulejah
-                        </div>
-                        <div>
-                          <span className="pendingwrkcard-heading-btn">
-                            <img src={greyelipse} alt="img" />
-                            Work
-                          </span>
-                        </div>
-                      </div>
-                      <p>Constructing a pipe from Lagos to Ofin State</p>
-                      <div className="pendingwrkcard-asstsdiv">
-                        <div className="pendingwrkcard-loctnasset">
-                          <div className="pendingwrkcard-asset-img">
-                            <img src={calenda} alt="img" />
-                          </div>
-                          <div className="pendingwrkcard-asset-cnt">
-                            <h5>Location</h5>
-                            <p>Lagos, Nigeria</p>
-                          </div>
-                        </div>
-                        <div>
-                          <div className="pendingwrkcard-calendasset">
-                            <div className="pendingwrkcard-asset-img">
-                              <img src={calenda} alt="img" />
-                            </div>
-                            <div className="pendingwrkcard-asset-cnt">
-                              <h5>Duration</h5>
-                              <p>5 Weeks</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="pendingwrkcard-btndv">
-                        <div className="pendingwrkcard-btndv1">
-                          <span className="pendingwrkcard-accptbtn">
-                            Accept
-                          </span>
-                          <span
-                            className="pendingwrkcard-declinebtn"
-                            onClick={workModal}
-                          >
-                            Decline
-                          </span>
-                        </div>
-                        <div>
-                          <span className="pendingwrkcard-btndv2">
-                            N30,000 <span>/ Week</span>
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div>
-                    <h5 className="work_details worktitle">Work Details</h5>
-                    <Specialist_Work_details />
-                  </div>
-                </div>
+               <>
+               <Specialist_Work_details/>
+               </>
               )}
               {past && (
                 <div className="cardflex_jo">

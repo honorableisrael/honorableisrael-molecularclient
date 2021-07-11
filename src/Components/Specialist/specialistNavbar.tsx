@@ -1,23 +1,24 @@
 import React, { useState, useEffect } from "react";
 import "./Specialistnav.css";
-import { Button, Dropdown, Spinner } from "react-bootstrap";
+import { Button, } from "react-bootstrap";
 import dshlogo from "../../images/dashbdlogo.png";
 import { Link, NavLink } from "react-router-dom";
 import bell from "../../images/bell.png";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import chevron from "../../images/chevrondown.png";
-import { API } from "../../config";
-import axios from "axios";
+import { API, capitalize  } from "../../config";
+import Axios, { AxiosResponse } from "axios";
 
 const DashboardNav = props => {
   const [state, setState] = React.useState({
     NavisOpen: false,
     theUserIsLoggedIn: false,
     isloading: false,
-    anchorEl: null
+    anchorEl: null,
+    user_details: {},
   });
-  const { NavisOpen, isloading, anchorEl } = state;
+  const { NavisOpen, isloading, anchorEl, user_details }: any = state;
 
   const handleClick = event => {
     setState({
@@ -34,62 +35,28 @@ const DashboardNav = props => {
   };
 
   useEffect(() => {
-    const userData = localStorage.getItem("loggedInDetails");
-    const currentUser = userData ? JSON.parse(userData) : null;
-    console.log(currentUser);
-    if (currentUser) {
-      setState({
-        ...state,
-        theUserIsLoggedIn: false
-      });
-    }
-  }, []);
-  const checkifuserisverifiedbeforemovingtodashboard = () => {
     window.scrollTo(-0, -0);
-    const userData = localStorage.getItem("loggedInDetails");
-    const currentUser = userData
-      ? JSON.parse(userData)
-      : window.location.assign("/signin");
-    console.log(currentUser);
-    // setState({
-    //   ...state,
-    //   email: currentUser?.user?.email,
-    //   isloading: true,
-    // });
-    const userToken = localStorage.getItem("jwtToken");
-    // axios
-    //   .all([
-    //     axios.get(`${API}/user/get-profile`, {
-    //       headers: { Authorization: `Bearer ${userToken}` },
-    //     }),
-    //   ])
-    //   .then(
-    //     axios.spread((res4) => {
-    //       if (res4?.data?.data?.is_verified == 0) {
-    //         return window.location.assign("/account-verification");
-    //       }
-    //       console.log(res4);
-    //       if (res4.status === 200) {
-    //         window.location.assign("/userdashboard");
-    //         setState({
-    //           ...state,
-    //           loggedinuser: res4.data.data,
-    //           isloading: false,
-    //         });
-    //       }
-    //       if (res4.status == 400) {
-    //         props.history.push("/signin");
-    //       }
-    //     })
-    //   )
-    //   .catch((err) => {
-    //     console.log(err.response);
-    //     setState({
-    //       ...state,
-    //       isloading: false,
-    //     });
-    //   });
-  };
+    const availableToken = localStorage.getItem("loggedInDetails");
+    console.log(availableToken);
+    const token = availableToken ? JSON.parse(availableToken) : "";
+    console.log(token);
+    
+    Axios.get<any, AxiosResponse<any>>(`${API}/specialist`, {
+      headers: { Authorization: `Bearer ${token.access_token}` },
+    })
+    .then((res)=>{
+       setState({
+         ...state,
+         user_details: res.data.data,
+         theUserIsLoggedIn: true,
+       })
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  
+  }, []);
+
   return (
     <div className="fixfdnav">
       <div className="navwrap">
@@ -99,7 +66,6 @@ const DashboardNav = props => {
           </Link>
         </div>
 
-        {!state.theUserIsLoggedIn && (
           <div className="otherwrap" style={{ marginTop: "0px" }}>
             <div className="speclnavlnkwrapper">
               <div>
@@ -174,7 +140,10 @@ const DashboardNav = props => {
                   <img src={bell} className="bell" alt="bell" />
                 </div>
               </NavLink>
-              <span className="lfff">LF</span>
+              <span className="lfff">
+                {capitalize(user_details?.first_name?.split("")[0])}
+                {capitalize(user_details?.last_name?.split("")[0])}
+              </span>
               <div className="chevron-imgwrap" onClick={handleClick}>
                 <img src={chevron} alt="img" />
               </div>
@@ -201,32 +170,6 @@ const DashboardNav = props => {
               </Menu>
             </div>
           </div>
-        )}
-        {state.theUserIsLoggedIn && (
-          <div className="prrf">
-            <Dropdown className="uddrpdwndiv">
-              <Dropdown.Menu className="animated fadeIn">
-                {/* <Dropdown.Item
-                  href="#/action-1"
-                  className="animated fadeInLeft"
-                >
-                  <img src={settings} className="exit" />{" "}
-                  <Link to="/user-profile">Profile</Link>
-                </Dropdown.Item> */}
-                <Dropdown.Item className="animated fadeInLeft">
-                  {isloading && <Spinner animation="grow" />}
-                </Dropdown.Item>
-                {/* <Dropdown.Item href="#/action-1"><Link to="/user-profile">Settings</Link></Dropdown.Item> */}
-                <Dropdown.Item
-                  href="#/action-2"
-                  className="animated fadeInLeft"
-                >
-                  {/* <img src={exit} className="exit" /> Log out */}
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-          </div>
-        )}
         <div
           className="mobileham"
           //   onClick={() => {

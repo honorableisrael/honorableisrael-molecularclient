@@ -516,11 +516,9 @@
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    background-color: #f7f7f7;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: white;
     margin-right: 1rem;
   }
   .camdv{
@@ -580,4 +578,29 @@
 }
 .userprofile12{
     font-weight: 600 !important;
+}
+.wrapdemacator:not(:first-child){
+    border-top: 1px solid #999999;
+    padding-top: 16px;
+}
+.nowrapdemacator{
+    display: none;
+}
+.noprofcerbtnwrapper{
+    display: none;
+}
+.useravatar{
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.emptypendingworkwrap{
+    background-color: #ffffff;
+    text-align: center;
+    padding: 71px 3px;
+    border-radius: 20px;
+}
+.emptypendingworkwrap>p{
+    margin: 20px 0px;
 }

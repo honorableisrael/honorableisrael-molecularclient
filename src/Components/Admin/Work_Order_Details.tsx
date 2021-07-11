@@ -27,6 +27,8 @@ import no_work_order from "../../images/document 1.png";
 import axios from "axios";
 import { API, capitalize, checkIfIsOdd } from "../../config";
 
+
+
 const AdminViewWorkOrderDetails = withRouter((props: any) => {
   const [state, setState] = useState<any>({
     work_order_detail: {},

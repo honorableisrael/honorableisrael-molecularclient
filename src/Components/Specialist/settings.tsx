@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import   React, { useState, useRef, useEffect } from "react";
 import { Col, Row, Container, Form, Modal } from "react-bootstrap";
 import "../Contractor/contractor.css";
 import DashboardNav from "./specialistNavbar";
@@ -7,7 +7,7 @@ import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { API } from "../../config";
-import malemodel from "../../images/malemodel.png";
+import useravatar from "../../images/user-avatar.png";
 import formCaret from "../../images/caret.png";
 import cert from "../../images/certificate.png";
 import helmet from "../../images/helmet.png";
@@ -35,6 +35,7 @@ const SpecialistSettings = () => {
     fourthtab: false,
     show: false,
     user: "",
+    userExperience:"",
     email: "",
     city: "",
     address: "",
@@ -50,15 +51,15 @@ const SpecialistSettings = () => {
     noExperienceAdded: true,
     experienceAdded: false,
     messageModal: true,
-    viewPopup: true,
+    viewPopup: false,
     reason: "",
     isloading: false,
     specialist_rating: 1,
     age: null,
-    certifications: [],
+    certifications: [{}],
     dob: null,
     experience: null,
-    experiences: [],
+    experiences: [{}],
     experienceDescription:"",
     title: "",
     first_name: "",
@@ -70,24 +71,42 @@ const SpecialistSettings = () => {
     sKill_id: "",
     qualification: "",
     institution: "",
+    experienceActive: "",
+    addexperiencebtn:"",
+    certificationActive: "",
+    certificationbtn: "",
     field: "",
     from: "",
     to: "",
+    verified: false,
+    unverified: false,
+    status: "",
+    total_works:  null,
   });
 
   const {
     firsttab,
     secondtab,
     thirdtab,
+    experienceActive,
+    certificationActive,
+    certificationbtn,
+    addexperiencebtn,
     fourthtab,
     terminateWorkModal,
     certificateModal,
+    total_works,
     certificateDisplay,
     noCertificateAdded,
     noExperienceAdded,
+    userExperience,
+    status,
     experienceAdded,
     certification,
     year,
+    verified,
+    unverified,
+    photo,
     skill_id,
     qualification,
     institution,
@@ -124,6 +143,25 @@ const SpecialistSettings = () => {
       [e.target.name]: e.target.value,
     });
   };
+ const handleImageChange = (e) => {
+
+  const reader: any= new FileReader();
+  reader.onload =()=>{
+    if(reader.readyState === 2){
+      setState({
+        ...state,
+        photo: reader.result
+      })
+    }
+  }
+  reader.readAsDataURL(e.target.files[0]);
+};
+  console.log("image",photo)
+  const hiddenFileInput: any= useRef();
+  const handleClick = event => {
+    hiddenFileInput.current.click();
+  };
+
   const switchTab = (a) => {
     if (a == "firsttab") {
       return setState({
@@ -203,8 +241,29 @@ const SpecialistSettings = () => {
         notify("Failed to save", "D");
         console.log(err.response);
       });
-  };
-  
+      
+      // upload image to server; 
+       const imageData = new FormData()
+       imageData.append("image" , photo);
+     console.log(imageData);
+      axios.post(`${API}/photo`,imageData, {
+        headers: {
+          Authorization: `Bearer ${token.access_token}`,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res)=>{
+        console.log(res.data);
+        setTimeout(()=>{
+           notify("Successful")
+        },1000)
+      })
+      .catch((err)=>{
+        console.log(err.response)
+        notify("failed to Upload Image")
+      })
+  }
   const certModal = () => {
     setState({
       ...state,
@@ -248,6 +307,7 @@ const SpecialistSettings = () => {
     window.scrollTo(-0, -0);
     const availableToken = localStorage.getItem("loggedInDetails");
     console.log(availableToken);
+  
     const token = availableToken ? JSON.parse(availableToken) : "";
     console.log(token);
     Axios.all([
@@ -259,31 +319,26 @@ const SpecialistSettings = () => {
       .then(
         axios.spread((res) => {
           console.log(res.data);
+          const user = res.data.data
           setState({
             ...state,
             ...res.data.data,
             user: res.data.data,
+            noExperienceAdded: user.experiences.length<=0? true: false,
+            noCertificateAdded: user.certifications.length<=0? true:false,
+            verified: user.status === "Active"? true: false,
+            unverified: user.status === "Pending"? true : false,
+            viewPopup: user.status === "Active"? false : true,
+            experienceActive: user.experiences.length<=0? "nowrapdemacator":"wrapdemacator",
+            addexperiencebtn: user.experiences.length<=0? "noprofcerbtnwrapper":"profcerbtnwrapper",
+            certificationActive: user.certifications.length<=0? "nowrapdemacator":"profcertifncntent",
+            certificationbtn: user.certifications.length<=0? "nowrapdemacator":"profcerbtnwrapper",
           });
         })
       )
       .catch((err) => {
-        console.log(err);
+        console.log(err.response);
       });
-    let visited = localStorage["alreadyVisited"];
-    if (visited) {
-      setState({
-        ...state,
-        viewPopup: false,
-      });
-      //do not view Popup
-    } else {
-      //this is the first time
-      localStorage["alreadyVisited"] = true;
-      setState({
-        ...state,
-        viewPopup: true,
-      });
-    }
   }, []);
   
   const displayCertification =()=>{
@@ -292,36 +347,27 @@ const SpecialistSettings = () => {
      setState({
        ...state,
        noCertificateAdded: false,
-       certificateDisplay: true,
+       certifications: [...certifications, {title:certification, year:year}],
        certificateModal: false,
+       certificationActive: certifications.length>=0? "profcertifncntent":"nowrapdemacator",
+       certificationbtn: certifications.length>=0? "profcerbtnwrapper":"nowrapdemacator",
      })
-    }
-    else{
-      setState({
-        ...state,
-        noCertificateAdded: true,
-        certificateDisplay: false,
-      })
     }
   };
   const displayExperience =()=>{
     //add experience to UI
-    if (title && experienceDescription){
-     setState({
-       ...state,
-       noExperienceAdded: false,
-       experienceAdded: true,
-       terminateWorkModal: false,
-     })
-    }
-    else{
+    if(title && experienceDescription){
       setState({
         ...state,
-        noExperienceAdded: true,
-        experienceAdded: false,
+        terminateWorkModal: false,
+        noExperienceAdded: experiences.length>=0? false: true,
+        experiences : [...experiences, {title: title, description: experienceDescription}],
+        experienceActive: experiences.length>=0? "wrapdemacator":"nowrapdemacator",
+        addexperiencebtn: experiences.length<=0? "profcerbtnwrapper":"noprofcerbtnwrapper",
       })
-    }
+    }  
   };
+
 
   const add_certification = () => {
     const availableToken = localStorage.getItem("loggedInDetails");
@@ -389,8 +435,11 @@ const SpecialistSettings = () => {
     })
     .then((response)=>{
         console.log(response);
-       if(response.status==201){ 
-         notify("Profile Successfully Completed");
+       if(response.status==201 &&  user.status === "Pending"){ 
+         notify("Profile Successfully Completed, awaiting aprroval..");
+       }
+       else if(response.status==201){
+        notify("Profile Successfully Completed")
        }
        else{
         notify("unSuccessfull");
@@ -444,16 +493,24 @@ const SpecialistSettings = () => {
                   <div className="namestyle111">
                     <div>
                       <span className="spluserimg">
-                        {/* <img src={malemodel} /> */}
+                         <img src={photo !== null ? photo: useravatar} className="useravatar" /> 
                       </span>
                       <div className="camdv">
                         <img
                           src={camimg}
                           className="user-cam-img"
                           alt="cam-img"
+                          onClick={handleClick}
                         />
                       </div>
-                      <p className="upldtxt">Upload Picture</p>
+                      <input
+                        type="file"
+                        onChange={handleImageChange}
+                        style={{ display: "none" }}
+                        accept="image/*"
+                        ref={hiddenFileInput}
+                        />
+                      <p className="upldtxt" onClick={handleClick}>Upload Picture</p>
                     </div>
                     <div className="home_pone12">
                       <div className="username">{user.first_name}</div>
@@ -472,11 +529,15 @@ const SpecialistSettings = () => {
                   <div className="orders1">
                     Total Work Orders
                     <div>
-                      <span className="num12a">2</span>
+                      <span className="num12a">{total_works}</span>
                     </div>
-                    {/* <span className="splverifiduser">Verified user</span> */}
-                    <span className="splunverifieduser ">Unverified user</span>
-                  </div>
+                    {verified  &&( 
+                     <span className="splverifiduser">Verified user</span> 
+                    )}
+                    {unverified &&(
+                     <span className="splunverifieduser ">Unverified user</span>
+                    )}
+                     </div>
                 </div>
                 <div className="section_form">
                   <div className="profile__001">
@@ -915,22 +976,22 @@ const SpecialistSettings = () => {
                          <span className="profcertbtn" onClick={certModal}>Add Certificate</span>
                         </div>
                        )}
-                        {certificateDisplay &&(<div>
-                          <div className="profcertifncntent">
+                        {certifications.map((item, index)=>{
+                          return(
+                          <div  className={`profcertifncntent ${certificationActive}`} key={index}>
                             <div>
                               <p className="profcertheading">Certification</p>
-                              <p>{certification}</p>
+                              <p>{item.title}</p>
                             </div>
                             <div className="profcertdate">
                               <p className="profcertheading">Year</p>
-                              <p>{year}</p>
+                              <p>{item.year}</p>
                             </div>
                           </div>
-                          <div className="profcerbtnwrapper">
-                            <span className="profcertbtn" onClick={certModal}>Add Certificate</span>
-                          </div>
-                        </div>
-                        )}
+                        )})}
+                        <div  className={`profcerbtnwrapper ${certificationbtn}`}>
+                          <span className="profcertbtn" onClick={certModal}>Add Certificate</span>
+                       </div>
                       </div>
                       <Row>
                         <Col md={12}>
@@ -1017,19 +1078,29 @@ const SpecialistSettings = () => {
                              </span>
                            </div>
                            )}
-                           {experienceAdded &&(
                            <div className="profecperince-content">
-                             <div className="profiexpernceheaderwrap">
-                               <p className="profiexpetitle">Title</p>
-                               <div>
-                                 <img src={editicon} onClick={workModal} className="editimg"/>
-                               </div>
-                             </div>
-                             <p>{title}</p>
-                             <p className="profiexpetitle">Experience</p>
-                             <p>{experienceDescription}</p>
+                            {experiences.map((item, index)=>{
+                                return(
+                                  <div key={index} className={`wrapdemacator ${experienceActive}`}>
+                                    <div className="profiexpernceheaderwrap">
+                                      <p className="profiexpetitle">Title</p>
+                                     <div>
+                                       <img src={editicon} onClick={workModal} className="editimg"/>
+                                    </div>
+                                    </div>
+                                    <p>{item.title}</p>
+                                    <p className="profiexpetitle">Experience</p>
+                                    <p>{item.description}</p>
+                                
+                                </div>
+                              )
+                            })}
+                                <div className={`profcerbtnwrapper ${addexperiencebtn}`}>
+                             <span className="wrkmodal-declinebtn profcertbtn" onClick={workModal}>
+                               Add Experience
+                             </span>
+                            </div>
                            </div>
-                           )}
                           </div>
                         </Col>
                       </Row>
