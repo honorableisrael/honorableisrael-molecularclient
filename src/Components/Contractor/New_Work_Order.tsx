@@ -109,6 +109,8 @@ const NewWorkOrderForm = withRouter((props) => {
       project_purpose,
       location_terrain,
       location_terrain_name,
+      project_location_name,
+      project_location,
       state_,
       country,
       end_date,
