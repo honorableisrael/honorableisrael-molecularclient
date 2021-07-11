@@ -39,7 +39,7 @@ export const returnAdminToken=()=>{
     ? JSON.parse(availableToken)
     : window.location.assign("/");
     return token
-}
+} 
 // // Clarity Production API
 // export const API = "http://api.molecular.elostage.xyz/api/v1"
 // // Clarity Staging API
