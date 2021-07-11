@@ -193,7 +193,7 @@ const AdminDashboard = withRouter((props) => {
             <div className="carderw cardzero">
               <div className="cardzero12">
                 <div className="raise_joborder">
-                  Number of <div>Specialist</div>
+                  Number of <div>Specialists</div>
                 </div>
                 <div className="num_round green_bg1">
                   {admin?.specialists?.total ?? 0}

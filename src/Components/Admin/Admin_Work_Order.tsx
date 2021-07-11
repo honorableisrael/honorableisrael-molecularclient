@@ -375,7 +375,7 @@ const AdminWorkOrder = () => {
               </div>
               <div>
                 <Link to={"/admin_new_work_order"}>
-                  <span className="assign_specailist">New Work Order</span>
+                  <span className="assign_specailist">Create Work Order</span>
                 </Link>
               </div>
             </div>

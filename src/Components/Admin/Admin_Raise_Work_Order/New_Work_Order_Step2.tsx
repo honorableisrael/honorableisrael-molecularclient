@@ -381,7 +381,7 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
                   {" "}
                   <img src={arrowback} className="arrowback" />
                 </Link>
-                New Work Order
+                Create Work Order
               </div>
             </div>
             <Row>
@@ -487,7 +487,7 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
                       <Col md={3} className="formsection1">
                         <Form.Group>
                           <h6 className="userprofile userprofile12">
-                            Pipe Length (Inches)
+                            Pipe Length (Meters)
                           </h6>
                           <Form.Control
                             type="number"
