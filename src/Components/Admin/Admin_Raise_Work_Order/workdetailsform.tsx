@@ -310,7 +310,7 @@ const WorkDetails_Form_Preview = (props) => {
           <Row className="nxt90">
             {props.hide == false && (
               <Col md={12} className="flex_btns">
-                <Link to="/contractor_work_order_step2">
+                <Link to="/admin_new_work_order_step2">
                   <div className="job3 btn_outline">Back</div>
                 </Link>
                 <div className="job31" onClick={submitForm}>

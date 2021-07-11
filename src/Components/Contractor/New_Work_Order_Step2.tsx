@@ -607,6 +607,7 @@ const NewWorkOrderStep2 = withRouter((props) => {
                             id="no_of_specialist"
                             onChange={onchange}
                             placeholder=""
+                            onClick={() => Add_New_Config("specialist")}
                           />
                         </Form.Group>
                       </Col>
