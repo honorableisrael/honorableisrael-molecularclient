@@ -20,7 +20,7 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
     }
     axios
       .all([
-        axios.get(`${API}/admin/specialists?paginate=1&limit=5`, {
+        axios.get(`${API}/admin/specialists/new`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }),
       ])

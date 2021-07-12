@@ -595,3 +595,12 @@
     border-radius: 50%;
     object-fit: cover;
 }
+.emptypendingworkwrap{
+    background-color: #ffffff;
+    text-align: center;
+    padding: 71px 3px;
+    border-radius: 20px;
+}
+.emptypendingworkwrap>p{
+    margin: 20px 0px;
+}

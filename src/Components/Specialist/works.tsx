@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
 import DashboardNav from "./specialistNavbar";
 import { Col, Row, Container, ProgressBar, Modal, Form } from "react-bootstrap";
 import { Helmet } from "react-helmet";
@@ -12,8 +12,11 @@ import calenda from "../../images/calendarr.png";
 import location from "../../images/location.png";
 import Specialist_Work_details from "./specialist_work_detail";
 import closeimg from "../../images/closeimg.png";
+import Axios, { AxiosResponse } from "axios";
+import { API } from "../../config";
 
-const Works = (props) => {
+
+const Works = () => {
   const [state, setState] = useState({
     work_orders: [],
     inprogress: true,
@@ -28,7 +31,7 @@ const Works = (props) => {
     start_date: "",
     end_date: "",
     hours_perday: "",
-    terminateWorkModal: false
+    terminateWorkModal: false,
   });
   const {
     inprogress,
@@ -91,6 +94,28 @@ const Works = (props) => {
       terminateWorkModal: false
     });
   };
+  useEffect(() => {
+    window.scrollTo(-0, -0);
+    const availableToken = localStorage.getItem("loggedInDetails");
+    console.log(availableToken);
+  
+    const token = availableToken ? JSON.parse(availableToken) : "";
+    console.log(token);
+
+      Axios.get<any, AxiosResponse<any>>(`${API}/specialist/work-orders/pending`, {
+        headers: { Authorization: `Bearer ${token.access_token}` },
+      })
+      .then((res)=>{
+            console.log(res.data)
+            console.log(res.data.data)
+            setState({
+              ...state,
+              ...res.data.data
+
+            })
+      })
+  },[])
+
 
   return (
     <div>
@@ -163,220 +188,9 @@ const Works = (props) => {
                 </div>
               )}
               {pending_request && (
-                <div className="cardflex_jo">
-                  <Modal
-                    centered={true}
-                    onHide={closeworkModal}
-                    show={terminateWorkModal}
-                  >
-                    <div className="terminateworkmodalwrap">
-                      <div className="terminateworkmodalimg">
-                        <img
-                          src={closeimg}
-                          alt="close"
-                          onClick={closeworkModal}
-                        />
-                      </div>
-                      <div className="terminateworkmodaltitle">
-                        Decline Work
-                      </div>
-                      <form>
-                        <textarea
-                          name={"reason"}
-                          className="form-control wrkmodaltextarea"
-                          placeholder="Reason for Decline"
-                          rows={5}
-                          cols={5}
-                        ></textarea>
-                      </form>
-                      <div className="wrkmodal-btnwrap">
-                        <span
-                          className="wrkmodal-cancelbtn"
-                          onClick={closeworkModal}
-                        >
-                          Cancel
-                        </span>
-                        <span className="wrkmodal-declinebtn">Decline</span>
-                      </div>
-                    </div>
-                  </Modal>
-                  <div className="wrktimelinediv">
-                    <img src={exclam} alt="img" />
-                    <p>This job offer expires in 24 Hours</p>
-                  </div>
-                  <div className="pendingwrkcard">
-                    <div className="pendingwrkcard-imgwrper">
-                      <img src={portfolio} alt="img" />
-                    </div>
-                    <div className="pendingwrkcard-contntwraper">
-                      <div className="pendingwrkcard-headingdiv">
-                        <div className="pendingwrkcard-heading">
-                          Pipeline construction with Sulejah
-                        </div>
-                        <div>
-                          <span className="pendingwrkcard-heading-btn">
-                            <img src={greyelipse} alt="img" />
-                            Work
-                          </span>
-                        </div>
-                      </div>
-                      <p>Constructing a pipe from Lagos to Ofin State</p>
-                      <div className="pendingwrkcard-asstsdiv">
-                        <div className="pendingwrkcard-loctnasset">
-                          <div className="pendingwrkcard-asset-img">
-                            <img src={calenda} alt="img" />
-                          </div>
-                          <div className="pendingwrkcard-asset-cnt">
-                            <h5>Location</h5>
-                            <p>Lagos, Nigeria</p>
-                          </div>
-                        </div>
-                        <div>
-                          <div className="pendingwrkcard-calendasset">
-                            <div className="pendingwrkcard-asset-img">
-                              <img src={calenda} alt="img" />
-                            </div>
-                            <div className="pendingwrkcard-asset-cnt">
-                              <h5>Duration</h5>
-                              <p>5 Weeks</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="pendingwrkcard-btndv">
-                        <div className="pendingwrkcard-btndv1">
-                          <span className="pendingwrkcard-accptbtn">
-                            Accept
-                          </span>
-                          <span
-                            className="pendingwrkcard-declinebtn"
-                            onClick={workModal}
-                          >
-                            Decline
-                          </span>
-                        </div>
-                        <div>
-                          <span className="pendingwrkcard-btndv2">
-                            N30,000 <span>/ Week</span>
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div>
-                    <h5 className="work_details worktitle">Work Details</h5>
-                    {/* <Specialist_Work_details /> */}
-                    <div className="splstworkdetailwrapper">
-                      <Form>
-                        <Row>
-                          <Col md={12}>
-                            <div className="main_wrap_ws">
-                              <h6 className="userprofile12 userprofile123">
-                                Work Title
-                              </h6>
-                              <p className="Construction12">
-                                Construction of Gas pipes from Lagos to Abuja.
-                              </p>
-                            </div>
-                            <div className="main_wrap_ws">
-                              <h6 className="userprofile12 userprofile123">
-                                Work Description
-                              </h6>
-                              <p className="Construction12">
-                                This project involves the installation of
-                                cooking gas pipes from Lagos to Abuja to serve
-                                over 500,000 users. It is the first of its kind
-                                and would require the highest resource ever
-                                taken in the Pipe fitting industry.
-                              </p>
-                            </div>
-                            <div className="main_wrap_ws">
-                              <h6 className="userprofile12 userprofile123">
-                                Project Purpose
-                              </h6>
-                              <p className="Construction12">
-                                This project involves the installation of
-                                cooking gas pipes from Lagos to Abuja to serve
-                                over 500,000 users. It is the first of its kind
-                                and would require the highest resource ever
-                                taken in the Pipe fitting industry
-                              </p>
-                            </div>
-                            <div className="main_wrap_ws main_wrap_ws22">
-                              <div>
-                                <h6 className="userprofile12 userprofile123">
-                                  Location
-                                </h6>
-                                <div className="Construction12">Nigeria</div>
-                              </div>
-                              <div className="">
-                                <h6 className="userprofile12 userprofile123">
-                                  State
-                                </h6>
-                                <div className="Construction12">Lagos</div>
-                              </div>
-                              <div className="">
-                                <h6 className="userprofile12 userprofile123">
-                                  Town
-                                </h6>
-                                <div className="Construction12">Ikeja</div>
-                              </div>
-                              <div className="">
-                                <h6 className="userprofile12 userprofile123">
-                                  Location Terrain
-                                </h6>
-                                <div className="Construction12">Urban</div>
-                              </div>
-                            </div>
-                            <div className="main_wrap_ws main_wrap_ws22">
-                              <div>
-                                <h6 className="userprofile12 userprofile123">
-                                  Start Date
-                                </h6>
-                                <div className="Construction12">01/02/2021</div>
-                              </div>
-                              <div className="">
-                                <h6 className="userprofile12 userprofile123">
-                                  End Date
-                                </h6>
-                                <div className="Construction12">01/02/2023</div>
-                              </div>
-                              <div className="">
-                                <h6 className="userprofile12 userprofile123">
-                                  Hours/day
-                                </h6>
-                                <div className="Construction12">4</div>
-                              </div>
-                              <div className="">
-                                <h6 className="userprofile12 userprofile123">
-                                  Duration
-                                </h6>
-                                <div className="Construction12">3</div>
-                              </div>
-                            </div>
-                            <div>
-                              <hr />
-                            </div>
-                            <h6 className="userprofile12 userprofile123 userprofile1231">
-                              Payment Cycle
-                            </h6>
-                            <div>Bi weekly</div>
-                            <div className="splstworkdetaildiv">
-                              <div className="pendingwrkcard-btndv1">
-                                <span className="pendingwrkcard-accptbtn">
-                                  Accept
-                                </span>
-                                <span className="pendingwrkcard-declinebtn">
-                                  Decline
-                                </span>
-                              </div>
-                            </div>
-                          </Col>
-                        </Row>
-                      </Form>
-                    </div>
-                  </div>
-                </div>
+               <>
+               <Specialist_Work_details/>
+               </>
               )}
               {past && (
                 <div className="cardflex_jo">

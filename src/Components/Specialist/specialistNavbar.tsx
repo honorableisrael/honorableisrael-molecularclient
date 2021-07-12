@@ -45,7 +45,6 @@ const DashboardNav = props => {
       headers: { Authorization: `Bearer ${token.access_token}` },
     })
     .then((res)=>{
-       console.log(res.data.data)
        setState({
          ...state,
          user_details: res.data.data,

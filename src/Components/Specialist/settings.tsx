@@ -81,6 +81,7 @@ const SpecialistSettings = () => {
     verified: false,
     unverified: false,
     status: "",
+    total_works:  null,
   });
 
   const {
@@ -94,6 +95,7 @@ const SpecialistSettings = () => {
     fourthtab,
     terminateWorkModal,
     certificateModal,
+    total_works,
     certificateDisplay,
     noCertificateAdded,
     noExperienceAdded,
@@ -305,6 +307,7 @@ const SpecialistSettings = () => {
     window.scrollTo(-0, -0);
     const availableToken = localStorage.getItem("loggedInDetails");
     console.log(availableToken);
+  
     const token = availableToken ? JSON.parse(availableToken) : "";
     console.log(token);
     Axios.all([
@@ -324,7 +327,7 @@ const SpecialistSettings = () => {
             noExperienceAdded: user.experiences.length<=0? true: false,
             noCertificateAdded: user.certifications.length<=0? true:false,
             verified: user.status === "Active"? true: false,
-            unverified: user.status === "Inactive"? true : false,
+            unverified: user.status === "Pending"? true : false,
             viewPopup: user.status === "Active"? false : true,
             experienceActive: user.experiences.length<=0? "nowrapdemacator":"wrapdemacator",
             addexperiencebtn: user.experiences.length<=0? "noprofcerbtnwrapper":"profcerbtnwrapper",
@@ -433,7 +436,7 @@ const SpecialistSettings = () => {
     .then((response)=>{
         console.log(response);
        if(response.status==201){ 
-         notify("Profile Successfully Completed");
+         notify("Profile Successfully Completed, awaiting aprroval..");
        }
        else{
         notify("unSuccessfull");
@@ -523,7 +526,7 @@ const SpecialistSettings = () => {
                   <div className="orders1">
                     Total Work Orders
                     <div>
-                      <span className="num12a">2</span>
+                      <span className="num12a">{total_works}</span>
                     </div>
                     {verified  &&( 
                      <span className="splverifiduser">Verified user</span> 
