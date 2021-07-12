@@ -54,7 +54,7 @@ const SpecialistSettings = () => {
     viewPopup: false,
     reason: "",
     isloading: false,
-    specialist_rating: 1,
+    rating: null,
     age: null,
     certifications: [{}],
     dob: null,
@@ -125,7 +125,7 @@ const SpecialistSettings = () => {
     dob,
     experience_years,
     bio,
-    specialist_rating,
+    rating,
     reason,
     skills,
     first_name,
@@ -327,7 +327,7 @@ const SpecialistSettings = () => {
             noExperienceAdded: user.experiences.length<=0? true: false,
             noCertificateAdded: user.certifications.length<=0? true:false,
             verified: user.status === "Active"? true: false,
-            unverified: user.status === "Pending"? true : false,
+            unverified: user.status === "New"? true : false,
             viewPopup: user.status === "Active"? false : true,
             experienceActive: user.experiences.length<=0? "nowrapdemacator":"wrapdemacator",
             addexperiencebtn: user.experiences.length<=0? "noprofcerbtnwrapper":"profcerbtnwrapper",
@@ -435,7 +435,7 @@ const SpecialistSettings = () => {
     })
     .then((response)=>{
         console.log(response);
-       if(response.status==201 &&  user.status === "Pending"){ 
+       if(response.status==201 &&  user.status === "New"){ 
          notify("Profile Successfully Completed, awaiting aprroval..");
        }
        else if(response.status==201){
@@ -519,7 +519,7 @@ const SpecialistSettings = () => {
                         name="specialist_rating"
                         className="specialist_rating"
                         starCount={5}
-                        value={specialist_rating}
+                        value={rating}
                         // onStarClick={onStarClick}
                         emptyStarColor={"#444"}
                       />
