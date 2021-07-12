@@ -128,7 +128,7 @@ const AdminDashboard = withRouter((props) => {
         axios.get(`${API}/admin/dashboard`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }),
-        axios.get(`${API}/admin/specialists?paginate=1&limit=5`, {
+        axios.get(`${API}/admin/specialists/new`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }),
         axios.get(`${API}/notifications?paginate=1&limit=5`, {
@@ -193,7 +193,7 @@ const AdminDashboard = withRouter((props) => {
             <div className="carderw cardzero">
               <div className="cardzero12">
                 <div className="raise_joborder">
-                  Number of <div>Specialist</div>
+                  Number of <div>Specialists</div>
                 </div>
                 <div className="num_round green_bg1">
                   {admin?.specialists?.total ?? 0}
@@ -411,7 +411,7 @@ const AdminDashboard = withRouter((props) => {
                 </div>
               </div>
               <div>
-                <Link to="/admin_notification">
+                <Link to="/admin_payment_invoice">
                   <span className="arrow21 text11"></span>{" "}
                   <img
                     src={arrow}

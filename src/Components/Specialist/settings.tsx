@@ -435,8 +435,11 @@ const SpecialistSettings = () => {
     })
     .then((response)=>{
         console.log(response);
-       if(response.status==201){ 
+       if(response.status==201 &&  user.status === "Pending"){ 
          notify("Profile Successfully Completed, awaiting aprroval..");
+       }
+       else if(response.status==201){
+        notify("Profile Successfully Completed")
        }
        else{
         notify("unSuccessfull");

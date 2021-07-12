@@ -29,6 +29,8 @@ const WorkDetails_Form_Preview = (props) => {
     hour: "",
     terrains: "",
     location_terrain: "",
+    project_location:"",
+    project_location_name:"",
     state_: "",
     specialist_config: [],
     pipe_config: [],
@@ -55,6 +57,8 @@ const WorkDetails_Form_Preview = (props) => {
     billing_cycle,
     isloading,
     order_title,
+    project_location,
+    project_location_name,
   } = state;
 
   useEffect(() => {
@@ -114,6 +118,7 @@ const WorkDetails_Form_Preview = (props) => {
       project_terrain: location_terrain,
       pipe_configs: pipe_keys,
       skills: config_keys,
+      project_location,
     };
     console.log(work_order_data);
     axios
@@ -188,6 +193,14 @@ const WorkDetails_Form_Preview = (props) => {
                   </h6>
                   <div className="Construction12">
                     {location_terrain_name ?? "n/a"}
+                  </div>
+                </div>
+                <div className="">
+                  <h6 className="userprofile12 userprofile123">
+                   Project Location
+                  </h6>
+                  <div className="Construction12">
+                    {project_location_name ?? "n/a"}
                   </div>
                 </div>
               </div>

@@ -170,7 +170,7 @@ const AssignSpecialist = () => {
       : window.location.assign("/");
     axios
       .all([
-        axios.get(`${API}/admin/specialists/inactive?paginate=true`, {
+        axios.get(`${API}/admin/specialists/inactive`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }),
       ])
@@ -381,7 +381,8 @@ const AssignSpecialist = () => {
                       }}
                     >
                       <div className="spread_">
-                        {all_specialist?.map((data, i) => (
+                        {all_specialist?.map((data:any, i) => (
+                          data.engaged==false &&
                           <Specialist_card specialist_data={data} key={i} />
                         ))}
                         {all_specialist?.length == 0 && (

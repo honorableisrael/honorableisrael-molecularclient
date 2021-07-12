@@ -31,6 +31,8 @@ const WorkDetails_Form_Preview = (props) => {
     hour: "",
     terrains: "",
     location_terrain: "",
+    project_location:"",
+    project_location_name:"",
     state_: "",
     specialist_config: [],
     pipe_config: [],
@@ -42,7 +44,7 @@ const WorkDetails_Form_Preview = (props) => {
     hour,
     diameter,
     pipe_type,
-    pipesize,
+    project_location_name,
     pipe_config,
     location_terrain,
     state_,
@@ -59,6 +61,7 @@ const WorkDetails_Form_Preview = (props) => {
     billing_cycle,
     isloading,
     order_title,
+    project_location,
   } = state;
 
   useEffect(() => {
@@ -119,6 +122,7 @@ const WorkDetails_Form_Preview = (props) => {
       project_terrain: location_terrain,
       pipe_configs: pipe_keys,
       skills: config_keys,
+      project_location,
     };
     console.log(work_order_data);
     axios
@@ -198,6 +202,14 @@ const WorkDetails_Form_Preview = (props) => {
                   </h6>
                   <div className="Construction12">
                     {location_terrain_name ?? "n/a"}
+                  </div>
+                </div>
+                <div className="">
+                  <h6 className="userprofile12 userprofile123">
+                   Project Location
+                  </h6>
+                  <div className="Construction12">
+                    {project_location_name ?? "n/a"}
                   </div>
                 </div>
               </div>
@@ -310,7 +322,7 @@ const WorkDetails_Form_Preview = (props) => {
           <Row className="nxt90">
             {props.hide == false && (
               <Col md={12} className="flex_btns">
-                <Link to="/contractor_work_order_step2">
+                <Link to="/admin_new_work_order_step2">
                   <div className="job3 btn_outline">Back</div>
                 </Link>
                 <div className="job31" onClick={submitForm}>

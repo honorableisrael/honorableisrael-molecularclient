@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Col,
   Row,
@@ -16,14 +16,16 @@ import Slider from "react-rangeslider";
 import "react-rangeslider/lib/index.css";
 import { Helmet } from "react-helmet";
 import arrowback from "../../images/dtls.png";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import WorkOrderCardsMinInfo from "./WorkOrderCardsMinInfo";
 import avatar_test from "../../images/avatar_test.png";
 import dwnload from "../../images/dwnload.png";
 import WorkDetails_Form_Preview from "./workdetailsform";
 import New_Work_Order_Card from "./New_Work_Order_Card";
+import axios from "axios";
+import { API } from "../../config";
 
-const AdminWorkOrderEvaluation = () => {
+const AdminWorkOrderEvaluation = withRouter((props) => {
   const [state, setState] = useState({
     work_orders: [],
     country: "",
@@ -37,7 +39,7 @@ const AdminWorkOrderEvaluation = () => {
     location: "",
     end_date: "",
     start_date: "",
-    hour: "",
+    work_order_detail: "",
     show: false,
     reason: "",
   });
@@ -48,45 +50,57 @@ const AdminWorkOrderEvaluation = () => {
       [e.target.name]: e.target.value,
     });
   };
-  const onInputChange = (e) => {
-    const letterNumber = /^[A-Za-z]+$/;
-    if (e.target.value) {
-      return setState({
-        ...state,
-        [e.target.name]: e.target.value.replace(/[^0-9]+/g, ""), //only accept numbers
-      });
-    }
-    if (e.target.value < 0) {
-      return setState({
-        ...state,
-        [e.target.name]: 0,
-      });
-    }
-    if (e.target.value === "") {
-      return setState({
-        ...state,
-        [e.target.name]: 0,
-      });
-    }
-  };
-
+  
   const openModal = (e, x) => {
     setState({
       ...state,
       show: true,
     });
   };
+
+  useEffect(() => {
+    window.scrollTo(-0, -0);
+    const availableToken: any = localStorage.getItem("loggedInDetails");
+    const token = availableToken
+      ? JSON.parse(availableToken)
+      : window.location.assign("/");
+    const urlParams = new URLSearchParams(window.location.search);
+    let urlkey = props.location.search;
+    const work_order = localStorage.getItem("work_order_details");
+    const work_order_details = work_order ? JSON.parse(work_order) : "";
+    axios
+      .get(`${API}/admin/work-orders/${work_order_details?.id}`, {
+        headers: { Authorization: `Bearer ${token.access_token}` },
+      })
+      .then((res) => {
+        console.log(res.data.data);
+        setState({
+          ...state,
+          ...res.data.data,
+          work_order_detail: res.data.data,
+        });
+      })
+      .catch((err) => {
+        setState({
+          ...state,
+          work_order_detail: work_order_details,
+        });
+        console.log(err);
+      });
+    let inreview = props.location.search;
+    console.log(inreview);
+  }, []);
+
   const {
     project_purpose,
     country,
     work_order_description,
     order_title,
-    end_date,
+    work_order_detail,
     reason,
     location_terrain,
     start_date,
     show,
-    hour,
   } = state;
 
   return (
@@ -179,6 +193,7 @@ const AdminWorkOrderEvaluation = () => {
                     </div>
                     <New_Work_Order_Card
                       title={"Pipeline construction with Sulejah"}
+                      order_details={work_order_detail}
                       status={"Terminated"}
                       awaiting_assignment={false}
                       hide={true}
@@ -188,9 +203,12 @@ const AdminWorkOrderEvaluation = () => {
                 <div className="job23_1a" id="details">
                   <div className="job23_1a wrap_z wrap_p">
                     <div id="work"></div>
-                    <WorkDetails_Form_Preview hide={true} />
+                    <WorkDetails_Form_Preview
+                    order_detail={work_order_detail}
+                    hide={true} 
+                    />
                     <div className="nxtbck">
-                    <Link to="/admin_evaluation_step4">
+                    <Link to="/admin_evaluation_step2">
                       <div className="gent122">Next</div>
                     </Link>
                   </div>
@@ -245,6 +263,6 @@ const AdminWorkOrderEvaluation = () => {
       </Container>
     </>
   );
-};
+});
 
 export default AdminWorkOrderEvaluation;

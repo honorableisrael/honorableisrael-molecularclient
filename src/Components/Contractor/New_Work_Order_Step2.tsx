@@ -484,7 +484,7 @@ const NewWorkOrderStep2 = withRouter((props) => {
                       <Col md={3} className="formsection1">
                         <Form.Group>
                           <h6 className="userprofile userprofile12">
-                            Pipe Length (Inches)
+                            Pipe Length (Meters)
                           </h6>
                           <Form.Control
                             type="number"
@@ -607,6 +607,7 @@ const NewWorkOrderStep2 = withRouter((props) => {
                             id="no_of_specialist"
                             onChange={onchange}
                             placeholder=""
+                            onClick={() => Add_New_Config("specialist")}
                           />
                         </Form.Group>
                       </Col>

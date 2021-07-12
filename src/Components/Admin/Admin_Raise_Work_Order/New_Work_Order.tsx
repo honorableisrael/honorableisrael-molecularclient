@@ -31,6 +31,9 @@ const Admin_NewWorkOrderForm = withRouter((props) => {
     past: false,
     location_terrain: "",
     location_terrain_name: "",
+    project_location:"",
+    project_locations:[],
+    project_location_name:"",
     terrains: [],
     end_date: "",
     start_date: "",
@@ -93,6 +96,18 @@ const Admin_NewWorkOrderForm = withRouter((props) => {
       location_terrain_name: new_obj.name,
     });
   };
+
+  const inputHandler_Project_location = (e) => {
+    // if (e.target.name == "pipe_type") {
+    const new_obj = JSON.parse(e.target.value);
+    console.log(new_obj);
+    setState({
+      ...state,
+      project_location: new_obj.id,
+      project_location_name: new_obj.name,
+    });
+  };
+  
   const saveToBrowser = () => {
     const first_data = {
       company_id,
@@ -102,6 +117,8 @@ const Admin_NewWorkOrderForm = withRouter((props) => {
       project_purpose,
       location_terrain,
       location_terrain_name,
+      project_location,
+      project_location_name,
       state_,
       country,
       end_date,
@@ -126,14 +143,18 @@ const Admin_NewWorkOrderForm = withRouter((props) => {
       Axios.get(`${API}/admin/contractors`, {
         headers: { Authorization: `Bearer ${returnAdminToken().access_token}` },
       }),
+      Axios.get(`${API}/locations`, {
+        headers: { Authorization: `Bearer ${returnAdminToken().access_token}` },
+      }),
     ])
       .then(
-        axios.spread((res,res2) => {
+        axios.spread((res,res2,res3) => {
           console.log(res.data.data);
           setState({
             ...state,
             terrains: res.data.data,
             contractor_list: res2.data.data.data,
+            project_locations:res3.data.data,
             ...stored1,
           });
         })
@@ -168,6 +189,9 @@ const Admin_NewWorkOrderForm = withRouter((props) => {
     contractor_list,
     company_id,
     company_name,
+    project_location,
+    project_locations,
+    project_location_name,
   } = state;
   return (
     <>
@@ -294,7 +318,7 @@ const Admin_NewWorkOrderForm = withRouter((props) => {
                       </Col>
                     </Row>
                     <Row>
-                      <Col md={12} className="formsection1">
+                      <Col md={6} className="formsection1">
                         <Form.Group>
                           <h6 className="userprofile">Location Terrain</h6>
                           <select
@@ -305,10 +329,38 @@ const Admin_NewWorkOrderForm = withRouter((props) => {
                           >
                             <option>
                               {location_terrain
-                                ? location_terrain
+                                ? location_terrain_name
                                 : "Select Terrain"}
                             </option>
                             {terrains.map((data, i) => (
+                              <option
+                                className="specialization"
+                                value={JSON.stringify({
+                                  id: data.id,
+                                  name: data.name,
+                                })}
+                              >
+                                {data.name}
+                              </option>
+                            ))}
+                          </select>
+                        </Form.Group>
+                      </Col>
+                      <Col md={6} className="formsection1">
+                        <Form.Group>
+                          <h6 className="userprofile">Project Location</h6>
+                          <select
+                            className="userfield form-control"
+                            id="project_location"
+                            onChange={inputHandler_Project_location}
+                            placeholder=""
+                          >
+                            <option>
+                              {project_location_name
+                                ? project_location_name
+                                : "Select project location"}
+                            </option>
+                            {project_locations.map((data, i) => (
                               <option
                                 className="specialization"
                                 value={JSON.stringify({

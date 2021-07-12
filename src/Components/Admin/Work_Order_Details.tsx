@@ -49,6 +49,8 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
     show: false,
     reason: "",
     already_approved: false,
+    new_work: false,
+    inreview: false,
   });
   const onchange = (e) => {
     console.log(e.target.value);
@@ -98,10 +100,11 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
     already_approved,
     reason,
     location_terrain,
+    new_work,
     start_date,
     work_order_detail,
     show,
-    hour,
+    inreview,
   } = state;
   const Accept_work_order = () => {
     const availableToken: any = localStorage.getItem("loggedInDetails");
@@ -129,6 +132,9 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
         axios.spread((res) => {
           notify("Successfull");
           console.log(res.data);
+          setTimeout(() => {
+            window.location.assign("/admin_work_order");
+          }, 2000);
           setState({
             ...state,
             isloading: false,
@@ -136,6 +142,9 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
         })
       )
       .catch((err) => {
+        if (err?.response?.status == 400) {
+          notify(err?.response?.data?.message, "D");
+        }
         console.log(err);
         setState({
           ...state,
@@ -213,6 +222,8 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
           ...res.data.data,
           already_approved: urlkey ? true : false,
           work_order_detail: res.data.data,
+          new_work: res.data.data.status == "New" ? true : false,
+          inreview: res.data.data.status == "In Review" ? true : false,
         });
       })
       .catch((err) => {
@@ -290,7 +301,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                 Work Details
               </div>
             </div>
-            {!already_approved && (
+            {new_work && (
               <div className="rjwrapper mrgin__right">
                 <Button
                   className="accjct1"
@@ -306,6 +317,13 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                 <Button className="rejct1" onClick={Accept_work_order}>
                   {isloading ? "Processing" : "Accept"}
                 </Button>
+              </div>
+            )}
+            {inreview && (
+              <div className="rjwrapper mrgin__right">
+                <Link to="/work_order_evaluation">
+                  <Button className="rejct1">{"Edit"}</Button>
+                </Link>
               </div>
             )}
             <Row className="mgtop">
@@ -334,7 +352,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                 </div>
                 <div className="job23_1a" id="details">
                   <h6 className="title22">Specialist Deployed</h6>
-                  {assigned_specialists.length == 0 && (
+                  {assigned_specialists.length == 0 && !new_work && (
                     <Col md={11} className="containerforemptyorder1 cust20">
                       <div className="containerforemptyorder">
                         <img
@@ -363,71 +381,78 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                     </Col>
                   )}
                   <div className="job23_1a wrap_z">
-                    <>
-                      <div className="group_flex">
-                        <div className="grpA">
-                          Group <b>A</b>
+                    {!new_work && assigned_specialists.length !== 0 && (
+                      <>
+                        <div className="group_flex">
+                          <div className="grpA">
+                            Group <b>A</b>
+                          </div>
+                          <div className="grpB">
+                            <b>0</b> Deployed
+                          </div>
                         </div>
-                        <div className="grpB">
-                          <b>0</b> Deployed
+                        <div className="tabledata tabledataweb">
+                          <div className="header_12 pleft">Fullname</div>
+                          <div className="header_12">Type</div>
+                          <div className="header_12">Group Position</div>
+                          <div className="header_12">Status</div>
                         </div>
-                      </div>
-                      <div className="tabledata tabledataweb">
-                        <div className="header_12 pleft">Fullname</div>
-                        <div className="header_12">Type</div>
-                        <div className="header_12">Group Position</div>
-                        <div className="header_12">Status</div>
-                      </div>
-                      {assigned_specialists.length !== 0 &&
-                        assigned_specialists.map((data, i) => (
-                          <>
-                            <div
-                              className={
-                                checkIfIsOdd(i)
-                                  ? "tabledata"
-                                  : "tabledata tablecontent"
-                              }
-                            >
-                              <div className="header_12">
-                                <img
-                                  src={avatar_test}
-                                  className="specialist_avatar"
-                                />
-                                <div className="mobiletabledata">Fullname</div>
-                                {data.first_name}
-                                {data.last_name}
-                              </div>
-                              <div className="header_12 typ22">
-                                <div className="mobiletabledata mobiletabledata22 ">
-                                  Type
+
+                        {assigned_specialists.length !== 0 &&
+                          assigned_specialists.map((data, i) => (
+                            <>
+                              <div
+                                className={
+                                  checkIfIsOdd(i)
+                                    ? "tabledata"
+                                    : "tabledata tablecontent"
+                                }
+                              >
+                                <div className="header_12">
+                                  <img
+                                    src={avatar_test}
+                                    className="specialist_avatar"
+                                  />
+                                  <div className="mobiletabledata">
+                                    Fullname
+                                  </div>
+                                  {data.first_name}
+                                  {data.last_name}
                                 </div>
-                                <div> {capitalize(data.skills?.[0].name)}</div>
-                              </div>
-                              <div className="header_12">
-                                <div className="mobiletabledata mobiletabledata22">
-                                  Group Position
+                                <div className="header_12 typ22">
+                                  <div className="mobiletabledata mobiletabledata22 ">
+                                    Type
+                                  </div>
+                                  <div>
+                                    {" "}
+                                    {capitalize(data.skills?.[0].name)}
+                                  </div>
                                 </div>
-                                <div className="glead"> Member </div>
-                              </div>
-                              <div className="header_12 active_member">
-                                <div className="mobiletabledata mobiletabledata22">
-                                  Status
+                                <div className="header_12">
+                                  <div className="mobiletabledata mobiletabledata22">
+                                    Group Position
+                                  </div>
+                                  <div className="glead"> Member </div>
                                 </div>
-                                <div className="active_member">
-                                  {" "}
-                                  {data.status == "Pending" ? (
-                                    <span className="pending_color">
-                                      {data.status}
-                                    </span>
-                                  ) : (
-                                    data.status
-                                  )}
+                                <div className="header_12 active_member">
+                                  <div className="mobiletabledata mobiletabledata22">
+                                    Status
+                                  </div>
+                                  <div className="active_member">
+                                    {" "}
+                                    {data.status == "Pending" ? (
+                                      <span className="pending_color">
+                                        {data.status}
+                                      </span>
+                                    ) : (
+                                      data.status
+                                    )}
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                          </>
-                        ))}
-                      {/* <div className="tabledata">
+                            </>
+                          ))}
+                        {/* <div className="tabledata">
                         <div className="header_12">
                           <img
                             src={avatar_test}
@@ -457,7 +482,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                         <div className="header_12">Member</div>
                         <div className="header_12 active_member">Active</div>
                       </div> */}
-                      {/* <div className="active_member2">
+                        {/* <div className="active_member2">
                         <div>
                           Displaying <b> 1</b> of <b>2</b>
                         </div>
@@ -468,7 +493,8 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                           <Pagination.Last />
                         </Pagination>
                       </div> */}
-                    </>
+                      </>
+                    )}
                     <div>
                       <hr />
                     </div>
@@ -521,7 +547,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                       />
                     </div>
                   </div>
-                  {!already_approved && (
+                  {/* {!already_approved && (
                     <>
                       <h6 className="title22 title22r2" id="actions">
                         Actions
@@ -561,7 +587,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                         </div>
                       </div>
                     </>
-                  )}
+                  )} */}
                 </div>
               </Col>
             </Row>
@@ -572,6 +598,13 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
         enableMultiContainer
         containerId={"D"}
         toastClassName="bg-danger text-white"
+        hideProgressBar={true}
+        position={"top-right"}
+      />
+      <ToastContainer
+        enableMultiContainer
+        containerId={"B"}
+        toastClassName="bg-orange text-white"
         hideProgressBar={true}
         position={"top-right"}
       />

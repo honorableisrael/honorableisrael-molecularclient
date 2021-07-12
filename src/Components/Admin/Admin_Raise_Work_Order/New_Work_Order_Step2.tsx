@@ -46,6 +46,7 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
     title_of_specialist: "",
     pipe_config: [],
   });
+  
   const inputHandler = (e) => {
     // if (e.target.name == "pipe_type") {
     const new_obj = JSON.parse(e.target.value);
@@ -56,6 +57,7 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
       pipe_name: new_obj.name,
     });
   };
+
   const onchange_Area_Of_Specialization = (e) => {
     // if (e.target.name == "pipe_type") {
     const new_obj = JSON.parse(e.target.value);
@@ -66,6 +68,7 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
       title_of_specialist: new_obj.name,
     });
   };
+
   const onchange_pipeschedule = (e) => {
     // if (e.target.name == "pipe_type") {
     const new_obj = JSON.parse(e.target.value);
@@ -233,7 +236,10 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
     toast(message, { containerId: "B", position: "top-right" });
 
   const multipleEntryController = () => { 
+    console.log(pipe_config)
+    console.log(specialist_config)
     try {
+      console.log("1")
       if (
         no_of_specialist &&
         type_of_specialist &&
@@ -277,6 +283,7 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
         pipe_config &&
         Object.keys(pipe_config[0]).length === 0
       ) {
+        
         console.log("spec");
         const Specialist: any = [
           {
@@ -321,7 +328,8 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
         localStorage.setItem("admin_second_step", JSON.stringify(second_data));
         return props.history.push("/admin_new_work_order_step3");
       }
-      if (specialist_config && pipe_config) {
+      if (Object.keys(specialist_config[0]).length > 0 && Object.keys(pipe_config[0]).length > 0) {
+        console.log("3")
         if (
           Object.keys(pipe_config[0]).length > 0 ||
           Object.keys(specialist_config[0]).length > 0
@@ -338,6 +346,7 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
         Object.keys(pipe_config === null) ||
         Object.keys(specialist_config === null )
       ) {
+        console.log("4")
         return notify("Pipe config and specialist config cannot be empty");
       }
     } catch (error) {
@@ -378,7 +387,7 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
                   {" "}
                   <img src={arrowback} className="arrowback" />
                 </Link>
-                New Work Order
+                Create Work Order
               </div>
             </div>
             <Row>
@@ -484,7 +493,7 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
                       <Col md={3} className="formsection1">
                         <Form.Group>
                           <h6 className="userprofile userprofile12">
-                            Pipe Length (Inches)
+                            Pipe Length (Meters)
                           </h6>
                           <Form.Control
                             type="number"
@@ -606,6 +615,7 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
                             className="userfield"
                             id="no_of_specialist"
                             onChange={onchange}
+                            onBlur={() => Add_New_Config("specialist")}
                             placeholder=""
                           />
                         </Form.Group>
