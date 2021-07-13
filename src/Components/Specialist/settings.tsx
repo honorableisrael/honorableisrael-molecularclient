@@ -82,6 +82,7 @@ const SpecialistSettings = () => {
     unverified: false,
     status: "",
     total_works:  null,
+    fourthtabInactive: "",
   });
 
   const {
@@ -90,6 +91,7 @@ const SpecialistSettings = () => {
     thirdtab,
     experienceActive,
     certificationActive,
+    fourthtabInactive,
     certificationbtn,
     addexperiencebtn,
     fourthtab,
@@ -135,6 +137,7 @@ const SpecialistSettings = () => {
     last_name,
     title,
     description,
+    
   }: any = state;
   const onchange = (e) => {
     console.log(e.target.value);
@@ -333,6 +336,7 @@ const SpecialistSettings = () => {
             addexperiencebtn: user.experiences.length<=0? "noprofcerbtnwrapper":"profcerbtnwrapper",
             certificationActive: user.certifications.length<=0? "nowrapdemacator":"profcertifncntent",
             certificationbtn: user.certifications.length<=0? "nowrapdemacator":"profcerbtnwrapper",
+            fourthtabInactive: user.status === "New" ? "inactivetab": "activetab"
           });
         })
       )
@@ -595,7 +599,7 @@ const SpecialistSettings = () => {
                       </div>
                     ) : (
                       <div
-                        className="Profile2002 Profile2002a inactivebordr"
+                        className={`Profile2002 Profile2002a inactivebordr ${fourthtabInactive}`}
                         onClick={() => switchTab("fourthtab")}
                       >
                         Deactivate Account

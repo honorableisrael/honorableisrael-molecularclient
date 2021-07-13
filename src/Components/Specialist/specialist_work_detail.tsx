@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef} from "react";
 import { Col, Row, Form, ProgressBar, Modal } from "react-bootstrap";
 import closeimg from "../../images/closeimg.png";
 import Axios, { AxiosResponse } from "axios";
@@ -17,7 +17,6 @@ const Specialist_Work_details = props => {
   const [state, setState] = useState({
     terminateWorkModal: false,
     data: [{}],
-    id: null,
     title: "",
     work_details: "",
     emptyworkorder: true,
@@ -40,17 +39,23 @@ const Specialist_Work_details = props => {
     current_week: null,
     isloading: false,
     reason: "",
+    errorMessage: "",
+    successMessage: "",
+    selectedWork:"",
+
   });
   const {
     terminateWorkModal,
     data,
     emptyworkorder,
+    selectedWork,
     workorderdetails,
     work_details,
-    id,
     title,
     reference,
     contractor,
+    errorMessage,
+    successMessage,
     description,
     purpose,
     start_date,
@@ -58,6 +63,7 @@ const Specialist_Work_details = props => {
     country,
     city,
     hours_per_day,
+    isloading,
     status,
     payment_cycle,
     terrain,
@@ -70,7 +76,7 @@ const Specialist_Work_details = props => {
   const workModal = () => {
     setState({
       ...state,
-      terminateWorkModal: true
+      terminateWorkModal: true,
     });
   };
   const closeworkModal = () => {
@@ -105,36 +111,37 @@ const Specialist_Work_details = props => {
     )
     .then(res => {
       console.log(res.data);
-      console.log(res.data.data);
+      const id = res.data.data.id
       setState({
         ...state,
         ...res.data.data,
-        work_details: res.data.data,
+        id: res.data.data,
         workorderdetails: data.length > 0? true : false,
-        emptyworkorder: data.length == 0 ? false : true,
+        emptyworkorder: data.length > 0 ? false : true,
       });
     });
   }, []);
-  const Accept_work_order = () => {
+  const Accept_work_order = (id) => {
     const availableToken: any = localStorage.getItem("loggedInDetails");
     const token = availableToken
+
       ? JSON.parse(availableToken)
       : window.location.assign("/signin");
     setState({
       ...state,
       isloading: true,
     });
+    
     Axios
       .all([
         Axios.post(
-          `${API}/specialist/work-orders/${work_details.id}/accept`,
-          {},
+          `${API}/specialist/work-orders/${id}/accept`,{},
           {
             headers: {
               Authorization: `Bearer ${token.access_token}`,
-              "Content-Type": "application/json",
             },
           }
+       
         ),
       ])
       .then(
@@ -144,25 +151,29 @@ const Specialist_Work_details = props => {
           setState({
             ...state,
             isloading: false,
+            successMessage: res.data.data.message 
           });
         })
       )
       .catch((err) => {
-        console.log(err);
+        console.log(err.response);
         setState({
           ...state,
           isloading: false,
+          errorMessage: err?.response?.data?.message
         });
       });
   };
-  const Reject_work_order = () => {
+  const Reject_work_order = (id) => {
     const availableToken: any = localStorage.getItem("loggedInDetails");
     const token = availableToken
       ? JSON.parse(availableToken)
-      : window.location.assign("/");
+      : window.location.assign("/signin");
+
     setState({
       ...state,
       isloading: true,
+      terminateWorkModal: false,
     });
     const data = {
       reason,
@@ -170,7 +181,7 @@ const Specialist_Work_details = props => {
     Axios
       .all([
         Axios.post(
-          `${API}/specialist/work-orders/${work_details.id}/accept`,
+          `${API}/specialist/work-orders/${id}/decline`,
           data,
           {
             headers: {
@@ -187,6 +198,7 @@ const Specialist_Work_details = props => {
           setState({
             ...state,
             isloading: false,
+            successMessage: res.data.data.message 
           });
         })
       )
@@ -196,9 +208,18 @@ const Specialist_Work_details = props => {
         setState({
           ...state,
           isloading: false,
+          errorMessage: err?.response?.data?.message
         })
       });
   };
+  // const fieldRef: any = useRef();
+  // useEffect(() => {
+  //   if (errorMessage || successMessage && fieldRef) {
+  //     fieldRef.current.scrollIntoView({
+  //       behavior: "smooth"
+  //     });
+  //   }
+  // }, [errorMessage, successMessage]);
   return (
     <>
      <ToastContainer
@@ -219,15 +240,21 @@ const Specialist_Work_details = props => {
             <p>You have no pending work request</p>
           </div>
         )}
+        {successMessage &&(<div className="wrktimelinediv">
+                    <img src={exclam} alt="img" />
+                    <p>{successMessage}</p>
+                  </div>
+                  )}
+                  {errorMessage &&(<div className="wrktimelinediv">
+                    <img src={exclam} alt="img" />
+                    <p>{errorMessage}</p>
+                  </div>
+                  )}
         {workorderdetails && (
           <div>
-            {data.map((data, index) => {
+            {data.map((data, id) => {
               return (
-                <div key={index}>
-                  <div className="wrktimelinediv">
-                    <img src={exclam} alt="img" />
-                    <p>This job offer expires in 24 Hours</p>
-                  </div>
+                <div key={id}>
                   <div className="pendingwrkcard">
                     <Modal
                       centered={true}
@@ -243,12 +270,14 @@ const Specialist_Work_details = props => {
                           />
                         </div>
                         <div
-                         className="terminateworkmodaltitle" onClick={Reject_work_order}>
+                         className="terminateworkmodaltitle" >
                           Decline Work
                         </div>
                         <form>
                           <textarea
-                            name={"reason"}
+                            name="reason"
+                            value={reason}
+                            onChange={onchange}
                             className="form-control wrkmodaltextarea"
                             placeholder="Reason for Decline"
                             rows={5}
@@ -262,7 +291,7 @@ const Specialist_Work_details = props => {
                           >
                             Cancel
                           </span>
-                          <span className="wrkmodal-declinebtn">Decline</span>
+                          <span className="wrkmodal-declinebtn" onClick={()=>Reject_work_order(data.id)}>Decline</span>
                         </div>
                       </div>
                     </Modal>
@@ -308,8 +337,8 @@ const Specialist_Work_details = props => {
                       </div>
                       <div className="pendingwrkcard-btndv">
                         <div className="pendingwrkcard-btndv1">
-                          <span className="pendingwrkcard-accptbtn" onClick={Accept_work_order}>
-                            Accept
+                          <span className="pendingwrkcard-accptbtn" onClick={()=>Accept_work_order(data.id)}>
+                          {!isloading ? "Accept" : "Processing..."}
                           </span>
                           <span
                             className="pendingwrkcard-declinebtn"
@@ -427,8 +456,8 @@ const Specialist_Work_details = props => {
                             <div>{data.payment_cycle}</div>
                             <div className="splstworkdetaildiv">
                               <div className="pendingwrkcard-btndv1">
-                                <span className="pendingwrkcard-accptbtn" onClick={Accept_work_order}>
-                                  Accept
+                                <span className="pendingwrkcard-accptbtn" onClick={()=>Accept_work_order(data.id)}>
+                                {!isloading ? "Accept" : "Processing..."}
                                 </span>
                                 <span
                                   className="pendingwrkcard-declinebtn"

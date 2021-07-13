@@ -604,3 +604,9 @@
 .emptypendingworkwrap>p{
     margin: 20px 0px;
 }
+.inactivetab{
+    display: none;
+}
+.activetab{
+    display: block;
+}

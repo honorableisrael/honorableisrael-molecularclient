@@ -56,9 +56,9 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
     const availableToken: any = localStorage.getItem("loggedInDetails");
     const token = availableToken
       ? JSON.parse(availableToken)
-      : window.location.assign("/");
+      : window.location.assign("/signin");
     if (token.user_type !== "admin") {
-      return props.history.push("/login");
+      return props.history.push("/signin");
     }
     setState({
       ...state,
@@ -177,7 +177,7 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
               <div className="accpt3"></div>
             </div>
             {all_specialist.map((data, i) =>
-              data.status == "Pending" ? (
+              data.status ? (
                 <div className="specialistwrapper">
                   {false && (
                     <img

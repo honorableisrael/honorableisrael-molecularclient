@@ -304,7 +304,7 @@ const AdminWorkOrderEvaluationStep2 = () => {
                       <Col md={6}>
                         <div className="pipelength pipelng">
                           <div className="pipelength1q">
-                            Pipe Length (inches) <span className="text-danger">*</span>
+                            Pipeline Length (meters) <span className="text-danger">*</span>
                           </div>
                           <div className="pipelength1">
                             <input
