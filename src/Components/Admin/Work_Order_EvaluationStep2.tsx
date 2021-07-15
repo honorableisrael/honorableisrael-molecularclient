@@ -24,9 +24,9 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import pen from "../../images/pen.png";
 import axios, { AxiosResponse } from "axios";
-import { API, notify } from "../../config";
+import { API, FormatAmount, notify } from "../../config";
 
-const AdminWorkOrderEvaluationStep2 = () => {
+const AdminWorkOrderEvaluationStep2 = (props) => {
   const [state, setState] = useState<any>({
     work_orders: [],
     isloading: false,
@@ -44,21 +44,27 @@ const AdminWorkOrderEvaluationStep2 = () => {
     hour: "",
     types_of_Specialist: [],
     pipe_schedules: [],
-    type_of_specialist:"",
-    number:"",
-    title_of_specialist:"",
-    id:"",
-    type:"",
-    pipeList:[],
+    type_of_specialist: "",
+    number: "",
+    title_of_specialist: "",
+    id: "",
+    type: "",
+    pipeList: [],
     price: "",
     joints: "",
     size: "",
     pipe_schedule: "",
+    cost_per_inch: "",
+    size_value: "",
     length: "",
-    p_config_modal:false,
-    s_config_modal:false,
+    p_config_modal: false,
+    s_config_modal: false,
+    total_cost: "",
+    cost_details: [],
+    specialist_requests: [],
+    payment_cycle:"",
+    show_2: false,
   });
-
 
   const onchange = (e) => {
     console.log(e.target.value);
@@ -89,24 +95,32 @@ const AdminWorkOrderEvaluationStep2 = () => {
     }
   };
 
+  const openModal2 = () => {
+    setState({
+      ...state,
+      show_2: true,
+    });
+  };
   const openModal = (type, data) => {
-    if(type=="specialist_config"){
+    if (type == "specialist_config") {
       setState({
         ...state,
         show: true,
-        type_of_specialist:data.id,
-        title_of_specialist:data.skill,
-        number:data.number,
-        s_config_modal:true
-      });      
+        type_of_specialist: data.id,
+        title_of_specialist: data.skill,
+        number: data.number,
+        s_config_modal: true,
+      });
     }
-    if(type=="pipe_config"){
+    if (type == "pipe_config") {
       setState({
         ...state,
         show: true,
         ...data,
-        p_config_modal:true,
-      });      
+        p_config_modal: true,
+        pipe_schedule: data.pipe_schedule_id,
+        type: data.pipe_type_id,
+      });
     }
   };
   const onchange_pipeschedule = (e) => {
@@ -119,7 +133,16 @@ const AdminWorkOrderEvaluationStep2 = () => {
       pipe_schedule: new_obj.id,
     });
   };
-
+  const onchange_pipesize = (e) => {
+    // if (e.target.name == "pipe_type") {
+    const new_obj = JSON.parse(e.target.value);
+    console.log(new_obj);
+    setState({
+      ...state,
+      size_value: new_obj.name,
+      size: new_obj.id,
+    });
+  };
   useEffect(() => {
     window.scrollTo(-0, -0);
     const availableToken: any = localStorage.getItem("loggedInDetails");
@@ -144,7 +167,7 @@ const AdminWorkOrderEvaluationStep2 = () => {
         }),
       ])
       .then(
-        axios.spread((res, res2,res3,res4) => {
+        axios.spread((res, res2, res3, res4) => {
           console.log(res.data.data);
           setState({
             ...state,
@@ -180,14 +203,14 @@ const AdminWorkOrderEvaluationStep2 = () => {
     const token = availableToken
       ? JSON.parse(availableToken)
       : window.location.assign("/");
-      setState({
-        ...state,
-        isloading:true
-      })
+    setState({
+      ...state,
+      isloading: true,
+    });
     const data = {
-      skill:type_of_specialist,
-      number
-    }
+      skill: type_of_specialist,
+      number,
+    };
     axios
       .put(`${API}/admin/work-orders/${work_order_detail.id}/skills`, data, {
         headers: { Authorization: `Bearer ${token.access_token}` },
@@ -198,17 +221,17 @@ const AdminWorkOrderEvaluationStep2 = () => {
         setTimeout(() => {
           window.location.reload();
         }, 2000);
-              setState({
-        ...state,
-        isloading:false
-      })
+        setState({
+          ...state,
+          isloading: false,
+        });
       })
       .catch((err) => {
         setState({
           ...state,
-          isloading:false
-        })  
-        console.log((err?.response));
+          isloading: false,
+        });
+        console.log(err?.response);
         notify("Failed to update", "D");
       });
   };
@@ -217,21 +240,26 @@ const AdminWorkOrderEvaluationStep2 = () => {
     const token = availableToken
       ? JSON.parse(availableToken)
       : window.location.assign("/");
-      setState({
-        ...state,
-        isloading:true
-      })
+    setState({
+      ...state,
+      isloading: true,
+    });
     const data = {
       length,
       joints,
       pipe_schedule,
       size,
-      type:id,
-  }
+      type,
+      cost_per_inch,
+    };
     axios
-      .put(`${API}/admin/work-orders/${work_order_detail.id}/pipe-configs/${id}`, data, {
-        headers: { Authorization: `Bearer ${token.access_token}` },
-      })
+      .put(
+        `${API}/admin/work-orders/${work_order_detail.id}/pipe-configs/${id}`,
+        data,
+        {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }
+      )
       .then((res) => {
         console.log(res);
         notify("Successfully updated");
@@ -240,20 +268,160 @@ const AdminWorkOrderEvaluationStep2 = () => {
         }, 2000);
         setState({
           ...state,
-          isloading:false
-        })  
+          isloading: false,
+        });
       })
       .catch((err) => {
         setState({
           ...state,
-          isloading:false
-        })  
+          isloading: false,
+        });
         console.log(err?.response);
         notify("Failed to update");
       });
   };
+  const GenerateCost = () => {
+    const availableToken: any = localStorage.getItem("loggedInDetails");
+    const token = availableToken
+      ? JSON.parse(availableToken)
+      : window.location.assign("/");
+    const work_order = localStorage.getItem("work_order_details");
+    const work_order_details = work_order ? JSON.parse(work_order) : "";
+    setState({
+      ...state,
+      isloading: true,
+    });
+    axios
+      .all([
+        axios.post(
+          `${API}/admin/work-orders/${work_order_details?.id}/cost`,
+          {},
+          {
+            headers: { Authorization: `Bearer ${token.access_token}` },
+          }
+        ),
+      ])
+      .then(
+        axios.spread((res) => {
+          notify("Successful");
+          window.scrollTo(2000, 2000);
+          console.log(res.data.data);
+          setState({
+            ...state,
+            isloading: false,
+            total_cost: res.data.data.total_cost,
+            specialist_requests: res.data.data.specialist_requests,
+          });
+        })
+      )
+      .catch((err) => {
+        setState({
+          ...state,
+          isloading: false,
+        });
+        if(err?.response?.status==400){
+        return notify(err?.response?.data?.message) 
+         }
+        notify("Failed to generate cost")
+        console.log(err);
+      });
+  };
+  const RaiseInvoice = () => {
+    const availableToken: any = localStorage.getItem("loggedInDetails");
+    const token = availableToken
+      ? JSON.parse(availableToken)
+      : window.location.assign("/");
+    const work_order = localStorage.getItem("work_order_details");
+    const work_order_details = work_order ? JSON.parse(work_order) : "";
+    setState({
+      ...state,
+      isloading: true,
+    });
+    axios
+      .all([
+        axios.post(
+          `${API}/admin/work-orders/${work_order_details?.id}/invoice`,
+          {},
+          {
+            headers: { Authorization: `Bearer ${token.access_token}` },
+          }
+        ),
+      ])
+      .then(
+        axios.spread((res) => {
+          notify("Successful");
+          props.history.push("/admin_evaluation_step3");
+          console.log(res.data.data);
+          setState({
+            ...state,
+            isloading: false,
+          });
+        })
+      )
+      .catch((err) => {
+        setState({
+          ...state,
+          isloading: false,
+        });
+        if(err?.response?.status==400){
+          return notify(err?.response?.data?.message) 
+           }
+        console.log(err);
+      });
+  };
+
+
+  const updateWorkOrder =()=>{
+    const availableToken: any = localStorage.getItem("loggedInDetails");
+    const token = availableToken
+      ? JSON.parse(availableToken)
+      : window.location.assign("/");
+    const work_order = localStorage.getItem("work_order_details");
+    const work_order_details = work_order ? JSON.parse(work_order) : "";
+    setState({
+      ...state,
+      isloading: true,
+    });
+    const workorder = work_order_detail
+     delete workorder.payment_cycle
+     workorder.payment_cycle = payment_cycle
+    const data = {
+      payment_cycle
+    }
+    axios
+      .all([
+        axios.put(
+          `${API}/admin/work-orders/${work_order_details?.id}/payment-cycle`,
+          data,
+          {
+            headers: { Authorization: `Bearer ${token.access_token}` },
+          }
+        ),
+      ])
+      .then(
+        axios.spread((res) => {
+          console.log(res.data.data);
+          setState({
+            ...state,
+            isloading: false,
+          });
+        })
+      )
+      .catch((err) => {
+        if(err?.response?.status==400){
+         notify(err?.response?.data?.message) 
+        }
+        setState({
+          ...state,
+          isloading: false,
+        });
+        console.log(err);
+      });
+  }
   const {
-    project_purpose,
+    cost_details,
+    payment_cycle,
+    total_cost,
     isloading,
     id,
     s_config_modal,
@@ -266,13 +434,16 @@ const AdminWorkOrderEvaluationStep2 = () => {
     work_order_detail,
     show,
     pipe_schedule,
-    price,
+    show_2,
     type,
+    cost_per_inch,
     joints,
     size,
     length,
+    pipeList,
+    specialist_requests,
   } = state;
-
+  console.log(work_order_detail);
   return (
     <>
       <Modal
@@ -282,8 +453,8 @@ const AdminWorkOrderEvaluationStep2 = () => {
           setState({
             ...state,
             show: false,
-            p_config_modal:false,
-            s_config_modal:false,
+            p_config_modal: false,
+            s_config_modal: false,
           })
         }
         dialogClassName="modal-90w"
@@ -296,168 +467,206 @@ const AdminWorkOrderEvaluationStep2 = () => {
         </Modal.Header>
         <Modal.Body>
           <Row>
-           {p_config_modal && <Col md={12}>
-              <Form>
-                <div className="overview__2">
-                  <div className="pricing_cal">
-                    <Row>
-                      <Col md={6}>
-                        <div className="pipelength pipelng">
-                          <div className="pipelength1q">
-                            Pipeline Length (meters) <span className="text-danger">*</span>
+            {p_config_modal && (
+              <Col md={12}>
+                <Form>
+                  <div className="overview__2">
+                    <div className="pricing_cal">
+                      <Row>
+                        <Col md={6}>
+                          <div className="pipelength pipelng">
+                            <div className="pipelength1q">
+                              Pipeline Length (meters){" "}
+                              <span className="text-danger">*</span>
+                            </div>
+                            <div className="pipelength1">
+                              <input
+                                type="number"
+                                className="pipelength1 form-control"
+                                placeholder=""
+                                name="length"
+                                value={length}
+                                onChange={onchange}
+                              />
+                            </div>
                           </div>
-                          <div className="pipelength1">
-                            <input
-                              type="number"
-                              className="pipelength1 form-control"
-                              placeholder="Pipe length"
-                              name="length"
-                              value={length}
-                              onChange={onchange}
-                            />
-                          </div>
-                        </div>
-                      </Col>
-                      <Col md={6}>
-                        <div className="pipelength pipelng">
-                          <div className="pipelength1q">Pipe Size (inches) <span className="text-danger">*</span></div>
-                          <div className="pipelength1">
-                            <input
-                              type="number"
-                              className="pipelength1 form-control"
-                              placeholder="Pipe Size"
-                              name="size"
-                              value={size}
-                              onChange={onchange}
-                            />
-                          </div>
-                        </div>
-                      </Col>
-                      <Col md={6}>
-                        <div className="pipelength pipelng">
-                          <div className="pipelength1q">Number of Joints <span className="text-danger">*</span></div>
-                          <div className="pipelength1">
-                            <input
-                              type="number"
-                              className="pipelength1 form-control"
-                              placeholder="Number of Joint"
-                              name="joints"
-                              value={joints}
-                              onChange={onchange}
-                            />
-                          </div>
-                        </div>
-                      </Col>
-                      <Col md={6}>
-                        <div className="pipelength pipelng">
-                          <div className="pipelength1q">
-                            Pipe cost (per inch schedule) <span className="text-danger">*</span>
-                          </div>
-                          <div className="pipelength1">
-                            <input
-                              type="number"
-                              className="pipelength1 form-control"
-                              placeholder="Price in Naira"
-                              name="price"
-                              value={price}
-                              onChange={onchange}
-                            />
-                          </div>
-                        </div>
-                      </Col>
-                      <Col md={6}>
-                        <div className="pipelength pipelng pipedoc1">
-                          <div className="pipelength1q">Pipe Schedule <span className="text-danger">*</span></div>
-                          <div className="pipelength1">
-                            <select
-                              id="pipe_schedule"
-                              name="pipe_schedule"
-                              onChange={onchange_pipeschedule}
-                              className="userfield form-control"
-                            >
-                              <option>{pipe_schedule?pipe_schedule:""}</option>
-                              {pipe_schedules.map((data, i) => (
-                                <option
-                                  className="pipelength1 form-control specialization"
-                                  value={JSON.stringify({
-                                    id: data.id,
-                                    name: data.name,
-                                  })}
-                                >
-                                  {data.name}
-                                </option>
-                              ))}
-                            </select>
-                          </div>
-                        </div>
-                      </Col>
-                    </Row>
-                    <Col md={12} className="generate_row"></Col>
-                  </div>
-                </div>
-              </Form>
-            </Col>}
-            {/* specialist config edit */}
-            {s_config_modal && <Col md={12}>
-              <Form>
-                <div className="overview__2">
-                  <div className="pricing_cal">
-                    <Row>
-                      <Col md={6}>
-                        <div className="pipelength pipelng">
-                          <div className="pipelength1q">
-                            Specialist Config
-                          </div>
-                          <div className="pipelength1 pipelng__1">
-                          <select
-                            id="title_of_specialist"
-                            name="title_of_specialist"
-                            onChange={onchange_Area_Of_Specialization}
-                            className="userfield form-control"
-                          >
-                            <option>{title_of_specialist}</option>
-                            {types_of_Specialist.map((data, i) => (
-                              <option
-                                className="specialization"
-                                value={JSON.stringify({
-                                  id: data.id,
-                                  name: data.name,
-                                })}
+                        </Col>
+                        <Col md={6}>
+                          <div className="pipelength pipelng">
+                            <div className="pipelength1q">
+                              Pipe Size (inches){" "}
+                              <span className="text-danger">*</span>
+                            </div>
+                            <div className="pipelength1">
+                              <select
+                                id="size"
+                                name="size"
+                                onChange={onchange_pipesize}
+                                className="userfield form-control"
                               >
-                                {data.name}
-                              </option>
-                            ))}
-                          </select>
+                                <option>{type ? type : ""}</option>
+                                {pipeList.map((data, i) => (
+                                  <option
+                                    className="pipelength1 form-control specialization"
+                                    value={JSON.stringify({
+                                      id: data.id,
+                                      name: data.size,
+                                    })}
+                                  >
+                                    {data.size}
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
                           </div>
-                        </div>
-                      </Col>
-                      <Col md={6}>
-                        <div className="pipelength pipelng">
-                          <div className="pipelength1q">Number of requested specialist</div>
-                          <div className="pipelength1">
-                            <input
-                              type="number"
-                              className="pipelength1 form-control"
-                              placeholder="Number of Joint"
-                              name="number"
-                              value={number}
-                              onChange={onchange}
-                            />
+                        </Col>
+                        <Col md={6}>
+                          <div className="pipelength pipelng">
+                            <div className="pipelength1q">
+                              Number of Joints{" "}
+                              <span className="text-danger">*</span>
+                            </div>
+                            <div className="pipelength1">
+                              <input
+                                type="number"
+                                className="pipelength1 form-control"
+                                placeholder="Number of Joint"
+                                name="joints"
+                                value={joints}
+                                onChange={onchange}
+                              />
+                            </div>
                           </div>
-                        </div>
-                      </Col>
-                    </Row>
-                    <Col md={12} className="generate_row"></Col>
+                        </Col>
+                        <Col md={6}>
+                          <div className="pipelength pipelng">
+                            <div className="pipelength1q">
+                              Pipe cost (per inch schedule){" "}
+                              <span className="text-danger">*</span>
+                            </div>
+                            <div className="pipelength1">
+                              <input
+                                type="number"
+                                className="pipelength1 form-control"
+                                placeholder="Price in Naira"
+                                name="cost_per_inch"
+                                value={cost_per_inch}
+                                onChange={onchange}
+                              />
+                            </div>
+                          </div>
+                        </Col>
+                        <Col md={6}>
+                          <div className="pipelength pipelng pipedoc1">
+                            <div className="pipelength1q">
+                              Pipe Schedule{" "}
+                              <span className="text-danger">*</span>
+                            </div>
+                            <div className="pipelength1">
+                              <select
+                                id="pipe_schedule"
+                                name="pipe_schedule"
+                                onChange={onchange_pipeschedule}
+                                className="userfield form-control"
+                              >
+                                <option>
+                                  {pipe_schedule ? pipe_schedule : ""}
+                                </option>
+                                {pipe_schedules.map((data, i) => (
+                                  <option
+                                    className="pipelength1 form-control specialization"
+                                    value={JSON.stringify({
+                                      id: data.id,
+                                      name: data.name,
+                                    })}
+                                  >
+                                    {data.name}
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
+                          </div>
+                        </Col>
+                      </Row>
+                      <Col md={12} className="generate_row"></Col>
+                    </div>
                   </div>
-                </div>
-              </Form>
-            </Col>}
+                </Form>
+              </Col>
+            )}
+            {/* specialist config edit */}
+            {s_config_modal && (
+              <Col md={12}>
+                <Form>
+                  <div className="overview__2">
+                    <div className="pricing_cal">
+                      <Row>
+                        <Col md={6}>
+                          <div className="pipelength pipelng">
+                            <div className="pipelength1q">
+                              Specialist Config
+                            </div>
+                            <div className="pipelength1 pipelng__1">
+                              <select
+                                id="title_of_specialist"
+                                name="title_of_specialist"
+                                onChange={onchange_Area_Of_Specialization}
+                                className="userfield form-control"
+                              >
+                                <option>{title_of_specialist}</option>
+                                {types_of_Specialist.map((data, i) => (
+                                  <option
+                                    className="specialization"
+                                    value={JSON.stringify({
+                                      id: data.id,
+                                      name: data.name,
+                                    })}
+                                  >
+                                    {data.name}
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
+                          </div>
+                        </Col>
+                        <Col md={6}>
+                          <div className="pipelength pipelng">
+                            <div className="pipelength1q">
+                              Number of requested specialist
+                            </div>
+                            <div className="pipelength1">
+                              <input
+                                type="number"
+                                className="pipelength1 form-control"
+                                placeholder="Number of Joint"
+                                name="number"
+                                value={number}
+                                onChange={onchange}
+                              />
+                            </div>
+                          </div>
+                        </Col>
+                      </Row>
+                      <Col md={12} className="generate_row"></Col>
+                    </div>
+                  </div>
+                </Form>
+              </Col>
+            )}
           </Row>
           <Row>
             <Col md={12} className="terminate2">
               <div className="gen11">
-               {s_config_modal && <div className="gent122" onClick={update_specialist_config}>{isloading?"Processing":"Update"}</div>}
-               {p_config_modal && <div className="gent122" onClick={update_pipe_config}>{isloading?"Processing":"Update"}</div>} 
+                {s_config_modal && (
+                  <div className="gent122" onClick={update_specialist_config}>
+                    {isloading ? "Processing" : "Update"}
+                  </div>
+                )}
+                {p_config_modal && (
+                  <div className="gent122" onClick={update_pipe_config}>
+                    {isloading ? "Processing" : "Update"}
+                  </div>
+                )}
               </div>
             </Col>
           </Row>
@@ -469,6 +678,44 @@ const AdminWorkOrderEvaluationStep2 = () => {
           <title>Molecular - Contractor Work Order</title>
           <link />
         </Helmet>
+        <Modal
+          size="sm"
+          show={show_2}
+          onHide={() =>
+            setState({
+              ...state,
+              show_2: false,
+            })
+          }
+          dialogClassName="modall"
+          className="mdl2"
+        >
+          <Modal.Header closeButton>
+            <Modal.Title id="example-custom-modal-styling-title">
+              Raise Invoice
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <>
+              <Row>
+                <Col md={12} className="terminate2">
+                  <div>
+                    <div>
+                      You are about to generate an invoice for{" "}
+                      {work_order_detail.contractor}
+                    </div>
+
+                    <div className="rinvoice">
+                      <div className="gent122 l_extra" onClick={RaiseInvoice}>
+                        {isloading ? "processing" : "Raise Invoice"}
+                      </div>
+                    </div>
+                  </div>
+                </Col>
+              </Row>
+            </>
+          </Modal.Body>
+        </Modal>
         <Row>
           <DashboardNav />
           <div id="overview"></div>
@@ -503,7 +750,6 @@ const AdminWorkOrderEvaluationStep2 = () => {
                       </div>
                     </div>
                     <div className="bgwhitecontainer">
-                      
                       <div className="overview__2">
                         <div className="pricing_cal">
                           <div className="pricing__112">Pricing Calculator</div>
@@ -512,74 +758,147 @@ const AdminWorkOrderEvaluationStep2 = () => {
                               <div className="pricing__112 pricing__11_1">
                                 Pipe config
                               </div>
-                            {work_order_detail?.pipe_configs?.map((data, i) => (
-                        <Col md={12} className="ttp_" key={i}>
-                          <div className="closticon"></div>
-                          <div className="headerflex">
-                            <div className="pipetitle_1">{data.pipe_type ?? "n/a"}</div>
-                            <div className="pipeedit" onClick={(e)=>openModal("pipe_config",data)}>
-                            <img src={pen} className="pen_0" alt="pen_0" /> Edit
-                            </div>
-                          </div>
-                          <div className="main_wrap_ws main_wrap_ws22 graybg2 graybg ">
-                            <div>
-                              <h6 className="userprofile12 userprofile123">
-                                Pipe cost (per inch schedule) 
-                              </h6>
-                              <div className="Construction12">
-                                {data.price ?? "not set"}
+                              {work_order_detail?.pipe_configs?.map(
+                                (data, i) => (
+                                  <Col md={12} className="ttp_" key={i}>
+                                    <div className="closticon"></div>
+                                    <div className="headerflex">
+                                      <div className="pipetitle_1">
+                                        {data.pipe_type ?? "n/a"}
+                                      </div>
+                                      <div
+                                        className="pipeedit"
+                                        onClick={(e) =>
+                                          openModal("pipe_config", data)
+                                        }
+                                      >
+                                        <img
+                                          src={pen}
+                                          className="pen_0"
+                                          alt="pen_0"
+                                        />{" "}
+                                        Edit
+                                      </div>
+                                    </div>
+                                    <div className="main_wrap_ws main_wrap_ws22 graybg2 graybg ">
+                                      <div>
+                                        <h6 className="userprofile12 userprofile123">
+                                          Pipe cost (per inch schedule)
+                                        </h6>
+                                        <div className="Construction12">
+                                          {data.cost_per_inch ?? "not set"}
+                                        </div>
+                                      </div>
+                                      <div className="">
+                                        <h6 className="userprofile12 userprofile123">
+                                          Pipeline Length
+                                        </h6>
+                                        <div className="Construction12">
+                                          {" "}
+                                          {data?.length ?? "n/a"}
+                                        </div>
+                                      </div>
+                                      <div className="">
+                                        <h6 className="userprofile12 userprofile123">
+                                          Pipe Schedule
+                                        </h6>
+                                        <div className="Construction12">
+                                          {" "}
+                                          {data?.pipe_schedule ?? "n/a"}
+                                        </div>
+                                      </div>
+                                      <div className="">
+                                        <h6 className="userprofile12 userprofile123">
+                                          No of Joint
+                                        </h6>
+                                        <div className="Construction12">
+                                          {data?.joints ?? "n/a"}
+                                        </div>
+                                      </div>
+                                      <div className="">
+                                        <h6 className="userprofile12 userprofile123">
+                                          Pipe Size
+                                        </h6>
+                                        <div className="Construction12">
+                                          {data?.size ?? "n/a"}
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </Col>
+                                )
+                              )}
+                            </Col>
+                            <Col md={12}>
+                              <div>
+                                <h6 className="userprofile">Payment Cycle </h6>
                               </div>
-                            </div>
-                            <div className="">
-                              <h6 className="userprofile12 userprofile123">
-                                Pipe Length
-                              </h6>
-                              <div className="Construction12">
-                                {" "}
-                                {data?.length ?? "n/a"}
-                              </div>
-                            </div>
-                            <div className="">
-                              <h6 className="userprofile12 userprofile123">
-                                Pipe Schedule
-                              </h6>
-                              <div className="Construction12">
-                                {" "}
-                                {data?.pipe_schedule ?? "n/a"}
-                              </div>
-                            </div>
-                            <div className="">
-                              <h6 className="userprofile12 userprofile123">
-                                No of Joint
-                              </h6>
-                              <div className="Construction12">
-                                {data?.joints ?? "n/a"}
-                              </div>
-                            </div>
-                            <div className="">
-                              <h6 className="userprofile12 userprofile123">
-                                Pipe Size
-                              </h6>
-                              <div className="Construction12">
-                                {data?.size ?? "n/a"}
-                              </div>
-                            </div>
-                          </div>
-                        </Col>
-                      ))}
-                    </Col>
+                            </Col>
+                            <Col md={8} className="formsection1 formsection10" onBlur={updateWorkOrder}>
+                              <span className="checkmark1">
+                                <label className="container_checkbox ">
+                                  Weekly
+                                  <input
+                                    type="radio"
+                                    name="payment_cycle"
+                                    value="1"
+                                    onChange={onchange}
+                                    checked={payment_cycle=="1"}
+                                  />
+                                  <span className="checkmark"></span>
+                                </label>
+                              </span>
+                              <span className="checkmark1">
+                                <label className="container_checkbox">
+                                  Bi-Weekly
+                                  <input
+                                    type="radio"
+                                    value="2"
+                                    name="payment_cycle"
+                                    onChange={onchange}
+                                    checked={payment_cycle=="2"}
+                                  />
+                                  <span className="checkmark"></span>
+                                </label>
+                              </span>
+                              <span className="checkmark1">
+                                <label className="container_checkbox">
+                                  Monthly
+                                  <input
+                                    type="radio"
+                                    value="3"
+                                    name="payment_cycle"
+                                    onChange={onchange}
+                                    checked={payment_cycle=="3"}
+                                  />
+                                  <span className="checkmark"></span>
+                                </label>
+                              </span>
+                            </Col>
                             <Col md={12}>
                               <div className="pricing__112 pricing__11_1">
                                 Specialist config
                               </div>
                             </Col>
-                              {work_order_detail?.specialist_requests?.map((data, i) => (
+                            {work_order_detail?.specialist_requests?.map(
+                              (data, i) => (
                                 <Col md={11} className="ttp_ ttp1_" key={i}>
                                   <div className="closticon"></div>
                                   <div className="headerflex">
-                                    <div className="pipetitle_1">{data.skill ?? "n/a"}</div>
-                                    <div className="pipeedit" onClick={(e)=>openModal("specialist_config",data)}>
-                                    <img src={pen} className="pen_0" alt="pen_0" /> Edit
+                                    <div className="pipetitle_1">
+                                      {data.skill ?? "n/a"}
+                                    </div>
+                                    <div
+                                      className="pipeedit"
+                                      onClick={(e) =>
+                                        openModal("specialist_config", data)
+                                      }
+                                    >
+                                      <img
+                                        src={pen}
+                                        className="pen_0"
+                                        alt="pen_0"
+                                      />{" "}
+                                      Edit
                                     </div>
                                   </div>
                                   <div className="main_wrap_ws main_wrap_ws22 graybg2 graybg ">
@@ -591,7 +910,7 @@ const AdminWorkOrderEvaluationStep2 = () => {
                                         {data.skill ?? "n/a"}
                                       </div>
                                     </div>
-                                    
+
                                     <div className="">
                                       <h6 className="userprofile12 userprofile123">
                                         Number of Specialist
@@ -602,43 +921,51 @@ const AdminWorkOrderEvaluationStep2 = () => {
                                     </div>
                                   </div>
                                 </Col>
-                              ))}
+                              )
+                            )}
                           </Row>
                           <Col md={12} className="generate_row">
                             <div className="gen11">
-                              <div className="gent122">Generate</div>
+                              <div className="gent122" onClick={GenerateCost}>
+                                {!isloading ? "Generate cost" : "Loading..."}
+                              </div>
                             </div>
                           </Col>
                         </div>
                       </div>
-                      <div className="flexcontainercw ">
-                        <div className="flexcontainercw flexcon_1">
-                          <div className="deployed12">
-                            <div className="ttola1a">
-                              Total cost for Welders
-                            </div>
-                            <div className="ttola1b cost12">$100,000</div>
-                            <div className="ttola1">$2,000/Welder (N2,000)</div>
+
+                      {specialist_requests?.length !== 0 && (
+                        <div className="flexcontainercw ">
+                          <div className="flexcontainercw flexcon_1">
+                            {specialist_requests?.map((data, i) => (
+                              <div className="deployed12" key={i}>
+                                <div className="ttola1a">
+                                  Total cost for {data.number} {data.skill}
+                                </div>
+                                <div className="ttola1b cost12">
+                                  ${FormatAmount(data.total_cost)}
+                                </div>
+                                <div className="ttola1">
+                                  ${FormatAmount(data.cost_per_specialist)}/
+                                  {data.skill}
+                                </div>
+                              </div>
+                            ))}
                           </div>
-                          <div className="deployed12">
-                            <div className="ttola1a">
-                              Total cost for Fitters
-                            </div>
-                            <div className="ttola1b cost12">$100,000</div>
-                            <div className="ttola1">
-                              $2,000/Fitters (N2,000)
+                          <div>
+                            <div className="ttola1a ">Exchange rate</div>
+                            <div className="exchangerate">
+                              N{work_order_detail?.exchange_rate} / $1
                             </div>
                           </div>
                         </div>
-                        <div>
-                          <div className="ttola1a ">Exchange rate</div>
-                          <div className="exchangerate">N450 / $1</div>
-                        </div>
-                      </div>
+                      )}
                       <div className="flexcontainercw flexcon_1">
                         <div className="cost_total">
-                          <div className="ttola1a">Grand Total</div>
-                          <div className="ttola1b">$50,000</div>
+                          <div className="ttola1a">Total work order cost</div>
+                          <div className="ttola1b">
+                            ${FormatAmount(total_cost)}
+                          </div>
                         </div>
                       </div>
                       <div className="nxtbck">
@@ -646,9 +973,9 @@ const AdminWorkOrderEvaluationStep2 = () => {
                           {" "}
                           <div className="gent122 gent1221">Back</div>
                         </Link>{" "}
-                        <Link to="/admin_evaluation_step3">
-                          <div className="gent122">Next</div>
-                        </Link>
+                        <div className="gent122" onClick={openModal2}>
+                          Next
+                        </div>
                       </div>
                     </div>
                   </div>

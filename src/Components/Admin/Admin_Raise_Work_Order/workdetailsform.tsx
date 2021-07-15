@@ -252,7 +252,7 @@ const WorkDetails_Form_Preview = (props) => {
                     </div>
                     <div className="">
                       <h6 className="userprofile12 userprofile123">
-                        Pipe Length
+                        Pipeline Length
                       </h6>
                       <div className="Construction12">
                         {" "}

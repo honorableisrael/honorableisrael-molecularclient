@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Col,
   Row,
@@ -10,22 +10,20 @@ import {
 } from "react-bootstrap";
 import "./contractor.css";
 import DashboardNav from "./navbar";
-import portfolio from "../../images/portfolio.png";
-import group2 from "../../images/group2.png";
-import Slider from "react-rangeslider";
 import "react-rangeslider/lib/index.css";
 import { Helmet } from "react-helmet";
 import arrowback from "../../images/dtls.png";
 import { Link } from "react-router-dom";
-import WorkOrderCardsMinInfo from "./WorkOrderCardsMinInfo";
-import avatar_test from "../../images/avatar_test.png";
-import dwnload from "../../images/dwnload.png";
-import WorkDetails_Form_Preview from "./workdetailsform";
-import New_Work_Order_Card from "./New_Work_Order_Card";
 import logo from "../../images/Molecular.png";
+import axios from "axios";
+import { API, notify } from "../../config";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-const AdminWorkOrderEvaluationStep3 = () => {
-  const [state, setState] = useState({
+
+
+const AdminWorkOrderEvaluationStep3 = (props) => {
+  const [state, setState] = useState<any>({
     work_orders: [],
     country: "",
     inprogress: true,
@@ -41,7 +39,10 @@ const AdminWorkOrderEvaluationStep3 = () => {
     hour: "",
     show: false,
     reason: "",
+    isloading:false,
+    work_order_detail:{}
   });
+
   const onchange = (e) => {
     console.log(e.target.value);
     setState({
@@ -70,26 +71,104 @@ const AdminWorkOrderEvaluationStep3 = () => {
       });
     }
   };
-
   const openModal = (e, x) => {
     setState({
       ...state,
       show: true,
     });
   };
+  useEffect(() => {
+    window.scrollTo(-0, -0);
+    const availableToken: any = localStorage.getItem("loggedInDetails");
+    const token = availableToken
+      ? JSON.parse(availableToken)
+      : window.location.assign("/");
+    const work_order = localStorage.getItem("work_order_details");
+    const work_order_details = work_order ? JSON.parse(work_order) : "";
+    axios
+      .all([
+        axios.get(`${API}/admin/work-orders/${work_order_details?.id}`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
+      ])
+      .then(
+        axios.spread((res) => {
+          console.log(res.data.data);
+          setState({
+            ...state,
+            ...res.data.data,
+            work_order_detail: res.data.data,
+          });
+        })
+      )
+      .catch((err) => {
+        setState({
+          ...state,
+          work_order_detail: work_order_details,
+        });
+        console.log(err);
+      });
+  }, []);
+
+  const sendInvoice = () => {
+    const availableToken: any = localStorage.getItem("loggedInDetails");
+    const token = availableToken
+      ? JSON.parse(availableToken)
+      : window.location.assign("/");
+    const work_order = localStorage.getItem("work_order_details");
+    const work_order_details = work_order ? JSON.parse(work_order) : "";
+    setState({
+      ...state,
+      isloading: true,
+    });
+    axios
+      .all([
+        axios.post(
+          `${API}/admin/work-orders/${work_order_details?.id}/invoice/send`,
+          {},
+          {
+            headers: { Authorization: `Bearer ${token.access_token}` },
+          }
+        ),
+      ])
+      .then(
+        axios.spread((res) => {
+          notify("Successful");
+          props.history.push("/admin_evaluation_step4");
+          console.log(res.data.data);
+          setState({
+            ...state,
+            isloading: false,
+          });
+        })
+      )
+      .catch((err) => {
+        setState({
+          ...state,
+          isloading: false,
+        });
+        if(err?.response?.status==400){
+          return notify(err?.response?.data?.message) 
+           }
+        console.log(err);
+      });
+  };
+
+  
   const {
     project_purpose,
     country,
     work_order_description,
+    work_order_detail,
     order_title,
     end_date,
     reason,
-    location_terrain,
+    isloading,
     start_date,
     show,
     hour,
   } = state;
-
+console.log(work_order_detail)
   return (
     <>
       <Modal
@@ -175,7 +254,7 @@ const AdminWorkOrderEvaluationStep3 = () => {
                           3 of 4 | <b>Invoice</b>{" "}
                         </div>
                       </div>
-                      <Col md={12} className="mm12">
+                      {/* <Col md={12} className="mm12">
                         <h6>Account Details</h6>
                         <select
                           className="forminput formselect form-control"
@@ -191,7 +270,7 @@ const AdminWorkOrderEvaluationStep3 = () => {
                             2009393931
                           </option>
                         </select>
-                      </Col>
+                      </Col> */}
                       <Col md={12} className="plf">
                         <div className="">
                           <div className="box_inv outerpink">
@@ -208,11 +287,11 @@ const AdminWorkOrderEvaluationStep3 = () => {
                                   {" "}
                                   Invoice Number
                                 </div>
-                                <div className="inv_title4">1233127567812</div>
+                                <div className="inv_title4">~~/~~</div>
                               </div>
                               <div className="inv_title2">
                                 <div className="inv_title3">Invoice Date</div>
-                                <div className="inv_title4">23/02/2020</div>
+                                <div className="inv_title4">~~/~~</div>
                               </div>
                             </div>
                             <div className="rcomponent">
@@ -230,10 +309,10 @@ const AdminWorkOrderEvaluationStep3 = () => {
                               <div className="inv_title2">
                                 <div className="inv_title3">Client</div>
                                 <div className="inv_title4 ing">
-                                  Helmotz Holdings
+                                  {work_order_detail?.contractor}
                                 </div>
                                 <div className="inv_title3 inv_titlex ">
-                                  5, Temple Square, Wuse-II, Abuja, Nigeria.
+                                  {work_order_detail?.country}
                                 </div>
                               </div>
                             </div>
@@ -256,29 +335,51 @@ const AdminWorkOrderEvaluationStep3 = () => {
                             <Table responsive>
                               <thead className="theadinvoice">
                                 <tr>
-                                  <th className="tablehead">Task Details</th>
-                                  <th className="tablehead">Specialist No.</th>
                                   <th className="tablehead">
                                     Number of Joints
                                   </th>
                                   <th className="tablehead">Pipe Size</th>
-                                  <th className="tablehead">Pipe Length</th>
-                                  <th className="tablehead">Total</th>
+                                  <th className="tablehead">Pipeline Length</th>
+                                  <th className="tablehead">Pipeschedule Length</th>
                                 </tr>
                               </thead>
                               <tbody>
+                              {
+                               work_order_detail?.pipe_configs?.map((data,i)=>(
                                 <tr className="tdata">
+                                  <td>{data?.joints}</td>
+                                  <td>{data?.length}</td>
+                                  <td>{data?.size}</td>
+                                  <td>{data?.pipe_schedule}</td>
+                                
+                                </tr>
+                               )) 
+                              }
+                              </tbody>
+                            </Table>
+                            <Table responsive>
+                              <thead className="theadinvoice">
+                                <tr>
+                                <th className="tablehead">
+                                    Specialist Skill
+                                  </th>
+                                  <th className="tablehead">Number of Specialist</th>
+                                  
+                                  <th className="tablehead">Total Cost</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                              {
+                               work_order_detail?.specialist_requests?.map((data,i)=>(
+                                <tr className="tdata">
+                                  <td>{data?.skill}</td>
+                                  <td>{data?.number}</td>
                                   <td>
-                                    Construction of Pipeline from Lagos to Abuja
-                                  </td>
-                                  <td>2</td>
-                                  <td>210</td>
-                                  <td>200</td>
-                                  <td>70</td>
-                                  <td>
-                                    <b>80</b>
+                                    <b> N{data?.total_cost}</b>
                                   </td>
                                 </tr>
+                               )) 
+                              }
                               </tbody>
                             </Table>
                             <div className="text-right mgg2"></div>
@@ -298,11 +399,11 @@ const AdminWorkOrderEvaluationStep3 = () => {
                           {" "}
                           <div className="gent122 gent1221">Back</div>
                         </Link>{" "}
-                        <Link to="/admin_evaluation_step4">
-                          <div className="gent122 gent12212">
-                            Send Invoice and Proceed
+                          <div className="gent122 gent12212" onClick={sendInvoice}>
+                            {
+                              isloading?"processing":"Send Invoice and Proceed"
+                            }
                           </div>
-                        </Link>
                       </div>
                     </div>
                   </div>
@@ -312,6 +413,13 @@ const AdminWorkOrderEvaluationStep3 = () => {
           </Col>
         </Row>
       </Container>
+      <ToastContainer
+        enableMultiContainer
+        containerId={"B"}
+        toastClassName="bg-orange text-white"
+        hideProgressBar={true}
+        position={"top-right"}
+      />
     </>
   );
 };

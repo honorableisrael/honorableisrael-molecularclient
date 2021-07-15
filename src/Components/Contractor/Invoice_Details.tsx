@@ -143,7 +143,7 @@ const Invoice_details = () => {
                           <th className="tablehead">Specialist No.</th>
                           <th className="tablehead">Number of Joints</th>
                           <th className="tablehead">Pipe Size</th>
-                          <th className="tablehead">Pipe Length</th>
+                          <th className="tablehead">Pipeline Length</th>
                           <th className="tablehead">Total</th>
                         </tr>
                       </thead>

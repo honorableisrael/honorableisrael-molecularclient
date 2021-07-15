@@ -273,9 +273,9 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
           </Row>
           <Row>
             <Col md={12} className="terminate2">
-              <div className="terminate1" onClick={(e) => Reject_work_order()}>
+              {/* <div className="terminate1" onClick={(e) => Reject_work_order()}>
                 Reject
-              </div>
+              </div> */}
             </Col>
           </Row>
         </Modal.Body>

@@ -32,6 +32,7 @@ const NewWorkOrderStep2 = withRouter((props) => {
     diameter: "",
     start_date: "",
     pipeList: [],
+    pipeSizes: [],
     pipe_config_: [],
     types_of_Specialist: [],
     no_of_specialist: "",
@@ -109,6 +110,7 @@ const NewWorkOrderStep2 = withRouter((props) => {
     no_of_joints,
     pipe_schedules,
     pipe_config_,
+    pipeSizes,
     pipe_name,
     pipelength,
     no_of_specialist,
@@ -139,15 +141,19 @@ const NewWorkOrderStep2 = withRouter((props) => {
       Axios.get<any, AxiosResponse<any>>(`${API}/pipe-schedules`, {
         headers: { Authorization: `Bearer ${token.access_token}` },
       }),
+      Axios.get<any, AxiosResponse<any>>(`${API}/pipe-sizes`, {
+        headers: { Authorization: `Bearer ${token.access_token}` },
+      }),
     ])
       .then(
-        axios.spread((res, res2, res3) => {
+        axios.spread((res, res2, res3,res4) => {
           console.log(res3.data.data);
           setState({
             ...state,
             types_of_Specialist: res.data.data,
             pipeList: res2.data.data,
             pipe_schedules: res3.data.data,
+            pipeSizes:res4.data.data,
             ...stored2,
           });
         })
@@ -358,7 +364,7 @@ const NewWorkOrderStep2 = withRouter((props) => {
     // });
     return props.history.push("/contractor_work_order_step3");
   };
-
+console.log(pipeSizes)
   return (
     <>
       <Container fluid={true} className="dasbwr">

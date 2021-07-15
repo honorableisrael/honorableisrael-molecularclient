@@ -1,7 +1,7 @@
 import { ToastContainer, toast } from "react-toastify";
 const moment = require("moment");
 // Molecular Production API
-export const API = "https://api.molecular.elostage.xyz/api/v1";
+export const API = "http://api.molecular.elostage.xyz/api/v1";
 export const capitalize = (s) => {
   if (typeof s !== "string") return "";
   return s.charAt(0).toUpperCase() + s.slice(1);
@@ -40,6 +40,16 @@ export const returnAdminToken=()=>{
     : window.location.assign("/");
     return token
 } 
+export const getAdminToken=()=>{
+  const availableToken = localStorage.getItem("loggedInDetails");
+  const token = availableToken
+    ? JSON.parse(availableToken)
+    : window.location.assign("/");
+  if (token.user_type !== "admin") {
+    return window.location.assign = "/login";
+  }
+  return token
+}
 // // Clarity Production API
 // export const API = "http://api.molecular.elostage.xyz/api/v1"
 // // Clarity Staging API

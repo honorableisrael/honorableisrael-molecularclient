@@ -493,7 +493,7 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
                       <Col md={3} className="formsection1">
                         <Form.Group>
                           <h6 className="userprofile userprofile12">
-                            Pipe Length (Meters)
+                            Pipeline Length (Meters)
                           </h6>
                           <Form.Control
                             type="number"

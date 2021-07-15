@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Col, Row, Container, Form, ProgressBar } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Col, Row, Container, Form, Pagination } from "react-bootstrap";
 import "./contractor.css";
 import DashboardNav from "./navbar";
 import portfolio from "../../images/portfolio.png";
@@ -12,11 +12,14 @@ import { Link } from "react-router-dom";
 import no_work_order from "../../images/document 1.png";
 import nextbtn from "../../images/nextbtn.png";
 import PaymentCards_1 from "./PaymentCards_1";
+import axios from "axios";
+import { returnAdminToken, API } from "../../config";
 
 const Admin_Payment_Invoice = () => {
   const [state, setState] = useState({
     work_orders: [],
     country: "",
+    all_invoices: [],
     inprogress: true,
     pending_request: false,
     order_title: "",
@@ -28,6 +31,14 @@ const Admin_Payment_Invoice = () => {
     end_date: "",
     start_date: "",
     hour: "",
+    next: "",
+    prev: "",
+    first: "",
+    last: "",
+    current_page: "",
+    last_page: "",
+    to: "",
+    total: "",
   });
   const onchange = (e) => {
     console.log(e.target.value);
@@ -36,6 +47,7 @@ const Admin_Payment_Invoice = () => {
       [e.target.id]: e.target.value,
     });
   };
+
   const onInputChange = (e) => {
     const letterNumber = /^[A-Za-z]+$/;
     if (e.target.value) {
@@ -57,6 +69,7 @@ const Admin_Payment_Invoice = () => {
       });
     }
   };
+  
   const switchTab = (a) => {
     if (a == "firsttab") {
       return setState({
@@ -83,11 +96,59 @@ const Admin_Payment_Invoice = () => {
       });
     }
   };
+  useEffect(() => {
+    const token = returnAdminToken();
+    axios
+      .all([
+        axios.get(`${API}/admin/invoices?paginate=1`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
+      ])
+      .then(
+        axios.spread((res) => {
+          console.log(res.data);
+          setState({
+            ...state,
+            all_invoices: res.data.data.data,
+            ...res.data.data.links,
+            ...res.data.data.meta,
+          });
+        })
+      )
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  const nextPage = (x) => {
+    const token = returnAdminToken();
+    axios
+      .all([
+        axios.get(`${x}`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
+      ])
+      .then(
+        axios.spread((res) => {
+          console.log(res.data.data);
+          window.scrollTo(-0, -0);
+          setState({
+            ...state,
+            all_invoices: res.data.data.data,
+            ...res.data.data.links,
+            ...res.data.data.meta,
+          });
+        })
+      )
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const {
     inprogress,
     pending_request,
     past,
-    project_purpose,
+    all_invoices,
     country,
     work_order_description,
     order_title,
@@ -95,6 +156,12 @@ const Admin_Payment_Invoice = () => {
     location_terrain,
     start_date,
     hour,
+    last_page,
+    next,
+    prev,
+    first,
+    last,
+    current_page,
   } = state;
   return (
     <>
@@ -141,33 +208,42 @@ const Admin_Payment_Invoice = () => {
               </div>
             </div>
             <Row>
-              {false && (
-                <Col md={11} className="containerforemptyorder1">
-                  <div className="containerforemptyorder">
-                    <img
-                      src={no_work_order}
-                      alt={"no_work_order"}
-                      className="no_work_order"
-                    />
-                  </div>
-                  <div className="no_work1">You have no Payment</div>
-                  <div className="nojob2 ">
-                    <Link to="/contractor_dashboard">
-                      <div className="job3">Back to Dashboard</div>
-                    </Link>
-                  </div>
-                </Col>
-              )}
               <Col md={12} className="plf">
                 <div className="cardflex_jo">
-                  <PaymentCards_1
-                    title="Pipeline construction from Lagos to Ogun State"
-                    status={true}
-                  />
-                  <PaymentCards_1
+                  {all_invoices?.map((data, i) => (
+                    <PaymentCards_1
+                      title="Pipeline construction from Lagos to Ogun State"
+                      payment_details={data}
+                      status={true}
+                    />
+                  ))}
+                  {all_invoices?.length == 0 && (
+                    <Col md={11} className="containerforemptyorder1">
+                      <div className="containerforemptyorder">
+                        <img
+                          src={no_work_order}
+                          alt={"no_work_order"}
+                          className="no_work_order"
+                        />
+                      </div>
+                      <div className="no_work1">invoice data is empty</div>
+                    </Col>
+                  )}
+                  {/* <PaymentCards_1
                     title={"Pipeline construction with Sulejah"}
                     status={false}
-                  />
+                  /> */}
+                </div>
+                <div className="active_member2">
+                  <div>
+                    Displaying <b>{current_page}</b> of <b>{last_page}</b>
+                  </div>
+                  <Pagination>
+                    <Pagination.First onClick={() => nextPage(first)} />
+                    <Pagination.Prev onClick={() => nextPage(prev)} />
+                    <Pagination.Next onClick={() => nextPage(next)} />
+                    <Pagination.Last onClick={() => nextPage(last)} />
+                  </Pagination>
                 </div>
               </Col>
             </Row>

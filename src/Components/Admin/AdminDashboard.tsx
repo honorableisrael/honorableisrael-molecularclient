@@ -18,7 +18,7 @@ import { Link, withRouter } from "react-router-dom";
 import suitcase1 from "../../images/suitcase1.png";
 import specialist1 from "../../images/specialist1.png";
 import axios, { AxiosResponse } from "axios";
-import { ageCalculator, API, capitalize } from "../../config";
+import { ageCalculator, API, capitalize, FormatAmount, returnAdminToken } from "../../config";
 import Specialist_Awaiting_Admin from "./SubComponents/Specailist_Awaiting_Admin_Approval";
 
 const Notification = (props) => {
@@ -116,13 +116,7 @@ const AdminDashboard = withRouter((props) => {
   });
 
   useEffect(() => {
-    const availableToken: any = localStorage.getItem("loggedInDetails");
-    const token = availableToken
-      ? JSON.parse(availableToken)
-      : window.location.assign("/");
-    if (token.user_type !== "admin") {
-      return props.history.push("/login");
-    }
+   const token = returnAdminToken()
     axios
       .all([
         axios.get(`${API}/admin/dashboard`, {
@@ -245,7 +239,7 @@ const AdminDashboard = withRouter((props) => {
               </div>
               <div className="cardzero12 cardzeronone bdtop1">
                 <div className="rolap">
-                  ${admin?.workorders?.total_value ?? 0}
+                  ${FormatAmount(admin?.workorders?.total_value) ?? 0}
                 </div>
               </div>
             </div>
