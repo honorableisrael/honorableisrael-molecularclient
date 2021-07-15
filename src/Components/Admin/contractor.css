@@ -420,7 +420,6 @@ text {
   border-right: 1px solid #00000023;
   padding-right: 1.7rem;
   margin-right: 1.7rem;
-  min-height: inherit;
   display: flex;
   align-items: center;
 }
@@ -440,6 +439,7 @@ text {
   display: flex;
   justify-content: space-between;
   width: 100%;
+  margin-bottom: 12px;
 }
 .cardflex_jo {
   width: 98%;
@@ -448,19 +448,18 @@ text {
 .card_sec2 {
   width: 82%;
 }
-.inprogress_4 {
+.unpaid1 {
   width: fit-content;
   padding: 0.4rem 0.8rem;
 }
 
 .content24 {
   display: flex;
+  align-items: flex-end;
 }
 
 .spcclst12 {
-  border-left: 1px solid rgba(128, 128, 128, 0.432);
   margin-left: 1rem;
-  padding-left: 1rem;
   line-height: 18px;
   font-size: 13px;
   letter-spacing: 0.04em;
@@ -471,7 +470,7 @@ text {
 .minicardwrapper {
   display: flex;
   justify-content: space-between;
-  width: 95% !important;
+  width: 100% !important;
 }
 
 .inprogress_4 {
@@ -575,7 +574,8 @@ a:hover {
 }
 
 .paidd2green {
-  background: #02850046;
+  background: #038500;
+  margin-right: 6px;
 }
 .unpaidgreen {
   background: #02850046;
@@ -819,7 +819,6 @@ a:hover {
   text-align: center;
   /* width: 90%; */
   margin: auto;
-  margin-left: 1rem;
   margin-right: 3rem;
   padding: 2rem;
   flex: 0 0 97.666667% !important;

@@ -73,7 +73,7 @@
     border-radius: 20px;
     box-shadow: 0px 4px 16px rgb(17 17 17 / 8%);
     display: flex;
-    min-height: 200px;
+    min-height: 130px;
     align-items: center;
     padding: 1.5rem;
     padding-right: 0px;
@@ -81,6 +81,7 @@
 }
 .spprogrescd{
     width: 78%;
+    margin-right: 10px;
 }
 .spprogrescardcntn{
     width: 96%;
@@ -125,7 +126,7 @@
     justify-content: center;
     padding: 8rem 7rem 7rem 7rem;
     background: #dddddd;
-    min-height: 97vh;
+    min-height: 100vh;
   }
 .wrktimelinediv{
     display: flex;
@@ -372,6 +373,10 @@
 }
 .pendininvoice{
     background-color: rgba(253, 140, 0, 1);
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    border-radius: 50%;
 }
 .pendininvtext{
     color: rgba(253, 140, 0, 1);
@@ -609,4 +614,32 @@
 }
 .activetab{
     display: block;
+}
+.wrkcdnxtbtnwrap{
+    margin-left: 38px;
+}
+.wrkprogressstatswrap{
+    background-color: rgba(253, 140, 0, .1);
+    color: rgba(253, 140, 0, 1);
+    border-radius: 50px;
+    text-align: center;
+    font-size: 13px;
+    line-height: 16px;
+    padding: 6px;
+    display: flex;
+    align-items: center;
+}
+.wrkcompletdindict{
+    background-color: rgba(3, 133, 0, .1);
+    color: #038500;
+    border-radius: 50px;
+    text-align: center;
+    font-size: 13px;
+    line-height: 16px;
+    padding: 6px;
+    display: flex;
+    align-items: center;
+}
+.wrkprogtxt{
+    margin-left: 5px;
 }

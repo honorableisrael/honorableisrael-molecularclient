@@ -163,7 +163,7 @@ const DashboardNav = props => {
                 </NavLink>
                   <MenuItem onClick={()=>{
                     localStorage.clear()
-                    window.location.assign("/login")
+                    window.location.assign("/signin")
                   }} className="muilistitem">
                     Logout
                   </MenuItem>

@@ -10,6 +10,7 @@ import WorkOrderCards from "./specialistWorkCards";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import no_work_order from "../../images/document 1.png";
 import { API } from "../../config";
 
 const Notification = (props) => {
@@ -41,7 +42,20 @@ const Notification = (props) => {
 const SpecialistDashboard = (props) => {
   const [state, setState] = useState({
     notification: [],
+    works_inprog: [],
+    prev_works: [],
+    completed_works: "",
+    outstanding_payments: "",
+    payment_received: "",
+    stats:"",
   });
+  const {
+    completed_works,
+    prev_works,
+    outstanding_payments,
+    payment_received,
+    works_inprog,
+  }= state;
 
   useEffect(() => {
     const availableToken: any = localStorage.getItem("loggedInDetails");
@@ -49,26 +63,47 @@ const SpecialistDashboard = (props) => {
       ? JSON.parse(availableToken)
       : window.location.assign("/");
     if (token.user_type !== "specialist") {
-      return props.history.push("/login");
+      return props.history.push("/signin");
     }
     axios
       .all([
         axios.get(`${API}/notifications?paginate=1&limit=5`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }),
+        axios.get(`${API}/specialist/dashboard`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
+        axios.get(
+          `${API}/specialist/work-orders/active`,
+          {
+            headers: { Authorization: `Bearer ${token.access_token}` }
+          }
+        ),
+        axios.get(
+          `${API}/specialist/work-orders/previous`,
+          {
+            headers: { Authorization: `Bearer ${token.access_token}` }
+          }
+        )
       ])
       .then(
-        axios.spread((res) => {
+        axios.spread((res,res1,res2,res3) => {
           console.log(res.data);
+          console.log(res1.data);
+          console.log(res2.data)
           setState({
             ...state,
+            ...res1.data.data,
+            works_inprog: res2.data.data.data ,
             notification: res.data.data.data,
+            prev_works: res3.data.data.data,
           });
         })
       )
       .catch((err) => {
-        console.log(err);
+        console.log(err.response);
       });
+     
   }, []);
   return (
     <div>
@@ -90,7 +125,7 @@ const SpecialistDashboard = (props) => {
                       <img src={checkmrk} alt="img" />
                     </div>
                   </div>
-                  <p>0</p>
+                  <p>{completed_works}</p>
                 </div>
                 <div className="spldshbdcard-small">
                   <div className="spldshbdcardheader">
@@ -99,7 +134,7 @@ const SpecialistDashboard = (props) => {
                       <img src={third} alt="img" />
                     </div>
                   </div>
-                  <p>N0</p>
+                  <p>N{outstanding_payments}</p>
                 </div>
                 <div className="spldshbdcard-small">
                   <div className="spldshbdcardheader">
@@ -108,10 +143,35 @@ const SpecialistDashboard = (props) => {
                       <img src={fourth} className="img-fluid" alt="img" />
                     </div>
                   </div>
-                  <p>0</p>
+                  <p>{payment_received}</p>
                 </div>
               </div>
-              <WorkOrderCards title="Pipeline construction from Lagos to Ogun State" />
+              {works_inprog.length == 0 && (
+                <Col md={11} className="containerforemptyorder1">
+                  <div className="containerforemptyorder">
+                    <img
+                      src={no_work_order}
+                      alt={"no_work_order"}
+                      className="no_work_order"
+                    />
+                  </div>
+                  <div className="no_work1">
+                    You have no Work Order In Progress
+                  </div>
+                </Col>
+              )}
+                  {works_inprog?.map((data: any, index) => {
+                    return (
+                        <WorkOrderCards
+                          key={index}
+                          title={data.description}
+                          contractor={data.contractor}
+                          start={data.start_date}
+                          end={data.end_date}
+                          status={data.status}
+                        />
+                    );
+                  })}
             </Col>
             <Col md={3}>
               <Notification all_notification={state.notification} />
@@ -121,12 +181,33 @@ const SpecialistDashboard = (props) => {
             <Col md={9}>
               <div>
                 <p className="splstdshwrkhistory">Previous Works</p>
-                <div className="wrkhhistrycardwrapper">
-                  <WorkOrderCards title="Pipeline construction from Lagos to Ogun State" />
-                </div>
-                <div className="wrkhhistrycardwrapper">
-                  <WorkOrderCards title="Pipeline construction from Lagos to Ogun State" />
-                </div>
+                {prev_works.length == 0 && (
+                <Col md={11} className="containerforemptyorder1">
+                  <div className="containerforemptyorder">
+                    <img
+                      src={no_work_order}
+                      alt={"no_work_order"}
+                      className="no_work_order"
+                    />
+                  </div>
+                  <div className="no_work1">
+                    You have no Previous Work Order
+                  </div>
+                </Col>
+              )}
+                  {prev_works.map((item: any, index) => {
+                    return (
+                      <Link to="/specialistWorkOrderDetails" key={index}>
+                        <WorkOrderCards
+                          title={item.description}
+                          contractor={item.contractor}
+                          start={item.start_date}
+                          end={item.end_date}
+                          status={item.status}
+                        />
+                      </Link>
+                    );
+                  })}
               </div>
             </Col>
           </Row>

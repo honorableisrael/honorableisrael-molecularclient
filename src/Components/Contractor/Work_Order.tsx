@@ -82,7 +82,7 @@ const ContractorWorkOrder = () => {
     const availableToken: any = localStorage.getItem("loggedInDetails");
     const token = availableToken
       ? JSON.parse(availableToken)
-      : window.location.assign("/");
+      : window.location.assign("/signin");
     axios
       .all([
         axios.get(`${API}/contractor/work-orders?paginate=1`, {

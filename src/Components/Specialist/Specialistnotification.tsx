@@ -129,7 +129,7 @@ const SpecialistNotification = withRouter((props) => {
                   </div>
                   <div className="no_work1">You have no Notifications</div>
                   <div className="nojob2 ">
-                    <Link to="/contractor_dashboard">
+                    <Link to="/specialistdashboard">
                       <div className="job3">Back to Dashboard</div>
                     </Link>
                   </div>

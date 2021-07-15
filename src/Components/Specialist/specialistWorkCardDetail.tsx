@@ -129,7 +129,7 @@ const SpecialistWorkOrderDetails = () => {
       <Container fluid={true}>
         <Helmet>
           <meta charSet="utf-8" />
-          <title>Molecular - Contractor Work Order</title>
+          <title>Molecular - Specialist Work Order</title>
           <link />
         </Helmet>
         <Row>

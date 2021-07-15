@@ -111,13 +111,12 @@ const Specialist_Work_details = props => {
     )
     .then(res => {
       console.log(res.data);
-      const id = res.data.data.id
       setState({
         ...state,
         ...res.data.data,
         id: res.data.data,
         workorderdetails: data.length > 0? true : false,
-        emptyworkorder: data.length > 0 ? false : true,
+        emptyworkorder: res.data.length > 0 ? false : true,
       });
     });
   }, []);
