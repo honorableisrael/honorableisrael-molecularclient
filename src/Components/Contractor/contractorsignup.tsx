@@ -451,6 +451,7 @@ const Contractorsignup = withRouter((props) => {
                         {!isloading ? "Create Account" : "Creating Account"}
                       </span>
                     </div>
+                    <Link to="/signin"><p className="signuprgqt">Have Molecular account?<span>Login</span></p></Link>
                   </div>
                 </form>
               </Col>

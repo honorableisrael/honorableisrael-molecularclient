@@ -565,14 +565,14 @@ const SpecialistSettings = () => {
                         className="Profile2002 Profile2002a"
                         onClick={() => switchTab("secondtab")}
                       >
-                        Skill
+                        Skill and Experience
                       </div>
                     ) : (
                       <div
                         className="Profile2002 Profile2002a inactivebordr"
                         onClick={() => switchTab("secondtab")}
                       >
-                        Skill
+                       Skill and Experience
                       </div>
                     )}
                     {thirdtab ? (
@@ -580,14 +580,14 @@ const SpecialistSettings = () => {
                         className="Profile2002 Profile2002a"
                         onClick={() => switchTab("thirdtab")}
                       >
-                        Experience
+                       Qualifications
                       </div>
                     ) : (
                       <div
                         className="Profile2002 Profile2002a inactivebordr"
                         onClick={() => switchTab("thirdtab")}
                       >
-                        Experience
+                       Qualifications
                       </div>
                     )}
                     {fourthtab ? (
@@ -725,20 +725,6 @@ const SpecialistSettings = () => {
                             className="userfield"
                             onChange={onchange}
                           />
-                          {/* <select
-                            className="forminput profsettinformselect form-control"
-                            required
-                          >
-                            <option
-                              value={city}
-                              className="profsettinformselect"
-                            >
-                              Select Province/state
-                            </option>
-                          </select>
-                          <div className="text-right">
-                            <img src={formCaret} className="drparr" />
-                          </div> */}
                         </Col>
                       </Row>
                       <Row>
@@ -832,7 +818,118 @@ const SpecialistSettings = () => {
                         </Col>
                       </Row>
                       <Row className="section_form1">
+                      <Col md={12}>
+                        <Modal
+                        centered={true}
+                        onHide={closeworkModal}
+                        show={terminateWorkModal}
+                        >
+                        <div className="terminateworkmodalwrap">
+                          <div className="terminateworkmodalimg">
+                            <img
+                              src={closeimg}
+                              alt="close"
+                              onClick={closeworkModal}
+                            />
+                          </div>
+                          <div className="terminateworkmodaltitle">
+                            Add Experience
+                          </div>
+                          <form>
+                            <label className="addexptitle">
+                              Title
+                              <input
+                                type="text"
+                                className="userfield form-control"
+                                name="title"
+                                value={title}
+                                onChange={onchange}
+                                placeholder="Enter Title"
+                                size={70}
+                              />
+                            </label>
+                            <label className="addexptitle">
+                              Description
+                              <textarea
+                                name= "experienceDescription"
+                                value={experienceDescription}
+                                onChange={onchange}
+                                className="form-control wrkmodaltextarea"
+                                placeholder="Enter Description"
+                                rows={5}
+                                cols={5}
+                              />
+                            </label>
+                          </form>
+                          <div className="wrkmodal-btnwrap">
+                            <span
+                              className="wrkmodal-cancelbtn"
+                              onClick={closeworkModal}
+                            >
+                              Cancel
+                            </span>
+                            <span className="wrkmodal-declinebtn addexpbtn" onClick={displayExperience}>
+                              Add Experience
+                            </span>
+                          </div>
+                        </div>
+                      </Modal>
+                          <div className="profileexperiencesectn">
+                          {noExperienceAdded &&(
+                           <div>
+                             <img src={helmet} alt="img" />
+                             <p>You have no Experience Added</p>
+                             <span className="profcertbtn" onClick={workModal}>
+                               Add Experience
+                             </span>
+                           </div>
+                           )}
+                           <div className="profecperince-content">
+                            {experiences.map((item, index)=>{
+                                return(
+                                  <div key={index} className={`wrapdemacator ${experienceActive}`}>
+                                    <div className="profiexpernceheaderwrap">
+                                      <p className="profiexpetitle">Title</p>
+                                     <div>
+                                       <img src={editicon} onClick={workModal} className="editimg"/>
+                                    </div>
+                                    </div>
+                                    <p>{item.title}</p>
+                                    <p className="profiexpetitle">Experience</p>
+                                    <p>{item.description}</p>
+                                
+                                </div>
+                              )
+                            })}
+                                <div className={`profcerbtnwrapper ${addexperiencebtn}`}>
+                             <span className="wrkmodal-declinebtn profcertbtn" onClick={workModal}>
+                               Add Experience
+                             </span>
+                            </div>
+                           </div>
+                          </div>
+                          </Col>
+                      </Row>
+                      <Row>
                         <Col md={12}>
+                          <NavHashLink to="#experiencetab">
+                            <div
+                              className="job31"
+                              onClick={add_certification}
+                            >
+                              Next
+                            </div>
+                          </NavHashLink>
+                        </Col>
+                      </Row>
+                    </div>
+                  )}
+                  {/* Second Tab ends*/}
+                  {/* Third Tab start*/}
+                  {thirdtab && (
+                    <div>
+                      <Row className="section_form1">
+                      <Col md={12}>
                           <h3 className="userprofile userprofile12 boldtext">
                             Qualification
                           </h3>
@@ -999,122 +1096,12 @@ const SpecialistSettings = () => {
                       </div>
                       <Row>
                         <Col md={12}>
-                          <NavHashLink to="#experiencetab">
-                            <div
-                              className="job31"
-                              onClick={add_certification}
-                            >
-                              Next
-                            </div>
-                          </NavHashLink>
-                        </Col>
-                      </Row>
-                    </div>
-                  )}
-                  {/* Second Tab ends*/}
-                  {/* Third Tab start*/}
-                  {thirdtab && (
-                    <div>
-                      <Row className="section_form1">
-                        <Col md={12}>
-                        <Modal
-                        centered={true}
-                        onHide={closeworkModal}
-                        show={terminateWorkModal}
-                        >
-                        <div className="terminateworkmodalwrap">
-                          <div className="terminateworkmodalimg">
-                            <img
-                              src={closeimg}
-                              alt="close"
-                              onClick={closeworkModal}
-                            />
-                          </div>
-                          <div className="terminateworkmodaltitle">
-                            Add Experience
-                          </div>
-                          <form>
-                            <label className="addexptitle">
-                              Title
-                              <input
-                                type="text"
-                                className="userfield form-control"
-                                name="title"
-                                value={title}
-                                onChange={onchange}
-                                placeholder="Enter Title"
-                                size={70}
-                              />
-                            </label>
-                            <label className="addexptitle">
-                              Description
-                              <textarea
-                                name= "experienceDescription"
-                                value={experienceDescription}
-                                onChange={onchange}
-                                className="form-control wrkmodaltextarea"
-                                placeholder="Enter Description"
-                                rows={5}
-                                cols={5}
-                              />
-                            </label>
-                          </form>
-                          <div className="wrkmodal-btnwrap">
-                            <span
-                              className="wrkmodal-cancelbtn"
-                              onClick={closeworkModal}
-                            >
-                              Cancel
-                            </span>
-                            <span className="wrkmodal-declinebtn addexpbtn" onClick={displayExperience}>
-                              Add Experience
-                            </span>
-                          </div>
-                        </div>
-                      </Modal>
-                          <div className="profileexperiencesectn">
-                          {noExperienceAdded &&(
-                           <div>
-                             <img src={helmet} alt="img" />
-                             <p>You have no Experience Added</p>
-                             <span className="profcertbtn" onClick={workModal}>
-                               Add Experience
-                             </span>
-                           </div>
-                           )}
-                           <div className="profecperince-content">
-                            {experiences.map((item, index)=>{
-                                return(
-                                  <div key={index} className={`wrapdemacator ${experienceActive}`}>
-                                    <div className="profiexpernceheaderwrap">
-                                      <p className="profiexpetitle">Title</p>
-                                     <div>
-                                       <img src={editicon} onClick={workModal} className="editimg"/>
-                                    </div>
-                                    </div>
-                                    <p>{item.title}</p>
-                                    <p className="profiexpetitle">Experience</p>
-                                    <p>{item.description}</p>
-                                
-                                </div>
-                              )
-                            })}
-                                <div className={`profcerbtnwrapper ${addexperiencebtn}`}>
-                             <span className="wrkmodal-declinebtn profcertbtn" onClick={workModal}>
-                               Add Experience
-                             </span>
-                            </div>
-                           </div>
-                          </div>
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col md={12}>
                           <div className="job31" onClick={add_Experience}>
                             Save
                           </div>
                         </Col>
                       </Row>
+                      
                     </div>
                   )}
                   {/* Third Tab ends*/}

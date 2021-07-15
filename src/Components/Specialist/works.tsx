@@ -11,6 +11,7 @@ import greyelipse from "../../images/greyelipse.png";
 import calenda from "../../images/calendarr.png";
 import location from "../../images/location.png";
 import Specialist_Work_details from "./specialist_work_detail";
+import notification_cal from "../../images/calendar 1.png";
 import Axios, { AxiosResponse } from "axios";
 import { API } from "../../config";
 
@@ -174,7 +175,7 @@ const Works = () => {
                 <Col md={11} className="containerforemptyorder1">
                   <div className="containerforemptyorder">
                     <img
-                      src={no_work_order}
+                      src={notification_cal}
                       alt={"no_work_order"}
                       className="no_work_order"
                     />
@@ -210,7 +211,7 @@ const Works = () => {
                 <Col md={11} className="containerforemptyorder1">
                   <div className="containerforemptyorder">
                     <img
-                      src={no_work_order}
+                      src={notification_cal}
                       alt={"no_work_order"}
                       className="no_work_order"
                     />

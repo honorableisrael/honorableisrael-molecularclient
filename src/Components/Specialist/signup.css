@@ -93,7 +93,7 @@
 }
 .form-btn-wrapper{
     text-align: center;
-    margin-top: 86px;
+    margin: 86px 0px 23px !important;
 }
 .form-btn{
     display: inline-block;

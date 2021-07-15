@@ -42,7 +42,7 @@
     text-align: center;
     color: #fff;
     font-size: 14px;
-    margin-top: 48px;
+    margin: 48px 0px;
 }
 
 
@@ -70,4 +70,13 @@
 .signinalertmssg{
     text-align: center;
     width: 100%;
+}
+.signuprgqt{
+    font-size: 14px;
+    font-weight: 500;
+    color: #999999;
+    margin-bottom: 0px;
+}
+.signuprgqt>span{
+    color: #fd8c00;
 }

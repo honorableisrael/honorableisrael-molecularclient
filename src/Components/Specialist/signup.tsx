@@ -349,6 +349,7 @@ useEffect(() => {
                       {!isLoading ? "Create Account" : "Processing..."}
                       </span>
                     </div>
+                  <Link to="/signin"><p className="signuprgqt">Have Molecular account?<span>Login</span></p></Link>
                   </div>
                 </Form>
               </Col>

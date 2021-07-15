@@ -11,7 +11,11 @@ import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import no_work_order from "../../images/document 1.png";
+import mail from "../../images/mail.png";
+import notification_cal from "../../images/calendar 1.png";
+import workhelmet from "../../images/workhelmet.png";
 import { API } from "../../config";
+
 
 const Notification = (props) => {
   console.log(props);
@@ -19,9 +23,23 @@ const Notification = (props) => {
     <>
       <div className="spcdshbdnotificndv">
         <p className="splstdshnotifcntitle">Notifications</p>
-        {props?.all_notification?.slice(0, 3)?.map((data, i) => (
+        {props.all_notification.length == 0 && (
+                <Col md={3} className="containerforemptyorder1">
+                  <div className="containerforemptyorder">
+                    <img
+                      src={mail}
+                      alt={"no_work_order"}
+                      className="no_work_order"
+                    />
+                  </div>
+                  <div className="no_work1">
+                  You have no new Notification 
+                  </div>
+                </Col>
+              )}
+        {props?.all_notification?.slice(0, 3)?.map((data, index) => (
           <>
-            <Link to={"/specialistnotifications"}>
+            <Link to={"/specialistnotifications"} key={index}>
               <div className="splstdshbdnotifctnsectns" title={data.message}>
                 <div>
                   <span className="spclsuserimgspn lemonbacgrd">
@@ -33,8 +51,8 @@ const Notification = (props) => {
             </Link>
             <div className="notificntimelinedv">{data?.sent_since}</div>
           </>
-        ))}
-      </div>
+          ))}
+       </div>
     </>
   );
 };
@@ -52,6 +70,7 @@ const SpecialistDashboard = (props) => {
   const {
     completed_works,
     prev_works,
+    notification,
     outstanding_payments,
     payment_received,
     works_inprog,
@@ -150,7 +169,7 @@ const SpecialistDashboard = (props) => {
                 <Col md={11} className="containerforemptyorder1">
                   <div className="containerforemptyorder">
                     <img
-                      src={no_work_order}
+                      src={workhelmet}
                       alt={"no_work_order"}
                       className="no_work_order"
                     />
@@ -174,7 +193,7 @@ const SpecialistDashboard = (props) => {
                   })}
             </Col>
             <Col md={3}>
-              <Notification all_notification={state.notification} />
+              <Notification all_notification={notification} />
             </Col>
           </Row>
           <Row>
@@ -185,7 +204,7 @@ const SpecialistDashboard = (props) => {
                 <Col md={11} className="containerforemptyorder1">
                   <div className="containerforemptyorder">
                     <img
-                      src={no_work_order}
+                      src={notification_cal}
                       alt={"no_work_order"}
                       className="no_work_order"
                     />
