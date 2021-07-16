@@ -285,7 +285,7 @@ const Accept_Reject_Work_Order = () => {
                     </div>
                   </div>
 
-                  <h6 className="title22 title22r2" id="actions">Actions</h6>
+                  {/* <h6 className="title22 title22r2" id="actions">Actions</h6>
                   <div className="job23_1a wrap_z">
                     <div className="main_wrap_ws main_wrapp1">
                       <h6 className="userprofile12 userprofile123">
@@ -323,7 +323,7 @@ const Accept_Reject_Work_Order = () => {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </Col>
             </Row>

@@ -2326,6 +2326,7 @@ label i {
   margin-right: 3.9rem;
   border: 1px solid #fd8c00;
   cursor: pointer;
+  min-width: fit-content;
 }
 .flexcontainercw {
   display: flex;
@@ -2377,6 +2378,7 @@ label i {
 }
 .cost_total {
   margin-right: 2.5rem;
+  padding-top: 1rem;
 }
 .cubewrap3 {
   width: 28%;
@@ -2672,4 +2674,28 @@ label i {
 .ttp1_{
   margin-left: 1rem;
   margin-right: 2rem;
+}
+.avatar1{
+  width: 100%;
+}
+.l_extra{
+  width: 240px;
+}
+.rinvoice{
+  text-align: center;
+  padding-top: 2rem;
+  align-self: center;
+  display: flex;
+  justify-content: center;
+}
+.rinvoice div{
+  margin-right: 0px;
+}
+.modall .modal-dialog,.modal-content{
+ /* max-width: 400px; */
+  /* width:400px; */
+}
+.modall{
+  position: relative;
+  right: 2rem;
 }

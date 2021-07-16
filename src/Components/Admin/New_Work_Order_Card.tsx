@@ -223,9 +223,9 @@ const New_Work_Order_Card = (props) => {
                   <div className="accpt122" onClick={Accept_work_order}>
                     {isloading ? "Accepting" : "Accept"}
                   </div>
-                  <div className="decline122" onClick={openModal}>
+                  {/* <div className="decline122" onClick={openModal}>
                     Decline
-                  </div>
+                  </div> */}
                 </>
               )}
             </div>
@@ -267,9 +267,9 @@ const New_Work_Order_Card = (props) => {
           </Row>
           <Row>
             <Col md={12} className="terminate2">
-              <div className="terminate1" onClick={Reject_work_order}>
+              {/* <div className="terminate1" onClick={Reject_work_order}>
                 {isloading ? "Processing" : "Reject"}
-              </div>
+              </div> */}
             </Col>
           </Row>
         </Modal.Body>
