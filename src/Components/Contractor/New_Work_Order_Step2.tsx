@@ -46,6 +46,7 @@ const NewWorkOrderStep2 = withRouter((props) => {
     type_of_specialist: "",
     title_of_specialist: "",
     pipe_config: [],
+    size_value:""
   });
   const inputHandler = (e) => {
     // if (e.target.name == "pipe_type") {
@@ -122,6 +123,7 @@ const NewWorkOrderStep2 = withRouter((props) => {
     pipe_type,
     pipe_schedule_name,
     title_of_specialist,
+    size_value
   }: any = state;
   useEffect(() => {
     const stored_stage_2 = localStorage.getItem("second_step");
@@ -364,6 +366,17 @@ const NewWorkOrderStep2 = withRouter((props) => {
     // });
     return props.history.push("/contractor_work_order_step3");
   };
+  const onchange_pipesize = (e) => {
+    // if (e.target.name == "pipe_type") {
+    const new_obj = JSON.parse(e.target.value);
+    console.log(new_obj);
+    setState({
+      ...state,
+      size_value: new_obj.name,
+      pipe_size: new_obj.id,
+    });
+  };
+  
 console.log(pipeSizes)
   return (
     <>
@@ -547,14 +560,25 @@ console.log(pipeSizes)
                           <h6 className="userprofile userprofile12">
                             Pipe Size
                           </h6>
-                          <Form.Control
-                            type="number"
-                            value={pipe_size}
-                            className="userfield"
-                            id="pipe_size"
-                            onChange={onchange}
-                            placeholder=""
-                          />
+                          <select
+                                id="pipe_size"
+                                name="pipe_size"
+                                onChange={onchange_pipesize}
+                                className="userfield form-control"
+                              >
+                                <option>{size_value ? size_value : ""}</option>
+                                {pipeSizes.map((data, i) => (
+                                  <option
+                                    className="pipelength1 form-control specialization"
+                                    value={JSON.stringify({
+                                      id: data.id,
+                                      name: data.size,
+                                    })}
+                                  >
+                                    {data.size}
+                                  </option>
+                                ))}
+                              </select>
                         </Form.Group>
                       </Col>
                       <Col md={12} className="addmro1 dmro1">
@@ -613,7 +637,7 @@ console.log(pipeSizes)
                             id="no_of_specialist"
                             onChange={onchange}
                             placeholder=""
-                            onClick={() => Add_New_Config("specialist")}
+                            onBlur={() => Add_New_Config("specialist")}
                           />
                         </Form.Group>
                       </Col>

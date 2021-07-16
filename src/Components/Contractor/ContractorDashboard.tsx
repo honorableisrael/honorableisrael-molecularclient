@@ -44,7 +44,30 @@ const Notification = (props) => {
     </>
   );
 };
-
+const Invoice = (props) => {
+  console.log(props);
+  return (
+    <>
+        {props?.invoicelist?.slice(0, 3)?.map((data, i) => (
+          <>
+            <div className="helloworld1 helloworld1op" key={i}>
+                <div className="helloworldx">
+                  <img src={invoices} className="invoices" />
+                </div>
+                <div className="app12 app23 app23">
+                  <b> NASS Complex </b>
+                  <div className="amount2a">N3,000,000</div>
+                </div>
+                <div className="unpaid1">
+                  <span className="paidd2 "></span>unpaid
+                </div>
+              </div>
+              <br />
+          </>
+        ))}
+    </>
+  );
+};
 const ContractorDashboard = withRouter((props) => {
   const [state, setState] = useState({
     series: [
@@ -109,6 +132,7 @@ const ContractorDashboard = withRouter((props) => {
     work_orders: [],
     notification: [],
     contractor: {},
+    invoices:[]
   });
 
   useEffect(() => {
@@ -131,15 +155,19 @@ const ContractorDashboard = withRouter((props) => {
         axios.get(`${API}/contractor/work-orders?paginate=1`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }),
+        axios.get(`${API}/contractor/invoices`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
       ])
       .then(
-        axios.spread((res, res2, res3) => {
-          console.log(res3.data.data);
+        axios.spread((res, res2, res3,res4) => {
+          console.log(res4.data);
           setState({
             ...state,
             contractor: res.data.data,
             notification: res2.data.data.data,
             work_orders: res3.data.data.data,
+            invoices:res4.data.data,
           });
         })
       )
@@ -147,7 +175,8 @@ const ContractorDashboard = withRouter((props) => {
         console.log(err);
       });
   }, []);
-  const { contractor, notification, work_orders }: any = state;
+  const { contractor, invoices, work_orders }: any = state;
+  console.log(invoices)
   return (
     <>
       <Container fluid={true} className="dasbwr">
@@ -306,20 +335,9 @@ const ContractorDashboard = withRouter((props) => {
                 <div className="notif12v textxenter1">Invoice Raised</div>
                 <br />
               </div>
-              <div className="helloworld1 helloworld1op">
-                <div className="helloworldx">
-                  <img src={invoices} className="invoices" />
-                </div>
-                <div className="app12 app23 app23">
-                  <b> NASS Complex </b>
-                  <div className="amount2a">N3,000,000</div>
-                </div>
-                <div className="unpaid1">
-                  <span className="paidd2 "></span>unpaid
-                </div>
-              </div>
-              <br />
-              <div className="helloworld1 helloworld1op">
+              <Invoice invoicelist={invoices}/>
+              
+              {/* <div className="helloworld1 helloworld1op">
                 <div className="helloworldx">
                   <img src={invoices} className="invoices" />
                 </div>
@@ -369,7 +387,7 @@ const ContractorDashboard = withRouter((props) => {
                 <div className="paid1">
                   <span className="paidd2 paidd2g"></span>paid
                 </div>
-              </div>
+              </div> */}
               <div>
                 <Link to="/payment_invoice">
                   <img src={arrow} className="arrow21" alt="arrow" />

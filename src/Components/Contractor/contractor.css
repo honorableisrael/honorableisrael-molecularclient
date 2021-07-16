@@ -418,11 +418,11 @@ text {
   line-height: 33px;
   color: #000000d5;
 }
- {
+ /* {
   display: flex;
   justify-content: space-between;
   width: 100%;
-}
+} */
 .cardflex_jo {
   width: 98%;
   margin: auto;
@@ -637,7 +637,7 @@ text {
 }
 .arrow2x {
   position: relative;
-  top: 3.8rem;
+  /* top: 3.8rem; */
   cursor: pointer;
 }
 /* .job23{
@@ -1139,7 +1139,7 @@ text {
     min-width: 100%;
   }
   .arrow2x {
-    top: -0.2rem;
+    /* top: -0.2rem; */
   }
   .carderw {
     padding-right: 1.5rem;

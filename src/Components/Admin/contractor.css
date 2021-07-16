@@ -670,7 +670,7 @@ a:hover {
 }
 .arrow2x {
   position: relative;
-  top: 1.8rem;
+  /* top: 1.8rem; */
   cursor: pointer;
 }
 /* .job23{
@@ -1175,7 +1175,7 @@ a:hover {
     min-width: 100%;
   }
   .arrow2x {
-    top: -0.2rem;
+    /* top: -0.2rem; */
   }
   .carderw {
     padding-right: 1.5rem;
@@ -1765,7 +1765,7 @@ a:hover {
     max-width: 60% !important;
   }
   .arrow2x {
-    top: 3.6rem;
+    /* top: 3.6rem; */
   }
   .arrow22x {
     top: 1.5rem;
