@@ -359,6 +359,7 @@ const AdminWorkOrderEvaluationStep2 = (props) => {
         })
       )
       .catch((err) => {
+        notify("Failed");
         setState({
           ...state,
           isloading: false,

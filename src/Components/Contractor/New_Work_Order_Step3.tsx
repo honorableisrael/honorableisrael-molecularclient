@@ -14,7 +14,7 @@ import WorkDetails_Form_Preview from "./workdetailsform";
 
 const NewWorkOrderStep3 = () => {
   const [state, setState] = useState({
-    work_orders: [],
+    invoice: [],
     country: "",
     inprogress: true,
     pipesize: "",

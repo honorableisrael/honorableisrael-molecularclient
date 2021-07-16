@@ -2699,3 +2699,9 @@ label i {
   position: relative;
   right: 2rem;
 }
+.fbn1{
+  display: flex;
+}
+.fbn1 div{
+  margin-right: 1rem;
+}
