@@ -1532,6 +1532,7 @@ text {
 .boldtext{
   font-weight: 600;
   font-size: 16px;
+  text-align: initial;
 }
 @media (max-width: 698px) {
   .profile__001{

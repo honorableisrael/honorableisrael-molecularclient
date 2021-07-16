@@ -75,6 +75,9 @@ const SpecialistSettings = () => {
     addexperiencebtn:"",
     certificationActive: "",
     certificationbtn: "",
+    noProjectsAdded: true,
+    projects:[],
+    projectModal: false,
     field: "",
     from: "",
     to: "",
@@ -83,12 +86,23 @@ const SpecialistSettings = () => {
     status: "",
     total_works:  null,
     fourthtabInactive: "",
+    projectTitle:"",
+    projectDescription:"",
+    projectFrom:"",
+    projectTo:"",
   });
 
   const {
     firsttab,
     secondtab,
     thirdtab,
+    noProjectsAdded,
+    projects,
+    projectModal,
+    projectTitle,
+    projectDescription,
+    projectFrom,
+    projectTo,
     experienceActive,
     certificationActive,
     fourthtabInactive,
@@ -291,6 +305,18 @@ const SpecialistSettings = () => {
       terminateWorkModal: false,
     });
   };
+  const openProjectModal = () => {
+    setState({
+      ...state,
+      projectModal: true,
+    });
+  };
+  const closeProjectModal = () => {
+    setState({
+      ...state,
+      projectModal: false,
+    });
+  };
   const closeMessageModal = () => {
     setState({
       ...state,
@@ -318,14 +344,20 @@ const SpecialistSettings = () => {
         headers: { Authorization: `Bearer ${token.access_token}` },
       }),
       Axios.get<any, AxiosResponse<any>>(`${API}/skills`),
+      Axios.get(`${API}/specialist/projects`, {
+        headers: { Authorization: `Bearer ${token.access_token}` },
+      }),
     ])
       .then(
-        axios.spread((res) => {
+        axios.spread((res,res2,res3) => {
           console.log(res.data);
-          const user = res.data.data
+          console.log(res2.data);
+          console.log(res3.data);
+          const user= res.data.data
           setState({
             ...state,
             ...res.data.data,
+            projects:res3.data.data.data,
             user: res.data.data,
             noExperienceAdded: user.experiences.length<=0? true: false,
             noCertificateAdded: user.certifications.length<=0? true:false,
@@ -358,6 +390,19 @@ const SpecialistSettings = () => {
      })
     }
   };
+  // const displayProject =()=>{
+  //   //add project to UI
+  //   if (certification && year){
+  //    setState({
+  //      ...state,
+  //      noProjectsAdded : false,
+  //      projects: [...projects, {title:certification, year:year}],
+  //      projectModal: false,
+  //     //  certificationActive: certifications.length>=0? "profcertifncntent":"nowrapdemacator",
+  //     //  certificationbtn: certifications.length>=0? "profcerbtnwrapper":"nowrapdemacator",
+  //    })
+  //   }
+  // };
   const displayExperience =()=>{
     //add experience to UI
     if(title && experienceDescription){
@@ -394,6 +439,12 @@ const SpecialistSettings = () => {
       year,
       description,
     };
+    const data4 = {
+      title: projectTitle,
+      description: projectDescription,
+      from: projectFrom,
+      to: projectTo,
+    };
     Axios.all([
       Axios.post(`${API}/specialist/skills`, data1, {
         headers: { Authorization: `Bearer ${token.access_token}` },
@@ -404,12 +455,16 @@ const SpecialistSettings = () => {
       Axios.post(`${API}/specialist/certifications`, data3, {
         headers: { Authorization: `Bearer ${token.access_token}` },
       }),
+      Axios.post(`${API}/specialist/projects`, data4, {
+        headers: { Authorization: `Bearer ${token.access_token}` },
+      }),
     ])
       .then(
         axios.spread((...responses) => {
           console.log(responses[0]);
           console.log(responses[1]);
           console.log(responses[2]);
+          console.log(responses[3]);
           setState({
             ...state,
             firsttab: false,
@@ -904,6 +959,130 @@ const SpecialistSettings = () => {
                                 <div className={`profcerbtnwrapper ${addexperiencebtn}`}>
                              <span className="wrkmodal-declinebtn profcertbtn" onClick={workModal}>
                                Add Experience
+                             </span>
+                            </div>
+                           </div>
+                          </div>
+                          </Col>
+                          <Col md={12}>
+                        <Modal
+                        centered={true}
+                        onHide={closeProjectModal}
+                        show={projectModal}
+                        >
+                        <div className="terminateworkmodalwrap">
+                          <div className="terminateworkmodalimg">
+                            <img
+                              src={closeimg}
+                              alt="close"
+                              onClick={closeProjectModal}
+                            />
+                          </div>
+                          <div className="terminateworkmodaltitle">
+                            Add Project
+                          </div>
+                          <form>
+                            <label className="addexptitle">
+                              Title
+                              <input
+                                type="text"
+                                className="userfield form-control"
+                                name="projectTitle"
+                                value={projectTitle}
+                                onChange={onchange}
+                                placeholder="Enter Title"
+                                size={70}
+                              />
+                            </label>
+                            <Row>
+                            <Col md={6}>
+                        <label className="addexptitle">
+                              From
+                              <input
+                                type="date"
+                                className="userfield form-control"
+                                name="from"
+                                value={projectFrom}
+                                onChange={onchange}
+                                placeholder="projectFrom"
+                                size={70}
+                              />
+                            </label>
+                        </Col>
+                        <Col md={6}>
+                        <label className="addexptitle">
+                                To
+                              <input
+                                type="date"
+                                className="userfield form-control"
+                                name="projectTo"
+                                value={projectTo}
+                                onChange={onchange}
+                                placeholder="TO"
+                                size={70}
+                              />
+                            </label>
+                        </Col>
+                        </Row>
+                            <label className="addexptitle">
+                              Description
+                              <textarea
+                                name= "projectDescription"
+                                value={projectDescription}
+                                onChange={onchange}
+                                className="form-control wrkmodaltextarea"
+                                placeholder="Enter Description"
+                                rows={5}
+                                cols={5}
+                              />
+                            </label>
+                          </form>
+                          <div className="wrkmodal-btnwrap">
+                            <span
+                              className="wrkmodal-cancelbtn"
+                              onClick={closeProjectModal}
+                            >
+                              Cancel
+                            </span>
+                            <span className="wrkmodal-declinebtn addexpbtn">
+                              Add Project
+                            </span>
+                          </div>
+                        </div>
+                      </Modal>
+                          <div className="profileexperiencesectn">
+                            <h3 className="userprofile userprofile12 boldtext">
+                            Project Complete In the last 3 Years
+                           </h3>
+                          {noProjectsAdded &&(
+                           <div>
+                             <img src={helmet} alt="img" />
+                             <p>You have no Projects Added</p>
+                             <span className="profcertbtn" onClick={workModal}>
+                             Add Project
+                             </span>
+                           </div>
+                           )}
+                           <div className="profecperince-content">
+                            {projects.map((item, index)=>{
+                                return(
+                                  <div key={index} className={`wrapdemacator ${experienceActive}`}>
+                                    <div className="profiexpernceheaderwrap">
+                                      <p className="profiexpetitle">Title</p>
+                                     <div>
+                                       <img src={editicon} onClick={workModal} className="editimg"/>
+                                    </div>
+                                    </div>
+                                    <p>{item.title}</p>
+                                    <p className="profiexpetitle">Projects</p>
+                                    <p>{item.description}</p>
+                                
+                                </div>
+                              )
+                            })}
+                                <div className={`profcerbtnwrapper ${addexperiencebtn}`}>
+                             <span className="wrkmodal-declinebtn profcertbtn" onClick={openProjectModal}>
+                               Add Project
                              </span>
                             </div>
                            </div>
