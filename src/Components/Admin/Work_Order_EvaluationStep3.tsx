@@ -16,7 +16,7 @@ import arrowback from "../../images/dtls.png";
 import { Link } from "react-router-dom";
 import logo from "../../images/Molecular.png";
 import axios from "axios";
-import { API, notify } from "../../config";
+import { API, FormatAmount, notify, returnAdminToken } from "../../config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -77,10 +77,9 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
   };
   useEffect(() => {
     window.scrollTo(-0, -0);
-    const availableToken: any = localStorage.getItem("loggedInDetails");
-    const token = availableToken
-      ? JSON.parse(availableToken)
-      : window.location.assign("/");
+    const invoice_: any = localStorage.getItem("invoice_id");
+    const invoice = invoice_?JSON.parse(invoice_):""
+    const token = returnAdminToken()
     const work_order = localStorage.getItem("work_order_details");
     const work_order_details = work_order ? JSON.parse(work_order) : "";
     axios
@@ -88,13 +87,13 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
         axios.get(`${API}/admin/work-orders/${work_order_details?.id}`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }),
-        axios.get(`${API}/admin/invoices/${work_order_details?.id}`, {
+        axios.get(`${API}/admin/invoices/${invoice?.id}`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }),
       ])
       .then(
         axios.spread((res, res2) => {
-          console.log(res.data.data);
+          console.log(res2.data.data);
           setState({
             ...state,
             ...res.data.data,
@@ -323,15 +322,15 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
                             <div className="rcomponent">
                               <div className="inv_title2">
                                 <div className="inv_title3">Total Amount</div>
-                                <div className="inv_title4 ing">N{invoice_details?.total_amount?? "~~/~~"}</div>
+                                <div className="inv_title4 ing">N{FormatAmount(invoice_details?.total_amount)?? "~~/~~"}</div>
                                 <div className="inv_title3">Amount Paid</div>
-                                <div className="inv_title4 ing">N{invoice_details?.total_amount_paid?? "~~/~~"}</div>
+                                <div className="inv_title4 ing">N{FormatAmount(invoice_details?.total_amount_paid)?? "~~/~~"}</div>
                               </div>
                             </div>
                             <div className="rcomponent">
                               <div className="inv_title2">
                                 <div className="inv_title3">Balance Due</div>
-                                <div className="inv_title4 ing">N{invoice_details?.total_amount_unpaid?? "~~/~~"}</div>
+                                <div className="inv_title4 ing">N{FormatAmount(invoice_details?.total_amount_unpaid)?? "~~/~~"}</div>
                               </div>
                             </div>
                           </div>
@@ -380,7 +379,7 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
                                       <td>{data?.skill}</td>
                                       <td>{data?.number}</td>
                                       <td>
-                                        <b> N{data?.total_cost}</b>
+                                        <b> N{FormatAmount(data?.total_cost)}</b>
                                       </td>
                                     </tr>
                                   )

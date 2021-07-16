@@ -350,6 +350,7 @@ const AdminWorkOrderEvaluationStep2 = (props) => {
       .then(
         axios.spread((res) => {
           notify("Successful");
+          localStorage.setItem("invoice_id",JSON.stringify(res.data.data))
           props.history.push("/admin_evaluation_step3");
           console.log(res.data.data);
           setState({

@@ -2705,3 +2705,6 @@ label i {
 .fbn1 div{
   margin-right: 1rem;
 }
+.theadinvoice tr th{
+  width: 190px !important;
+}
