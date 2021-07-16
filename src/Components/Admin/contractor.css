@@ -361,6 +361,7 @@ text {
   padding-right: 7rem;
   background: #e5e5e5;
   min-height: 97vh;
+  justify-content: center;
 }
 .title_wo {
   display: flex;
@@ -990,6 +991,7 @@ a:hover {
 .row3t2 {
   padding-right: 4rem;
   padding-bottom: 5rem;
+  justify-content: center !important;
 }
 .active_member2 {
   text-align: right;
@@ -2531,6 +2533,7 @@ label i {
 .rowt3x {
   padding-right: 4rem !important;
   padding-left: 3rem !important;
+  justify-content: center !important;
 }
 .formCi {
   padding: 1rem !important;

@@ -274,7 +274,7 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
                         <div className="">
                           <div className="box_inv outerpink">
                             <span className="box_smalltick smalltickpink"></span>
-                            Unpaid
+                            {props?.payment_details?.total_amount_paid > 0?"Paid":"Unpaid"}
                           </div>
                           <div className="boxwrapper__1">
                             <div className="lcomponent">
