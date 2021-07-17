@@ -76,8 +76,10 @@ const SpecialistSettings = () => {
     certificationActive: "",
     certificationbtn: "",
     noProjectsAdded: true,
-    projects:[],
+    projects:[{}],
     projectModal: false,
+    projectbtn:"",
+    projectActive:"",
     field: "",
     from: "",
     to: "",
@@ -100,6 +102,8 @@ const SpecialistSettings = () => {
     projects,
     projectModal,
     projectTitle,
+    projectbtn,
+    projectActive,
     projectDescription,
     projectFrom,
     projectTo,
@@ -353,7 +357,8 @@ const SpecialistSettings = () => {
           console.log(res.data);
           console.log(res2.data);
           console.log(res3.data);
-          const user= res.data.data
+          const user= res.data.data;
+          const userProject= res3.data.data.data
           setState({
             ...state,
             ...res.data.data,
@@ -368,7 +373,9 @@ const SpecialistSettings = () => {
             addexperiencebtn: user.experiences.length<=0? "noprofcerbtnwrapper":"profcerbtnwrapper",
             certificationActive: user.certifications.length<=0? "nowrapdemacator":"profcertifncntent",
             certificationbtn: user.certifications.length<=0? "nowrapdemacator":"profcerbtnwrapper",
-            fourthtabInactive: user.status === "New" ? "inactivetab": "activetab"
+            fourthtabInactive: user.status === "New" ? "inactivetab": "activetab",
+            projectbtn: userProject.length <= 0? "noprofcerbtnwrapper":"profcerbtnwrapper",
+            noProjectsAdded : userProject.length <= 0? true : false,
           });
         })
       )
@@ -376,33 +383,7 @@ const SpecialistSettings = () => {
         console.log(err.response);
       });
   }, []);
-  
-  const displayCertification =()=>{
-    //add certhification to UI
-    if (certification && year){
-     setState({
-       ...state,
-       noCertificateAdded: false,
-       certifications: [...certifications, {title:certification, year:year}],
-       certificateModal: false,
-       certificationActive: certifications.length>=0? "profcertifncntent":"nowrapdemacator",
-       certificationbtn: certifications.length>=0? "profcerbtnwrapper":"nowrapdemacator",
-     })
-    }
-  };
-  // const displayProject =()=>{
-  //   //add project to UI
-  //   if (certification && year){
-  //    setState({
-  //      ...state,
-  //      noProjectsAdded : false,
-  //      projects: [...projects, {title:certification, year:year}],
-  //      projectModal: false,
-  //     //  certificationActive: certifications.length>=0? "profcertifncntent":"nowrapdemacator",
-  //     //  certificationbtn: certifications.length>=0? "profcerbtnwrapper":"nowrapdemacator",
-  //    })
-  //   }
-  // };
+
   const displayExperience =()=>{
     //add experience to UI
     if(title && experienceDescription){
@@ -416,9 +397,36 @@ const SpecialistSettings = () => {
       })
     }  
   };
+  
+   const displayProject =()=>{
+     //add project to UI
+     if (projectTitle && projectDescription && projectFrom && projectTo){
+      setState({
+        ...state,
+        noProjectsAdded : false,
+       projects: [...projects, {title:projectTitle, description:projectDescription,from:projectFrom,to:projectTo}],
+       projectModal: false,
+       projectActive: projects.length>=0? "wrapdemacator":"nowrapdemacator",
+      projectbtn: projects.length <= 0? "profcerbtnwrapper":"noprofcerbtnwrapper",
+    })
+     }
+   };
+ 
+  const displayCertification =()=>{
+    //add certhification to UI
+    if (certification && year){
+     setState({
+       ...state,
+       noCertificateAdded: false,
+       certifications: [...certifications, {title:certification, year:year}],
+       certificateModal: false,
+       certificationActive: certifications.length>=0? "profcertifncntent":"nowrapdemacator",
+       certificationbtn: certifications.length>=0? "profcerbtnwrapper":"nowrapdemacator",
+     })
+    }
+  };
 
-
-  const add_certification = () => {
+  const post_Credentials = () => {
     const availableToken = localStorage.getItem("loggedInDetails");
     console.log(availableToken);
     const token = availableToken ? JSON.parse(availableToken) : "";
@@ -427,19 +435,12 @@ const SpecialistSettings = () => {
       skill_id
     };
     console.log(skill_id)
-    const data2 ={
-      qualification,
-      institution,
-      field,
-      from,
-      to
-    }
+
+    const data2={
+      title,
+     description: experienceDescription,
+   }
     const data3 = {
-      certification,
-      year,
-      description,
-    };
-    const data4 = {
       title: projectTitle,
       description: projectDescription,
       from: projectFrom,
@@ -449,13 +450,12 @@ const SpecialistSettings = () => {
       Axios.post(`${API}/specialist/skills`, data1, {
         headers: { Authorization: `Bearer ${token.access_token}` },
       }),
-      Axios.post(`${API}/specialist/qualifications`, data2, {
-        headers: { Authorization: `Bearer ${token.access_token}` },
+  
+      Axios.post(`${API}/specialist/experiences`,data2 , {
+        headers: { Authorization: `Bearer ${token.access_token}` }
       }),
-      Axios.post(`${API}/specialist/certifications`, data3, {
-        headers: { Authorization: `Bearer ${token.access_token}` },
-      }),
-      Axios.post(`${API}/specialist/projects`, data4, {
+    
+      Axios.post(`${API}/specialist/projects`, data3, {
         headers: { Authorization: `Bearer ${token.access_token}` },
       }),
     ])
@@ -464,7 +464,6 @@ const SpecialistSettings = () => {
           console.log(responses[0]);
           console.log(responses[1]);
           console.log(responses[2]);
-          console.log(responses[3]);
           setState({
             ...state,
             firsttab: false,
@@ -476,34 +475,53 @@ const SpecialistSettings = () => {
         })
       )
       .catch((err) => {
-        console.log(err.response);
+        console.log(err.response[0]);
+        console.log(err.response[1]);
+        console.log(err.response[2]);
         notify("Failed to save", "D");
       });
   };
-  const add_Experience =()=>{
+
+  const post_qualification_and_experience =()=>{
     const availableToken = localStorage.getItem("loggedInDetails");
     console.log(availableToken);
     const token = availableToken ? JSON.parse(availableToken) : "";
     console.log(token);
-    const data4={
-       title,
-      description: experienceDescription,
+    const data4 ={
+      qualification,
+      institution,
+      field,
+      from,
+      to
     }
-    axios.post(`${API}/specialist/experiences`,data4 , {
-      headers: { Authorization: `Bearer ${token.access_token}` },
-    })
-    .then((response)=>{
-        console.log(response);
-       if(response.status==201 &&  user.status === "New"){ 
-         notify("Profile Successfully Completed, awaiting aprroval..");
+    const data5 = {
+      certification,
+      year,
+      description,
+    };
+
+    Axios.all([
+      Axios.post(`${API}/specialist/qualifications`, data4, {
+        headers: { Authorization: `Bearer ${token.access_token}` },
+      }),
+      Axios.post(`${API}/specialist/certifications`, data5, {
+        headers: { Authorization: `Bearer ${token.access_token}` },
+      }),
+    ])
+    .then(
+      axios.spread ((...responses)=>{
+        console.log(responses[0]);
+        console.log(responses[1]);
+       if(responses[0].status==201 && responses[1].status==201 &&  user.status === "New"){ 
+         notify("Profile Successfully Completed, awaiting aprroval..")
        }
-       else if(response.status==201){
+       else if(responses[0].status==201 && responses[1].status==201){
         notify("Profile Successfully Completed")
        }
        else{
         notify("unSuccessfull");
        }
-        })
+        }))
     .catch((err)=>{
       console.log(err.response);
       notify("Failed to save", "D");
@@ -817,8 +835,8 @@ const SpecialistSettings = () => {
                     <div>
                       <Row className="section_form1">
                         <Col md={12} className="profpriski">
-                          <h6 className="userprofile userprofile12">
-                            Primary Skill
+                          <h6 className="profillabels">
+                            Primary skill
                           </h6>
                           <select
                             className="forminput profsettinformselect form-control"
@@ -840,7 +858,7 @@ const SpecialistSettings = () => {
                       </Row>
                       <Row>
                         <Col md={12}>
-                          <h6 className="userprofile userprofile12">
+                          <h6 className="profillabels">
                             Other skill
                           </h6>
                           <p>Tick the skills applicable</p>
@@ -930,6 +948,9 @@ const SpecialistSettings = () => {
                         </div>
                       </Modal>
                           <div className="profileexperiencesectn">
+                          <h3 className=" profillabels">
+                            Experiences
+                           </h3>
                           {noExperienceAdded &&(
                            <div>
                              <img src={helmet} alt="img" />
@@ -1001,7 +1022,7 @@ const SpecialistSettings = () => {
                               <input
                                 type="date"
                                 className="userfield form-control"
-                                name="from"
+                                name="projectFrom"
                                 value={projectFrom}
                                 onChange={onchange}
                                 placeholder="projectFrom"
@@ -1044,21 +1065,21 @@ const SpecialistSettings = () => {
                             >
                               Cancel
                             </span>
-                            <span className="wrkmodal-declinebtn addexpbtn">
+                            <span className="wrkmodal-declinebtn addexpbtn" onClick={displayProject}>
                               Add Project
                             </span>
                           </div>
                         </div>
                       </Modal>
                           <div className="profileexperiencesectn">
-                            <h3 className="userprofile userprofile12 boldtext">
-                            Project Complete In the last 3 Years
+                            <h3 className="profillabels ">
+                            Project Completed In the last 3 Years
                            </h3>
                           {noProjectsAdded &&(
                            <div>
                              <img src={helmet} alt="img" />
                              <p>You have no Projects Added</p>
-                             <span className="profcertbtn" onClick={workModal}>
+                             <span className="profcertbtn" onClick={openProjectModal}>
                              Add Project
                              </span>
                            </div>
@@ -1066,21 +1087,22 @@ const SpecialistSettings = () => {
                            <div className="profecperince-content">
                             {projects.map((item, index)=>{
                                 return(
-                                  <div key={index} className={`wrapdemacator ${experienceActive}`}>
+                                  <div key={index} className={`wrapdemacator ${projectActive}`}>
                                     <div className="profiexpernceheaderwrap">
                                       <p className="profiexpetitle">Title</p>
                                      <div>
-                                       <img src={editicon} onClick={workModal} className="editimg"/>
+                                       <img src={editicon} onClick={openProjectModal} className="editimg"/>
                                     </div>
                                     </div>
-                                    <p>{item.title}</p>
+                                    <p className="stprojtitle">{item.title}</p>
+                                    <p className="projdateperiod">from  {item.from}  to  {item.to} </p>
                                     <p className="profiexpetitle">Projects</p>
                                     <p>{item.description}</p>
                                 
                                 </div>
                               )
                             })}
-                                <div className={`profcerbtnwrapper ${addexperiencebtn}`}>
+                                <div className={`profcerbtnwrapper ${projectbtn}`}>
                              <span className="wrkmodal-declinebtn profcertbtn" onClick={openProjectModal}>
                                Add Project
                              </span>
@@ -1094,7 +1116,7 @@ const SpecialistSettings = () => {
                           <NavHashLink to="#experiencetab">
                             <div
                               className="job31"
-                              onClick={add_certification}
+                              onClick={post_Credentials}
                             >
                               Next
                             </div>
@@ -1109,7 +1131,7 @@ const SpecialistSettings = () => {
                     <div>
                       <Row className="section_form1">
                       <Col md={12}>
-                          <h3 className="userprofile userprofile12 boldtext">
+                          <h3 className=" profillabels">
                             Qualification
                           </h3>
                         </Col>
@@ -1250,6 +1272,9 @@ const SpecialistSettings = () => {
                         </div>
                       </Modal>
                        <div className="profileceriticatesectn">
+                         <h3 className=" profillabels ">
+                            Certifications
+                         </h3>
                        {noCertificateAdded && (<div>
                          <img src={cert} alt="img" />
                          <p>You have no Certificates Added</p>
@@ -1275,7 +1300,7 @@ const SpecialistSettings = () => {
                       </div>
                       <Row>
                         <Col md={12}>
-                          <div className="job31" onClick={add_Experience}>
+                          <div className="job31" onClick={post_qualification_and_experience}>
                             Save
                           </div>
                         </Col>
@@ -1288,7 +1313,7 @@ const SpecialistSettings = () => {
                     <>
                       <Row className="section_form1">
                         <Col md={12}>
-                          <h3 className="userprofile userprofile12 boldtext">
+                          <h3 className="userprofile userprofile12 profillabels">
                             Deactivate Account
                           </h3>
                           <br></br>

@@ -470,7 +470,7 @@
 }
 .profileexperiencesectn{
     text-align: center;
-    padding: 50px 0px 58px;
+    padding-bottom:  58px;
     border-bottom: 1px solid #999999;
     margin-bottom: 30px;
 }
@@ -582,11 +582,24 @@
     left: -28px;
 }
 .userprofile12{
-    font-weight: 600 !important;
+    font-weight: 600 !important; 
+}
+.profillabels{
+    font-weight: 600;
+    font-size: 16px;
+    text-align: initial;
+    color: #222073;
 }
 .wrapdemacator:not(:first-child){
     border-top: 1px solid #999999;
     padding-top: 16px;
+}
+.projdateperiod{
+    font-size: 13px;
+    color: #999999;
+}
+.stprojtitle{
+    margin-bottom: 2px;
 }
 .nowrapdemacator{
     display: none;
