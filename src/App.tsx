@@ -49,6 +49,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Admin_NewWorkOrderForm from "./Components/Admin/Admin_Raise_Work_Order/New_Work_Order";
 import Admin_NewWorkOrderStep2 from "./Components/Admin/Admin_Raise_Work_Order/New_Work_Order_Step2";
 import Amin_NewWorkOrderStep3 from "./Components/Admin/Admin_Raise_Work_Order/New_Work_Order_Step3";
+import Admin_Invoice_details from "./Components/Admin/Invoice_Details";
 
 
 
@@ -110,6 +111,8 @@ class App extends Component {
                 path="/payment_invoice"
                 component={Contractor_Payment_Invoice}
               />
+              
+              <Route path="/admin_invoice_details" component={Admin_Invoice_details} />
               <Route path="/invoice_details" component={Invoice_details} />
               <Route
                 path="/contractor_profile"

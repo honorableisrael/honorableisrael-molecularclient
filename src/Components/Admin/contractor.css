@@ -361,6 +361,7 @@ text {
   padding-right: 7rem;
   background: #e5e5e5;
   min-height: 97vh;
+  justify-content: center;
 }
 .title_wo {
   display: flex;
@@ -669,7 +670,7 @@ a:hover {
 }
 .arrow2x {
   position: relative;
-  top: 1.8rem;
+  /* top: 1.8rem; */
   cursor: pointer;
 }
 /* .job23{
@@ -990,6 +991,7 @@ a:hover {
 .row3t2 {
   padding-right: 4rem;
   padding-bottom: 5rem;
+  justify-content: center !important;
 }
 .active_member2 {
   text-align: right;
@@ -1173,7 +1175,7 @@ a:hover {
     min-width: 100%;
   }
   .arrow2x {
-    top: -0.2rem;
+    /* top: -0.2rem; */
   }
   .carderw {
     padding-right: 1.5rem;
@@ -1763,7 +1765,7 @@ a:hover {
     max-width: 60% !important;
   }
   .arrow2x {
-    top: 3.6rem;
+    /* top: 3.6rem; */
   }
   .arrow22x {
     top: 1.5rem;
@@ -2531,6 +2533,7 @@ label i {
 .rowt3x {
   padding-right: 4rem !important;
   padding-left: 3rem !important;
+  justify-content: center !important;
 }
 .formCi {
   padding: 1rem !important;
@@ -2698,4 +2701,13 @@ label i {
 .modall{
   position: relative;
   right: 2rem;
+}
+.fbn1{
+  display: flex;
+}
+.fbn1 div{
+  margin-right: 1rem;
+}
+.theadinvoice tr th{
+  width: 190px !important;
 }

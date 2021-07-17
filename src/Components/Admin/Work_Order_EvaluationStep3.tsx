@@ -16,15 +16,13 @@ import arrowback from "../../images/dtls.png";
 import { Link } from "react-router-dom";
 import logo from "../../images/Molecular.png";
 import axios from "axios";
-import { API, notify } from "../../config";
+import { API, FormatAmount, notify, returnAdminToken } from "../../config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
-
 const AdminWorkOrderEvaluationStep3 = (props) => {
   const [state, setState] = useState<any>({
-    work_orders: [],
+    invoice_details: {},
     country: "",
     inprogress: true,
     pending_request: false,
@@ -39,8 +37,8 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
     hour: "",
     show: false,
     reason: "",
-    isloading:false,
-    work_order_detail:{}
+    isloading: false,
+    work_order_detail: {},
   });
 
   const onchange = (e) => {
@@ -79,10 +77,9 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
   };
   useEffect(() => {
     window.scrollTo(-0, -0);
-    const availableToken: any = localStorage.getItem("loggedInDetails");
-    const token = availableToken
-      ? JSON.parse(availableToken)
-      : window.location.assign("/");
+    const invoice_: any = localStorage.getItem("invoice_id");
+    const invoice = invoice_?JSON.parse(invoice_):""
+    const token = returnAdminToken()
     const work_order = localStorage.getItem("work_order_details");
     const work_order_details = work_order ? JSON.parse(work_order) : "";
     axios
@@ -90,14 +87,18 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
         axios.get(`${API}/admin/work-orders/${work_order_details?.id}`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }),
+        axios.get(`${API}/admin/invoices/${invoice?.id}`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
       ])
       .then(
-        axios.spread((res) => {
-          console.log(res.data.data);
+        axios.spread((res, res2) => {
+          console.log(res2.data.data);
           setState({
             ...state,
             ...res.data.data,
             work_order_detail: res.data.data,
+            invoice_details: res2.data.data,
           });
         })
       )
@@ -147,14 +148,13 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
           ...state,
           isloading: false,
         });
-        if(err?.response?.status==400){
-          return notify(err?.response?.data?.message) 
-           }
+        if (err?.response?.status == 400) {
+          return notify(err?.response?.data?.message);
+        }
         console.log(err);
       });
   };
 
-  
   const {
     project_purpose,
     country,
@@ -165,10 +165,9 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
     reason,
     isloading,
     start_date,
+    invoice_details,
     show,
-    hour,
   } = state;
-console.log(work_order_detail)
   return (
     <>
       <Modal
@@ -275,23 +274,27 @@ console.log(work_order_detail)
                         <div className="">
                           <div className="box_inv outerpink">
                             <span className="box_smalltick smalltickpink"></span>
-                            Unpaid
+                            {props?.payment_details?.total_amount_paid > 0?"Paid":"Unpaid"}
                           </div>
                           <div className="boxwrapper__1">
                             <div className="lcomponent">
                               <div className="inv_title">
-                                Invoice : 312342132123
+                                Invoice : {invoice_details.reference}
                               </div>
                               <div className="inv_title2">
                                 <div className="inv_title3">
                                   {" "}
                                   Invoice Number
                                 </div>
-                                <div className="inv_title4">~~/~~</div>
+                                <div className="inv_title4">
+                                  {invoice_details?.number ?? "~~/~~"}
+                                </div>
                               </div>
                               <div className="inv_title2">
                                 <div className="inv_title3">Invoice Date</div>
-                                <div className="inv_title4">~~/~~</div>
+                                <div className="inv_title4">
+                                  {invoice_details?.sent_at ?? "~~/~~"}
+                                </div>
                               </div>
                             </div>
                             <div className="rcomponent">
@@ -318,16 +321,16 @@ console.log(work_order_detail)
                             </div>
                             <div className="rcomponent">
                               <div className="inv_title2">
-                                <div className="inv_title3">Invoice Amount</div>
-                                <div className="inv_title4 ing">N123,324</div>
+                                <div className="inv_title3">Total Amount</div>
+                                <div className="inv_title4 ing">N{FormatAmount(invoice_details?.total_amount)?? "~~/~~"}</div>
                                 <div className="inv_title3">Amount Paid</div>
-                                <div className="inv_title4 ing">N0.0</div>
+                                <div className="inv_title4 ing">N{FormatAmount(invoice_details?.total_amount_paid)?? "~~/~~"}</div>
                               </div>
                             </div>
                             <div className="rcomponent">
                               <div className="inv_title2">
                                 <div className="inv_title3">Balance Due</div>
-                                <div className="inv_title4 ing">N1,123,324</div>
+                                <div className="inv_title4 ing">N{FormatAmount(invoice_details?.total_amount_unpaid)?? "~~/~~"}</div>
                               </div>
                             </div>
                           </div>
@@ -340,46 +343,47 @@ console.log(work_order_detail)
                                   </th>
                                   <th className="tablehead">Pipe Size</th>
                                   <th className="tablehead">Pipeline Length</th>
-                                  <th className="tablehead">Pipeschedule Length</th>
+                                  <th className="tablehead">PipeSchedule</th>
                                 </tr>
                               </thead>
                               <tbody>
-                              {
-                               work_order_detail?.pipe_configs?.map((data,i)=>(
-                                <tr className="tdata">
-                                  <td>{data?.joints}</td>
-                                  <td>{data?.length}</td>
-                                  <td>{data?.size}</td>
-                                  <td>{data?.pipe_schedule}</td>
-                                
-                                </tr>
-                               )) 
-                              }
+                                {work_order_detail?.pipe_configs?.map(
+                                  (data, i) => (
+                                    <tr className="tdata">
+                                      <td>{data?.joints}</td>
+                                      <td>{data?.length}</td>
+                                      <td>{data?.size}</td>
+                                      <td>{data?.pipe_schedule}</td>
+                                    </tr>
+                                  )
+                                )}
                               </tbody>
                             </Table>
                             <Table responsive>
                               <thead className="theadinvoice">
                                 <tr>
-                                <th className="tablehead">
+                                  <th className="tablehead">
                                     Specialist Skill
                                   </th>
-                                  <th className="tablehead">Number of Specialist</th>
-                                  
+                                  <th className="tablehead">
+                                    Number of Specialist
+                                  </th>
+
                                   <th className="tablehead">Total Cost</th>
                                 </tr>
                               </thead>
                               <tbody>
-                              {
-                               work_order_detail?.specialist_requests?.map((data,i)=>(
-                                <tr className="tdata">
-                                  <td>{data?.skill}</td>
-                                  <td>{data?.number}</td>
-                                  <td>
-                                    <b> N{data?.total_cost}</b>
-                                  </td>
-                                </tr>
-                               )) 
-                              }
+                                {work_order_detail?.specialist_requests?.map(
+                                  (data, i) => (
+                                    <tr className="tdata">
+                                      <td>{data?.skill}</td>
+                                      <td>{data?.number}</td>
+                                      <td>
+                                        <b> N{FormatAmount(data?.total_cost)}</b>
+                                      </td>
+                                    </tr>
+                                  )
+                                )}
                               </tbody>
                             </Table>
                             <div className="text-right mgg2"></div>
@@ -389,9 +393,15 @@ console.log(work_order_detail)
                           <div className="allpayment1">
                             All payments go to any of the account details below
                           </div>
-                          <div className="bnclass">First Bank</div>
-                          <div className="bnclass">2019284891321</div>
-                          <div className="bnclass">Molecular Incoparated</div>
+                          {invoice_details?.bank_account?.map((data, i) => (
+                            <div className="fbn1">
+                              <div className="bnclass">{data.bank}</div>
+                              <div className="bnclass">{data.account_number}</div>
+                              <div className="bnclass">
+                                {data.account_name}
+                              </div>
+                            </div>
+                          ))}
                         </div>
                       </Col>
                       <div className="nxtbck">
@@ -399,11 +409,14 @@ console.log(work_order_detail)
                           {" "}
                           <div className="gent122 gent1221">Back</div>
                         </Link>{" "}
-                          <div className="gent122 gent12212" onClick={sendInvoice}>
-                            {
-                              isloading?"processing":"Send Invoice and Proceed"
-                            }
-                          </div>
+                        <div
+                          className="gent122 gent12212"
+                          onClick={sendInvoice}
+                        >
+                          {isloading
+                            ? "processing"
+                            : "Send Invoice and Proceed"}
+                        </div>
                       </div>
                     </div>
                   </div>
