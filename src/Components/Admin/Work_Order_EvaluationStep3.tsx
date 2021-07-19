@@ -16,7 +16,7 @@ import arrowback from "../../images/dtls.png";
 import { Link } from "react-router-dom";
 import logo from "../../images/Molecular.png";
 import axios from "axios";
-import { API, FormatAmount, notify, returnAdminToken } from "../../config";
+import { API, FormatAmount, formatTime, notify, returnAdminToken } from "../../config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -293,16 +293,14 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
                               <div className="inv_title2">
                                 <div className="inv_title3">Invoice Date</div>
                                 <div className="inv_title4">
-                                  {invoice_details?.sent_at ?? "~~/~~"}
+                                  {formatTime(invoice_details?.sent_at) ?? "~~/~~"}
                                 </div>
                               </div>
                             </div>
                             <div className="rcomponent">
                               <img src={logo} alt="" className="Simage" />
                               <div className="Stext2">
-                                15, Timi Ariyo Street, <br></br> Sangotedo,{" "}
-                                <br></br>
-                                Lekki, Lagos State, Nigeria
+                               {invoice_details.company_address}
                               </div>
                             </div>
                           </div>
@@ -322,15 +320,15 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
                             <div className="rcomponent">
                               <div className="inv_title2">
                                 <div className="inv_title3">Total Amount</div>
-                                <div className="inv_title4 ing">N{FormatAmount(invoice_details?.total_amount)?? "~~/~~"}</div>
+                                <div className="inv_title4 ing">${FormatAmount(invoice_details?.total_amount)?? "~~/~~"}</div>
                                 <div className="inv_title3">Amount Paid</div>
-                                <div className="inv_title4 ing">N{FormatAmount(invoice_details?.total_amount_paid)?? "~~/~~"}</div>
+                                <div className="inv_title4 ing">${FormatAmount(invoice_details?.total_amount_paid)?? "~~/~~"}</div>
                               </div>
                             </div>
                             <div className="rcomponent">
                               <div className="inv_title2">
                                 <div className="inv_title3">Balance Due</div>
-                                <div className="inv_title4 ing">N{FormatAmount(invoice_details?.total_amount_unpaid)?? "~~/~~"}</div>
+                                <div className="inv_title4 ing">${FormatAmount(invoice_details?.total_amount_unpaid)?? "~~/~~"}</div>
                               </div>
                             </div>
                           </div>
@@ -379,13 +377,38 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
                                       <td>{data?.skill}</td>
                                       <td>{data?.number}</td>
                                       <td>
-                                        <b> N{FormatAmount(data?.total_cost)}</b>
+                                        <b> ${FormatAmount(data?.total_cost)}</b>
                                       </td>
                                     </tr>
                                   )
                                 )}
                               </tbody>
                             </Table>
+                            <div className="ing_11">
+                            <Table responsive>
+                              <thead className="theadinvoice">
+                                <tr>
+                                  <th className="tablehead">Specialist Cost</th>
+                                  <th className="tablehead">Date</th>
+                                  <th className="tablehead">Status</th>
+                                  <th className="tablehead">Cycle</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {invoice_details?.cycles?.map(
+                                  (data, i) => (
+                                    <tr className="tdata" key={i}>
+                                       <td>{FormatAmount(data?.specialist_cost)}</td>
+                                      <td>{formatTime(data?.date)}</td>
+                                      <td>{data?.status}</td>
+                                      <td>{data?.cycle}</td>
+                                    </tr>
+                                  )
+                                )}
+                              </tbody>
+                            </Table>
+                            <div className="text-right mgg2"></div>
+                          </div>
                             <div className="text-right mgg2"></div>
                           </div>
                         </div>

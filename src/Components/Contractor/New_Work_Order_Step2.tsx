@@ -443,7 +443,7 @@ console.log(pipeSizes)
                             </div>
                             <div className="">
                               <h6 className="userprofile12 userprofile123">
-                                Pipe Size
+                                Pipe Size (id)
                               </h6>
                               <div className="Construction12">
                                 {" "}

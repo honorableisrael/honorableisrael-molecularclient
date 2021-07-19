@@ -285,9 +285,7 @@ const Admin_Invoice_details = (props) => {
                             <div className="rcomponent">
                               <img src={logo} alt="" className="Simage" />
                               <div className="Stext2">
-                                15, Timi Ariyo Street, <br></br> Sangotedo,{" "}
-                                <br></br>
-                                Lekki, Lagos State, Nigeria
+                               {invoice_details?.company_address??"n/a"}
                               </div>
                             </div>
                           </div>
@@ -323,8 +321,8 @@ const Admin_Invoice_details = (props) => {
                             <Table responsive>
                               <thead className="theadinvoice">
                                 <tr>
-                                  <th className="tablehead">Date</th>
                                   <th className="tablehead">Specialist Cost</th>
+                                  <th className="tablehead">Date</th>
                                   <th className="tablehead">Status</th>
                                   <th className="tablehead">Cycle</th>
                                 </tr>

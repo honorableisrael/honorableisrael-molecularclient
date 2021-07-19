@@ -104,8 +104,7 @@ const Invoice_details = () => {
                     <div className="rcomponent">
                       <img src={logo} alt="" className="Simage" />
                       <div className="Stext2">
-                        15, Timi Ariyo Street, <br></br> Sangotedo, <br></br>
-                        Lekki, Lagos State, Nigeria
+                      {/* {invoice_details?.company_address??"n/a"} */}
                       </div>
                     </div>
                   </div>

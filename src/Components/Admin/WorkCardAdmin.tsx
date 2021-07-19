@@ -93,6 +93,7 @@ const AdminWorkOrderCards = (props) => {
               className="sliderclass1"
               // onChange={handleOnChange}
             />
+          </div>
             <Link
               to="/admin_work_details?inreview=true"
               onClick={() =>
@@ -106,7 +107,6 @@ const AdminWorkOrderCards = (props) => {
                 <img src={nextbtn} alt="nxtbtn" className="nxtbtn3" />
               </div>
             </Link>
-          </div>
           <div className="minicardwrapper mnversion11">
             <div className="content24">
               <img src={group3} alt="cotn23" className="cotn232" />

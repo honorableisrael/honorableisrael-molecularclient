@@ -27,8 +27,6 @@ import no_work_order from "../../images/document 1.png";
 import axios from "axios";
 import { API, capitalize, checkIfIsOdd } from "../../config";
 
-
-
 const AdminViewWorkOrderDetails = withRouter((props: any) => {
   const [state, setState] = useState<any>({
     work_order_detail: {},
@@ -320,10 +318,17 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
               </div>
             )}
             {inreview && (
-              <div className="rjwrapper mrgin__right">
-                <Link to="/work_order_evaluation">
-                  <Button className="rejct1">{"Edit"}</Button>
-                </Link>
+              <div className="raise1">
+                <div className="">
+                  <Link to="/raise_proforma_invoice">
+                    <Button className="raise_inv">{"Raise Proforma Invoice"}</Button>
+                  </Link>
+                </div>
+                <div className="rjwrapper mrgin__right">
+                  <Link to="/work_order_evaluation">
+                    <Button className="rejct1">{"Edit"}</Button>
+                  </Link>
+                </div>
               </div>
             )}
             <Row className="mgtop">

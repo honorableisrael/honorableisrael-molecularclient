@@ -32,6 +32,7 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
     diameter: "",
     start_date: "",
     pipeList: [],
+    pipeSizes:[],
     pipe_config_: [],
     types_of_Specialist: [],
     no_of_specialist: "",
@@ -39,6 +40,7 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
     pipe_schedule: "",
     pipe_schedules: [],
     pipe_size: "",
+    size_value: "",
     pipe_name: "",
     pipelength: "",
     specialist_config: [],
@@ -57,7 +59,16 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
       pipe_name: new_obj.name,
     });
   };
-
+  const onchange_pipesize = (e) => {
+    // if (e.target.name == "pipe_type") {
+    const new_obj = JSON.parse(e.target.value);
+    console.log(new_obj);
+    setState({
+      ...state,
+      size_value: new_obj.name,
+      pipe_size: new_obj.id,
+    });
+  };
   const onchange_Area_Of_Specialization = (e) => {
     // if (e.target.name == "pipe_type") {
     const new_obj = JSON.parse(e.target.value);
@@ -112,6 +123,7 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
     no_of_joints,
     pipe_schedules,
     pipe_config_,
+    size_value,
     pipe_name,
     pipelength,
     no_of_specialist,
@@ -120,6 +132,7 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
     pipe_config,
     types_of_Specialist,
     pipeList,
+    pipeSizes,
     pipe_type,
     pipe_schedule_name,
     title_of_specialist,
@@ -142,15 +155,19 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
       Axios.get<any, AxiosResponse<any>>(`${API}/pipe-schedules`, {
         headers: { Authorization: `Bearer ${token.access_token}` },
       }),
+      axios.get(`${API}/pipe-sizes`, {
+        headers: { Authorization: `Bearer ${token.access_token}` },
+      }),
     ])
       .then(
-        axios.spread((res, res2, res3) => {
+        axios.spread((res, res2, res3,res4) => {
           console.log(res3.data.data);
           setState({
             ...state,
             types_of_Specialist: res.data.data,
             pipeList: res2.data.data,
             pipe_schedules: res3.data.data,
+            pipeSizes: res4.data.data,
             ...stored2,
           });
         })
@@ -550,14 +567,22 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
                           <h6 className="userprofile userprofile12">
                             Pipe Size
                           </h6>
-                          <Form.Control
-                            type="number"
-                            value={pipe_size}
-                            className="userfield"
-                            id="pipe_size"
-                            onChange={onchange}
-                            placeholder=""
-                          />
+                          <select name="pipe_size" id="pipe_size" className="form-control" onChange={onchange_pipesize}>
+                          {pipeSizes.map((data, i) => (
+                            <>
+                            <option>{size_value}</option>
+                            <option
+                              className="pipelength1 form-control specialization"
+                              value={JSON.stringify({
+                                id: data.id,
+                                name: data.size,
+                              })}
+                            >
+                              {data.size}
+                            </option>
+                            </>
+                          ))}
+                          </select>
                         </Form.Group>
                       </Col>
                       <Col md={12} className="addmro1 dmro1">

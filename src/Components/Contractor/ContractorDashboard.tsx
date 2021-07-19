@@ -167,7 +167,7 @@ const ContractorDashboard = withRouter((props) => {
             contractor: res.data.data,
             notification: res2.data.data.data,
             work_orders: res3.data.data.data,
-            invoices:res4.data.data,
+            invoices:res4.data.data.data,
           });
         })
       )
