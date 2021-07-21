@@ -26,7 +26,7 @@ import pen from "../../images/pen.png";
 import axios, { AxiosResponse } from "axios";
 import { API, FormatAmount, notify } from "../../config";
 
-const AdminWorkOrderEvaluationStep2 = (props) => {
+const AdminRaiseProformaInvoice = (props) => {
   const [state, setState] = useState<any>({
     work_orders: [],
     isloading: false,
@@ -277,9 +277,6 @@ const AdminWorkOrderEvaluationStep2 = (props) => {
           isloading: false,
         });
         console.log(err?.response);
-        if(err?.response?.status==406){
-          return notify( err?.response?.data?.errors?.size.join("")) 
-           }
         notify("Failed to update");
       });
   };
@@ -543,7 +540,7 @@ const AdminWorkOrderEvaluationStep2 = (props) => {
                             </div>
                           </div>
                         </Col>
-                        {/* <Col md={6}>
+                        <Col md={6}>
                           <div className="pipelength pipelng">
                             <div className="pipelength1q">
                               Pipe cost (per inch schedule){" "}
@@ -560,9 +557,9 @@ const AdminWorkOrderEvaluationStep2 = (props) => {
                               />
                             </div>
                           </div>
-                        </Col> */}
+                        </Col>
                         <Col md={6}>
-                          <div className="pipelength pipelng">
+                          <div className="pipelength pipelng pipedoc1">
                             <div className="pipelength1q">
                               Pipe Schedule{" "}
                               <span className="text-danger">*</span>
@@ -680,7 +677,7 @@ const AdminWorkOrderEvaluationStep2 = (props) => {
       <Container fluid={true} className="dasbwr">
         <Helmet>
           <meta charSet="utf-8" />
-          <title>Molecular - Contractor Work Order</title>
+          <title>Molecular - Proforma Invoice</title>
           <link />
         </Helmet>
         <Modal
@@ -733,16 +730,8 @@ const AdminWorkOrderEvaluationStep2 = (props) => {
                   {" "}
                   <img src={arrowback} className="arrowback" />
                 </Link>
-                Work Details
+               &nbsp; Proforma Invoice
               </div>
-            </div>
-            <div className="cubewrap1"></div>
-            <div className="cubewrap2"></div>
-            <div className="cubewrap">
-              <div className="cube1 activecube">1</div>
-              <div className="cube1 activecube">2</div>
-              <div className="cube1">3</div>
-              <div className="cube1">4</div>
             </div>
             <Row className="mgtop">
               <Col md={12} className="">
@@ -751,7 +740,7 @@ const AdminWorkOrderEvaluationStep2 = (props) => {
                     <div className="overview12">
                       <div className="eddit1">
                         {" "}
-                        2 of 4 | <b>Pricing Template</b>{" "}
+                      <b>Invoice Template</b>{" "}
                       </div>
                     </div>
                     <div className="bgwhitecontainer">
@@ -771,7 +760,7 @@ const AdminWorkOrderEvaluationStep2 = (props) => {
                                       <div className="pipetitle_1">
                                         {data.pipe_type ?? "n/a"}
                                       </div>
-                                      <div
+                                      {/* <div
                                         className="pipeedit"
                                         onClick={(e) =>
                                           openModal("pipe_config", data)
@@ -783,7 +772,7 @@ const AdminWorkOrderEvaluationStep2 = (props) => {
                                           alt="pen_0"
                                         />{" "}
                                         Edit
-                                      </div>
+                                      </div> */}
                                     </div>
                                     <div className="main_wrap_ws main_wrap_ws22 graybg2 graybg ">
                                       <div>
@@ -892,7 +881,7 @@ const AdminWorkOrderEvaluationStep2 = (props) => {
                                     <div className="pipetitle_1">
                                       {data.skill ?? "n/a"}
                                     </div>
-                                    <div
+                                    {/* <div
                                       className="pipeedit"
                                       onClick={(e) =>
                                         openModal("specialist_config", data)
@@ -904,7 +893,7 @@ const AdminWorkOrderEvaluationStep2 = (props) => {
                                         alt="pen_0"
                                       />{" "}
                                       Edit
-                                    </div>
+                                    </div> */}
                                   </div>
                                   <div className="main_wrap_ws main_wrap_ws22 graybg2 graybg ">
                                     <div>
@@ -1001,4 +990,4 @@ const AdminWorkOrderEvaluationStep2 = (props) => {
   );
 };
 
-export default AdminWorkOrderEvaluationStep2;
+export default AdminRaiseProformaInvoice;

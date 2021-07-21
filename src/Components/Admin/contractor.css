@@ -409,10 +409,10 @@ text {
   border-radius: 20px;
   box-shadow: 0px 4px 16px rgb(17 17 17 / 8%);
   display: flex;
-  min-height: 200px;
+  min-height: 130px;
   margin-bottom: 1rem;
   align-items: center;
-  padding: 1.5rem;
+  padding: 0.5rem 1.5rem;
   margin-bottom: 1rem;
   padding-right: 0px;
 }
@@ -2349,7 +2349,7 @@ label i {
   color: #000000c0;
 }
 .flexcontainercw div {
-  margin-bottom: .1rem;
+  margin-bottom: 0.1rem;
 }
 .ttola1b {
   font-size: 24px;
@@ -2608,48 +2608,48 @@ label i {
   font-size: 15px;
   margin-top: 1rem;
 }
-.ttola1b{
+.ttola1b {
   color: #362c2c;
 }
-.ttola1{
+.ttola1 {
   color: #999999;
   width: 100px;
   font-size: 14px;
 }
-.ttola1a{
+.ttola1a {
   font-size: 14px;
   line-height: 22px;
   color: #999999;
 }
-.cost12{
+.cost12 {
   color: #000000;
   font-size: 16px;
 }
-.flexcon_1 div{
+.flexcon_1 div {
   margin-right: 2rem;
 }
-.flexcon_1{
+.flexcon_1 {
   margin-top: 0px;
   padding-top: 0px;
 }
-.pipelng div{
+.pipelng div {
   font-size: 14px;
 }
-.pipedoc1{
+.pipedoc1 {
   width: 89%;
 }
-#schedule{
+#schedule {
   height: auto !important;
 }
-.graybg2 div{
+.graybg2 div {
   min-width: 143px !important;
 }
-.graybg2{
+.graybg2 {
   background: white;
   border: 1px solid #94909071;
   padding-top: 4rem;
 }
-.headerflex{
+.headerflex {
   display: flex;
   justify-content: space-between;
   font-size: 14px;
@@ -2662,52 +2662,93 @@ label i {
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 0px;
 }
-.pen_0{
+.pen_0 {
   width: 12px;
 }
-.graybg2 div h6,.graybg2 div div{
+.graybg2 div h6,
+.graybg2 div div {
   font-size: 14px;
 }
-.pipeedit{
+.pipeedit {
   cursor: pointer;
 }
-.pipelng__1 select{
+.pipelng__1 select {
   height: 38px !important;
 }
-.ttp1_{
+.ttp1_ {
   margin-left: 1rem;
   margin-right: 2rem;
 }
-.avatar1{
+.avatar1 {
   width: 100%;
 }
-.l_extra{
+.l_extra {
   width: 240px;
 }
-.rinvoice{
+.rinvoice {
   text-align: center;
   padding-top: 2rem;
   align-self: center;
   display: flex;
   justify-content: center;
 }
-.rinvoice div{
+.rinvoice div {
   margin-right: 0px;
 }
-.modall .modal-dialog,.modal-content{
- /* max-width: 400px; */
+.modall .modal-dialog,
+.modal-content {
+  /* max-width: 400px; */
   /* width:400px; */
 }
-.modall{
+.modall {
   position: relative;
   right: 2rem;
 }
-.fbn1{
+.fbn1 {
   display: flex;
 }
-.fbn1 div{
+.fbn1 div {
   margin-right: 1rem;
 }
-.theadinvoice tr th{
+.theadinvoice tr th {
   width: 190px !important;
+}
+.slidd2,
+.mnversion {
+  display: none;
+}
+.cardwrap_jo {
+}
+.mnversion11 {
+  margin-bottom: 0.8rem;
+}
+.nextbtn {
+  position: absolute;
+  right: 70px;
+}
+.nxtbtn3{
+  position: relative;
+    left: 2.3rem;
+    bottom: 0.3rem;
+}
+.cotn232 {
+  position: relative;
+  bottom: 8.4px;
+}
+.raise1{
+  display: flex;
+  justify-content: flex-end;
+}
+.raise_inv,.raise_inv:hover{
+  width: 221px !important;
+  background: none;
+  color: var(--molecular-orange);
+  border-color: var(--molecular-orange);
+}
+.slidd2z a div img{
+  top: -0.5rem;
+  left: 1rem !important;
+}
+.pipelength1{
+  min-height: 54px;
 }
