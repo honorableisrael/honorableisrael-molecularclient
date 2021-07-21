@@ -221,7 +221,7 @@ const New_Work_Order_Card = (props) => {
               ) : (
                 <>
                   <div className="accpt122" onClick={Accept_work_order}>
-                    {isloading ? "Accepting" : "Accept"}
+                    {isloading ? "Processing" : "Accept"}
                   </div>
                   {/* <div className="decline122" onClick={openModal}>
                     Decline
