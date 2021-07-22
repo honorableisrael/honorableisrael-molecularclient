@@ -2766,7 +2766,7 @@ label i {
 .viewall_{
   color: #fd8c00;
 }
-.manage_{
+.manage_,.manage_:focus,.manage_:hover{
   display: flex;
     background: #fd8c00;
     justify-content: center;
@@ -2776,7 +2776,9 @@ label i {
     border-radius: 6px;
     color: white;
     cursor: pointer;
+    border-color: #fd8c00;
 }
 .avvworkgroup{
   padding-top: 3rem;
 }
+

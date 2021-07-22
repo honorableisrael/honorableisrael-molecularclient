@@ -37,7 +37,7 @@ const DeployedSpecialist = withRouter((props) => {
     allUngrouped: [],
     allAssignedSpecialist: [],
     AllgroupedSpecialist: [],
-    show: true,
+    show: false,
     group_name: "",
     group_description: "",
     next_page: "",
@@ -55,6 +55,7 @@ const DeployedSpecialist = withRouter((props) => {
   const {
     overview,
     deployedspecialist,
+    work_order_detail,
     isloading,
     group_name,
     group_description,
@@ -203,6 +204,10 @@ const DeployedSpecialist = withRouter((props) => {
             headers: { Authorization: `Bearer ${token.access_token}` },
           }
         ),
+        axios
+        .get(`${API}/admin/work-orders/${work_order_details?.id}`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        })
       ])
       .then(
         axios.spread((res, res2) => {
@@ -212,7 +217,9 @@ const DeployedSpecialist = withRouter((props) => {
             ...res.data.data.links,
             ...res.data.data.meta,
             AllgroupedSpecialist: res.data.data.data,
+            work_order_detail:res.data.data,
           });
+          console.log(work_order_detail)
         })
       )
       .catch((err) => {
@@ -328,6 +335,7 @@ const DeployedSpecialist = withRouter((props) => {
       show: true,
     });
   };
+  console.log(work_order_detail)
   return (
     <>
       <Helmet>
@@ -349,7 +357,7 @@ const DeployedSpecialist = withRouter((props) => {
       >
         <Modal.Header closeButton>
           <Modal.Title id="example-custom-modal-styling-title">
-            Manage Work Group
+            Manage Groups
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -390,8 +398,8 @@ const DeployedSpecialist = withRouter((props) => {
           <Row>
             <Col md={12} className="terminate2">
               <div className="create_group success">
-                <Button className="btn-success" onClick={CreateNewGroup}>
-                  {isloading ? "processing" : "Create New Group "}{" "}
+                <Button className="manage_" onClick={CreateNewGroup}>
+                  {isloading ? "processing" : "Create"}{" "}
                 </Button>
               </div>
             </Col>
@@ -432,7 +440,7 @@ const DeployedSpecialist = withRouter((props) => {
           <Col md={11}>
             <div className="title_wo title_wo12 title_wo_">
               <div className="workorderheader">
-                <Link to="/admin_work_order">
+                <Link to="/admin_work_details?inreview=true">
                   {" "}
                   <img src={arrowback} className="arrowback" />
                 </Link>

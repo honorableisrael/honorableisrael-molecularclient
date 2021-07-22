@@ -479,7 +479,7 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
                             </div>
                             <div className="">
                               <h6 className="userprofile12 userprofile123">
-                                Pipe Schedule
+                                Pipe Schedule 
                               </h6>
                               <div className="Construction12">
                                 {data?.pipe_schedule_name}
@@ -491,13 +491,13 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
                       <Col md={12}>
                         <div>
                           <h6 className="userprofile darkheader">
-                            Pipe Configuration
+                            Pipe Configuration 
                           </h6>
                         </div>
                       </Col>
                       <Col md={3} className="formsection1">
                         <Form.Group>
-                          <h6 className="userprofile">Type of Pipe</h6>
+                          <h6 className="userprofile">  Type of Pipe  </h6>
                           <select
                             className="userfield form-control"
                             id={"pipe_type"}
