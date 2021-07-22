@@ -9,18 +9,16 @@ import axios from "axios";
 import { API } from "../../config";
 import useravatar from "../../images/user-avatar.png";
 import formCaret from "../../images/caret.png";
-import cert from "../../images/certificate.png";
-import helmet from "../../images/helmet.png";
-import closeimg from "../../images/closeimg.png";
 import { NavHashLink } from "react-router-hash-link";
 import StarRatingComponent from "react-star-rating-component";
 import camimg from "../../images/imagecam.png";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Axios, { AxiosResponse } from "axios";
-import editicon from "../../images/editicon.png";
-
-
+import Experience from "./specialistExperience";
+import Projects from "./specialistProject";
+import Certification from "./specialistCertification";
+import Qualification from "./specialistQualification";
 
 
 const SpecialistSettings = () => {
@@ -40,88 +38,43 @@ const SpecialistSettings = () => {
     city: "",
     address: "",
     experience_years: "",
-    bio: "",
-    terminateWorkModal: false,
-    certificateModal:false,
-    certificateDisplay: false,
-    noCertificateAdded: true,
-    certification:"",
-    year:"",
     description:"",
-    noExperienceAdded: true,
-    experienceAdded: false,
+    bio: "",
     messageModal: true,
     viewPopup: false,
     reason: "",
     isloading: false,
     rating: null,
     age: null,
-    certifications: [{}],
     dob: null,
-    experience: null,
-    experiences: [{}],
-    experienceDescription:"",
     title: "",
     first_name: "",
     last_name: "",
     phone: "",
     photo: null,
-    qualifications: [],
     skills: [],
     sKill_id: "",
-    qualification: "",
-    institution: "",
-    experienceActive: "",
-    addexperiencebtn:"",
-    certificationActive: "",
-    certificationbtn: "",
-    noProjectsAdded: true,
-    projects:[{}],
-    projectModal: false,
-    projectbtn:"",
-    projectActive:"",
-    field: "",
-    from: "",
-    to: "",
     verified: false,
     unverified: false,
     status: "",
+    year:"",
     total_works:  null,
     fourthtabInactive: "",
-    projectTitle:"",
-    projectDescription:"",
-    projectFrom:"",
-    projectTo:"",
   });
 
   const {
     firsttab,
     secondtab,
     thirdtab,
-    noProjectsAdded,
-    projects,
-    projectModal,
     projectTitle,
-    projectbtn,
-    projectActive,
+    description,
     projectDescription,
     projectFrom,
     projectTo,
-    experienceActive,
-    certificationActive,
     fourthtabInactive,
-    certificationbtn,
-    addexperiencebtn,
     fourthtab,
-    terminateWorkModal,
-    certificateModal,
     total_works,
-    certificateDisplay,
-    noCertificateAdded,
-    noExperienceAdded,
-    userExperience,
     status,
-    experienceAdded,
     certification,
     year,
     verified,
@@ -149,12 +102,7 @@ const SpecialistSettings = () => {
     reason,
     skills,
     first_name,
-    experiences,
-    certifications,
-    qualifications,
     last_name,
-    title,
-    description,
     
   }: any = state;
   const onchange = (e) => {
@@ -284,43 +232,7 @@ const SpecialistSettings = () => {
         console.log(err.response)
         notify("failed to Upload Image")
       })
-  }
-  const certModal = () => {
-    setState({
-      ...state,
-      certificateModal: true,
-    });
-  };
-  const closecertModal = () => {
-    setState({
-      ...state,
-      certificateModal: false,
-    });
-  };
-  const workModal = () => {
-    setState({
-      ...state,
-      terminateWorkModal: true,
-    });
-  };
-  const closeworkModal = () => {
-    setState({
-      ...state,
-      terminateWorkModal: false,
-    });
-  };
-  const openProjectModal = () => {
-    setState({
-      ...state,
-      projectModal: true,
-    });
-  };
-  const closeProjectModal = () => {
-    setState({
-      ...state,
-      projectModal: false,
-    });
-  };
+  } 
   const closeMessageModal = () => {
     setState({
       ...state,
@@ -348,83 +260,32 @@ const SpecialistSettings = () => {
         headers: { Authorization: `Bearer ${token.access_token}` },
       }),
       Axios.get<any, AxiosResponse<any>>(`${API}/skills`),
-      Axios.get(`${API}/specialist/projects`, {
-        headers: { Authorization: `Bearer ${token.access_token}` },
-      }),
     ])
       .then(
-        axios.spread((res,res2,res3) => {
+        axios.spread((res,res2) => {
           console.log(res.data);
           console.log(res2.data);
-          console.log(res3.data);
           const user= res.data.data;
-          const userProject= res3.data.data.data
           setState({
             ...state,
             ...res.data.data,
-            projects:res3.data.data.data,
             user: res.data.data,
-            noExperienceAdded: user.experiences.length<=0? true: false,
             noCertificateAdded: user.certifications.length<=0? true:false,
             verified: user.status === "Active"? true: false,
             unverified: user.status === "New"? true : false,
             viewPopup: user.status === "Active"? false : true,
-            experienceActive: user.experiences.length<=0? "nowrapdemacator":"wrapdemacator",
-            addexperiencebtn: user.experiences.length<=0? "noprofcerbtnwrapper":"profcerbtnwrapper",
             certificationActive: user.certifications.length<=0? "nowrapdemacator":"profcertifncntent",
             certificationbtn: user.certifications.length<=0? "nowrapdemacator":"profcerbtnwrapper",
             fourthtabInactive: user.status === "New" ? "inactivetab": "activetab",
-            projectbtn: userProject.length <= 0? "noprofcerbtnwrapper":"profcerbtnwrapper",
-            noProjectsAdded : userProject.length <= 0? true : false,
           });
         })
       )
       .catch((err) => {
         console.log(err.response);
       });
+    
   }, []);
 
-  const displayExperience =()=>{
-    //add experience to UI
-    if(title && experienceDescription){
-      setState({
-        ...state,
-        terminateWorkModal: false,
-        noExperienceAdded: experiences.length>=0? false: true,
-        experiences : [...experiences, {title: title, description: experienceDescription}],
-        experienceActive: experiences.length>=0? "wrapdemacator":"nowrapdemacator",
-        addexperiencebtn: experiences.length<=0? "profcerbtnwrapper":"noprofcerbtnwrapper",
-      })
-    }  
-  };
-  
-   const displayProject =()=>{
-     //add project to UI
-     if (projectTitle && projectDescription && projectFrom && projectTo){
-      setState({
-        ...state,
-        noProjectsAdded : false,
-       projects: [...projects, {title:projectTitle, description:projectDescription,from:projectFrom,to:projectTo}],
-       projectModal: false,
-       projectActive: projects.length>=0? "wrapdemacator":"nowrapdemacator",
-      projectbtn: projects.length <= 0? "profcerbtnwrapper":"noprofcerbtnwrapper",
-    })
-     }
-   };
- 
-  const displayCertification =()=>{
-    //add certhification to UI
-    if (certification && year){
-     setState({
-       ...state,
-       noCertificateAdded: false,
-       certifications: [...certifications, {title:certification, year:year}],
-       certificateModal: false,
-       certificationActive: certifications.length>=0? "profcertifncntent":"nowrapdemacator",
-       certificationbtn: certifications.length>=0? "profcerbtnwrapper":"nowrapdemacator",
-     })
-    }
-  };
 
   const post_Credentials = () => {
     const availableToken = localStorage.getItem("loggedInDetails");
@@ -434,36 +295,16 @@ const SpecialistSettings = () => {
     const data1 = {
       skill_id
     };
-    console.log(skill_id)
-
-    const data2={
-      title,
-     description: experienceDescription,
-   }
-    const data3 = {
-      title: projectTitle,
-      description: projectDescription,
-      from: projectFrom,
-      to: projectTo,
-    };
+    console.log(skill_id)   
+  
     Axios.all([
       Axios.post(`${API}/specialist/skills`, data1, {
         headers: { Authorization: `Bearer ${token.access_token}` },
       }),
-  
-      Axios.post(`${API}/specialist/experiences`,data2 , {
-        headers: { Authorization: `Bearer ${token.access_token}` }
-      }),
-    
-      Axios.post(`${API}/specialist/projects`, data3, {
-        headers: { Authorization: `Bearer ${token.access_token}` },
-      }),
     ])
       .then(
-        axios.spread((...responses) => {
-          console.log(responses[0]);
-          console.log(responses[1]);
-          console.log(responses[2]);
+        axios.spread((response) => {
+          
           setState({
             ...state,
             firsttab: false,
@@ -475,9 +316,7 @@ const SpecialistSettings = () => {
         })
       )
       .catch((err) => {
-        console.log(err.response[0]);
-        console.log(err.response[1]);
-        console.log(err.response[2]);
+        console.log(err.response);
         notify("Failed to save", "D");
       });
   };
@@ -892,223 +731,10 @@ const SpecialistSettings = () => {
                       </Row>
                       <Row className="section_form1">
                       <Col md={12}>
-                        <Modal
-                        centered={true}
-                        onHide={closeworkModal}
-                        show={terminateWorkModal}
-                        >
-                        <div className="terminateworkmodalwrap">
-                          <div className="terminateworkmodalimg">
-                            <img
-                              src={closeimg}
-                              alt="close"
-                              onClick={closeworkModal}
-                            />
-                          </div>
-                          <div className="terminateworkmodaltitle">
-                            Add Experience
-                          </div>
-                          <form>
-                            <label className="addexptitle">
-                              Title
-                              <input
-                                type="text"
-                                className="userfield form-control"
-                                name="title"
-                                value={title}
-                                onChange={onchange}
-                                placeholder="Enter Title"
-                                size={70}
-                              />
-                            </label>
-                            <label className="addexptitle">
-                              Description
-                              <textarea
-                                name= "experienceDescription"
-                                value={experienceDescription}
-                                onChange={onchange}
-                                className="form-control wrkmodaltextarea"
-                                placeholder="Enter Description"
-                                rows={5}
-                                cols={5}
-                              />
-                            </label>
-                          </form>
-                          <div className="wrkmodal-btnwrap">
-                            <span
-                              className="wrkmodal-cancelbtn"
-                              onClick={closeworkModal}
-                            >
-                              Cancel
-                            </span>
-                            <span className="wrkmodal-declinebtn addexpbtn" onClick={displayExperience}>
-                              Add Experience
-                            </span>
-                          </div>
-                        </div>
-                      </Modal>
-                          <div className="profileexperiencesectn">
-                          <h3 className=" profillabels">
-                            Experiences
-                           </h3>
-                          {noExperienceAdded &&(
-                           <div>
-                             <img src={helmet} alt="img" />
-                             <p>You have no Experience Added</p>
-                             <span className="profcertbtn" onClick={workModal}>
-                               Add Experience
-                             </span>
-                           </div>
-                           )}
-                           <div className="profecperince-content">
-                            {experiences.map((item, index)=>{
-                                return(
-                                  <div key={index} className={`wrapdemacator ${experienceActive}`}>
-                                    <div className="profiexpernceheaderwrap">
-                                      <p className="profiexpetitle">Title</p>
-                                     <div>
-                                       <img src={editicon} onClick={workModal} className="editimg"/>
-                                    </div>
-                                    </div>
-                                    <p>{item.title}</p>
-                                    <p className="profiexpetitle">Experience</p>
-                                    <p>{item.description}</p>
-                                
-                                </div>
-                              )
-                            })}
-                                <div className={`profcerbtnwrapper ${addexperiencebtn}`}>
-                             <span className="wrkmodal-declinebtn profcertbtn" onClick={workModal}>
-                               Add Experience
-                             </span>
-                            </div>
-                           </div>
-                          </div>
+                         <Experience/>
                           </Col>
                           <Col md={12}>
-                        <Modal
-                        centered={true}
-                        onHide={closeProjectModal}
-                        show={projectModal}
-                        >
-                        <div className="terminateworkmodalwrap">
-                          <div className="terminateworkmodalimg">
-                            <img
-                              src={closeimg}
-                              alt="close"
-                              onClick={closeProjectModal}
-                            />
-                          </div>
-                          <div className="terminateworkmodaltitle">
-                            Add Project
-                          </div>
-                          <form>
-                            <label className="addexptitle">
-                              Title
-                              <input
-                                type="text"
-                                className="userfield form-control"
-                                name="projectTitle"
-                                value={projectTitle}
-                                onChange={onchange}
-                                placeholder="Enter Title"
-                                size={70}
-                              />
-                            </label>
-                            <Row>
-                            <Col md={6}>
-                        <label className="addexptitle">
-                              From
-                              <input
-                                type="date"
-                                className="userfield form-control"
-                                name="projectFrom"
-                                value={projectFrom}
-                                onChange={onchange}
-                                placeholder="projectFrom"
-                                size={70}
-                              />
-                            </label>
-                        </Col>
-                        <Col md={6}>
-                        <label className="addexptitle">
-                                To
-                              <input
-                                type="date"
-                                className="userfield form-control"
-                                name="projectTo"
-                                value={projectTo}
-                                onChange={onchange}
-                                placeholder="TO"
-                                size={70}
-                              />
-                            </label>
-                        </Col>
-                        </Row>
-                            <label className="addexptitle">
-                              Description
-                              <textarea
-                                name= "projectDescription"
-                                value={projectDescription}
-                                onChange={onchange}
-                                className="form-control wrkmodaltextarea"
-                                placeholder="Enter Description"
-                                rows={5}
-                                cols={5}
-                              />
-                            </label>
-                          </form>
-                          <div className="wrkmodal-btnwrap">
-                            <span
-                              className="wrkmodal-cancelbtn"
-                              onClick={closeProjectModal}
-                            >
-                              Cancel
-                            </span>
-                            <span className="wrkmodal-declinebtn addexpbtn" onClick={displayProject}>
-                              Add Project
-                            </span>
-                          </div>
-                        </div>
-                      </Modal>
-                          <div className="profileexperiencesectn">
-                            <h3 className="profillabels ">
-                            Project Completed In the last 3 Years
-                           </h3>
-                          {noProjectsAdded &&(
-                           <div>
-                             <img src={helmet} alt="img" />
-                             <p>You have no Projects Added</p>
-                             <span className="profcertbtn" onClick={openProjectModal}>
-                             Add Project
-                             </span>
-                           </div>
-                           )}
-                           <div className="profecperince-content">
-                            {projects.map((item, index)=>{
-                                return(
-                                  <div key={index} className={`wrapdemacator ${projectActive}`}>
-                                    <div className="profiexpernceheaderwrap">
-                                      <p className="profiexpetitle">Title</p>
-                                     <div>
-                                       <img src={editicon} onClick={openProjectModal} className="editimg"/>
-                                    </div>
-                                    </div>
-                                    <p className="stprojtitle">{item.title}</p>
-                                    <p className="projdateperiod">from  {item.from}  to  {item.to} </p>
-                                    <p className="profiexpetitle">Projects</p>
-                                    <p>{item.description}</p>
-                                
-                                </div>
-                              )
-                            })}
-                                <div className={`profcerbtnwrapper ${projectbtn}`}>
-                             <span className="wrkmodal-declinebtn profcertbtn" onClick={openProjectModal}>
-                               Add Project
-                             </span>
-                            </div>
-                           </div>
-                          </div>
+                          <Projects/>
                           </Col>
                       </Row>
                       <Row>
@@ -1130,184 +756,14 @@ const SpecialistSettings = () => {
                   {thirdtab && (
                     <div>
                       <Row className="section_form1">
-                      <Col md={12}>
-                          <h3 className=" profillabels">
-                            Qualification
-                          </h3>
-                        </Col>
-                        <Col md={6}>
-                        <Form.Group>
-                            <h6 className="userprofile userprofile12">
-                              Enter Qualification
-                            </h6>
-                            <Form.Control
-                              className="userfield"
-                              name="qualification"
-                              value={qualification}
-                              onChange={onchange}
-                            />
-                          </Form.Group>
-                        </Col>
-                        <Col md={6}>
-                        <Form.Group>
-                            <h6 className="userprofile userprofile12">
-                              Institution
-                            </h6>
-                            <Form.Control
-                              className="userfield"
-                              name="institution"
-                              value={institution}
-                              onChange={onchange}
-                            />
-                          </Form.Group>
-                        </Col>
-                        <Col md={6}>
-                        <Form.Group>
-                            <h6 className="userprofile userprofile12">
-                              Field of Study
-                            </h6>
-                            <Form.Control
-                              className="userfield"
-                              name="field"
-                              value={field}
-                              onChange={onchange}
-                            />
-                          </Form.Group>
-                        </Col>
-                        <Col md={3}>
-                        <label className="addexptitle">
-                              From
-                              <input
-                                type="date"
-                                className="userfield form-control"
-                                name="from"
-                                value={from}
-                                onChange={onchange}
-                                placeholder="From"
-                                size={70}
-                              />
-                            </label>
-                        </Col>
-                        <Col md={3}>
-                        <label className="addexptitle">
-                                To
-                              <input
-                                type="date"
-                                className="userfield form-control"
-                                name="to"
-                                value={to}
-                                onChange={onchange}
-                                placeholder="TO"
-                                size={70}
-                              />
-                            </label>
-                        </Col>
+                        <Col md={12}>
+                         <Qualification/>
+                       </Col> 
                       </Row>
                       <div className="sectndivider"></div>
-                      <Modal
-                        centered={true}
-                        onHide={closecertModal}
-                        show={certificateModal}
-                      >
-                        <div className="terminateworkmodalwrap">
-                          <div className="terminateworkmodalimg">
-                            <img
-                              src={closeimg}
-                              alt="close"
-                              onClick={closecertModal}
-                            />
-                          </div>
-                          <div className="terminateworkmodaltitle">
-                            Add Certification
-                          </div>
-                          <form>
-                            <label className="addexptitle">
-                              Certification
-                              <input
-                                type="text"
-                                className="userfield form-control"
-                                name="certification"
-                                value={certification}
-                                onChange={onchange}
-                                placeholder="Enter Certification"
-                                size={70}
-                              />
-                            </label>
-                            <label className="addexptitle">
-                              Year
-                              <input
-                                type="date"
-                                className="userfield form-control"
-                                name="year"
-                                value={year}
-                                onChange={onchange}
-                                placeholder="Enter Title"
-                                size={70}
-                              />
-                            </label>
-                            <label className="addexptitle">
-                              Description
-                              <textarea
-                                name="description"
-                                value={description}
-                                onChange={onchange}
-                                className="form-control wrkmodaltextarea"
-                                placeholder="Enter Description"
-                                rows={5}
-                                cols={5}
-                              />
-                            </label>
-                          </form>
-                          <div className="wrkmodal-btnwrap">
-                            <span
-                              className="wrkmodal-cancelbtn"
-                              onClick={closecertModal}
-                            >
-                              Cancel
-                            </span>
-                            <span className="wrkmodal-declinebtn addexpbtn" onClick={displayCertification}>
-                            Add Certificate
-                            </span>
-                          </div>
-                        </div>
-                      </Modal>
-                       <div className="profileceriticatesectn">
-                         <h3 className=" profillabels ">
-                            Certifications
-                         </h3>
-                       {noCertificateAdded && (<div>
-                         <img src={cert} alt="img" />
-                         <p>You have no Certificates Added</p>
-                         <span className="profcertbtn" onClick={certModal}>Add Certificate</span>
-                        </div>
-                       )}
-                        {certifications.map((item, index)=>{
-                          return(
-                          <div  className={`profcertifncntent ${certificationActive}`} key={index}>
-                            <div>
-                              <p className="profcertheading">Certification</p>
-                              <p>{item.title}</p>
-                            </div>
-                            <div className="profcertdate">
-                              <p className="profcertheading">Year</p>
-                              <p>{item.year}</p>
-                            </div>
-                          </div>
-                        )})}
-                        <div  className={`profcerbtnwrapper ${certificationbtn}`}>
-                          <span className="profcertbtn" onClick={certModal}>Add Certificate</span>
-                       </div>
-                      </div>
-                      <Row>
-                        <Col md={12}>
-                          <div className="job31" onClick={post_qualification_and_experience}>
-                            Save
-                          </div>
-                        </Col>
-                      </Row>
-                      
-                    </div>
-                  )}
+                      <Certification/>
+                  </div>
+                  )}  
                   {/* Third Tab ends*/}
                   {fourthtab && (
                     <>

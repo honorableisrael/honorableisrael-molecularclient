@@ -226,7 +226,7 @@ const New_Work_Order_Card = withRouter((props:any) => {
               ) : (
                 <>
                   <div className="accpt122" onClick={Accept_work_order}>
-                    {isloading ? "Accepting" : "Accept"}
+                    {isloading ? "Processing" : "Accept"}
                   </div>
                   {/* <div className="decline122" onClick={openModal}>
                     Decline
