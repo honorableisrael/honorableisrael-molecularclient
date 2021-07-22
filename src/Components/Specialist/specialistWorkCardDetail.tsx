@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 import WorkOrderCardsMinInfo from "./WorkOrderCardsMinInfo";
 import avatar_test from "../../images/avatar_test.png";
 import dwnload from "../../images/dwnload.png";
-import WorkDetails_Form_Preview from "../Admin/workdetailsform";
+import WorkDetails_Form_Preview from "./workdetailsform";
 import { NavHashLink } from "react-router-hash-link";
 import axios from "axios";
 import { API } from "../../config";
@@ -308,7 +308,7 @@ const SpecialistWorkOrderDetails = (props) => {
                           <span className="uploadbtn ">Upload Worksheet</span>
                         </div>
                       </div>
-                      <WorkDetails_Form_Preview hide={true} />
+                      <WorkDetails_Form_Preview  order_detail={work_order_detail}/>
                     </div>
                   </div>
 

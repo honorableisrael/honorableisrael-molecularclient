@@ -116,7 +116,7 @@ const Specialist_Work_details = props => {
         ...res.data.data,
         id: res.data.data,
         workorderdetails: data.length > 0? true : false,
-        emptyworkorder: res.data.length > 0 ? false : true,
+        emptyworkorder: data.length == 0 ? false : true,
       });
     });
   }, []);
@@ -192,7 +192,9 @@ const Specialist_Work_details = props => {
       ])
       .then(
         Axios.spread((res) => {
-          notify("Successfull");
+          if(res.status==201 ){ 
+            notify("New work order Accepted")
+          }
           console.log(res.data);
           setState({
             ...state,
@@ -203,7 +205,9 @@ const Specialist_Work_details = props => {
       )
       .catch((err) => {
         console.log(err);
-        notify("Failed to process", "D");
+        if(err.response ){ 
+          notify("failed to accept work order")
+        }
         setState({
           ...state,
           isloading: false,
@@ -211,14 +215,14 @@ const Specialist_Work_details = props => {
         })
       });
   };
-  // const fieldRef: any = useRef();
-  // useEffect(() => {
-  //   if (errorMessage || successMessage && fieldRef) {
-  //     fieldRef.current.scrollIntoView({
-  //       behavior: "smooth"
-  //     });
-  //   }
-  // }, [errorMessage, successMessage]);
+   const fieldRef: any = useRef();
+   useEffect(() => {
+    if (errorMessage || successMessage && fieldRef) {
+      fieldRef.current.scrollIntoView({
+        behavior: "smooth"
+       });
+     }
+   }, [errorMessage, successMessage]);
   return (
     <>
      <ToastContainer
@@ -239,12 +243,12 @@ const Specialist_Work_details = props => {
             <p>You have no pending work request</p>
           </div>
         )}
-        {successMessage &&(<div className="wrktimelinediv">
+        {successMessage &&(<div className="wrktimelinediv" ref={fieldRef}>
                     <img src={exclam} alt="img" />
                     <p>{successMessage}</p>
                   </div>
                   )}
-                  {errorMessage &&(<div className="wrktimelinediv">
+                  {errorMessage &&(<div className="wrktimelinediv" ref={fieldRef}>
                     <img src={exclam} alt="img" />
                     <p>{errorMessage}</p>
                   </div>

@@ -150,7 +150,7 @@ const SpecialistNotification = withRouter((props) => {
                       </div>
                       <div className="nextbtn nextbtn_2">
                         {data?.category == "work order" ? (
-                          <Link to={"/admin_work_order"}>
+                          <Link to={"/works"}>
                             <img
                               src={nextbtn}
                               alt="nxtbtn"

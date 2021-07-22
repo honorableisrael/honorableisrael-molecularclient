@@ -161,8 +161,9 @@ const Works = () => {
                   {works_inprog?.map((data: any, index) => {
                     return (
                         <WorkOrderCards
+                          order_details={data}
                           key={index}
-                          title={data.description}
+                          title={data.title}
                           contractor={data.contractor}
                           start={data.start_date}
                           end={data.end_date}
@@ -185,17 +186,16 @@ const Works = () => {
                   </div>
                 </Col>
               )}
-                  {prev_works.map((item: any, index) => {
+                  {prev_works.map((data: any, index) => {
                     return (
-                      <Link to="/specialistWorkOrderDetails" key={index}>
                         <WorkOrderCards
-                          title={item.description}
-                          contractor={item.contractor}
-                          start={item.start_date}
-                          end={item.end_date}
-                          status={item.status}
+                         order_details={data}
+                          title={data.description}
+                          contractor={data.contractor}
+                          start={data.start_date}
+                          end={data.end_date}
+                          status={data.status}
                         />
-                      </Link>
                     );
                   })}
                 </div>
@@ -221,17 +221,16 @@ const Works = () => {
                   </div>
                 </Col>
               )}
-                  {prev_works.map((item: any, index) => {
+                  {prev_works.map((data: any, index) => {
                     return (
-                      <Link to="/specialistWorkOrderDetails" key={index}>
                         <WorkOrderCards
-                          title={item.description}
-                          contractor={item.contractor}
-                          start={item.start_date}
-                          end={item.end_date}
-                          status={item.status}
+                          order_details={data}
+                          title={data.description}
+                          contractor={data.contractor}
+                          start={data.start_date}
+                          end={data.end_date}
+                          status={data.status}
                         />
-                      </Link>
                     );
                   })}
                 </div>

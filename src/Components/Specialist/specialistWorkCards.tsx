@@ -43,7 +43,7 @@ const WorkOrderCards = props => {
               <div>
                 <div
                   className={
-                    props.status == "In Review"
+                    props.status == "In                                                                                       Review"
                       ? "wrkprogressstatswrap"
                       : props.status == "Completed"
                       ? "wrkcompletdindict"
@@ -84,7 +84,7 @@ const WorkOrderCards = props => {
           </div> */}
             <div className="minicardwrapper spprogrescardcntn">
               <div className="content24">
-                <div className="mnversion">{props.contractor}</div>
+                <div className="cntrctcmpny">{props.contractor}</div>
               </div>
               <div className="content24">
                 <img src={calenda} alt="cotn23" className="cotn232" />
