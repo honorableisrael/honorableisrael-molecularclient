@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Row, Container, Form, ProgressBar } from "react-bootstrap";
 import "./contractor.css";
 import DashboardNav from "./navbar";
@@ -12,11 +12,14 @@ import { Link } from "react-router-dom";
 import no_work_order from "../../images/document 1.png";
 import nextbtn from "../../images/nextbtn.png";
 import PaymentCards_1 from "./PaymentCards_1";
+import axios from "axios";
+import { contractorToken, API } from "../../config";
 
 const Contractor_Payment_Invoice = () => {
   const [state, setState] = useState({
     work_orders: [],
     country: "",
+    all_invoices: [],
     inprogress: true,
     pending_request: false,
     order_title: "",
@@ -28,6 +31,14 @@ const Contractor_Payment_Invoice = () => {
     end_date: "",
     start_date: "",
     hour: "",
+    next: "",
+    prev: "",
+    first: "",
+    last: "",
+    current_page: "",
+    last_page: "",
+    to: "",
+    total: "",
   });
   const onchange = (e) => {
     console.log(e.target.value);
@@ -36,6 +47,7 @@ const Contractor_Payment_Invoice = () => {
       [e.target.id]: e.target.value,
     });
   };
+
   const onInputChange = (e) => {
     const letterNumber = /^[A-Za-z]+$/;
     if (e.target.value) {
@@ -57,6 +69,7 @@ const Contractor_Payment_Invoice = () => {
       });
     }
   };
+
   const switchTab = (a) => {
     if (a == "firsttab") {
       return setState({
@@ -83,11 +96,59 @@ const Contractor_Payment_Invoice = () => {
       });
     }
   };
+  useEffect(() => {
+    const token = contractorToken();
+    axios
+      .all([
+        axios.get(`${API}/contractor/invoices?paginate=1`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
+      ])
+      .then(
+        axios.spread((res) => {
+          console.log(res.data);
+          setState({
+            ...state,
+            all_invoices: res.data.data.data,
+            ...res.data.data.links,
+            ...res.data.data.meta,
+          });
+        })
+      )
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  const nextPage = (x) => {
+    const token = contractorToken();
+    axios
+      .all([
+        axios.get(`${x}`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
+      ])
+      .then(
+        axios.spread((res) => {
+          console.log(res.data.data);
+          window.scrollTo(-0, -0);
+          setState({
+            ...state,
+            all_invoices: res.data.data.data,
+            ...res.data.data.links,
+            ...res.data.data.meta,
+          });
+        })
+      )
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const {
     inprogress,
     pending_request,
     past,
-    project_purpose,
+    all_invoices,
     country,
     work_order_description,
     order_title,
@@ -158,18 +219,17 @@ const Contractor_Payment_Invoice = () => {
                   </div>
                 </Col>
               )}
+            {all_invoices?.map((data, i) => (
               <Col md={12} className="plf">
                 <div className="cardflex_jo">
                   <PaymentCards_1
                     title="Pipeline construction from Lagos to Ogun State"
+                    payment_details={data}
                     status={true}
-                  />
-                  <PaymentCards_1
-                    title={"Pipeline construction with Sulejah"}
-                    status={false}
                   />
                 </div>
               </Col>
+            ))}
             </Row>
           </Col>
         </Row>

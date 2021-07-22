@@ -2742,7 +2742,6 @@ label i {
 .raise_inv,.raise_inv:hover{
   width: 221px !important;
   background: none;
-  color: var(--molecular-orange);
   border-color: var(--molecular-orange);
 }
 .slidd2z a div img{
@@ -2751,4 +2750,33 @@ label i {
 }
 .pipelength1{
   min-height: 54px;
+}
+.admin__notif{
+  left: -1.5rem;
+  bottom: -2.7rem;
+}
+.modl34 .modal-dialog{
+  width: 494px !important;
+  max-width: 600px !important;
+}
+.mdl2 .modal-dialog{ 
+  width: 494px !important;
+  max-width: 600px !important;
+}
+.viewall_{
+  color: #fd8c00;
+}
+.manage_{
+  display: flex;
+    background: #fd8c00;
+    justify-content: center;
+    align-items: center;
+    height: 38px;
+    width: 156px;
+    border-radius: 6px;
+    color: white;
+    cursor: pointer;
+}
+.avvworkgroup{
+  padding-top: 3rem;
 }

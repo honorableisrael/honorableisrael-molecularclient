@@ -1,11 +1,15 @@
 import React, { useEffect } from "react";
 import { Col, Row, Container, Form, ProgressBar } from "react-bootstrap";
+import { withRouter } from "react-router-dom";
 import { formatTime } from "../../config";
+import no_work_order from "../../images/document 1.png";
 
-const WorkDetails_Form_Preview = (props) => {
+
+
+const WorkDetails_Form_Preview = withRouter((props:any) => {
   useEffect(() => {}, []);
   
-  console.log(props?.order_detail?.pipe_configs)
+  console.log(props?.order_detail)
   return (
     <>
       <div className="formcontent">
@@ -180,6 +184,30 @@ const WorkDetails_Form_Preview = (props) => {
               <h6 className="userprofile12 userprofile123 userprofile1231">
                 Payment Cycle
               </h6>
+              {props?.order_detail?.invoice == null&& props?.order_detail?.status!=="New" && window.location.pathname !=='/work_order_evaluation' && (
+                    <Col md={11} className="containerforemptyorder1 cust20">
+                      <div className="containerforemptyorder">
+                        <img
+                          src={no_work_order}
+                          alt={"no_work_order"}
+                          className="no_work_order"
+                        />
+                      </div>
+                      <div className="no_work1">
+                        Proforma Invoice has not been raised
+                      </div>
+                      <div className="nojob2 ">
+                        <div
+                          className="job3 job_1"
+                          onClick={() => {
+                            props.history.push("/raise_proforma_invoice");
+                          }}
+                        >
+                          Raise Proforma Invoice 
+                        </div>
+                      </div>
+                    </Col>
+                  )}
               <div>{props?.order_detail?.payment_cycle}</div>
             </Col>
           </Row>
@@ -194,5 +222,5 @@ const WorkDetails_Form_Preview = (props) => {
       </div>
     </>
   );
-};
+});
 export default WorkDetails_Form_Preview;

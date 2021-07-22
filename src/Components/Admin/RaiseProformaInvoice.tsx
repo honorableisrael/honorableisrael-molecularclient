@@ -309,6 +309,7 @@ const AdminRaiseProformaInvoice = (props) => {
           setState({
             ...state,
             isloading: false,
+            ...res.data.data,
             total_cost: res.data.data.total_cost,
             specialist_requests: res.data.data.specialist_requests,
           });
@@ -337,6 +338,7 @@ const AdminRaiseProformaInvoice = (props) => {
       ...state,
       isloading: true,
     });
+    
     axios
       .all([
         axios.post(
@@ -373,7 +375,7 @@ const AdminRaiseProformaInvoice = (props) => {
   };
 
 
-  const updateWorkOrder =()=>{
+  const updateWorkOrder =(x)=>{
     const availableToken: any = localStorage.getItem("loggedInDetails");
     const token = availableToken
       ? JSON.parse(availableToken)
@@ -388,8 +390,9 @@ const AdminRaiseProformaInvoice = (props) => {
      delete workorder.payment_cycle
      workorder.payment_cycle = payment_cycle
     const data = {
-      payment_cycle
+      payment_cycle:x
     }
+    console.log(payment_cycle)
     axios
       .all([
         axios.put(
@@ -402,10 +405,11 @@ const AdminRaiseProformaInvoice = (props) => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          console.log(res);
           setState({
             ...state,
             isloading: false,
+            ...res.data.data,
           });
         })
       )
@@ -460,7 +464,7 @@ const AdminRaiseProformaInvoice = (props) => {
           })
         }
         dialogClassName="modal-90w"
-        className="mdl12"
+        className="mdl12 modl34"
       >
         <Modal.Header closeButton>
           <Modal.Title id="example-custom-modal-styling-title">
@@ -535,24 +539,6 @@ const AdminRaiseProformaInvoice = (props) => {
                                 placeholder="Number of Joint"
                                 name="joints"
                                 value={joints}
-                                onChange={onchange}
-                              />
-                            </div>
-                          </div>
-                        </Col>
-                        <Col md={6}>
-                          <div className="pipelength pipelng">
-                            <div className="pipelength1q">
-                              Pipe cost (per inch schedule){" "}
-                              <span className="text-danger">*</span>
-                            </div>
-                            <div className="pipelength1">
-                              <input
-                                type="number"
-                                className="pipelength1 form-control"
-                                placeholder="Price in Naira"
-                                name="cost_per_inch"
-                                value={cost_per_inch}
                                 onChange={onchange}
                               />
                             </div>
@@ -709,7 +695,7 @@ const AdminRaiseProformaInvoice = (props) => {
 
                     <div className="rinvoice">
                       <div className="gent122 l_extra" onClick={RaiseInvoice}>
-                        {isloading ? "processing" : "Raise Invoice"}
+                        {isloading ? "processing" : "Raise Proforma Invoice"}
                       </div>
                     </div>
                   </div>
@@ -775,14 +761,6 @@ const AdminRaiseProformaInvoice = (props) => {
                                       </div> */}
                                     </div>
                                     <div className="main_wrap_ws main_wrap_ws22 graybg2 graybg ">
-                                      <div>
-                                        <h6 className="userprofile12 userprofile123">
-                                          Pipe cost (per inch schedule)
-                                        </h6>
-                                        <div className="Construction12">
-                                          {data.cost_per_inch ?? "not set"}
-                                        </div>
-                                      </div>
                                       <div className="">
                                         <h6 className="userprofile12 userprofile123">
                                           Pipeline Length
@@ -827,7 +805,7 @@ const AdminRaiseProformaInvoice = (props) => {
                                 <h6 className="userprofile">Payment Cycle </h6>
                               </div>
                             </Col>
-                            <Col md={8} className="formsection1 formsection10" onBlur={updateWorkOrder}>
+                            <Col md={8} className="formsection1 formsection10">
                               <span className="checkmark1">
                                 <label className="container_checkbox ">
                                   Weekly
@@ -836,6 +814,7 @@ const AdminRaiseProformaInvoice = (props) => {
                                     name="payment_cycle"
                                     value="1"
                                     onChange={onchange}
+                                    onClick={()=>updateWorkOrder(1)}
                                     checked={payment_cycle=="1" || payment_cycle=="Weekly"}
                                   />
                                   <span className="checkmark"></span>
@@ -849,6 +828,7 @@ const AdminRaiseProformaInvoice = (props) => {
                                     value="2"
                                     name="payment_cycle"
                                     onChange={onchange}
+                                    onClick={()=>updateWorkOrder(2)}
                                     checked={payment_cycle=="2"||payment_cycle=="Bi-Weekly"}
                                   />
                                   <span className="checkmark"></span>
@@ -862,6 +842,7 @@ const AdminRaiseProformaInvoice = (props) => {
                                     value="3"
                                     name="payment_cycle"
                                     onChange={onchange}
+                                    onClick={()=>updateWorkOrder(3)}
                                     checked={payment_cycle=="3"||payment_cycle=="Monthly"}
                                   />
                                   <span className="checkmark"></span>
@@ -963,12 +944,12 @@ const AdminRaiseProformaInvoice = (props) => {
                         </div>
                       </div>
                       <div className="nxtbck">
-                        <Link to="/work_order_evaluation">
+                        <Link to="/admin_work_details?inreview=true">
                           {" "}
                           <div className="gent122 gent1221">Back</div>
                         </Link>{" "}
                         <div className="gent122" onClick={openModal2}>
-                          Next
+                          Raise Proforma Invoice
                         </div>
                       </div>
                     </div>

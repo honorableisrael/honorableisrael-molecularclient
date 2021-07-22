@@ -1,14 +1,19 @@
 import { ToastContainer, toast } from "react-toastify";
 const moment = require("moment");
 // Molecular Production API
-export const API = "http://api.molecular.elostage.xyz/api/v1";
+export const API = "https://staging-api.molecularpro.co/api/v1";
 export const capitalize = (s) => {
   if (typeof s !== "string") return "";
   return s.charAt(0).toUpperCase() + s.slice(1);
 };
 export const formatTime = (date) => {
-  const dateTime = moment(date).format("Do MMM YYYY");
-  return dateTime;
+  if(date){
+    const dateTime = moment(date).format("Do MMM YYYY");
+    return dateTime;
+  }
+  else{
+    return ""
+  }
 };
 export const FormatAmount = (amount) => {
   return amount?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -40,6 +45,13 @@ export const returnAdminToken=()=>{
     : window.location.assign("/");
     return token
 } 
+export const contractorToken =()=>{
+  const availableToken = localStorage.getItem("loggedInDetails");
+    const token = availableToken
+      ? JSON.parse(availableToken)
+      : window.location.assign("/");
+      return token
+}
 export const getAdminToken=()=>{
   const availableToken = localStorage.getItem("loggedInDetails");
   const token = availableToken

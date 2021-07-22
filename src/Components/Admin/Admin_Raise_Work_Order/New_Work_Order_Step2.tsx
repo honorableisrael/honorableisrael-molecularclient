@@ -18,6 +18,10 @@ import Axios, { AxiosResponse } from "axios";
 
 const Admin_NewWorkOrderStep2 = withRouter((props) => {
   const inputEl: any = React.useRef("");
+  const inputEl1: any = React.useRef("");
+  const inputEl2: any = React.useRef("");
+  const inputEl3: any = React.useRef("");
+  const inputEl4: any = React.useRef("");
   const [state, setState] = useState<any>({
     work_orders: [],
     country: "",
@@ -32,7 +36,7 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
     diameter: "",
     start_date: "",
     pipeList: [],
-    pipeSizes:[],
+    pipeSizes: [],
     pipe_config_: [],
     types_of_Specialist: [],
     no_of_specialist: "",
@@ -48,7 +52,7 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
     title_of_specialist: "",
     pipe_config: [],
   });
-  
+
   const inputHandler = (e) => {
     // if (e.target.name == "pipe_type") {
     const new_obj = JSON.parse(e.target.value);
@@ -160,7 +164,7 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
       }),
     ])
       .then(
-        axios.spread((res, res2, res3,res4) => {
+        axios.spread((res, res2, res3, res4) => {
           console.log(res3.data.data);
           setState({
             ...state,
@@ -195,6 +199,7 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
         no_of_specialist: "",
         title_of_specialist: "",
       });
+      inputEl4.current.value = null
     }
     if (t === "pipe") {
       const Pipe_Config: any = [
@@ -229,6 +234,9 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
         pipe_name: "",
         pipe_schedule_name: "",
       });
+      inputEl1.current.value = null
+      inputEl2.current.value = null
+      inputEl3.current.value = null
     }
   };
   const deleteConfig = (id, type) => {
@@ -252,11 +260,11 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
   const notify = (message: string) =>
     toast(message, { containerId: "B", position: "top-right" });
 
-  const multipleEntryController = () => { 
-    console.log(pipe_config)
-    console.log(specialist_config)
+  const multipleEntryController = () => {
+    console.log(pipe_config);
+    console.log(specialist_config);
     try {
-      console.log("1")
+      console.log("1");
       if (
         no_of_specialist &&
         type_of_specialist &&
@@ -300,7 +308,6 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
         pipe_config &&
         Object.keys(pipe_config[0]).length === 0
       ) {
-        
         console.log("spec");
         const Specialist: any = [
           {
@@ -345,8 +352,11 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
         localStorage.setItem("admin_second_step", JSON.stringify(second_data));
         return props.history.push("/admin_new_work_order_step3");
       }
-      if (Object.keys(specialist_config[0]).length > 0 && Object.keys(pipe_config[0]).length > 0) {
-        console.log("3")
+      if (
+        Object.keys(specialist_config[0]).length > 0 &&
+        Object.keys(pipe_config[0]).length > 0
+      ) {
+        console.log("3");
         if (
           Object.keys(pipe_config[0]).length > 0 ||
           Object.keys(specialist_config[0]).length > 0
@@ -355,15 +365,18 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
             pipe_config,
             specialist_config,
           };
-          localStorage.setItem("admin_second_step", JSON.stringify(second_data));
+          localStorage.setItem(
+            "admin_second_step",
+            JSON.stringify(second_data)
+          );
           return props.history.push("/admin_new_work_order_step3");
         }
       }
       if (
         Object.keys(pipe_config === null) ||
-        Object.keys(specialist_config === null )
+        Object.keys(specialist_config === null)
       ) {
-        console.log("4")
+        console.log("4");
         return notify("Pipe config and specialist config cannot be empty");
       }
     } catch (error) {
@@ -384,7 +397,6 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
     // });
     return props.history.push("/admin_new_work_order_step3");
   };
-
   return (
     <>
       <Container fluid={true} className="dasbwr">
@@ -490,7 +502,7 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
                             className="userfield form-control"
                             id={"pipe_type"}
                             onChange={inputHandler}
-                            ref={inputEl}
+                            ref={inputEl1}
                           >
                             <option></option>
                             <option value={""}></option>
@@ -546,6 +558,7 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
                             id="pipe_schedule"
                             onChange={onchange_pipeschedule}
                             className="userfield form-control"
+                            ref={inputEl2}
                           >
                             <option value=""></option>
                             {pipe_schedules.map((data, i) => (
@@ -567,21 +580,27 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
                           <h6 className="userprofile userprofile12">
                             Pipe Size
                           </h6>
-                          <select name="pipe_size" id="pipe_size" className="form-control" onChange={onchange_pipesize}>
-                          {pipeSizes.map((data, i) => (
-                            <>
-                            <option>{size_value}</option>
-                            <option
-                              className="pipelength1 form-control specialization"
-                              value={JSON.stringify({
-                                id: data.id,
-                                name: data.size,
-                              })}
-                            >
-                              {data.size}
-                            </option>
-                            </>
-                          ))}
+                          <select
+                            name="pipe_size"
+                            id="pipe_size"
+                            className="form-control"
+                            onChange={onchange_pipesize}
+                            ref={inputEl3}
+                          >
+                          <option>{size_value}</option>
+                            {pipeSizes.map((data, i) => (
+                              <>
+                                <option
+                                  className="pipelength1 form-control specialization"
+                                  value={JSON.stringify({
+                                    id: data.id,
+                                    name: data.size,
+                                  })}
+                                >
+                                  {data.size}
+                                </option>
+                              </>
+                            ))}
                           </select>
                         </Form.Group>
                       </Col>
@@ -613,6 +632,7 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
                             id="type_of_specialist"
                             onChange={onchange_Area_Of_Specialization}
                             className="userfield form-control"
+                            ref={inputEl4}
                           >
                             <option value=""></option>
                             {types_of_Specialist.map((data, i) => (

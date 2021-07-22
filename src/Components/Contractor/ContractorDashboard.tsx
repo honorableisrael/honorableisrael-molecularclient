@@ -16,7 +16,7 @@ import ReactApexChart from "react-apexcharts";
 import arrow from "../../images/arrow.png";
 import { Link, withRouter } from "react-router-dom";
 import axios, { AxiosResponse } from "axios";
-import { API } from "../../config";
+import { API, contractorToken } from "../../config";
 
 const Notification = (props) => {
   console.log(props);
@@ -48,23 +48,28 @@ const Invoice = (props) => {
   console.log(props);
   return (
     <>
-        {props?.invoicelist?.slice(0, 3)?.map((data, i) => (
-          <>
-            <div className="helloworld1 helloworld1op" key={i}>
-                <div className="helloworldx">
-                  <img src={invoices} className="invoices" />
-                </div>
-                <div className="app12 app23 app23">
-                  <b> NASS Complex </b>
-                  <div className="amount2a">N3,000,000</div>
-                </div>
-                <div className="unpaid1">
-                  <span className="paidd2 "></span>unpaid
-                </div>
+      {props?.invoicelist?.slice(0, 3)?.map((data, i) => (
+        <>
+          <div className="helloworld1 helloworld1op" key={i}>
+            <Link to={`/invoice_details/${data?.id}`}>
+              <div className="helloworldx">
+                <img src={invoices} className="invoices" />
               </div>
-              <br />
-          </>
-        ))}
+            </Link>
+            <div className="app12 app23 app23" title={data?.work_order?.title}>
+              <Link to={`/invoice_details/${data?.id}`}>
+                <span className="titleinvoice">{data?.work_order?.title}</span>{" "}
+              </Link>
+              <div className="amount2a">{data.total_amount}</div>
+            </div>
+            <div className="unpaid1">
+              <span className="paidd2 "></span>
+              {data?.total_amount_paid > 0 ? "Paid" : "Unpaid"}
+            </div>
+          </div>
+          <br />
+        </>
+      ))}
     </>
   );
 };
@@ -132,15 +137,12 @@ const ContractorDashboard = withRouter((props) => {
     work_orders: [],
     notification: [],
     contractor: {},
-    invoices:[]
+    invoices: [],
   });
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    const availableToken: any = localStorage.getItem("loggedInDetails");
-    const token = availableToken
-      ? JSON.parse(availableToken)
-      : window.location.assign("/");
+    const token = contractorToken();
     if (token.user_type !== "contractor") {
       return props.history.push("/login");
     }
@@ -160,14 +162,14 @@ const ContractorDashboard = withRouter((props) => {
         }),
       ])
       .then(
-        axios.spread((res, res2, res3,res4) => {
+        axios.spread((res, res2, res3, res4) => {
           console.log(res4.data);
           setState({
             ...state,
             contractor: res.data.data,
             notification: res2.data.data.data,
             work_orders: res3.data.data.data,
-            invoices:res4.data.data.data,
+            invoices: res4.data.data.data,
           });
         })
       )
@@ -176,7 +178,7 @@ const ContractorDashboard = withRouter((props) => {
       });
   }, []);
   const { contractor, invoices, work_orders }: any = state;
-  console.log(invoices)
+  console.log(invoices);
   return (
     <>
       <Container fluid={true} className="dasbwr">
@@ -335,59 +337,7 @@ const ContractorDashboard = withRouter((props) => {
                 <div className="notif12v textxenter1">Invoice Raised</div>
                 <br />
               </div>
-              <Invoice invoicelist={invoices}/>
-              
-              {/* <div className="helloworld1 helloworld1op">
-                <div className="helloworldx">
-                  <img src={invoices} className="invoices" />
-                </div>
-                <div className="app12 app12 app23">
-                  <b> NASS Complex </b>
-                  <div className="amount2a">N3,000,000</div>
-                </div>
-                <div className="paid1">
-                  <span className="paidd2 paidd2g"></span>paid
-                </div>
-              </div>
-              <br />
-              <div className="helloworld1 helloworld1op">
-                <div className="helloworldx">
-                  <img src={invoices} className="invoices" />
-                </div>
-                <div className="app12 app12 app23">
-                  <b> NASS Complex </b>
-                  <div className="amount2a">N3,000,000</div>
-                </div>
-                <div className="paid1">
-                  <span className="paidd2 paidd2g"></span>paid
-                </div>
-              </div>
-              <br />
-              <div className="helloworld1 helloworld1op">
-                <div className="helloworldx">
-                  <img src={invoices} className="invoices" />
-                </div>
-                <div className="app12 app12 app23">
-                  <b> NASS Complex </b>
-                  <div className="amount2a">N3,000,000</div>
-                </div>
-                <div className="paid1">
-                  <span className="paidd2 paidd2g"></span>paid
-                </div>
-              </div>
-              <br />
-              <div className="helloworld1 helloworld1op">
-                <div className="helloworldx">
-                  <img src={invoices} className="invoices" />
-                </div>
-                <div className="app12 app12 app23">
-                  <b> NASS Complex </b>
-                  <div className="amount2a">N3,000,000</div>
-                </div>
-                <div className="paid1">
-                  <span className="paidd2 paidd2g"></span>paid
-                </div>
-              </div> */}
+              <Invoice invoicelist={invoices} />
               <div>
                 <Link to="/payment_invoice">
                   <img src={arrow} className="arrow21" alt="arrow" />

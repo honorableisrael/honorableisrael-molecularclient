@@ -333,7 +333,7 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
                             </div>
                           </div>
                           <div className="ing_11">
-                            <Table responsive>
+                            {/* <Table responsive>
                               <thead className="theadinvoice">
                                 <tr>
                                   <th className="tablehead">
@@ -356,7 +356,7 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
                                   )
                                 )}
                               </tbody>
-                            </Table>
+                            </Table> */}
                             <Table responsive>
                               <thead className="theadinvoice">
                                 <tr>
@@ -388,7 +388,7 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
                             <Table responsive>
                               <thead className="theadinvoice">
                                 <tr>
-                                  <th className="tablehead">Specialist Cost</th>
+                                  <th className="tablehead">Specialist Cost($)</th>
                                   <th className="tablehead">Date</th>
                                   <th className="tablehead">Status</th>
                                   <th className="tablehead">Cycle</th>

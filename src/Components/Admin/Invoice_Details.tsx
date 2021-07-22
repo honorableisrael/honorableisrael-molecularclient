@@ -84,19 +84,16 @@ const Admin_Invoice_details = (props) => {
     const work_order_details = work_order ? JSON.parse(work_order) : "";
     axios
       .all([
-        axios.get(`${API}/admin/work-orders/${work_order_details?.id}`, {
-          headers: { Authorization: `Bearer ${token.access_token}` },
-        }),
-        axios.get(`${API}/admin/invoices/${invoice?.id}`, {
+        axios.get(`${API}/admin/invoices/${props?.match?.params?.id}`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }),
       ])
       .then(
-        axios.spread((res, res2) => {
+        axios.spread((res2) => {
           console.log(res2.data.data);
           setState({
             ...state,
-            ...res.data.data,
+            ...res2.data.data,
             work_order_detail: res2.data.data.work_order,
             invoice_details: res2.data.data,
           });
@@ -269,7 +266,7 @@ const Admin_Invoice_details = (props) => {
                               <div className="inv_title2">
                                 <div className="inv_title3">
                                   {" "}
-                                  Invoice Number
+                                  Invoice Number  <span className="acceptedinvoc">{invoice_details.is_approved?"Accepted":"Awaiting Acceptance"}</span>
                                 </div>
                                 <div className="inv_title4">
                                   {invoice_details?.number ?? "~~/~~"}
@@ -305,15 +302,15 @@ const Admin_Invoice_details = (props) => {
                             <div className="rcomponent">
                               <div className="inv_title2">
                                 <div className="inv_title3">Total Amount</div>
-                                <div className="inv_title4 ing">N{FormatAmount(invoice_details?.total_amount)?? "~~/~~"}</div>
+                                <div className="inv_title4 ing">${FormatAmount(invoice_details?.total_amount)?? "~~/~~"}</div>
                                 <div className="inv_title3">Amount Paid</div>
-                                <div className="inv_title4 ing">N{FormatAmount(invoice_details?.total_amount_paid)?? "~~/~~"}</div>
+                                <div className="inv_title4 ing">${FormatAmount(invoice_details?.total_amount_paid)?? "~~/~~"}</div>
                               </div>
                             </div>
                             <div className="rcomponent">
                               <div className="inv_title2">
                                 <div className="inv_title3">Balance Due</div>
-                                <div className="inv_title4 ing">N{FormatAmount(invoice_details?.total_amount_unpaid)?? "~~/~~"}</div>
+                                <div className="inv_title4 ing">${FormatAmount(invoice_details?.total_amount_unpaid)?? "~~/~~"}</div>
                               </div>
                             </div>
                           </div>
@@ -331,7 +328,7 @@ const Admin_Invoice_details = (props) => {
                                 {invoice_details?.cycles?.map(
                                   (data, i) => (
                                     <tr className="tdata" key={i}>
-                                       <td>{FormatAmount(data?.specialist_cost)}</td>
+                                       <td>${FormatAmount(data?.specialist_cost)}</td>
                                       <td>{formatTime(data?.date)}</td>
                                       <td>{data?.status}</td>
                                       <td>{data?.cycle}</td>

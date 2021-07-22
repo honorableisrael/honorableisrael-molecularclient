@@ -29,10 +29,9 @@ const Accordions = props => {
             <div className="deploydsplstwrapp">
               <div>
                 <span className="dploygrpsalpbt">{props.title}</span>
-                <span className="deplyeaggrgt">24 DEPLOYED</span>
+                <span className="deplyeaggrgt">24 Assigned</span>
               </div>
               <div className="accimgwrap">
-                <div className="splstsuspdbtn">Suspend</div>
                 <span>
                   <img src={chevrondown}  className={`arrow-down ${chevron}`} />
                 </span>

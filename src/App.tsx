@@ -51,6 +51,7 @@ import Admin_NewWorkOrderStep2 from "./Components/Admin/Admin_Raise_Work_Order/N
 import Amin_NewWorkOrderStep3 from "./Components/Admin/Admin_Raise_Work_Order/New_Work_Order_Step3";
 import Admin_Invoice_details from "./Components/Admin/Invoice_Details";
 import AdminRaiseProformaInvoice from "./Components/Admin/RaiseProformaInvoice";
+import ProformaInvoiceAccepted from "./Components/Contractor/Invoice_Accepted";
 
 
 
@@ -113,8 +114,8 @@ class App extends Component {
                 component={Contractor_Payment_Invoice}
               />
               
-              <Route path="/admin_invoice_details" component={Admin_Invoice_details} />
-              <Route path="/invoice_details" component={Invoice_details} />
+              <Route path="/admin_invoice_details/:id" component={Admin_Invoice_details} />
+              <Route path="/invoice_details/:id" component={Invoice_details} />
               <Route path="/raise_proforma_invoice" component={AdminRaiseProformaInvoice} />
 
               
@@ -146,6 +147,11 @@ class App extends Component {
                 path="/contractor_onboarding"
                 component={ContractorOnboarding}
               />
+               <Route
+                path="/proforma_invoice_accepted"
+                component={ProformaInvoiceAccepted}
+              />
+              
               <Route
                 path="/deployedspecialist"
                 component={DeployedSpecialist}

@@ -10,7 +10,7 @@ import addmore from "../../images/addmore.png";
 import jobscheck from "../../images/jobscheck.png";
 import avatar from "../../images/avatar.png";
 import avatar2 from "../../images/avatar2.png";
-import invoices from "../../images/invoices.png";
+import invoice from "../../images/invoices.png";
 import Chart from "react-google-charts";
 import ReactApexChart from "react-apexcharts";
 import arrow from "../../images/arrow.png";
@@ -47,7 +47,35 @@ const Notification = (props) => {
     </>
   );
 };
-
+const Invoice = (props) => {
+  console.log(props);
+  return (
+    <>
+      {props?.invoicelist?.slice(0, 3)?.map((data, i) => (
+        <>
+          <div className="helloworld1 helloworld1op" key={i}>
+            <Link to={`/admin_invoice_details/${data?.id}`}>
+              <div className="helloworldx">
+                <img src={invoice} className="invoices" />
+              </div>
+            </Link>
+            <div className="app12 app23 app23" title={data?.work_order?.title}>
+              <Link to={`/admin_invoice_details/${data?.id}`}>
+                <span className="titleinvoice">{data?.work_order?.title}</span>{" "}
+              </Link>
+              <div className="amount2a">{data.total_amount}</div>
+            </div>
+            <div className="unpaid1">
+              <span className="paidd2 "></span>
+              {data?.total_amount_paid > 0 ? "Paid" : "Unpaid"}
+            </div>
+          </div>
+          <br />
+        </>
+      ))}
+    </>
+  );
+};
 const AdminDashboard = withRouter((props) => {
   const [state, setState] = useState({
     series: [
@@ -113,6 +141,7 @@ const AdminDashboard = withRouter((props) => {
     work_orders: [],
     all_specialist: [],
     notification: [],
+    invoices: [],
   });
 
   useEffect(() => {
@@ -131,9 +160,12 @@ const AdminDashboard = withRouter((props) => {
         axios.get(`${API}/admin/work-orders?paginate=1`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }),
+        axios.get(`${API}/admin/invoices`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
       ])
       .then(
-        axios.spread((res, res2, res3, res4) => {
+        axios.spread((res, res2, res3, res4,res5) => {
           console.log(res4.data);
           setState({
             ...state,
@@ -141,6 +173,7 @@ const AdminDashboard = withRouter((props) => {
             all_specialist: res2.data.data.data,
             notification: res3.data.data.data,
             work_orders: res4.data.data.data,
+            invoices: res5.data.data.data,
           });
         })
       )
@@ -148,7 +181,7 @@ const AdminDashboard = withRouter((props) => {
         console.log(err);
       });
   }, []);
-  const { admin, work_orders }: any = state;
+  const { admin, work_orders,invoices }: any = state;
   return (
     <>
       <Container fluid={true} className="dasbwr">
@@ -340,79 +373,10 @@ const AdminDashboard = withRouter((props) => {
                 <div className="notif12v textxenter1">Invoice Raised</div>
                 <br />
               </div>
-              <div className="helloworld1 helloworld1op">
-                <div className="helloworldx">
-                  <img src={invoices} className="invoices" />
-                </div>
-                <div className="app12 app23 app23">
-                  <b> NASS Complex </b>
-                  <div className="amount2a">N0</div>
-                </div>
-                <div className="unpaid1">
-                  <span className="paidd2 "></span>unpaid
-                </div>
-              </div>
-              <br />
-              <div className="helloworld1 helloworld1op">
-                <div className="helloworldx">
-                  <img src={invoices} className="invoices" />
-                </div>
-                <div className="app12 app12 app23">
-                  <b> NASS Complex </b>
-                  <div className="amount2a">N0</div>
-                </div>
-                <div className="paid1">
-                  <span className="paidd2 paidd2g"></span>paid
-                </div>
-              </div>
-              <br />
-              <div className="helloworld1 helloworld1op">
-                <div className="helloworldx">
-                  <img src={invoices} className="invoices" />
-                </div>
-                <div className="app12 app12 app23">
-                  <b> NASS Complex </b>
-                  <div className="amount2a">N0</div>
-                </div>
-                <div className="paid1">
-                  <span className="paidd2 paidd2g"></span>paid
-                </div>
-              </div>
-              <br />
-              <div className="helloworld1 helloworld1op">
-                <div className="helloworldx">
-                  <img src={invoices} className="invoices" />
-                </div>
-                <div className="app12 app12 app23">
-                  <b> NASS Complex </b>
-                  <div className="amount2a">N0</div>
-                </div>
-                <div className="paid1">
-                  <span className="paidd2 paidd2g"></span>paid
-                </div>
-              </div>
-              <br />
-              <div className="helloworld1 helloworld1op">
-                <div className="helloworldx">
-                  <img src={invoices} className="invoices" />
-                </div>
-                <div className="app12 app12 app23">
-                  <b> NASS Complex </b>
-                  <div className="amount2a">N0</div>
-                </div>
-                <div className="paid1">
-                  <span className="paidd2 paidd2g"></span>paid
-                </div>
-              </div>
+              <Invoice invoicelist={invoices} />
               <div>
-                <Link to="/admin_payment_invoice">
-                  <span className="arrow21 text11"></span>{" "}
-                  <img
-                    src={arrow}
-                    title="See more"
-                    className="arrow21"
-                    alt="arrow"
-                  />
+                <Link to="/payment_invoice">
+                  <img src={arrow} className="arrow21" alt="arrow" />
                 </Link>
               </div>
             </div>

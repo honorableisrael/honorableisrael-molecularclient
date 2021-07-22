@@ -99,7 +99,7 @@ const Admin_Notification = withRouter((props) => {
       <Container fluid={true} className="dasbwr">
         <Helmet>
           <meta charSet="utf-8" />
-          <title>Molecular - Contractor Notification</title>
+          <title>Molecular - Admin Notification</title>
           <link />
         </Helmet>
         <Row>
@@ -111,7 +111,7 @@ const Admin_Notification = withRouter((props) => {
               <div className="">
                 <div className="title_wo">
                   <div className="workorderheader">
-                    <Link to="/contractor_dashboard">
+                    <Link to="/admin_dashboard">
                       {" "}
                       <img src={arrowback} className="arrowback" />
                     </Link>
@@ -138,7 +138,7 @@ const Admin_Notification = withRouter((props) => {
                   </div>
                 </Col>
               )}
-              <Col md={12} className="centerednotification">
+              <Col md={12} className="centerednotification ">
                 {notification.map((data, i) => (
                   <div className="work_order212">
                     <div className="flex-col">
@@ -157,7 +157,7 @@ const Admin_Notification = withRouter((props) => {
                             <img
                               src={nextbtn}
                               alt="nxtbtn"
-                              className="nxtbtn3 nxtbtn3_1"
+                              className="nxtbtn3 nxtbtn3_1 admin__notif"
                             />
                           </Link>
                         ) : (
