@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Col, Row, Container, Form, Pagination, Modal } from "react-bootstrap";
 import "../Admin/contractor.css";
 import DashboardNav from "./specialistNavbar";
@@ -9,14 +9,18 @@ import "react-rangeslider/lib/index.css";
 import { Helmet } from "react-helmet";
 import arrowback from "../../images/dtls.png";
 import { Link } from "react-router-dom";
-import WorkOrderCardsMinInfo from "../Admin/WorkOrderCardsMinInfo";
+import WorkOrderCardsMinInfo from "./WorkOrderCardsMinInfo";
 import avatar_test from "../../images/avatar_test.png";
 import dwnload from "../../images/dwnload.png";
 import WorkDetails_Form_Preview from "../Admin/workdetailsform";
 import { NavHashLink } from "react-router-hash-link";
+import axios from "axios";
+import { API } from "../../config";
 
-const SpecialistWorkOrderDetails = () => {
+
+const SpecialistWorkOrderDetails = (props) => {
   const [state, setState] = useState({
+    work_order_detail: {},
     work_orders: [],
     country: "",
     inprogress: true,
@@ -40,27 +44,6 @@ const SpecialistWorkOrderDetails = () => {
       [e.target.name]: e.target.value
     });
   };
-  const onInputChange = e => {
-    const letterNumber = /^[A-Za-z]+$/;
-    if (e.target.value) {
-      return setState({
-        ...state,
-        [e.target.name]: e.target.value.replace(/[^0-9]+/g, "") //only accept numbers
-      });
-    }
-    if (e.target.value < 0) {
-      return setState({
-        ...state,
-        [e.target.name]: 0
-      });
-    }
-    if (e.target.value === "") {
-      return setState({
-        ...state,
-        [e.target.name]: 0
-      });
-    }
-  };
 
   const openModal = (e, x) => {
     setState({
@@ -68,7 +51,34 @@ const SpecialistWorkOrderDetails = () => {
       show: true
     });
   };
+  useEffect(() => {
+    window.scrollTo(-0, -0);
+    const availableToken: any = localStorage.getItem("loggedInDetails");
+    const token = availableToken
+      ? JSON.parse(availableToken)
+      : window.location.assign("/");
+    const urlParams = new URLSearchParams(window.location.search);
+    let urlkey = props.location.search;
+    const work_order = localStorage.getItem("work_order_details");
+    const work_order_details = work_order ? JSON.parse(work_order) : "";
+    axios
+      .get(`${API}/specialist/work-orders/${work_order_details?.id}`, {
+        headers: { Authorization: `Bearer ${token.access_token}` },
+      })
+      .then((res) => {
+        console.log(res.data.data);
+        setState({
+          ...state,
+          ...res.data.data,
+          work_order_detail: res.data.data,
+        });
+      })
+      .catch((err) => {
+        console.log(err.response);
+      });
+  }, []);
   const {
+    work_order_detail,
     project_purpose,
     country,
     work_order_description,
@@ -155,7 +165,10 @@ const SpecialistWorkOrderDetails = () => {
                 <NavHashLink
                   className="bview"
                   to="#overview"
-                  activeStyle={{ backgroundColor: "#fd8b003b", color: "#fd8c00" }}
+                  activeStyle={{
+                    backgroundColor: "#fd8b003b",
+                    color: "#fd8c00"
+                  }}
                 >
                   Over View
                 </NavHashLink>
@@ -186,7 +199,7 @@ const SpecialistWorkOrderDetails = () => {
                 <div className="job23_1a">
                   <div className="">
                     <WorkOrderCardsMinInfo
-                      title={"Building a Mini version of the Eifel Tower"}
+                    order_detail={work_order_detail}
                     />
                   </div>
                 </div>
@@ -275,9 +288,10 @@ const SpecialistWorkOrderDetails = () => {
                       <div className="worksheet_1">
                         <div className="tabledata tablecontent tablecont1">
                           <div className="header_12 tablecont0">
-                            <span>Worksheet Report 1</span>
+                            <span>Worksheet Report 2</span>
                           </div>
                           <div className="tablecont1">
+                            <div className="viewlink">View</div>
                             <div className="worksheetdw worksheetdate1">
                               {" "}
                               <img
@@ -290,23 +304,8 @@ const SpecialistWorkOrderDetails = () => {
                             <div className="worksheetdate">12/02/2021</div>
                           </div>
                         </div>
-                        <div className="tabledata tablecontent tablecont1">
-                          <div className="header_12 tablecont0">
-                            <span>Worksheet Report 2</span>
-                          </div>
-                          <div className="tablecont1">
-                           <div id="work_details"></div>
-                            <div className="worksheetdw worksheetdate1">
-                              {" "}
-                              <img
-                                src={dwnload}
-                                alt="dwnload"
-                                className="dwnload1"
-                              />
-                              Download
-                            </div>
-                            <div className="worksheetdate">12/02/2021</div>
-                          </div>
+                        <div className="text-center">
+                          <span className="uploadbtn ">Upload Worksheet</span>
                         </div>
                       </div>
                       <WorkDetails_Form_Preview hide={true} />
@@ -317,34 +316,15 @@ const SpecialistWorkOrderDetails = () => {
                     Actions
                   </h6>
                   <div className="job23_1a wrap_z">
-                    {/* <div className="main_wrap_ws main_wrapp1">
-                      <h6 className="userprofile12 userprofile123">
-                        Suspend Workorder
-                      </h6>
-                      <p className="Construction12">
-                        To terminate a workorder that has been placed, a
-                        terminate request has to be sent to the admin to
-                        process. You can suspend instead
-                      </p>
-                      <div className="wtext">
-                        <div
-                          className="suspend1"
-                          // onClick={(e) => openModal(e, "Terminate")}
-                        >
-                          Suspend
-                        </div>
-                      </div>
-                    </div> */}
                     <div className="main_wrap_ws main_wrapp1">
-                      <h6 className="userprofile12 userprofile123">
-                        Terminate Workorder
-                      </h6>
+                      <h3 className="userprofile12 userprofile123">
+                      Quit Work
+                      </h3>
                       <p className="Construction12">
-                        To terminate a workorder that has been placed, a
-                        terminate request has to be sent to the admin to
-                        process. You can suspend instead
+                        To quit a project that has been placed, a quit request
+                        has to be sent to the admin to process.
                       </p>
-                      <div className="wtext">
+                      <div className="text-left">
                         <div
                           className="terminate1"
                           onClick={e => openModal(e, "Terminate")}

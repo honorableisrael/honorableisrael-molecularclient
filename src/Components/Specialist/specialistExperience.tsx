@@ -21,12 +21,12 @@ const Experience = () => {
     noExperienceAdded: true,
     experienceActive: "",
     addexperiencebtn: "",
-    id:"",
+    credential_id:"",
   });
   const {
     description,
     title,
-    id,
+    credential_id,
     experience_id,
     experiences,
     noExperienceAdded,
@@ -73,25 +73,28 @@ const Experience = () => {
             noExperienceAdded: user.experiences.length<=0? true: false,
             experienceActive: user.experiences.length<=0? "nowrapdemacator":"wrapdemacator",
             addexperiencebtn: user.experiences.length<=0? "noprofcerbtnwrapper":"profcerbtnwrapper",
-     
           });
         })
       )
       .catch((err) => {
         console.log(err.response);
       });
-    
+  
   }, []);
 
-  const editExperience = index => {
+  const editExperience = (id, index) => {
+   console.log(id)
     setState({
       ...state,
+      title: title,
+      description: description,
       experience_id: index,
-      terminateWorkModal: true
+      credential_id: id,
+      terminateWorkModal: true,
     });
   };
 
-  const inputModalChange = (state, id) => {
+  const inputModalChange = (state, credential_id) => {
     const experience_id = state.experience_id;
     let tempExperienceDetails = state.experiences;
     tempExperienceDetails[experience_id]= state
@@ -110,7 +113,7 @@ const Experience = () => {
       title,
      description,
    }
-    Axios.put(`${API}/specialist/experiences/${id}`, data , {
+    Axios.put(`${API}/specialist/experiences/${credential_id}`, data , {
       headers: { Authorization: `Bearer ${token.access_token}` }
     })
     .then((res)=>{
@@ -236,7 +239,7 @@ const Experience = () => {
             </span>
             <span
               className="wrkmodal-declinebtn addexpbtn"
-              onClick={() => inputModalChange(state,id)}
+              onClick={() => inputModalChange(state,credential_id)}
             >
               Save
             </span>
@@ -308,7 +311,7 @@ const Experience = () => {
                   <div>
                     <img
                       src={editicon}
-                      onClick={() => editExperience(index)}
+                      onClick={() => editExperience(item.id,index)}
                       className="editimg"
                     />
                   </div>

@@ -665,3 +665,20 @@
 .wrkprogtxt{
     margin-left: 5px;
 }
+.viewlink{
+    font-size: 14px;
+    color: #222073 !important;
+    font-weight: 700;
+    text-align: end;
+}
+.uploadbtn{
+    display: inline-block;
+    padding: 11px 37px;
+    font-size: 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 28px;
+    background-color: #fd8c00;
+    color: #ffffff;
+}

@@ -24,7 +24,15 @@ const WorkOrderCards = props => {
   let { volume } = state;
   return (
     <>
-      <Link to="/specialistWorkOrderDetails" >
+      <Link
+       to="/specialistWorkOrderDetails" 
+       onClick={()=>{
+        localStorage.setItem(
+          "work_order_details",
+          JSON.stringify(props.order_details)
+        )
+       }}
+       >
         <div className="splstprogressbarwrapper">
           <div className="cardwrap_cont">
             <img src={portfolio} alt="portfolio" className="portfolio2" />

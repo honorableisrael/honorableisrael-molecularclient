@@ -24,11 +24,11 @@ const Qualification = () => {
     field: "",
     from: "",
     to: "",
-    id:"",
+    credential_id:"",
   });
   const {
     qualifications,
-    id,
+    credential_id,
     certificateEditModal,
     noCertificateAdded,
     certificationActive,
@@ -50,15 +50,17 @@ const Qualification = () => {
     });
   };
 
-  const editCertificate = (index) => {
+  const editCertificate = (id, index) => {
+    console.log(id)
     setState({
       ...state,
-      qualification_id: index,
+      credential_id: id,
+      qualification_id:index,
       certificateEditModal: true
     });
   };
-
-  const inputModalChange = (state,id) => {
+  const inputModalChange = (state,credential_id) => {
+  
     const qualification_id = state.qualification_id;
     let tempCertificateDetails = state.qualifications;
     tempCertificateDetails[qualification_id] = state;
@@ -66,7 +68,7 @@ const Qualification = () => {
     setState({
       ...state,
       qualifications: tempCertificateDetails,
-      certificateEditModal: false
+      certificateEditModal: false,
     });
        //post to API
        const availableToken = localStorage.getItem("loggedInDetails");
@@ -80,7 +82,7 @@ const Qualification = () => {
         from,
         to
       }
-       Axios.put(`${API}/specialist/qualifications/${id}`, data , {
+       Axios.put(`${API}/specialist/qualifications/${credential_id}`, data , {
          headers: { Authorization: `Bearer ${token.access_token}` }
        })
        .then((res)=>{
@@ -96,6 +98,7 @@ const Qualification = () => {
          }
        })
   };
+ 
   const certEditModal = () => {
     setState({
       ...state,
@@ -133,7 +136,7 @@ const Qualification = () => {
         noCertificateAdded: false,
         qualifications: [
           ...qualifications,
-          { id, qualification:qualification, institution:institution, field:field, from:from, to:to }
+          { qualification:qualification, institution:institution, field:field, from:from, to:to }
         ],
         certificateAddModal: false,
         certificationActive:
@@ -379,7 +382,7 @@ const Qualification = () => {
             </span>
             <span
               className="wrkmodal-declinebtn addexpbtn"
-              onClick={() => inputModalChange(state,id)}
+              onClick={() => inputModalChange(state,credential_id)}
             >
               Save
             </span>
@@ -412,7 +415,7 @@ const Qualification = () => {
                 <div>
                   <img
                     src={editicon}
-                    onClick={() => editCertificate(index)}
+                    onClick={() => editCertificate(item.id, index)}
                     className="editimg"
                   />
                 </div>

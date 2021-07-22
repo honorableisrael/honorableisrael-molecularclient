@@ -22,20 +22,19 @@ const Certification = () => {
     certificate_id: "",
     certificateAddModal: false,
     description:"",
-    id:"",
+    credential_id:"",
   });
   const {
     certifications,
     description,
-    id,
+    credential_id,
     certificateEditModal,
     noCertificateAdded,
     certificationActive,
     certificateAddModal,
     certificationbtn,
     title,
-    certificate_id,
-    year
+    year,
   }: any = state;
 
   const onchange = e => {
@@ -46,15 +45,16 @@ const Certification = () => {
     });
   };
 
-  const editCertificate = index => {
+  const editCertificate = (id,index) => {
     setState({
       ...state,
       certificate_id: index,
+      credential_id: id,
       certificateEditModal: true
     });
   };
 
-  const inputModalChange = (state, id) => {
+  const inputModalChange = (state, credential_id) => {
     const certificate_id = state.certificate_id;
     let tempCertificateDetails = state.certifications;
     tempCertificateDetails[certificate_id] = state;
@@ -74,7 +74,7 @@ const Certification = () => {
       year,
       description,
     }
-     Axios.put(`${API}/specialist/certifications/${id}`, data , {
+     Axios.put(`${API}/specialist/certifications/${credential_id}`, data , {
        headers: { Authorization: `Bearer ${token.access_token}` }
      })
      .then((res)=>{
@@ -126,7 +126,7 @@ const Certification = () => {
       setState({
         ...state,
         noCertificateAdded: false,
-        certifications: [...certifications, {id, title: title, year: year }],
+        certifications: [...certifications, { title: title, year: year }],
         certificateAddModal: false,
         certificationActive:
           certifications.length >= 0 ? "profcertifncntent" : "nowrapdemacator",
@@ -309,7 +309,7 @@ const Certification = () => {
             </span>
             <span
               className="wrkmodal-declinebtn addexpbtn"
-              onClick={() => inputModalChange(state,id)}
+              onClick={() => inputModalChange(state,credential_id)}
             >
               Save
             </span>
@@ -344,7 +344,7 @@ const Certification = () => {
               <div>
                     <img
                       src={editicon}
-                      onClick={()=>editCertificate(index)}
+                      onClick={()=>editCertificate(item.id,index)}
                       className="editimg"
                     />
                   </div>

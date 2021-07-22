@@ -23,12 +23,12 @@ const Projects = () => {
     projectActive: "",
     projectbtn:"",
     openModal: false,
-    id:"",
+    credential_id:"",
   });
   const { 
     projects,
     title,
-    id,
+    credential_id,
     description,
     from,
     to,
@@ -71,15 +71,16 @@ const Projects = () => {
       openModal: false
     });
 }
-  const editProject = (id) => {
+  const editProject = (id, index) => {
     setState({
       ...state,
-      project_id: id,
+      project_id: index,
+      credential_id: id,
       projectModal: true,
     });
   };
   
-  const inputModalChange = (state, id) => {
+  const inputModalChange = (state, credential_id) => {
     const project_id = state.project_id;
     let tempProjectDetails = state.projects;
     tempProjectDetails[project_id]= state
@@ -100,7 +101,7 @@ const Projects = () => {
           from,
           to,
        }
-        Axios.put(`${API}/specialist/projects/${id}`, data , {
+        Axios.put(`${API}/specialist/projects/${credential_id}`, data , {
           headers: { Authorization: `Bearer ${token.access_token}` }
         })
         .then((res)=>{
@@ -126,7 +127,7 @@ const Projects = () => {
       setState({
         ...state,
         noProjectsAdded: false,
-        projects: [...projects,{id, title: title,description: description,from: from,to: to}],
+        projects: [...projects,{title: title,description: description,from: from,to: to}],
         openModal: false,
         projectActive: projects.length >= 0 ? "wrapdemacator" : "nowrapdemacator",
         projectbtn: projects.length >= 0 ? "profcerbtnwrapper" : "noprofcerbtnwrapper"
@@ -264,7 +265,7 @@ const Projects = () => {
             </span>
             <span
               className="wrkmodal-declinebtn addexpbtn"
-              onClick={()=>inputModalChange(state,id)}
+              onClick={()=>inputModalChange(state,credential_id)}
             >
               Save
             </span>
@@ -358,15 +359,15 @@ const Projects = () => {
           </div>
         )}
         <div className="profecperince-content">
-          {projects.map((item, id) => {
+          {projects.map((item, index) => {
             return (
-              <div key={item.id} className={`wrapdemacator ${projectActive}`}>
+              <div key={index} className={`wrapdemacator ${projectActive}`}>
                 <div className="profiexpernceheaderwrap">
                   <p className="profiexpetitle">Title</p>
                   <div>
                     <img
                       src={editicon}
-                      onClick={()=>editProject(id)}
+                      onClick={()=>editProject(item.id,index)}
                       className="editimg"
                     />
                   </div>
