@@ -46,7 +46,6 @@ const Home = () => {
       toggleSections: false
     });
   };
-
   return (
     <div>
       <div id="home"></div>

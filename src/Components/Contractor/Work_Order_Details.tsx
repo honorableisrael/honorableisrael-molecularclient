@@ -240,7 +240,7 @@ const WorkOrderDetails = withRouter((props: any) => {
                   </div>
                 </div>
                 <div className="job23_1a" id="details">
-                  <h6 className="title22">Specialist Deployed</h6>
+                  <h6 className="title22">Specialist Assigned</h6>
                   <div className="job23_1a wrap_z">
                     {true && (
                       <Col md={11} className="containerforemptyorder1 cust">
@@ -264,10 +264,10 @@ const WorkOrderDetails = withRouter((props: any) => {
                       <>
                         <div className="group_flex">
                           <div className="grpA">
-                            Group <b>A</b>
+                            {/* Group <b>A</b> */}
                           </div>
                           <div className="grpB">
-                            <b>27</b> Deployed
+                            <b>{0}</b> Assigned
                           </div>
                         </div>
                         <div className="tabledata tabledataweb">

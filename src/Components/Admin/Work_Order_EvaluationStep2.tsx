@@ -543,24 +543,6 @@ const AdminWorkOrderEvaluationStep2 = (props) => {
                             </div>
                           </div>
                         </Col>
-                        {/* <Col md={6}>
-                          <div className="pipelength pipelng">
-                            <div className="pipelength1q">
-                              Pipe cost (per inch schedule){" "}
-                              <span className="text-danger">*</span>
-                            </div>
-                            <div className="pipelength1">
-                              <input
-                                type="number"
-                                className="pipelength1 form-control"
-                                placeholder="Price in Naira"
-                                name="cost_per_inch"
-                                value={cost_per_inch}
-                                onChange={onchange}
-                              />
-                            </div>
-                          </div>
-                        </Col> */}
                         <Col md={6}>
                           <div className="pipelength pipelng">
                             <div className="pipelength1q">
@@ -786,14 +768,6 @@ const AdminWorkOrderEvaluationStep2 = (props) => {
                                       </div>
                                     </div>
                                     <div className="main_wrap_ws main_wrap_ws22 graybg2 graybg ">
-                                      <div>
-                                        <h6 className="userprofile12 userprofile123">
-                                          Pipe cost (per inch schedule)
-                                        </h6>
-                                        <div className="Construction12">
-                                          {data.cost_per_inch ?? "not set"}
-                                        </div>
-                                      </div>
                                       <div className="">
                                         <h6 className="userprofile12 userprofile123">
                                           Pipeline Length

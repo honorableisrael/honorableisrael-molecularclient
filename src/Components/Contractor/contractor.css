@@ -147,7 +147,7 @@ text {
   margin-bottom: 0.8rem;
 }
 .invoices {
-  width: fit-content;
+  width: 80% !important;
   height: fit-content;
 }
 .paidd2 {
@@ -169,7 +169,7 @@ text {
   margin-top: 0.4rem;
 }
 .helloworldx {
-  width: 40px;
+  width: 22px !important;
 }
 .app12 {
   width: 200px;
@@ -1726,7 +1726,7 @@ a{
   display: flex;
   align-items: baseline;
   background-color: #E0EDFB;
-  padding: 25px 11px 15px 67px;
+  padding: 25px 11px 15px 27px;
   border-radius: 10px;
 }
 .depsplstimg{
@@ -1950,4 +1950,40 @@ a{
   text-align: center;
     width: 100% !important;
     margin-bottom: 20px !important;
+}
+.titleinvoice,.app12{
+  width: 149px;
+  overflow: hidden;
+  height: 19px;
+  display: -webkit-box;
+  position: relative;
+  /* left: -0.6rem; */
+}
+.app12{
+  width: 149px;
+  overflow: hidden;
+  height: 19px;
+  display: -webkit-box;
+}
+.proformer_Invoc{
+  text-align: right;
+}
+.proformer_Invoc button,.proformer_Invoc button:focus,.proformer_Invoc button:active,.proformer_Invoc button:hover{
+  background: var(--molecular-orange);
+  border: 1px solid var(--molecular-orange);
+}
+.mgzero{
+  margin-top: 0rem !important;
+}
+.acceptedinvoc{
+  font-size: 13px;
+  color: white;
+  background: rgba(0, 128, 0, 0.767);
+  padding: .3rem .5rem;
+  border-radius: 100px;
+  font-weight: 700;
+}
+.greenbtn2{
+  width: 120px;
+  margin-left: .2rem;
 }

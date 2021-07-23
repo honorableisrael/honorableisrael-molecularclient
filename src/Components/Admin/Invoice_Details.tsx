@@ -84,19 +84,19 @@ const Admin_Invoice_details = (props) => {
     const work_order_details = work_order ? JSON.parse(work_order) : "";
     axios
       .all([
-        axios.get(`${API}/admin/work-orders/${work_order_details?.id}`, {
+        axios.get(`${API}/admin/invoices/${props?.match?.params?.id}`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }),
-        axios.get(`${API}/admin/invoices/${invoice?.id}`, {
+        axios.get(`${API}/bank-accounts`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
-        }),
+        })
       ])
       .then(
-        axios.spread((res, res2) => {
+        axios.spread((res2,res3) => {
           console.log(res2.data.data);
           setState({
             ...state,
-            ...res.data.data,
+            ...res2.data.data,
             work_order_detail: res2.data.data.work_order,
             invoice_details: res2.data.data,
           });
@@ -153,7 +153,7 @@ const Admin_Invoice_details = (props) => {
         console.log(err);
       });
   };
-
+  
   const {
     project_purpose,
     country,
@@ -215,7 +215,7 @@ const Admin_Invoice_details = (props) => {
       <Container fluid={true} className="dasbwr">
         <Helmet>
           <meta charSet="utf-8" />
-          <title>Molecular - Contractor Work Order</title>
+          <title>Molecular - Admin Work Order</title>
           <link />
         </Helmet>
         <Row>
@@ -230,7 +230,7 @@ const Admin_Invoice_details = (props) => {
                   {" "}
                   <img src={arrowback} className="arrowback" />
                 </Link> &nbsp;
-                Invoice Details
+                Proforma Invoice Details
               </div>
             </div>
             <Row className="mgtop">
@@ -238,23 +238,6 @@ const Admin_Invoice_details = (props) => {
                 <div className="job23_1a hidden__1">
                   <div className="">
                     <div className="overview12 overviewflex-down">
-                      {/* <Col md={12} className="mm12">
-                        <h6>Account Details</h6>
-                        <select
-                          className="forminput formselect form-control"
-                          required
-                        >
-                          <option value="" className="formselect">
-                            Select account number
-                          </option>
-                          <option value="2009393939" className="rdsltopt">
-                            2009393939
-                          </option>
-                          <option value="2009393931" className="rdsltopt">
-                            2009393931
-                          </option>
-                        </select>
-                      </Col> */}
                       <Col md={12} className="plf">
                         <div className="">
                           <div className="box_inv outerpink">
@@ -269,7 +252,7 @@ const Admin_Invoice_details = (props) => {
                               <div className="inv_title2">
                                 <div className="inv_title3">
                                   {" "}
-                                  Invoice Number
+                                  Invoice Number  <span className="acceptedinvoc">{invoice_details.is_approved?"Accepted":"Awaiting Acceptance"}</span>
                                 </div>
                                 <div className="inv_title4">
                                   {invoice_details?.number ?? "~~/~~"}
@@ -305,15 +288,15 @@ const Admin_Invoice_details = (props) => {
                             <div className="rcomponent">
                               <div className="inv_title2">
                                 <div className="inv_title3">Total Amount</div>
-                                <div className="inv_title4 ing">N{FormatAmount(invoice_details?.total_amount)?? "~~/~~"}</div>
+                                <div className="inv_title4 ing">${FormatAmount(invoice_details?.total_amount)?? "~~/~~"}</div>
                                 <div className="inv_title3">Amount Paid</div>
-                                <div className="inv_title4 ing">N{FormatAmount(invoice_details?.total_amount_paid)?? "~~/~~"}</div>
+                                <div className="inv_title4 ing">${FormatAmount(invoice_details?.total_amount_paid)?? "~~/~~"}</div>
                               </div>
                             </div>
                             <div className="rcomponent">
                               <div className="inv_title2">
                                 <div className="inv_title3">Balance Due</div>
-                                <div className="inv_title4 ing">N{FormatAmount(invoice_details?.total_amount_unpaid)?? "~~/~~"}</div>
+                                <div className="inv_title4 ing">${FormatAmount(invoice_details?.total_amount_unpaid)?? "~~/~~"}</div>
                               </div>
                             </div>
                           </div>
@@ -331,7 +314,7 @@ const Admin_Invoice_details = (props) => {
                                 {invoice_details?.cycles?.map(
                                   (data, i) => (
                                     <tr className="tdata" key={i}>
-                                       <td>{FormatAmount(data?.specialist_cost)}</td>
+                                       <td>${FormatAmount(data?.specialist_cost)}</td>
                                       <td>{formatTime(data?.date)}</td>
                                       <td>{data?.status}</td>
                                       <td>{data?.cycle}</td>
@@ -347,7 +330,7 @@ const Admin_Invoice_details = (props) => {
                           <div className="allpayment1">
                             All payments go to any of the account details below
                           </div>
-                          {invoice_details?.bank_account?.map((data, i) => (
+                          {invoice_details?.bank_accounts?.map((data, i) => (
                             <div className="fbn1">
                               <div className="bnclass">{data.bank}</div>
                               <div className="bnclass">{data.account_number}</div>

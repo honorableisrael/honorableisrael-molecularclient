@@ -33,6 +33,7 @@ const SpecialistWorkOrderDetails = (props) => {
     location: "",
     end_date: "",
     start_date: "",
+    work_group:"",
     hour: "",
     show: false,
     reason: ""
@@ -67,9 +68,11 @@ const SpecialistWorkOrderDetails = (props) => {
       })
       .then((res) => {
         console.log(res.data.data);
+        const work_order_detail =res.data.data
         setState({
           ...state,
           ...res.data.data,
+          work_group: res.data.data,
           work_order_detail: res.data.data,
         });
       })
@@ -84,6 +87,7 @@ const SpecialistWorkOrderDetails = (props) => {
     work_order_description,
     order_title,
     end_date,
+    work_group,
     reason,
     location_terrain,
     start_date,
@@ -204,14 +208,14 @@ const SpecialistWorkOrderDetails = (props) => {
                   </div>
                 </div>
                 <div className="job23_1a">
-                  <h6 className="title22">Specialist Deployed</h6>
+                  <h6 className="title22">Specialists Assigned</h6>
                   <div className="job23_1a wrap_z">
                     <div className="group_flex">
                       <div className="grpA">
-                        Group <b>A</b>
+                      {work_group.name} 
                       </div>
                       <div className="grpB">
-                        <b>27</b> Deployed
+                        <b>27</b> Assigned
                       </div>
                     </div>
                     <div className="tabledata tabledataweb">
@@ -223,29 +227,19 @@ const SpecialistWorkOrderDetails = (props) => {
                     <div className="tabledata tablecontent">
                       <div className="header_12">
                         <img src={avatar_test} className="specialist_avatar" />
-                        <div className="mobiletabledata">Fullname</div>
                         Sunday Okoro Pascal
                       </div>
                       <div className="header_12 typ22">
-                        <div className="mobiletabledata mobiletabledata22 ">
-                          Type
-                        </div>
                         <div> Fitter</div>
                       </div>
                       <div className="header_12">
-                        <div className="mobiletabledata mobiletabledata22">
-                          Group Position
-                        </div>
                         <div className="glead"> Group Lead </div>
                       </div>
                       <div className="header_12 active_member">
-                        <div className="mobiletabledata mobiletabledata22">
-                          Status
-                        </div>
                         <div className="active_member"> Active </div>
                       </div>
                     </div>
-                    <div className="tabledata">
+                    {/* <div className="tabledata">
                       <div className="header_12">
                         <img src={avatar_test} className="specialist_avatar" />
                         Sandra John
@@ -268,7 +262,7 @@ const SpecialistWorkOrderDetails = (props) => {
                       <div className="header_12">Fitter</div>
                       <div className="header_12">Member</div>
                       <div className="header_12 active_member">Active</div>
-                    </div>
+                    </div> */}
                     <div className="active_member2">
                       <div>
                         Displaying <b> 1</b> of <b>2</b>

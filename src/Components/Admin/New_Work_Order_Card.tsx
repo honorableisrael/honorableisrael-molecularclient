@@ -10,13 +10,13 @@ import Slider from "react-rangeslider";
 import "react-rangeslider/lib/index.css";
 import { Helmet } from "react-helmet";
 import nextbtn from "../../images/nextbtn.png";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { API, formatTime } from "../../config";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const New_Work_Order_Card = (props) => {
+const New_Work_Order_Card = withRouter((props:any) => {
   const [state, setState] = useState({
     volume: props.status == "Awaiting Approval" ? 0 : 100,
     isloading: false,
@@ -55,8 +55,12 @@ const New_Work_Order_Card = (props) => {
       .then(
         axios.spread((res) => {
           notify("Successfull");
+          localStorage.setItem(
+            "work_order_details",
+            JSON.stringify(props.order_details)
+          )
           setTimeout(() => {
-            window.location.assign("/admin_work_order");
+            props.history.push("/admin_work_details?inreview=true");
           }, 2000);
           console.log(res.data);
           setState({
@@ -137,6 +141,7 @@ const New_Work_Order_Card = (props) => {
       show: true,
     });
   };
+  
   return (
     <>
       <div className="cardwrap_jo">
@@ -290,6 +295,6 @@ const New_Work_Order_Card = (props) => {
       />
     </>
   );
-};
+});
 
 export default New_Work_Order_Card;

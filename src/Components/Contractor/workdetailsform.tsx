@@ -272,7 +272,7 @@ const WorkDetails_Form_Preview = (props) => {
                         Pipe Schedule
                       </h6>
                       <div className="Construction12">
-                        {data?.pipe_schedule ?? "n/a"}
+                        {data?.pipe_schedule_name ?? "n/a"}
                       </div>
                     </div>
                   </div>

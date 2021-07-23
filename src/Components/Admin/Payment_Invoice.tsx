@@ -212,7 +212,7 @@ const Admin_Payment_Invoice = () => {
                 <div className="cardflex_jo">
                   {all_invoices?.map((data, i) => (
                     <PaymentCards_1
-                      title="Pipeline construction from Lagos to Ogun State"
+                      title="P"
                       payment_details={data}
                       status={true}
                     />

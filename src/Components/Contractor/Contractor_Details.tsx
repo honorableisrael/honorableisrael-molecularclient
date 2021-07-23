@@ -175,14 +175,14 @@ const Contractor_Details = () => {
                   </div>
                 </div>
                 <div className="job23_1a" id="details">
-                  <h6 className="title22">Specialist Deployed</h6>
+                  <h6 className="title22">Specialists Assigned</h6>
                   <div className="job23_1a wrap_z">
                     <div className="group_flex">
                       <div className="grpA">
                         Group <b>A</b>
                       </div>
                       <div className="grpB">
-                        <b>27</b> Deployed
+                        <b>27</b> Assigned
                       </div>
                     </div>
                     <div className="tabledata tabledataweb">

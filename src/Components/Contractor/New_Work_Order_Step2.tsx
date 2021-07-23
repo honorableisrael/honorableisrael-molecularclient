@@ -17,7 +17,11 @@ import "react-toastify/dist/ReactToastify.css";
 import Axios, { AxiosResponse } from "axios";
 
 const NewWorkOrderStep2 = withRouter((props) => {
-  const inputEl: any = React.useRef("");
+  const inputEl1: any = React.useRef("");
+  const inputEl2: any = React.useRef("");
+  const inputEl3: any = React.useRef("");
+  const inputEl4: any = React.useRef("");
+
   const [state, setState] = useState<any>({
     work_orders: [],
     country: "",
@@ -183,6 +187,7 @@ const NewWorkOrderStep2 = withRouter((props) => {
         no_of_specialist: "",
         title_of_specialist: "",
       });
+      inputEl4.current.value = null
     }
     if (t === "pipe") {
       const Pipe_Config: any = [
@@ -194,6 +199,7 @@ const NewWorkOrderStep2 = withRouter((props) => {
           pipe_size,
           pipe_type,
           pipe_name,
+          size_value
         },
       ];
       console.log(Pipe_Config);
@@ -217,6 +223,9 @@ const NewWorkOrderStep2 = withRouter((props) => {
         pipe_name: "",
         pipe_schedule_name: "",
       });
+      inputEl1.current.value = null
+      inputEl2.current.value = null
+      inputEl3.current.value = null
     }
   };
   const deleteConfig = (id, type) => {
@@ -376,7 +385,7 @@ const NewWorkOrderStep2 = withRouter((props) => {
       pipe_size: new_obj.id,
     });
   };
-  
+
 console.log(pipeSizes)
   return (
     <>
@@ -443,11 +452,11 @@ console.log(pipeSizes)
                             </div>
                             <div className="">
                               <h6 className="userprofile12 userprofile123">
-                                Pipe Size (id)
+                                Pipe Size 
                               </h6>
                               <div className="Construction12">
                                 {" "}
-                                {data?.pipe_size}
+                                {data?.size_value}
                               </div>
                             </div>
                             <div className="">
@@ -483,7 +492,7 @@ console.log(pipeSizes)
                             className="userfield form-control"
                             id={"pipe_type"}
                             onChange={inputHandler}
-                            ref={inputEl}
+                            ref={inputEl3}
                           >
                             <option></option>
                             <option value={""}></option>
@@ -539,6 +548,7 @@ console.log(pipeSizes)
                             id="pipe_schedule"
                             onChange={onchange_pipeschedule}
                             className="userfield form-control"
+                            ref={inputEl1}
                           >
                             <option value=""></option>
                             {pipe_schedules.map((data, i) => (
@@ -565,13 +575,14 @@ console.log(pipeSizes)
                                 name="pipe_size"
                                 onChange={onchange_pipesize}
                                 className="userfield form-control"
+                                ref={inputEl2}
                               >
                                 <option>{size_value ? size_value : ""}</option>
                                 {pipeSizes.map((data, i) => (
                                   <option
                                     className="pipelength1 form-control specialization"
                                     value={JSON.stringify({
-                                      id: data.id,
+                                      id: data.size,
                                       name: data.size,
                                     })}
                                   >
@@ -609,6 +620,7 @@ console.log(pipeSizes)
                             id="type_of_specialist"
                             onChange={onchange_Area_Of_Specialization}
                             className="userfield form-control"
+                            ref={inputEl4}
                           >
                             <option value=""></option>
                             {types_of_Specialist.map((data, i) => (

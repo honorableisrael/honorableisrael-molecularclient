@@ -129,10 +129,14 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
       .then(
         axios.spread((res) => {
           notify("Successfull");
-          console.log(res.data);
+          localStorage.setItem(
+            "work_order_details",
+            JSON.stringify(props.order_details)
+          );
           setTimeout(() => {
-            window.location.assign("/admin_work_order");
+            props.history.push("/admin_work_details?inreview=true");
           }, 2000);
+          console.log(res.data);
           setState({
             ...state,
             isloading: false,
@@ -301,7 +305,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
             </div>
             {new_work && (
               <div className="rjwrapper mrgin__right">
-                <Button
+                {/* <Button
                   className="accjct1"
                   onClick={() => {
                     setState({
@@ -311,26 +315,22 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                   }}
                 >
                   {isloading ? "Processing" : "Reject"}
-                </Button>
-                <Button className="rejct1" onClick={Accept_work_order}>
+                </Button> */}
+                {/* <Button className="rejct1" onClick={Accept_work_order}>
                   {isloading ? "Processing" : "Accept"}
-                </Button>
+                </Button> */}
               </div>
             )}
-            {inreview && (
-              <div className="raise1">
-                <div className="">
-                  <Link to="/raise_proforma_invoice">
-                    <Button className="raise_inv">{"Raise Proforma Invoice"}</Button>
-                  </Link>
+            {inreview &&
+              work_order_detail?.actions?.canAssignSpecialist == false && (
+                <div className="raise1">
+                  <div className="rjwrapper mrgin__right">
+                    <Link to="/work_order_evaluation">
+                      <Button className=" raise_inv">{"Edit"}</Button>
+                    </Link>
+                  </div>
                 </div>
-                <div className="rjwrapper mrgin__right">
-                  <Link to="/work_order_evaluation">
-                    <Button className="rejct1">{"Edit"}</Button>
-                  </Link>
-                </div>
-              </div>
-            )}
+              )}
             <Row className="mgtop">
               <Col md={2} className="job23_ mheight_">
                 <p className="exp23">
@@ -345,9 +345,9 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                 <p className="bview inactive_bv">
                   <a href="#work">Work Details</a>
                 </p>
-                <p className="bview inactive_bv">
+                {/* <p className="bview inactive_bv">
                   <a href="#actions">Actions</a>
-                </p>
+                </p> */}
               </Col>
               <Col md={10} className="job23_1a_ job23_1a_p">
                 <div className="job23_1a">
@@ -356,44 +356,95 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                   </div>
                 </div>
                 <div className="job23_1a" id="details">
-                  <h6 className="title22">Specialist Deployed</h6>
-                  {assigned_specialists.length == 0 && !new_work && (
-                    <Col md={11} className="containerforemptyorder1 cust20">
-                      <div className="containerforemptyorder">
-                        <img
-                          src={no_work_order}
-                          alt={"no_work_order"}
-                          className="no_work_order"
-                        />
-                      </div>
-                      <div className="no_work1">
-                        No Specialist have been assigned
-                      </div>
-                      <div className="nojob2 ">
-                        <div
-                          className="job3 job_1"
-                          onClick={() => {
-                            localStorage.setItem(
-                              "work_order_details",
-                              JSON.stringify(work_order_detail)
-                            );
-                            props.history.push("/admin_assign_specialist");
-                          }}
-                        >
-                          Assign specialist
+                  {assigned_specialists.length == 0 &&
+                    !new_work &&
+                    work_order_detail.invoice && (
+                      <>
+                        <h6 className="title22">Specialists Assigned</h6>
+                        <Col md={11} className="containerforemptyorder1 cust20">
+                          <div className="containerforemptyorder">
+                            <img
+                              src={no_work_order}
+                              alt={"no_work_order"}
+                              className="no_work_order"
+                            />
+                          </div>
+                          <div className="no_work1">
+                            <div>No Specialist have been assigned</div>
+
+                            {work_order_detail?.invoice?.approved == null &&
+                              "Awaiting invoice approval"}
+                          </div>
+                          {work_order_detail?.invoice?.approved && (
+                            <div className="nojob2 ">
+                              <div
+                                className="job3 job_1"
+                                onClick={() => {
+                                  localStorage.setItem(
+                                    "work_order_details",
+                                    JSON.stringify(work_order_detail)
+                                  );
+                                  props.history.push(
+                                    "/admin_assign_specialist"
+                                  );
+                                }}
+                              >
+                                Assign specialist
+                              </div>
+                            </div>
+                          )}
+                        </Col>
+                      </>
+                    )}
+                  {work_order_detail.invoice == null &&
+                    work_order_detail.status !== "New" && (
+                      <Col md={11} className="containerforemptyorder1 cust20">
+                        <div className="containerforemptyorder">
+                          <img
+                            src={no_work_order}
+                            alt={"no_work_order"}
+                            className="no_work_order"
+                          />
                         </div>
-                      </div>
-                    </Col>
-                  )}
+                        <div className="no_work1">
+                          Proforma Invoice has not been raised
+                        </div>
+                        <div className="nojob2 ">
+                          <div
+                            className="job3 job_1"
+                            onClick={() => {
+                              props.history.push("/raise_proforma_invoice");
+                            }}
+                          >
+                            Raise Proforma Invoice
+                          </div>
+                        </div>
+                      </Col>
+                    )}
                   <div className="job23_1a wrap_z">
-                    {!new_work && assigned_specialists.length !== 0 && (
+                    {!new_work && assigned_specialists.length !== 0 && work_order_detail?.actions?.canAssignSpecialist && (
                       <>
                         <div className="group_flex">
-                          <div className="grpA">
+                          {/* <div className="grpA">
                             Group <b>A</b>
-                          </div>
+                          </div> */}
                           <div className="grpB">
-                            <b>0</b> Deployed
+                            <b>
+                              {work_order_detail?.total_assigned_specialists}
+                            </b>{" "}
+                            Assigned
+                          </div>
+                          <div
+                            className="job3 job_1 job_12"
+                            onClick={() => {
+                              localStorage.setItem(
+                                "work_order_details",
+                                JSON.stringify(work_order_detail)
+                              );
+                              props.history.push("/admin_assign_specialist");
+                            }}
+                          >
+                            Assign specialist
                           </div>
                         </div>
                         <div className="tabledata tabledataweb">
@@ -402,7 +453,6 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                           <div className="header_12">Group Position</div>
                           <div className="header_12">Status</div>
                         </div>
-
                         {assigned_specialists.length !== 0 &&
                           assigned_specialists.map((data, i) => (
                             <>
@@ -457,6 +507,13 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                               </div>
                             </>
                           ))}
+                        <div className="text-center">
+                          {" "}
+                          <span className="viewall_">
+                            {" "}
+                            <Link to="/deployedspecialist">View all</Link>{" "}
+                          </span>{" "}
+                        </div>
                         {/* <div className="tabledata">
                         <div className="header_12">
                           <img
