@@ -76,7 +76,7 @@ const WorkInformationBreakdown = (props) => {
     const availableToken: any = localStorage.getItem("loggedInDetails");
     const token = availableToken
       ? JSON.parse(availableToken)
-      : window.location.assign("/login");
+      : window.location.assign("/#login");
       console.log(props)
     window.scrollTo(-0, -0);
     const work_order = localStorage.getItem("work_order_details");

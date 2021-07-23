@@ -184,7 +184,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
           notify("Successfull");
           console.log(res.data);
           setTimeout(() => {
-            window.location.assign("/admin_work_order");
+            window.location.assign("/#admin_work_order");
           }, 2000);
           setState({
             ...state,

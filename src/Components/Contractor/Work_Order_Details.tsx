@@ -117,7 +117,7 @@ const WorkOrderDetails = withRouter((props: any) => {
     const availableToken: any = localStorage.getItem("loggedInDetails");
     const token = availableToken
       ? JSON.parse(availableToken)
-      : window.location.assign("/login");
+      : window.location.assign("/#login");
     window.scrollTo(-0, -0);
     axios.all([
       axios.get<any, AxiosResponse<any>>(`${API}/contractor/work-orders/${work_order_details.id}`, {

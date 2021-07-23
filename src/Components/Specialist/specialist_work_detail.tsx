@@ -125,7 +125,7 @@ const Specialist_Work_details = props => {
     const token = availableToken
 
       ? JSON.parse(availableToken)
-      : window.location.assign("/signin");
+      : window.location.assign("/#signin");
     setState({
       ...state,
       isloading: true,
@@ -167,7 +167,7 @@ const Specialist_Work_details = props => {
     const availableToken: any = localStorage.getItem("loggedInDetails");
     const token = availableToken
       ? JSON.parse(availableToken)
-      : window.location.assign("/signin");
+      : window.location.assign("/#signin");
 
     setState({
       ...state,

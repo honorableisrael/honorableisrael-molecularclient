@@ -72,7 +72,7 @@ const Specialistdetais = (props) => {
             isloading: false,
           });
           setTimeout(() => {
-            window.location.assign("/allspecialist")
+            window.location.assign("/#allspecialist")
           }, 2000);
         })
       )
@@ -130,7 +130,7 @@ const Specialistdetais = (props) => {
             isloading: false,
           });
           setTimeout(() => {
-            window.location.assign("/allspecialist");
+            window.location.assign("/#allspecialist");
           }, 2000);
         })
       )
