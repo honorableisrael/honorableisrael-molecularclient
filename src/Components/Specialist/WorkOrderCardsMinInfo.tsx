@@ -30,24 +30,28 @@ const WorkOrderCardsMinInfo = (props) => {
             <div className="crd23"> {props?.order_detail?.title}</div>
             <div className="inprogr">
               <div
-                className={
-                  props?.order_detail?.status == "New"
-                    ? "unpaid1 inprogress_4"
-                    : "unpaidgreen inprogress_4"
+                className= {
+                  props?.order_detail?.status == "In Review"
+                    ? " wrkprogressstatswrap"
+                    : props?.order_details?.status == "Completed"
+                    ? "wrkcompletdindict"
+                    : ""
                 }
               >
                 <span
                   className={
-                    props?.order_detail?.status == "New"
-                      ? "paidd2 box_cust"
-                      : "paidd2green box_cust"
+                    props?.order_detail?.status == "In Review"
+                      ? "pendininvoice"
+                      : props?.order_detail?.status == "Completed"
+                      ? "paystatindcator"
+                      : ""
                   }
                 ></span>
-                <span>
+                <span className="wrkprogtxt">
                   {props?.order_detail?.status == "In Review"
-                    ? "In Review"
-                    : props.status == "Awaiting Approval"
-                    ? "Awaiting approval"
+                    ? "In Progress"
+                    : props.status == "Completed"
+                    ? "Completed"
                     : props?.order_detail?.status}
                 </span>
               </div>

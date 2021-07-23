@@ -25,10 +25,12 @@ const Qualification = () => {
     from: "",
     to: "",
     credential_id:"",
+    deleteCredential: false,
   });
   const {
     qualifications,
     credential_id,
+    deleteCredential,
     certificateEditModal,
     noCertificateAdded,
     certificationActive,
@@ -211,8 +213,73 @@ const Qualification = () => {
     
   }, []);
 
+
+    const deleteQualification=(id, index)=>{
+      setState({
+        ...state,
+        credential_id: id,
+        qualification_id: index,
+        deleteCredential: true,
+      });
+      };
+      const closeDeleteModal = () => {
+        setState({
+          ...state,
+          deleteCredential: false
+        });
+      };
+   
+    const deleteModalChange= (state, credential_id)=>{
+      let tempExperienceDetails = state.qualifications;
+    tempExperienceDetails.splice(qualification_id, 1);
+      setState({
+        ...state,
+        qualifications: tempExperienceDetails,
+        deleteCredential: false,
+      });
+        //post to API
+   const availableToken = localStorage.getItem("loggedInDetails");
+   console.log(availableToken);
+   const token = availableToken ? JSON.parse(availableToken) : "";
+   console.log(token);
+
+   Axios.delete(`${API}/specialist/qualifications/${credential_id}`, {
+     headers: { Authorization: `Bearer ${token.access_token}` }
+   })
+     .then(res => {
+       console.log(res.data);
+       if (res.status == 200) {
+         notify("Qualification successfully deleted");
+       }
+     })
+     .catch(err => {
+       console.log(err.response);
+       if (err.response) {
+         notify("failed to Delete");
+       }
+     });
+ } 
+
   return (
     <>
+     <Modal show={deleteCredential} centered={true} onHide={closeDeleteModal}>
+        <div className="usermodaltitle">
+          Delete Qualification?
+        </div>
+        <Modal.Body>
+        <div className="wrkmodal-btnwrap">
+            <span className="wrkmodal-cancelbtn" onClick={closeDeleteModal}>
+              Cancel
+            </span>
+            <span
+              className="wrkmodal-declinebtn"
+              onClick={() => deleteModalChange(state, credential_id)}
+            >
+              Delete
+            </span>
+          </div>
+        </Modal.Body>
+      </Modal>
       <Modal centered={true} onHide={closeAddModal} show={certificateAddModal}>
         <div className="terminateworkmodalwrap">
           <div className="terminateworkmodalimg">
@@ -412,13 +479,21 @@ const Qualification = () => {
                   <p className="profcertheading">Institution</p>
                   <p>{item.institution}</p>
                 </div>
-                <div>
-                  <img
-                    src={editicon}
-                    onClick={() => editCertificate(item.id, index)}
-                    className="editimg"
-                  />
-                </div>
+                <div className="credentialsactions">
+                    <div>
+                      <img
+                        src={editicon}
+                        onClick={() => editCertificate(item.id, index)}
+                        className="editimg"
+                      />
+                    </div>
+                    <div
+                     className="credentialdeletebtn"
+                     onClick={()=>deleteQualification(item.id, index)}
+                    >
+                    X
+                    </div>
+                  </div>
               </div>
               <div className="profcertifncntent">
                 <div className="profilequaltnwrap">

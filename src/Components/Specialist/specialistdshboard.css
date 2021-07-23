@@ -81,10 +81,17 @@
 }
 .spprogrescd{
     width: 78%;
-    margin-right: 10px;
+    margin-right: 50px;
 }
 .spprogrescardcntn{
     width: 96%;
+}
+.cntrctcmpny{
+    font-size: 15px;
+    line-height: 22px;
+    letter-spacing: 0.04em;
+    color: #00000075;
+    font-weight: 800;   
 }
 .splstdshnotifcntitle{
     color: #333333;
@@ -505,6 +512,7 @@
 .usermodaltitle{
     text-align: center;
     padding-top: 20px;
+    font-weight: 700; 
 }
 .modalmessage{
     text-align: center;
@@ -553,7 +561,7 @@
      justify-content: space-between;
  }
  .profcertdate{
-     width: 25%;
+     width: 27%;
  }
  .profcerttitle{
      width: 26%;
@@ -578,6 +586,7 @@
  }
  .editimg{
      cursor: pointer;
+     margin-right: 12px;
  }
  .instndrparr {
     position: relative;
@@ -681,4 +690,12 @@
     margin-top: 28px;
     background-color: #fd8c00;
     color: #ffffff;
+}
+.credentialsactions{
+    display: flex;
+}
+.credentialdeletebtn{
+    color: rgba(253, 140, 0, 1);
+    font-weight: 700;
+    cursor: pointer;
 }

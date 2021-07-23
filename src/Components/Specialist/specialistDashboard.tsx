@@ -184,7 +184,7 @@ const SpecialistDashboard = (props) => {
                         <WorkOrderCards
                           order_details={data}
                           key={index}
-                          title={data.description}
+                          title={data.title}
                           contractor={data.contractor}
                           start={data.start_date}
                           end={data.end_date}

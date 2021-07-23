@@ -24,10 +24,12 @@ const Projects = () => {
     projectbtn:"",
     openModal: false,
     credential_id:"",
+    deleteCredential: false,
   });
   const { 
     projects,
     title,
+    deleteCredential,
     credential_id,
     description,
     from,
@@ -195,8 +197,72 @@ const Projects = () => {
       });
     
   }, []);
+
+  const deleteProject=(id, index)=>{
+    setState({
+      ...state,
+      credential_id: id,
+      deleteCredential: true,
+      project_id:index,
+    });
+    };
+    const closeDeleteModal = () => {
+      setState({
+        ...state,
+        deleteCredential: false
+      });
+    };
+   
+    const deleteModalChange= (state, credential_id)=>{
+      let tempExperienceDetails = state.projects;
+    tempExperienceDetails.splice(project_id, 1);
+      setState({
+        ...state,
+        projects: tempExperienceDetails,
+        deleteCredential: false,
+      });
+        //post to API
+   const availableToken = localStorage.getItem("loggedInDetails");
+   console.log(availableToken);
+   const token = availableToken ? JSON.parse(availableToken) : "";
+   console.log(token);
+
+   Axios.delete(`${API}/specialist/projects/${credential_id}`, {
+     headers: { Authorization: `Bearer ${token.access_token}` }
+   })
+     .then(res => {
+       console.log(res.data);
+       if (res.status == 200) {
+         notify("Project successfully deleted ");
+       }
+     })
+     .catch(err => {
+       console.log(err.response);
+       if (err.response) {
+         notify("failed to Delete");
+       }
+     });
+ } 
   return (
     <>
+       <Modal show={deleteCredential} centered={true} onHide={closeDeleteModal}>
+        <div className="usermodaltitle">
+          Delete Project?
+        </div>
+        <Modal.Body>
+        <div className="wrkmodal-btnwrap">
+            <span className="wrkmodal-cancelbtn" onClick={closeDeleteModal}>
+              Cancel
+            </span>
+            <span
+              className="wrkmodal-declinebtn"
+              onClick={() => deleteModalChange(state, credential_id)}
+            >
+              Delete
+            </span>
+          </div>
+        </Modal.Body>
+      </Modal>
       <Modal centered={true} onHide={closeProjectModal} show={projectModal}>
         <div className="terminateworkmodalwrap">
           <div className="terminateworkmodalimg">
@@ -364,12 +430,20 @@ const Projects = () => {
               <div key={index} className={`wrapdemacator ${projectActive}`}>
                 <div className="profiexpernceheaderwrap">
                   <p className="profiexpetitle">Title</p>
-                  <div>
-                    <img
-                      src={editicon}
-                      onClick={()=>editProject(item.id,index)}
-                      className="editimg"
-                    />
+                  <div className="credentialsactions">
+                    <div>
+                      <img
+                        src={editicon}
+                        onClick={() => editProject(item.id, index)}
+                        className="editimg"
+                      />
+                    </div>
+                    <div
+                     className="credentialdeletebtn"
+                     onClick={()=>deleteProject(item.id, index)}
+                    >
+                    X
+                    </div>
                   </div>
                 </div>
                 <p className="stprojtitle">{item.title}</p>

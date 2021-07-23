@@ -84,7 +84,7 @@ const WorkOrderCards = props => {
           </div> */}
             <div className="minicardwrapper spprogrescardcntn">
               <div className="content24">
-                <div className="mnversion">{props.contractor}</div>
+p                <div className="cntrctname">{props.contractor}</div>
               </div>
               <div className="content24">
                 <img src={calenda} alt="cotn23" className="cotn232" />

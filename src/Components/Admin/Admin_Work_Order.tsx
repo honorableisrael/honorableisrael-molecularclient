@@ -19,6 +19,7 @@ import New_Work_Order_Card from "./New_Work_Order_Card";
 import { API, capitalize } from "../../config";
 import axios from "axios";
 
+
 const AdminWorkOrder = () => {
   const [state, setState] = useState({
     work_orders: [],
