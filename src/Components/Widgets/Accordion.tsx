@@ -183,7 +183,7 @@ const Accordions = (props) => {
                         />
                       </div>
                       <div className="no_work1">
-                        <div>No work sheet have been uploaded</div>
+                        <div>work sheet have not been uploaded</div>
                       </div>
                     </>
                   )}
