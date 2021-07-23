@@ -87,9 +87,12 @@ const Admin_Invoice_details = (props) => {
         axios.get(`${API}/admin/invoices/${props?.match?.params?.id}`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }),
+        axios.get(`${API}/bank-accounts`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        })
       ])
       .then(
-        axios.spread((res2) => {
+        axios.spread((res2,res3) => {
           console.log(res2.data.data);
           setState({
             ...state,
@@ -150,7 +153,7 @@ const Admin_Invoice_details = (props) => {
         console.log(err);
       });
   };
-
+  
   const {
     project_purpose,
     country,
@@ -212,7 +215,7 @@ const Admin_Invoice_details = (props) => {
       <Container fluid={true} className="dasbwr">
         <Helmet>
           <meta charSet="utf-8" />
-          <title>Molecular - Contractor Work Order</title>
+          <title>Molecular - Admin Work Order</title>
           <link />
         </Helmet>
         <Row>
@@ -227,7 +230,7 @@ const Admin_Invoice_details = (props) => {
                   {" "}
                   <img src={arrowback} className="arrowback" />
                 </Link> &nbsp;
-                Invoice Details
+                Proforma Invoice Details
               </div>
             </div>
             <Row className="mgtop">
@@ -235,23 +238,6 @@ const Admin_Invoice_details = (props) => {
                 <div className="job23_1a hidden__1">
                   <div className="">
                     <div className="overview12 overviewflex-down">
-                      {/* <Col md={12} className="mm12">
-                        <h6>Account Details</h6>
-                        <select
-                          className="forminput formselect form-control"
-                          required
-                        >
-                          <option value="" className="formselect">
-                            Select account number
-                          </option>
-                          <option value="2009393939" className="rdsltopt">
-                            2009393939
-                          </option>
-                          <option value="2009393931" className="rdsltopt">
-                            2009393931
-                          </option>
-                        </select>
-                      </Col> */}
                       <Col md={12} className="plf">
                         <div className="">
                           <div className="box_inv outerpink">
@@ -344,7 +330,7 @@ const Admin_Invoice_details = (props) => {
                           <div className="allpayment1">
                             All payments go to any of the account details below
                           </div>
-                          {invoice_details?.bank_account?.map((data, i) => (
+                          {invoice_details?.bank_accounts?.map((data, i) => (
                             <div className="fbn1">
                               <div className="bnclass">{data.bank}</div>
                               <div className="bnclass">{data.account_number}</div>

@@ -30,7 +30,7 @@ const PaymentCards_1 = (props) => {
           <div className="pipline">
             <div className="crd23">{props?.payment_details?.work_order?.title}</div>
             <div className="inprogr">
-              <div
+              {/* <div
                 className={
                   props?.payment_details?.total_amount_paid < 0
                     ? "unpaid1 inprogress_4"
@@ -50,7 +50,7 @@ const PaymentCards_1 = (props) => {
                     : "Unpaid"
                     }
                 </span>
-              </div>
+              </div> */}
             </div>
           </div>
           <div className="slidd2z">

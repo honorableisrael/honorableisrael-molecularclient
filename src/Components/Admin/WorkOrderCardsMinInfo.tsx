@@ -54,7 +54,8 @@ const WorkOrderCardsMinInfo = (props) => {
               </div>
             </div>
           </div>
-          <div className="mnversion">{props?.order_detail?.purpose}</div>
+          <div className="contractorname">Contractor : <span> {props?.order_detail?.contractor}</span></div>
+          <div className="mnversiona">Purpose: {props?.order_detail?.purpose}</div>
           <div className="slidd2">
             <Slider
               value={volume}

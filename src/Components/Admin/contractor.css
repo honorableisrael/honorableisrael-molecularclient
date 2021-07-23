@@ -893,6 +893,7 @@ a:hover {
 }
 .c_ard_sec2 {
   width: 98%;
+  padding-top: 2rem;
 }
 .pipline__ {
   position: relative;
@@ -1905,6 +1906,10 @@ a {
   color: #222073;
   font-size: 12px;
   font-weight: 600;
+  height: 30px;
+  overflow: hidden;
+  overflow-y: hidden;
+  display: block;
 }
 .prim_skills {
   font-size: 12px;
@@ -2185,8 +2190,8 @@ label i {
   margin-top: 1.5rem;
 }
 .spread_ {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
   width: 100%;
   justify-content: space-between;
 }
@@ -2781,4 +2786,26 @@ label i {
 .avvworkgroup{
   padding-top: 3rem;
 }
+.contractorname,.mnversiona{
+  color: #464e5f;
+  padding-top: .4rem;
+  padding-bottom: .6rem;
+}
 
+.cca{
+  color: #464e5f;
+}
+.job_12{
+  text-align: center !important;
+}
+.manage_:hover{
+  width: 197px;
+}
+.add_fel{
+display: flex;
+justify-content: space-between;
+width: 100%;
+}
+.add_to_group,.add_to_group:hover{
+  width: fit-content;
+}

@@ -184,7 +184,7 @@ const WorkDetails_Form_Preview = withRouter((props:any) => {
               <h6 className="userprofile12 userprofile123 userprofile1231">
                 Payment Cycle
               </h6>
-              {props?.order_detail?.invoice == null&& props?.order_detail?.status!=="New" && window.location.pathname !=='/work_order_evaluation' && (
+              {!props?.order_detail?.payment_cycle && props?.order_detail?.invoice == null&& props?.order_detail?.status!=="New" && window.location.pathname !=='/work_order_evaluation' && (
                     <Col md={11} className="containerforemptyorder1 cust20">
                       <div className="containerforemptyorder">
                         <img

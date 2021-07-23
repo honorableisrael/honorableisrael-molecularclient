@@ -199,6 +199,7 @@ const NewWorkOrderStep2 = withRouter((props) => {
           pipe_size,
           pipe_type,
           pipe_name,
+          size_value
         },
       ];
       console.log(Pipe_Config);
@@ -451,11 +452,11 @@ console.log(pipeSizes)
                             </div>
                             <div className="">
                               <h6 className="userprofile12 userprofile123">
-                                Pipe Size (id)
+                                Pipe Size 
                               </h6>
                               <div className="Construction12">
                                 {" "}
-                                {data?.pipe_size}
+                                {data?.size_value}
                               </div>
                             </div>
                             <div className="">
@@ -581,7 +582,7 @@ console.log(pipeSizes)
                                   <option
                                     className="pipelength1 form-control specialization"
                                     value={JSON.stringify({
-                                      id: data.id,
+                                      id: data.size,
                                       name: data.size,
                                     })}
                                   >

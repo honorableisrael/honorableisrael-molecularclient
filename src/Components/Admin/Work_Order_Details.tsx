@@ -321,15 +321,16 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                 </Button> */}
               </div>
             )}
-            {inreview && work_order_detail?.actions?.canAssignSpecialist == false && (
-              <div className="raise1">
-                <div className="rjwrapper mrgin__right">
-                  <Link to="/work_order_evaluation">
-                    <Button className=" raise_inv">{"Edit"}</Button>
-                  </Link>
+            {inreview &&
+              work_order_detail?.actions?.canAssignSpecialist == false && (
+                <div className="raise1">
+                  <div className="rjwrapper mrgin__right">
+                    <Link to="/work_order_evaluation">
+                      <Button className=" raise_inv">{"Edit"}</Button>
+                    </Link>
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
             <Row className="mgtop">
               <Col md={2} className="job23_ mheight_">
                 <p className="exp23">
@@ -421,14 +422,29 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                       </Col>
                     )}
                   <div className="job23_1a wrap_z">
-                    {!new_work && assigned_specialists.length !== 0 && (
+                    {!new_work && assigned_specialists.length !== 0 && work_order_detail?.actions?.canAssignSpecialist && (
                       <>
                         <div className="group_flex">
                           {/* <div className="grpA">
                             Group <b>A</b>
                           </div> */}
                           <div className="grpB">
-                            <b>0</b> Assigned
+                            <b>
+                              {work_order_detail?.total_assigned_specialists}
+                            </b>{" "}
+                            Assigned
+                          </div>
+                          <div
+                            className="job3 job_1 job_12"
+                            onClick={() => {
+                              localStorage.setItem(
+                                "work_order_details",
+                                JSON.stringify(work_order_detail)
+                              );
+                              props.history.push("/admin_assign_specialist");
+                            }}
+                          >
+                            Assign specialist
                           </div>
                         </div>
                         <div className="tabledata tabledataweb">
@@ -437,7 +453,6 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                           <div className="header_12">Group Position</div>
                           <div className="header_12">Status</div>
                         </div>
-
                         {assigned_specialists.length !== 0 &&
                           assigned_specialists.map((data, i) => (
                             <>
@@ -492,7 +507,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                               </div>
                             </>
                           ))}
-                        <div>
+                        <div className="text-center">
                           {" "}
                           <span className="viewall_">
                             {" "}

@@ -23,7 +23,7 @@ const SpecialistContext: any = React.createContext({
   setState: () => {},
   assignToWorkOrder: () => {},
 });
-const assignOneSpecialist = (x) => {
+const AssignOneSpecialist = (x) => {
   const workOrder = localStorage.getItem("work_order_details");
   const workorder = workOrder ? JSON.parse(workOrder) : "";
   const availableToken: any = localStorage.getItem("loggedInDetails");
@@ -118,7 +118,7 @@ const Specialist_card = (props) => {
             <button
               value="Assign bgorange"
               className="assign12"
-              onClick={()=>assignOneSpecialist(props?.specialist_data?.id)}
+              onClick={()=>AssignOneSpecialist(props?.specialist_data?.id)}
             >
               Assign{" "}
               <span>
@@ -147,6 +147,7 @@ const AssignSpecialist = () => {
     search: "",
     location: "",
     end_date: "",
+    isloading:false,
     specialist_rating: 5,
     order_id: "",
     start_date: "",
@@ -284,6 +285,10 @@ const AssignSpecialist = () => {
   };
   const assignToWorkOrder = (e) => {
     // e.preventDefault();
+    setState({
+      ...state,
+      isloading:true,
+    })
     const availableToken: any = localStorage.getItem("loggedInDetails");
     const token = availableToken
       ? JSON.parse(availableToken)
@@ -298,12 +303,20 @@ const AssignSpecialist = () => {
       })
       .then((res) => {
         console.log(res);
+        setState({
+          ...state,
+          isloading:true,
+        })
         notify("Successfully assigned specialist");
         setTimeout(() => {
           window.location.assign("/admin_work_details?inreview=true");
         }, 2000);
       })
       .catch((err) => {
+        setState({
+          ...state,
+          isloading:true,
+        })
         console.log(err);
         notify("Failed to assign specialist", "D");
       });

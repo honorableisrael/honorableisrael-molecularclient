@@ -39,6 +39,8 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
     reason: "",
     isloading: false,
     work_order_detail: {},
+    allbanks:[],
+    bank:""
   });
 
   const onchange = (e) => {
@@ -90,15 +92,20 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
         axios.get(`${API}/admin/invoices/${invoice?.id}`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }),
+        axios.get(`${API}/bank-accounts`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
+        
       ])
       .then(
-        axios.spread((res, res2) => {
+        axios.spread((res, res2,res3) => {
           console.log(res2.data.data);
           setState({
             ...state,
             ...res.data.data,
             work_order_detail: res.data.data,
             invoice_details: res2.data.data,
+            allbanks:res3.data.data,
           });
         })
       )
@@ -112,10 +119,7 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
   }, []);
 
   const sendInvoice = () => {
-    const availableToken: any = localStorage.getItem("loggedInDetails");
-    const token = availableToken
-      ? JSON.parse(availableToken)
-      : window.location.assign("/");
+    const token = returnAdminToken()
     const work_order = localStorage.getItem("work_order_details");
     const work_order_details = work_order ? JSON.parse(work_order) : "";
     setState({
@@ -155,6 +159,50 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
       });
   };
 
+  const sendBankDetails = () => {
+    const token = returnAdminToken()
+    const work_order = localStorage.getItem("work_order_details");
+    const work_order_details = work_order ? JSON.parse(work_order) : "";
+    setState({
+      ...state,
+      isloading: true,
+    });
+    const data = {
+      bank,
+    }
+    axios
+      .all([
+        axios.post(
+          `${API}/admin/work-orders/${work_order_details?.id}/invoice/bank`,
+          data,
+          {
+            headers: { Authorization: `Bearer ${token.access_token}` },
+          }
+        ),
+      ])
+      .then(
+        axios.spread((res) => {
+          notify("bank added to work order");
+          console.log(res.data.data);
+          setState({
+            ...state,
+            isloading: false,
+          });
+        })
+      )
+      .catch((err) => {
+        notify("failed to add bank to work order");
+        setState({
+          ...state,
+          isloading: false,
+        });
+        if (err?.response?.status == 400) {
+          return notify(err?.response?.data?.message);
+        }
+        console.log(err);
+      });
+  };
+
   const {
     project_purpose,
     country,
@@ -162,9 +210,11 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
     work_order_detail,
     order_title,
     end_date,
+    bank,
     reason,
     isloading,
     start_date,
+    allbanks,
     invoice_details,
     show,
   } = state;
@@ -253,23 +303,24 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
                           3 of 4 | <b>Invoice</b>{" "}
                         </div>
                       </div>
-                      {/* <Col md={12} className="mm12">
-                        <h6>Account Details</h6>
+                      <Col md={12} className="mm12">
+                        <h6>Bank Account Details</h6>
                         <select
                           className="forminput formselect form-control"
                           required
+                          name="bank"
+                          onChange={onchange}
+                          onBlur={sendBankDetails}
                         >
                           <option value="" className="formselect">
                             Select account number
                           </option>
-                          <option value="2009393939" className="rdsltopt">
-                            2009393939
-                          </option>
-                          <option value="2009393931" className="rdsltopt">
-                            2009393931
-                          </option>
+                         {allbanks?.map((data,i)=>(
+                           <option value={data.id}> {data.account_number} &nbsp; {data.account_name}  &nbsp;{data.account_name} &nbsp;{data.bank}</option>
+                         ))
+                         }
                         </select>
-                      </Col> */}
+                      </Col>
                       <Col md={12} className="plf">
                         <div className="">
                           <div className="box_inv outerpink">
@@ -413,7 +464,7 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
                           </div>
                         </div>
                         <div className="allpayment00">
-                          <div className="allpayment1">
+                          {/* <div className="allpayment1">
                             All payments go to any of the account details below
                           </div>
                           {invoice_details?.bank_account?.map((data, i) => (
@@ -424,7 +475,7 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
                                 {data.account_name}
                               </div>
                             </div>
-                          ))}
+                          ))} */}
                         </div>
                       </Col>
                       <div className="nxtbck">

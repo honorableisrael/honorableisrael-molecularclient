@@ -272,7 +272,7 @@ const ContractorDashboard = withRouter((props) => {
                         {data.status}
                       </div>
                     </div>
-                    <ProgressBar>
+                    <ProgressBar>   
                       <ProgressBar
                         striped
                         variant=""

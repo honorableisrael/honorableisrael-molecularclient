@@ -9,6 +9,7 @@ import {
   Pagination,
   Form,
   Button,
+  Spinner,
 } from "react-bootstrap";
 import "./contractor.css";
 import DashboardNav from "./navbar";
@@ -23,12 +24,13 @@ import { API, notify, returnAdminToken } from "../../config";
 import { ToastContainer } from "react-toastify";
 
 const DeployedSpecialist = withRouter((props) => {
-  const [state, setState] = useState({
+  const [state, setState] = useState<any>({
     overview: true,
     deployedspecialist: false,
     active: false,
     thirdtab: false,
     chevron: "",
+    selectedspecialist: "",
     work_order_detail: {},
     workDetails: {},
     isloading: false,
@@ -40,6 +42,7 @@ const DeployedSpecialist = withRouter((props) => {
     show: false,
     group_name: "",
     group_description: "",
+    group_id: "",
     next_page: "",
     prev_page: "",
     current: "",
@@ -55,11 +58,17 @@ const DeployedSpecialist = withRouter((props) => {
   const {
     overview,
     deployedspecialist,
+    selectedspecialist,
+    AllgroupedSpecialist,
+    group_id,
+    allAssignedSpecialist,
     work_order_detail,
+    allUngrouped,
     isloading,
     group_name,
     group_description,
     show,
+    show2,
     ungrouped,
     grouped,
     last_page,
@@ -68,7 +77,7 @@ const DeployedSpecialist = withRouter((props) => {
     first,
     last,
     current_page,
-  } = state;
+  }: any = state;
 
   const onchange = (e) => {
     console.log(e.target.value);
@@ -103,7 +112,10 @@ const DeployedSpecialist = withRouter((props) => {
       .then(
         axios.spread((res) => {
           console.log(res.data.data);
-          notify("Successful");
+          notify(
+            "Successfully created group, add ungrouped specialist to group"
+          );
+          refresh_all();
           setState({
             ...state,
             isloading: false,
@@ -112,11 +124,40 @@ const DeployedSpecialist = withRouter((props) => {
       )
       .catch((err) => {
         console.log(err);
-        notify("Failed to create work group","D")
+        notify("Failed to create work group", "D");
         setState({
           ...state,
           isloading: false,
         });
+      });
+  };
+  const refresh_all = () => {
+    const token = returnAdminToken();
+    const work_order = localStorage.getItem("work_order_details");
+    const work_order_details = work_order ? JSON.parse(work_order) : "";
+    axios
+      .all([
+        axios.get(`${API}/admin/work-orders/${work_order_details?.id}`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
+      ])
+      .then(
+        axios.spread((res) => {
+          console.log(res.data.data);
+          setState({
+            ...state,
+            work_order_detail: res.data.data,
+            isloading: false,
+          });
+          console.log(work_order_detail);
+        })
+      )
+      .catch((err) => {
+        setState({
+          ...state,
+          isloading: false,
+        });
+        console.log(err);
       });
   };
   const DeleteGroup = (x) => {
@@ -130,17 +171,15 @@ const DeployedSpecialist = withRouter((props) => {
     });
     axios
       .all([
-        axios.delete(
-          `${API}/admin/work-orders/specialist-groups/${work_order_details?.id}`,
-          {
-            headers: { Authorization: `Bearer ${token.access_token}` },
-          }
-        ),
+        axios.delete(`${API}/admin/work-orders/specialist-groups/${x}`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
       ])
       .then(
         axios.spread((res) => {
           console.log(res.data.data);
           notify("Successful");
+          refresh_all();
           setState({
             ...state,
             isloading: false,
@@ -148,7 +187,7 @@ const DeployedSpecialist = withRouter((props) => {
         })
       )
       .catch((err) => {
-        notify("Failed to delete work group","D")
+        notify("Failed to delete work group", "D");
         console.log(err);
         setState({
           ...state,
@@ -164,20 +203,24 @@ const DeployedSpecialist = withRouter((props) => {
     axios
       .all([
         axios.get(
-          `${API}/admin/work-orders/${work_order_details?.id}/specialists`,
+          `${API}/admin/work-orders/${work_order_details?.id}/specialists?paginate=1`,
           {
             headers: { Authorization: `Bearer ${token.access_token}` },
           }
         ),
+        axios.get(`${API}/admin/work-orders/${work_order_details?.id}`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
       ])
       .then(
         axios.spread((res, res2) => {
-          console.log(res.data.data);
+          console.log(res.data);
           setState({
             ...state,
             ...res.data.data.links,
             ...res.data.data.meta,
-            AllgroupedSpecialist: res.data.data.data,
+            allAssignedSpecialist: res.data.data.data,
+            work_order_detail: res2.data.data,
           });
         })
       )
@@ -199,15 +242,14 @@ const DeployedSpecialist = withRouter((props) => {
     axios
       .all([
         axios.get(
-          `${API}/admin/work-orders/${work_order_details?.id}/specialists`,
+          `${API}/admin/work-orders/${work_order_details?.id}/specialists?paginate=1`,
           {
             headers: { Authorization: `Bearer ${token.access_token}` },
           }
         ),
-        axios
-        .get(`${API}/admin/work-orders/${work_order_details?.id}`, {
+        axios.get(`${API}/admin/work-orders/${work_order_details?.id}`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
-        })
+        }),
       ])
       .then(
         axios.spread((res, res2) => {
@@ -217,15 +259,19 @@ const DeployedSpecialist = withRouter((props) => {
             ...res.data.data.links,
             ...res.data.data.meta,
             AllgroupedSpecialist: res.data.data.data,
-            work_order_detail:res.data.data,
+            work_order_detail: res2.data.data,
+            overview: a == "overview" ? true : false,
+            grouped: a == "grouped" ? true : false,
+            ungrouped: a == "ungrouped" ? true : false,
           });
-          console.log(work_order_detail)
+          console.log(work_order_detail);
         })
       )
       .catch((err) => {
         console.log(err);
       });
   };
+
   const get_grouped = (a) => {
     const token = returnAdminToken();
     const work_order = localStorage.getItem("work_order_details");
@@ -239,7 +285,7 @@ const DeployedSpecialist = withRouter((props) => {
     axios
       .all([
         axios.get(
-          `${API}/admin/work-orders/${work_order_details?.id}/specialists/grouped`,
+          `${API}/admin/work-orders/${work_order_details?.id}/specialists/grouped?paginate=1`,
           {
             headers: { Authorization: `Bearer ${token.access_token}` },
           }
@@ -253,6 +299,9 @@ const DeployedSpecialist = withRouter((props) => {
             ...res.data.data.links,
             ...res.data.data.meta,
             AllgroupedSpecialist: res.data.data.data,
+            overview: a == "overview" ? true : false,
+            grouped: a == "grouped" ? true : false,
+            ungrouped: a == "ungrouped" ? true : false,
           });
         })
       )
@@ -275,7 +324,7 @@ const DeployedSpecialist = withRouter((props) => {
     axios
       .all([
         axios.get(
-          `${API}/admin/work-orders/${work_order_details?.id}/specialists/ungrouped`,
+          `${API}/admin/work-orders/${work_order_details?.id}/specialists/ungrouped?paginate=1`,
           {
             headers: { Authorization: `Bearer ${token.access_token}` },
           }
@@ -289,6 +338,9 @@ const DeployedSpecialist = withRouter((props) => {
             ...res.data.data.links,
             ...res.data.data.meta,
             allUngrouped: res.data.data.data,
+            overview: a == "overview" ? true : false,
+            grouped: a == "grouped" ? true : false,
+            ungrouped: a == "ungrouped" ? true : false,
           });
         })
       )
@@ -296,7 +348,6 @@ const DeployedSpecialist = withRouter((props) => {
         console.log(err);
       });
   };
-
   const nextPage = (a) => {
     const availableToken: any = localStorage.getItem("loggedInDetails");
     const token = availableToken
@@ -335,7 +386,71 @@ const DeployedSpecialist = withRouter((props) => {
       show: true,
     });
   };
-  console.log(work_order_detail)
+  const sendSpecialistId = (id: any) => {
+    const add_new: any = [id];
+    const old_array = selectedspecialist;
+    const index = old_array.indexOf(id);
+    if (index > -1) {
+      old_array.splice(index, 1);
+      return setState({
+        ...state,
+        selectedspecialist: [...old_array],
+      });
+    }
+    setState({
+      ...state,
+      selectedspecialist: [...selectedspecialist, ...add_new],
+    });
+  };
+  const add_To_Group = (group_id) => {
+    const token = returnAdminToken();
+    const work_order = localStorage.getItem("work_order_details");
+    setState({
+      ...state,
+      isloading:true
+    })
+    const work_order_details = work_order ? JSON.parse(work_order) : "";
+    const data = {
+      specialists: selectedspecialist,
+    };
+    axios
+      .all([
+        axios.post(
+          `${API}/admin/work-orders/specialist-groups/${group_id}/assign`,
+          data,
+          {
+            headers: { Authorization: `Bearer ${token.access_token}` },
+          }
+        ),
+      ])
+      .then(
+        axios.spread((res) => {
+          console.log(res.data.data);
+          setState({
+            ...state,
+            isloading:false
+          })
+          notify("Successfully assigned to group");
+          setTimeout(()=>{
+            window.location.reload()
+          },2000)
+        })
+      )
+      .catch((err) => {
+        setState({
+          ...state,
+          isloading:false
+        })
+        notify("Failed to assign to group", "D");
+        console.log(err);
+      });
+  };
+  const openModal2 =()=>{
+    setState({
+      ...state,
+      show2:true
+    })
+  }
   return (
     <>
       <Helmet>
@@ -365,7 +480,7 @@ const DeployedSpecialist = withRouter((props) => {
             <Col md={12}>
               <Form>
                 <Row>
-                  <Col md={6} className="formsection1">
+                  <Col md={12} className="formsection1">
                     <Form.Group>
                       <h6 className="userprofile">Group name</h6>
                       <Form.Control
@@ -378,7 +493,7 @@ const DeployedSpecialist = withRouter((props) => {
                       />
                     </Form.Group>
                   </Col>
-                  <Col md={6} className="formsection1">
+                  <Col md={12} className="formsection1">
                     <Form.Group>
                       <h6 className="userprofile">Group Description</h6>
                       <Form.Control
@@ -405,29 +520,93 @@ const DeployedSpecialist = withRouter((props) => {
             </Col>
           </Row>
           <Row className="avvworkgroup">
-            <Col md={12}>Available Work Groups</Col>
+            <Col md={12}>
+              <h6 className="cca">Available Work Groups</h6>
+            </Col>
             <Col md={12}>
               <Table hover>
                 <thead>
                   <tr>
                     <th>Group Name</th>
-                    <th>Additional information</th>
+                    <th>Total Members</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
+                  {work_order_detail?.work_groups?.map((data, i) => (
+                    <tr key={i}>
+                      <td className="dpslstnamecell">
+                        <div className="dplsplusernmeimg">
+                          <span></span>
+                          <div>{data?.name}</div>
+                        </div>
+                      </td>
+                      <td>{data.total_members}</td>{" "}
+                      <td className="depspltabcol1">
+                        <Button
+                          className="btn-danger"
+                          onClick={() => DeleteGroup(data.id)}
+                        >
+                          Delete
+                        </Button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            </Col>
+          </Row>
+        </Modal.Body>
+      </Modal>
+      <Modal
+        size="sm"
+        show={show2}
+        onHide={() =>
+          setState({
+            ...state,
+            show2: false,
+          })
+        }
+        dialogClassName="modal-90w"
+        className="mdl12"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="example-custom-modal-styling-title">
+            Select a group to add specialist
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Row>
+          <Col md={12}>
+              <Table hover>
+                <thead>
                   <tr>
-                    <td className="dpslstnamecell">
-                      <div className="dplsplusernmeimg">
-                        <span></span>
-                        <div>Group A</div>
-                      </div>
-                    </td>
-                    <td></td>{" "}
-                    <td className="depspltabcol1">
-                      <Button className="btn-danger" onClick={()=>DeleteGroup("1")}>Delete</Button>
-                    </td>
+                    <th>Group Name</th>
+                    <th>Total Members</th>
+                    <th>Action</th>
                   </tr>
+                </thead>
+                {isloading && <Spinner animation={"grow"} variant="info" />}
+                <tbody>
+                  {work_order_detail?.work_groups?.map((data, i) => (
+                    <tr key={i}>
+                      <td className="dpslstnamecell">
+                        <div className="dplsplusernmeimg">
+                          <span></span>
+                          <div>{data?.name}</div>
+                        </div>
+                      </td>
+                      <td>{data.total_members}</td>{" "}
+                      <td className="depspltabcol1">
+                        <Button
+                          className="btn-success"
+                          onClick={() => add_To_Group(data.id)}
+                        >
+                          {!isloading?"Add to group":"Processing"}
+                        </Button>
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </Table>
             </Col>
@@ -447,7 +626,7 @@ const DeployedSpecialist = withRouter((props) => {
                 &nbsp; Assigned Specailist
               </div>
               <div className="manage_" onClick={openModal}>
-                Create Groups
+                Manage Groups
               </div>
             </div>
             <div className="dpsplsttabs">
@@ -458,16 +637,16 @@ const DeployedSpecialist = withRouter((props) => {
                 All
               </div>
               <div
-                onClick={() => get_grouped("grouped")}
-                className={grouped ? "inprogress tab_active" : "inprogress"}
-              >
-                Grouped
-              </div>
-              <div
                 onClick={() => get_ungrouped("ungrouped")}
                 className={ungrouped ? "inprogress tab_active" : "inprogress"}
               >
                 Ungrouped
+              </div>
+              <div
+                onClick={() => get_grouped("grouped")}
+                className={grouped ? "inprogress tab_active" : "inprogress"}
+              >
+                Grouped
               </div>
             </div>
             <div>
@@ -487,38 +666,31 @@ const DeployedSpecialist = withRouter((props) => {
                           <th>Skill</th>
                           <th>Position</th>
                           <th>Status</th>
-                          <th>Select Team Lead</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td className="dpslstnamecell">
-                            <div className="dplsplusernmeimg">
-                              <span></span>
-                              <div>Sunday Okoro Pascal</div>
-                            </div>
-                          </td>
-                          <td>Fitter</td>
-                          <td>Group Lead</td>
-                          <td>Active</td>{" "}
-                          <td className="depspltabcol1">
-                            <input type="radio" name="team_lead" />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="dpslstnamecell">
-                            <div className="dplsplusernmeimg">
-                              <span></span>
-                              <div>Sunday Okoro Pascal</div>
-                            </div>
-                          </td>
-                          <td>Fitter</td>
-                          <td>Member</td>
-                          <td>23-04-2021</td>{" "}
-                          <td className="depspltabcol1">
-                            <input type="radio" name="team_lead" />
-                          </td>
-                        </tr>
+                        {allAssignedSpecialist?.map((data: any, i) => (
+                          <tr key={i}>
+                            <td className="dpslstnamecell">
+                              <div className="dplsplusernmeimg">
+                                <span></span>
+                                <div>
+                                  {data.first_name}&nbsp;{data.last_name}
+                                </div>
+                              </div>
+                            </td>
+                            <td>{data?.skills[0]?.name}</td>
+                            <td>Member</td>
+                            <td>{data?.status}</td>{" "}
+                            {/* <td className="depspltabcol1">
+                              <input
+                                type="radio"
+                                name="team_lead"
+                                onClick={() => assign_group_lead(data.id)}
+                              />
+                            </td> */}
+                          </tr>
+                        ))}
                       </tbody>
                     </Table>
                     {overview && (
@@ -543,10 +715,81 @@ const DeployedSpecialist = withRouter((props) => {
                     <div className="depsplstimg">
                       <img src={blueavatar} alt="img" />
                     </div>
-                    <p>All Specialists deployed to this work order</p>
+                    <p>View list of grouped specialist and assign team lead</p>
                   </div>
-                  <Accordions title="Group A" />
-                  <Accordions title="Group B" />
+                  {work_order_detail?.work_groups?.map((data, i) => (
+                    <Accordions
+                      title={data?.name}
+                      group_data={data}
+                    />
+                  ))}
+                </div>
+              )}
+              {ungrouped && (
+                <div>
+                  <div className="deploysplstheader">
+                    <div className="depsplstimg">
+                      <img src={blueavatar} alt="img" />
+                    </div>
+                    <div className="add_fel">
+                      <div>Select specialists and add to group</div>
+                      {selectedspecialist.length !== 0 && (
+                        <Button className="add_to_group manage_" onClick={openModal2}>
+                          Add selected to group
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                  <div className="deployedsplsttable">
+                    <Table hover>
+                      <thead>
+                        <tr>
+                          <th>Full Name</th>
+                          <th>Skill</th>
+                          <th>Position</th>
+                          <th>Status</th>
+                          <th>Add to group </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {allUngrouped?.map((data: any, i) => (
+                          <tr key={i}>
+                            <td className="dpslstnamecell">
+                              <div className="dplsplusernmeimg">
+                                <span></span>
+                                <div>
+                                  {data.first_name}&nbsp;{data.last_name}
+                                </div>
+                              </div>
+                            </td>
+                            <td>{data?.skills[0]?.name}</td>
+                            <td>Member</td>
+                            <td>{data?.status}</td>{" "}
+                            <td className="depspltabcol1">
+                              <input
+                                type="checkbox"
+                                name="team_lead"
+                                onClick={() => sendSpecialistId(data.id)}
+                              />
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </Table>
+                    {overview && (
+                      <div className="active_member2">
+                        <div>
+                          Displaying <b>{current_page}</b> of <b>{last_page}</b>
+                        </div>
+                        <Pagination>
+                          <Pagination.First onClick={() => nextPage(first)} />
+                          <Pagination.Prev onClick={() => nextPage(prev)} />
+                          <Pagination.Next onClick={() => nextPage(next)} />
+                          <Pagination.Last onClick={() => nextPage(last)} />
+                        </Pagination>
+                      </div>
+                    )}
+                  </div>
                 </div>
               )}
             </div>
