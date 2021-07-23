@@ -33,7 +33,6 @@ const SpecialistWorkOrderDetails = (props) => {
     location: "",
     end_date: "",
     start_date: "",
-    work_group:"",
     hour: "",
     show: false,
     reason: ""
@@ -72,7 +71,6 @@ const SpecialistWorkOrderDetails = (props) => {
         setState({
           ...state,
           ...res.data.data,
-          work_group: res.data.data,
           work_order_detail: res.data.data,
         });
       })
@@ -87,7 +85,6 @@ const SpecialistWorkOrderDetails = (props) => {
     work_order_description,
     order_title,
     end_date,
-    work_group,
     reason,
     location_terrain,
     start_date,
@@ -212,7 +209,7 @@ const SpecialistWorkOrderDetails = (props) => {
                   <div className="job23_1a wrap_z">
                     <div className="group_flex">
                       <div className="grpA">
-                      {work_group.name} 
+                        Group <b>A</b>
                       </div>
                       <div className="grpB">
                         <b>27</b> Assigned
