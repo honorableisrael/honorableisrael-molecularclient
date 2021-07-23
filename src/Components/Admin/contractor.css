@@ -1010,6 +1010,7 @@ a:hover {
   color: #000000be;
   font-weight: 700;
   padding-left: 1.3rem;
+  padding-top: 2rem;
 }
 .tablecont1 {
   font-weight: 600;
@@ -2808,4 +2809,8 @@ width: 100%;
 }
 .add_to_group,.add_to_group:hover{
   width: fit-content;
+}
+
+.deploydsplstwrapp {
+padding-left: 34px;
 }

@@ -311,14 +311,7 @@ const AdminDashboard = withRouter((props) => {
                       </div>
                     </div>
                     <ProgressBar>
-                      <ProgressBar
-                        striped
-                        variant=""
-                        className="colorgreen"
-                        now={data.progress}
-                        key={i}
-                      />
-                      <ProgressBar variant="gray" now={data.progress} key={3} />
+                      <ProgressBar   className="colorgreen" now={data.progress} key={3} />
                     </ProgressBar>
                     <div className="mlstones2">
                       <div className="mlstones">

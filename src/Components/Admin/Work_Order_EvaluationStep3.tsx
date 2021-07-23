@@ -323,10 +323,10 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
                       </Col>
                       <Col md={12} className="plf">
                         <div className="">
-                          <div className="box_inv outerpink">
+                          {/* <div className="box_inv outerpink">
                             <span className="box_smalltick smalltickpink"></span>
                             {props?.payment_details?.total_amount_paid > 0?"Paid":"Unpaid"}
-                          </div>
+                          </div> */}
                           <div className="boxwrapper__1">
                             <div className="lcomponent">
                               <div className="inv_title">
