@@ -19,7 +19,7 @@ import { API } from "../../config";
 
 
 const SpecialistWorkOrderDetails = (props) => {
-  const [state, setState] = useState({
+  const [state, setState]:any = useState({
     work_order_detail: {},
     work_orders: [],
     country: "",

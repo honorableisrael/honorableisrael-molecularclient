@@ -153,11 +153,19 @@ const Notification = withRouter((props) => {
                       </div>
                       <div className="nextbtn nextbtn_2">
                         {data?.category == "work order" ? (
-                          <Link to={"/admin_work_order"}>
+                          <Link 
+                          to="/contractor_work_order_details?inreview=true"
+                          onClick={() =>
+                            localStorage.setItem(
+                              "work_order_details",
+                              JSON.stringify({id:data.category_id})
+                            )
+                          }
+                          >
                             <img
                               src={nextbtn}
                               alt="nxtbtn"
-                              className="nxtbtn3 nxtbtn3_1"
+                              className="nxtbtn3 nxtbtn3_1 nxtbtn32"
                             />
                           </Link>
                         ) : (

@@ -130,7 +130,7 @@ const WorkOrderDetails = withRouter((props: any) => {
           setState({
             ...state,
             workDetails:res.data.data,
-            work_order_detail: work_order_details,
+            work_order_detail: res.data.data,
             already_approved: urlkey ? true : false,
           });
         })
@@ -219,16 +219,16 @@ const WorkOrderDetails = withRouter((props: any) => {
                   <img src={portfolio} alt="portfolio" className="portfolioq" />
                 </p>
                 <p className="bview">
-                  <a href="#overview">Overview</a>
+                  <a  data-target="#overview">Overview</a>
                 </p>
                 <p className="bview inactive_bv">
-                  <a href="#details">Specialist Details</a>
+                  <a data-target="#details">Specialist Details</a>
                 </p>
                 <p className="bview inactive_bv">
-                  <a href="#work">Work Details</a>
+                  <a data-target="#work">Work Details</a>
                 </p>
                 <p className="bview inactive_bv">
-                  <a href="#actions">Actions</a>
+                  <a data-target="#actions">Actions</a>
                 </p>
               </Col>
               <Col md={10} className="job23_1a_ job23_1a_p">

@@ -64,14 +64,14 @@ const DashboardNav = withRouter((props) => {
                 {" "}
                 <span
                   className={
-                    window.location.pathname == "/admin_dashboard"
+                    window.location.pathname == "/#/admin_dashboard"
                       ? "navlink_is_active lightorange  "
                       : "navlink_is_active1"
                   }
                 >
                   <div className="speialcl">Dashboard</div>
                 </span>
-                {window.location.pathname == "/admin_dashboard" && (
+                {window.location.pathname == "/#/admin_dashboard" && (
                   <span className="boxdes"></span>
                 )}
               </Link>
