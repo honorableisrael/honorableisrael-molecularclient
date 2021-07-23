@@ -512,6 +512,7 @@
 .usermodaltitle{
     text-align: center;
     padding-top: 20px;
+    font-weight: 700; 
 }
 .modalmessage{
     text-align: center;
@@ -560,7 +561,7 @@
      justify-content: space-between;
  }
  .profcertdate{
-     width: 25%;
+     width: 27%;
  }
  .profcerttitle{
      width: 26%;
@@ -585,6 +586,7 @@
  }
  .editimg{
      cursor: pointer;
+     margin-right: 12px;
  }
  .instndrparr {
     position: relative;
@@ -688,4 +690,12 @@
     margin-top: 28px;
     background-color: #fd8c00;
     color: #ffffff;
+}
+.credentialsactions{
+    display: flex;
+}
+.credentialdeletebtn{
+    color: rgba(253, 140, 0, 1);
+    font-weight: 700;
+    cursor: pointer;
 }

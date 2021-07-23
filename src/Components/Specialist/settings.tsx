@@ -758,6 +758,13 @@ const SpecialistSettings = () => {
                       </Row>
                       <div className="sectndivider"></div>
                       <Certification/>
+                      <Row>
+                        <Col md={12}>
+                          <div className="job31" onClick={post_qualification_and_experience}>
+                             Save
+                          </div>
+                        </Col>
+                      </Row>
                   </div>
                   )}  
                   {/* Third Tab ends*/}

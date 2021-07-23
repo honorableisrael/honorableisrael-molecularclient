@@ -8,8 +8,6 @@ import { API } from "../../config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
-
 const Experience = () => {
   const [state, setState] = useState({
     description: "",
@@ -21,11 +19,13 @@ const Experience = () => {
     noExperienceAdded: true,
     experienceActive: "",
     addexperiencebtn: "",
-    credential_id:"",
+    credential_id: "",
+    deleteCredential: false,
   });
   const {
     description,
     title,
+    deleteCredential,
     credential_id,
     experience_id,
     experiences,
@@ -33,7 +33,7 @@ const Experience = () => {
     terminateWorkModal,
     experienceActive,
     addexperiencebtn,
-    openModal,
+    openModal
   }: any = state;
 
   const onchange = e => {
@@ -50,90 +50,135 @@ const Experience = () => {
     console.log(availableToken);
     setState({
       ...state,
-      noExperienceAdded: experiences.length == 1? true:false,
-      experienceActive: experiences.length == 1? "nowrapdemacator":"wrapdemacator",
-      addexperiencebtn: experiences.length == 1? "noprofcerbtnwrapper":"profcerbtnwrapper",
+      noExperienceAdded: experiences.length == 1 ? true : false,
+      experienceActive:
+        experiences.length == 1 ? "nowrapdemacator" : "wrapdemacator",
+      addexperiencebtn:
+        experiences.length == 1 ? "noprofcerbtnwrapper" : "profcerbtnwrapper"
     });
     const token = availableToken ? JSON.parse(availableToken) : "";
     console.log(token);
     Axios.all([
       Axios.get(`${API}/specialist`, {
-        headers: { Authorization: `Bearer ${token.access_token}` },
-      }),
+        headers: { Authorization: `Bearer ${token.access_token}` }
+      })
     ])
       .then(
-        Axios.spread((res) => {
+        Axios.spread(res => {
           console.log(res.data);
 
-          const user= res.data.data;
+          const user = res.data.data;
           setState({
             ...state,
             ...res.data.data,
             user: res.data.data,
-            noExperienceAdded: user.experiences.length<=0? true: false,
-            experienceActive: user.experiences.length<=0? "nowrapdemacator":"wrapdemacator",
-            addexperiencebtn: user.experiences.length<=0? "noprofcerbtnwrapper":"profcerbtnwrapper",
+            noExperienceAdded: user.experiences.length <= 0 ? true : false,
+            experienceActive:
+              user.experiences.length <= 0
+                ? "nowrapdemacator"
+                : "wrapdemacator",
+            addexperiencebtn:
+              user.experiences.length <= 0
+                ? "noprofcerbtnwrapper"
+                : "profcerbtnwrapper"
           });
         })
       )
-      .catch((err) => {
+      .catch(err => {
         console.log(err.response);
       });
-  
   }, []);
 
   const editExperience = (id, index) => {
-   console.log(id)
+    console.log(id);
     setState({
       ...state,
       title: title,
       description: description,
       experience_id: index,
       credential_id: id,
-      terminateWorkModal: true,
+      terminateWorkModal: true
     });
   };
+const deleteExperience=(id, index)=>{
+setState({
+  ...state,
+  credential_id: id,
+  experience_id:index,
+  deleteCredential: true,
+});
+}
+  const deleteModalChange= (state, credential_id)=>{
+       let tempExperienceDetails = state.experiences;
+       tempExperienceDetails.splice(experience_id, 1);
+       setState({
+         ...state,
+         experiences: tempExperienceDetails,
+         deleteCredential: false,
+       });
+         //post to API
+    const availableToken = localStorage.getItem("loggedInDetails");
+    console.log(availableToken);
+    const token = availableToken ? JSON.parse(availableToken) : "";
+    console.log(token);
+
+    Axios.delete(`${API}/specialist/experiences/${credential_id}`, {
+      headers: { Authorization: `Bearer ${token.access_token}` }
+    })
+      .then(res => {
+        console.log(res.data);
+        if (res.status == 200) {
+          notify("Experience successfully deleted");
+        }
+      })
+      .catch(err => {
+        console.log(err.response);
+        if (err.response) {
+          notify("failed to Delete");
+        }
+      });
+  } 
 
   const inputModalChange = (state, credential_id) => {
     const experience_id = state.experience_id;
     let tempExperienceDetails = state.experiences;
-    tempExperienceDetails[experience_id]= state
+    tempExperienceDetails[experience_id] = state;
     //  edit added experience
     setState({
       ...state,
       experiences: tempExperienceDetails,
-      terminateWorkModal: false,
+      terminateWorkModal: false
     });
     //post to API
     const availableToken = localStorage.getItem("loggedInDetails");
     console.log(availableToken);
     const token = availableToken ? JSON.parse(availableToken) : "";
     console.log(token);
-    const data={
+    const data = {
       title,
-     description,
-   }
-    Axios.put(`${API}/specialist/experiences/${credential_id}`, data , {
+      description
+    };
+    Axios.put(`${API}/specialist/experiences/${credential_id}`, data, {
       headers: { Authorization: `Bearer ${token.access_token}` }
     })
-    .then((res)=>{
-     console.log(res.data)
-       if(res.status==200 ){ 
-         notify("experience updated successfully ")
-       }
-    })
-    .catch((err)=>{
-      console.log(err.response)
-      if(err.response ){ 
-        notify("failed to Update")
-      }
-    })
+      .then(res => {
+        console.log(res.data);
+        if (res.status == 200) {
+          notify("experience updated successfully ");
+        }
+      })
+      .catch(err => {
+        console.log(err.response);
+        if (err.response) {
+          notify("failed to Update");
+        }
+      });
   };
 
-  const notify = (message: string, type = "B") =>{
+  const notify = (message: string, type = "B") => {
     toast(message, { containerId: type, position: "top-right" });
-  }
-  const displayExperience = () => {  
+  };
+  const displayExperience = () => {
     //display experience to UI
     if (title && description) {
       setState({
@@ -155,25 +200,25 @@ const Experience = () => {
     console.log(availableToken);
     const token = availableToken ? JSON.parse(availableToken) : "";
     console.log(token);
-    const data={
+    const data = {
       title,
-     description,
-   }
-    Axios.post(`${API}/specialist/experiences`, data , {
+      description
+    };
+    Axios.post(`${API}/specialist/experiences`, data, {
       headers: { Authorization: `Bearer ${token.access_token}` }
     })
-    .then((res)=>{
-     console.log(res.data)
-       if(res.status==201 ){ 
-         notify("New experience added")
-       }
-    })
-    .catch((err)=>{
-      console.log(err.response)
-      if(err.response ){ 
-        notify("failed to add experience")
-      }
-    })
+      .then(res => {
+        console.log(res.data);
+        if (res.status == 201) {
+          notify("New experience added");
+        }
+      })
+      .catch(err => {
+        console.log(err.response);
+        if (err.response) {
+          notify("failed to add experience");
+        }
+      });
   };
   const editModal = () => {
     setState({
@@ -187,6 +232,19 @@ const Experience = () => {
       terminateWorkModal: false
     });
   };
+  // const DeleteModal = () => {
+  //   setState({
+  //     ...state,
+  //     deleteCredential: true
+  //   });
+  // };
+  const closeDeleteModal = () => {
+    setState({
+      ...state,
+      deleteCredential: false
+    });
+  };
+ 
   const addModal = () => {
     setState({
       ...state,
@@ -201,6 +259,24 @@ const Experience = () => {
   };
   return (
     <>
+      <Modal show={deleteCredential} centered={true} onHide={closeDeleteModal}>
+        <div className="usermodaltitle">
+          Delete Experience?
+        </div>
+        <Modal.Body>
+        <div className="wrkmodal-btnwrap">
+            <span className="wrkmodal-cancelbtn" onClick={closeDeleteModal}>
+              Cancel
+            </span>
+            <span
+              className="wrkmodal-declinebtn"
+              onClick={() => deleteModalChange(state, credential_id)}
+            >
+              Delete
+            </span>
+          </div>
+        </Modal.Body>
+      </Modal>
       <Modal centered={true} onHide={closEditModal} show={terminateWorkModal}>
         <div className="terminateworkmodalwrap">
           <div className="terminateworkmodalimg">
@@ -239,7 +315,7 @@ const Experience = () => {
             </span>
             <span
               className="wrkmodal-declinebtn addexpbtn"
-              onClick={() => inputModalChange(state,credential_id)}
+              onClick={() => inputModalChange(state, credential_id)}
             >
               Save
             </span>
@@ -308,12 +384,20 @@ const Experience = () => {
               <div key={index} className={`wrapdemacator ${experienceActive}`}>
                 <div className="profiexpernceheaderwrap">
                   <p className="profiexpetitle">Title</p>
-                  <div>
-                    <img
-                      src={editicon}
-                      onClick={() => editExperience(item.id,index)}
-                      className="editimg"
-                    />
+                  <div className="credentialsactions">
+                    <div>
+                      <img
+                        src={editicon}
+                        onClick={() => editExperience(item.id, index)}
+                        className="editimg"
+                      />
+                    </div>
+                    <div
+                     className="credentialdeletebtn"
+                     onClick={()=>deleteExperience(item.id, index)}
+                    >
+                    X
+                    </div>
                   </div>
                 </div>
                 <p>{item.title}</p>
