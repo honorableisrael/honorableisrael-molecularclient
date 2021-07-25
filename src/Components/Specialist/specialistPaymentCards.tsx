@@ -20,18 +20,6 @@ const SplPaymentCards = props => {
   let { volume } = state;
   return (
     <>
-      {true && (
-        <Col md={11} className="containerforemptyorder1">
-          <div className="containerforemptyorder">
-            <img
-              src={no_work_order}
-              alt={"no_work_order"}
-              className="no_work_order"
-            />
-          </div>
-          <div className="no_work1">You have have no payments </div>
-        </Col>
-      )}
       <div className="cardwrap_jo minheight_">
         <div className="cardwrap_cont">
           <img src={portfolio} alt="portfolio" className="portfolio2" />

@@ -26,7 +26,7 @@ const Payments = () => {
               </div>
             </div>
             <Row>
-              {false && (
+              {true && (
                 <Col md={11} className="containerforemptyorder1">
                   <div className="containerforemptyorder">
                     <img
@@ -38,7 +38,7 @@ const Payments = () => {
                   <div className="no_work1">You have no Outstanding Payment</div>
                 </Col>
               )}
-              {true && (
+              {false && (
                <>
                   <SplPaymentCards
                   title="Pipeline construction from Lagos to Ogun State"
