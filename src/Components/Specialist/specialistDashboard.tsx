@@ -15,6 +15,7 @@ import mail from "../../images/mail.png";
 import notification_cal from "../../images/calendar 1.png";
 import workhelmet from "../../images/workhelmet.png";
 import { API } from "../../config";
+import Specialist_Work_details from "./specialist_work_detail";
 
 
 const Notification = (props) => {
@@ -62,6 +63,7 @@ const SpecialistDashboard = (props) => {
     notification: [],
     works_inprog: [],
     prev_works: [],
+    pending_request: false,
     completed_works: "",
     outstanding_payments: "",
     payment_received: "",
@@ -70,6 +72,7 @@ const SpecialistDashboard = (props) => {
   const {
     completed_works,
     prev_works,
+    pending_request,
     notification,
     outstanding_payments,
     payment_received,
@@ -165,7 +168,17 @@ const SpecialistDashboard = (props) => {
                   <p>{payment_received}</p>
                 </div>
               </div>
-              {works_inprog.length == 0 && (
+                  <Specialist_Work_details />
+            </Col>
+            <Col md={3}>
+              <Notification all_notification={notification} />
+            </Col>
+          </Row>
+          <Row>
+            <Col md={9}>
+              <div>
+                <p className="splstdshwrkhistory">Works in Progress</p>
+                {works_inprog.length == 0 && (
                 <Col md={11} className="containerforemptyorder1">
                   <div className="containerforemptyorder">
                     <img
@@ -191,43 +204,7 @@ const SpecialistDashboard = (props) => {
                           status={data.status}
                         />
                     );
-                  })}
-            </Col>
-            <Col md={3}>
-              <Notification all_notification={notification} />
-            </Col>
-          </Row>
-          <Row>
-            <Col md={9}>
-              <div>
-                <p className="splstdshwrkhistory">Previous Works</p>
-                {prev_works.length == 0 && (
-                <Col md={11} className="containerforemptyorder1">
-                  <div className="containerforemptyorder">
-                    <img
-                      src={notification_cal}
-                      alt={"no_work_order"}
-                      className="no_work_order"
-                    />
-                  </div>
-                  <div className="no_work1">
-                    You have no Previous Work Order
-                  </div>
-                </Col>
-              )}
-                  {prev_works.map((data: any, index) => {
-                    return (
-                      // <Link to="/specialistWorkOrderDetails" key={index}>
-                        <WorkOrderCards
-                          title={data.description}
-                          contractor={data.contractor}
-                          start={data.start_date}
-                          end={data.end_date}
-                          status={data.status}
-                        />
-                      // </Link>
-                    );
-                  })}
+                  })} 
               </div>
             </Col>
           </Row>

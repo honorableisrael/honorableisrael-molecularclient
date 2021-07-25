@@ -24,7 +24,7 @@ const WorkOrderCards = props => {
   let { volume } = state;
   return (
     <>
-      {/* <Link
+      <Link
        to="/specialistWorkOrderDetails" 
        onClick={()=>{
         localStorage.setItem(
@@ -32,7 +32,7 @@ const WorkOrderCards = props => {
           JSON.stringify(props.order_details)
         )
        }}
-       > */}
+       >
         <div className="splstprogressbarwrapper">
           <div className="cardwrap_cont">
             <img src={portfolio} alt="portfolio" className="portfolio2" />
@@ -105,10 +105,10 @@ p                <div className="cntrctname">{props.contractor}</div>
             </div>
           </div>
           <div className="2">
-            {/* <img src={nextbtn} /> */}
+            <img src={nextbtn} />
           </div>
         </div>
-      {/* </Link> */}
+      </Link>
     </>
   );
 };

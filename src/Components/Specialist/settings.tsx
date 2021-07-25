@@ -393,7 +393,7 @@ const SpecialistSettings = () => {
                 </div>
                 <Modal.Body>
                   <div className="modalmessage">
-                    Please complete your profile for verification
+                    Please complete your profile
                   </div>
                 </Modal.Body>
               </Modal>
