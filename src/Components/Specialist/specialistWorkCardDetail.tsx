@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import { Col, Row, Container, Form, Pagination, Modal } from "react-bootstrap";
 import "../Admin/contractor.css";
 import DashboardNav from "./specialistNavbar";
@@ -16,6 +16,8 @@ import WorkDetails_Form_Preview from "./workdetailsform";
 import { NavHashLink } from "react-router-hash-link";
 import axios from "axios";
 import { API } from "../../config";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 const SpecialistWorkOrderDetails = (props) => {
@@ -35,7 +37,12 @@ const SpecialistWorkOrderDetails = (props) => {
     start_date: "",
     hour: "",
     show: false,
-    reason: ""
+    reason: "",
+    work_group:{},
+    isloading: false,
+    filename:"",
+    worksheet_reports: [{}],
+    is_group_leader: false,
   });
   const onchange = e => {
     console.log(e.target.value);
@@ -67,33 +74,95 @@ const SpecialistWorkOrderDetails = (props) => {
       })
       .then((res) => {
         console.log(res.data.data);
-        const work_order_detail =res.data.data
         setState({
           ...state,
           ...res.data.data,
           work_order_detail: res.data.data,
+          work_group: res.data.data.work_group,
+          worksheet_reports:res.data.data.work_group.worksheet_reports,
         });
       })
       .catch((err) => {
         console.log(err.response);
       });
   }, []);
+  const notify = (message: string, type = "B") =>{
+    toast(message, { containerId: type, position: "top-right" });
+  }
+const  upLoadFile= ({target: {files}})=>{
+   console.log(files[0])
+   const filename=files[0].name
+   let data = new FormData();
+   data.append( "worksheet", files[0]);
+   data.append( "group_id", work_group.id);
+
+   const availableToken: any = localStorage.getItem("loggedInDetails");
+   const token = availableToken ? JSON.parse(availableToken) : "";
+   console.log(token);
+   const work_order = localStorage.getItem("work_order_details");
+   const work_order_details = work_order ? JSON.parse(work_order) : "";
+   
+   setState({
+    ...state,
+    isloading: true,
+  })
+   axios
+     .post(`${API}/specialist/work-orders/${work_order_details?.id}/worksheets`,data, {
+       headers: { Authorization: `Bearer ${token.access_token}` },
+     })
+     .then((res)=>{
+        console.log(res.data) 
+        if(res.data.success == true){
+      setState({
+        ...state,
+        isloading: false,
+      });
+      notify("Work sheet uploaded successfully")
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+    }
+
+ })
+     .catch((err)=>{
+        console.log(err.response)
+          notify("failed to upload work sheet")
+     })
+  }
+  const hiddenFileInput: any= useRef();
+  const handleClick = event => {
+    hiddenFileInput.current.click();
+  };
+  
+
   const {
     work_order_detail,
+    work_group,
+    worksheet_reports,
     project_purpose,
     country,
     work_order_description,
     order_title,
     end_date,
+    filename,
+    isloading,
     reason,
     location_terrain,
     start_date,
     show,
+    is_group_leader,
     hour
-  } = state;
-
+  }: any= state;
+console.log(work_group);
   return (
     <>
+      <ToastContainer
+        enableMultiContainer
+        containerId={"B"}
+        toastClassName="bg-orange text-white"
+        hideProgressBar={true}
+        position={"top-right"}
+      />
       <Modal
         size="lg"
         show={show}
@@ -209,13 +278,13 @@ const SpecialistWorkOrderDetails = (props) => {
                   <div className="job23_1a wrap_z">
                     <div className="group_flex">
                       <div className="grpA">
-                        Group <b>A</b>
+                        {work_group.name}
                       </div>
                       <div className="grpB">
-                        <b>27</b> Assigned
+                        <b>{work_group.total_members}</b> Assigned
                       </div>
                     </div>
-                    <div className="tabledata tabledataweb">
+                    {/* <div className="tabledata tabledataweb">
                       <div className="header_12 pleft">Fullname</div>
                       <div className="header_12">Type</div>
                       <div className="header_12">Group Position</div>
@@ -235,7 +304,7 @@ const SpecialistWorkOrderDetails = (props) => {
                       <div className="header_12 active_member">
                         <div className="active_member"> Active </div>
                       </div>
-                    </div>
+                    </div> */}
                     {/* <div className="tabledata">
                       <div className="header_12">
                         <img src={avatar_test} className="specialist_avatar" />
@@ -260,7 +329,7 @@ const SpecialistWorkOrderDetails = (props) => {
                       <div className="header_12">Member</div>
                       <div className="header_12 active_member">Active</div>
                     </div> */}
-                    <div className="active_member2">
+                    {/* <div className="active_member2">
                       <div>
                         Displaying <b> 1</b> of <b>2</b>
                       </div>
@@ -270,19 +339,22 @@ const SpecialistWorkOrderDetails = (props) => {
                         <Pagination.Next />
                         <Pagination.Last />
                       </Pagination>
-                    </div>
+                    </div> */}
                     <div>
                       <hr />
                     </div>
                     <div className="active_member23">
                       <div className="active_worksheet">WORKS SHEETS</div>
                       <div className="worksheet_1">
-                        <div className="tabledata tablecontent tablecont1">
+                       {worksheet_reports.map((item, index)=>{
+                         return(
+                           <>
+                         <div className="tabledata tablecontent tablecont1" key={index}>
                           <div className="header_12 tablecont0">
-                            <span>Worksheet Report 2</span>
+                            <span>Work Sheet Week{item.week}</span>
                           </div>
                           <div className="tablecont1">
-                            <div className="viewlink">View</div>
+                            <a href={item.worksheet}>
                             <div className="worksheetdw worksheetdate1">
                               {" "}
                               <img
@@ -292,12 +364,19 @@ const SpecialistWorkOrderDetails = (props) => {
                               />
                               Download
                             </div>
-                            <div className="worksheetdate">12/02/2021</div>
+                            </a>
+                            <div className="worksheetdate">{item.date}</div>
                           </div>
                         </div>
-                        <div className="text-center">
-                          <span className="uploadbtn ">Upload Worksheet</span>
+                           </>
+                         )
+                       })} 
+                       {work_order_detail.is_group_leader == true &&(
+                         <div className="text-center">
+                         <span className="uploadbtn" onClick={handleClick}>{!isloading ? "Upload Worksheet ":" Uploading..."}</span>
+                         <input type="file" onChange={upLoadFile} ref={hiddenFileInput}  style={{ display: "none" }}/>
                         </div>
+                       )} 
                       </div>
                       <WorkDetails_Form_Preview  order_detail={work_order_detail}/>
                     </div>

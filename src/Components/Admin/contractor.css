@@ -1021,7 +1021,7 @@ a:hover {
   width: 100% !important;
 }
 .worksheetdate1 {
-  width: 55%;
+  width: 100% !important;
   text-align: right;
 }
 .active_worksheet {
