@@ -699,3 +699,7 @@
     font-weight: 700;
     cursor: pointer;
 }
+.acceptablefile{
+ padding-left: 1rem;
+ font-size: 13px;   
+}

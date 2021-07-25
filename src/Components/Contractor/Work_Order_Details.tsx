@@ -250,7 +250,7 @@ const WorkOrderDetails = withRouter((props: any) => {
                 </div>
                 <div className="job23_1a" id="details">
                   <h6 className="title22">Specialist Assigned</h6>
-                  <div className="job23_1a wrap_z">
+                  <div className="job23_1a wrap_z kdsd">
                     {assigned_specialists.length == 0 && (
                       <Col md={11} className="containerforemptyorder1 cust">
                         <div className="containerforemptyorder">

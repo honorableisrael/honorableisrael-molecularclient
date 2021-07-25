@@ -340,7 +340,7 @@ const  upLoadFile= ({target: {files}})=>{
                       <hr />
                     </div>
                     <div className="active_member23">
-                      <div className="active_worksheet">WORKS SHEETS</div>
+                      <div className="active_worksheet">WORKS SHEETS <span className="acceptablefile text-info"><span className="acceptablefile text-dark">Acceptable document format:</span>pdf, docx, doc,xlsx,xls <b><span className="acceptablefile text-dark">Max size:</span> 500kb</b> </span></div>
                       <div className="worksheet_1">
                        {worksheet_reports.map((item, index)=>{
                          return(

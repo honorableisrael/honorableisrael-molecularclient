@@ -2003,3 +2003,8 @@ a{
 .plzeft {
   padding-left: 3rem !important;
 }
+.kdsd .tabledata .header_x,.kdsd .tabledata .header_12{
+  min-width: 30% !important;
+  max-width: 140px !important;
+  overflow: hidden;
+}
