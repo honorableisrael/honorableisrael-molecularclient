@@ -165,12 +165,21 @@ const Notification = withRouter((props) => {
                             <img
                               src={nextbtn}
                               alt="nxtbtn"
-                              className="nxtbtn3 nxtbtn3_1 nxtbtn32"
+                              className="nxtbtn3 nxtbtn3_1 nxtbtn32 cbtn_221"
                             />
                           </Link>
-                        ) : (
-                          ""
-                        )}
+                        ) :data?.category == "invoice" ? (
+                          <Link
+                            to={`/invoice_details/${data.category_id}`}
+                            >
+                              <img
+                                src={nextbtn}
+                                alt="nxtbtn"
+                                className="nxtbtn3 nxtbtn3_1 nxtbtn32 cbtn_221"
+                              />
+                            </Link>
+                        ):""}
+                       
                       </div>
                     </div>
                     <div className="nwraper">

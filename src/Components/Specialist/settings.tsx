@@ -190,7 +190,7 @@ const SpecialistSettings = () => {
         },
       })
       .then((res) => {
-        notify("Successfull");
+        notify("Successfully updated");
         setTimeout(() => {
           setState({
             ...state,

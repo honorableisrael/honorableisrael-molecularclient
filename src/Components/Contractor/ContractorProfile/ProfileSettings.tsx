@@ -32,11 +32,12 @@ const Contractor_Profile = withRouter((props) => {
     first_name: "",
     last_name: "",
     middle_name: "",
+    reason: "",
+    industry: "",
+    old_password:"",
     current_password: "",
     new_password: "",
     confirm_password: "",
-    reason: "",
-    industry: "",
     list_of_industries: [],
     isloading: false,
   });
@@ -140,6 +141,38 @@ const Contractor_Profile = withRouter((props) => {
         })
       });
   };
+  const SubmitPassword = () => {
+    const data = {
+      old_password:old_password,
+      password:new_password,
+      password_confirmation:confirm_password,
+    };
+    console.log(data)
+    setState({
+      ...state,
+      isloading:true
+    })
+    axios
+      .put(`${API}/password`, data, {
+        headers: { Authorization: `Bearer ${contractorToken().access_token}` },
+      })
+      .then((res) => {
+        console.log(res);
+        notify("Update successful")
+        setState({
+          ...state,
+          isloading:false
+        })
+      })
+      .catch((err) => {
+        notify("Update failed","D")
+        setState({
+          ...state,
+          isloading:false
+        })
+      });
+  };
+  
   useEffect(() => {
     window.scrollTo(0, 0);
     const token = contractorToken();
@@ -182,6 +215,7 @@ const Contractor_Profile = withRouter((props) => {
     website_url,
     sector,
     country,
+    old_password,
     state_,
     address,
     phone_number,
@@ -583,7 +617,6 @@ const Contractor_Profile = withRouter((props) => {
                           </Form.Group>
                         </Col>
                       </Row>
-
                     </>
                   )}
                   {/* Second Tab ends*/}
@@ -639,6 +672,16 @@ const Contractor_Profile = withRouter((props) => {
                               onChange={onchange}
                             />
                           </Form.Group>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col>
+                        <Col md={12}>
+                          <div className="job31" onClick={SubmitPassword}>
+                            {isloading?"Submitting":"Submit"}
+                          </div>
+                        </Col>
+                          
                         </Col>
                       </Row>
                     </>

@@ -349,7 +349,6 @@ const AdminDashboard = withRouter((props) => {
                   </div>
                 )
               )}
-
               <div className="text_align2">
                 <Link to="/admin_work_order">
                   <img
@@ -368,7 +367,7 @@ const AdminDashboard = withRouter((props) => {
               </div>
               <Invoice invoicelist={invoices} />
               <div>
-                <Link to="/payment_invoice">
+                <Link to="/admin_payment_invoice">
                   <img src={arrow} className="arrow21" alt="arrow" />
                 </Link>
               </div>

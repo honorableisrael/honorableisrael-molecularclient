@@ -1200,7 +1200,7 @@ text {
   border-radius: 1rem;
   width: 90%;
   padding-left: 2rem;
-  min-height: 25vh;
+  min-height: 11rem;
   background: white;
   margin-bottom: 2rem;
 }
@@ -1992,4 +1992,8 @@ a{
 .nxtbtn32{
     left: 1.5rem !important;
     bottom: 1.3rem !important;
+}
+.cbtn_221{
+  top: 2rem !important;
+    left: -1rem !important;
 }

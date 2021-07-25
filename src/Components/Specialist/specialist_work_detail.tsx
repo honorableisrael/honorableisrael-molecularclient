@@ -145,16 +145,16 @@ const Specialist_Work_details = props => {
       ])
       .then(
         Axios.spread((res) => {
-          notify("Successfull");
+          notify("Successfull","B");
+          setTimeout(()=>{
+            window.location.reload()
+          },3000)
           console.log(res.data);
           setState({
             ...state,
             isloading: false,
             successMessage: res.data.data.message 
           });
-          setTimeout(()=>{
-            window.location.reload()
-          },3000)
         })
       )
       .catch((err) => {
@@ -195,9 +195,7 @@ const Specialist_Work_details = props => {
       ])
       .then(
         Axios.spread((res) => {
-          if(res.status==201 ){ 
-            notify("New work order rejepted")
-          }
+            notify("New work order rejected")
           console.log(res.data);
           setState({
             ...state,
@@ -232,6 +230,13 @@ const Specialist_Work_details = props => {
         enableMultiContainer
         containerId={"D"}
         toastClassName="bg-danger text-white"
+        hideProgressBar={true}
+        position={"top-right"}
+      />
+      <ToastContainer
+        enableMultiContainer
+        containerId={"B"}
+        toastClassName="bg-orange text-white"
         hideProgressBar={true}
         position={"top-right"}
       />
