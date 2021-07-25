@@ -39,9 +39,17 @@ const Contractor_Profile = withRouter((props) => {
     new_password: "",
     confirm_password: "",
     list_of_industries: [],
+    industry_id:"",
     isloading: false,
   });
   const onchange = (e) => {
+    if(e.target.id=="industry"){
+     return setState({
+        ...state,
+        industry_id:e.target.value,
+        industry:e.target.value,
+      })
+    }
     console.log(e.target.value);
     setState({
       ...state,
@@ -111,7 +119,7 @@ const Contractor_Profile = withRouter((props) => {
     const data = {
       company_name,
       // website_url,
-      industry,
+      industry:industry_id,
       country,
       state:state_,
       address,
@@ -130,7 +138,7 @@ const Contractor_Profile = withRouter((props) => {
         notify("Update successful")
         setState({
           ...state,
-          isloading:false
+          isloading:false,
         })
       })
       .catch((err) => {
@@ -197,6 +205,7 @@ const Contractor_Profile = withRouter((props) => {
             list_of_industries: res2.data.data,
             contractor: res.data.data,
             state_:res.data.data.state,
+            industry_id:res.data.data.industry_id
           });
         })
       )
@@ -222,7 +231,7 @@ const Contractor_Profile = withRouter((props) => {
     first_name,
     last_name,
     industry,
-    contractor,
+    industry_id,
     isloading,
     list_of_industries,
     email,
@@ -262,12 +271,12 @@ const Contractor_Profile = withRouter((props) => {
                       <div className="helmot112">{address}</div>
                     </div>
                   </div>
-                  <div className="orders1">
+                  {/* <div className="orders1">
                     Total Work Orders
                     <div>
                       <span className="num12a">2</span>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="section_form">
                   <div className="profile__001">
