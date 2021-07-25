@@ -4,20 +4,34 @@ import portfolio from "../../images/fileno.png";
 import "react-rangeslider/lib/index.css";
 import { Link } from "react-router-dom";
 import nextbtn from "../../images/nextbtn.png";
+import no_work_order from "../../images/document 1.png";
+import { Col, Row } from "react-bootstrap";
 
-const SplPaymentCards = (props) => {
+const SplPaymentCards = props => {
   const [state, setState] = useState({
-    volume: props.status == "Awaiting Approval" ? 0 : 100,
+    volume: props.status == "Awaiting Approval" ? 0 : 100
   });
-  const handleOnChange = (value) => {
+  const handleOnChange = value => {
     setState({
       ...state,
-      volume: value,
+      volume: value
     });
   };
   let { volume } = state;
   return (
     <>
+      {true && (
+        <Col md={11} className="containerforemptyorder1">
+          <div className="containerforemptyorder">
+            <img
+              src={no_work_order}
+              alt={"no_work_order"}
+              className="no_work_order"
+            />
+          </div>
+          <div className="no_work1">You have have no payments </div>
+        </Col>
+      )}
       <div className="cardwrap_jo minheight_">
         <div className="cardwrap_cont">
           <img src={portfolio} alt="portfolio" className="portfolio2" />

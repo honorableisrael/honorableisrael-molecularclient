@@ -1011,19 +1011,21 @@ a:hover {
   font-weight: 700;
   padding-left: 1.3rem;
   padding-top: 2rem;
+  height: fit-content;
 }
 .tablecont1 {
   font-weight: 600;
   display: flex;
   justify-content: space-between;
   margin-bottom: 0.5rem;
+  height: 120px;
 }
 .tablecont1 {
   width: 100% !important;
 }
 .worksheetdate1 {
-  width: 55%;
-  text-align: right;
+  width: 100% !important;
+  text-align: left;
 }
 .active_worksheet {
   margin-bottom: 1rem;
@@ -2813,4 +2815,10 @@ width: 100%;
 
 .deploydsplstwrapp {
 padding-left: 34px;
+}
+.tabledata div {
+  width: 55% !important;
+}
+.tablecontent .tablecont0{
+  width: 20% !important;
 }

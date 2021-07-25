@@ -66,6 +66,7 @@ const Accordions = (props) => {
         console.log(err);
       });
   };
+  
   const fetch_details = (id) => {
     const token = returnAdminToken();
     setState({
@@ -104,7 +105,7 @@ const Accordions = (props) => {
         console.log(err);
       });
   };
-  console.log(props);
+  console.log(work_sheet);
   return (
     <>
       <div className="dplsplsacc">
@@ -205,14 +206,16 @@ const Accordions = (props) => {
                             alt="dwnload"
                             className="dwnload1"
                           />
-                          <a href={data.worksheet_reports} target={"blank"}>
+                          <a href={data.worksheet} target={"blank"}>
                             Download
                           </a>
                         </div>
                         <div className="worksheetdate">
                           {formatTime(data.date)}
                         </div>
+                        <div className="upby">
                         uploaded by {data.uploaded_by}
+                        </div>
                       </div>
                     </div>
                   ))}

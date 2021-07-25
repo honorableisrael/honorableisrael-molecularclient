@@ -109,18 +109,21 @@ const Contractor_Profile = withRouter((props) => {
   const SubmitProfile = () => {
     const data = {
       company_name,
-      website_url,
+      // website_url,
       industry,
       country,
       state:state_,
       address,
     };
+    console.log(data)
     setState({
       ...state,
       isloading:true
     })
     axios
-      .put(`${API}/contractor`, data)
+      .put(`${API}/contractor`, data, {
+        headers: { Authorization: `Bearer ${contractorToken().access_token}` },
+      })
       .then((res) => {
         console.log(res);
         notify("Update successful")
@@ -381,7 +384,7 @@ const Contractor_Profile = withRouter((props) => {
                             </select>
                           </Form.Group>
                         </Col>
-                        <Col md={4} className="formsection1">
+                        {/* <Col md={4} className="formsection1">
                           <Form.Group>
                             <h6 className="userprofile userprofile12">
                               Company URL
@@ -394,7 +397,7 @@ const Contractor_Profile = withRouter((props) => {
                               onChange={onchange}
                             />
                           </Form.Group>
-                        </Col>
+                        </Col> */}
                       </Row>
                       <Row>
                         <Col md={12}>

@@ -273,7 +273,7 @@ const AssignSpecialist = () => {
           window.scrollTo(-0, -0);
           setState({
             ...state,
-            contractor_list: res.data.data.data,
+            all_specialist: res.data.data.data,
             ...res.data.data.links,
             ...res.data.data.meta,
           });
