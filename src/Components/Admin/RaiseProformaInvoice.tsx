@@ -853,7 +853,7 @@ const AdminRaiseProformaInvoice = (props) => {
                               <div className="pricing__112 pricing__11_1">
                                 Specialist config
                               </div>
-                            </Col>
+                            </Col> 
                             {work_order_detail?.specialist_requests?.map(
                               (data, i) => (
                                 <Col md={11} className="ttp_ ttp1_" key={i}>

@@ -454,7 +454,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                           <div className="header_12">Status</div>
                         </div>
                         {assigned_specialists.length !== 0 &&
-                          assigned_specialists.map((data, i) => (
+                          assigned_specialists?.slice(0, 3)?.map((data, i) => (
                             <>
                               <div
                                 className={
@@ -560,8 +560,8 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                     <div>
                       <hr />
                     </div>
-                    <div className="active_member23">
-                      <div className="active_worksheet">WORKS SHEETS</div>
+                     <div className="active_member23">
+                      {/* <div className="active_worksheet">WORKS SHEETS</div> */}
                       {false && (
                         <>
                           <div className="worksheet_1">

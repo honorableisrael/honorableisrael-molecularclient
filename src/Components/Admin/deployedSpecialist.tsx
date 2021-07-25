@@ -407,8 +407,8 @@ const DeployedSpecialist = withRouter((props) => {
     const work_order = localStorage.getItem("work_order_details");
     setState({
       ...state,
-      isloading:true
-    })
+      isloading: true,
+    });
     const work_order_details = work_order ? JSON.parse(work_order) : "";
     const data = {
       specialists: selectedspecialist,
@@ -428,29 +428,29 @@ const DeployedSpecialist = withRouter((props) => {
           console.log(res.data.data);
           setState({
             ...state,
-            isloading:false
-          })
+            isloading: false,
+          });
           notify("Successfully assigned to group");
-          setTimeout(()=>{
-            window.location.reload()
-          },2000)
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
         })
       )
       .catch((err) => {
         setState({
           ...state,
-          isloading:false
-        })
+          isloading: false,
+        });
         notify("Failed to assign to group", "D");
         console.log(err);
       });
   };
-  const openModal2 =()=>{
+  const openModal2 = () => {
     setState({
       ...state,
-      show2:true
-    })
-  }
+      show2: true,
+    });
+  };
   return (
     <>
       <Helmet>
@@ -543,12 +543,16 @@ const DeployedSpecialist = withRouter((props) => {
                       </td>
                       <td>{data.total_members}</td>{" "}
                       <td className="depspltabcol1">
-                        <Button
-                          className="btn-danger"
-                          onClick={() => DeleteGroup(data.id)}
-                        >
-                          Delete
-                        </Button>
+                        {data.total_members == 0 ? (
+                          <Button
+                            className="btn-danger"
+                            onClick={() => DeleteGroup(data.id)}
+                          >
+                            Delete
+                          </Button>
+                        ) : (
+                          ""
+                        )}
                       </td>
                     </tr>
                   ))}
@@ -577,7 +581,7 @@ const DeployedSpecialist = withRouter((props) => {
         </Modal.Header>
         <Modal.Body>
           <Row>
-          <Col md={12}>
+            <Col md={12}>
               <Table hover>
                 <thead>
                   <tr>
@@ -602,7 +606,7 @@ const DeployedSpecialist = withRouter((props) => {
                           className="btn-success"
                           onClick={() => add_To_Group(data.id)}
                         >
-                          {!isloading?"Add to group":"Processing"}
+                          {!isloading ? "Add to group" : "Processing"}
                         </Button>
                       </td>
                     </tr>
@@ -718,10 +722,7 @@ const DeployedSpecialist = withRouter((props) => {
                     <p>View list of grouped specialist and assign team lead</p>
                   </div>
                   {work_order_detail?.work_groups?.map((data, i) => (
-                    <Accordions
-                      title={data?.name}
-                      group_data={data}
-                    />
+                    <Accordions title={data?.name} group_data={data} />
                   ))}
                 </div>
               )}
@@ -734,7 +735,10 @@ const DeployedSpecialist = withRouter((props) => {
                     <div className="add_fel">
                       <div>Select specialists and add to group</div>
                       {selectedspecialist.length !== 0 && (
-                        <Button className="add_to_group manage_" onClick={openModal2}>
+                        <Button
+                          className="add_to_group manage_"
+                          onClick={openModal2}
+                        >
                           Add selected to group
                         </Button>
                       )}

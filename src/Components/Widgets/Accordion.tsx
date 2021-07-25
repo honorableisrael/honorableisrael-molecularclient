@@ -1,9 +1,11 @@
 import axios from "axios";
 import React, { useState, useRef, useEffect } from "react";
-import { Table, Card, Spinner } from "react-bootstrap";
-import { API, notify, returnAdminToken } from "../../config";
+import { Table, Card, Spinner, Col } from "react-bootstrap";
+import { API, formatTime, notify, returnAdminToken } from "../../config";
 import chevrondown from "../../images/chevrondown.png";
 import "./accordion.css";
+import no_work_order from "../../images/document 1.png";
+import dwnload from "../../images/dwnload.png";
 
 const Accordions = (props) => {
   const [state, setState] = useState({
@@ -12,9 +14,16 @@ const Accordions = (props) => {
     chevron: "",
     allAssignedSpecialist: [],
     isloading: false,
+    work_sheet: [],
   });
-  const { active, collapseHeight, chevron, allAssignedSpecialist, isloading } =
-    state;
+  const {
+    active,
+    collapseHeight,
+    chevron,
+    allAssignedSpecialist,
+    isloading,
+    work_sheet,
+  } = state;
   const content: any = useRef();
   const toggleAccordion = () => {
     // setState({
@@ -72,6 +81,7 @@ const Accordions = (props) => {
           setState({
             ...state,
             allAssignedSpecialist: res.data.data.members,
+            work_sheet: res.data.data.worksheet_reports,
             isloading: false,
             active: active === "" ? "active" : "",
             collapseHeight: active === "active" ? "0px" : `fit-content`,
@@ -159,6 +169,53 @@ const Accordions = (props) => {
                 ))}
               </tbody>
             </Table>
+            <div className="active_worksheet">WORKS SHEETS</div>
+            {true && (
+              <>
+                <Col md={11} className="containerforemptyorder1 cust20">
+                  {work_sheet.length == 0 && (
+                    <>
+                      <div className="containerforemptyorder">
+                        <img
+                          src={no_work_order}
+                          alt={"no_work_order"}
+                          className="no_work_order"
+                        />
+                      </div>
+                      <div className="no_work1">
+                        <div>work sheet have not been uploaded</div>
+                      </div>
+                    </>
+                  )}
+                </Col>
+                <div className="worksheet_1">
+                  {work_sheet.map((data: any, i) => (
+                    <div className="tabledata tablecontent tablecont1">
+                      <div className="header_12 tablecont0">
+                        <span>Worksheet Report {data.week}</span>
+                      </div>
+                      <div className="tablecont1">
+                        <div className="worksheetdw worksheetdate1">
+                          {" "}
+                          <img
+                            src={dwnload}
+                            alt="dwnload"
+                            className="dwnload1"
+                          />
+                          <a href={data.worksheet_reports} target={"blank"}>
+                            Download
+                          </a>
+                        </div>
+                        <div className="worksheetdate">
+                          {formatTime(data.date)}
+                        </div>
+                        uploaded by {data.uploaded_by}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>
