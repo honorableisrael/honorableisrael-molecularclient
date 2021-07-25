@@ -152,6 +152,9 @@ const Specialist_Work_details = props => {
             isloading: false,
             successMessage: res.data.data.message 
           });
+          setTimeout(()=>{
+            window.location.reload()
+          },3000)
         })
       )
       .catch((err) => {
@@ -193,7 +196,7 @@ const Specialist_Work_details = props => {
       .then(
         Axios.spread((res) => {
           if(res.status==201 ){ 
-            notify("New work order Accepted")
+            notify("New work order rejepted")
           }
           console.log(res.data);
           setState({
@@ -206,7 +209,7 @@ const Specialist_Work_details = props => {
       .catch((err) => {
         console.log(err);
         if(err.response ){ 
-          notify("failed to accept work order")
+          notify("failed to reject work order")
         }
         setState({
           ...state,
@@ -244,15 +247,15 @@ const Specialist_Work_details = props => {
           </div>
         )}
         {successMessage &&(<div className="wrktimelinediv" ref={fieldRef}>
-                    <img src={exclam} alt="img" />
-                    <p>{successMessage}</p>
-                  </div>
-                  )}
-                  {errorMessage &&(<div className="wrktimelinediv" ref={fieldRef}>
-                    <img src={exclam} alt="img" />
-                    <p>{errorMessage}</p>
-                  </div>
-                  )}
+          <img src={exclam} alt="img" />
+          <p>{successMessage}</p>
+        </div>
+        )}
+        {errorMessage &&(<div className="wrktimelinediv" ref={fieldRef}>
+          <img src={exclam} alt="img" />
+          <p>{errorMessage}</p>
+        </div>
+        )}
         {workorderdetails && (
           <div>
             {data.map((data, id) => {

@@ -217,7 +217,7 @@ const SpecialistDashboard = (props) => {
               )}
                   {prev_works.map((data: any, index) => {
                     return (
-                      <Link to="/specialistWorkOrderDetails" key={index}>
+                      // <Link to="/specialistWorkOrderDetails" key={index}>
                         <WorkOrderCards
                           title={data.description}
                           contractor={data.contractor}
@@ -225,7 +225,7 @@ const SpecialistDashboard = (props) => {
                           end={data.end_date}
                           status={data.status}
                         />
-                      </Link>
+                      // </Link>
                     );
                   })}
               </div>

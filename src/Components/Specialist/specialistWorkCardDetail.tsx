@@ -17,9 +17,8 @@ import { NavHashLink } from "react-router-hash-link";
 import axios from "axios";
 import { API } from "../../config";
 
-
 const SpecialistWorkOrderDetails = (props) => {
-  const [state, setState]:any = useState({
+  const [state, setState]: any = useState({
     work_order_detail: {},
     work_orders: [],
     country: "",
@@ -33,23 +32,23 @@ const SpecialistWorkOrderDetails = (props) => {
     location: "",
     end_date: "",
     start_date: "",
-    work_group:"",
+    work_group: "",
     hour: "",
     show: false,
-    reason: ""
+    reason: "",
   });
-  const onchange = e => {
+  const onchange = (e) => {
     console.log(e.target.value);
     setState({
       ...state,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   const openModal = (e, x) => {
     setState({
       ...state,
-      show: true
+      show: true,
     });
   };
   useEffect(() => {
@@ -68,7 +67,7 @@ const SpecialistWorkOrderDetails = (props) => {
       })
       .then((res) => {
         console.log(res.data.data);
-        const work_order_detail =res.data.data
+        const work_order_detail = res.data.data;
         setState({
           ...state,
           ...res.data.data,
@@ -92,7 +91,7 @@ const SpecialistWorkOrderDetails = (props) => {
     location_terrain,
     start_date,
     show,
-    hour
+    hour,
   } = state;
 
   return (
@@ -103,7 +102,7 @@ const SpecialistWorkOrderDetails = (props) => {
         onHide={() =>
           setState({
             ...state,
-            show: false
+            show: false,
           })
         }
         dialogClassName="modal-90w"
@@ -132,7 +131,7 @@ const SpecialistWorkOrderDetails = (props) => {
             <Col md={12} className="terminate2">
               <div
                 className="terminate1"
-                onClick={e => openModal(e, "Terminate")}
+                onClick={(e) => openModal(e, "Terminate")}
               >
                 Terminate
               </div>
@@ -171,7 +170,7 @@ const SpecialistWorkOrderDetails = (props) => {
                   to="#overview"
                   activeStyle={{
                     backgroundColor: "#fd8b003b",
-                    color: "#fd8c00"
+                    color: "#fd8c00",
                   }}
                 >
                   Over View
@@ -202,43 +201,47 @@ const SpecialistWorkOrderDetails = (props) => {
                 <div id="specialist_details"></div>
                 <div className="job23_1a">
                   <div className="">
-                    <WorkOrderCardsMinInfo
-                    order_detail={work_order_detail}
-                    />
+                    <WorkOrderCardsMinInfo order_detail={work_order_detail} />
                   </div>
                 </div>
-                <div className="job23_1a">
-                  <h6 className="title22">Specialists Assigned</h6>
+                {<div className="job23_1a">
+                  {/* <h6 className="title22">Specialists Assigned</h6> */}
                   <div className="job23_1a wrap_z">
-                    <div className="group_flex">
-                      <div className="grpA">
-                      {work_group.name} 
-                      </div>
-                      <div className="grpB">
-                        <b>27</b> Assigned
-                      </div>
-                    </div>
-                    <div className="tabledata tabledataweb">
-                      <div className="header_12 pleft">Fullname</div>
-                      <div className="header_12">Type</div>
-                      <div className="header_12">Group Position</div>
-                      <div className="header_12">Status</div>
-                    </div>
-                    <div className="tabledata tablecontent">
-                      <div className="header_12">
-                        <img src={avatar_test} className="specialist_avatar" />
-                        Sunday Okoro Pascal
-                      </div>
-                      <div className="header_12 typ22">
-                        <div> Fitter</div>
-                      </div>
-                      <div className="header_12">
-                        <div className="glead"> Group Lead </div>
-                      </div>
-                      <div className="header_12 active_member">
-                        <div className="active_member"> Active </div>
-                      </div>
-                    </div>
+                    {
+                    false && (
+                      <>
+                        <div className="group_flex">
+                          <div className="grpA">{work_group.name}</div>
+                          <div className="grpB">
+                            <b>27</b> Assigned
+                          </div>
+                        </div>
+                        <div className="tabledata tabledataweb">
+                          <div className="header_12 pleft">Fullname</div>
+                          <div className="header_12">Type</div>
+                          <div className="header_12">Group Position</div>
+                          <div className="header_12">Status</div>
+                        </div>
+                        <div className="tabledata tablecontent">
+                          <div className="header_12">
+                            <img
+                              src={avatar_test}
+                              className="specialist_avatar"
+                            />
+                            Sunday Okoro Pascal
+                          </div>
+                          <div className="header_12 typ22">
+                            <div> Fitter</div>
+                          </div>
+                          <div className="header_12">
+                            <div className="glead"> Group Lead </div>
+                          </div>
+                          <div className="header_12 active_member">
+                            <div className="active_member"> Active </div>
+                          </div>
+                        </div>
+                      </>
+                    )}
                     {/* <div className="tabledata">
                       <div className="header_12">
                         <img src={avatar_test} className="specialist_avatar" />
@@ -263,7 +266,8 @@ const SpecialistWorkOrderDetails = (props) => {
                       <div className="header_12">Member</div>
                       <div className="header_12 active_member">Active</div>
                     </div> */}
-                    <div className="active_member2">
+                    {false &&
+                      <div className="active_member2">
                       <div>
                         Displaying <b> 1</b> of <b>2</b>
                       </div>
@@ -273,37 +277,41 @@ const SpecialistWorkOrderDetails = (props) => {
                         <Pagination.Next />
                         <Pagination.Last />
                       </Pagination>
-                    </div>
+                    </div>}
                     <div>
                       <hr />
                     </div>
-                    <div className="active_member23">
-                      <div className="active_worksheet">WORKS SHEETS</div>
-                      <div className="worksheet_1">
-                        <div className="tabledata tablecontent tablecont1">
-                          <div className="header_12 tablecont0">
-                            <span>Worksheet Report 2</span>
-                          </div>
-                          <div className="tablecont1">
-                            <div className="viewlink">View</div>
-                            <div className="worksheetdw worksheetdate1">
-                              {" "}
-                              <img
-                                src={dwnload}
-                                alt="dwnload"
-                                className="dwnload1"
-                              />
-                              Download
+                    {false && (
+                      <div className="active_member23">
+                        <div className="active_worksheet">WORKS SHEETS</div>
+                        <div className="worksheet_1">
+                          <div className="tabledata tablecontent tablecont1">
+                            <div className="header_12 tablecont0">
+                              <span>Worksheet Report 2</span>
                             </div>
-                            <div className="worksheetdate">12/02/2021</div>
+                            <div className="tablecont1">
+                              <div className="viewlink">View</div>
+                              <div className="worksheetdw worksheetdate1">
+                                {" "}
+                                <img
+                                  src={dwnload}
+                                  alt="dwnload"
+                                  className="dwnload1"
+                                />
+                                Download
+                              </div>
+                              <div className="worksheetdate">12/02/2021</div>
+                            </div>
+                          </div>
+                          <div className="text-center">
+                            <span className="uploadbtn ">Upload Worksheet</span>
                           </div>
                         </div>
-                        <div className="text-center">
-                          <span className="uploadbtn ">Upload Worksheet</span>
-                        </div>
+                        <WorkDetails_Form_Preview
+                          order_detail={work_order_detail}
+                        />
                       </div>
-                      <WorkDetails_Form_Preview  order_detail={work_order_detail}/>
-                    </div>
+                    )}
                   </div>
 
                   <h6 className="title22 title22r2" id="actions">
@@ -312,7 +320,7 @@ const SpecialistWorkOrderDetails = (props) => {
                   <div className="job23_1a wrap_z">
                     <div className="main_wrap_ws main_wrapp1">
                       <h3 className="userprofile12 userprofile123">
-                      Quit Work
+                        Quit Work
                       </h3>
                       <p className="Construction12">
                         To quit a project that has been placed, a quit request
@@ -321,14 +329,14 @@ const SpecialistWorkOrderDetails = (props) => {
                       <div className="text-left">
                         <div
                           className="terminate1"
-                          onClick={e => openModal(e, "Terminate")}
+                          onClick={(e) => openModal(e, "Terminate")}
                         >
                           Terminate
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                </div>}
               </Col>
             </Row>
           </Col>

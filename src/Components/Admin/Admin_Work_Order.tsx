@@ -453,7 +453,7 @@ const AdminWorkOrder = () => {
                   <div className="no_work1">You have no Work Order</div>
                   <div className="nojob2 ">
                     <Link to="/admin_new_work_order">
-                      <div className="job3">New Work Order</div>
+                      <div className="job3">Create Work Order</div>
                     </Link>
                   </div>
                 </Col>

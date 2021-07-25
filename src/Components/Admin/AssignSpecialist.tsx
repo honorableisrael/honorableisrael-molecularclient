@@ -309,7 +309,7 @@ const AssignSpecialist = () => {
         })
         notify("Successfully assigned specialist");
         setTimeout(() => {
-          window.location.assign("/admin_work_details?inreview=true");
+          window.location.assign("/#admin_work_details?inreview=true");
         }, 2000);
       })
       .catch((err) => {

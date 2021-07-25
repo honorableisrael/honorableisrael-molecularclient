@@ -126,11 +126,29 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
       ...state,
       isloading: true,
     });
+    const data = {
+      bank,
+    }
+    if(bank==""){
+      window.scrollTo(0,0)
+      setState({
+        ...state,
+        isloading: false,
+      });
+      return notify("Please select a bank account for this proforma invoice")
+    }
     axios
       .all([
         axios.post(
           `${API}/admin/work-orders/${work_order_details?.id}/invoice/send`,
           {},
+          {
+            headers: { Authorization: `Bearer ${token.access_token}` },
+          }
+        ),
+        axios.post(
+          `${API}/admin/work-orders/${work_order_details?.id}/invoice/bank`,
+          data,
           {
             headers: { Authorization: `Bearer ${token.access_token}` },
           }
@@ -310,7 +328,7 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
                           required
                           name="bank"
                           onChange={onchange}
-                          onBlur={sendBankDetails}
+                          // onBlur={sendBankDetails}
                         >
                           <option value="" className="formselect">
                             Select account number
@@ -344,7 +362,7 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
                               <div className="inv_title2">
                                 <div className="inv_title3">Invoice Date</div>
                                 <div className="inv_title4">
-                                  {formatTime(invoice_details?.sent_at) ?? "~~/~~"}
+                                  {formatTime(invoice_details?.created_at) ?? "~~/~~"}
                                 </div>
                               </div>
                             </div>

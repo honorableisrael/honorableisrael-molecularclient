@@ -668,7 +668,7 @@ const DeployedSpecialist = withRouter((props) => {
                         <tr>
                           <th>Full Name</th>
                           <th>Skill</th>
-                          <th>Position</th>
+                          {/* <th>Position</th> */}
                           <th>Status</th>
                         </tr>
                       </thead>
@@ -684,7 +684,7 @@ const DeployedSpecialist = withRouter((props) => {
                               </div>
                             </td>
                             <td>{data?.skills[0]?.name}</td>
-                            <td>Member</td>
+                            {/* <td>Member</td> */}
                             <td>{data?.status}</td>{" "}
                             {/* <td className="depspltabcol1">
                               <input

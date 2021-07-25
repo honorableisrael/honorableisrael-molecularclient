@@ -56,6 +56,9 @@ const Accordions = (props) => {
         axios.spread((res) => {
           console.log(res.data.data);
           notify("Successfully assigned team lead");
+          setTimeout(()=>{
+            window.location.reload()
+          },3000)
         })
       )
       .catch((err) => {
