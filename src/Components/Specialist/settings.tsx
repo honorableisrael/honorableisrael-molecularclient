@@ -210,7 +210,7 @@ const SpecialistSettings = () => {
       // upload image to server; 
        const imageData = new FormData()
        imageData.append("image" , photo);
-     console.log(imageData);
+      console.log(imageData);
       axios.post(`${API}/photo`,imageData, {
         headers: {
           Authorization: `Bearer ${token.access_token}`,
@@ -393,7 +393,7 @@ const SpecialistSettings = () => {
                 </div>
                 <Modal.Body>
                   <div className="modalmessage">
-                    Please complete your profile
+                    Please complete your profile for verification
                   </div>
                 </Modal.Body>
               </Modal>
