@@ -198,6 +198,7 @@ const DeployedSpecialist = withRouter((props) => {
   useEffect(() => {
     window.scrollTo(-0, -0);
     const token = returnAdminToken();
+    console.log(props.location.search==="?worksheet")
     const work_order = localStorage.getItem("work_order_details");
     const work_order_details = work_order ? JSON.parse(work_order) : "";
     axios
@@ -221,6 +222,8 @@ const DeployedSpecialist = withRouter((props) => {
             ...res.data.data.meta,
             allAssignedSpecialist: res.data.data.data,
             work_order_detail: res2.data.data,
+            grouped:props.location.search==="?worksheet"?true:false,
+            overview:props.location.search==="?worksheet"?false:true,
           });
         })
       )
@@ -719,7 +722,7 @@ const DeployedSpecialist = withRouter((props) => {
                     <div className="depsplstimg">
                       <img src={blueavatar} alt="img" />
                     </div>
-                    <p>View list of grouped specialist and assign team lead</p>
+                    <p>View list of grouped specialist,worksheets and assign team lead</p>
                   </div>
                   {work_order_detail?.work_groups?.map((data, i) => (
                     <Accordions title={data?.name} group_data={data} />

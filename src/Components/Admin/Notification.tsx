@@ -174,10 +174,33 @@ const Admin_Notification = withRouter((props) => {
                               className="nxtbtn3 nxtbtn3_1 admin__notif"
                             /> */}
                           </Link>
+                        ) :data?.category == "worksheet" ? (
+                          <Link
+                          to="/deployedspecialist?worksheet"
+                          onClick={() =>
+                            localStorage.setItem(
+                              "work_order_details",
+                              JSON.stringify({id:data.category_id})
+                            )
+                          }
+                        >
+                          <img
+                              src={nextbtn}
+                              alt="nxtbtn"
+                              className="nxtbtn3 nxtbtn3_1 admin__notif"
+                            /> 
+                          {/* <Link to={"/admin_work_order"}>
+                            <img
+                              src={nextbtn}
+                              alt="nxtbtn"
+                              className="nxtbtn3 nxtbtn3_1 admin__notif"
+                            /> */}
+                          </Link>
                         ) : (
                           ""
                         )}
                       </div>
+
                     </div>
                     <div className="nwraper">
                       <div className="ppp1">{data?.message}</div>

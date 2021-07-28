@@ -2822,3 +2822,25 @@ padding-left: 34px;
 .tablecontent .tablecont0{
   width: 20% !important;
 }
+.tetr{
+  font-size: 14px;
+  font-weight: 900;
+  margin-left: 2rem;
+  background: #f1b26556;
+  text-align: center;
+  padding: 1rem;
+  border-radius: 2rem;
+}
+.frequew{
+  display: flex;
+  flex-direction: row-reverse;
+  text-align: left;
+  justify-content: space-between;
+}
+.tetr2{
+  width: 300px;
+  font-weight: 900;
+}
+.form_h1{
+  justify-content: space-between;
+}

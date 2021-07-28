@@ -95,7 +95,7 @@ const Experience = () => {
       ...state,
       title: title,
       description: description,
-      experience_id: index,
+      experience_id: id,
       credential_id: id,
       terminateWorkModal: true
     });
@@ -179,7 +179,6 @@ setState({
     toast(message, { containerId: type, position: "top-right" });
   };
   const displayExperience = () => {
- 
     //post data to API
     const availableToken = localStorage.getItem("loggedInDetails");
     console.log(availableToken);

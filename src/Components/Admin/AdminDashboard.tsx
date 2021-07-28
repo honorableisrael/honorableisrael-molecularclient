@@ -277,6 +277,7 @@ const AdminDashboard = withRouter((props) => {
               </div>
             </div>
           </Col>
+          <Specialist_Awaiting_Admin />
           <Col className="fc12 fc14 ">
             <div className="carderw carderw_no_12  carderwax">
               <div className="grph34 carderw_no001">
@@ -373,7 +374,6 @@ const AdminDashboard = withRouter((props) => {
               </div>
             </div>
           </Col>
-          <Specialist_Awaiting_Admin />
         </Row>
       </Container>
     </>
