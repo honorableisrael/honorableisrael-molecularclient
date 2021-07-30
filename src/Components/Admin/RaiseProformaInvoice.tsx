@@ -899,13 +899,13 @@ const AdminRaiseProformaInvoice = (props) => {
                               )
                             )}
                           </Row>
-                          <Col md={12} className="generate_row">
+                          {/* <Col md={12} className="generate_row">
                             <div className="gen11">
                               <div className="gent122" onClick={GenerateCost}>
                                 {!isloading ? "Generate cost" : "Loading..."}
                               </div>
                             </div>
-                          </Col>
+                          </Col> */}
                         </div>
                       </div>
 

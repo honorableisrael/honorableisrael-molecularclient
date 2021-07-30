@@ -19,6 +19,7 @@ import axios from "axios";
 import {
   API,
   contractorToken,
+  current_currency,
   FormatAmount,
   formatTime,
   notify,
@@ -321,14 +322,14 @@ const Admin_Invoice_details = (props) => {
                               <div className="inv_title2">
                                 <div className="inv_title3">Total Amount</div>
                                 <div className="inv_title4 ing">
-                                  $
+                                  {current_currency}
                                   {FormatAmount(
                                     invoice_details?.total_amount
                                   ) ?? "~~/~~"}
                                 </div>
                                 <div className="inv_title3">Amount Paid</div>
                                 <div className="inv_title4 ing">
-                                  $
+                                {current_currency}
                                   {FormatAmount(
                                     invoice_details?.total_amount_paid
                                   ) ?? "~~/~~"}
@@ -339,7 +340,7 @@ const Admin_Invoice_details = (props) => {
                               <div className="inv_title2">
                                 <div className="inv_title3">Balance Due</div>
                                 <div className="inv_title4 ing">
-                                  $
+                                {current_currency}
                                   {FormatAmount(
                                     invoice_details?.total_amount_unpaid
                                   ) ?? "~~/~~"}
@@ -361,7 +362,7 @@ const Admin_Invoice_details = (props) => {
                                 {invoice_details?.cycles?.map((data, i) => (
                                   <tr className="tdata" key={i}>
                                     <td>
-                                      ${FormatAmount(data?.specialist_cost)}
+                                    {current_currency}{FormatAmount(data?.specialist_cost)}
                                     </td>
                                     <td>{formatTime(data?.date)}</td>
                                     <td>{data?.status}</td>

@@ -345,7 +345,7 @@ const Admin_Invoice_details = (props) => {
               }}>
                   Cancel
                 </Button>
-                <div className="" onClick={makePaymentToSpecialist}>
+                <div className="" onClick={makePaymentForSubInvoice}>
                 <Button className="btn-success primary3">
                   {isloading ? "Processing" : "Pay"}
                 </Button>
