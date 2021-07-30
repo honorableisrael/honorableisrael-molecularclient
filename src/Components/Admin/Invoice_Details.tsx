@@ -16,7 +16,14 @@ import arrowback from "../../images/dtls.png";
 import { Link } from "react-router-dom";
 import logo from "../../images/Molecular.png";
 import axios from "axios";
-import { API, FormatAmount, formatTime, notify, returnAdminToken } from "../../config";
+import {
+  API,
+  current_currency,
+  FormatAmount,
+  formatTime,
+  notify,
+  returnAdminToken,
+} from "../../config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -36,9 +43,11 @@ const Admin_Invoice_details = (props) => {
     start_date: "",
     hour: "",
     show: false,
+    show2: false,
     reason: "",
     isloading: false,
     work_order_detail: {},
+    selected_id: "",
   });
 
   const onchange = (e) => {
@@ -69,17 +78,25 @@ const Admin_Invoice_details = (props) => {
       });
     }
   };
-  const openModal = (e, x) => {
+  const openPaymentModal = (id) => {
     setState({
       ...state,
       show: true,
+      selected_id: id,
     });
   };
+  const openPaymentModal2 = (id) => {
+    setState({
+      ...state,
+      show2: true,
+      selected_id: id,
+    });
+  };  
   useEffect(() => {
     window.scrollTo(-0, -0);
     const invoice_: any = localStorage.getItem("invoice_id");
-    const invoice = invoice_?JSON.parse(invoice_):""
-    const token = returnAdminToken()
+    const invoice = invoice_ ? JSON.parse(invoice_) : "";
+    const token = returnAdminToken();
     const work_order = localStorage.getItem("work_order_details");
     const work_order_details = work_order ? JSON.parse(work_order) : "";
     axios
@@ -89,10 +106,10 @@ const Admin_Invoice_details = (props) => {
         }),
         axios.get(`${API}/bank-accounts`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
-        })
+        }),
       ])
       .then(
-        axios.spread((res2,res3) => {
+        axios.spread((res2, res3) => {
           console.log(res2.data.data);
           setState({
             ...state,
@@ -109,7 +126,8 @@ const Admin_Invoice_details = (props) => {
         });
         console.log(err);
       });
-  }, []);
+    }, 
+  []);
 
   const sendInvoice = () => {
     const availableToken: any = localStorage.getItem("loggedInDetails");
@@ -153,6 +171,95 @@ const Admin_Invoice_details = (props) => {
         console.log(err);
       });
   };
+
+  const makePaymentForSubInvoice = () => {
+    const work_order = localStorage.getItem("work_order_details");
+    const work_order_details = work_order ? JSON.parse(work_order) : "";
+    setState({
+      ...state,
+      isloading: true,
+    });
+    axios
+      .all([
+        axios.post(
+          `${API}/admin/sub-invoices/${selected_id}/paid`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${returnAdminToken().access_token}`,
+            },
+          }
+        ),
+      ])
+      .then(
+        axios.spread((res) => {
+          setTimeout(()=>{
+            window.location.reload()
+          },2000)
+          notify("Successful");
+          console.log(res.data.data);
+          setState({
+            ...state,
+            isloading: false,
+          });
+        })
+      )
+      .catch((err) => {
+        setTimeout(()=>{
+          window.location.reload()
+        },2000)
+        setState({
+          ...state,
+          isloading: false,
+        });
+        if (err?.response?.status == 400) {
+          return notify(err?.response?.data?.message);
+        }
+        console.log(err);
+      });
+  };
+
+  const makePaymentToSpecialist = () => {
+    const work_order = localStorage.getItem("work_order_details");
+    const work_order_details = work_order ? JSON.parse(work_order) : "";
+    setState({
+      ...state,
+      isloading: true,
+    });
+    axios
+      .all([
+        axios.post(
+          `${API}/admin/sub-invoices/${selected_id}/specialists/paid`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${returnAdminToken().access_token}`,
+            },
+          }
+        ),
+      ])
+      .then(
+        axios.spread((res) => {
+          notify("Successful");
+          console.log(res.data.data);
+          setState({
+            ...state,
+            isloading: false,
+          });
+        })
+      )
+      .catch((err) => {
+        setState({
+          ...state,
+          isloading: false,
+        });
+        if (err?.response?.status == 400) {
+          return notify(err?.response?.data?.message);
+        }
+        console.log(err);
+      });
+  };
+
   
   const {
     project_purpose,
@@ -163,14 +270,16 @@ const Admin_Invoice_details = (props) => {
     end_date,
     reason,
     isloading,
+    show2,
     start_date,
     invoice_details,
+    selected_id,
     show,
   } = state;
   return (
     <>
       <Modal
-        size="lg"
+        size="sm"
         show={show}
         onHide={() =>
           setState({
@@ -179,34 +288,67 @@ const Admin_Invoice_details = (props) => {
           })
         }
         dialogClassName="modal-90w"
-        className="mdl12"
+        className="mdl12c"
       >
         <Modal.Header closeButton>
           <Modal.Title id="example-custom-modal-styling-title">
-            Reject order
+            Confirm Payment
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Row>
             <Col md={12}>
-              <Form>
-                <textarea
-                  value={reason}
-                  name={"reason"}
-                  onChange={onchange}
-                  className="form-control reason12 reason122"
-                  placeholder="Reason for termination"
-                ></textarea>
-              </Form>
+              <h6>Are you sure you want to make payment</h6>
             </Col>
           </Row>
           <Row>
             <Col md={12} className="terminate2">
-              <div
-                className="terminate1"
-                onClick={(e) => openModal(e, "Terminate")}
-              >
-                Reject
+              <div className="" onClick={makePaymentToSpecialist}>
+                <Button className="btn-success primary3">
+                  {isloading ? "Processing" : "Pay"}
+                </Button>
+              </div>
+            </Col>
+          </Row>
+        </Modal.Body>
+      </Modal>
+      <Modal
+        size="sm"
+        show={show2}
+        onHide={() =>
+          setState({
+            ...state,
+            show2: false,
+          })
+        }
+        dialogClassName="modal-90w"
+        className="mdl12c"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="example-custom-modal-styling-title">
+            Confirm Payment
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Row>
+            <Col md={12}>
+              <h6>Are you sure the contractor has made payment for this payment cycle</h6>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={12} className="terminate2">
+              <Button className="btn-success succinline" onClick={()=>{
+                setState({
+                  ...state,
+                  show2:false
+                })
+              }}>
+                  Cancel
+                </Button>
+                <div className="" onClick={makePaymentToSpecialist}>
+                <Button className="btn-success primary3">
+                  {isloading ? "Processing" : "Pay"}
+                </Button>
               </div>
             </Col>
           </Row>
@@ -229,8 +371,8 @@ const Admin_Invoice_details = (props) => {
                 <Link to="/admin_payment_invoice">
                   {" "}
                   <img src={arrowback} className="arrowback" />
-                </Link> &nbsp;
-                Proforma Invoice Details
+                </Link>{" "}
+                &nbsp; Proforma Invoice Details
               </div>
             </div>
             <Row className="mgtop">
@@ -242,7 +384,9 @@ const Admin_Invoice_details = (props) => {
                         <div className="">
                           <div className="box_inv outerpink">
                             <span className="box_smalltick smalltickpink"></span>
-                            {invoice_details?.total_amount_paid > 0?"Paid":"Unpaid"}
+                            {invoice_details?.total_amount_paid > 0
+                              ? "Paid"
+                              : "Unpaid"}
                           </div>
                           <div className="boxwrapper__1">
                             <div className="lcomponent">
@@ -252,7 +396,12 @@ const Admin_Invoice_details = (props) => {
                               <div className="inv_title2">
                                 <div className="inv_title3">
                                   {" "}
-                                  Invoice Number  <span className="acceptedinvoc">{invoice_details.is_approved?"Accepted":"Awaiting Acceptance"}</span>
+                                  Invoice Number{" "}
+                                  <span className="acceptedinvoc">
+                                    {invoice_details.is_approved
+                                      ? "Accepted"
+                                      : "Awaiting Acceptance"}
+                                  </span>
                                 </div>
                                 <div className="inv_title4">
                                   {invoice_details?.number ?? "~~/~~"}
@@ -261,14 +410,15 @@ const Admin_Invoice_details = (props) => {
                               <div className="inv_title2">
                                 <div className="inv_title3">Invoice Date</div>
                                 <div className="inv_title4">
-                                  {formatTime(invoice_details?.sent_at )?? "~~/~~"}
+                                  {formatTime(invoice_details?.sent_at) ??
+                                    "~~/~~"}
                                 </div>
                               </div>
                             </div>
                             <div className="rcomponent">
                               <img src={logo} alt="" className="Simage" />
                               <div className="Stext2">
-                               {invoice_details?.company_address??"n/a"}
+                                {invoice_details?.company_address ?? "n/a"}
                               </div>
                             </div>
                           </div>
@@ -288,15 +438,30 @@ const Admin_Invoice_details = (props) => {
                             <div className="rcomponent">
                               <div className="inv_title2">
                                 <div className="inv_title3">Total Amount</div>
-                                <div className="inv_title4 ing">${FormatAmount(invoice_details?.total_amount)?? "~~/~~"}</div>
+                                <div className="inv_title4 ing">
+                                  {current_currency}
+                                  {FormatAmount(
+                                    invoice_details?.total_amount
+                                  ) ?? "~~/~~"}
+                                </div>
                                 <div className="inv_title3">Amount Paid</div>
-                                <div className="inv_title4 ing">${FormatAmount(invoice_details?.total_amount_paid)?? "~~/~~"}</div>
+                                <div className="inv_title4 ing">
+                                  {current_currency}
+                                  {FormatAmount(
+                                    invoice_details?.total_amount_paid
+                                  ) ?? "~~/~~"}
+                                </div>
                               </div>
                             </div>
                             <div className="rcomponent">
                               <div className="inv_title2">
                                 <div className="inv_title3">Balance Due</div>
-                                <div className="inv_title4 ing">${FormatAmount(invoice_details?.total_amount_unpaid)?? "~~/~~"}</div>
+                                <div className="inv_title4 ing">
+                                  {current_currency}
+                                  {FormatAmount(
+                                    invoice_details?.total_amount_unpaid
+                                  ) ?? "~~/~~"}
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -307,20 +472,52 @@ const Admin_Invoice_details = (props) => {
                                   <th className="tablehead">Specialist Cost</th>
                                   <th className="tablehead">Date</th>
                                   <th className="tablehead">Status</th>
+                                  <th className="tablehead">
+                                    Contractor Payment
+                                  </th>
                                   <th className="tablehead">Cycle</th>
+                                  <th className="tablehead">Action</th>
                                 </tr>
                               </thead>
                               <tbody>
-                                {invoice_details?.cycles?.map(
-                                  (data, i) => (
-                                    <tr className="tdata" key={i}>
-                                       <td>${FormatAmount(data?.specialist_cost)}</td>
-                                      <td>{formatTime(data?.date)}</td>
-                                      <td>{data?.status}</td>
-                                      <td>{data?.cycle}</td>
-                                    </tr>
-                                  )
-                                )}
+                                {invoice_details?.cycles?.map((data, i) => (
+                                  <tr className="tdata" key={i}>
+                                    <td>
+                                      {current_currency}
+                                      {FormatAmount(data?.specialist_cost)}
+                                    </td>
+                                    <td>{formatTime(data?.date)}</td>
+                                    <td>{data?.status}</td>
+                                    <td>
+                                      {data?.status == "Unpaid" ? (
+                                        <Button
+                                          onClick={() =>
+                                            openPaymentModal2(data.id)
+                                          }
+                                          className="btn-success primary3"
+                                        >
+                                          Pay
+                                        </Button>
+                                      ) : (
+                                        ""
+                                      )}
+                                    </td>
+                                    <td>{data?.cycle}</td>
+                                    <td>
+                                    {data?.status == "Paid" ? (
+                                      <Button
+                                        onClick={() =>
+                                          openPaymentModal(data.id)
+                                        }
+                                        className="payspecialist1"
+                                      >
+                                        Pay Specialists
+                                      </Button>)
+                                      : ""
+                                    }
+                                    </td>
+                                  </tr>
+                                ))}
                               </tbody>
                             </Table>
                             <div className="text-right mgg2"></div>
@@ -333,10 +530,10 @@ const Admin_Invoice_details = (props) => {
                           {invoice_details?.bank_accounts?.map((data, i) => (
                             <div className="fbn1">
                               <div className="bnclass">{data.bank}</div>
-                              <div className="bnclass">{data.account_number}</div>
                               <div className="bnclass">
-                                {data.account_name}
+                                {data.account_number}
                               </div>
+                              <div className="bnclass">{data.account_name}</div>
                             </div>
                           ))}
                         </div>

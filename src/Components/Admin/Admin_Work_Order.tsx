@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Col, Row, Container, Pagination } from "react-bootstrap";
+import { Col, Row, Container, Pagination, Spinner } from "react-bootstrap";
 import "./contractor.css";
 import DashboardNav from "./navbar";
 import portfolio from "../../images/portfolio.png";
@@ -16,7 +16,7 @@ import AdminWorkOrderCards from "./WorkCardAdmin";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import New_Work_Order_Card from "./New_Work_Order_Card";
-import { API, capitalize } from "../../config";
+import { API, capitalize, returnAdminToken } from "../../config";
 import axios from "axios";
 
 
@@ -41,6 +41,7 @@ const AdminWorkOrder = () => {
     fourthtab: false,
     fifthtab: false,
     sixthtab: false,
+    isloading:false,
     next_page: "",
     prev_page: "",
     current: "",
@@ -185,11 +186,56 @@ const AdminWorkOrder = () => {
             fourthtab: false,
             fifthtab: false,
             sixthtab: false,
+            isloading:false
+          });
+        })
+      )
+      .catch((err) => {
+        setState({
+          ...state,
+          isloading:false
+        })
+        console.log(err);
+      });
+  };
+  const search_filter = () => {
+    const token = returnAdminToken()
+    setState({
+      ...state,
+      isloading:true
+    })
+    axios
+      .all([
+        axios.get(`${API}/admin/work-orders?paginate=1&search=${search}`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
+      ])
+      .then(
+        axios.spread((res) => {
+          console.log(res.data.data);
+          setState({
+            ...state,
+            work_orders: res.data.data.data,
+            ...res.data.data.links,
+            ...res.data.data.meta,
+            isloading:false,
+            inprogress: true,
+            pending_request: false,
+            new_order: false,
+            awaiting_assignment: false,
+            past: false,
+            fourthtab: false,
+            fifthtab: false,
+            sixthtab: false,
           });
         })
       )
       .catch((err) => {
         console.log(err);
+        setState({
+          ...state,
+          isloading:false
+        })
       });
   };
   const filter_by_new = (fun) => {
@@ -347,6 +393,7 @@ const AdminWorkOrder = () => {
     first,
     last,
     current_page,
+    isloading,
   } = state;
   return (
     <>
@@ -369,9 +416,16 @@ const AdminWorkOrder = () => {
                     type="text"
                     className="form-control search_field"
                     value={search}
+                    onChange={onchange}
+                    onKeyPress={(e)=>{
+                      if(e.key=="Enter"){
+                        search_filter()
+                      }
+                    }}
                     name="search"
                     placeholder="Search"
                   />
+                 {isloading && <Spinner animation={"grow"} variant={"info"}/>}
                 </div>
               </div>
               <div>
@@ -434,7 +488,7 @@ const AdminWorkOrder = () => {
                       : "assign__1 border__left__none"
                   }
                 >
-                  Awaiting Assignment
+                  Awaiting invitation
                 </div>
               </div>
             ) : (

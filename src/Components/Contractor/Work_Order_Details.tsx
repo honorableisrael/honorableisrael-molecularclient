@@ -26,6 +26,7 @@ import "react-toastify/dist/ReactToastify.css";
 import axios, { AxiosResponse } from "axios";
 import { API, capitalize, checkIfIsOdd } from "../../config";
 import WorkInformationBreakdown from "./Work_information_Breakdown";
+import { NavHashLink } from "react-router-hash-link";
 
 const WorkOrderDetails = withRouter((props: any) => {
   const [state, setState] = useState<any>({
@@ -230,16 +231,16 @@ const WorkOrderDetails = withRouter((props: any) => {
                   <img src={portfolio} alt="portfolio" className="portfolioq" />
                 </p>
                 <p className="bview">
-                  <a data-target="#overview">Overview</a>
+                  <NavHashLink to="#overview">Overview</NavHashLink>
                 </p>
                 <p className="bview inactive_bv">
-                  <a data-target="#details">Specialist Details</a>
+                  <NavHashLink to="#details">Specialist Details</NavHashLink>
                 </p>
                 <p className="bview inactive_bv">
-                  <a data-target="#work">Work Details</a>
+                  <NavHashLink to="#work">Work Details</NavHashLink>
                 </p>
                 <p className="bview inactive_bv">
-                  <a data-target="#actions">Actions</a>
+                  <NavHashLink to="#actions">Actions</NavHashLink>
                 </p>
               </Col>
               <Col md={10} className="job23_1a_ job23_1a_p">

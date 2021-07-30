@@ -142,7 +142,7 @@ const Accordions = (props) => {
                   <th>Full Name</th>
                   <th>Skill</th>
                   <th>Position</th>
-                  <th>Assign group lead</th>
+                  {/* <th>Assign group lead</th> */}
                 </tr>
               </thead>
               <tbody>
@@ -158,7 +158,7 @@ const Accordions = (props) => {
                     </td>
                     <td>{data?.skills[0]?.name}</td>
                     <td>{data?.leader ? "Team Lead" : "Member"}</td>
-                    <td className="depspltabcol1">
+                    {/* <td className="depspltabcol1">
                       {!data?.leader ? (
                         <input
                           type="radio"
@@ -168,7 +168,7 @@ const Accordions = (props) => {
                       ) : (
                         "~~/~~"
                       )}
-                    </td>
+                    </td> */}
                   </tr>
                 ))}
               </tbody>

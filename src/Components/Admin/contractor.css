@@ -2844,3 +2844,19 @@ padding-left: 34px;
 .form_h1{
   justify-content: space-between;
 }
+
+.payspecialist1,.payspecialist1:hover,.payspecialist1:focus{
+  background: var(--molecular-orange);
+  border: none;
+}
+.primary3{
+  min-width: 108px;
+}
+.terminate2 button{
+  margin-right: .4rem;
+}
+.succinline,.succinline:hover{
+  background: white;
+  border: 1px solid #28a745;
+  color: #28a745;
+}

@@ -72,6 +72,7 @@ export const splitName =(x)=>{
     return {first:x?.split("")[0],second:x?.split("")[1]}
   }
  }
+export const current_currency = "₦"
 // // Clarity Production API
 // export const API = "http://api.molecular.elostage.xyz/api/v1"
 // // Clarity Staging API

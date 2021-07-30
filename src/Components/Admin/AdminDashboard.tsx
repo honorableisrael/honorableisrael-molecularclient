@@ -81,7 +81,7 @@ const AdminDashboard = withRouter((props) => {
     series: [
       {
         name: "Work Force",
-        data: [0, 0, 1, 1, 1, 1],
+        data: [20, 0, 1, 1, 1, 1],
       },
     ],
     options: {
@@ -142,6 +142,7 @@ const AdminDashboard = withRouter((props) => {
     all_specialist: [],
     notification: [],
     invoices: [],
+    admin_chart:{}
   });
 
   useEffect(() => {
@@ -163,10 +164,13 @@ const AdminDashboard = withRouter((props) => {
         axios.get(`${API}/admin/invoices`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }),
+        axios.get(`${API}/admin/dashboard/charts`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
       ])
       .then(
-        axios.spread((res, res2, res3, res4,res5) => {
-          console.log(res4.data);
+        axios.spread((res, res2, res3, res4,res5,res6) => {
+          console.log(res6.data);
           setState({
             ...state,
             admin: res.data.data,
@@ -174,6 +178,7 @@ const AdminDashboard = withRouter((props) => {
             notification: res3.data.data.data,
             work_orders: res4.data.data.data,
             invoices: res5.data.data.data,
+            admin_chart:res6.data.data,
           });
         })
       )

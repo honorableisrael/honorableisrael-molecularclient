@@ -458,7 +458,7 @@ const DeployedSpecialist = withRouter((props) => {
     <>
       <Helmet>
         <meta charSet="utf-8" />
-        <title>Molecular - Deployed Specialists</title>
+        <title>Molecular - Invited Specialists</title>
         <link />
       </Helmet>
       <Modal
@@ -630,7 +630,7 @@ const DeployedSpecialist = withRouter((props) => {
                   {" "}
                   <img src={arrowback} className="arrowback" />
                 </Link>
-                &nbsp; Assigned Specailist
+                &nbsp; Invited Specailist
               </div>
               <div className="manage_" onClick={openModal}>
                 Manage Groups
@@ -722,7 +722,7 @@ const DeployedSpecialist = withRouter((props) => {
                     <div className="depsplstimg">
                       <img src={blueavatar} alt="img" />
                     </div>
-                    <p>View list of grouped specialist,worksheets and assign team lead</p>
+                    <p>View list of grouped specialist and worksheets</p>
                   </div>
                   {work_order_detail?.work_groups?.map((data, i) => (
                     <Accordions title={data?.name} group_data={data} />
