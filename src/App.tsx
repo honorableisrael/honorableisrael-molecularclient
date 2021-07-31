@@ -211,7 +211,7 @@ class App extends Component {
                 component={SpecialistNotification}
               />
               <Route
-                path="/Specialist_Payment_Invoice"
+                path="/Specialist_Payment_Invoice/:id"
                 component={Specialist_Payment_Invoice}
               />
               <Route path="/signin" component={SignIn} />

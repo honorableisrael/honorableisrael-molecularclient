@@ -4,7 +4,6 @@ import "./contractor.css";
 import DashboardNav from "./navbar";
 import portfolio from "../../images/fileno.png";
 import "react-rangeslider/lib/index.css";
-import { Helmet } from "react-helmet";
 import nextbtn from "../../images/nextbtn.png";
 import { Link } from "react-router-dom";
 import { formatTime } from "../../config";

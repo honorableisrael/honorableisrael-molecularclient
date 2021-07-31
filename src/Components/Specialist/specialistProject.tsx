@@ -74,6 +74,7 @@ const Projects = () => {
     });
 }
   const editProject = (id, index) => {
+    console.log(id)
     setState({
       ...state,
       project_id: index,
@@ -92,6 +93,7 @@ const Projects = () => {
       projects: tempProjectDetails,
       projectModal: false,
     });
+    console.log(credential_id)
         //post to API
         const availableToken = localStorage.getItem("loggedInDetails");
         console.log(availableToken);
@@ -199,6 +201,7 @@ const Projects = () => {
   }, []);
 
   const deleteProject=(id, index)=>{
+    console.log(id)
     setState({
       ...state,
       credential_id: id,
@@ -214,6 +217,7 @@ const Projects = () => {
     };
    
     const deleteModalChange= (state, credential_id)=>{
+      console.log(credential_id)
       let tempExperienceDetails = state.projects;
     tempExperienceDetails.splice(project_id, 1);
       setState({

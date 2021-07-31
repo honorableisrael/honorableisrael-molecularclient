@@ -109,7 +109,6 @@ const SpecialistSettings = () => {
     });
   };
  const handleImageChange = (e) => {
-
   const reader: any= new FileReader();
   reader.onload =()=>{
     if(reader.readyState === 2){
@@ -691,7 +690,7 @@ const SpecialistSettings = () => {
                           </div>
                         </Col>
                       </Row>
-                      <Row>
+                      {/* <Row>
                         <Col md={12}>
                           <h6 className="profillabels">
                             Other skill
@@ -724,7 +723,7 @@ const SpecialistSettings = () => {
                           </div>
                           <div className="sectndivider"></div>
                         </Col>
-                      </Row>
+                      </Row> */}
                       <Row className="section_form1">
                       <Col md={12}>
                          <Experience/>

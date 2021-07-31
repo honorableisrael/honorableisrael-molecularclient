@@ -21,6 +21,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Admin_Invoice_details = (props) => {
+  console.log(props)
   const [state, setState] = useState<any>({
     invoice_details: {},
     country: "",
