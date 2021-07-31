@@ -132,6 +132,7 @@ const Specialist_Payment_Invoice = (props) => {
                 <Table hover>
                   <thead className="splinvoitablehead">
                     <tr>
+                      <th>Cycle</th>
                       <th>Invoice Number</th>
                       <th>Amount</th>
                       <th>Amount Paid</th>
@@ -142,6 +143,7 @@ const Specialist_Payment_Invoice = (props) => {
                   <tbody>
                     {invoice_details?.cycles?.map((data, i)=>(
                    <tr>
+                    <td>{data.cycle}</td>
                    <td>{data.number}</td>
                    <td>{data.amount}.</td>
                    <td> {data.amount_paid} </td>
@@ -155,46 +157,13 @@ const Specialist_Payment_Invoice = (props) => {
                     {data.status == "Unpaid" &&(
                       <div className="invpaystatwrap pendinwrap">
                       <span className="paystatindcator pendininvoice"></span>
-                      <span className="paystattext pendininvtext">pending</span>
+                      <span className="paystattext pendininvtext">Unpaid</span>
                     </div>
                     )}
                    </td> 
                    <td>{data.date}</td>
                   </tr>
                     ))} 
-                    {/* <tr>
-                      <td>1233127567812</td>
-                      <td>N33,329</td>
-                      <td>
-                        <div className="invpaystatwrap">
-                          <span className="paystatindcator"></span>
-                          <span className="paystattext">paid</span>
-                        </div>
-                      </td>
-                      <td>23-04-2021</td>
-                    </tr>
-                    <tr>
-                      <td>1233127567812</td>
-                      <td>N33,329</td>
-                      <td>
-                        <div className="invpaystatwrap pendinwrap">
-                          <span className="paystatindcator pendininvoice"></span>
-                          <span className="paystattext pendininvtext">pending</span>
-                        </div>
-                      </td>
-                      <td>23-04-2021</td>
-                    </tr>
-                    <tr>
-                      <td>1233127567812</td>
-                      <td>N33,329</td>
-                      <td>
-                        <div className="invpaystatwrap pendinwrap">
-                          <span className="paystatindcator pendininvoice"></span>
-                          <span className="paystattext pendininvtext">pending</span>
-                        </div>
-                      </td>
-                      <td>23-04-2021</td>
-                    </tr> */}
                   </tbody>
                 </Table>
               </div>
