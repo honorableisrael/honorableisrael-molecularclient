@@ -24,7 +24,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import pen from "../../images/pen.png";
 import axios, { AxiosResponse } from "axios";
-import { API, FormatAmount, notify } from "../../config";
+import { API, current_currency, FormatAmount, notify } from "../../config";
 
 const AdminWorkOrderEvaluationStep2 = (props) => {
   const [state, setState] = useState<any>({
@@ -839,7 +839,7 @@ const AdminWorkOrderEvaluationStep2 = (props) => {
                                   <span className="checkmark"></span>
                                 </label>
                               </span>
-                              <span className="checkmark1">
+                              {/* <span className="checkmark1">
                                 <label className="container_checkbox">
                                   Monthly
                                   <input
@@ -851,7 +851,7 @@ const AdminWorkOrderEvaluationStep2 = (props) => {
                                   />
                                   <span className="checkmark"></span>
                                 </label>
-                              </span>
+                              </span> */}
                             </Col>
                             <Col md={12}>
                               <div className="pricing__112 pricing__11_1">
@@ -922,10 +922,10 @@ const AdminWorkOrderEvaluationStep2 = (props) => {
                                   Total cost for {data.number} {data.skill}
                                 </div>
                                 <div className="ttola1b cost12">
-                                  ${FormatAmount(data.total_cost)}
+                                {current_currency}{FormatAmount(data.total_cost)}
                                 </div>
                                 <div className="ttola1">
-                                  ${FormatAmount(data.cost_per_specialist)}/
+                                {current_currency}{FormatAmount(data.cost_per_specialist)}/
                                   {data.skill}
                                 </div>
                               </div>
@@ -943,7 +943,7 @@ const AdminWorkOrderEvaluationStep2 = (props) => {
                         <div className="cost_total">
                           <div className="ttola1a">Total work order cost</div>
                           <div className="ttola1b">
-                            ${FormatAmount(total_cost)}
+                          {current_currency}{FormatAmount(total_cost)}
                           </div>
                         </div>
                       </div>

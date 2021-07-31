@@ -69,6 +69,17 @@ export const getAdminToken=()=>{
   }
   return token
 }
+export const splitName =(x)=>{
+  if(x.split(" ").length>1){
+    if(x){
+      return {first:x?.split(" ")[0].substring(1,0),second:x?.split(" ")[1].substring(1,0)} 
+     }
+  }
+  if(x.split("").length==1){
+    return {first:x?.split("")[0],second:x?.split("")[1]}
+  }
+ }
+export const current_currency = "₦"
 // // Clarity Production API
 // export const API = "http://api.molecular.elostage.xyz/api/v1"
 // // Clarity Staging API

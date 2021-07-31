@@ -19,9 +19,8 @@ import { API } from "../../config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
 const SpecialistWorkOrderDetails = (props) => {
-  const [state, setState] = useState({
+  const [state, setState]: any = useState({
     work_order_detail: {},
     work_orders: [],
     country: "",
@@ -44,18 +43,18 @@ const SpecialistWorkOrderDetails = (props) => {
     worksheet_reports: [{}],
     is_group_leader: false,
   });
-  const onchange = e => {
+  const onchange = (e) => {
     console.log(e.target.value);
     setState({
       ...state,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   const openModal = (e, x) => {
     setState({
       ...state,
-      show: true
+      show: true,
     });
   };
   useEffect(() => {
@@ -153,7 +152,6 @@ const  upLoadFile= ({target: {files}})=>{
     is_group_leader,
     hour
   }: any= state;
-console.log(work_group);
   return (
     <>
       <ToastContainer
@@ -169,7 +167,7 @@ console.log(work_group);
         onHide={() =>
           setState({
             ...state,
-            show: false
+            show: false,
           })
         }
         dialogClassName="modal-90w"
@@ -198,7 +196,7 @@ console.log(work_group);
             <Col md={12} className="terminate2">
               <div
                 className="terminate1"
-                onClick={e => openModal(e, "Terminate")}
+                onClick={(e) => openModal(e, "Terminate")}
               >
                 Terminate
               </div>
@@ -237,7 +235,7 @@ console.log(work_group);
                   to="#overview"
                   activeStyle={{
                     backgroundColor: "#fd8b003b",
-                    color: "#fd8c00"
+                    color: "#fd8c00",
                   }}
                 >
                   Over View
@@ -268,13 +266,11 @@ console.log(work_group);
                 <div id="specialist_details"></div>
                 <div className="job23_1a">
                   <div className="">
-                    <WorkOrderCardsMinInfo
-                    order_detail={work_order_detail}
-                    />
+                    <WorkOrderCardsMinInfo order_detail={work_order_detail} />
                   </div>
                 </div>
-                <div className="job23_1a">
-                  <h6 className="title22">Specialists Assigned</h6>
+                  <div className="job23_1a">
+                  {/* <h6 className="title22">Specialists Assigned</h6> */}
                   <div className="job23_1a wrap_z">
                     <div className="group_flex">
                       <div className="grpA">
@@ -344,7 +340,7 @@ console.log(work_group);
                       <hr />
                     </div>
                     <div className="active_member23">
-                      <div className="active_worksheet">WORKS SHEETS</div>
+                      <div className="active_worksheet">WORKS SHEETS <span className="acceptablefile text-info"><span className="acceptablefile text-dark">Acceptable document format:</span>pdf, docx, doc,xlsx,xls <b><span className="acceptablefile text-dark">Max size:</span> 500kb</b> </span></div>
                       <div className="worksheet_1">
                        {worksheet_reports.map((item, index)=>{
                          return(
@@ -357,11 +353,13 @@ console.log(work_group);
                             <a href={item.worksheet}>
                             <div className="worksheetdw worksheetdate1">
                               {" "}
+                              <div>
                               <img
                                 src={dwnload}
                                 alt="dwnload"
                                 className="dwnload1"
                               />
+                              </div>
                               Download
                             </div>
                             </a>
@@ -378,17 +376,15 @@ console.log(work_group);
                         </div>
                        )} 
                       </div>
-                      <WorkDetails_Form_Preview  order_detail={work_order_detail}/>
                     </div>
-                  </div>
-
-                  <h6 className="title22 title22r2" id="actions">
+                    </div>
+                  {/* <h6 className="title22 title22r2" id="actions">
                     Actions
                   </h6>
                   <div className="job23_1a wrap_z">
                     <div className="main_wrap_ws main_wrapp1">
                       <h3 className="userprofile12 userprofile123">
-                      Quit Work
+                        Quit Work
                       </h3>
                       <p className="Construction12">
                         To quit a project that has been placed, a quit request
@@ -397,13 +393,13 @@ console.log(work_group);
                       <div className="text-left">
                         <div
                           className="terminate1"
-                          onClick={e => openModal(e, "Terminate")}
+                          onClick={(e) => openModal(e, "Terminate")}
                         >
                           Terminate
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </Col>
             </Row>

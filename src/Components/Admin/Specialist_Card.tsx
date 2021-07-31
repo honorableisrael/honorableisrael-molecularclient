@@ -60,10 +60,13 @@ const Specialist_card = withRouter((props: any) => {
                 {props?.specialist_data?.last_name ?? "n/a"}{" "}
                 {props?.specialist_data?.first_name ?? "n/a"}
               </span>{" "}
-              <span className="cerfified1">Certified Welder</span>
+              <span className="cerfified1">
+                {props?.specialist_data?.skills[0]?.name ?? "n/a"}
+              </span>
             </div>
             <div className="prim_skills">
-              Secondary Skills: Plumber & Fitter
+              Secondary Skills:{" "}
+              {props?.specialist_data?.skills?.map((data) => data.name)}
             </div>
             <div className="prim_skills">
               <span className="leveltitle"> Expert Level:</span>{" "}

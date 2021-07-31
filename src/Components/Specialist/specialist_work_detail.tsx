@@ -126,7 +126,7 @@ const Specialist_Work_details = props => {
     const token = availableToken
 
       ? JSON.parse(availableToken)
-      : window.location.assign("/signin");
+      : window.location.assign("/#signin");
     setState({
       ...state,
       isloading: true,
@@ -146,7 +146,10 @@ const Specialist_Work_details = props => {
       ])
       .then(
         Axios.spread((res) => {
-          notify("Successfull");
+          notify("Successfull","B");
+          setTimeout(()=>{
+            window.location.reload()
+          },3000)
           console.log(res.data);
           setState({
             ...state,
@@ -168,7 +171,7 @@ const Specialist_Work_details = props => {
     const availableToken: any = localStorage.getItem("loggedInDetails");
     const token = availableToken
       ? JSON.parse(availableToken)
-      : window.location.assign("/signin");
+      : window.location.assign("/#signin");
 
     setState({
       ...state,
@@ -193,9 +196,7 @@ const Specialist_Work_details = props => {
       ])
       .then(
         Axios.spread((res) => {
-          if(res.status==201 ){ 
-            notify("New work order Accepted")
-          }
+            notify("New work order rejected")
           console.log(res.data);
           setState({
             ...state,
@@ -207,7 +208,7 @@ const Specialist_Work_details = props => {
       .catch((err) => {
         console.log(err);
         if(err.response ){ 
-          notify("failed to accept work order")
+          notify("failed to reject work order")
         }
         setState({
           ...state,
@@ -233,6 +234,13 @@ const Specialist_Work_details = props => {
         hideProgressBar={true}
         position={"top-right"}
       />
+      <ToastContainer
+        enableMultiContainer
+        containerId={"B"}
+        toastClassName="bg-orange text-white"
+        hideProgressBar={true}
+        position={"top-right"}
+      />
       <div className="cardflex_jo">
         {emptyworkorder && (
           <div className="emptypendingworkwrap">
@@ -245,15 +253,15 @@ const Specialist_Work_details = props => {
           </div>
         )}
         {successMessage &&(<div className="wrktimelinediv" ref={fieldRef}>
-                    <img src={exclam} alt="img" />
-                    <p>{successMessage}</p>
-                  </div>
-                  )}
-                  {errorMessage &&(<div className="wrktimelinediv" ref={fieldRef}>
-                    <img src={exclam} alt="img" />
-                    <p>{errorMessage}</p>
-                  </div>
-                  )}
+          <img src={exclam} alt="img" />
+          <p>{successMessage}</p>
+        </div>
+        )}
+        {errorMessage &&(<div className="wrktimelinediv" ref={fieldRef}>
+          <img src={exclam} alt="img" />
+          <p>{errorMessage}</p>
+        </div>
+        )}
         {workorderdetails && (
           <div>
             {data.map((data, index) => {

@@ -67,7 +67,8 @@ const WorkOrderCards = (props) => {
               className="sliderclass1"
               // onChange={handleOnChange}
             />
-            <Link to="/contractor_work_order_details?inreview=true">
+          </div>
+          <Link to="/contractor_work_order_details?inreview=true">
               <div className="nextbtn">
                 <img
                   src={nextbtn}
@@ -82,7 +83,6 @@ const WorkOrderCards = (props) => {
                 />
               </div>
             </Link>
-          </div>
           <div className="minicardwrapper">
             <div className="content24">
               <img src={group2} alt="cotn23" className="cotn232" />

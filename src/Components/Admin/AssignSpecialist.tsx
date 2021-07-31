@@ -17,7 +17,7 @@ import axios from "axios";
 import { API, notify } from "../../config";
 import { capitalize } from "@material-ui/core";
 import { ToastContainer } from "react-toastify";
- 
+
 const SpecialistContext: any = React.createContext({
   state: {},
   setState: () => {},
@@ -42,11 +42,14 @@ const AssignOneSpecialist = (x) => {
       console.log(res);
       notify("Successfully assigned specialist");
       setTimeout(() => {
-        window.location.assign("/admin_work_details?inreview=true");
+        window.location.assign("/#admin_work_details?inreview=true");
       }, 2000);
     })
     .catch((err) => {
       console.log(err);
+      if (err?.response?.status == "400") {
+        return err?.response?.data?.message;
+      }
       notify("Failed to assign specialist", "D");
     });
 };
@@ -69,7 +72,7 @@ const Specialist_card = (props) => {
       selectedspecialist: [...state.selectedspecialist, ...add_new],
     });
   };
-
+  const { selectedspecialist } = state;
   return (
     <>
       <div className="container_01">
@@ -80,6 +83,7 @@ const Specialist_card = (props) => {
             <input
               type="checkbox"
               name="radio"
+              checked={selectedspecialist.includes(props.specialist_data.id)}
               onClick={() => sendSpecialistId(props.specialist_data.id)}
             />
             <span className="checkmark"></span>
@@ -118,7 +122,7 @@ const Specialist_card = (props) => {
             <button
               value="Assign bgorange"
               className="assign12"
-              onClick={()=>AssignOneSpecialist(props?.specialist_data?.id)}
+              onClick={() => AssignOneSpecialist(props?.specialist_data?.id)}
             >
               Assign{" "}
               <span>
@@ -147,7 +151,7 @@ const AssignSpecialist = () => {
     search: "",
     location: "",
     end_date: "",
-    isloading:false,
+    isloading: false,
     specialist_rating: 5,
     order_id: "",
     start_date: "",
@@ -169,14 +173,17 @@ const AssignSpecialist = () => {
     const token = availableToken
       ? JSON.parse(availableToken)
       : window.location.assign("/");
-      const workOrder = localStorage.getItem("work_order_details");
-      const workorder = workOrder ? JSON.parse(workOrder) : "";
-      console.log(workorder)
+    const workOrder = localStorage.getItem("work_order_details");
+    const workorder = workOrder ? JSON.parse(workOrder) : "";
+    console.log(workorder);
     axios
       .all([
-        axios.get(`${API}/admin/work-orders/${workorder.id}/recommend-specialists?paginate=1`, {
-          headers: { Authorization: `Bearer ${token.access_token}` },
-        }),
+        axios.get(
+          `${API}/admin/work-orders/${workorder.id}/recommend-specialists?paginate=1`,
+          {
+            headers: { Authorization: `Bearer ${token.access_token}` },
+          }
+        ),
       ])
       .then(
         axios.spread((res) => {
@@ -273,7 +280,7 @@ const AssignSpecialist = () => {
           window.scrollTo(-0, -0);
           setState({
             ...state,
-            contractor_list: res.data.data.data,
+            all_specialist: res.data.data.data,
             ...res.data.data.links,
             ...res.data.data.meta,
           });
@@ -287,8 +294,8 @@ const AssignSpecialist = () => {
     // e.preventDefault();
     setState({
       ...state,
-      isloading:true,
-    })
+      isloading: true,
+    });
     const availableToken: any = localStorage.getItem("loggedInDetails");
     const token = availableToken
       ? JSON.parse(availableToken)
@@ -305,23 +312,23 @@ const AssignSpecialist = () => {
         console.log(res);
         setState({
           ...state,
-          isloading:true,
-        })
+          isloading: true,
+        });
         notify("Successfully assigned specialist");
         setTimeout(() => {
-          window.location.assign("/admin_work_details?inreview=true");
+          window.location.assign("/#admin_work_details?inreview=true");
         }, 2000);
       })
       .catch((err) => {
         setState({
           ...state,
-          isloading:true,
-        })
+          isloading: true,
+        });
         console.log(err);
         notify("Failed to assign specialist", "D");
       });
   };
-  
+
   const {
     selectedspecialist,
     country,
@@ -363,6 +370,7 @@ const AssignSpecialist = () => {
                   </Link>
                   Assign Specialist
                 </div>
+
                 <div className="searchcontrol_">
                   <span className="rsr">
                     <img src={searchicon} className="rss" alt="search" />
@@ -384,8 +392,22 @@ const AssignSpecialist = () => {
             </div>
             <Row>
               <Col md={12} className="job23">
-                <div className="form_header">
+                <div className="form_header form_h1">
                   <span> Best matched Specialists</span>
+                  <div className="tetr">
+                    <div className="tetr2">
+                      {workorder?.specialist_requests?.map((data, i) => (
+                        <div className="frequew">
+                          <div>{data.number}</div>
+                          <div>{data?.skill}</div>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="frequew">
+                      {" "}
+                      {selectedspecialist.length} <span>Total marked :</span>
+                    </div>
+                  </div>
                 </div>
                 <div className="formcontent">
                   <Row>
@@ -397,10 +419,12 @@ const AssignSpecialist = () => {
                       }}
                     >
                       <div className="spread_">
-                        {all_specialist?.map((data:any, i) => (
-                          data.engaged==false &&
-                          <Specialist_card specialist_data={data} key={i} />
-                        ))}
+                        {all_specialist?.map(
+                          (data: any, i) =>
+                            data.engaged == false && (
+                              <Specialist_card specialist_data={data} key={i} />
+                            )
+                        )}
                         {all_specialist?.length == 0 && (
                           <Col md={11} className="containerforemptyorder1">
                             <div className="containerforemptyorder">

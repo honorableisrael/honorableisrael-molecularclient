@@ -70,7 +70,7 @@ const SpecialistNotification = withRouter((props) => {
           window.scrollTo(-0, -0);
           setState({
             ...state,
-            contractor_list: res.data.data.data,
+            notification: res.data.data.data,
             ...res.data.data.links,
             ...res.data.data.meta,
           });

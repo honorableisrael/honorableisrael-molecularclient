@@ -1,16 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Row, Container, Form, Modal } from "react-bootstrap";
 import "../contractor.css";
 import DashboardNav from "../navbar";
 import Slider from "react-rangeslider";
 import "react-rangeslider/lib/index.css";
 import { Helmet } from "react-helmet";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import axios from "axios";
-import { API } from "../../../config";
+import { API, capitalize, contractorToken, notify, splitName } from "../../../config";
+import allCountries from "../../../listOfCountriesInTheWorld";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-
-const Contractor_Profile = () => {
+const Contractor_Profile = withRouter((props) => {
   const [state, setState] = useState({
     work_orders: [],
     country: "",
@@ -19,8 +21,9 @@ const Contractor_Profile = () => {
     thirdtab: false,
     fourthtab: false,
     show: false,
+    contractor: {},
     company_name: "",
-    company_url: "",
+    website_url: "",
     sector: "",
     state_: "",
     address: "",
@@ -29,13 +32,24 @@ const Contractor_Profile = () => {
     first_name: "",
     last_name: "",
     middle_name: "",
+    reason: "",
+    industry: "",
+    old_password:"",
     current_password: "",
     new_password: "",
     confirm_password: "",
-    reason: "",
-    isloading:false
+    list_of_industries: [],
+    industry_id:"",
+    isloading: false,
   });
   const onchange = (e) => {
+    if(e.target.id=="industry"){
+     return setState({
+        ...state,
+        industry_id:e.target.value,
+        industry:e.target.value,
+      })
+    }
     console.log(e.target.value);
     setState({
       ...state,
@@ -104,21 +118,101 @@ const Contractor_Profile = () => {
   const SubmitProfile = () => {
     const data = {
       company_name,
-      company_url,
-      sector,
+      // website_url,
+      industry:industry_id,
       country,
-      state_,
+      state:state_,
       address,
     };
+    console.log(data)
+    setState({
+      ...state,
+      isloading:true
+    })
     axios
-      .post(`${API}/pi`, data)
+      .put(`${API}/contractor`, data, {
+        headers: { Authorization: `Bearer ${contractorToken().access_token}` },
+      })
       .then((res) => {
         console.log(res);
+        notify("Update successful")
+        setState({
+          ...state,
+          isloading:false,
+        })
       })
+      .catch((err) => {
+        notify("Update failed","D")
+        setState({
+          ...state,
+          isloading:false
+        })
+      });
+  };
+  const SubmitPassword = () => {
+    const data = {
+      old_password:old_password,
+      password:new_password,
+      password_confirmation:confirm_password,
+    };
+    console.log(data)
+    setState({
+      ...state,
+      isloading:true
+    })
+    axios
+      .put(`${API}/password`, data, {
+        headers: { Authorization: `Bearer ${contractorToken().access_token}` },
+      })
+      .then((res) => {
+        console.log(res);
+        notify("Update successful")
+        setState({
+          ...state,
+          isloading:false
+        })
+      })
+      .catch((err) => {
+        notify("Update failed","D")
+        setState({
+          ...state,
+          isloading:false
+        })
+      });
+  };
+  
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    const token = contractorToken();
+    if (token.user_type !== "contractor") {
+      return props.history.push("/login");
+    }
+    axios
+      .all([
+        axios.get(`${API}/contractor`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
+        axios.get(`${API}/industries`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
+      ])
+      .then(
+        axios.spread((res, res2) => {
+          console.log(res.data);
+          setState({
+            ...state,
+            ...res.data.data,
+            list_of_industries: res2.data.data,
+            contractor: res.data.data,
+            state_:res.data.data.state,
+            industry_id:res.data.data.industry_id
+          });
+        })
+      )
       .catch((err) => {
         console.log(err);
       });
-  };
+  }, []);
 
   const {
     firsttab,
@@ -127,15 +221,19 @@ const Contractor_Profile = () => {
     fourthtab,
     show,
     company_name,
-    company_url,
+    website_url,
     sector,
     country,
+    old_password,
     state_,
     address,
     phone_number,
     first_name,
     last_name,
-    middle_name,
+    industry,
+    industry_id,
+    isloading,
+    list_of_industries,
     email,
     reason,
     current_password,
@@ -163,19 +261,22 @@ const Contractor_Profile = () => {
                 <div className="titleprofile1">Settings</div>
                 <div className="setting1">
                   <div className="namestyle11">
-                    <span className="namestyle">HH</span>
+                    <span className="namestyle">
+                      {capitalize(company_name?.split("")[0])}
+                      {capitalize(company_name?.split("")[1])}
+                    </span>
                     <div className="home_pone12">
-                      <div className="helmot">Helmotz Holdings</div>
-                      <div className="helmot11">Oil and Gas</div>
-                      <div className="helmot112">Lagos State, Nigeria</div>
+                      <div className="helmot">{company_name}</div>
+                      <div className="helmot11">{industry}</div>
+                      <div className="helmot112">{address}</div>
                     </div>
                   </div>
-                  <div className="orders1">
+                  {/* <div className="orders1">
                     Total Work Orders
                     <div>
                       <span className="num12a">2</span>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="section_form">
                   <div className="profile__001">
@@ -263,7 +364,7 @@ const Contractor_Profile = () => {
                               Address
                             </h6>
                             <Form.Control
-                              type="date"
+                              type="text"
                               className="userfield"
                               id="address"
                               value={address}
@@ -277,13 +378,19 @@ const Contractor_Profile = () => {
                             <h6 className="userprofile userprofile12">
                               Country
                             </h6>
-                            <Form.Control
-                              type="text"
-                              className="userfield"
+                            <select
+                              className="userfield form-control"
                               id="country"
-                              value={country}
-                              onChange={onInputChange}
-                            />
+                              onChange={onchange}
+                              placeholder=""
+                            >
+                              <option>
+                                {country ? country : "Select Country"}
+                              </option>
+                              {allCountries.map((data, i) => (
+                                <option value={data.name}>{data.name}</option>
+                              ))}
+                            </select>
                           </Form.Group>
                         </Col>
                       </Row>
@@ -295,7 +402,7 @@ const Contractor_Profile = () => {
                             </h6>
                             <Form.Control
                               className="userfield"
-                              id="state"
+                              id="state_"
                               value={state_}
                               onChange={onchange}
                             />
@@ -304,19 +411,23 @@ const Contractor_Profile = () => {
                         <Col md={4} className="formsection1">
                           <Form.Group>
                             <h6 className="userprofile userprofile12">
-                              Sector
+                              Industry
                             </h6>
-                            <Form.Control
-                              type="date"
-                              className="userfield"
-                              id="sector"
-                              value={sector}
-                              onChange={onchange}
-                              placeholder=""
-                            />
+                            <select
+                              name=""
+                              id=""
+                              className="form-control userfield"
+                            >
+                              <option>{industry ? industry : ""}</option>
+                              {list_of_industries?.map((data: any, i) => (
+                                <option key={i} value={data.id}>
+                                  {data.name}
+                                </option>
+                              ))}
+                            </select>
                           </Form.Group>
                         </Col>
-                        <Col md={4} className="formsection1">
+                        {/* <Col md={4} className="formsection1">
                           <Form.Group>
                             <h6 className="userprofile userprofile12">
                               Company URL
@@ -324,11 +435,18 @@ const Contractor_Profile = () => {
                             <Form.Control
                               type="text"
                               className="userfield"
-                              id="company_url"
-                              value={company_url}
-                              onChange={onInputChange}
+                              id="website_url"
+                              value={website_url}
+                              onChange={onchange}
                             />
                           </Form.Group>
+                        </Col> */}
+                      </Row>
+                      <Row>
+                        <Col md={12}>
+                          <div className="job31" onClick={SubmitProfile}>
+                            {isloading?"Updating":"Update"}
+                          </div>
                         </Col>
                       </Row>
                     </>
@@ -565,6 +683,16 @@ const Contractor_Profile = () => {
                           </Form.Group>
                         </Col>
                       </Row>
+                      <Row>
+                        <Col>
+                        <Col md={12}>
+                          <div className="job31" onClick={SubmitPassword}>
+                            {isloading?"Submitting":"Submit"}
+                          </div>
+                        </Col>
+                          
+                        </Col>
+                      </Row>
                     </>
                   )}
                   {/* Third Tab ends*/}
@@ -594,12 +722,6 @@ const Contractor_Profile = () => {
                       </Row>
                     </>
                   )}
-                  {/* <ProFileInfo /> */}
-                  <Row>
-                    <Col md={12}>
-                      <div className="job31">Save</div>
-                    </Col>
-                  </Row>
                 </div>
               </div>
             </div>
@@ -627,8 +749,8 @@ const Contractor_Profile = () => {
           <Row>
             <Col md={12}>
               <p>
-                You are about to deactivate this account, please note that this action cannot
-                be undone.
+                You are about to deactivate this account, please note that this
+                action cannot be undone.
               </p>
             </Col>
           </Row>
@@ -639,8 +761,22 @@ const Contractor_Profile = () => {
           </Row>
         </Modal.Body>
       </Modal>
+      <ToastContainer
+        enableMultiContainer
+        containerId={"D"}
+        toastClassName="bg-danger text-white"
+        hideProgressBar={true}
+        position={"top-right"}
+      />
+      <ToastContainer
+        enableMultiContainer
+        containerId={"B"}
+        toastClassName="bg-info text-white"
+        hideProgressBar={true}
+        position={"top-right"}
+      />
     </>
   );
-};
+});
 
 export default Contractor_Profile;

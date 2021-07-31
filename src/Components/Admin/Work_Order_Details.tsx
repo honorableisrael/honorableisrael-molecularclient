@@ -26,6 +26,9 @@ import "react-toastify/dist/ReactToastify.css";
 import no_work_order from "../../images/document 1.png";
 import axios from "axios";
 import { API, capitalize, checkIfIsOdd } from "../../config";
+import { NavHashLink } from "react-router-hash-link";
+
+
 
 const AdminViewWorkOrderDetails = withRouter((props: any) => {
   const [state, setState] = useState<any>({
@@ -184,7 +187,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
           notify("Successfull");
           console.log(res.data);
           setTimeout(() => {
-            window.location.assign("/admin_work_order");
+            window.location.assign("/#admin_work_order");
           }, 2000);
           setState({
             ...state,
@@ -336,14 +339,25 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                 <p className="exp23">
                   <img src={portfolio} alt="portfolio" className="portfolioq" />
                 </p>
+
                 <p className="bview">
-                  <a href="#overview">Overview</a>
+                  <NavHashLink
+                    to="#overview"
+                  >
+                    Overview
+                  </NavHashLink>
                 </p>
                 <p className="bview inactive_bv">
-                  <a href="#details">Specialist Details</a>
+                  <NavHashLink
+                    className="details"
+                    to="#details"
+                    // activeStyle={{ background: "#fd8b003b", color: "#fd8c00" }}
+                  >
+                    Specialist Details
+                  </NavHashLink>
                 </p>
                 <p className="bview inactive_bv">
-                  <a href="#work">Work Details</a>
+                  <NavHashLink to="#work">Work Details</NavHashLink>
                 </p>
                 {/* <p className="bview inactive_bv">
                   <a href="#actions">Actions</a>
@@ -360,7 +374,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                     !new_work &&
                     work_order_detail.invoice && (
                       <>
-                        <h6 className="title22">Specialists Assigned</h6>
+                        <h6 className="title22">Specialists Invitation</h6>
                         <Col md={11} className="containerforemptyorder1 cust20">
                           <div className="containerforemptyorder">
                             <img
@@ -370,7 +384,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                             />
                           </div>
                           <div className="no_work1">
-                            <div>No Specialist have been assigned</div>
+                            <div>No Specialist have been invited</div>
 
                             {work_order_detail?.invoice?.approved == null &&
                               "Awaiting invoice approval"}
@@ -389,7 +403,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                                   );
                                 }}
                               >
-                                Assign specialist
+                                Invite specialist
                               </div>
                             </div>
                           )}
@@ -422,99 +436,105 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                       </Col>
                     )}
                   <div className="job23_1a wrap_z">
-                    {!new_work && assigned_specialists.length !== 0 && work_order_detail?.actions?.canAssignSpecialist && (
-                      <>
-                        <div className="group_flex">
-                          {/* <div className="grpA">
+                    {!new_work &&
+                      assigned_specialists.length !== 0 &&
+                      work_order_detail?.actions?.canAssignSpecialist && (
+                        <>
+                          <div className="group_flex">
+                            {/* <div className="grpA">
                             Group <b>A</b>
                           </div> */}
-                          <div className="grpB">
-                            <b>
-                              {work_order_detail?.total_assigned_specialists}
-                            </b>{" "}
-                            Assigned
+                            <div className="grpB">
+                              <b>
+                                {work_order_detail?.total_assigned_specialists}
+                              </b>{" "}
+                              Invited
+                            </div>
+                            <div
+                              className="job3 job_1 job_12"
+                              onClick={() => {
+                                localStorage.setItem(
+                                  "work_order_details",
+                                  JSON.stringify(work_order_detail)
+                                );
+                                props.history.push("/admin_assign_specialist");
+                              }}
+                            >
+                              Invite specialist
+                            </div>
                           </div>
-                          <div
-                            className="job3 job_1 job_12"
-                            onClick={() => {
-                              localStorage.setItem(
-                                "work_order_details",
-                                JSON.stringify(work_order_detail)
-                              );
-                              props.history.push("/admin_assign_specialist");
-                            }}
-                          >
-                            Assign specialist
+                          <div className="tabledata tabledataweb">
+                            <div className="header_12 pleft">Fullname</div>
+                            <div className="header_12">Type</div>
+                            <div className="header_12">Group Position</div>
+                            <div className="header_12">Status</div>
                           </div>
-                        </div>
-                        <div className="tabledata tabledataweb">
-                          <div className="header_12 pleft">Fullname</div>
-                          <div className="header_12">Type</div>
-                          <div className="header_12">Group Position</div>
-                          <div className="header_12">Status</div>
-                        </div>
-                        {assigned_specialists.length !== 0 &&
-                          assigned_specialists?.slice(0, 3)?.map((data, i) => (
-                            <>
-                              <div
-                                className={
-                                  checkIfIsOdd(i)
-                                    ? "tabledata"
-                                    : "tabledata tablecontent"
-                                }
-                              >
-                                <div className="header_12">
-                                  <img
-                                    src={avatar_test}
-                                    className="specialist_avatar"
-                                  />
-                                  <div className="mobiletabledata">
-                                    Fullname
+                          {assigned_specialists.length !== 0 &&
+                            assigned_specialists
+                              ?.slice(0, 3)
+                              ?.map((data, i) => (
+                                <>
+                                  <div
+                                    className={
+                                      checkIfIsOdd(i)
+                                        ? "tabledata"
+                                        : "tabledata tablecontent"
+                                    }
+                                  >
+                                    <div className="header_12">
+                                      <img
+                                        src={avatar_test}
+                                        className="specialist_avatar"
+                                      />
+                                      <div className="mobiletabledata">
+                                        Fullname
+                                      </div>
+                                      {data.first_name}
+                                      {data.last_name}
+                                    </div>
+                                    <div className="header_12 typ22">
+                                      <div className="mobiletabledata mobiletabledata22 ">
+                                        Type
+                                      </div>
+                                      <div>
+                                        {" "}
+                                        {capitalize(data.skills?.[0].name)}
+                                      </div>
+                                    </div>
+                                    <div className="header_12">
+                                      <div className="mobiletabledata mobiletabledata22">
+                                        Group Position
+                                      </div>
+                                      <div className="glead"> Member </div>
+                                    </div>
+                                    <div className="header_12 active_member">
+                                      <div className="mobiletabledata mobiletabledata22">
+                                        Status
+                                      </div>
+                                      <div className="active_member">
+                                        {" "}
+                                        {data.status == "Pending" ? (
+                                          <span className="pending_color">
+                                            {data.status}
+                                          </span>
+                                        ) : (
+                                          data.status
+                                        )}
+                                      </div>
+                                    </div>
                                   </div>
-                                  {data.first_name}
-                                  {data.last_name}
-                                </div>
-                                <div className="header_12 typ22">
-                                  <div className="mobiletabledata mobiletabledata22 ">
-                                    Type
-                                  </div>
-                                  <div>
-                                    {" "}
-                                    {capitalize(data.skills?.[0].name)}
-                                  </div>
-                                </div>
-                                <div className="header_12">
-                                  <div className="mobiletabledata mobiletabledata22">
-                                    Group Position
-                                  </div>
-                                  <div className="glead"> Member </div>
-                                </div>
-                                <div className="header_12 active_member">
-                                  <div className="mobiletabledata mobiletabledata22">
-                                    Status
-                                  </div>
-                                  <div className="active_member">
-                                    {" "}
-                                    {data.status == "Pending" ? (
-                                      <span className="pending_color">
-                                        {data.status}
-                                      </span>
-                                    ) : (
-                                      data.status
-                                    )}
-                                  </div>
-                                </div>
-                              </div>
-                            </>
-                          ))}
-                        <div className="text-center">
-                          {" "}
-                          <span className="viewall_">
+                                </>
+                              ))}
+                          <div className="text-center">
                             {" "}
-                            <Link to="/deployedspecialist">View all</Link>{" "}
-                          </span>{" "}
-                        </div>
-                        {/* <div className="tabledata">
+                            <span className="viewall_">
+                              {" "}
+                              <Link to="/deployedspecialist">
+                                View all
+                              </Link>{" "}
+                            </span>{" "}
+                          </div>
+                          {/* <div className="tabledata">
                         <div className="header_12">
                           <img
                             src={avatar_test}
@@ -544,7 +564,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                         <div className="header_12">Member</div>
                         <div className="header_12 active_member">Active</div>
                       </div> */}
-                        {/* <div className="active_member2">
+                          {/* <div className="active_member2">
                         <div>
                           Displaying <b> 1</b> of <b>2</b>
                         </div>
@@ -555,12 +575,12 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                           <Pagination.Last />
                         </Pagination>
                       </div> */}
-                      </>
-                    )}
+                        </>
+                      )}
                     <div>
                       <hr />
                     </div>
-                     <div className="active_member23">
+                    <div className="active_member23">
                       {/* <div className="active_worksheet">WORKS SHEETS</div> */}
                       {false && (
                         <>

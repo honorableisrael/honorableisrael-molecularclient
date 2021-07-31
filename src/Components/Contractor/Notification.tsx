@@ -73,7 +73,7 @@ const Notification = withRouter((props) => {
           window.scrollTo(-0, -0);
           setState({
             ...state,
-            contractor_list: res.data.data.data,
+            notification: res.data.data.data,
             ...res.data.data.links,
             ...res.data.data.meta,
           });
@@ -153,16 +153,33 @@ const Notification = withRouter((props) => {
                       </div>
                       <div className="nextbtn nextbtn_2">
                         {data?.category == "work order" ? (
-                          <Link to={"/admin_work_order"}>
+                          <Link 
+                          to="/contractor_work_order_details?inreview=true"
+                          onClick={() =>
+                            localStorage.setItem(
+                              "work_order_details",
+                              JSON.stringify({id:data.category_id})
+                            )
+                          }
+                          >
                             <img
                               src={nextbtn}
                               alt="nxtbtn"
-                              className="nxtbtn3 nxtbtn3_1"
+                              className="nxtbtn3 nxtbtn3_1 nxtbtn32 cbtn_221"
                             />
                           </Link>
-                        ) : (
-                          ""
-                        )}
+                        ) :data?.category == "invoice" ? (
+                          <Link
+                            to={`/invoice_details/${data.category_id}`}
+                            >
+                              <img
+                                src={nextbtn}
+                                alt="nxtbtn"
+                                className="nxtbtn3 nxtbtn3_1 nxtbtn32 cbtn_221"
+                              />
+                            </Link>
+                        ):""}
+                       
                       </div>
                     </div>
                     <div className="nwraper">

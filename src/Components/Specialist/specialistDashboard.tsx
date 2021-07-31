@@ -14,7 +14,7 @@ import no_work_order from "../../images/document 1.png";
 import mail from "../../images/mail.png";
 import notification_cal from "../../images/calendar 1.png";
 import workhelmet from "../../images/workhelmet.png";
-import { API } from "../../config";
+import { API, current_currency,FormatAmount } from "../../config";
 import Specialist_Work_details from "./specialist_work_detail";
 
 
@@ -156,7 +156,7 @@ const SpecialistDashboard = (props) => {
                       <img src={third} alt="img" />
                     </div>
                   </div>
-                  <p>N{outstanding_payments}</p>
+                  <p>{current_currency}{FormatAmount(outstanding_payments)}</p>
                 </div>
                 <div className="spldshbdcard-small">
                   <div className="spldshbdcardheader">
@@ -165,7 +165,7 @@ const SpecialistDashboard = (props) => {
                       <img src={fourth} className="img-fluid" alt="img" />
                     </div>
                   </div>
-                  <p>{payment_received}</p>
+                  <p>{current_currency}{FormatAmount(payment_received)}</p>
                 </div>
               </div>
                   <Specialist_Work_details />

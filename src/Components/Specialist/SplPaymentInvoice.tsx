@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Col, Row, Container, Table } from "react-bootstrap";
+import { Col, Row, Container, Table, Modal,Form } from "react-bootstrap";
 import "../Contractor/contractor.css";
 import DashboardNav from "./specialistNavbar";
 import "react-rangeslider/lib/index.css";
@@ -7,10 +7,12 @@ import { Helmet } from "react-helmet";
 import arrowback from "../../images/dtls.png";
 import { Link } from "react-router-dom";
 import logo from "../../images/dashbdlogo.png";
-import { API, FormatAmount, formatTime, notify, specialistToken } from "../../config";
+import { API, FormatAmount, formatTime, notify, specialistToken,current_currency } from "../../config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
+import closeimg from "../../images/closeimg.png";
+
 
 
 
@@ -28,9 +30,30 @@ const Specialist_Payment_Invoice = (props) => {
     end_date: "",
     start_date: "",
     hour: "",
+    reason:"",
     work_order_detail: {},
+    terminateWorkModal: false,
   });
 
+  const onchange = (e) => {
+    console.log(e.target.value);
+    setState({
+      ...state,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const workModal = () => {
+    setState({
+      ...state,
+      terminateWorkModal: true,
+    });
+  };
+  const closeworkModal = () => {
+    setState({
+      ...state,
+      terminateWorkModal: false
+    });
+  };
   useEffect(() => {
     window.scrollTo(-0, -0);
     const invoice_: any = localStorage.getItem("invoice_id");
@@ -68,15 +91,56 @@ const Specialist_Payment_Invoice = (props) => {
     work_order_detail,
     invoice_details,
     country,
+    terminateWorkModal,
     work_order_description,
     order_title,
     end_date,
     location_terrain,
     start_date,
-    hour
+    hour,
+    reason,
   }: any= state;
   return (
     <>
+       <Modal
+                      centered={true}
+                      onHide={closeworkModal}
+                      show={terminateWorkModal}
+                    >
+                      <div className="terminateworkmodalwrap">
+                        <div className="terminateworkmodalimg">
+                          <img
+                            src={closeimg}
+                            alt="close"
+                            onClick={closeworkModal}
+                          />
+                        </div>
+                        <div
+                         className="terminateworkmodaltitle" >
+                          Request Upfront Payment
+                        </div>
+                        <form>
+                          <textarea
+                            name="reason"
+                            value={reason}
+                            onChange={onchange}
+                            className="form-control wrkmodaltextarea"
+                            placeholder="Reason"
+                            rows={5}
+                            cols={5}
+                          ></textarea>
+                        </form>
+                        <div className="wrkmodal-btnwrap">
+                          <span
+                            className="wrkmodal-cancelbtn"
+                            onClick={closeworkModal}
+                          >
+                            Cancel
+                          </span>
+                          <span className="profcertbtn upfrmodalbtn">Send</span>
+                        </div>
+                      </div>
+                    </Modal>
       <Container fluid={true}>
         <Helmet>
           <meta charSet="utf-8" />
@@ -117,7 +181,7 @@ const Specialist_Payment_Invoice = (props) => {
                 </div>
                 <div>
                   <p className="brkdwn detptg">Paid Invoices</p>
-                  <p className="brkdwn-id">{invoice_details.total_amount_paid}</p>
+                  <p className="brkdwn-id">{current_currency}{invoice_details.total_amount_paid}</p>
                 </div>
                 <div>
                   <p className="brkdwn detptg">Project Duration</p>
@@ -138,15 +202,24 @@ const Specialist_Payment_Invoice = (props) => {
                       <th>Amount Paid</th>
                       <th>Status</th>
                       <th>Date</th>
+                      <th></th>
                     </tr>
                   </thead>
                   <tbody>
                     {invoice_details?.cycles?.map((data, i)=>(
                    <tr>
                     <td>{data.cycle}</td>
-                   <td>{data.number}</td>
-                   <td>{data.amount}.</td>
-                   <td> {data.amount_paid} </td>
+                   <td>
+                   {data.number}
+                   </td>
+                   <td>
+                      {current_currency}
+                      {FormatAmount(data.amount)}
+                    </td>
+                   <td> 
+                   {current_currency}
+                   {FormatAmount(data.amount_paid)} 
+                   </td>
                    <td>
                      {data.status == "Paid" && (
                        <div className="invpaystatwrap">
@@ -161,7 +234,8 @@ const Specialist_Payment_Invoice = (props) => {
                     </div>
                     )}
                    </td> 
-                   <td>{data.date}</td>
+                   <td>{formatTime(data.date)}</td>
+                   <td><span className="upfrontbtn" onClick={workModal}>Payment Request</span></td>
                   </tr>
                     ))} 
                   </tbody>

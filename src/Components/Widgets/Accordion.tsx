@@ -56,6 +56,9 @@ const Accordions = (props) => {
         axios.spread((res) => {
           console.log(res.data.data);
           notify("Successfully assigned team lead");
+          setTimeout(()=>{
+            window.location.reload()
+          },3000)
         })
       )
       .catch((err) => {
@@ -63,6 +66,7 @@ const Accordions = (props) => {
         console.log(err);
       });
   };
+  
   const fetch_details = (id) => {
     const token = returnAdminToken();
     setState({
@@ -101,7 +105,7 @@ const Accordions = (props) => {
         console.log(err);
       });
   };
-  console.log(props);
+  console.log(work_sheet);
   return (
     <>
       <div className="dplsplsacc">
@@ -138,7 +142,7 @@ const Accordions = (props) => {
                   <th>Full Name</th>
                   <th>Skill</th>
                   <th>Position</th>
-                  <th>Assign group lead</th>
+                  {/* <th>Assign group lead</th> */}
                 </tr>
               </thead>
               <tbody>
@@ -154,7 +158,7 @@ const Accordions = (props) => {
                     </td>
                     <td>{data?.skills[0]?.name}</td>
                     <td>{data?.leader ? "Team Lead" : "Member"}</td>
-                    <td className="depspltabcol1">
+                    {/* <td className="depspltabcol1">
                       {!data?.leader ? (
                         <input
                           type="radio"
@@ -164,7 +168,7 @@ const Accordions = (props) => {
                       ) : (
                         "~~/~~"
                       )}
-                    </td>
+                    </td> */}
                   </tr>
                 ))}
               </tbody>
@@ -202,14 +206,16 @@ const Accordions = (props) => {
                             alt="dwnload"
                             className="dwnload1"
                           />
-                          <a href={data.worksheet_reports} target={"blank"}>
+                          <a href={data.worksheet} target={"blank"}>
                             Download
                           </a>
                         </div>
                         <div className="worksheetdate">
                           {formatTime(data.date)}
                         </div>
+                        <div className="upby">
                         uploaded by {data.uploaded_by}
+                        </div>
                       </div>
                     </div>
                   ))}

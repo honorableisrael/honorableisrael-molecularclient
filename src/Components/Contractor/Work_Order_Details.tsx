@@ -24,11 +24,12 @@ import WorkDetails_Form_Preview from "./workdetailsform";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios, { AxiosResponse } from "axios";
-import { API } from "../../config";
+import { API, capitalize, checkIfIsOdd } from "../../config";
 import WorkInformationBreakdown from "./Work_information_Breakdown";
+import { NavHashLink } from "react-router-hash-link";
 
 const WorkOrderDetails = withRouter((props: any) => {
-  const [state, setState] = useState({
+  const [state, setState] = useState<any>({
     work_order_detail: {},
     country: "",
     inprogress: true,
@@ -36,7 +37,7 @@ const WorkOrderDetails = withRouter((props: any) => {
     order_title: "",
     work_order_description: "",
     project_purpose: "",
-    workDetails:{},
+    workDetails: {},
     past: false,
     location_terrain: "",
     location: "",
@@ -46,7 +47,10 @@ const WorkOrderDetails = withRouter((props: any) => {
     hour: "",
     show: false,
     reason: "",
+    assigned_specialists: "",
     already_approved: false,
+    new_work: false,
+    inreview: false,
   });
   const onchange = (e) => {
     console.log(e.target.value);
@@ -91,16 +95,17 @@ const WorkOrderDetails = withRouter((props: any) => {
     country,
     work_order_description,
     order_title,
-    end_date,
+    new_work,
     already_approved,
     reason,
     workDetails,
+    assigned_specialists,
     location_terrain,
     start_date,
     work_order_detail,
     show,
     hour,
-  } = state;
+  }:any = state;
   useEffect(() => {
     // hide_info
     const urlParams = new URLSearchParams(window.location.search);
@@ -117,21 +122,28 @@ const WorkOrderDetails = withRouter((props: any) => {
     const availableToken: any = localStorage.getItem("loggedInDetails");
     const token = availableToken
       ? JSON.parse(availableToken)
-      : window.location.assign("/login");
+      : window.location.assign("/#login");
     window.scrollTo(-0, -0);
-    axios.all([
-      axios.get<any, AxiosResponse<any>>(`${API}/contractor/work-orders/${work_order_details.id}`, {
-        headers: { Authorization: `Bearer ${token.access_token}` },
-      }),
-    ])
+    axios
+      .all([
+        axios.get<any, AxiosResponse<any>>(
+          `${API}/contractor/work-orders/${work_order_details.id}`,
+          {
+            headers: { Authorization: `Bearer ${token.access_token}` },
+          }
+        ),
+      ])
       .then(
         axios.spread((res) => {
           console.log(res.data.data);
           setState({
             ...state,
-            workDetails:res.data.data,
-            work_order_detail: work_order_details,
+            workDetails: res.data.data,
+            ...res.data.data,
             already_approved: urlkey ? true : false,
+            work_order_detail: res.data.data,
+            new_work: res.data.data.status == "New" ? true : false,
+            inreview: res.data.data.status == "In Review" ? true : false,
           });
         })
       )
@@ -140,7 +152,7 @@ const WorkOrderDetails = withRouter((props: any) => {
       });
   }, []);
   console.log(workDetails);
-  
+
   return (
     <>
       <Modal
@@ -219,30 +231,28 @@ const WorkOrderDetails = withRouter((props: any) => {
                   <img src={portfolio} alt="portfolio" className="portfolioq" />
                 </p>
                 <p className="bview">
-                  <a href="#overview">Overview</a>
+                  <NavHashLink to="#overview">Overview</NavHashLink>
                 </p>
                 <p className="bview inactive_bv">
-                  <a href="#details">Specialist Details</a>
+                  <NavHashLink to="#details">Specialist Details</NavHashLink>
                 </p>
                 <p className="bview inactive_bv">
-                  <a href="#work">Work Details</a>
+                  <NavHashLink to="#work">Work Details</NavHashLink>
                 </p>
                 <p className="bview inactive_bv">
-                  <a href="#actions">Actions</a>
+                  <NavHashLink to="#actions">Actions</NavHashLink>
                 </p>
               </Col>
               <Col md={10} className="job23_1a_ job23_1a_p">
                 <div className="job23_1a">
                   <div className="">
-                    <WorkOrderCardsMinInfo
-                      order_detail={work_order_detail}
-                    />
+                    <WorkOrderCardsMinInfo order_detail={work_order_detail} />
                   </div>
                 </div>
                 <div className="job23_1a" id="details">
                   <h6 className="title22">Specialist Assigned</h6>
-                  <div className="job23_1a wrap_z">
-                    {true && (
+                  <div className="job23_1a wrap_z kdsd">
+                    {assigned_specialists.length == 0 && (
                       <Col md={11} className="containerforemptyorder1 cust">
                         <div className="containerforemptyorder">
                           <img
@@ -260,93 +270,89 @@ const WorkOrderDetails = withRouter((props: any) => {
                       </Col>
                     )}
 
-                    {false && (
-                      <>
-                        <div className="group_flex">
-                          <div className="grpA">
-                            {/* Group <b>A</b> */}
-                          </div>
-                          <div className="grpB">
-                            <b>{0}</b> Assigned
-                          </div>
-                        </div>
-                        <div className="tabledata tabledataweb">
-                          <div className="header_12 pleft">Fullname</div>
-                          <div className="header_12">Type</div>
-                          <div className="header_12">Group Position</div>
-                          <div className="header_12">Status</div>
-                        </div>
-                        <div className="tabledata tablecontent">
-                          <div className="header_12">
-                            <img
-                              src={avatar_test}
-                              className="specialist_avatar"
-                            />
-                            <div className="mobiletabledata">Fullname</div>
-                            Sunday Okoro Pascal
-                          </div>
-                          <div className="header_12 typ22">
-                            <div className="mobiletabledata mobiletabledata22 ">
-                              Type
+                    {!new_work &&
+                      assigned_specialists.length !== 0 &&
+                     (
+                        <>
+                          <div className="group_flex">
+                            {/* <div className="grpA">
+                            Group <b>A</b>
+                          </div> */}
+                            <div className="grpB">
+                              <b>
+                                {work_order_detail?.total_assigned_specialists}
+                              </b>{" "}
+                              Assigned
                             </div>
-                            <div> Fitter</div>
                           </div>
-                          <div className="header_12">
-                            <div className="mobiletabledata mobiletabledata22">
-                              Group Position
-                            </div>
-                            <div className="glead"> Group Lead </div>
+                          <div className="tabledata tabledataweb">
+                            <div className="header_12 pleft plzeft">Fullname</div>
+                            <div className="header_12">Type</div>
+                            <div className="header_12">Group Position</div>
+                            <div className="header_12">Status</div>
                           </div>
-                          <div className="header_12 active_member">
-                            <div className="mobiletabledata mobiletabledata22">
-                              Status
-                            </div>
-                            <div className="active_member"> Active </div>
-                          </div>
-                        </div>
-                        <div className="tabledata">
-                          <div className="header_12">
-                            <img
-                              src={avatar_test}
-                              className="specialist_avatar"
-                            />
-                            Sandra John
-                          </div>
-                          <div className="header_12">
-                            <div>Fitter</div>
-                          </div>
-                          <div className="header_12">
-                            <div>Member</div>
-                          </div>
-                          <div className="header_12 suspended_member">
-                            Suspended
-                          </div>
-                        </div>
-                        <div className="tabledata tablecontent">
-                          <div className="header_12">
-                            <img
-                              src={avatar_test}
-                              className="specialist_avatar"
-                            />
-                            Sunday Okoro Pascal
-                          </div>
-                          <div className="header_12">Fitter</div>
-                          <div className="header_12">Member</div>
-                          <div className="header_12 active_member">Active</div>
-                        </div>
-                        <div className="active_member2">
-                          <div>
-                            Displaying <b> 1</b> of <b>2</b>
-                          </div>
-                          <Pagination>
-                            <Pagination.First />
-                            <Pagination.Prev />
-                            <Pagination.Next />
-                            <Pagination.Last />
-                          </Pagination>
-                        </div>
-                      </>
-                    )}
+                          {assigned_specialists.length !== 0 &&
+                            assigned_specialists
+                              // ?.slice(0, 3)
+                              ?.map((data, i) => (
+                                <>
+                                  <div
+                                    className={
+                                      checkIfIsOdd(i)
+                                        ? "tabledata"
+                                        : "tabledata tablecontent"
+                                    }
+                                  >
+                                    <div className="header_12 header_x">
+                                      <div className="mobiletabledata">
+                                        Reference
+                                      </div>
+                                      {data.reference}
+                                    </div>
+                                    <div className="header_12 typ22">
+                                      <div className="mobiletabledata mobiletabledata22 ">
+                                        Type
+                                      </div>
+                                      <div>
+                                        {" "}
+                                        {capitalize(data.skills?.[0].name)}
+                                      </div>
+                                    </div>
+                                    <div className="header_12">
+                                      <div className="mobiletabledata mobiletabledata22">
+                                        Group Position
+                                      </div>
+                                      <div className="glead"> Member </div>
+                                    </div>
+                                    <div className="header_12 active_member">
+                                      <div className="mobiletabledata mobiletabledata22">
+                                        Status
+                                      </div>
+                                      <div className="active_member">
+                                        {" "}
+                                        {data.status == "Pending" ? (
+                                          <span className="pending_color">
+                                            {data.status}
+                                          </span>
+                                        ) : (
+                                          data.status
+                                        )}
+                                      </div>
+                                    </div>
+                                  </div>
+                                </>
+                              ))}
+                          {/* <div className="text-center">
+                            {" "}
+                            <span className="viewall_">
+                              {" "}
+                              <Link to="/deployedspecialist">
+                                View all
+                              </Link>{" "}
+                            </span>{" "}
+                          </div> */}
+                        </>
+                      )}
                     <div>
                       <hr />
                     </div>

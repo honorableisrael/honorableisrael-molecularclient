@@ -1011,19 +1011,21 @@ a:hover {
   font-weight: 700;
   padding-left: 1.3rem;
   padding-top: 2rem;
+  height: fit-content;
 }
 .tablecont1 {
   font-weight: 600;
   display: flex;
   justify-content: space-between;
   margin-bottom: 0.5rem;
+  height: 120px;
 }
 .tablecont1 {
   width: 100% !important;
 }
 .worksheetdate1 {
   width: 100% !important;
-  text-align: right;
+  text-align: left;
 }
 .active_worksheet {
   margin-bottom: 1rem;
@@ -1265,7 +1267,7 @@ a:hover {
   padding: 1rem 4rem;
   border-radius: 1rem;
   padding-left: 2rem;
-  min-height: 25vh;
+  min-height: 11rem;
   background: white;
   margin: auto;
   margin-bottom: 2rem;
@@ -2813,4 +2815,48 @@ width: 100%;
 
 .deploydsplstwrapp {
 padding-left: 34px;
+}
+.tabledata div {
+  width: 55% !important;
+}
+.tablecontent .tablecont0{
+  width: 20% !important;
+}
+.tetr{
+  font-size: 14px;
+  font-weight: 900;
+  margin-left: 2rem;
+  background: #f1b26556;
+  text-align: center;
+  padding: 1rem;
+  border-radius: 2rem;
+}
+.frequew{
+  display: flex;
+  flex-direction: row-reverse;
+  text-align: left;
+  justify-content: space-between;
+}
+.tetr2{
+  width: 300px;
+  font-weight: 900;
+}
+.form_h1{
+  justify-content: space-between;
+}
+
+.payspecialist1,.payspecialist1:hover,.payspecialist1:focus{
+  background: var(--molecular-orange);
+  border: none;
+}
+.primary3{
+  min-width: 108px;
+}
+.terminate2 button{
+  margin-right: .4rem;
+}
+.succinline,.succinline:hover{
+  background: white;
+  border: 1px solid #28a745;
+  color: #28a745;
 }

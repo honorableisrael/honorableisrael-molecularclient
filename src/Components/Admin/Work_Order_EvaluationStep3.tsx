@@ -16,7 +16,7 @@ import arrowback from "../../images/dtls.png";
 import { Link } from "react-router-dom";
 import logo from "../../images/Molecular.png";
 import axios from "axios";
-import { API, FormatAmount, formatTime, notify, returnAdminToken } from "../../config";
+import { API, current_currency, FormatAmount, formatTime, notify, returnAdminToken } from "../../config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -126,11 +126,29 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
       ...state,
       isloading: true,
     });
+    const data = {
+      bank,
+    }
+    if(bank==""){
+      window.scrollTo(0,0)
+      setState({
+        ...state,
+        isloading: false,
+      });
+      return notify("Please select a bank account for this proforma invoice")
+    }
     axios
       .all([
         axios.post(
           `${API}/admin/work-orders/${work_order_details?.id}/invoice/send`,
           {},
+          {
+            headers: { Authorization: `Bearer ${token.access_token}` },
+          }
+        ),
+        axios.post(
+          `${API}/admin/work-orders/${work_order_details?.id}/invoice/bank`,
+          data,
           {
             headers: { Authorization: `Bearer ${token.access_token}` },
           }
@@ -310,7 +328,7 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
                           required
                           name="bank"
                           onChange={onchange}
-                          onBlur={sendBankDetails}
+                          // onBlur={sendBankDetails}
                         >
                           <option value="" className="formselect">
                             Select account number
@@ -344,7 +362,7 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
                               <div className="inv_title2">
                                 <div className="inv_title3">Invoice Date</div>
                                 <div className="inv_title4">
-                                  {formatTime(invoice_details?.sent_at) ?? "~~/~~"}
+                                  {formatTime(invoice_details?.created_at) ?? "~~/~~"}
                                 </div>
                               </div>
                             </div>
@@ -371,15 +389,15 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
                             <div className="rcomponent">
                               <div className="inv_title2">
                                 <div className="inv_title3">Total Amount</div>
-                                <div className="inv_title4 ing">${FormatAmount(invoice_details?.total_amount)?? "~~/~~"}</div>
+                                <div className="inv_title4 ing">{current_currency}{FormatAmount(invoice_details?.total_amount)?? "~~/~~"}</div>
                                 <div className="inv_title3">Amount Paid</div>
-                                <div className="inv_title4 ing">${FormatAmount(invoice_details?.total_amount_paid)?? "~~/~~"}</div>
+                                <div className="inv_title4 ing">{current_currency}{FormatAmount(invoice_details?.total_amount_paid)?? "~~/~~"}</div>
                               </div>
                             </div>
                             <div className="rcomponent">
                               <div className="inv_title2">
                                 <div className="inv_title3">Balance Due</div>
-                                <div className="inv_title4 ing">${FormatAmount(invoice_details?.total_amount_unpaid)?? "~~/~~"}</div>
+                                <div className="inv_title4 ing">{current_currency}{FormatAmount(invoice_details?.total_amount_unpaid)?? "~~/~~"}</div>
                               </div>
                             </div>
                           </div>
@@ -428,7 +446,7 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
                                       <td>{data?.skill}</td>
                                       <td>{data?.number}</td>
                                       <td>
-                                        <b> ${FormatAmount(data?.total_cost)}</b>
+                                        <b> {current_currency}{FormatAmount(data?.total_cost)}</b>
                                       </td>
                                     </tr>
                                   )
@@ -439,7 +457,7 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
                             <Table responsive>
                               <thead className="theadinvoice">
                                 <tr>
-                                  <th className="tablehead">Specialist Cost($)</th>
+                                  <th className="tablehead">Specialist Cost({current_currency})</th>
                                   <th className="tablehead">Date</th>
                                   <th className="tablehead">Status</th>
                                   <th className="tablehead">Cycle</th>

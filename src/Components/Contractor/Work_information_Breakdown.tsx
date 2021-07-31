@@ -34,7 +34,9 @@ const WorkInformationBreakdown = (props) => {
     pipe_type: "",
     hour: "",
     terrains: "",
+    location:"",
     location_terrain: "",
+    terrain:"",
     state_: "",
     specialist_requests: [],
     pipe_configs: [],
@@ -43,6 +45,7 @@ const WorkInformationBreakdown = (props) => {
     pipe_wieght,
     pipelength,
     no_of_specialist,
+    location,
     workDetails,
     hour,
     title,
@@ -59,6 +62,7 @@ const WorkInformationBreakdown = (props) => {
     country,
     specialist_requests,
     work_order_description,
+    terrain,
     terrains,
     location_terrain_name,
     billing_cycle,
@@ -76,7 +80,7 @@ const WorkInformationBreakdown = (props) => {
     const availableToken: any = localStorage.getItem("loggedInDetails");
     const token = availableToken
       ? JSON.parse(availableToken)
-      : window.location.assign("/login");
+      : window.location.assign("/#login");
       console.log(props)
     window.scrollTo(-0, -0);
     const work_order = localStorage.getItem("work_order_details");
@@ -137,7 +141,7 @@ console.log(workDetails)
               <div className="main_wrap_ws main_wrap_ws22">
                 <div>
                   <h6 className="userprofile12 userprofile123">Location</h6>
-                  <div className="Construction12">{country ?? "n/a"}</div>
+                  <div className="Construction12">{location ?? "n/a"}</div>
                 </div>
                 <div className="">
                   <h6 className="userprofile12 userprofile123">State</h6>
@@ -145,10 +149,10 @@ console.log(workDetails)
                 </div>
                 <div className="">
                   <h6 className="userprofile12 userprofile123">
-                    Location Terrain
+                     Terrain
                   </h6>
                   <div className="Construction12">
-                    {location_terrain_name ?? "n/a"}
+                    {terrain ?? "n/a"}
                   </div>
                 </div>
               </div>

@@ -272,15 +272,7 @@ const ContractorDashboard = withRouter((props) => {
                         {data.status}
                       </div>
                     </div>
-                    <ProgressBar>   
-                      <ProgressBar
-                        striped
-                        variant=""
-                        className="colorgreen"
-                        now={data.progress}
-                        key={i}
-                      />
-                      <ProgressBar variant="gray" now={data.progress} key={3} />
+                    <ProgressBar  now={data.progress}>  
                     </ProgressBar>
                     <div className="mlstones2">
                       <div className="mlstones">

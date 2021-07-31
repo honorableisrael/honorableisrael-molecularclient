@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Switch, Route, BrowserRouter } from "react-router-dom";
+import { Switch, Route, BrowserRouter,HashRouter } from "react-router-dom";
 import "./App.css";
 import ContractorDashboard from "./Components/Contractor/ContractorDashboard";
 import NewWorkOrderForm from "./Components/Contractor/New_Work_Order";
@@ -61,7 +61,7 @@ class App extends Component {
     return (
       <div className="App">
         <div>
-          <BrowserRouter>
+          <HashRouter>
             <Switch>
               {/* <Home /> */}
               {/* Contractor Dashbaord */}
@@ -104,6 +104,7 @@ class App extends Component {
                 path="/contractor_work_order_step3"
                 component={NewWorkOrderStep3}
               />
+              
               <Route
                 path="/contractor_work_order_details"
                 component={WorkOrderDetails}
@@ -218,7 +219,7 @@ class App extends Component {
               <Route path="/forgot_password" component={ForgotPassword} />
               <Route path="/" component={Home} />
             </Switch>
-          </BrowserRouter>
+          </HashRouter>
         </div>
       </div>
     );

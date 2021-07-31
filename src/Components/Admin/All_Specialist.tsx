@@ -1,14 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { Col, Row, Container, Form, Pagination } from "react-bootstrap";
+import {
+  Col,
+  Row,
+  Container,
+  Form,
+  Pagination,
+  Spinner,
+} from "react-bootstrap";
 import "./contractor.css";
 import DashboardNav from "./navbar";
 import "react-rangeslider/lib/index.css";
 import { Helmet } from "react-helmet";
 import no_work_order from "../../images/document 1.png";
 import axios from "axios";
-import { API } from "../../config";
+import { API, returnAdminToken } from "../../config";
 import Specialist_card from "./Specialist_Card";
-
 
 const All_Specialist = () => {
   const [state, setState] = useState({
@@ -35,6 +41,7 @@ const All_Specialist = () => {
     last_page: "",
     to: "",
     total: "",
+    isloading: false,
   });
   const switchTab = (a) => {
     if (a == "firsttab") {
@@ -42,7 +49,7 @@ const All_Specialist = () => {
         ...state,
         inprogress: true,
         pending_request: false,
-        past:false,
+        past: false,
       });
     }
     if (a == "secondtab") {
@@ -88,10 +95,11 @@ const All_Specialist = () => {
   };
   useEffect(() => {
     window.scrollTo(-0, -0);
-    const availableToken: any = localStorage.getItem("loggedInDetails");
-    const token = availableToken
-      ? JSON.parse(availableToken)
-      : window.location.assign("/");
+    const token = returnAdminToken()
+    setState({
+      ...state,
+      isloading:true
+    })
     axios
       .all([
         axios.get(`${API}/admin/specialists?paginate=1`, {
@@ -106,19 +114,30 @@ const All_Specialist = () => {
             all_specialist: res.data.data.data,
             ...res.data.data.links,
             ...res.data.data.meta,
+            isloading:false,
           });
         })
       )
       .catch((err) => {
         console.log(err);
+        setState({
+          ...state,
+          isloading:false
+        })
       });
   }, []);
- 
+  const onchange = (e) => {
+    setState({
+      ...state,
+      [e.target.name]: e.target.value,
+    });
+  };
   const fetch_all = () => {
-    const availableToken: any = localStorage.getItem("loggedInDetails");
-    const token = availableToken
-      ? JSON.parse(availableToken)
-      : window.location.assign("/");
+    const token = returnAdminToken();
+    setState({
+      ...state,
+      isloading: true,
+    });
     axios
       .all([
         axios.get(`${API}/admin/specialists?paginate=1`, {
@@ -135,11 +154,48 @@ const All_Specialist = () => {
             ...res.data.data.meta,
             inprogress: true,
             pending_request: false,
-            past:false
+            past: false,
+            isloading: false,
           });
         })
       )
       .catch((err) => {
+        console.log(err);
+        setState({
+          ...state,
+          isloading: false,
+        });
+      });
+  };
+  const search_filter = () => {
+    const token = returnAdminToken();
+    setState({
+      ...state,
+      isloading: true,
+    });
+    axios
+      .all([
+        axios.get(`${API}/admin/specialists?paginate=1&search=${search}`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
+      ])
+      .then(
+        axios.spread((res) => {
+          console.log(res.data.data);
+          setState({
+            ...state,
+            all_specialist: res.data.data.data,
+            ...res.data.data.links,
+            ...res.data.data.meta,
+            isloading:false,
+          });
+        })
+      )
+      .catch((err) => {
+        setState({
+          ...state,
+          isloading:false
+        })
         console.log(err);
       });
   };
@@ -192,7 +248,7 @@ const All_Specialist = () => {
           window.scrollTo(-0, -0);
           setState({
             ...state,
-            contractor_list: res.data.data.data,
+            all_specialist: res.data.data.data,
             ...res.data.data.links,
             ...res.data.data.meta,
           });
@@ -215,6 +271,7 @@ const All_Specialist = () => {
     first,
     last,
     current_page,
+    isloading,
     search,
   } = state;
   return (
@@ -241,8 +298,15 @@ const All_Specialist = () => {
                     className="form-control search_field"
                     value={search}
                     name="search"
+                    onKeyPress={(e) => {
+                      if (e.key == "Enter") {
+                        search_filter();
+                      }
+                    }}
+                    onChange={onchange}
                     placeholder="Search"
                   />
+                  {isloading && <Spinner animation={"grow"} variant={"info"} />}
                 </div>
               </div>
             </div>

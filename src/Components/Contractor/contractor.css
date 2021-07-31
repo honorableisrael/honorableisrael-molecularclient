@@ -1200,7 +1200,7 @@ text {
   border-radius: 1rem;
   width: 90%;
   padding-left: 2rem;
-  min-height: 25vh;
+  min-height: 11rem;
   background: white;
   margin-bottom: 2rem;
 }
@@ -1988,4 +1988,23 @@ a{
 .greenbtn2{
   width: 120px;
   margin-left: .2rem;
+}
+.nxtbtn32{
+    left: 1.5rem !important;
+    bottom: 1.3rem !important;
+}
+.cbtn_221{
+  top: 2rem !important;
+    left: -1rem !important;
+}
+.header_x{
+  padding-left: 3rem !important;
+}
+.plzeft {
+  padding-left: 3rem !important;
+}
+.kdsd .tabledata .header_x,.kdsd .tabledata .header_12{
+  min-width: 30% !important;
+  max-width: 140px !important;
+  overflow: hidden;
 }

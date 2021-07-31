@@ -376,7 +376,7 @@
 }
 .pendinwrap{
     background-color: rgba(253, 140, 0, .1);
-    width: 59%;
+    width: 85%;
 }
 .pendininvoice{
     background-color: rgba(253, 140, 0, 1);
@@ -387,6 +387,9 @@
 }
 .pendininvtext{
     color: rgba(253, 140, 0, 1);
+}
+.worksheetdw{
+    display: flex;
 }
 .splinvoitablehead{
     background-color: rgba(196,196,196,.1)
@@ -702,3 +705,19 @@
 .paymentlink{
  display: contents;
 }
+.acceptablefile{
+ padding-left: 1rem;
+ font-size: 13px;   
+}
+.upfrontbtn{
+padding: 6px;
+background-color: #28a745;
+border-radius: 6px;
+font-weight: 600;
+font-size: 15px;
+cursor: pointer;
+color: #fff;
+} 
+.upfrmodalbtn{
+    margin-left: 20px;
+}   
