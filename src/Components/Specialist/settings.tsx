@@ -88,6 +88,7 @@ const SpecialistSettings = () => {
     viewPopup,
     show,
     user,
+    isloading,
     city,
     address,
     phone,
@@ -265,12 +266,9 @@ const SpecialistSettings = () => {
             ...state,
             ...res.data.data,
             user: res.data.data,
-            noCertificateAdded: user.certifications.length<=0? true:false,
             verified: user.status === "Active"? true: false,
             unverified: user.status === "New"? true : false,
             viewPopup: user.status === "Active"? false : true,
-            certificationActive: user.certifications.length<=0? "nowrapdemacator":"profcertifncntent",
-            certificationbtn: user.certifications.length<=0? "nowrapdemacator":"profcerbtnwrapper",
             fourthtabInactive: user.status === "New" ? "inactivetab": "activetab",
           });
         })
@@ -315,52 +313,44 @@ const SpecialistSettings = () => {
         notify("Failed to save", "D");
       });
   };
-
-  const post_qualification_and_experience =()=>{
+  
+  const deactivateAccount = () => {
     const availableToken = localStorage.getItem("loggedInDetails");
     console.log(availableToken);
     const token = availableToken ? JSON.parse(availableToken) : "";
     console.log(token);
-    const data4 ={
-      qualification,
-      institution,
-      field,
-      from,
-      to
-    }
-    const data5 = {
-      certification,
-      year,
-      description,
-    };
-
-    Axios.all([
-      Axios.post(`${API}/specialist/qualifications`, data4, {
-        headers: { Authorization: `Bearer ${token.access_token}` },
-      }),
-      Axios.post(`${API}/specialist/certifications`, data5, {
-        headers: { Authorization: `Bearer ${token.access_token}` },
-      }),
-    ])
-    .then(
-      axios.spread ((...responses)=>{
-        console.log(responses[0]);
-        console.log(responses[1]);
-       if(responses[0].status==201 && responses[1].status==201 &&  user.status === "New"){ 
-         notify("Profile Successfully Completed, awaiting aprroval..")
-       }
-       else if(responses[0].status==201 && responses[1].status==201){
-        notify("Profile Successfully Completed")
-       }
-       else{
-        notify("unSuccessfull");
-       }
-        }))
-    .catch((err)=>{
-      console.log(err.response);
-      notify("Failed to save", "D");
+    setState({
+      ...state,
+      isloading: true,
     })
+    let config = { 
+      headers: {
+          Authorization: `Bearer ${token.access_token}`
+      },
+      data: { 
+          reason,
+      } 
   }
+    console.log(reason)   
+  
+      Axios.delete(`${API}/specialist/deactivate`, config )
+      .then((response) => {
+          console.log(response.data)
+          notify("specialist account was successfully deactivated ");
+          setState({
+            ...state,
+            isloading: false,
+          })
+        })
+      .catch((err) => {
+        console.log(err.response);
+        setState({
+          ...state,
+          isloading: false,
+        })
+        notify("Failed to Deactivate", "D");
+      });
+  };
 
   return (
     <>
@@ -785,12 +775,13 @@ const SpecialistSettings = () => {
                             <textarea
                               value={reason}
                               id="reason"
+                              name="reason"
                               onChange={onchange}
                               className="form-control"
                             ></textarea>
                           </Form.Group>
-                          <span className="wrkmodal-declinebtn deactivebtn">
-                            Deactivate
+                          <span className="wrkmodal-declinebtn deactivebtn" onClick={deactivateAccount}>
+                               {!isloading ? "Deactivate" : "Deactivating..."}
                           </span>
                         </Col>
                       </Row>

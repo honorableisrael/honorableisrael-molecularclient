@@ -326,14 +326,14 @@
 .brkdwn{
     margin-bottom: 3px;
     font-size: 14px;
-    font-weight: 400;
+    font-weight: 600;
     line-height: 20px;
     color: rgb(0,0,0,.5);
 }
 .brkdwn-id{
     margin-bottom: 0;
     font-size: 16px;
-    font-weight: 400;
+    font-weight: 600;
     line-height: 20px;
     color: #000000;
 }
@@ -711,6 +711,7 @@
 }
 .upfrontbtn{
 padding: 6px;
+display: inline-block;
 background-color: #28a745;
 border-radius: 6px;
 font-weight: 600;

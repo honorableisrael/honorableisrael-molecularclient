@@ -30,6 +30,7 @@ const Specialist_Payment_Invoice = (props) => {
     end_date: "",
     start_date: "",
     hour: "",
+    isloading: false,
     reason:"",
     work_order_detail: {},
     terminateWorkModal: false,
@@ -86,6 +87,37 @@ const Specialist_Payment_Invoice = (props) => {
         console.log(err.response);
       });
   }, []);
+
+  const requestUpfrontPayment = (cycle_id, index) => {
+    setState({
+      ...state,
+      isloading: true,
+    })
+    const availableToken = localStorage.getItem("loggedInDetails");
+    console.log(availableToken);
+    const token = availableToken ? JSON.parse(availableToken) : "";
+    console.log(token);
+    axios.post(`${API}/specialist/upfront-payments/${cycle_id}`,{}, {
+      headers: { Authorization: `Bearer ${token.access_token}` }
+    })
+    .then((res)=>{
+      console.log(res.data)
+      notify("payment request successfull");
+      setState({
+        ...state,
+        isloading: false,
+      })
+    })
+    .catch((err)=>{
+      console.log(err.response)
+      notify("Request failed", "D");
+      setState({
+        ...state,
+        isloading: false,
+      })
+    })
+  }
+
   const {
     project_purpose,
     work_order_detail,
@@ -98,6 +130,7 @@ const Specialist_Payment_Invoice = (props) => {
     location_terrain,
     start_date,
     hour,
+    isloading,
     reason,
   }: any= state;
   return (
@@ -125,7 +158,7 @@ const Specialist_Payment_Invoice = (props) => {
                             value={reason}
                             onChange={onchange}
                             className="form-control wrkmodaltextarea"
-                            placeholder="Reason"
+                            placeholder="Message"
                             rows={5}
                             cols={5}
                           ></textarea>
@@ -189,7 +222,7 @@ const Specialist_Payment_Invoice = (props) => {
                 </div>
                 <div>
                   <p className="brkdwn detptg">Start Date</p>
-                  <p className="brkdwn-id">{work_order_detail.start_date}</p>
+                  <p className="brkdwn-id">{formatTime(work_order_detail.start_date)}</p>
                 </div>
               </div>
               <div>
@@ -206,8 +239,8 @@ const Specialist_Payment_Invoice = (props) => {
                     </tr>
                   </thead>
                   <tbody>
-                    {invoice_details?.cycles?.map((data, i)=>(
-                   <tr>
+                    {invoice_details?.cycles?.map((data, index)=>(
+                   <tr key={index}>
                     <td>{data.cycle}</td>
                    <td>
                    {data.number}
@@ -235,7 +268,13 @@ const Specialist_Payment_Invoice = (props) => {
                     )}
                    </td> 
                    <td>{formatTime(data.date)}</td>
-                   <td><span className="upfrontbtn" onClick={workModal}>Payment Request</span></td>
+                   <td>
+                   {data.can_make_upfront == true &&(
+                     <span className="upfrontbtn" onClick={()=>requestUpfrontPayment(data.id, index)}>
+                       {!isloading ? "Request Payment" : "Requesting..."}
+                    </span>
+                   )}
+                   </td>
                   </tr>
                     ))} 
                   </tbody>
@@ -245,6 +284,20 @@ const Specialist_Payment_Invoice = (props) => {
           </Col>
         </Row>
       </Container>
+      <ToastContainer
+        enableMultiContainer
+        containerId={"B"}
+        toastClassName="bg-orange text-white"
+        hideProgressBar={true}
+        position={"top-right"}
+      />
+      <ToastContainer
+        enableMultiContainer
+        containerId={"D"}
+        toastClassName="bg-danger text-white"
+        hideProgressBar={true}
+        position={"top-right"}
+      />
     </>
   );
 };
