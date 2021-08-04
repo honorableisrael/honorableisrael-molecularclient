@@ -12,3 +12,17 @@
   .arrow-down{
     transition: .4s ease;
   }
+  .acccollapsediv1{
+    background-color: #ffffff;
+    overflow: hidden;
+    transition: 0.4s ease;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+  .arrowflip1{
+    transform: rotate(-180deg);
+    transition: .4s ease;
+  }
+  .arrow-down1{
+    transition: .4s ease;
+  }

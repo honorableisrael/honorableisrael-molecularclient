@@ -179,6 +179,23 @@ setState({
     toast(message, { containerId: type, position: "top-right" });
   };
   const displayExperience = () => {
+    if (title && description) {
+      //display experience to UI
+      setState({
+        ...state,
+        openModal: false,
+        noExperienceAdded: experiences.length >= 0 ? false : true,
+        experiences: [
+          ...experiences,
+          { id: experience_id, title: title, description: description }
+        ],
+        experienceActive:
+          experiences.length >= 0 ? "wrapdemacator" : "nowrapdemacator",
+        addexperiencebtn:
+          experiences.length >= 0 ? "profcerbtnwrapper" : "noprofcerbtnwrapper"
+      });
+
+    }
     //post data to API
     const availableToken = localStorage.getItem("loggedInDetails");
     console.log(availableToken);
@@ -195,19 +212,6 @@ setState({
         console.log(res.data);
         if (res.status == 201) {
           //display experience to UI
-          setState({
-            ...state,
-            openModal: false,
-            noExperienceAdded: experiences.length >= 0 ? false : true,
-            experiences: [
-              ...experiences,
-              { id: experience_id, title: title, description: description }
-            ],
-            experienceActive:
-              experiences.length >= 0 ? "wrapdemacator" : "nowrapdemacator",
-            addexperiencebtn:
-              experiences.length >= 0 ? "profcerbtnwrapper" : "noprofcerbtnwrapper"
-          });
           notify("New experience added");
         }
       })

@@ -18,7 +18,7 @@ import { Link, withRouter } from "react-router-dom";
 import suitcase1 from "../../images/suitcase1.png";
 import specialist1 from "../../images/specialist1.png";
 import axios, { AxiosResponse } from "axios";
-import { ageCalculator, API, capitalize, FormatAmount, returnAdminToken } from "../../config";
+import { ageCalculator, API, capitalize, current_currency, FormatAmount, returnAdminToken } from "../../config";
 import Specialist_Awaiting_Admin from "./SubComponents/Specailist_Awaiting_Admin_Approval";
 
 const Notification = (props) => {
@@ -277,7 +277,7 @@ const AdminDashboard = withRouter((props) => {
               </div>
               <div className="cardzero12 cardzeronone bdtop1">
                 <div className="rolap">
-                  ${FormatAmount(admin?.workorders?.total_value) ?? 0}
+                  {current_currency}{FormatAmount(admin?.workorders?.total_value) ?? 0}
                 </div>
               </div>
             </div>

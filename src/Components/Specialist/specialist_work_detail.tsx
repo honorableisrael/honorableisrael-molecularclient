@@ -11,6 +11,7 @@ import location from "../../images/location.png";
 import document from "../../images/document 1.png";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { isTSIndexSignature } from "@babel/types";
 
 
 const Specialist_Work_details = props => {
@@ -153,7 +154,7 @@ const Specialist_Work_details = props => {
           setState({
             ...state,
             isloading: false,
-            successMessage: res.data.data.message 
+            successMessage: res.data.message 
           });
         })
       )
@@ -263,9 +264,9 @@ const Specialist_Work_details = props => {
         )}
         {workorderdetails && (
           <div>
-            {data.map((data, id) => {
+            {data.map((data, index) => {
               return (
-                <div key={id}>
+                <div key={index}>
                   <div className="pendingwrkcard">
                     <Modal
                       centered={true}
@@ -359,14 +360,14 @@ const Specialist_Work_details = props => {
                           </span>
                         </div>
                         <div>
-                          <span className="pendingwrkcard-btndv2">
+                          {/* <span className="pendingwrkcard-btndv2">
                             N30,000 <span>/ Week</span>
-                          </span>
+                          </span> */}
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div>
+                  {/* <div>
                     <h5 className="work_details worktitle">Work Details</h5>
                     <div className="splstworkdetailwrapper">
                       <Form>
@@ -482,7 +483,7 @@ const Specialist_Work_details = props => {
                         </Row>
                       </Form>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               );
             })}

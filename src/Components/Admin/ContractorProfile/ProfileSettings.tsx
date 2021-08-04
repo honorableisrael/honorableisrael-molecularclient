@@ -262,7 +262,7 @@ const Contractor_Profile = () => {
                               Address
                             </h6>
                             <Form.Control
-                              type="date"
+                              type="text"
                               className="userfield"
                               id="address"
                               value={address}
@@ -311,7 +311,7 @@ const Contractor_Profile = () => {
                               id="sector"
                               value={sector}
                               onChange={onchange}
-                              placeholder=""
+                              placeholder="yyyy-mm-dd"
                             />
                           </Form.Group>
                         </Col>

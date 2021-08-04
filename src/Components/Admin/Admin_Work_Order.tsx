@@ -527,11 +527,11 @@ const AdminWorkOrder = () => {
               <div className="cardflex_jo">
                 {work_orders?.map(
                   (data: any, i) =>
-                    data.status == "In Review" && (
+                   ( data.status == "In Review" || data.status=="Active" || data.status=="In active" || data.status=="Completed" )&& (
                       <AdminWorkOrderCards
                         order_details={data}
                         key={i}
-                        status={"In Review"}
+                        status={data.status}
                       />
                     )
                 )}

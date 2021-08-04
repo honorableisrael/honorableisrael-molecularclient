@@ -4,56 +4,51 @@ import portfolio from "../../images/fileno.png";
 import "react-rangeslider/lib/index.css";
 import { Link } from "react-router-dom";
 import nextbtn from "../../images/nextbtn.png";
-import no_work_order from "../../images/document 1.png";
-import { Col, Row } from "react-bootstrap";
+import { formatTime } from "../../config";
+
 
 const SplPaymentCards = props => {
   const [state, setState] = useState({
     volume: props.status == "Awaiting Approval" ? 0 : 100
   });
-  const handleOnChange = value => {
-    setState({
-      ...state,
-      volume: value
-    });
-  };
-  let { volume } = state;
+
+  console.log(props?.payment_details)
   return (
     <>
+    <Link to={`/Specialist_Payment_Invoice/${props?.payment_details?.id}`} className="paymentlink">
       <div className="cardwrap_jo minheight_">
         <div className="cardwrap_cont">
           <img src={portfolio} alt="portfolio" className="portfolio2" />
         </div>
         <div className="card_sec2">
           <div className="pipline">
-            <div className="crd23">{props.title}</div>
+            <div className="crd23">{props?.payment_details?.work_order?.title}</div>
             <div className="inprogr">
               <div
                 className={
-                  props.title == "Pipeline construction with Sulejah"
-                    ? "unpaid1 inprogress_4"
-                    : "unpaidgreen inprogress_4"
-                }
+                  props?.payment_details?.total_amount_paid < 0
+                  ? "unpaid1 inprogress_4"
+                  : "unpaidgreen inprogress_4"
+              }
               >
                 <span
-                  className={
-                    props.status == false
+                   className={
+                    props?.payment_details?.total_amount_paid < 0
                       ? "paidd2 box_cust"
                       : "paidd2green box_cust"
                   }
                 ></span>
                 <span>
-                  {props.title == false
+                {props?.payment_details?.total_amount_paid > 0
                     ? "Paid"
-                    : props.status == true
-                    ? "Payment Breakdown"
-                    : "Payment Breakdown"}
+                    : "Unpaid"
+                    }
                 </span>
               </div>
             </div>
           </div>
           <div className="slidd2">
-            <Link to="/Specialist_Payment_Invoice">
+            <Link to={`/Specialist_Payment_Invoice/${props?.payment_details?.id}`}>
               <div className="nextbtn">
                 <img src={nextbtn} alt="nxtbtn" className="nxtbtn3 nxtt4" />
               </div>
@@ -62,12 +57,13 @@ const SplPaymentCards = props => {
           <div className="nwraper">
             <div className="ppp1 ppp0">
               <div className="mnversion">INVOICE NUMBER</div>
-              <p className="mnversion2"> 1233127567812 </p>
+              <p className="mnversion2"> {props?.payment_details?.number} </p>
             </div>
-            <div className="nnw12">Just Now</div>
+            <div className="nnw12">{formatTime(props?.payment_details?.sent_at)}</div>
           </div>
         </div>
       </div>
+      </Link>
     </>
   );
 };

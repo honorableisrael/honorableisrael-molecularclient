@@ -333,7 +333,7 @@ const Qualification = () => {
                 name="from"
                 value={from}
                 onChange={onchange}
-                placeholder="From"
+                placeholder="yyyy-mm-dd"
                 size={70}
               />
             </label>
@@ -347,7 +347,7 @@ const Qualification = () => {
                 name="to"
                 value={to}
                 onChange={onchange}
-                placeholder="TO"
+                placeholder="yyyy-mm-dd"
                 size={70}
               />
             </label>
@@ -423,7 +423,7 @@ const Qualification = () => {
                 name="from"
                 value={from}
                 onChange={onchange}
-                placeholder="From"
+                placeholder="yyyy-mm-dd"
                 size={70}
               />
             </label>
@@ -437,7 +437,7 @@ const Qualification = () => {
                 name="to"
                 value={to}
                 onChange={onchange}
-                placeholder="TO"
+                placeholder="yyyy-mm-dd"
                 size={70}
               />
             </label>

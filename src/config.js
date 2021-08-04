@@ -52,6 +52,13 @@ export const contractorToken =()=>{
       : window.location.assign("/");
       return token
 }
+export const specialistToken =()=>{
+  const availableToken = localStorage.getItem("loggedInDetails");
+    const token = availableToken
+      ? JSON.parse(availableToken)
+      : window.location.assign("/");
+      return token
+}
 export const getAdminToken=()=>{
   const availableToken = localStorage.getItem("loggedInDetails");
   const token = availableToken

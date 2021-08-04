@@ -360,7 +360,7 @@ const NewWorkOrderForm = withRouter((props) => {
                             className="userfield"
                             id="start_date"
                             onChange={onchange}
-                            placeholder="Work Order Title"
+                            placeholder="yyyy-mm-dd"
                           />
                         </Form.Group>
                       </Col>
@@ -377,7 +377,7 @@ const NewWorkOrderForm = withRouter((props) => {
                             className="userfield"
                             id="end_date"
                             onChange={onchange}
-                            placeholder=""
+                            placeholder="yyyy-mm-dd"
                           />
                         </Form.Group>
                       </Col>

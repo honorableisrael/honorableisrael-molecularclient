@@ -47,7 +47,7 @@ const AdminWorkOrderCards = (props) => {
                     ? "inprogress_4 lightblack unpaid1"
                     : props.status == "Completed"
                     ? "inprogress_4  unpaidgreen lggreen"
-                    : ""
+                    : props.status=="Active"?"unpaidgreen inprogress_4":""
                 }
               >
                 <span
@@ -62,7 +62,7 @@ const AdminWorkOrderCards = (props) => {
                       ? "Pending"
                       : props.status == "In Review"
                       ? "paidd2green lightblack"
-                      : props.status
+                      : props.status=="Active"?"unpaidgreen ":props.status
                   }
                 ></span>
                 <span>
@@ -76,7 +76,7 @@ const AdminWorkOrderCards = (props) => {
                     ? "Pending"
                     : props.status == "In Review"
                     ? "In Review"
-                    : props.status}
+                    : props.status=="Active"?props.status:props.status}
                 </span>
               </div>
             </div>

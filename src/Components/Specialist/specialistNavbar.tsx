@@ -61,7 +61,7 @@ const DashboardNav = props => {
     <div className="fixfdnav">
       <div className="navwrap">
         <div className="dsbdlogo">
-          <Link to="/">
+          <Link to="/specialistdashboard">
             <img src={dshlogo} alt="logo" className="logo2" />
           </Link>
         </div>

@@ -28,6 +28,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Admin_Invoice_details = (props) => {
+  console.log(props)
   const [state, setState] = useState<any>({
     invoice_details: {},
     country: "",
@@ -241,6 +242,9 @@ const Admin_Invoice_details = (props) => {
       .then(
         axios.spread((res) => {
           notify("Successful");
+          setTimeout(()=>{
+            window.location.reload()
+          },2000)
           console.log(res.data.data);
           setState({
             ...state,
@@ -305,7 +309,7 @@ const Admin_Invoice_details = (props) => {
             <Col md={12} className="terminate2">
               <div className="" onClick={makePaymentToSpecialist}>
                 <Button className="btn-success primary3">
-                  {isloading ? "Processing" : "Pay"}
+                  {isloading ? "Processing" : "Confirm Payment"}
                 </Button>
               </div>
             </Col>
@@ -347,7 +351,7 @@ const Admin_Invoice_details = (props) => {
                 </Button>
                 <div className="" onClick={makePaymentForSubInvoice}>
                 <Button className="btn-success primary3">
-                  {isloading ? "Processing" : "Pay"}
+                  {isloading ? "Processing" : "Confirm Payment"}
                 </Button>
               </div>
             </Col>
@@ -496,7 +500,7 @@ const Admin_Invoice_details = (props) => {
                                           }
                                           className="btn-success primary3"
                                         >
-                                          Pay
+                                         Confirm Payment
                                         </Button>
                                       ) : (
                                         ""
@@ -504,7 +508,7 @@ const Admin_Invoice_details = (props) => {
                                     </td>
                                     <td>{data?.cycle}</td>
                                     <td>
-                                    {data?.status == "Paid" ? (
+                                    {data?.status == "Paid" && !data.paid_specialists ? (
                                       <Button
                                         onClick={() =>
                                           openPaymentModal(data.id)

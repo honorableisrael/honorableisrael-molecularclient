@@ -2860,3 +2860,34 @@ padding-left: 34px;
   border: 1px solid #28a745;
   color: #28a745;
 }
+.startproject{
+  display: flex !important;
+  min-width: 162px;
+  align-items: center;
+  justify-content: center;
+}
+.startproject svg{
+  margin-left: .4rem;
+}
+.stop3{
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  background: white;
+  border-radius: .2rem;
+  margin-left: .3rem;
+}
+.userfield{
+  color: #666666 !important;
+}
+
+.paddtop{
+  padding-top:0px;
+  padding-bottom: 0px;
+}
+.dplsplsacc{
+  padding-bottom: 1rem;
+}
+.acccollapsediv .text-center{
+  margin-top: .3rem;
+}

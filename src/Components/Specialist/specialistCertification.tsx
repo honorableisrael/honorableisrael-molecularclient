@@ -293,7 +293,7 @@ const Certification = () => {
                 name="year"
                 value={year}
                 onChange={onchange}
-                placeholder="Enter Title"
+                placeholder="yyyy-mm-dd"
                 size={70}
               />
             </label>
@@ -354,7 +354,7 @@ const Certification = () => {
                 name="year"
                 value={year}
                 onChange={onchange}
-                placeholder="Enter Title"
+                placeholder="yyyy-mm-dd"
                 size={70}
               />
             </label>
