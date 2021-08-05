@@ -917,6 +917,7 @@ text {
 .tabledata div {
   width: 32%;
   color: #000000be;
+  overflow: hidden;
 }
 .tabledata div:first-child {
   width: 38%;
@@ -1556,7 +1557,7 @@ text {
   width: 257px !important;
 }
 .mheight_{
-  max-height: 432px;
+  max-height: 460px;
   position: fixed;
 }
 .job23_1a_{

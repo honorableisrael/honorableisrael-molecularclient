@@ -602,12 +602,6 @@ const WorkOrderDetails = withRouter((props: any) => {
                 Work Details
               </div>
             </div>
-            {!already_approved && (
-              <div className="rjwrapper mrgin__right">
-                <Button className="accjct1">Reject</Button>
-                <Button className="rejct1 ">Accept</Button>
-              </div>
-            )}
             <Row className="mgtop">
               <Col md={2} className="job23_ mheight_">
                 <p className="exp23">
@@ -623,7 +617,7 @@ const WorkOrderDetails = withRouter((props: any) => {
                   <NavHashLink to="#work">Work Details</NavHashLink>
                 </p>
                 <p className="bview inactive_bv">
-                  <NavHashLink to="#actions">Actions</NavHashLink>
+                  <NavHashLink to="#invoice">Proforma Invoice</NavHashLink>
                 </p>
               </Col>
               <Col md={10} className="job23_1a_ job23_1a_p">
@@ -647,9 +641,9 @@ const WorkOrderDetails = withRouter((props: any) => {
                   </Col>
                 )}
                 <div className="job23_1a" id="details">
-                  <div className="job23_1a wrap_z kdsd">
-                    {assigned_specialists.length == 0 &&
-                      work_order_detail.invoice !== null && (
+                  {assigned_specialists.length == 0 &&
+                    work_order_detail.invoice !== null && (
+                      <div className="job23_1a wrap_z kdsd">
                         <Col md={11} className="containerforemptyorder1 cust">
                           <div className="containerforemptyorder">
                             <img
@@ -665,14 +659,14 @@ const WorkOrderDetails = withRouter((props: any) => {
                             <div className="job3">Assign specialist</div>
                         </div> */}
                         </Col>
-                      )}
-                  </div>
+                      </div>
+                    )}
                   <br />
                   <Work_Details work_order_detailz={workDetails} hide={true} />
                   <SpecialistDeployed work_order_detail={work_order_detail} />
                   <br />
                   <Work_Sheet />
-                  <br />
+                  <br id="invoice" />
                   <Invoice_details work_order_detail={work_order_detail} />
                 </div>
               </Col>
