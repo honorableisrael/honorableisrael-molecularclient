@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Col, Row, Container, Table } from "react-bootstrap";
+import { Col, Row, Container, Table, Modal,Form } from "react-bootstrap";
 import "../Contractor/contractor.css";
 import DashboardNav from "./specialistNavbar";
 import "react-rangeslider/lib/index.css";
@@ -7,10 +7,12 @@ import { Helmet } from "react-helmet";
 import arrowback from "../../images/dtls.png";
 import { Link } from "react-router-dom";
 import logo from "../../images/dashbdlogo.png";
-import { API, FormatAmount, formatTime, notify, specialistToken } from "../../config";
+import { API, FormatAmount, formatTime, notify, specialistToken,current_currency } from "../../config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
+import closeimg from "../../images/closeimg.png";
+
 
 
 
@@ -28,9 +30,31 @@ const Specialist_Payment_Invoice = (props) => {
     end_date: "",
     start_date: "",
     hour: "",
+    isloading: false,
+    reason:"",
     work_order_detail: {},
+    terminateWorkModal: false,
   });
 
+  const onchange = (e) => {
+    console.log(e.target.value);
+    setState({
+      ...state,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const workModal = () => {
+    setState({
+      ...state,
+      terminateWorkModal: true,
+    });
+  };
+  const closeworkModal = () => {
+    setState({
+      ...state,
+      terminateWorkModal: false
+    });
+  };
   useEffect(() => {
     window.scrollTo(-0, -0);
     const invoice_: any = localStorage.getItem("invoice_id");
@@ -63,20 +87,93 @@ const Specialist_Payment_Invoice = (props) => {
         console.log(err.response);
       });
   }, []);
+
+  const requestUpfrontPayment = (cycle_id, index) => {
+    setState({
+      ...state,
+      isloading: true,
+    })
+    const availableToken = localStorage.getItem("loggedInDetails");
+    console.log(availableToken);
+    const token = availableToken ? JSON.parse(availableToken) : "";
+    console.log(token);
+    axios.post(`${API}/specialist/upfront-payments/${cycle_id}`,{}, {
+      headers: { Authorization: `Bearer ${token.access_token}` }
+    })
+    .then((res)=>{
+      console.log(res.data)
+      notify("payment request successfull");
+      setState({
+        ...state,
+        isloading: false,
+      })
+    })
+    .catch((err)=>{
+      console.log(err.response)
+      notify("Request failed", "D");
+      setState({
+        ...state,
+        isloading: false,
+      })
+    })
+  }
+
   const {
     project_purpose,
     work_order_detail,
     invoice_details,
     country,
+    terminateWorkModal,
     work_order_description,
     order_title,
     end_date,
     location_terrain,
     start_date,
-    hour
+    hour,
+    isloading,
+    reason,
   }: any= state;
   return (
     <>
+       <Modal
+                      centered={true}
+                      onHide={closeworkModal}
+                      show={terminateWorkModal}
+                    >
+                      <div className="terminateworkmodalwrap">
+                        <div className="terminateworkmodalimg">
+                          <img
+                            src={closeimg}
+                            alt="close"
+                            onClick={closeworkModal}
+                          />
+                        </div>
+                        <div
+                         className="terminateworkmodaltitle" >
+                          Request Upfront Payment
+                        </div>
+                        <form>
+                          <textarea
+                            name="reason"
+                            value={reason}
+                            onChange={onchange}
+                            className="form-control wrkmodaltextarea"
+                            placeholder="Message"
+                            rows={5}
+                            cols={5}
+                          ></textarea>
+                        </form>
+                        <div className="wrkmodal-btnwrap">
+                          <span
+                            className="wrkmodal-cancelbtn"
+                            onClick={closeworkModal}
+                          >
+                            Cancel
+                          </span>
+                          <span className="profcertbtn upfrmodalbtn">Send</span>
+                        </div>
+                      </div>
+                    </Modal>
       <Container fluid={true}>
         <Helmet>
           <meta charSet="utf-8" />
@@ -117,7 +214,7 @@ const Specialist_Payment_Invoice = (props) => {
                 </div>
                 <div>
                   <p className="brkdwn detptg">Paid Invoices</p>
-                  <p className="brkdwn-id">{invoice_details.total_amount_paid}</p>
+                  <p className="brkdwn-id">{current_currency}{invoice_details.total_amount_paid}</p>
                 </div>
                 <div>
                   <p className="brkdwn detptg">Project Duration</p>
@@ -125,26 +222,37 @@ const Specialist_Payment_Invoice = (props) => {
                 </div>
                 <div>
                   <p className="brkdwn detptg">Start Date</p>
-                  <p className="brkdwn-id">{work_order_detail.start_date}</p>
+                  <p className="brkdwn-id">{formatTime(work_order_detail.start_date)}</p>
                 </div>
               </div>
               <div>
                 <Table hover>
                   <thead className="splinvoitablehead">
                     <tr>
+                      <th>Cycle</th>
                       <th>Invoice Number</th>
                       <th>Amount</th>
                       <th>Amount Paid</th>
                       <th>Status</th>
                       <th>Date</th>
+                      <th></th>
                     </tr>
                   </thead>
                   <tbody>
-                    {invoice_details?.cycles?.map((data, i)=>(
-                   <tr>
-                   <td>{data.number}</td>
-                   <td>{data.amount}.</td>
-                   <td> {data.amount_paid} </td>
+                    {invoice_details?.cycles?.map((data, index)=>(
+                   <tr key={index}>
+                    <td>{data.cycle}</td>
+                   <td>
+                   {data.number}
+                   </td>
+                   <td>
+                      {current_currency}
+                      {FormatAmount(data.amount)}
+                    </td>
+                   <td> 
+                   {current_currency}
+                   {FormatAmount(data.amount_paid)} 
+                   </td>
                    <td>
                      {data.status == "Paid" && (
                        <div className="invpaystatwrap">
@@ -155,46 +263,20 @@ const Specialist_Payment_Invoice = (props) => {
                     {data.status == "Unpaid" &&(
                       <div className="invpaystatwrap pendinwrap">
                       <span className="paystatindcator pendininvoice"></span>
-                      <span className="paystattext pendininvtext">pending</span>
+                      <span className="paystattext pendininvtext">Unpaid</span>
                     </div>
                     )}
                    </td> 
-                   <td>{data.date}</td>
+                   <td>{formatTime(data.date)}</td>
+                   <td>
+                   {data.can_make_upfront == true &&(
+                     <span className="upfrontbtn" onClick={()=>requestUpfrontPayment(data.id, index)}>
+                       {!isloading ? "Request Payment" : "Requesting..."}
+                    </span>
+                   )}
+                   </td>
                   </tr>
                     ))} 
-                    {/* <tr>
-                      <td>1233127567812</td>
-                      <td>N33,329</td>
-                      <td>
-                        <div className="invpaystatwrap">
-                          <span className="paystatindcator"></span>
-                          <span className="paystattext">paid</span>
-                        </div>
-                      </td>
-                      <td>23-04-2021</td>
-                    </tr>
-                    <tr>
-                      <td>1233127567812</td>
-                      <td>N33,329</td>
-                      <td>
-                        <div className="invpaystatwrap pendinwrap">
-                          <span className="paystatindcator pendininvoice"></span>
-                          <span className="paystattext pendininvtext">pending</span>
-                        </div>
-                      </td>
-                      <td>23-04-2021</td>
-                    </tr>
-                    <tr>
-                      <td>1233127567812</td>
-                      <td>N33,329</td>
-                      <td>
-                        <div className="invpaystatwrap pendinwrap">
-                          <span className="paystatindcator pendininvoice"></span>
-                          <span className="paystattext pendininvtext">pending</span>
-                        </div>
-                      </td>
-                      <td>23-04-2021</td>
-                    </tr> */}
                   </tbody>
                 </Table>
               </div>
@@ -202,6 +284,20 @@ const Specialist_Payment_Invoice = (props) => {
           </Col>
         </Row>
       </Container>
+      <ToastContainer
+        enableMultiContainer
+        containerId={"B"}
+        toastClassName="bg-orange text-white"
+        hideProgressBar={true}
+        position={"top-right"}
+      />
+      <ToastContainer
+        enableMultiContainer
+        containerId={"D"}
+        toastClassName="bg-danger text-white"
+        hideProgressBar={true}
+        position={"top-right"}
+      />
     </>
   );
 };

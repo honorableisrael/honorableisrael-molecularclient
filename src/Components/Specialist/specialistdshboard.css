@@ -326,14 +326,14 @@
 .brkdwn{
     margin-bottom: 3px;
     font-size: 14px;
-    font-weight: 400;
+    font-weight: 600;
     line-height: 20px;
     color: rgb(0,0,0,.5);
 }
 .brkdwn-id{
     margin-bottom: 0;
     font-size: 16px;
-    font-weight: 400;
+    font-weight: 600;
     line-height: 20px;
     color: #000000;
 }
@@ -376,7 +376,7 @@
 }
 .pendinwrap{
     background-color: rgba(253, 140, 0, .1);
-    width: 59%;
+    width: 85%;
 }
 .pendininvoice{
     background-color: rgba(253, 140, 0, 1);
@@ -387,6 +387,9 @@
 }
 .pendininvtext{
     color: rgba(253, 140, 0, 1);
+}
+.worksheetdw{
+    display: flex;
 }
 .splinvoitablehead{
     background-color: rgba(196,196,196,.1)
@@ -702,3 +705,20 @@
 .paymentlink{
  display: contents;
 }
+.acceptablefile{
+ padding-left: 1rem;
+ font-size: 13px;   
+}
+.upfrontbtn{
+padding: 6px;
+display: inline-block;
+background-color: #28a745;
+border-radius: 6px;
+font-weight: 600;
+font-size: 15px;
+cursor: pointer;
+color: #fff;
+} 
+.upfrmodalbtn{
+    margin-left: 20px;
+}   

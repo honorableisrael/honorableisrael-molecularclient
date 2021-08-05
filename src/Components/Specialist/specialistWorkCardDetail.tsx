@@ -353,11 +353,13 @@ const  upLoadFile= ({target: {files}})=>{
                             <a href={item.worksheet}>
                             <div className="worksheetdw worksheetdate1">
                               {" "}
+                              <div>
                               <img
                                 src={dwnload}
                                 alt="dwnload"
                                 className="dwnload1"
                               />
+                              </div>
                               Download
                             </div>
                             </a>
