@@ -18,7 +18,14 @@ import { Link, withRouter } from "react-router-dom";
 import suitcase1 from "../../images/suitcase1.png";
 import specialist1 from "../../images/specialist1.png";
 import axios, { AxiosResponse } from "axios";
-import { ageCalculator, API, capitalize, current_currency, FormatAmount, returnAdminToken } from "../../config";
+import {
+  ageCalculator,
+  API,
+  capitalize,
+  current_currency,
+  FormatAmount,
+  returnAdminToken,
+} from "../../config";
 import Specialist_Awaiting_Admin from "./SubComponents/Specailist_Awaiting_Admin_Approval";
 
 const Notification = (props) => {
@@ -29,9 +36,44 @@ const Notification = (props) => {
         <div className="text-center">
           <div className="notif12v textxenter1">Notification </div>
         </div>
-        {props?.all_notification?.slice(0, 3)?.map((data, i) => (
-          <>
-            <Link to={"/admin_notification"}>
+        {props?.all_notification?.slice(0, 3)?.map((data, i) =>
+          (data.category == "work order" || data.category == "worksheet") ? (
+            <Link
+              to="/admin_work_details?inreview=true"
+              onClick={() =>
+                localStorage.setItem(
+                  "work_order_details",
+                  JSON.stringify({ id: data.category_id })
+                )
+              }
+            >
+              <>
+                <div className="helloworld1" title={data.message}>
+                  <div className="helloworld2">
+                    <img src={avatar} className="avatar1" />
+                  </div>
+                  <div className="app12">{data?.title}</div>
+                </div>
+                <div className="timesection">{data?.sent_since}</div>
+                <div className="dottedlines"></div>
+              </>
+            </Link>
+          ) : data.category == "invoice" ? (
+            <>
+              <Link to={`/admin_invoice_details/${data.category_id}`}>
+                <div className="helloworld1" title={data.message}>
+                  <div className="helloworld2">
+                    <img src={avatar} className="avatar1" />
+                  </div>
+                  <div className="app12">{data?.title}</div>
+                </div>
+              </Link>
+              <div className="timesection">{data?.sent_since}</div>
+              <div className="dottedlines"></div>
+            </>
+          ) : (
+            <>
+            <Link to={`/admin_notification`}>
               <div className="helloworld1" title={data.message}>
                 <div className="helloworld2">
                   <img src={avatar} className="avatar1" />
@@ -42,11 +84,13 @@ const Notification = (props) => {
             <div className="timesection">{data?.sent_since}</div>
             <div className="dottedlines"></div>
           </>
-        ))}
+          )
+        )}
       </div>
     </>
   );
 };
+
 const Invoice = (props) => {
   console.log(props);
   return (
@@ -142,11 +186,11 @@ const AdminDashboard = withRouter((props) => {
     all_specialist: [],
     notification: [],
     invoices: [],
-    admin_chart:{}
+    admin_chart: {},
   });
 
   useEffect(() => {
-   const token = returnAdminToken()
+    const token = returnAdminToken();
     axios
       .all([
         axios.get(`${API}/admin/dashboard`, {
@@ -169,7 +213,7 @@ const AdminDashboard = withRouter((props) => {
         }),
       ])
       .then(
-        axios.spread((res, res2, res3, res4,res5,res6) => {
+        axios.spread((res, res2, res3, res4, res5, res6) => {
           console.log(res6.data);
           setState({
             ...state,
@@ -178,7 +222,7 @@ const AdminDashboard = withRouter((props) => {
             notification: res3.data.data.data,
             work_orders: res4.data.data.data,
             invoices: res5.data.data.data,
-            admin_chart:res6.data.data,
+            admin_chart: res6.data.data,
           });
         })
       )
@@ -186,7 +230,7 @@ const AdminDashboard = withRouter((props) => {
         console.log(err);
       });
   }, []);
-  const { admin, work_orders,invoices }: any = state;
+  const { admin, work_orders, invoices }: any = state;
   return (
     <>
       <Container fluid={true} className="dasbwr">
@@ -277,7 +321,8 @@ const AdminDashboard = withRouter((props) => {
               </div>
               <div className="cardzero12 cardzeronone bdtop1">
                 <div className="rolap">
-                  {current_currency}{FormatAmount(admin?.workorders?.total_value) ?? 0}
+                  {current_currency}
+                  {FormatAmount(admin?.workorders?.total_value) ?? 0}
                 </div>
               </div>
             </div>
@@ -317,7 +362,11 @@ const AdminDashboard = withRouter((props) => {
                       </div>
                     </div>
                     <ProgressBar>
-                      <ProgressBar   className="colorgreen" now={data.progress} key={3} />
+                      <ProgressBar
+                        className="colorgreen"
+                        now={data.progress}
+                        key={3}
+                      />
                     </ProgressBar>
                     <div className="mlstones2">
                       <div className="mlstones">
@@ -347,7 +396,9 @@ const AdminDashboard = withRouter((props) => {
                       <ProgressBar variant="gray" now={0} key={3} />
                     </ProgressBar>
                     <div className="mlstones2">
-                      <div className="mlstones">Milestones : {data.payment_cycle}</div>
+                      <div className="mlstones">
+                        Milestones : {data.payment_cycle}
+                      </div>
                       <div className="mlstones">
                         Total Specialist Involved: {data.total_specialists}
                       </div>

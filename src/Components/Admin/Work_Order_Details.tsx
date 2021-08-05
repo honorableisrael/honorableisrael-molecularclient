@@ -35,7 +35,9 @@ import {
   current_currency,
   FormatAmount,
   formatTime,
+  notify,
   returnAdminToken,
+  refreshpage,
 } from "../../config";
 import { NavHashLink } from "react-router-hash-link";
 import Accordion_Work_order from "./Accordion_workorder_details";
@@ -172,6 +174,39 @@ const Work_Sheet = (props: any) => {
       });
   }, []);
 
+  const sendToContractor = (id) => {
+    setState({
+      ...state,
+      isloading: true,
+    });
+    axios
+      .post(
+        `${API}/admin/work-orders/worksheets/${id}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${returnAdminToken().access_token}`,
+          },
+        }
+      )
+      .then((res) => {
+        notify("Successfully sent worksheet to contractor");
+        console.log(res.data.data);
+        refreshpage();
+        setState({
+          ...state,
+          isloading: false,
+        });
+      })
+      .catch((err) => {
+        notify("failed to send worksheet to contractor");
+        setState({
+          ...state,
+          isloading: false,
+        });
+        console.log(err);
+      });
+  };
   const { active1, collapseHeight, chevron, work_sheet, isloading } = state;
   return (
     <>
@@ -212,9 +247,39 @@ const Work_Sheet = (props: any) => {
                   </div>
                   <div className="worksheetdate">{formatTime(data.date)}</div>
                   <div className="upby">uploaded by {data.uploaded_by}</div>
+                  <div className="upby">
+                    {" "}
+                    <div>
+                      {data.approved ? "Approved" : "Awaiting Approval"}
+                    </div>
+                  </div>
+                  <div className="upby">
+                    {data.sent ? (
+                      ""
+                    ) : (
+                      <span
+                        className="raise_inv"
+                        onClick={() => sendToContractor(data.id)}
+                      >
+                        {isloading ? "Sending" : "Send"}
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
             ))}
+            {work_sheet?.length == 0 && (
+              <Col md={11} className="containerforemptyorder1 cust20">
+                <div className="containerforemptyorder">
+                  <img
+                    src={no_work_order}
+                    alt={"no_work_order"}
+                    className="no_work_order"
+                  />
+                </div>
+                <div className="no_work1">worksheet has not been sent</div>
+              </Col>
+            )}
           </div>
         </>
       </div>
@@ -222,7 +287,7 @@ const Work_Sheet = (props: any) => {
   );
 };
 
-const Invoice_details = ({work_order_detail}: any) => {
+const Invoice_details = ({ work_order_detail }: any) => {
   const [state, setState] = useState<any>({
     active1: "",
     collapseHeight: "0px",
@@ -723,6 +788,9 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                   <NavHashLink to="#work">Work Details</NavHashLink>
                 </p>
                 <p className="bview inactive_bv">
+                  <NavHashLink to="#worksheet">Work Sheet</NavHashLink>
+                </p>
+                <p className="bview inactive_bv">
                   <NavHashLink to="#actioninvoice">Invoice</NavHashLink>
                 </p>
 
@@ -928,57 +996,16 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                       )}
                     </div>
                   </div>
-
                   {/* invited specialist ends */}
                   <div className="job23_1a wrap_z paddtop">
                     <div className="active_member23">
-                      {/* <div className="active_worksheet">WORKS SHEETS</div> */}
-                      {false && (
-                        <>
-                          <div className="worksheet_1">
-                            <div className="tabledata tablecontent tablecont1">
-                              <div className="header_12 tablecont0">
-                                <span>Worksheet Report 1</span>
-                              </div>
-                              <div className="tablecont1">
-                                <div className="worksheetdw worksheetdate1">
-                                  {" "}
-                                  <img
-                                    src={dwnload}
-                                    alt="dwnload"
-                                    className="dwnload1"
-                                  />
-                                  Download
-                                </div>
-                                <div className="worksheetdate">12/02/2021</div>
-                              </div>
-                            </div>
-                            <div className="tabledata tablecontent tablecont1">
-                              <div className="header_12 tablecont0">
-                                <span>Worksheet Report 2</span>
-                              </div>
-                              <div className="tablecont1">
-                                <div className="worksheetdw worksheetdate1">
-                                  {" "}
-                                  <img
-                                    src={dwnload}
-                                    alt="dwnload"
-                                    className="dwnload1"
-                                  />
-                                  Download
-                                </div>
-                                <div className="worksheetdate">12/02/2021</div>
-                              </div>
-                            </div>
-                          </div>
-                        </>
-                      )}
                       <div className="dplsplsacc">
                         <Work_Details work_order_detailz={work_order_detail} />
                       </div>
                     </div>
                   </div>
                   <Work_Sheet />
+                  <div id="worksheet"></div>
                   <br />
                   {work_order_detail?.invoice?.length !== 0 && (
                     <>

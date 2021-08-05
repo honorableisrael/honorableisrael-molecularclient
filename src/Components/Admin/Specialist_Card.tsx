@@ -42,9 +42,14 @@ const Specialist_card = withRouter((props: any) => {
             {props?.specialist_data?.status == "Inactive" && (
               <span className="status_1">{props?.specialist_data?.status}</span>
             )}
-            {props?.specialist_data?.status == "Active" && (
+            {props?.specialist_data?.engaged == true && (
               <span className="status_2">
-                {props?.specialist_data?.status ? "Active" : ""}
+                {props?.specialist_data?.engaged ? "Engaged" : "Available"}
+              </span>
+            )}
+              {props?.specialist_data?.engaged == false && (
+              <span className="status_2">
+                {props?.specialist_data?.engaged ? "Engaged" : "Available"}
               </span>
             )}
           </label>
