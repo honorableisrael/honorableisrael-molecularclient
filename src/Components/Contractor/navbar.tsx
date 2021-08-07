@@ -117,11 +117,13 @@ const DashboardNav = withRouter((props) => {
                 {window.location.pathname == "/contractor_profile" && (
                   <span className="boxdes"></span>
                 )}
-              </Link>
+              </Link> 
             </div>
             <Dropdown className="uddrpdwndiv">
               <div className="bell2">
+                <Link to={"/notification"}>
                 <img src={bell} className="bell" alt="bell" />
+                </Link>
               </div>
               <span className="lfff">
                 {capitalize(user_details?.first_name?.split("")[0])}

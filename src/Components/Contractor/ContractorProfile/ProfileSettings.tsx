@@ -7,7 +7,13 @@ import "react-rangeslider/lib/index.css";
 import { Helmet } from "react-helmet";
 import { Link, withRouter } from "react-router-dom";
 import axios from "axios";
-import { API, capitalize, contractorToken, notify, splitName } from "../../../config";
+import {
+  API,
+  capitalize,
+  contractorToken,
+  notify,
+  splitName,
+} from "../../../config";
 import allCountries from "../../../listOfCountriesInTheWorld";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -34,21 +40,21 @@ const Contractor_Profile = withRouter((props) => {
     middle_name: "",
     reason: "",
     industry: "",
-    old_password:"",
+    old_password: "",
     current_password: "",
     new_password: "",
     confirm_password: "",
     list_of_industries: [],
-    industry_id:"",
+    industry_id: "",
     isloading: false,
   });
   const onchange = (e) => {
-    if(e.target.id=="industry"){
-     return setState({
+    if (e.target.id == "industry") {
+      return setState({
         ...state,
-        industry_id:e.target.value,
-        industry:e.target.value,
-      })
+        industry_id: e.target.value,
+        industry: e.target.value,
+      });
     }
     console.log(e.target.value);
     setState({
@@ -119,65 +125,102 @@ const Contractor_Profile = withRouter((props) => {
     const data = {
       company_name,
       // website_url,
-      industry:industry_id,
+      industry: industry_id,
       country,
-      state:state_,
+      state: state_,
       address,
     };
-    console.log(data)
+    console.log(data);
     setState({
       ...state,
-      isloading:true
-    })
+      isloading: true,
+    });
     axios
       .put(`${API}/contractor`, data, {
         headers: { Authorization: `Bearer ${contractorToken().access_token}` },
       })
       .then((res) => {
         console.log(res);
-        notify("Update successful")
+        notify("Update successful");
         setState({
           ...state,
-          isloading:false,
-        })
+          isloading: false,
+        });
       })
       .catch((err) => {
-        notify("Update failed","D")
+        notify("Update failed", "D");
         setState({
           ...state,
-          isloading:false
-        })
+          isloading: false,
+        });
       });
   };
-  const SubmitPassword = () => {
+  const CreateContactPerson = (role) => {
     const data = {
-      old_password:old_password,
-      password:new_password,
-      password_confirmation:confirm_password,
+      first_name,
+      last_name,
+      email,
+      phone:phone_number,
+      role,
     };
-    console.log(data)
+    console.log(data);
     setState({
       ...state,
-      isloading:true
-    })
+      isloading: true,
+    });
     axios
-      .put(`${API}/password`, data, {
+      .post(`${API}/contractor/contacts`, data, {
         headers: { Authorization: `Bearer ${contractorToken().access_token}` },
       })
       .then((res) => {
         console.log(res);
-        notify("Update successful")
+        notify("Created successfully");
         setState({
           ...state,
-          isloading:false
-        })
+          isloading: false,
+        });
       })
       .catch((err) => {
-        notify("Update failed","D")
+        if(err?.response?.status==406){
+          return notify(err?.response?.data?.errors?.email?.join(""),"D")
+        }
+        notify("Failed to create", "D");
         setState({
           ...state,
-          isloading:false
-        })
+          isloading: false,
+        });
+      });
+  };
+
+  const SubmitPassword = () => {
+    const data = {
+      old_password: current_password,
+      password: new_password,
+      password_confirmation: confirm_password,
+    };
+    console.log(data);
+    setState({
+      ...state,
+      isloading: true,
+    });
+    axios
+      .post(`${API}/password`, data, {
+        headers: { Authorization: `Bearer ${contractorToken().access_token}` },
+      })
+      .then((res) => {
+        console.log(res);
+        notify("Update successful");
+        setState({
+          ...state,
+          isloading: false,
+        });
+      })
+      .catch((err) => {
+        notify("Update failed", "D");
+        setState({
+          ...state,
+          isloading: false,
+        });
       });
   };
   
@@ -204,8 +247,8 @@ const Contractor_Profile = withRouter((props) => {
             ...res.data.data,
             list_of_industries: res2.data.data,
             contractor: res.data.data,
-            state_:res.data.data.state,
-            industry_id:res.data.data.industry_id
+            state_: res.data.data.state,
+            industry_id: res.data.data.industry_id,
           });
         })
       )
@@ -445,7 +488,7 @@ const Contractor_Profile = withRouter((props) => {
                       <Row>
                         <Col md={12}>
                           <div className="job31" onClick={SubmitProfile}>
-                            {isloading?"Updating":"Update"}
+                            {isloading ? "Updating" : "Update"}
                           </div>
                         </Col>
                       </Row>
@@ -501,6 +544,33 @@ const Contractor_Profile = withRouter((props) => {
                           </Form.Group>
                         </Col>
                       </Row>
+                      <Row>
+                        <Col md={4} className="formsection1">
+                          <Form.Group>
+                            <h6 className="userprofile userprofile12">
+                              Phone Number
+                            </h6>
+                            <Form.Control
+                              className="userfield"
+                              id="phone_number"
+                              value={phone_number}
+                              onChange={onchange}
+                            />
+                          </Form.Group>
+                        </Col>
+                      </Row>
+                      <Row>
+                          <Col md={12}>
+                            <div
+                              className="job31"
+                              onClick={()=>CreateContactPerson(1)}
+                            >
+                              {isloading ? "Creating" : "Create"}
+                            </div>
+                          </Col>
+                        </Row>
+                      { false && 
+                      <>
                       <Row className="section_form1">
                         <Col md={12}>
                           <h3 className="userprofile userprofile12 boldtext">
@@ -563,7 +633,16 @@ const Contractor_Profile = withRouter((props) => {
                           </Form.Group>
                         </Col>
                       </Row>
-
+                      <Row>
+                          <Col md={12}>
+                            <div
+                              className="job31"
+                              onClick={()=>CreateContactPerson(2)}
+                            >
+                              {isloading ? "Creating" : "Create"}
+                            </div>
+                          </Col>
+                        </Row>
                       <Row className="section_form1">
                         <Col md={12}>
                           <h3 className="userprofile userprofile12 boldtext">
@@ -626,6 +705,18 @@ const Contractor_Profile = withRouter((props) => {
                           </Form.Group>
                         </Col>
                       </Row>
+                      <Row>
+                          <Col md={12}>
+                            <div
+                              className="job31"
+                              onClick={()=>CreateContactPerson(3)}
+                            >
+                              {isloading ? "Creating" : "Create"}
+                            </div>
+                          </Col>
+                        </Row>
+                      </>
+                      }
                     </>
                   )}
                   {/* Second Tab ends*/}
@@ -685,12 +776,11 @@ const Contractor_Profile = withRouter((props) => {
                       </Row>
                       <Row>
                         <Col>
-                        <Col md={12}>
-                          <div className="job31" onClick={SubmitPassword}>
-                            {isloading?"Submitting":"Submit"}
-                          </div>
-                        </Col>
-                          
+                          <Col md={12}>
+                            <div className="job31" onClick={SubmitPassword}>
+                              {isloading ? "Submitting" : "Submit"}
+                            </div>
+                          </Col>
                         </Col>
                       </Row>
                     </>

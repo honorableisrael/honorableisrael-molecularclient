@@ -2900,3 +2900,21 @@ padding-left: 34px;
   border-radius: .3rem;
   cursor: pointer;
 }
+
+.lightgray{
+  color: #8b8a8a !important;
+}
+
+.accrjct{
+  min-width: 287px;
+    display: flex;
+    justify-content: space-around;
+}
+.awaiting9{
+  min-width: 140px;
+}
+.reje4{
+  border: 2px solid;
+  background: transparent !important;
+  color: #fd8c00 !important;
+}

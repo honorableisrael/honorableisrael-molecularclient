@@ -274,7 +274,7 @@ const Invoice_details = ({ work_order_detail }: any) => {
         <div onClick={toggleAccordion1}>
           <div className="deploydsplstwrapp">
             <div>
-              <span className="deplyeaggrgt">Proforma Invoice</span>
+              <span className="deplyeaggrgt">Invoice</span>
             </div>
             <div className="accimgwrap">
               <span>
@@ -668,7 +668,10 @@ const WorkOrderDetails = withRouter((props: any) => {
                   <NavHashLink to="#work">Work Details</NavHashLink>
                 </p>
                 <p className="bview inactive_bv">
-                  <NavHashLink to="#invoice">Proforma Invoice</NavHashLink>
+                  <NavHashLink to="#worksheet">Worksheet</NavHashLink>
+                </p>
+                <p className="bview inactive_bv">
+                  <NavHashLink to="#invoice">Invoice</NavHashLink>
                 </p>
               </Col>
               <Col md={10} className="job23_1a_ job23_1a_p">
@@ -715,7 +718,7 @@ const WorkOrderDetails = withRouter((props: any) => {
                   <br />
                   <Work_Details work_order_detailz={workDetails} hide={true} />
                   <SpecialistDeployed work_order_detail={work_order_detail} />
-                  <br />
+                  <br id="worksheet"/>
                   <Work_Sheet />
                   <br id="invoice" />
                   <Invoice_details work_order_detail={work_order_detail} />
