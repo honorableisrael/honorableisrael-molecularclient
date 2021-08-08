@@ -35,7 +35,9 @@ import {
   current_currency,
   FormatAmount,
   formatTime,
+  notify,
   returnAdminToken,
+  refreshpage,
 } from "../../config";
 import { NavHashLink } from "react-router-hash-link";
 import Accordion_Work_order from "./Accordion_workorder_details";
@@ -172,6 +174,39 @@ const Work_Sheet = (props: any) => {
       });
   }, []);
 
+  const sendToContractor = (id) => {
+    setState({
+      ...state,
+      isloading: true,
+    });
+    axios
+      .post(
+        `${API}/admin/work-orders/worksheets/${id}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${returnAdminToken().access_token}`,
+          },
+        }
+      )
+      .then((res) => {
+        notify("Successfully sent worksheet to contractor");
+        console.log(res.data.data);
+        refreshpage();
+        setState({
+          ...state,
+          isloading: false,
+        });
+      })
+      .catch((err) => {
+        notify("failed to send worksheet to contractor");
+        setState({
+          ...state,
+          isloading: false,
+        });
+        console.log(err);
+      });
+  };
   const { active1, collapseHeight, chevron, work_sheet, isloading } = state;
   return (
     <>
@@ -212,9 +247,302 @@ const Work_Sheet = (props: any) => {
                   </div>
                   <div className="worksheetdate">{formatTime(data.date)}</div>
                   <div className="upby">uploaded by {data.uploaded_by}</div>
+                  <div className="upby">
+                    {" "}
+                    <div>
+                      {data.approved ? "Approved" : "Awaiting Approval"}
+                    </div>
+                  </div>
+                  <div className="upby">
+                    {data.sent ? (
+                      ""
+                    ) : (
+                      <span
+                        className="raise_inv"
+                        onClick={() => sendToContractor(data.id)}
+                      >
+                        {isloading ? "Sending" : "Send"}
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
             ))}
+            {work_sheet?.length == 0 && (
+              <Col md={11} className="containerforemptyorder1 cust20">
+                <div className="containerforemptyorder">
+                  <img
+                    src={no_work_order}
+                    alt={"no_work_order"}
+                    className="no_work_order"
+                  />
+                </div>
+                <div className="no_work1">worksheet has not been sent</div>
+              </Col>
+            )}
+          </div>
+        </>
+      </div>
+    </>
+  );
+};
+const Upfront_payment = (props: any) => {
+  const [state, setState] = useState<any>({
+    active1: "",
+    collapseHeight: "0px",
+    chevron: "",
+    chevron1: "",
+    upfront: [],
+    work_id: "",
+    reason: "",
+    show:false,
+    id:""
+  });
+  const content1: any = useRef();
+  const toggleAccordion1 = () => {
+    setState({
+      ...state,
+      active1: active1 === "" ? "active" : "",
+      collapseHeight:
+        active1 === "active" ? "0px" : `${content1.current.scrollHeight}px`,
+      chevron1: active1 === "active" ? "" : "arrowflip1",
+    });
+  };
+  useEffect(() => {
+    window.scrollTo(-0, -0);
+    const work_order = localStorage.getItem("work_order_details");
+    const work_order_details = work_order ? JSON.parse(work_order) : "";
+    axios
+      .get(
+        `${API}/admin/work-orders/${work_order_details?.id}/upfront-requests`,
+        {
+          headers: {
+            Authorization: `Bearer ${returnAdminToken().access_token}`,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        setState({
+          ...state,
+          upfront: res.data.data.data,
+          work_id: work_order_details.id,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+  const onchange = (e) => {
+    setState({
+      ...state,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const approveUpfrontRequest = (id) => {
+    setState({
+      ...state,
+      isloading: true,
+    });
+    axios
+      .post(
+        `${API}/admin/work-orders/${work_id}/upfront-requests/${id}/accept`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${returnAdminToken().access_token}`,
+          },
+        }
+      )
+      .then((res) => {
+        notify("Successfully approved upfront request");
+        console.log(res.data.data);
+        refreshpage();
+        setState({
+          ...state,
+          isloading: false,
+        });
+      })
+      .catch((err) => {
+        notify("failed");
+        setState({
+          ...state,
+          isloading: false,
+        });
+        console.log(err);
+      });
+  };
+  const openModal = (id) => {
+    setState({
+      ...state,
+      show: true,
+      id
+    });
+  };
+ 
+  const declineUpfrontRequest = () => {
+    setState({
+      ...state,
+      isloading: true,
+    });
+    const data = {
+      reason,
+    };
+    axios
+      .post(
+        `${API}/admin/work-orders/${work_id}/upfront-requests/${id}/decline`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${returnAdminToken().access_token}`,
+          },
+        }
+      )
+      .then((res) => {
+        notify("Successfully declined upfront request");
+        console.log(res.data.data);
+        refreshpage();
+        setState({
+          ...state,
+          isloading: false,
+        });
+      })
+      .catch((err) => {
+        notify("failed to declined upfront request");
+        setState({
+          ...state,
+          isloading: false,
+        });
+        console.log(err);
+      });
+  };
+  const {
+    active1,
+    collapseHeight,
+    chevron,
+    upfront,
+    isloading,
+    work_id,
+    reason,
+    show,
+    id
+  } = state;
+  return (
+    <>
+    <Modal
+        size="lg"
+        show={show}
+        onHide={() =>
+          setState({
+            ...state,
+            show: false,
+          })
+        }
+        dialogClassName="modal-90w"
+        className="mdl12"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="example-custom-modal-styling-title">
+            Reject 
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Row>
+            <Col md={12}>
+              <Form>
+                <textarea
+                  value={reason}
+                  name={"reason"}
+                  onChange={onchange}
+                  className="form-control reason12 reason122"
+                  placeholder="Please leave a message"
+                ></textarea>
+              </Form>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={12} className="terminate2">
+              <div className="terminate1" onClick={(e) => declineUpfrontRequest()}>
+                {isloading?"Rejecting":"Reject"}
+              </div>
+            </Col>
+          </Row>
+        </Modal.Body>
+      </Modal>
+      <Card>
+        <div onClick={toggleAccordion1}>
+          <div className="deploydsplstwrapp">
+            <div>
+              <span className="deplyeaggrgt">Up-front Request</span>
+            </div>
+            <div className="accimgwrap">
+              <span>
+                <img src={chevrondown} className={`arrow-down1 ${chevron}`} />
+              </span>
+            </div>
+          </div>
+        </div>
+      </Card>
+      {isloading && <Spinner animation={"grow"} variant="info" />}
+      <div
+        style={{ maxHeight: `${collapseHeight}` }}
+        className="acccollapsediv1"
+        ref={content1}
+      >
+        <>
+          <div className="worksheet_1">
+            {upfront.map((data: any, i) => (
+              <div className="tabledata tablecontent tablecont1">
+                <div className="header_12 tablecont0">
+                  <span>{data.specialist}</span>
+                  <div className="lightgray">{data.created}</div>
+                </div>
+                <div className="tablecont1">
+                  <div className="worksheetdw worksheetdate1"> </div>
+                  <div className="upby awaiting9">{current_currency}{FormatAmount(data.amount)}</div>
+                  <div className="upby awaiting9">
+                    {" "}
+                    <div>
+                      {data.approved ? "Approved" : ""}
+                    </div>
+                  </div>
+                  <div className="upby accrjct">
+                    {data.status=="Paid" ? (
+                      "Paid"
+                    ) :
+                      data.status=="Declined"? "Declined":(
+                        <>
+                          <span
+                            className="raise_inv"
+                            onClick={() => approveUpfrontRequest(data.id)}
+                          >
+                            {isloading ? "Approving" : "Approve"}
+                          </span>
+                          <span
+                            className="raise_inv reje4"
+                            onClick={() => openModal(data.id)}
+                          >
+                            {"Reject"}
+                          </span>
+                        </>
+                      )
+                    }
+                  </div>
+                </div>
+              </div>
+            ))}
+            {upfront?.length == 0 && (
+              <Col md={11} className="containerforemptyorder1 cust20">
+                <div className="containerforemptyorder">
+                  <img
+                    src={no_work_order}
+                    alt={"no_work_order"}
+                    className="no_work_order"
+                  />
+                </div>
+                <div className="no_work1">data is empty</div>
+              </Col>
+            )}
           </div>
         </>
       </div>
@@ -222,7 +550,7 @@ const Work_Sheet = (props: any) => {
   );
 };
 
-const Invoice_details = ({work_order_detail}: any) => {
+const Invoice_details = ({ work_order_detail }: any) => {
   const [state, setState] = useState<any>({
     active1: "",
     collapseHeight: "0px",
@@ -247,7 +575,7 @@ const Invoice_details = ({work_order_detail}: any) => {
         <div onClick={toggleAccordion1}>
           <div className="deploydsplstwrapp">
             <div>
-              <span className="deplyeaggrgt">Proforma Invoice</span>
+              <span className="deplyeaggrgt">Invoice</span>
             </div>
             <div className="accimgwrap">
               <span>
@@ -377,12 +705,6 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
   const notify = (message: string, type = "B") =>
     toast(message, { containerId: type, position: "top-right" });
 
-  const openModal = (e, x) => {
-    setState({
-      ...state,
-      show: true,
-    });
-  };
   const {
     assigned_specialists,
     country,
@@ -723,6 +1045,9 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                   <NavHashLink to="#work">Work Details</NavHashLink>
                 </p>
                 <p className="bview inactive_bv">
+                  <NavHashLink to="#worksheet">Work Sheet</NavHashLink>
+                </p>
+                <p className="bview inactive_bv">
                   <NavHashLink to="#actioninvoice">Invoice</NavHashLink>
                 </p>
 
@@ -883,7 +1208,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                                       {data.last_name}
                                     </div>
                                     <div className="header_12 typ22">
-                                      <div className="mobiletabledata mobiletabledata22 ">
+                                      <div className="mobiletabledata mobiletabledata22">
                                         Type
                                       </div>
                                       <div>
@@ -928,57 +1253,16 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                       )}
                     </div>
                   </div>
-
                   {/* invited specialist ends */}
                   <div className="job23_1a wrap_z paddtop">
                     <div className="active_member23">
-                      {/* <div className="active_worksheet">WORKS SHEETS</div> */}
-                      {false && (
-                        <>
-                          <div className="worksheet_1">
-                            <div className="tabledata tablecontent tablecont1">
-                              <div className="header_12 tablecont0">
-                                <span>Worksheet Report 1</span>
-                              </div>
-                              <div className="tablecont1">
-                                <div className="worksheetdw worksheetdate1">
-                                  {" "}
-                                  <img
-                                    src={dwnload}
-                                    alt="dwnload"
-                                    className="dwnload1"
-                                  />
-                                  Download
-                                </div>
-                                <div className="worksheetdate">12/02/2021</div>
-                              </div>
-                            </div>
-                            <div className="tabledata tablecontent tablecont1">
-                              <div className="header_12 tablecont0">
-                                <span>Worksheet Report 2</span>
-                              </div>
-                              <div className="tablecont1">
-                                <div className="worksheetdw worksheetdate1">
-                                  {" "}
-                                  <img
-                                    src={dwnload}
-                                    alt="dwnload"
-                                    className="dwnload1"
-                                  />
-                                  Download
-                                </div>
-                                <div className="worksheetdate">12/02/2021</div>
-                              </div>
-                            </div>
-                          </div>
-                        </>
-                      )}
                       <div className="dplsplsacc">
                         <Work_Details work_order_detailz={work_order_detail} />
                       </div>
                     </div>
                   </div>
                   <Work_Sheet />
+                  <div id="worksheet"></div>
                   <br />
                   {work_order_detail?.invoice?.length !== 0 && (
                     <>
@@ -986,6 +1270,8 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                     </>
                   )}
                 </div>
+                <br />
+                <Upfront_payment />
               </Col>
             </Row>
           </Col>

@@ -26,20 +26,64 @@ const Notification = (props) => {
         <div className="text-center">
           <div className="notif12v textxenter1">Notification </div>
         </div>
-        {props?.all_notification?.slice(0, 3)?.map((data, i) => (
-          <>
-            <Link to={"/notification"}>
-              <div className="helloworld1" title={data.message}>
-                <div className="helloworld2">
-                  <img src={avatar} className="avatar1" />
+        {props?.all_notification?.slice(0, 3)?.map((data, i) =>
+          data?.category == "work order" || data?.category == "work order" ? (
+            <Link
+              to="/contractor_work_order_details?inreview=true"
+              onClick={() =>
+                localStorage.setItem(
+                  "work_order_details",
+                  JSON.stringify({ id: data.category_id })
+                )
+              }
+            >
+              <>
+                <div className="helloworld1" title={data.message}>
+                  <div className="helloworld2">
+                    <img src={avatar} className="avatar1" />
+                  </div>
+                  <div className="app12">{data?.title}</div>
                 </div>
-                <div className="app12">{data?.title}</div>
-              </div>
+                <div className="timesection">{data?.sent_since}</div>
+                <div className="dottedlines"></div>
+              </>
             </Link>
-            <div className="timesection">{data?.sent_since}</div>
-            <div className="dottedlines"></div>
-          </>
-        ))}
+          ) : 
+          data.category == "invoice" ?
+          (
+            <Link
+              to={`/invoice_details/${data?.category_id}`}
+            >
+              <>
+                <div className="helloworld1" title={data.message}>
+                  <div className="helloworld2">
+                    <img src={avatar} className="avatar1" />
+                  </div>
+                  <div className="app12">{data?.title}</div>
+                </div>
+                <div className="timesection">{data?.sent_since}</div>
+                <div className="dottedlines"></div>
+              </>
+            </Link>
+          )
+          :
+          (
+            <Link
+              to="/notification"
+            >
+              <>
+                <div className="helloworld1" title={data.message}>
+                  <div className="helloworld2">
+                    <img src={avatar} className="avatar1" />
+                  </div>
+                  <div className="app12">{data?.title}</div>
+                </div>
+                <div className="timesection">{data?.sent_since}</div>
+                <div className="dottedlines"></div>
+              </>
+            </Link>
+          )
+        )}
       </div>
     </>
   );
@@ -272,8 +316,7 @@ const ContractorDashboard = withRouter((props) => {
                         {data.status}
                       </div>
                     </div>
-                    <ProgressBar  now={data.progress}>  
-                    </ProgressBar>
+                    <ProgressBar now={data.progress}></ProgressBar>
                     <div className="mlstones2">
                       <div className="mlstones">
                         Milestones : {data.payment_cycle}

@@ -1557,14 +1557,14 @@ text {
   width: 257px !important;
 }
 .mheight_{
-  max-height: 460px;
+  max-height: 542px;
   position: fixed;
 }
 .job23_1a_{
   margin-left: 29%;
 }
-a{
-  color: inherit;
+a,a:focus,a:active{
+  color: initial;
 }
 .fixedtitle{
   position: fixed;

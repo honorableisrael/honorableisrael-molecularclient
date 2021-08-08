@@ -55,14 +55,14 @@ const Accordions = (props) => {
       .then(
         axios.spread((res) => {
           console.log(res.data.data);
-          notify("Successfully assigned team lead");
+          notify("Successfully assigned captain");
           setTimeout(()=>{
             window.location.reload()
           },3000)
         })
       )
       .catch((err) => {
-        notify("Failed to assign team lead", "D");
+        notify("Failed to assign captain", "D");
         console.log(err);
       });
   };
@@ -142,7 +142,7 @@ const Accordions = (props) => {
                   <th>Full Name</th>
                   <th>Skill</th>
                   <th>Position</th>
-                  {/* <th>Assign group lead</th> */}
+                  <th>Assign Captain</th>
                 </tr>
               </thead>
               <tbody>
@@ -157,8 +157,8 @@ const Accordions = (props) => {
                       </div>
                     </td>
                     <td>{data?.skills[0]?.name}</td>
-                    <td>{data?.leader ? "Team Lead" : "Member"}</td>
-                    {/* <td className="depspltabcol1">
+                    <td>{data?.leader ? "Captain" : "Member"}</td>
+                    <td className="depspltabcol1">
                       {!data?.leader ? (
                         <input
                           type="radio"
@@ -168,7 +168,7 @@ const Accordions = (props) => {
                       ) : (
                         "~~/~~"
                       )}
-                    </td> */}
+                    </td>
                   </tr>
                 ))}
               </tbody>

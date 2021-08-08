@@ -34,6 +34,8 @@ import {
   current_currency,
   FormatAmount,
   formatTime,
+  notify,
+  refreshpage,
 } from "../../config";
 import WorkInformationBreakdown from "./Work_information_Breakdown";
 import { NavHashLink } from "react-router-hash-link";
@@ -148,6 +150,39 @@ const Work_Sheet = (props: any) => {
       });
   }, []);
 
+  const ApproveWorkSheet = (id) => {
+    setState({
+      ...state,
+      isloading: true,
+    });
+    axios
+      .post(
+        `${API}/contractor/work-orders/worksheets/${id}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${contractorToken().access_token}`,
+          },
+        }
+      )
+      .then((res) => {
+        notify("Successfully approved worksheet");
+        console.log(res.data.data);
+        refreshpage();
+        setState({
+          ...state,
+          isloading: false,
+        });
+      })
+      .catch((err) => {
+        notify("failed to approve worksheet");
+        setState({
+          ...state,
+          isloading: false,
+        });
+        console.log(err);
+      });
+  };
   const { active1, collapseHeight, chevron, work_sheet, isloading } = state;
   return (
     <>
@@ -188,9 +223,25 @@ const Work_Sheet = (props: any) => {
                   </div>
                   <div className="worksheetdate">{formatTime(data.date)}</div>
                   <div className="upby">uploaded by {data.uploaded_by}</div>
+                  <div className="upby"> <span>{data.approved}</span></div>
+                  <div className="upby">{data.approved?"Approved":<span className="raise_inv" onClick={()=>ApproveWorkSheet(data.id)}>{isloading?"loading...":"Approve"}</span>}</div>
                 </div>
               </div>
             ))}
+            {work_sheet?.length == 0 && (
+                  <Col md={11} className="containerforemptyorder1 cust20">
+                    <div className="containerforemptyorder">
+                      <img
+                        src={no_work_order}
+                        alt={"no_work_order"}
+                        className="no_work_order"
+                      />
+                    </div>
+                    <div className="no_work1">
+                      worksheet has not been sent
+                    </div>
+                  </Col>
+                )}
           </div>
         </>
       </div>
@@ -223,7 +274,7 @@ const Invoice_details = ({ work_order_detail }: any) => {
         <div onClick={toggleAccordion1}>
           <div className="deploydsplstwrapp">
             <div>
-              <span className="deplyeaggrgt">Proforma Invoice</span>
+              <span className="deplyeaggrgt">Invoice</span>
             </div>
             <div className="accimgwrap">
               <span>
@@ -617,7 +668,10 @@ const WorkOrderDetails = withRouter((props: any) => {
                   <NavHashLink to="#work">Work Details</NavHashLink>
                 </p>
                 <p className="bview inactive_bv">
-                  <NavHashLink to="#invoice">Proforma Invoice</NavHashLink>
+                  <NavHashLink to="#worksheet">Worksheet</NavHashLink>
+                </p>
+                <p className="bview inactive_bv">
+                  <NavHashLink to="#invoice">Invoice</NavHashLink>
                 </p>
               </Col>
               <Col md={10} className="job23_1a_ job23_1a_p">
@@ -664,7 +718,7 @@ const WorkOrderDetails = withRouter((props: any) => {
                   <br />
                   <Work_Details work_order_detailz={workDetails} hide={true} />
                   <SpecialistDeployed work_order_detail={work_order_detail} />
-                  <br />
+                  <br id="worksheet"/>
                   <Work_Sheet />
                   <br id="invoice" />
                   <Invoice_details work_order_detail={work_order_detail} />

@@ -1805,7 +1805,7 @@ a:hover {
 }
 
 .mheight_ {
-  max-height: 432px;
+  max-height: 542px;
   position: fixed;
 }
 .job23_1a_ {
@@ -2817,7 +2817,7 @@ width: 100%;
 padding-left: 34px;
 }
 .tabledata div {
-  width: 55% !important;
+  width: 70% !important;
 }
 .tablecontent .tablecont0{
   width: 20% !important;
@@ -2890,4 +2890,31 @@ padding-left: 34px;
 }
 .acccollapsediv .text-center{
   margin-top: .3rem;
+}
+.upby span,.upby span:hover{
+  background: var(--molecular-orange);
+  color: white;
+  display: inline-block;
+  width: 89px !important;
+  text-align: center;
+  border-radius: .3rem;
+  cursor: pointer;
+}
+
+.lightgray{
+  color: #8b8a8a !important;
+}
+
+.accrjct{
+  min-width: 230px;
+    display: flex;
+    justify-content: space-around;
+}
+.awaiting9{
+  min-width: 140px;
+}
+.reje4{
+  border: 2px solid;
+  background: transparent !important;
+  color: #fd8c00 !important;
 }
