@@ -322,7 +322,7 @@ const Upfront_payment = (props: any) => {
         }
       )
       .then((res) => {
-        console.log(res.data.data);
+        console.log(res);
         setState({
           ...state,
           upfront: res.data.data.data,
@@ -390,7 +390,7 @@ const Upfront_payment = (props: any) => {
     };
     axios
       .post(
-        `${API}/admin/work-orders/${work_id}/upfront-requests/${id}/accept`,
+        `${API}/admin/work-orders/${work_id}/upfront-requests/${id}/decline`,
         data,
         {
           headers: {
@@ -499,32 +499,34 @@ const Upfront_payment = (props: any) => {
                 </div>
                 <div className="tablecont1">
                   <div className="worksheetdw worksheetdate1"> </div>
-                  <div className="upby"></div>
+                  <div className="upby awaiting9">{current_currency}{FormatAmount(data.amount)}</div>
                   <div className="upby awaiting9">
                     {" "}
                     <div>
-                      {data.approved ? "Approved" : "Awaiting Approval"}
+                      {data.approved ? "Approved" : ""}
                     </div>
                   </div>
                   <div className="upby accrjct">
-                    {data.approved ? (
-                      "Approved"
-                    ) : (
-                      <>
-                        <span
-                          className="raise_inv"
-                          onClick={() => approveUpfrontRequest(data.id)}
-                        >
-                          {isloading ? "Approving" : "Approve"}
-                        </span>
-                        <span
-                          className="raise_inv reje4"
-                          onClick={() => openModal(data.id)}
-                        >
-                          {"Reject"}
-                        </span>
-                      </>
-                    )}
+                    {data.status=="Paid" ? (
+                      "Paid"
+                    ) :
+                      data.status=="Declined"? "Declined":(
+                        <>
+                          <span
+                            className="raise_inv"
+                            onClick={() => approveUpfrontRequest(data.id)}
+                          >
+                            {isloading ? "Approving" : "Approve"}
+                          </span>
+                          <span
+                            className="raise_inv reje4"
+                            onClick={() => openModal(data.id)}
+                          >
+                            {"Reject"}
+                          </span>
+                        </>
+                      )
+                    }
                   </div>
                 </div>
               </div>
