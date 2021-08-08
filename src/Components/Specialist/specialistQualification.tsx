@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Col, Row, Form, Modal } from "react-bootstrap";
+import { Col, Row, Form, Modal,Alert } from "react-bootstrap";
 import Axios, { AxiosResponse } from "axios";
 import closeimg from "../../images/closeimg.png";
 import editicon from "../../images/editicon.png";
@@ -26,8 +26,14 @@ const Qualification = () => {
     to: "",
     credential_id:"",
     deleteCredential: false,
+    errorMessage:"",
+    successMessage:"",
+    isloading: false,
   });
   const {
+    errorMessage,
+    successMessage,
+    isloading,
     qualifications,
     credential_id,
     deleteCredential,
@@ -132,21 +138,10 @@ const Qualification = () => {
 
   const displayQualification = () => {
     //add certhification to UI
-    if (qualification && institution && field && from && to) {
-      setState({
-        ...state,
-        noCertificateAdded: false,
-        qualifications: [
-          ...qualifications,
-          { qualification:qualification, institution:institution, field:field, from:from, to:to }
-        ],
-        certificateAddModal: false,
-        certificationActive:
-          qualifications.length >= 0 ? "wrapdemacator" : "nowrapdemacator",
-        certificationbtn:
-          qualifications.length >= 0 ? "profcerbtnwrapper" : "nowrapdemacator"
-      });
-    }
+    setState({
+      ...state,
+      isloading: true,
+    })
     //post to API
     const availableToken = localStorage.getItem("loggedInDetails");
     console.log(availableToken);
@@ -165,6 +160,19 @@ const Qualification = () => {
     .then((res)=>{
       console.log(res.data)
       if(res.status==201 ){ 
+        setState({
+          ...state,
+          noCertificateAdded: false,
+          qualifications: [
+            ...qualifications,
+            { qualification:qualification, institution:institution, field:field, from:from, to:to }
+          ],
+          certificateAddModal: false,
+          certificationActive:
+            qualifications.length >= 0 ? "wrapdemacator" : "nowrapdemacator",
+          certificationbtn:
+            qualifications.length >= 0 ? "profcerbtnwrapper" : "nowrapdemacator"
+        });
         notify("New Qualification added")
       }
     })
@@ -172,6 +180,11 @@ const Qualification = () => {
       console.log(err.response)
       if(err.response ){ 
         notify("failed to add qualification")
+        setState({
+          ...state,
+          isloading: false,
+          errorMessage: err?.response?.data?.message,
+        })
       }
     })
 
@@ -286,6 +299,16 @@ const Qualification = () => {
             <img src={closeimg} alt="close" onClick={closeAddModal} />
           </div>
           <div className="terminateworkmodaltitle">Add qualification</div>
+          {successMessage && (
+            <Alert key={2} variant="success" className="alertmessg">
+              {successMessage}
+            </Alert>
+          )}
+         {errorMessage && (
+           <Alert key={2} variant="danger" className="alertmessg">
+            {errorMessage}
+          </Alert>
+          )}
           <Row>
           <Col md={12}>
             <Form.Group>
@@ -361,7 +384,7 @@ const Qualification = () => {
               className="wrkmodal-declinebtn addexpbtn"
               onClick={displayQualification}
             >
-              Add qualification
+              {!isloading ? "  Add qualification" : "Adding..."}
             </span>
           </div>
         </div>

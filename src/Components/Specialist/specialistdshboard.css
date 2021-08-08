@@ -710,9 +710,9 @@
  font-size: 13px;   
 }
 .upfrontbtn{
-padding: 6px;
+padding: 12px;
 display: inline-block;
-background-color: #28a745;
+background-color: #fd8c00;
 border-radius: 6px;
 font-weight: 600;
 font-size: 15px;
@@ -721,4 +721,49 @@ color: #fff;
 } 
 .upfrmodalbtn{
     margin-left: 20px;
+    background-color: #28a745;
+    font-weight: 600;
 }   
+.switch{
+    position: relative;
+    display: inline-block;
+    width: 80px;
+    height: 30px;
+    margin-left: 12px;
+}
+.switch input{
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.slider{
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    border-radius: 50px;
+    transition: .4s;
+}
+.slider::before{
+    position: absolute;
+    content: "";
+    height: 23px;
+    width: 25px;
+    border-radius: 50px;
+    left: 4px;
+    bottom: 4px;
+    background-color: #fff;
+    transition: .4s;
+}
+input:checked + .slider{
+    background-color: rgba(253, 140, 0, .9);
+}
+input:checked + .slider::before{
+    transform: translateX(47px);
+}
+.splsttabledata{
+    width: 55%;
+}

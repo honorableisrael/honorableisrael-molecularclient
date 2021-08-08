@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Col, Row, Container, Form, Modal } from "react-bootstrap";
+import { Col, Row, Container, Form, Modal,Alert } from "react-bootstrap";
 import Axios, { AxiosResponse } from "axios";
 import closeimg from "../../images/closeimg.png";
 import helmet from "../../images/helmet.png";
@@ -21,8 +21,14 @@ const Experience = () => {
     addexperiencebtn: "",
     credential_id: "",
     deleteCredential: false,
+    errorMessage:"",
+    successMessage:"",
+    isloading: false,
   });
   const {
+    errorMessage,
+    successMessage,
+    isloading,
     description,
     title,
     deleteCredential,
@@ -95,7 +101,7 @@ const Experience = () => {
       ...state,
       title: title,
       description: description,
-      experience_id: id,
+      experience_id: index,
       credential_id: id,
       terminateWorkModal: true
     });
@@ -147,7 +153,7 @@ setState({
     setState({
       ...state,
       experiences: tempExperienceDetails,
-      terminateWorkModal: false
+      terminateWorkModal: false,
     });
     //post to API
     const availableToken = localStorage.getItem("loggedInDetails");
@@ -179,17 +185,10 @@ setState({
     toast(message, { containerId: type, position: "top-right" });
   };
   const displayExperience = () => { 
-      //add project to UI
-      if (title && description ){
-        setState({
-          ...state,
-          noExperienceAdded: false,
-          experiences: [...experiences,{title: title,description: description}],
-          openModal: false,
-          experienceActive: experiences.length >= 0 ? "wrapdemacator" : "nowrapdemacator",
-          addexperiencebtn: experiences.length >= 0 ? "profcerbtnwrapper" : "nowrapdemacator"
-        });
-      }
+      setState({
+        ...state,
+        isloading: true,
+      })
     //post data to API
     const availableToken = localStorage.getItem("loggedInDetails");
     console.log(availableToken);
@@ -206,6 +205,14 @@ setState({
         console.log(res.data);
         if (res.status == 201) {
           //display experience to UI
+          setState({
+            ...state,
+            noExperienceAdded: false,
+            experiences: [...experiences,{title: title,description: description}],
+            openModal: false,
+            experienceActive: experiences.length >= 0 ? "wrapdemacator" : "nowrapdemacator",
+            addexperiencebtn: experiences.length >= 0 ? "profcerbtnwrapper" : "nowrapdemacator"
+          });
           notify("New experience added");
         }
       })
@@ -213,6 +220,11 @@ setState({
         console.log(err.response);
         if (err.response) {
           notify("failed to add experience");
+          setState({
+            ...state,
+            isloading: false,
+            errorMessage: err?.response?.data?.message,
+          })
         }
       });
   };
@@ -273,6 +285,16 @@ setState({
             <img src={closeimg} alt="close" onClick={closEditModal} />
           </div>
           <div className="terminateworkmodaltitle">Edit Experience</div>
+          {successMessage && (
+            <Alert key={2} variant="success" className="alertmessg">
+              {successMessage}
+            </Alert>
+          )}
+         {errorMessage && (
+           <Alert key={2} variant="danger" className="alertmessg">
+            {errorMessage}
+          </Alert>
+          )}
           <form>
             <label className="addexptitle">
               Title
@@ -318,6 +340,16 @@ setState({
             <img src={closeimg} alt="close" onClick={closeModal} />
           </div>
           <div className="terminateworkmodaltitle">Add Experience</div>
+          {successMessage && (
+            <Alert key={2} variant="success" className="alertmessg">
+              {successMessage}
+            </Alert>
+          )}
+         {errorMessage && (
+           <Alert key={2} variant="danger" className="alertmessg">
+            {errorMessage}
+          </Alert>
+          )}
           <form>
             <label className="addexptitle">
               Title
@@ -352,7 +384,7 @@ setState({
               className="wrkmodal-declinebtn addexpbtn"
               onClick={displayExperience}
             >
-              Add Experience
+          {!isloading ? " Add Experience" : "Adding..."}
             </span>
           </div>
         </div>

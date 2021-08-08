@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Col, Row, Container, Table, Modal,Form } from "react-bootstrap";
+import { Col, Row, Container, Table, Modal,Form,Alert } from "react-bootstrap";
 import "../Contractor/contractor.css";
 import DashboardNav from "./specialistNavbar";
 import "react-rangeslider/lib/index.css";
@@ -34,6 +34,9 @@ const Specialist_Payment_Invoice = (props) => {
     reason:"",
     work_order_detail: {},
     terminateWorkModal: false,
+    requested_amount:"",
+    errorMessage:"",
+    successMessage:"",
   });
 
   const onchange = (e) => {
@@ -88,7 +91,7 @@ const Specialist_Payment_Invoice = (props) => {
       });
   }, []);
 
-  const requestUpfrontPayment = (cycle_id, index) => {
+  const requestUpfrontPayment = () => {
     setState({
       ...state,
       isloading: true,
@@ -97,83 +100,98 @@ const Specialist_Payment_Invoice = (props) => {
     console.log(availableToken);
     const token = availableToken ? JSON.parse(availableToken) : "";
     console.log(token);
-    axios.post(`${API}/specialist/upfront-payments/${cycle_id}`,{}, {
+    const data={
+      amount: requested_amount
+    }
+    axios.post(`${API}/specialist/work-orders/${work_order_detail.id}/upfront-requests`, data, {
       headers: { Authorization: `Bearer ${token.access_token}` }
     })
     .then((res)=>{
       console.log(res.data)
-      notify("payment request successfull");
+      notify("payment requested successfully");
       setState({
         ...state,
         isloading: false,
+        terminateWorkModal: false,
       })
     })
     .catch((err)=>{
       console.log(err.response)
-      notify("Request failed", "D");
+      notify("Request failed");
       setState({
         ...state,
         isloading: false,
+        errorMessage: err?.response?.data?.message,
       })
     })
   }
 
   const {
-    project_purpose,
     work_order_detail,
+    errorMessage,
     invoice_details,
-    country,
+    requested_amount,
     terminateWorkModal,
-    work_order_description,
-    order_title,
-    end_date,
-    location_terrain,
-    start_date,
-    hour,
+    successMessage,
     isloading,
-    reason,
   }: any= state;
   return (
     <>
        <Modal
-                      centered={true}
-                      onHide={closeworkModal}
-                      show={terminateWorkModal}
-                    >
-                      <div className="terminateworkmodalwrap">
-                        <div className="terminateworkmodalimg">
-                          <img
-                            src={closeimg}
-                            alt="close"
-                            onClick={closeworkModal}
-                          />
-                        </div>
-                        <div
-                         className="terminateworkmodaltitle" >
-                          Request Upfront Payment
-                        </div>
-                        <form>
-                          <textarea
-                            name="reason"
-                            value={reason}
-                            onChange={onchange}
-                            className="form-control wrkmodaltextarea"
-                            placeholder="Message"
-                            rows={5}
-                            cols={5}
-                          ></textarea>
-                        </form>
-                        <div className="wrkmodal-btnwrap">
-                          <span
-                            className="wrkmodal-cancelbtn"
-                            onClick={closeworkModal}
-                          >
-                            Cancel
-                          </span>
-                          <span className="profcertbtn upfrmodalbtn">Send</span>
-                        </div>
-                      </div>
-                    </Modal>
+        centered={true}
+        onHide={closeworkModal}
+        show={terminateWorkModal}
+       >
+      <div className="terminateworkmodalwrap">
+       <div className="terminateworkmodalimg">
+         <img
+          src={closeimg}
+          alt="close"
+          onClick={closeworkModal}
+        />
+     </div>
+      <div className="terminateworkmodaltitle" >
+          Request Upfront Payment
+      </div>
+      {successMessage && (
+         <Alert key={2} variant="success" className="alertmessg">
+            {successMessage}
+         </Alert>
+      )}
+      {errorMessage && (
+         <Alert key={2} variant="danger" className="alertmessg">
+            {errorMessage}
+         </Alert>
+      )}
+      <form>
+        <Row>
+           <Col md={12} className="formsection1">
+             <Form.Group>
+                <h6 className="userprofile userprofile12">
+                    Enter Amount
+                </h6>
+                <Form.Control
+                  type="number"
+                  name="requested_amount"
+                  value={requested_amount}
+                  className="userfield"
+                  onChange={onchange}
+                  placeholder="Amount"
+                  />
+                </Form.Group>
+           </Col>
+        </Row>
+       </form>
+       <div className="wrkmodal-btnwrap">
+          <span className="wrkmodal-cancelbtn" onClick={closeworkModal}>
+            Cancel
+          </span>
+          <span className="profcertbtn upfrmodalbtn" onClick={requestUpfrontPayment}>
+            {!isloading ? "Send Request" : "Requesting..."}
+          </span> 
+       </div>
+    </div>
+   </Modal>
       <Container fluid={true}>
         <Helmet>
           <meta charSet="utf-8" />
@@ -192,6 +210,11 @@ const Specialist_Payment_Invoice = (props) => {
                   <img src={arrowback} className="arrowback" />
                 </Link>
                 View Payment
+              </div>
+              <div className="text-center">
+                <span className="upfrontbtn" onClick={workModal}>
+                     Request Payment
+                </span>
               </div>
             </div>
             <div className="spltpaybreakdwnwrapper">
@@ -268,13 +291,6 @@ const Specialist_Payment_Invoice = (props) => {
                     )}
                    </td> 
                    <td>{formatTime(data.date)}</td>
-                   <td>
-                   {data.can_make_upfront == true &&(
-                     <span className="upfrontbtn" onClick={()=>requestUpfrontPayment(data.id, index)}>
-                       {!isloading ? "Request Payment" : "Requesting..."}
-                    </span>
-                   )}
-                   </td>
                   </tr>
                     ))} 
                   </tbody>

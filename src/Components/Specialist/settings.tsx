@@ -60,29 +60,24 @@ const SpecialistSettings = () => {
     year:"",
     total_works:  null,
     fourthtabInactive: "",
+    available: false,
+    is_available: false,
   });
 
   const {
     firsttab,
     secondtab,
     thirdtab,
-    description,
     fourthtabInactive,
     fourthtab,
     total_works,
     status,
-    certification,
-    year,
     verified,
+    is_available,
+    available,
     unverified,
     photo,
     skill_id,
-    qualification,
-    institution,
-    field,
-    from,
-    to,
-    experienceDescription,
     messageModal,
     email,
     viewPopup,
@@ -121,7 +116,7 @@ const SpecialistSettings = () => {
   }
   reader.readAsDataURL(e.target.files[0]);
 };
-  console.log("image",photo)
+  // console.log("image",photo)
   const hiddenFileInput: any= useRef();
   const handleClick = event => {
     hiddenFileInput.current.click();
@@ -280,23 +275,23 @@ const SpecialistSettings = () => {
   }, []);
 
 
-  const post_Credentials = () => {
-    const availableToken = localStorage.getItem("loggedInDetails");
-    console.log(availableToken);
-    const token = availableToken ? JSON.parse(availableToken) : "";
-    console.log(token);
-    const data1 = {
-      skill_id
-    };
-    console.log(skill_id)   
+  const third_tab = () => {
+    // const availableToken = localStorage.getItem("loggedInDetails");
+    // console.log(availableToken);
+    // const token = availableToken ? JSON.parse(availableToken) : "";
+    // console.log(token);
+    // const data1 = {
+    //   skill_id
+    // };
+    // console.log(skill_id)   
   
-    Axios.all([
-      Axios.post(`${API}/specialist/skills`, data1, {
-        headers: { Authorization: `Bearer ${token.access_token}` },
-      }),
-    ])
-      .then(
-        axios.spread((response) => {
+    // Axios.all([
+    //   Axios.post(`${API}/specialist/skills`, data1, {
+    //     headers: { Authorization: `Bearer ${token.access_token}` },
+    //   }),
+    // ])
+    //   .then(
+    //     axios.spread((response) => {
           
           setState({
             ...state,
@@ -305,13 +300,13 @@ const SpecialistSettings = () => {
             thirdtab: true,
             fourthtab: false,
           });
-          notify("Successful");
-        })
-      )
-      .catch((err) => {
-        console.log(err.response);
-        notify("Failed to save", "D");
-      });
+      //     notify("Successful");
+      //   })
+      // )
+      // .catch((err) => {
+      //   console.log(err.response);
+      //   notify("Failed to save", "D");
+      // });
   };
   
   const deactivateAccount = () => {
@@ -351,7 +346,42 @@ const SpecialistSettings = () => {
         notify("Failed to Deactivate", "D");
       });
   };
+ const toggleAvailbility = ()=>{
+   setState({
+     ...state,
+     available: !available
+   })
+   console.log(available)
+   //post to API
+   const availableToken = localStorage.getItem("loggedInDetails");
+   console.log(availableToken);
+   const token = availableToken ? JSON.parse(availableToken) : "";
+   console.log(token);
+  const data ={
+      status: !available
+   }
+   Axios.post(`${API}/specialist/availability`, data, {
+    headers: { Authorization: `Bearer ${token.access_token}` },
+  }) 
+   .then((response) => {
+       console.log(response.data)
+       notify(" availability status changed successfully ");
+       setState({
+         ...state,
+         isloading: false,
+       available: !available
 
+       })
+     })
+   .catch((err) => {
+     console.log(err.response);
+     setState({
+       ...state,
+       isloading: false,
+     })
+     notify("Failed to change status", "D");
+   });
+}
   return (
     <>
       <Container fluid={true}>
@@ -421,7 +451,6 @@ const SpecialistSettings = () => {
                         className="specialist_rating"
                         starCount={5}
                         value={rating}
-                        // onStarClick={onStarClick}
                         emptyStarColor={"#444"}
                       />
                       <div className="helmot112"></div>
@@ -438,7 +467,19 @@ const SpecialistSettings = () => {
                     {unverified &&(
                      <span className="splunverifieduser ">Unverified user</span>
                     )}
-                     </div>
+                    <div>
+                      {available == false &&(<p>  Not Available : </p>)}
+                      {available == true &&(<p>   Available : </p>)} 
+                      <label className="switch">
+                        <input 
+                         type="checkbox"  
+                         checked={available}
+                         onChange={toggleAvailbility}
+                         />
+                        <span className="slider"  />
+                      </label>
+                    </div>
+                  </div>
                 </div>
                 <div className="section_form">
                   <div className="profile__001">
@@ -728,7 +769,7 @@ const SpecialistSettings = () => {
                           <NavHashLink to="#experiencetab">
                             <div
                               className="job31"
-                              onClick={post_Credentials}
+                              onClick={third_tab}
                             >
                               Next
                             </div>

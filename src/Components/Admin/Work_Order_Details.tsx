@@ -82,7 +82,7 @@ const Work_Details = (props: any) => {
       active1: active1 === "" ? "active" : "",
       collapseHeight:
         active1 === "active" ? "0px" : `${content1.current.scrollHeight}px`,
-      chevron1: active1 === "active" ? "" : "arrowflip1",
+      chevron: active1 === "active" ? "" : "arrowflip",
     });
   };
   const {
@@ -108,7 +108,7 @@ const Work_Details = (props: any) => {
             </div>
             <div className="accimgwrap">
               <span>
-                <img src={chevrondown} className={`arrow-down1 ${chevron}`} />
+                <img src={chevrondown} className={`arrow-down ${chevron}`} />
               </span>
             </div>
           </div>
@@ -145,7 +145,7 @@ const Work_Sheet = (props: any) => {
       active1: active1 === "" ? "active" : "",
       collapseHeight:
         active1 === "active" ? "0px" : `${content1.current.scrollHeight}px`,
-      chevron1: active1 === "active" ? "" : "arrowflip1",
+      chevron: active1 === "active" ? "" : "arrowflip",
     });
   };
   useEffect(() => {
@@ -183,7 +183,7 @@ const Work_Sheet = (props: any) => {
             </div>
             <div className="accimgwrap">
               <span>
-                <img src={chevrondown} className={`arrow-down1 ${chevron}`} />
+                <img src={chevrondown} className={`arrow-down ${chevron}`} />
               </span>
             </div>
           </div>
@@ -237,7 +237,7 @@ const Invoice_details = ({work_order_detail}: any) => {
       active1: active1 === "" ? "active" : "",
       collapseHeight:
         active1 === "active" ? "0px" : `${content1.current.scrollHeight}px`,
-      chevron1: active1 === "active" ? "" : "arrowflip1",
+      chevron: active1 === "active" ? "" : "arrowflip",
     });
   };
   const { active1, collapseHeight, chevron, work_sheet, isloading } = state;

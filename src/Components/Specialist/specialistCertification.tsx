@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Col, Row, Form, Modal } from "react-bootstrap";
+import { Col, Row, Form, Modal,Alert } from "react-bootstrap";
 import Axios, { AxiosResponse } from "axios";
 import closeimg from "../../images/closeimg.png";
 import editicon from "../../images/editicon.png";
@@ -24,8 +24,14 @@ const Certification = () => {
     description:"",
     deleteCredential: false,
     credential_id:"",
+    errorMessage:"",
+    successMessage:"",
+    isloading: false,
   });
   const {
+    errorMessage,
+    successMessage,
+    isloading,
     certifications,
     deleteCredential,
     description,
@@ -83,7 +89,7 @@ const Certification = () => {
      .then((res)=>{
       console.log(res.data)
         if(res.status==200 ){ 
-          notify("project updated successfully ")
+          notify("Certificate updated successfully ")
         }
      })
      .catch((err)=>{
@@ -125,18 +131,10 @@ const Certification = () => {
 
   const displayCertification = () => {
     //add certhification to UI
-    if (title && year) {
-      setState({
-        ...state,
-        noCertificateAdded: false,
-        certifications: [...certifications, { title: title, year: year }],
-        certificateAddModal: false,
-        certificationActive:
-          certifications.length >= 0 ? "profcertifncntent" : "nowrapdemacator",
-        certificationbtn:
-          certifications.length >= 0 ? "profcerbtnwrapper" : "nowrapdemacator"
-      });
-    }
+    setState({
+      ...state,
+      isloading: true,
+    })
     const availableToken = localStorage.getItem("loggedInDetails");
     console.log(availableToken);
     const token = availableToken ? JSON.parse(availableToken) : "";
@@ -152,6 +150,16 @@ const Certification = () => {
     .then((res)=>{
       console.log(res.data)
       if(res.status==201 ){ 
+        setState({
+          ...state,
+          noCertificateAdded: false,
+          certifications: [...certifications, { title: title, year: year }],
+          certificateAddModal: false,
+          certificationActive:
+            certifications.length >= 0 ? "profcertifncntent" : "nowrapdemacator",
+          certificationbtn:
+            certifications.length >= 0 ? "profcerbtnwrapper" : "nowrapdemacator"
+        });
         notify("New Certification added")
       }
     })
@@ -159,6 +167,11 @@ const Certification = () => {
       console.log(err.response)
       if(err.response ){ 
         notify("failed to add Certification")
+        setState({
+          ...state,
+          isloading: false,
+          errorMessage: err?.response?.data?.message,
+        })
       }
     })
   };
@@ -272,6 +285,16 @@ const Certification = () => {
             <img src={closeimg} alt="close" onClick={closeAddModal} />
           </div>
           <div className="terminateworkmodaltitle">Add Certification</div>
+          {successMessage && (
+            <Alert key={2} variant="success" className="alertmessg">
+              {successMessage}
+            </Alert>
+          )}
+         {errorMessage && (
+           <Alert key={2} variant="danger" className="alertmessg">
+            {errorMessage}
+          </Alert>
+          )}
           <form>
             <label className="addexptitle">
               Certification
@@ -318,7 +341,7 @@ const Certification = () => {
               className="wrkmodal-declinebtn addexpbtn"
               onClick={displayCertification}
             >
-              Add Certificate
+              {!isloading ? " Add Certificate" : "Adding..."}
             </span>
           </div>
         </div>

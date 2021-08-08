@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Col, Row, Container, Form, Modal } from "react-bootstrap";
+import { Col, Row, Container, Form, Modal,Alert } from "react-bootstrap";
 import Axios, { AxiosResponse } from "axios";
 import closeimg from "../../images/closeimg.png";
 import helmet from "../../images/helmet.png";
@@ -25,8 +25,14 @@ const Projects = () => {
     openModal: false,
     credential_id:"",
     deleteCredential: false,
+    errorMessage:"",
+    successMessage:"",
+    isloading: false,
   });
   const { 
+    errorMessage,
+    successMessage,
+    isloading,
     projects,
     title,
     deleteCredential,
@@ -127,16 +133,10 @@ const Projects = () => {
 
   const displayProject = () => {
     //add project to UI
-    if (title && description && from && to) {
-      setState({
-        ...state,
-        noProjectsAdded: false,
-        projects: [...projects,{title: title,description: description,from: from,to: to}],
-        openModal: false,
-        projectActive: projects.length >= 0 ? "wrapdemacator" : "nowrapdemacator",
-        projectbtn: projects.length >= 0 ? "profcerbtnwrapper" : "noprofcerbtnwrapper"
-      });
-    }
+    setState({
+      ...state,
+      isloading: true,
+    })
     //post data to API
     const availableToken = localStorage.getItem("loggedInDetails");
     console.log(availableToken);
@@ -154,6 +154,14 @@ const Projects = () => {
     .then((res)=>{
        console.log(res.data);
        if(res.status==200 ){ 
+        setState({
+          ...state,
+          noProjectsAdded: false,
+          projects: [...projects,{title: title,description: description,from: from,to: to}],
+          openModal: false,
+          projectActive: projects.length >= 0 ? "wrapdemacator" : "nowrapdemacator",
+          projectbtn: projects.length >= 0 ? "profcerbtnwrapper" : "noprofcerbtnwrapper"
+        });
         notify("project successfully added")
       }
     })
@@ -161,6 +169,11 @@ const Projects = () => {
       console.log(err.response)
       if(err.response ){ 
         notify("failed to add project")
+        setState({
+          ...state,
+          isloading: false,
+          errorMessage: err?.response?.data?.message,
+        })
       }
     })
   };
@@ -348,6 +361,16 @@ const Projects = () => {
             <img src={closeimg} alt="close" onClick={closeModal} />
           </div>
           <div className="terminateworkmodaltitle">Add Project</div>
+          {successMessage && (
+            <Alert key={2} variant="success" className="alertmessg">
+              {successMessage}
+            </Alert>
+          )}
+         {errorMessage && (
+           <Alert key={2} variant="danger" className="alertmessg">
+            {errorMessage}
+          </Alert>
+          )}
           <form>
             <label className="addexptitle">
               Title
@@ -412,7 +435,7 @@ const Projects = () => {
               className="wrkmodal-declinebtn addexpbtn"
               onClick={displayProject}
             >
-              Add Project
+             {!isloading ? "  Add Project " : "Adding..."}
             </span>
           </div>
         </div>

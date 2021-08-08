@@ -339,13 +339,14 @@ const  upLoadFile= ({target: {files}})=>{
                     <div>
                       <hr />
                     </div>
+                    {work_order_detail.can_upload_worksheet == true &&(
                     <div className="active_member23">
                       <div className="active_worksheet">WORKS SHEETS <span className="acceptablefile text-info"><span className="acceptablefile text-dark">Acceptable document format:</span>pdf, docx, doc,xlsx,xls <b><span className="acceptablefile text-dark">Max size:</span> 500kb</b> </span></div>
                       <div className="worksheet_1">
                        {worksheet_reports.map((item, index)=>{
                          return(
                            <>
-                         <div className="tabledata tablecontent tablecont1" key={index}>
+                         <div className="splsttabledata tablecontent tablecont1" key={index}>
                           <div className="header_12 tablecont0">
                             <span>Work Sheet Week{item.week}</span>
                           </div>
@@ -368,15 +369,14 @@ const  upLoadFile= ({target: {files}})=>{
                         </div>
                            </>
                          )
-                       })} 
-                       {work_order_detail.is_group_leader == true &&(
+                        })} 
                          <div className="text-center">
                          <span className="uploadbtn" onClick={handleClick}>{!isloading ? "Upload Worksheet ":" Uploading..."}</span>
                          <input type="file" onChange={upLoadFile} ref={hiddenFileInput}  style={{ display: "none" }}/>
                         </div>
-                       )} 
                       </div>
                     </div>
+                    )} 
                     </div>
                   {/* <h6 className="title22 title22r2" id="actions">
                     Actions
