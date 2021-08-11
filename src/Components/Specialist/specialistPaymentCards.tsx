@@ -22,7 +22,7 @@ const SplPaymentCards = props => {
         </div>
         <div className="card_sec2">
           <div className="pipline">
-            <div className="crd23">{props?.payment_details?.work_order?.title}</div>
+            <div className="crd23">{props?.payment_details?.work_order?.title} in {props?.payment_details?.work_order?.location}</div>
             <div className="inprogr">
               <div
                 className={

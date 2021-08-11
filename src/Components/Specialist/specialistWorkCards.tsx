@@ -8,6 +8,7 @@ import team from "../../images/teamgroup.png";
 import calenda from "../../images/greycalenda.png";
 import Slider from "react-rangeslider";
 import "react-rangeslider/lib/index.css";
+import { formatTime } from "../../config";
 import nextbtn from "../../images/nextbtn.png";
 
 const WorkOrderCards = props => {
@@ -39,7 +40,7 @@ const WorkOrderCards = props => {
           </div>
           <div className="spprogrescd">
             <div className="pipline">
-              <div className="crd23">{props.title}</div>
+              <div className="crd23">{props.title} in {props.order_details.location}</div>
               <div>
                 <div
                   className={
@@ -83,22 +84,22 @@ const WorkOrderCards = props => {
             </div>
           </div> */}
             <div className="minicardwrapper spprogrescardcntn">
-              <div className="content24">
+              {/* <div className="content24">
 p                <div className="cntrctname">{props.contractor}</div>
-              </div>
+              </div> */}
               <div className="content24">
                 <img src={calenda} alt="cotn23" className="cotn232" />
                 <div className="spcclst12">
                   <div className="spcclst1">
-                    From <span>{props.start}</span>
+                    From <span>{formatTime(props.start)}</span>
                   </div>
                 </div>
               </div>
-              <div className="content24">
+              <div className="content24 towrap">
                 <img src={calenda} alt="cotn23" className="cotn232" />
                 <div className="spcclst12">
                   <div className="spcclst1">
-                    To <span>{props.end}</span>
+                    To <span>{formatTime(props.end)}</span>
                   </div>
                 </div>
               </div>

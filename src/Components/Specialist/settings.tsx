@@ -104,6 +104,11 @@ const SpecialistSettings = () => {
       [e.target.name]: e.target.value,
     });
   };
+  const hiddenFileInput: any= useRef();
+  const handleClick = event => {
+    hiddenFileInput.current.click();
+  };
+
  const handleImageChange = (e) => {
   const reader: any= new FileReader();
   reader.onload =()=>{
@@ -115,13 +120,34 @@ const SpecialistSettings = () => {
     }
   }
   reader.readAsDataURL(e.target.files[0]);
-};
-  // console.log("image",photo)
-  const hiddenFileInput: any= useRef();
-  const handleClick = event => {
-    hiddenFileInput.current.click();
-  };
+      // upload image to server; 
+     const availableToken = localStorage.getItem("loggedInDetails");
+     console.log(availableToken);
+     const token = availableToken ? JSON.parse(availableToken) : "";
+     console.log(token);
+      const imageData = new FormData()
+      imageData.append("image" , photo);
+     console.log(imageData);
+     axios.post(`${API}/photo`,imageData, {
+       headers: {
+         Authorization: `Bearer ${token.access_token}`,
+         Accept: "application/json",
+         "Content-Type": "multipart/form-data",
+       },
+     })
+     .then((res)=>{
+       console.log(res.data);
+       setTimeout(()=>{
+          notify("Successful")
+       },1000)
+     })
+     .catch((err)=>{
+       console.log(err.response)
+       notify("failed to Upload Image")
+     })
 
+};
+  
   const switchTab = (a) => {
     if (a == "firsttab") {
       return setState({
@@ -160,7 +186,7 @@ const SpecialistSettings = () => {
       });
     }
   };
-  const submitProfile = () => {
+  const submitProfile = () => {                  
     const availableToken = localStorage.getItem("loggedInDetails");
     console.log(availableToken);
     const token = availableToken ? JSON.parse(availableToken) : "";
@@ -201,28 +227,6 @@ const SpecialistSettings = () => {
         notify("Failed to save", "D");
         console.log(err.response);
       });
-      
-      // upload image to server; 
-       const imageData = new FormData()
-       imageData.append("image" , photo);
-      console.log(imageData);
-      axios.post(`${API}/photo`,imageData, {
-        headers: {
-          Authorization: `Bearer ${token.access_token}`,
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      })
-      .then((res)=>{
-        console.log(res.data);
-        setTimeout(()=>{
-           notify("Successful")
-        },1000)
-      })
-      .catch((err)=>{
-        console.log(err.response)
-        notify("failed to Upload Image")
-      })
   } 
   const closeMessageModal = () => {
     setState({

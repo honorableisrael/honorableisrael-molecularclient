@@ -27,7 +27,7 @@ const WorkOrderCardsMinInfo = (props) => {
         </div> */}
         <div className="c_ard_sec2">
           <div className="pipline pipline__">
-            <div className="crd23"> {props?.order_detail?.title}</div>
+            <div className="crd23"> {props?.order_detail?.title} in {props?.order_detail?.location} </div>
             <div className="inprogr">
               <div
                 className= {

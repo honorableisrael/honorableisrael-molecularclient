@@ -454,7 +454,6 @@ text {
 }
 .minicardwrapper {
   display: flex;
-  justify-content: space-between;
   width: 100%;
 }
 
@@ -593,6 +592,7 @@ text {
   height: 54px !important;
   font-size: 14px;
   color: #666666c7 !important;
+  font-weight: 600;
 }
 .userprofile {
   color: #666666;

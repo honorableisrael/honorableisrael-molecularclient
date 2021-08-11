@@ -347,7 +347,7 @@ const  upLoadFile= ({target: {files}})=>{
                          return(
                            <>
                          <div className="splsttabledata tablecontent tablecont1" key={index}>
-                          <div className="header_12 tablecont0">
+                          <div className="header_12 tablecont0 ">
                             <span>Work Sheet Week{item.week}</span>
                           </div>
                           <div className="tablecont1">

@@ -37,7 +37,21 @@ const Specialist_Payment_Invoice = (props) => {
     requested_amount:"",
     errorMessage:"",
     successMessage:"",
+    payment_history: [],
+    cycle_id: "",
   });
+
+  const {
+    work_order_detail,
+    payment_history,
+    errorMessage,
+    invoice_details,
+    requested_amount,
+    terminateWorkModal,
+    successMessage,
+    isloading,
+    cycle_id,
+  }: any= state;
 
   const onchange = (e) => {
     console.log(e.target.value);
@@ -46,9 +60,11 @@ const Specialist_Payment_Invoice = (props) => {
       [e.target.name]: e.target.value,
     });
   };
-  const workModal = () => {
+  const workModal = (id, index) => {
+    console.log(id)
     setState({
       ...state,
+      cycle_id: id,
       terminateWorkModal: true,
     });
   };
@@ -70,13 +86,19 @@ const Specialist_Payment_Invoice = (props) => {
         axios.get(`${API}/specialist/invoices/${props?.match?.params?.id}`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }),
+        axios.get(`${API}/specialist/work-orders/${work_order_details.id}/upfront-requests`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
       ])
       .then(
-        axios.spread((res2) => {
+        axios.spread((res2,res3) => {
           console.log(res2.data.data);
+           console.log(res3.data.data);
           setState({
             ...state,
             ...res2.data.data,
+            ...res3.data.data,
+            payment_history:res3.data.data.data,
             work_order_detail: res2.data.data.work_order,
             invoice_details: res2.data.data,
           });
@@ -88,14 +110,16 @@ const Specialist_Payment_Invoice = (props) => {
           work_order_detail: work_order_details,
         });
         console.log(err.response);
+        
       });
   }, []);
 
-  const requestUpfrontPayment = () => {
+  const requestUpfrontPayment = (cycle_id) => {
     setState({
       ...state,
       isloading: true,
     })
+    console.log(cycle_id)
     const availableToken = localStorage.getItem("loggedInDetails");
     console.log(availableToken);
     const token = availableToken ? JSON.parse(availableToken) : "";
@@ -103,7 +127,7 @@ const Specialist_Payment_Invoice = (props) => {
     const data={
       amount: requested_amount
     }
-    axios.post(`${API}/specialist/work-orders/${work_order_detail.id}/upfront-requests`, data, {
+    axios.post(`${API}/specialist/upfront-payments/${cycle_id}`, data, {
       headers: { Authorization: `Bearer ${token.access_token}` }
     })
     .then((res)=>{
@@ -126,15 +150,7 @@ const Specialist_Payment_Invoice = (props) => {
     })
   }
 
-  const {
-    work_order_detail,
-    errorMessage,
-    invoice_details,
-    requested_amount,
-    terminateWorkModal,
-    successMessage,
-    isloading,
-  }: any= state;
+
   return (
     <>
        <Modal
@@ -151,7 +167,7 @@ const Specialist_Payment_Invoice = (props) => {
         />
      </div>
       <div className="terminateworkmodaltitle" >
-          Request Upfront Payment
+          Request Early Payment
       </div>
       {successMessage && (
          <Alert key={2} variant="success" className="alertmessg">
@@ -163,6 +179,14 @@ const Specialist_Payment_Invoice = (props) => {
             {errorMessage}
          </Alert>
       )}
+     <div className="splinvoicemodalmssgwrap">
+       <i className="fa fa-exclamation fa-rotate-180 invoiceexclm" aria-hidden="true"></i>
+       <p>You can only make a maximum of 65% of your amount from this cycle. </p>
+     </div>
+     <div className="splinvoicemodalmssgwrap">
+       <i className="fa fa-exclamation fa-rotate-180 invoiceexclm" aria-hidden="true"></i>
+       <p>Early payments attracts 5% charge of your amount from this cycle. </p>
+     </div> 
       <form>
         <Row>
            <Col md={12} className="formsection1">
@@ -186,7 +210,7 @@ const Specialist_Payment_Invoice = (props) => {
           <span className="wrkmodal-cancelbtn" onClick={closeworkModal}>
             Cancel
           </span>
-          <span className="profcertbtn upfrmodalbtn" onClick={requestUpfrontPayment}>
+          <span className="profcertbtn upfrmodalbtn" onClick={()=>requestUpfrontPayment(cycle_id)}>
             {!isloading ? "Send Request" : "Requesting..."}
           </span> 
        </div>
@@ -211,11 +235,11 @@ const Specialist_Payment_Invoice = (props) => {
                 </Link>
                 View Payment
               </div>
-              <div className="text-center">
+              {/* <div className="text-center">
                 <span className="upfrontbtn" onClick={workModal}>
                      Request Payment
                 </span>
-              </div>
+              </div> */}
             </div>
             <div className="spltpaybreakdwnwrapper">
               <div className="spltpaybreakdwn-logowrap">
@@ -258,7 +282,7 @@ const Specialist_Payment_Invoice = (props) => {
                       <th>Amount Paid</th>
                       <th>Status</th>
                       <th>Date</th>
-                      <th></th>
+                      <th>Request Early Payment</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -291,6 +315,43 @@ const Specialist_Payment_Invoice = (props) => {
                     )}
                    </td> 
                    <td>{formatTime(data.date)}</td>
+                   <td>
+                       <span className="upfrontbtn" onClick={()=>workModal(data.id, index)}>
+                         Request Payment
+                      </span>
+                   </td>
+                  </tr>
+                    ))} 
+                  </tbody>
+                </Table>
+              </div>
+            </div>
+            <div className="upfnthistoryheader">
+                Early Payment History
+            </div>
+            <div className="spltpaybreakdwnwrapper">
+              <div>
+                <Table hover>
+                  <thead className="splinvoitablehead">
+                    <tr>
+                      <th>S/N</th>
+                      <th> Amount</th>
+                      <th>Status</th>
+                      <th>Date</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {payment_history?.map((data, index)=>(
+                   <tr key={index}>
+                    <td>{index + 1}</td>
+                   <td>
+                      {current_currency}
+                      {FormatAmount(data.amount)}
+                    </td>
+                   <td> 
+                    {data.status}
+                   </td>
+                   <td>{formatTime(data.created_at)}</td>
                   </tr>
                     ))} 
                   </tbody>
