@@ -139,14 +139,19 @@
     display: flex;
     color: #ffffff;
     background-color: #cc7100;
-    padding: 4px;
+    padding: 4px 11px 4px 4px;
     margin-bottom: 40px;
     border-radius: 3px;
+    justify-content: space-between;
+    align-items: center;
 }
 .wrktimelinediv>p{
    font-family: 'Nunito Sans', sans-serif;
-    margin: auto;
+    margin: 0;
     font-weight: 700;    
+}
+.wrktimelinediv>div{
+    cursor: pointer;
 }
 .pendingwrkcard{
     font-family: 'Nunito Sans', sans-serif;
@@ -795,4 +800,17 @@ input:checked + .slider::before{
     font-size: 14px;
     font-weight: 600;
     margin-bottom: 0;
+}
+.inactivebtn{
+    background-color: #999999;
+    color: #fff;
+}
+.historypaystattext{
+    font-weight: 700;
+}
+.paidinvtxt{
+    color: #038500;
+}
+.terminainvtxt{
+    color: #D00219;
 }

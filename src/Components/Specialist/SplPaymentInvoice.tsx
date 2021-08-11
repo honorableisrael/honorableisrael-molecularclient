@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import { Col, Row, Container, Table, Modal,Form,Alert } from "react-bootstrap";
 import "../Contractor/contractor.css";
 import DashboardNav from "./specialistNavbar";
@@ -12,7 +12,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import closeimg from "../../images/closeimg.png";
-
+import exclam from "../../images/exclammark.png";
 
 
 
@@ -39,12 +39,14 @@ const Specialist_Payment_Invoice = (props) => {
     successMessage:"",
     payment_history: [],
     cycle_id: "",
+    PaymentErrorMessage: false
   });
 
   const {
     work_order_detail,
     payment_history,
     errorMessage,
+    PaymentErrorMessage,
     invoice_details,
     requested_amount,
     terminateWorkModal,
@@ -149,8 +151,26 @@ const Specialist_Payment_Invoice = (props) => {
       })
     })
   }
-
-
+const toggleErrormessage=()=>{
+  setState({
+    ...state,
+    PaymentErrorMessage: true
+  })
+}
+const toggleErrormessageClose =()=>{
+  setState({
+    ...state,
+    PaymentErrorMessage: false
+  })
+}
+const fieldRef: any = useRef();
+useEffect(() => {
+ if (PaymentErrorMessage && fieldRef) {
+   fieldRef.current.scrollIntoView({
+     behavior: "smooth"
+    });
+  }
+}, [PaymentErrorMessage]);
   return (
     <>
        <Modal
@@ -175,6 +195,7 @@ const Specialist_Payment_Invoice = (props) => {
          </Alert>
       )}
       {errorMessage && (
+        
          <Alert key={2} variant="danger" className="alertmessg">
             {errorMessage}
          </Alert>
@@ -225,8 +246,8 @@ const Specialist_Payment_Invoice = (props) => {
         <Row>
           <DashboardNav />
         </Row>
-        <Row className="dshworksectnrow1">
-          <Col md={11} className="job34">
+        <Row className="dshworksectnrow1" ref={fieldRef}>
+          <Col md={11} className="job34" >
             <div className="title_wo payinvoicetitle">
               <div className="workorderheader">
                 <Link to="/Payments">
@@ -235,12 +256,16 @@ const Specialist_Payment_Invoice = (props) => {
                 </Link>
                 View Payment
               </div>
-              {/* <div className="text-center">
-                <span className="upfrontbtn" onClick={workModal}>
-                     Request Payment
-                </span>
-              </div> */}
             </div>
+            {PaymentErrorMessage &&(
+              <div className="wrktimelinediv" >
+                <img src={exclam} alt="img" />
+                <p>sorry you cannot make an Early payment request now</p>
+                <div className="terminateworkmodalimg" onClick={toggleErrormessageClose}>
+                  <i className="fa fa-times" ></i>
+                </div>
+              </div>
+             )}
             <div className="spltpaybreakdwnwrapper">
               <div className="spltpaybreakdwn-logowrap">
                 <div>
@@ -316,9 +341,16 @@ const Specialist_Payment_Invoice = (props) => {
                    </td> 
                    <td>{formatTime(data.date)}</td>
                    <td>
-                       <span className="upfrontbtn" onClick={()=>workModal(data.id, index)}>
+                       {data.can_make_upfront == true &&(
+                        <span className="upfrontbtn" onClick={()=>workModal(data.id, index)}>
+                          Request Payment
+                        </span>
+                       )}
+                      {data.can_make_upfront == false && (
+                       <span className="upfrontbtn inactivebtn" onClick={toggleErrormessage}>
                          Request Payment
-                      </span>
+                       </span>
+                      )}
                    </td>
                   </tr>
                     ))} 
@@ -349,7 +381,21 @@ const Specialist_Payment_Invoice = (props) => {
                       {FormatAmount(data.amount)}
                     </td>
                    <td> 
-                    {data.status}
+                   {data.status == "Paid" && (
+                     <div>
+                       <span className="historypaystattext paidinvtxt">Paid</span>
+                     </div>
+                    )}
+                    {data.status == "Unpaid" &&(
+                     <div>
+                      <span className="historypaystattext pendininvtext">Pending</span>
+                    </div>
+                    )}
+                    {data.status == "Declined" &&(
+                     <div>
+                      <span className="historypaystattext terminainvtxt">Declined</span>
+                    </div>
+                    )}
                    </td>
                    <td>{formatTime(data.created_at)}</td>
                   </tr>
