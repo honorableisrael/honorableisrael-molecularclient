@@ -213,7 +213,7 @@ const Specialist_Payment_Invoice = (props) => {
               </div>
               <div className="text-center">
                 <span className="upfrontbtn" onClick={workModal}>
-                     Request Payment
+                     Request Early Payment
                 </span>
               </div>
             </div>

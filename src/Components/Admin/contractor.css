@@ -625,7 +625,7 @@ a:hover {
   box-sizing: border-box;
   border-radius: 6px;
   font-size: 14px;
-  color: #666666c7 !important;
+  color: #000000 !important;
 }
 .userprofile {
   color: #666666;
@@ -2862,7 +2862,7 @@ padding-left: 34px;
 }
 .startproject{
   display: flex !important;
-  min-width: 162px;
+  min-width: 200px;
   align-items: center;
   justify-content: center;
 }
@@ -2878,7 +2878,7 @@ padding-left: 34px;
   margin-left: .3rem;
 }
 .userfield{
-  color: #666666 !important;
+  color: #000000 !important;
 }
 
 .paddtop{
