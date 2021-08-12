@@ -139,14 +139,19 @@
     display: flex;
     color: #ffffff;
     background-color: #cc7100;
-    padding: 4px;
+    padding: 4px 11px 4px 4px;
     margin-bottom: 40px;
     border-radius: 3px;
+    justify-content: space-between;
+    align-items: center;
 }
 .wrktimelinediv>p{
    font-family: 'Nunito Sans', sans-serif;
-    margin: auto;
+    margin: 0;
     font-weight: 700;    
+}
+.wrktimelinediv>div{
+    cursor: pointer;
 }
 .pendingwrkcard{
     font-family: 'Nunito Sans', sans-serif;
@@ -273,7 +278,7 @@
 }
 .terminateworkmodaltitle{
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 19px;
     font-weight: 700;
     font-size: 18px;
     color: #000000;
@@ -478,6 +483,9 @@
 .profcertbtn:hover{
     filter: brightness(110%);
 }
+.splsheetdv{
+    width: 57% !important;
+}
 .profileexperiencesectn{
     text-align: center;
     padding-bottom:  58px;
@@ -512,6 +520,7 @@
     border: 2px solid #fd8c00;
     color: #fd8c00;
 }
+
 .usermodaltitle{
     text-align: center;
     padding-top: 20px;
@@ -604,6 +613,7 @@
 }
 .userprofile12{
     font-weight: 600 !important; 
+    color: #000000 !important;
 }
 .profillabels{
     font-weight: 600;
@@ -710,8 +720,7 @@
  font-size: 13px;   
 }
 .upfrontbtn{
-padding: 12px;
-display: inline-block;
+padding: 10px;
 background-color: #fd8c00;
 border-radius: 6px;
 font-weight: 600;
@@ -721,7 +730,6 @@ color: #fff;
 } 
 .upfrmodalbtn{
     margin-left: 20px;
-    background-color: #28a745;
     font-weight: 600;
 }   
 .switch{
@@ -766,4 +774,43 @@ input:checked + .slider::before{
 }
 .splsttabledata{
     width: 55%;
+}
+.upfnthistoryheader{
+    font-size: 22px;
+    font-weight: bold;
+    line-height: 33px;
+    letter-spacing: 0.04em;
+    color: #333333;
+    margin: 32px 0px 15px;
+}
+.invoiceexclm{
+    font-size: 21px;
+    color: #fd8c00; 
+    margin-right: 20px;
+    border: 2px solid #fd8c00;
+    padding: 5px 11px;
+    border-radius: 50px;
+}
+.splinvoicemodalmssgwrap{
+    display: flex;
+    align-items: end;
+    margin-bottom: 18px;
+}
+.splinvoicemodalmssgwrap>p{
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 0;
+}
+.inactivebtn{
+    background-color: #999999;
+    color: #fff;
+}
+.historypaystattext{
+    font-weight: 700;
+}
+.paidinvtxt{
+    color: #038500;
+}
+.terminainvtxt{
+    color: #D00219;
 }

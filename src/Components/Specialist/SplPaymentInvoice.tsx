@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import { Col, Row, Container, Table, Modal,Form,Alert } from "react-bootstrap";
 import "../Contractor/contractor.css";
 import DashboardNav from "./specialistNavbar";
@@ -12,7 +12,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import closeimg from "../../images/closeimg.png";
-
+import exclam from "../../images/exclammark.png";
 
 
 
@@ -37,7 +37,23 @@ const Specialist_Payment_Invoice = (props) => {
     requested_amount:"",
     errorMessage:"",
     successMessage:"",
+    payment_history: [],
+    cycle_id: "",
+    PaymentErrorMessage: false
   });
+
+  const {
+    work_order_detail,
+    payment_history,
+    errorMessage,
+    PaymentErrorMessage,
+    invoice_details,
+    requested_amount,
+    terminateWorkModal,
+    successMessage,
+    isloading,
+    cycle_id,
+  }: any= state;
 
   const onchange = (e) => {
     console.log(e.target.value);
@@ -46,9 +62,11 @@ const Specialist_Payment_Invoice = (props) => {
       [e.target.name]: e.target.value,
     });
   };
-  const workModal = () => {
+  const workModal = (id, index) => {
+    console.log(id)
     setState({
       ...state,
+      cycle_id: id,
       terminateWorkModal: true,
     });
   };
@@ -70,13 +88,19 @@ const Specialist_Payment_Invoice = (props) => {
         axios.get(`${API}/specialist/invoices/${props?.match?.params?.id}`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }),
+        axios.get(`${API}/specialist/work-orders/${work_order_details.id}/upfront-requests`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
       ])
       .then(
-        axios.spread((res2) => {
+        axios.spread((res2,res3) => {
           console.log(res2.data.data);
+           console.log(res3.data.data);
           setState({
             ...state,
             ...res2.data.data,
+            ...res3.data.data,
+            payment_history:res3.data.data.data,
             work_order_detail: res2.data.data.work_order,
             invoice_details: res2.data.data,
           });
@@ -88,14 +112,16 @@ const Specialist_Payment_Invoice = (props) => {
           work_order_detail: work_order_details,
         });
         console.log(err.response);
+        
       });
   }, []);
 
-  const requestUpfrontPayment = () => {
+  const requestUpfrontPayment = (cycle_id) => {
     setState({
       ...state,
       isloading: true,
     })
+    console.log(cycle_id)
     const availableToken = localStorage.getItem("loggedInDetails");
     console.log(availableToken);
     const token = availableToken ? JSON.parse(availableToken) : "";
@@ -103,7 +129,7 @@ const Specialist_Payment_Invoice = (props) => {
     const data={
       amount: requested_amount
     }
-    axios.post(`${API}/specialist/work-orders/${work_order_detail.id}/upfront-requests`, data, {
+    axios.post(`${API}/specialist/upfront-payments/${cycle_id}`, data, {
       headers: { Authorization: `Bearer ${token.access_token}` }
     })
     .then((res)=>{
@@ -125,16 +151,26 @@ const Specialist_Payment_Invoice = (props) => {
       })
     })
   }
-
-  const {
-    work_order_detail,
-    errorMessage,
-    invoice_details,
-    requested_amount,
-    terminateWorkModal,
-    successMessage,
-    isloading,
-  }: any= state;
+const toggleErrormessage=()=>{
+  setState({
+    ...state,
+    PaymentErrorMessage: true
+  })
+}
+const toggleErrormessageClose =()=>{
+  setState({
+    ...state,
+    PaymentErrorMessage: false
+  })
+}
+const fieldRef: any = useRef();
+useEffect(() => {
+ if (PaymentErrorMessage && fieldRef) {
+   fieldRef.current.scrollIntoView({
+     behavior: "smooth"
+    });
+  }
+}, [PaymentErrorMessage]);
   return (
     <>
        <Modal
@@ -151,7 +187,7 @@ const Specialist_Payment_Invoice = (props) => {
         />
      </div>
       <div className="terminateworkmodaltitle" >
-          Request Upfront Payment
+          Request Early Payment
       </div>
       {successMessage && (
          <Alert key={2} variant="success" className="alertmessg">
@@ -159,10 +195,19 @@ const Specialist_Payment_Invoice = (props) => {
          </Alert>
       )}
       {errorMessage && (
+        
          <Alert key={2} variant="danger" className="alertmessg">
             {errorMessage}
          </Alert>
       )}
+     <div className="splinvoicemodalmssgwrap">
+       <i className="fa fa-exclamation fa-rotate-180 invoiceexclm" aria-hidden="true"></i>
+       <p>You can only make a maximum of 65% of your amount from this cycle. </p>
+     </div>
+     <div className="splinvoicemodalmssgwrap">
+       <i className="fa fa-exclamation fa-rotate-180 invoiceexclm" aria-hidden="true"></i>
+       <p>Early payments attracts 5% charge of your amount from this cycle. </p>
+     </div> 
       <form>
         <Row>
            <Col md={12} className="formsection1">
@@ -186,7 +231,7 @@ const Specialist_Payment_Invoice = (props) => {
           <span className="wrkmodal-cancelbtn" onClick={closeworkModal}>
             Cancel
           </span>
-          <span className="profcertbtn upfrmodalbtn" onClick={requestUpfrontPayment}>
+          <span className="profcertbtn upfrmodalbtn" onClick={()=>requestUpfrontPayment(cycle_id)}>
             {!isloading ? "Send Request" : "Requesting..."}
           </span> 
        </div>
@@ -201,8 +246,8 @@ const Specialist_Payment_Invoice = (props) => {
         <Row>
           <DashboardNav />
         </Row>
-        <Row className="dshworksectnrow1">
-          <Col md={11} className="job34">
+        <Row className="dshworksectnrow1" ref={fieldRef}>
+          <Col md={11} className="job34" >
             <div className="title_wo payinvoicetitle">
               <div className="workorderheader">
                 <Link to="/Payments">
@@ -211,12 +256,16 @@ const Specialist_Payment_Invoice = (props) => {
                 </Link>
                 View Payment
               </div>
-              <div className="text-center">
-                <span className="upfrontbtn" onClick={workModal}>
-                     Request Early Payment
-                </span>
-              </div>
             </div>
+            {PaymentErrorMessage &&(
+              <div className="wrktimelinediv" >
+                <img src={exclam} alt="img" />
+                <p>sorry you cannot make an Early payment request now</p>
+                <div className="terminateworkmodalimg" onClick={toggleErrormessageClose}>
+                  <i className="fa fa-times" ></i>
+                </div>
+              </div>
+             )}
             <div className="spltpaybreakdwnwrapper">
               <div className="spltpaybreakdwn-logowrap">
                 <div>
@@ -258,7 +307,7 @@ const Specialist_Payment_Invoice = (props) => {
                       <th>Amount Paid</th>
                       <th>Status</th>
                       <th>Date</th>
-                      <th></th>
+                      <th>Request Early Payment</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -291,6 +340,64 @@ const Specialist_Payment_Invoice = (props) => {
                     )}
                    </td> 
                    <td>{formatTime(data.date)}</td>
+                   <td>
+                       {data.can_make_upfront == true &&(
+                        <span className="upfrontbtn" onClick={()=>workModal(data.id, index)}>
+                          Request Payment
+                        </span>
+                       )}
+                      {data.can_make_upfront == false && (
+                       <span className="upfrontbtn inactivebtn" onClick={toggleErrormessage}>
+                         Request Payment
+                       </span>
+                      )}
+                   </td>
+                  </tr>
+                    ))} 
+                  </tbody>
+                </Table>
+              </div>
+            </div>
+            <div className="upfnthistoryheader">
+                Early Payment History
+            </div>
+            <div className="spltpaybreakdwnwrapper">
+              <div>
+                <Table hover>
+                  <thead className="splinvoitablehead">
+                    <tr>
+                      <th>S/N</th>
+                      <th> Amount</th>
+                      <th>Status</th>
+                      <th>Date</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {payment_history?.map((data, index)=>(
+                   <tr key={index}>
+                    <td>{index + 1}</td>
+                   <td>
+                      {current_currency}
+                      {FormatAmount(data.amount)}
+                    </td>
+                   <td> 
+                   {data.status == "Paid" && (
+                     <div>
+                       <span className="historypaystattext paidinvtxt">Paid</span>
+                     </div>
+                    )}
+                    {data.status == "Unpaid" &&(
+                     <div>
+                      <span className="historypaystattext pendininvtext">Pending</span>
+                    </div>
+                    )}
+                    {data.status == "Declined" &&(
+                     <div>
+                      <span className="historypaystattext terminainvtxt">Declined</span>
+                    </div>
+                    )}
+                   </td>
+                   <td>{formatTime(data.created_at)}</td>
                   </tr>
                     ))} 
                   </tbody>

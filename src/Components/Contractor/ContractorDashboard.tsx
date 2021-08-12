@@ -122,7 +122,7 @@ const ContractorDashboard = withRouter((props) => {
     series: [
       {
         name: "Work Force",
-        data: [10, 41, 35, 51, 49, 62],
+        data: [],
       },
     ],
     options: {
@@ -204,16 +204,83 @@ const ContractorDashboard = withRouter((props) => {
         axios.get(`${API}/contractor/invoices`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }),
+        axios.get(`${API}/contractor/dashboard/charts`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
       ])
       .then(
-        axios.spread((res, res2, res3, res4) => {
-          console.log(res4.data);
+        axios.spread((res, res2, res3, res4,res5) => {
+          console.log(res5.data);
+          const WorkForceMonths:any = Object.values(res5?.data?.data?.workforce["6_months"])
+          const WorkForceKeys:any = Object.keys(res5?.data?.data?.workforce["6_months"])
+
+          const cost_of_deployment:any = Object.values(res5?.data?.data?.cost_of_deployment["month"])
+          console.log(cost_of_deployment)
+          const cost_of_deploymentkeys:any = Object.keys(res5?.data?.data?.cost_of_deployment["month"])
           setState({
             ...state,
             contractor: res.data.data,
             notification: res2.data.data.data,
             work_orders: res3.data.data.data,
             invoices: res4.data.data.data,
+            series: [
+              {
+                name: "Work Force",
+                data: WorkForceMonths,
+              },
+            ],
+            options: {
+              chart: {
+                id: "WorkForce",
+                zoom: {
+                  enabled: false,
+                },
+              },
+              dataLabels: {
+                enabled: false,
+              },
+              xaxis: {
+                categories: WorkForceKeys,
+              },
+              title: {
+                text: "Work Force",
+              },
+              grid: {
+                row: {
+                  colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
+                  opacity: 0.5,
+                },
+              },
+            },
+            series1: [
+              {
+                name: "Cost of Deployment",
+                data: cost_of_deployment,
+              },
+            ],
+            options1: {
+              chart: {
+                id: "Cost of Deployment",
+                zoom: {
+                  enabled: false,
+                },
+              },
+              dataLabels: {
+                enabled: false,
+              },
+              xaxis: {
+                categories:cost_of_deploymentkeys,
+              },
+              title: {
+                text: "Cost of Deployment",
+              },
+              grid: {
+                row: {
+                  colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
+                  opacity: 0.5,
+                },
+              },
+            },
           });
         })
       )

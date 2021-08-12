@@ -24,6 +24,7 @@ import {
   capitalize,
   current_currency,
   FormatAmount,
+  kFormatter,
   returnAdminToken,
 } from "../../config";
 import Specialist_Awaiting_Admin from "./SubComponents/Specailist_Awaiting_Admin_Approval";
@@ -121,11 +122,11 @@ const Invoice = (props) => {
   );
 };
 const AdminDashboard = withRouter((props) => {
-  const [state, setState] = useState({
+  const [state, setState] = useState<any>({
     series: [
       {
         name: "Work Force",
-        data: [20, 0, 1, 1, 1, 1],
+        data: [],
       },
     ],
     options: {
@@ -139,7 +140,7 @@ const AdminDashboard = withRouter((props) => {
         enabled: false,
       },
       xaxis: {
-        categories: ["jan", "feb", "mar", "apr", "may", "june"],
+        categories: [],
       },
       title: {
         text: "Work Force",
@@ -155,7 +156,7 @@ const AdminDashboard = withRouter((props) => {
     series1: [
       {
         name: "Cost of Deployment",
-        data: [10, 41, 35, 51, 49, 62],
+        data: [],
       },
     ],
     options1: {
@@ -169,7 +170,7 @@ const AdminDashboard = withRouter((props) => {
         enabled: false,
       },
       xaxis: {
-        categories: ["jan", "feb", "mar", "apr", "may", "june", "jul"],
+        categories: [],
       },
       title: {
         text: "Cost of Deployment $0",
@@ -215,6 +216,12 @@ const AdminDashboard = withRouter((props) => {
       .then(
         axios.spread((res, res2, res3, res4, res5, res6) => {
           console.log(res6.data);
+          const WorkForceMonths:any = Object.values(res6?.data?.data?.workforce["6_months"])
+          const WorkForceKeys:any = Object.keys(res6?.data?.data?.workforce["6_months"])
+
+          const cost_of_deployment:any = Object.values(res6?.data?.data?.cost_of_deployment["month"])
+          console.log(cost_of_deployment)
+          const cost_of_deploymentkeys:any = Object.keys(res6?.data?.data?.cost_of_deployment["month"])
           setState({
             ...state,
             admin: res.data.data,
@@ -223,6 +230,64 @@ const AdminDashboard = withRouter((props) => {
             work_orders: res4.data.data.data,
             invoices: res5.data.data.data,
             admin_chart: res6.data.data,
+            series: [
+              {
+                name: "Work Force",
+                data: WorkForceMonths,
+              },
+            ],
+            options: {
+              chart: {
+                id: "WorkForce",
+                zoom: {
+                  enabled: false,
+                },
+              },
+              dataLabels: {
+                enabled: false,
+              },
+              xaxis: {
+                categories: WorkForceKeys,
+              },
+              title: {
+                text: "Work Force",
+              },
+              grid: {
+                row: {
+                  colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
+                  opacity: 0.5,
+                },
+              },
+            },
+            series1: [
+              {
+                name: "Cost of Deployment",
+                data: cost_of_deployment,
+              },
+            ],
+            options1: {
+              chart: {
+                id: "Cost of Deployment",
+                zoom: {
+                  enabled: false,
+                },
+              },
+              dataLabels: {
+                enabled: false,
+              },
+              xaxis: {
+                categories:cost_of_deploymentkeys,
+              },
+              title: {
+                text: "Cost of Deployment",
+              },
+              grid: {
+                row: {
+                  colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
+                  opacity: 0.5,
+                },
+              },
+            },
           });
         })
       )
