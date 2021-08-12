@@ -15,7 +15,16 @@ const SplPaymentCards = props => {
   console.log(props?.payment_details)
   return (
     <>
-    <Link to={`/Specialist_Payment_Invoice/${props?.payment_details?.id}`} className="paymentlink">
+    <Link 
+     to={`/Specialist_Payment_Invoice/${props?.payment_details?.id}`}
+     className="paymentlink"
+     onClick={()=>{
+      localStorage.setItem(
+        "Invoice_payment_details",
+        JSON.stringify(props.payment_details)
+      )
+     }}
+     >
       <div className="cardwrap_jo minheight_">
         <div className="cardwrap_cont">
           <img src={portfolio} alt="portfolio" className="portfolio2" />
