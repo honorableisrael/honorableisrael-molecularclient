@@ -81,14 +81,16 @@ const Specialist_Payment_Invoice = (props) => {
     const invoice_: any = localStorage.getItem("invoice_id");
     const invoice = invoice_?JSON.parse(invoice_):""
     const token = specialistToken()
-    const work_order = localStorage.getItem("work_order_details");
-    const work_order_details = work_order ? JSON.parse(work_order) : "";
+    const work_order = localStorage.getItem("Invoice_payment_details");
+    const Invoice_payment_details = work_order ? JSON.parse(work_order) : "";
+    console.log(props?.match?.params?.id)
+    console.log(Invoice_payment_details.work_order.id)
     axios
       .all([
         axios.get(`${API}/specialist/invoices/${props?.match?.params?.id}`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }),
-        axios.get(`${API}/specialist/work-orders/${work_order_details.id}/upfront-requests`, {
+        axios.get(`${API}/specialist/work-orders/${Invoice_payment_details.work_order.id}/upfront-requests`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }),
       ])
@@ -107,10 +109,6 @@ const Specialist_Payment_Invoice = (props) => {
         })
       )
       .catch((err) => {
-        setState({
-          ...state,
-          work_order_detail: work_order_details,
-        });
         console.log(err.response);
         
       });
@@ -164,13 +162,13 @@ const toggleErrormessageClose =()=>{
   })
 }
 const fieldRef: any = useRef();
-useEffect(() => {
- if (PaymentErrorMessage && fieldRef) {
-   fieldRef.current.scrollIntoView({
-     behavior: "smooth"
-    });
-  }
-}, [PaymentErrorMessage]);
+ useEffect(() => {
+  if (PaymentErrorMessage && fieldRef) {
+    fieldRef.current.scrollIntoView({
+      behavior: "smooth"
+     });
+   }
+ }, [PaymentErrorMessage]);
   return (
     <>
        <Modal

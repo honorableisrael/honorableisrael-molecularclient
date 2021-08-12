@@ -67,6 +67,7 @@ const SpecialistWorkOrderDetails = (props) => {
     let urlkey = props.location.search;
     const work_order = localStorage.getItem("work_order_details");
     const work_order_details = work_order ? JSON.parse(work_order) : "";
+    console.log(work_order_details.id)
     axios
       .get(`${API}/specialist/work-orders/${work_order_details?.id}`, {
         headers: { Authorization: `Bearer ${token.access_token}` },
