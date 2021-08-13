@@ -19,6 +19,7 @@ import Experience from "./specialistExperience";
 import Projects from "./specialistProject";
 import Certification from "./specialistCertification";
 import Qualification from "./specialistQualification";
+import exclam from "../../images/exclammark.png";
 
 
 const SpecialistSettings = () => {
@@ -62,6 +63,8 @@ const SpecialistSettings = () => {
     fourthtabInactive: "",
     available: false,
     is_available: false,
+    errorMessage: false,
+    successMessage: false,
   });
 
   const {
@@ -95,7 +98,8 @@ const SpecialistSettings = () => {
     skills,
     first_name,
     last_name,
-    
+    errorMessage,
+    successMessage,
   }: any = state;
   const onchange = (e) => {
     console.log(e.target.value);
@@ -219,11 +223,17 @@ const SpecialistSettings = () => {
             secondtab: true,
             thirdtab: false,
             fourthtab: false,
+            successMessage:res.data.message,
           });
         }, 2000);
         console.log(res);
       })
       .catch((err) => {
+        setState({
+          ...state,
+          isloading: false,
+          errorMessage: err?.response?.data?.message,
+        })
         notify("Failed to save", "D");
         console.log(err.response);
       });
@@ -373,8 +383,8 @@ const SpecialistSettings = () => {
        setState({
          ...state,
          isloading: false,
-       available: !available
-
+       available: !available,
+       successMessage:response.data.message,
        })
      })
    .catch((err) => {
@@ -382,10 +392,26 @@ const SpecialistSettings = () => {
      setState({
        ...state,
        isloading: false,
+       errorMessage: err?.response?.data?.message,
      })
      notify("Failed to change status", "D");
    });
 }
+const toggleErrormessageClose =()=>{
+  setState({
+    ...state,
+    errorMessage: false,
+    successMessage:false,
+  })
+}
+const fieldRef: any = useRef();
+  useEffect(() => {
+    if (errorMessage || successMessage && fieldRef) {
+      fieldRef.current.scrollIntoView({
+        behavior: "smooth"
+      });
+    }
+  }, [errorMessage, successMessage]);
   return (
     <>
       <Container fluid={true}>
@@ -397,7 +423,7 @@ const SpecialistSettings = () => {
         <Row>
           <DashboardNav />
         </Row>
-        <Row>
+        <Row ref={fieldRef}>
           <div className="settingtop"></div>
         </Row>
         <Row className="rowt3 rowta negmargin">
@@ -422,6 +448,24 @@ const SpecialistSettings = () => {
               </Modal>
               <div className="settings11">
                 <div className="titleprofile1">Settings</div>
+                {errorMessage &&(
+              <div className="wrktimelinediv" >
+                <img src={exclam} alt="img" />
+                <p>{errorMessage}</p>
+                <div className="terminateworkmodalimg" onClick={toggleErrormessageClose}>
+                  <i className="fa fa-times" ></i>
+                </div>
+              </div>
+             )}
+               {successMessage &&(
+              <div className="wrktimelinediv" >
+                <img src={exclam} alt="img" />
+                <p>{successMessage}</p>
+                <div className="terminateworkmodalimg" onClick={toggleErrormessageClose}>
+                  <i className="fa fa-times" ></i>
+                </div>
+              </div>
+             )}
                 <div id="skilltab"></div>
                 <div id="experiencetab"></div>
                 <div className="setting1">
