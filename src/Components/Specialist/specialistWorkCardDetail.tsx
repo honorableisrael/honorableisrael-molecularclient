@@ -15,9 +15,11 @@ import dwnload from "../../images/dwnload.png";
 import WorkDetails_Form_Preview from "./workdetailsform";
 import { NavHashLink } from "react-router-hash-link";
 import axios from "axios";
-import { API } from "../../config";
+import { API, formatTime } from "../../config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Payments from "./payments";
+
 
 const SpecialistWorkOrderDetails = (props) => {
   const [state, setState]: any = useState({
@@ -227,7 +229,7 @@ const  upLoadFile= ({target: {files}})=>{
               </div>
             </div>
             <Row className="mgtop">
-              <Col md={3} className="job23_ mheight_">
+              <Col md={2} className="job23_ mheight_">
                 <p className="exp23">
                   <img src={portfolio} alt="portfolio" className="portfolioq" />
                 </p>
@@ -250,20 +252,13 @@ const  upLoadFile= ({target: {files}})=>{
                 </NavHashLink>
                 <NavHashLink
                   className="bview"
-                  to="#work_details"
+                  to="#specialist_payments"
                   activeStyle={{ background: "#fd8b003b", color: "#fd8c00" }}
                 >
-                  Work Details
-                </NavHashLink>
-                <NavHashLink
-                  className="bview"
-                  to="#actions"
-                  activeStyle={{ background: "#fd8b003b", color: "#fd8c00" }}
-                >
-                  Actions
+                  Specialist payments
                 </NavHashLink>
               </Col>
-              <Col md={8} className="job23_1a_">
+              <Col md={10} className="job23_1a_splst">
                 <div id="specialist_details"></div>
                 <div className="job23_1a">
                   <div className="">
@@ -342,7 +337,7 @@ const  upLoadFile= ({target: {files}})=>{
                     </div>
                     {work_order_detail.can_upload_worksheet == true &&(
                     <div className="active_member23">
-                      <div className="active_worksheet">WORKS SHEETS <span className="acceptablefile text-info"><span className="acceptablefile text-dark">Acceptable document format:</span>pdf, docx, doc,xlsx,xls <b><span className="acceptablefile text-dark">Max size:</span> 500kb</b> </span></div>
+                      <div className="active_worksheet">WORKS SHEETS <span className="acceptablefile text-info"><span className="acceptablefile text-dark">Acceptable document format:</span>pdf, docx, doc,xlsx,xls,jpeg,png <b><span className="acceptablefile text-dark">Max size:</span> 500kb</b> </span></div>
                       <div className="worksheet_1">
                        {worksheet_reports.map((item, index)=>{
                          return(
@@ -365,7 +360,7 @@ const  upLoadFile= ({target: {files}})=>{
                               Download
                             </div>
                             </a>
-                            <div className="worksheetdate">{item.date}</div>
+                            <div className="worksheetdate">{formatTime(item.date)}</div>
                           </div>
                         </div>
                            </>
@@ -401,6 +396,9 @@ const  upLoadFile= ({target: {files}})=>{
                       </div>
                     </div>
                   </div> */}
+                </div>
+                <div id="specialist_payments">
+                 <Payments/>
                 </div>
               </Col>
             </Row>

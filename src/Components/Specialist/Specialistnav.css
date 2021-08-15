@@ -417,7 +417,7 @@
 .speclnavlnkwrapper{
     display: flex;
     align-items: center;
-    width: 65%;
+    width: 62%;
     justify-content: space-around;
 }
 .navlink_is_active .speialcl{
@@ -446,4 +446,7 @@
 }
 .MuiListItem-button {
   transition: background-color 150ms cubic-bezier(253, 139, 0, 0.227) 0ms;
+}
+.logo2{
+  height: 44px;
 }

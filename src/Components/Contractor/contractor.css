@@ -549,7 +549,7 @@ text {
 }
 
 .cardwrap_jo {
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
 }
 .form_header {
   display: flex;
@@ -903,6 +903,7 @@ text {
   padding-top: 1rem;
   padding-bottom: 1rem;
   border-radius: 1rem;
+  margin-bottom: 2.5rem;
 }
 .group_flex,
 .header_12 {
@@ -1562,6 +1563,9 @@ text {
 }
 .job23_1a_{
   margin-left: 29%;
+}
+.job23_1a_splst{
+  margin-left: 20%;
 }
 a,a:focus,a:active{
   color: initial;
