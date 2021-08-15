@@ -84,6 +84,9 @@ export const splitName =(x)=>{
     window.location.reload()
   },3000)
  }
+ export function kFormatter(num) {
+  return Math.abs(num) > 999 ? Math.sign(num)*((Math.abs(num)/1000).toFixed(1)) + 'k' : Math.sign(num)*Math.abs(num)
+}
 export const current_currency = "₦"
 // // Clarity Production API
 // export const API = "http://api.molecular.elostage.xyz/api/v1"

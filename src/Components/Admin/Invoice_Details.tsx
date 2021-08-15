@@ -7,6 +7,7 @@ import {
   Table,
   Modal,
   Button,
+  Spinner,
 } from "react-bootstrap";
 import "./contractor.css";
 import DashboardNav from "./navbar";
@@ -28,7 +29,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Admin_Invoice_details = (props) => {
-  console.log(props)
+  console.log(props);
   const [state, setState] = useState<any>({
     invoice_details: {},
     country: "",
@@ -92,7 +93,7 @@ const Admin_Invoice_details = (props) => {
       show2: true,
       selected_id: id,
     });
-  };  
+  };
   useEffect(() => {
     window.scrollTo(-0, -0);
     const invoice_: any = localStorage.getItem("invoice_id");
@@ -127,8 +128,7 @@ const Admin_Invoice_details = (props) => {
         });
         console.log(err);
       });
-    }, 
-  []);
+  }, []);
 
   const sendInvoice = () => {
     const availableToken: any = localStorage.getItem("loggedInDetails");
@@ -194,9 +194,9 @@ const Admin_Invoice_details = (props) => {
       ])
       .then(
         axios.spread((res) => {
-          setTimeout(()=>{
-            window.location.reload()
-          },2000)
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
           notify("Successful");
           console.log(res.data.data);
           setState({
@@ -206,9 +206,9 @@ const Admin_Invoice_details = (props) => {
         })
       )
       .catch((err) => {
-        setTimeout(()=>{
-          window.location.reload()
-        },2000)
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
         setState({
           ...state,
           isloading: false,
@@ -242,9 +242,9 @@ const Admin_Invoice_details = (props) => {
       .then(
         axios.spread((res) => {
           notify("Successful");
-          setTimeout(()=>{
-            window.location.reload()
-          },2000)
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
           console.log(res.data.data);
           setState({
             ...state,
@@ -264,7 +264,50 @@ const Admin_Invoice_details = (props) => {
       });
   };
 
-  
+  const sendInvoiceReminder = (id) => {
+    const work_order = localStorage.getItem("work_order_details");
+    const work_order_details = work_order ? JSON.parse(work_order) : "";
+    setState({
+      ...state,
+      isloading: true,
+    });
+    axios
+      .all([
+        axios.post(
+          `${API}/admin/sub-invoices/${id}/send`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${returnAdminToken().access_token}`,
+            },
+          }
+        ),
+      ])
+      .then(
+        axios.spread((res) => {
+          notify("Successful");
+          // setTimeout(()=>{
+          //   window.location.reload()
+          // },2000)
+          console.log(res.data);
+          setState({
+            ...state,
+            isloading: false,
+          });
+        })
+      )
+      .catch((err) => {
+        setState({
+          ...state,
+          isloading: false,
+        });
+        if (err?.response?.status == 400) {
+          return notify(err?.response?.data?.message);
+        }
+        console.log(err);
+      });
+  };
+
   const {
     project_purpose,
     country,
@@ -336,20 +379,26 @@ const Admin_Invoice_details = (props) => {
         <Modal.Body>
           <Row>
             <Col md={12}>
-              <h6>Are you sure the contractor has made payment for this payment cycle</h6>
+              <h6>
+                Are you sure the contractor has made payment for this payment
+                cycle
+              </h6>
             </Col>
           </Row>
           <Row>
             <Col md={12} className="terminate2">
-              <Button className="btn-success succinline" onClick={()=>{
-                setState({
-                  ...state,
-                  show2:false
-                })
-              }}>
-                  Cancel
-                </Button>
-                <div className="" onClick={makePaymentForSubInvoice}>
+              <Button
+                className="btn-success succinline"
+                onClick={() => {
+                  setState({
+                    ...state,
+                    show2: false,
+                  });
+                }}
+              >
+                Cancel
+              </Button>
+              <div className="" onClick={makePaymentForSubInvoice}>
                 <Button className="btn-success primary3">
                   {isloading ? "Processing" : "Confirm Payment"}
                 </Button>
@@ -470,6 +519,9 @@ const Admin_Invoice_details = (props) => {
                             </div>
                           </div>
                           <div className="ing_11">
+                            {isloading && (
+                              <Spinner animation={"grow"} variant="info" />
+                            )}
                             <Table responsive>
                               <thead className="theadinvoice">
                                 <tr>
@@ -500,7 +552,7 @@ const Admin_Invoice_details = (props) => {
                                           }
                                           className="btn-success primary3"
                                         >
-                                         Confirm Payment
+                                          Confirm Payment
                                         </Button>
                                       ) : (
                                         ""
@@ -508,17 +560,31 @@ const Admin_Invoice_details = (props) => {
                                     </td>
                                     <td>{data?.cycle}</td>
                                     <td>
-                                    {data?.status == "Paid" && !data.paid_specialists ? (
-                                      <Button
-                                        onClick={() =>
-                                          openPaymentModal(data.id)
-                                        }
-                                        className="payspecialist1"
-                                      >
-                                        Pay Specialists
-                                      </Button>)
-                                      : ""
-                                    }
+                                      {data?.status == "Paid" &&
+                                      !data.paid_specialists ? (
+                                        <Button
+                                          onClick={() =>
+                                            openPaymentModal(data.id)
+                                          }
+                                          className="payspecialist1"
+                                        >
+                                          Pay Specialists
+                                        </Button>
+                                      ) : (
+                                        ""
+                                      )}
+                                      {data?.status == "Unpaid" ? (
+                                        <Button
+                                          onClick={() =>
+                                            sendInvoiceReminder(data.id)
+                                          }
+                                          className="btn-success primary3"
+                                        >
+                                          Invoice Reminder
+                                        </Button>
+                                      ) : (
+                                        ""
+                                      )}
                                     </td>
                                   </tr>
                                 ))}

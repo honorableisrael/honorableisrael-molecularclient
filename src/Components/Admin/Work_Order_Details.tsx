@@ -355,7 +355,7 @@ const Upfront_payment = (props: any) => {
         }
       )
       .then((res) => {
-        notify("Successfully approved upfront request");
+        notify("Successfully approved early payment request");
         console.log(res.data.data);
         refreshpage();
         setState({
@@ -399,7 +399,7 @@ const Upfront_payment = (props: any) => {
         }
       )
       .then((res) => {
-        notify("Successfully declined upfront request");
+        notify("Successfully declined early payment request");
         console.log(res.data.data);
         refreshpage();
         setState({
@@ -408,7 +408,7 @@ const Upfront_payment = (props: any) => {
         });
       })
       .catch((err) => {
-        notify("failed to declined upfront request");
+        notify("failed to decline early payment request");
         setState({
           ...state,
           isloading: false,
@@ -473,7 +473,7 @@ const Upfront_payment = (props: any) => {
         <div onClick={toggleAccordion1}>
           <div className="deploydsplstwrapp">
             <div>
-              <span className="deplyeaggrgt">Up-front Request</span>
+              <span className="deplyeaggrgt">Early Payment Request</span>
             </div>
             <div className="accimgwrap">
               <span>
@@ -522,7 +522,7 @@ const Upfront_payment = (props: any) => {
                             className="raise_inv reje4"
                             onClick={() => openModal(data.id)}
                           >
-                            {"Reject"}
+                            {"Decline"}
                           </span>
                         </>
                       )
@@ -1005,7 +1005,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                     className=" raise_inv startproject"
                     onClick={StartProject}
                   >
-                    {!isloading ? "Start Project" : "Starting"} <Play />
+                    {!isloading ? "Start Work Order" : "Starting"} <Play />
                   </Button>
                 </div>
               </div>
@@ -1018,7 +1018,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                       className=" raise_inv startproject"
                       onClick={StopProject}
                     >
-                      {!isloading ? "Stop Project" : "Processing"} <Stop />
+                      {!isloading ? "End Work Order" : "Processing"} <Stop />
                     </Button>
                   </div>
                 </div>
