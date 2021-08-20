@@ -124,6 +124,7 @@ const SpecialistSettings = () => {
     }
   }
   reader.readAsDataURL(e.target.files[0]);
+  console.log(e.target.files[0]);
       // upload image to server; 
      const availableToken = localStorage.getItem("loggedInDetails");
      console.log(availableToken);
@@ -190,7 +191,7 @@ const SpecialistSettings = () => {
       });
     }
   };
-  const submitProfile = () => {                  
+  const submitProfile = () => {
     const availableToken = localStorage.getItem("loggedInDetails");
     console.log(availableToken);
     const token = availableToken ? JSON.parse(availableToken) : "";

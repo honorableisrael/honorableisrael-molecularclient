@@ -88,23 +88,23 @@ const Payments = () => {
 
   return (
     <div>
-      <Container fluid={true}>
-        <Helmet>
+      {/* <Container fluid={true}> */}
+        {/* <Helmet>
           <meta charSet="utf-8" />
           <title>Molecular - Specialist Payment</title>
           <link />
-        </Helmet>
-        <Row>
+        </Helmet> */}
+        {/* <Row>
           <DashboardNav/>
-        </Row>
-        <Row className="dshworksectnrow1">
-          <Col md={11} className="job34">
-            <div className="title_wo">
+        </Row> */}
+        {/* <Row className="dshworksectnrow1"> */}
+          <div className="job34">
+            {/* <div className="title_wo">
               <div className="workorderheader">
                 Payment
               </div>
-            </div>
-            <Row>
+            </div> */}
+            {/* <Row> */}
               {all_invoices?.length == 0  && (
                 <Col md={11} className="containerforemptyorder1">
                   <div className="containerforemptyorder">
@@ -136,10 +136,10 @@ const Payments = () => {
                     <Pagination.Last onClick={() => nextPage(last)} />
                   </Pagination>
                 </div>
-            </Row>
-          </Col>
-        </Row>
-      </Container>
+            {/* </Row> */}
+          </div>
+        {/* </Row>
+      </Container> */}
     </div>
   );
 };

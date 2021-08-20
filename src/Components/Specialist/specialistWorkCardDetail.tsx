@@ -15,9 +15,11 @@ import dwnload from "../../images/dwnload.png";
 import WorkDetails_Form_Preview from "./workdetailsform";
 import { NavHashLink } from "react-router-hash-link";
 import axios from "axios";
-import { API } from "../../config";
+import { API, formatTime } from "../../config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Payments from "./payments";
+
 
 const SpecialistWorkOrderDetails = (props) => {
   const [state, setState]: any = useState({
@@ -68,20 +70,26 @@ const SpecialistWorkOrderDetails = (props) => {
     const work_order = localStorage.getItem("work_order_details");
     const work_order_details = work_order ? JSON.parse(work_order) : "";
     console.log(work_order_details.id)
-    axios
-      .get(`${API}/specialist/work-orders/${work_order_details?.id}`, {
+    axios.all([
+      axios.get(`${API}/specialist/work-orders/${work_order_details?.id}`, {
+        headers: { Authorization: `Bearer ${token.access_token}` },
+      }),
+      axios.get(`${API}/specialist/work-orders/${work_order_details?.id}/worksheets`, {
         headers: { Authorization: `Bearer ${token.access_token}` },
       })
-      .then((res) => {
+    ])
+      
+      .then(axios.spread((res, res2) => {
         console.log(res.data.data);
+        console.log(res2.data)
         setState({
           ...state,
           ...res.data.data,
-          work_order_detail: res.data.data,
+           work_order_detail: res.data.data,
           work_group: res.data.data.work_group,
-          worksheet_reports:res.data.data.work_group.worksheet_reports,
+          worksheet_reports:res2.data.data.data
         });
-      })
+      }))
       .catch((err) => {
         console.log(err.response);
       });
@@ -227,7 +235,7 @@ const  upLoadFile= ({target: {files}})=>{
               </div>
             </div>
             <Row className="mgtop">
-              <Col md={3} className="job23_ mheight_">
+              <Col md={2} className="job23_ mheight_">
                 <p className="exp23">
                   <img src={portfolio} alt="portfolio" className="portfolioq" />
                 </p>
@@ -250,20 +258,13 @@ const  upLoadFile= ({target: {files}})=>{
                 </NavHashLink>
                 <NavHashLink
                   className="bview"
-                  to="#work_details"
+                  to="#specialist_payments"
                   activeStyle={{ background: "#fd8b003b", color: "#fd8c00" }}
                 >
-                  Work Details
-                </NavHashLink>
-                <NavHashLink
-                  className="bview"
-                  to="#actions"
-                  activeStyle={{ background: "#fd8b003b", color: "#fd8c00" }}
-                >
-                  Actions
+                  Specialist payments
                 </NavHashLink>
               </Col>
-              <Col md={8} className="job23_1a_">
+              <Col md={10} className="job23_1a_splst">
                 <div id="specialist_details"></div>
                 <div className="job23_1a">
                   <div className="">
@@ -271,14 +272,24 @@ const  upLoadFile= ({target: {files}})=>{
                   </div>
                 </div>
                   <div className="job23_1a">
-                  {/* <h6 className="title22">Specialists Assigned</h6> */}
                   <div className="job23_1a wrap_z">
                     <div className="group_flex">
                       <div className="grpA">
-                        {work_group.name}
+                        {work_group == null &&(
+                          <div>Not Grouped</div>
+                        )}
+                        {work_group &&(
+                          <div>{work_group.name}</div>
+                        )}  
                       </div>
                       <div className="grpB">
-                        <b>{work_group.total_members}</b> Assigned
+                       
+                        {work_group == null &&(
+                          <div>0 Assigned</div>
+                        )}
+                        {work_group &&(
+                          <div> <b>{work_group.total_members}</b> Assigned</div>
+                        )}  
                       </div>
                     </div>
                     {/* <div className="tabledata tabledataweb">
@@ -342,13 +353,13 @@ const  upLoadFile= ({target: {files}})=>{
                     </div>
                     {work_order_detail.can_upload_worksheet == true &&(
                     <div className="active_member23">
-                      <div className="active_worksheet">WORKS SHEETS <span className="acceptablefile text-info"><span className="acceptablefile text-dark">Acceptable document format:</span>pdf, docx, doc,xlsx,xls <b><span className="acceptablefile text-dark">Max size:</span> 500kb</b> </span></div>
+                      <div className="active_worksheet">WORKS SHEETS <span className="acceptablefile text-info"><span className="acceptablefile text-dark">Acceptable document format:</span>pdf, docx, doc,xlsx,xls,jpeg,png <b><span className="acceptablefile text-dark">Max size:</span> 500kb</b> </span></div>
                       <div className="worksheet_1">
                        {worksheet_reports.map((item, index)=>{
                          return(
                            <>
                          <div className="splsttabledata tablecontent tablecont1" key={index}>
-                          <div className="header_12 tablecont0 ">
+                          <div className="header_12 tablecont0">
                             <span>Work Sheet Week{item.week}</span>
                           </div>
                           <div className="tablecont1">
@@ -365,7 +376,7 @@ const  upLoadFile= ({target: {files}})=>{
                               Download
                             </div>
                             </a>
-                            <div className="worksheetdate">{item.date}</div>
+                            <div className="worksheetdate">{formatTime(item.date)}</div>
                           </div>
                         </div>
                            </>
@@ -401,6 +412,9 @@ const  upLoadFile= ({target: {files}})=>{
                       </div>
                     </div>
                   </div> */}
+                </div>
+                <div id="specialist_payments">
+                 <Payments/>
                 </div>
               </Col>
             </Row>

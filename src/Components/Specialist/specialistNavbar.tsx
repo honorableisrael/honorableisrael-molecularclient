@@ -96,7 +96,7 @@ const DashboardNav = props => {
                   Works
                 </NavLink>
               </div>
-              <div>
+              {/* <div>
                 <NavLink
                   to="/payments"
                   className="spclstnavlinks"
@@ -109,7 +109,7 @@ const DashboardNav = props => {
                 >
                   Payments
                 </NavLink>
-              </div>
+              </div> */}
               <div>
                 <NavLink
                   to="/settings"

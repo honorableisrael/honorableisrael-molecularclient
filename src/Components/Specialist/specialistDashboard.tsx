@@ -142,12 +142,12 @@ const SpecialistDashboard = (props) => {
               <div className="spldshbdcardwrapper">
                 <div className="spldshbdcard-small">
                   <div className="spldshbdcardheader">
-                    <p>Completed Works</p>
+                    <p>Total Income Earned</p>
                     <div>
                       <img src={checkmrk} alt="img" />
                     </div>
                   </div>
-                  <p>{completed_works}</p>
+                  <p>{current_currency}{FormatAmount(outstanding_payments + payment_received)}</p>
                 </div>
                 <div className="spldshbdcard-small">
                   <div className="spldshbdcardheader">

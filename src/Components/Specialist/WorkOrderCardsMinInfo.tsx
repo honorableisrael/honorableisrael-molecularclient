@@ -39,7 +39,7 @@ const WorkOrderCardsMinInfo = (props) => {
                 }
               >
                 <span
-                  className={
+                  className= {
                     props?.order_detail?.status == "In Review"
                       ? "pendininvoice"
                       : props?.order_detail?.status == "Completed"

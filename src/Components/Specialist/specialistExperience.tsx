@@ -95,7 +95,7 @@ const Experience = () => {
       });
   }, []);
 
-  const editExperience = (id, index) => {
+  const editExperience = (id, index, title, description) => {
     console.log(id);
     setState({
       ...state,
@@ -410,7 +410,7 @@ setState({
                     <div>
                       <img
                         src={editicon}
-                        onClick={() => editExperience(item.id, index)}
+                        onClick={() => editExperience(item.id, index,item.title,item.description)}
                         className="editimg"
                       />
                     </div>

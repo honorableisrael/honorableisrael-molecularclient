@@ -17,8 +17,8 @@ import exclam from "../../images/exclammark.png";
 
 
 const Specialist_Payment_Invoice = (props) => {
-  console.log(props)
-  const [state, setState] = useState({
+  console.log(props);
+  const [state, setState] = useState <any>({
     work_orders: [],
     invoice_details: {},
     country: "",
@@ -39,7 +39,9 @@ const Specialist_Payment_Invoice = (props) => {
     successMessage:"",
     payment_history: [],
     cycle_id: "",
-    PaymentErrorMessage: false
+    PaymentErrorMessage: false,
+    max_requested_amount:"",
+    rate: 0.65
   });
 
   const {
@@ -50,23 +52,41 @@ const Specialist_Payment_Invoice = (props) => {
     invoice_details,
     requested_amount,
     terminateWorkModal,
+    max_requested_amount,
     successMessage,
     isloading,
     cycle_id,
+    rate,
   }: any= state;
 
   const onchange = (e) => {
     console.log(e.target.value);
-    setState({
-      ...state,
-      [e.target.name]: e.target.value,
-    });
+    if (e.target.name == "requested_amount" ){
+       if(e.target.value < calculateLoanableAmount()){
+        return setState({
+          ...state,
+          [e.target.name]: e.target.value,
+        });
+       }
+       if(e.target.value > calculateLoanableAmount()){
+        return setState({
+          ...state,
+          [e.target.name]: calculateLoanableAmount()
+        });
+       }
+    }
   };
-  const workModal = (id, index) => {
+  const calculateLoanableAmount =() => {
+    const loanableamount = rate * max_requested_amount
+    return loanableamount
+  }
+  const workModal = (id, index, amount) => {
     console.log(id)
     setState({
       ...state,
       cycle_id: id,
+      max_requested_amount: amount,
+      requested_amount: rate * amount,
       terminateWorkModal: true,
     });
   };
@@ -169,6 +189,8 @@ const fieldRef: any = useRef();
      });
    }
  }, [PaymentErrorMessage]);
+
+
   return (
     <>
        <Modal
@@ -200,12 +222,12 @@ const fieldRef: any = useRef();
       )}
      <div className="splinvoicemodalmssgwrap">
        <i className="fa fa-exclamation fa-rotate-180 invoiceexclm" aria-hidden="true"></i>
-       <p>You can only make a maximum of 65% of your amount from this cycle. </p>
+       <p>You can only make a maximum of  {current_currency}{ FormatAmount(0.65 * max_requested_amount)}  from this cycle. </p>
      </div>
-     <div className="splinvoicemodalmssgwrap">
+     {/* <div className="splinvoicemodalmssgwrap">
        <i className="fa fa-exclamation fa-rotate-180 invoiceexclm" aria-hidden="true"></i>
        <p>Early payments attracts 5% charge of your amount from this cycle. </p>
-     </div> 
+     </div>  */}
       <form>
         <Row>
            <Col md={12} className="formsection1">
@@ -216,13 +238,14 @@ const fieldRef: any = useRef();
                 <Form.Control
                   type="number"
                   name="requested_amount"
-                  value={requested_amount}
+                  value={requested_amount} 
                   className="userfield"
                   onChange={onchange}
                   placeholder="Amount"
+                  min={0}
+                  max={0.65 * requested_amount} 
                   />
-                </Form.Group>
-           </Col>
+                </Form.Group></Col>
         </Row>
        </form>
        <div className="wrkmodal-btnwrap">
@@ -248,7 +271,7 @@ const fieldRef: any = useRef();
           <Col md={11} className="job34" >
             <div className="title_wo payinvoicetitle">
               <div className="workorderheader">
-                <Link to="/Payments">
+                <Link to="/specialistWorkOrderDetails">
                   {" "}
                   <img src={arrowback} className="arrowback" />
                 </Link>
@@ -300,7 +323,7 @@ const fieldRef: any = useRef();
                   <thead className="splinvoitablehead">
                     <tr>
                       <th>Cycle</th>
-                      <th>Invoice Number</th>
+                      <th>Payment Reference</th>
                       <th>Amount</th>
                       <th>Amount Paid</th>
                       <th>Status</th>
@@ -340,7 +363,7 @@ const fieldRef: any = useRef();
                    <td>{formatTime(data.date)}</td>
                    <td>
                        {data.can_make_upfront == true &&(
-                        <span className="upfrontbtn" onClick={()=>workModal(data.id, index)}>
+                        <span className="upfrontbtn" onClick={()=>workModal(data.id, index,data.amount)}>
                           Request Payment
                         </span>
                        )}
