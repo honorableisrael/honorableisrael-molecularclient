@@ -211,12 +211,11 @@ const ContractorDashboard = withRouter((props) => {
       .then(
         axios.spread((res, res2, res3, res4,res5) => {
           console.log(res5.data);
-          const WorkForceMonths:any = Object.values(res5?.data?.data?.workforce["6_months"])
-          const WorkForceKeys:any = Object.keys(res5?.data?.data?.workforce["6_months"])
-
-          const cost_of_deployment:any = Object.values(res5?.data?.data?.cost_of_deployment["month"])
+          const WorkForceMonths:any = Object.values(res5?.data?.data?.work_force["6_months"])
+          const WorkForceKeys:any = Object.keys(res5?.data?.data?.work_force["6_months"])
+          const cost_of_deployment:any = Object.values(res5?.data?.data?.cost_of_deployment["6_months"])
           console.log(cost_of_deployment)
-          const cost_of_deploymentkeys:any = Object.keys(res5?.data?.data?.cost_of_deployment["month"])
+          const cost_of_deploymentkeys:any = Object.keys(res5?.data?.data?.cost_of_deployment["6_months"])
           setState({
             ...state,
             contractor: res.data.data,
@@ -226,7 +225,7 @@ const ContractorDashboard = withRouter((props) => {
             series: [
               {
                 name: "Work Force",
-                data: WorkForceMonths,
+                data: WorkForceMonths?WorkForceMonths:"",
               },
             ],
             options: {
@@ -240,7 +239,7 @@ const ContractorDashboard = withRouter((props) => {
                 enabled: false,
               },
               xaxis: {
-                categories: WorkForceKeys,
+                categories: WorkForceKeys?WorkForceKeys:"",
               },
               title: {
                 text: "Work Force",
@@ -255,7 +254,7 @@ const ContractorDashboard = withRouter((props) => {
             series1: [
               {
                 name: "Cost of Deployment",
-                data: cost_of_deployment,
+                data: cost_of_deployment?cost_of_deployment:"",
               },
             ],
             options1: {
@@ -269,7 +268,7 @@ const ContractorDashboard = withRouter((props) => {
                 enabled: false,
               },
               xaxis: {
-                categories:cost_of_deploymentkeys,
+                categories:cost_of_deploymentkeys?cost_of_deploymentkeys:"",
               },
               title: {
                 text: "Cost of Deployment",

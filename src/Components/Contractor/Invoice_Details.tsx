@@ -44,9 +44,12 @@ const Admin_Invoice_details = (props) => {
     start_date: "",
     hour: "",
     show: false,
+    show2: false,
     reason: "",
     isloading: false,
     work_order_detail: {},
+    id: "",
+    cycle_amount: "",
   });
 
   const onchange = (e) => {
@@ -137,9 +140,9 @@ const Admin_Invoice_details = (props) => {
       .then(
         axios.spread((res) => {
           notify("Successful");
-          setTimeout(()=>{
-            props.history.push("/proforma_invoice_accepted")
-          },2000)
+          setTimeout(() => {
+            props.history.push("/proforma_invoice_accepted");
+          }, 2000);
           console.log(res.data.data);
           setState({
             ...state,
@@ -158,7 +161,48 @@ const Admin_Invoice_details = (props) => {
         console.log(err);
       });
   };
-
+  const MakePayment = () => {
+    const token = contractorToken();
+    const work_order = localStorage.getItem("work_order_details");
+    const work_order_details = work_order ? JSON.parse(work_order) : "";
+    setState({
+      ...state,
+      isloading: true,
+    });
+    axios
+      .all([
+        axios.post(
+          `${API}/contractor/sub-invoices/${id}/pay`,
+          {},
+          {
+            headers: { Authorization: `Bearer ${token.access_token}` },
+          }
+        ),
+      ])
+      .then(
+        axios.spread((res) => {
+          notify("Payment successful");
+          setTimeout(() => {
+            setState({
+              ...state,
+              isloading: false,
+              show2: false,
+            });
+            window.location.reload();
+          }, 2000);
+        })
+      )
+      .catch((err) => {
+        setState({
+          ...state,
+          isloading: false,
+        });
+        if (err?.response?.status == 400) {
+          return notify(err?.response?.data?.message);
+        }
+        console.log(err);
+      });
+  };
   const {
     project_purpose,
     country,
@@ -168,9 +212,11 @@ const Admin_Invoice_details = (props) => {
     end_date,
     reason,
     isloading,
-    start_date,
+    id,
+    show2,
     invoice_details,
     show,
+    cycle_amount,
   } = state;
   return (
     <>
@@ -213,8 +259,60 @@ const Admin_Invoice_details = (props) => {
               >
                 {"Cancel"}
               </div>
-              <Button className="greenbtn2 btn-success" onClick={(e) => AcceptInvoice()}>
+              <Button
+                className="greenbtn2 btn-success"
+                onClick={(e) => AcceptInvoice()}
+              >
                 {isloading ? "Processing" : "Ok"}
+              </Button>
+            </Col>
+          </Row>
+        </Modal.Body>
+      </Modal>
+      <Modal
+        size="sm"
+        show={show2}
+        onHide={() =>
+          setState({
+            ...state,
+            show2: false,
+          })
+        }
+        dialogClassName="modal-90w"
+        className="mdl12_ mdl2"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="example-custom-modal-styling-title">
+            Complete Payment
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Row>
+            <Col md={12}>
+              <div>
+                You are about to make payement of N{FormatAmount(cycle_amount)}{" "}
+                for this cycle
+              </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={12} className="terminate2">
+              <div
+                className="terminate1"
+                onClick={() =>
+                  setState({
+                    ...state,
+                    show2: false,
+                  })
+                }
+              >
+                {"Cancel"}
+              </div>
+              <Button
+                className="greenbtn2 btn-success"
+                onClick={(e) => MakePayment()}
+              >
+                {isloading ? "Processing" : "Proceed"}
               </Button>
             </Col>
           </Row>
@@ -329,7 +427,7 @@ const Admin_Invoice_details = (props) => {
                                 </div>
                                 <div className="inv_title3">Amount Paid</div>
                                 <div className="inv_title4 ing">
-                                {current_currency}
+                                  {current_currency}
                                   {FormatAmount(
                                     invoice_details?.total_amount_paid
                                   ) ?? "~~/~~"}
@@ -340,7 +438,7 @@ const Admin_Invoice_details = (props) => {
                               <div className="inv_title2">
                                 <div className="inv_title3">Balance Due</div>
                                 <div className="inv_title4 ing">
-                                {current_currency}
+                                  {current_currency}
                                   {FormatAmount(
                                     invoice_details?.total_amount_unpaid
                                   ) ?? "~~/~~"}
@@ -356,17 +454,38 @@ const Admin_Invoice_details = (props) => {
                                   <th className="tablehead">Date</th>
                                   <th className="tablehead">Status</th>
                                   <th className="tablehead">Cycle</th>
+                                  <th className="tablehead">Payment</th>
                                 </tr>
                               </thead>
                               <tbody>
                                 {invoice_details?.cycles?.map((data, i) => (
                                   <tr className="tdata" key={i}>
                                     <td>
-                                    {current_currency}{FormatAmount(data?.specialist_cost)}
+                                      {current_currency}
+                                      {FormatAmount(data?.amount)}
                                     </td>
                                     <td>{formatTime(data?.date)}</td>
                                     <td>{data?.status}</td>
                                     <td>{data?.cycle}</td>
+                                    <td>
+                                      {data?.status == "Unpaid" ? (
+                                        <Button
+                                          className="btn-success primary3"
+                                          onClick={() => {
+                                            setState({
+                                              ...state,
+                                              show2: true,
+                                              cycle_amount: data.amount,
+                                              id: data.id,
+                                            });
+                                          }}
+                                        >
+                                          Pay
+                                        </Button>
+                                      ) : (
+                                        ""
+                                      )}
+                                    </td>
                                   </tr>
                                 ))}
                               </tbody>
@@ -390,7 +509,9 @@ const Admin_Invoice_details = (props) => {
                         </div>
                         <div className="proformer_Invoc">
                           {invoice_details.is_approved == false && (
-                            <Button onClick={openModal}>Accept Proforma Invoice</Button>
+                            <Button onClick={openModal}>
+                              Accept Proforma Invoice
+                            </Button>
                           )}
                         </div>
                       </Col>
