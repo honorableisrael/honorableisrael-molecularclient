@@ -17,7 +17,7 @@ import exclam from "../../images/exclammark.png";
 
 
 const Specialist_Payment_Invoice = (props) => {
-  console.log(props)
+  console.log(props);
   const [state, setState] = useState <any>({
     work_orders: [],
     invoice_details: {},

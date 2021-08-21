@@ -70,20 +70,26 @@ const SpecialistWorkOrderDetails = (props) => {
     const work_order = localStorage.getItem("work_order_details");
     const work_order_details = work_order ? JSON.parse(work_order) : "";
     console.log(work_order_details.id)
-    axios
-      .get(`${API}/specialist/work-orders/${work_order_details?.id}`, {
+    axios.all([
+      axios.get(`${API}/specialist/work-orders/${work_order_details?.id}`, {
+        headers: { Authorization: `Bearer ${token.access_token}` },
+      }),
+      axios.get(`${API}/specialist/work-orders/${work_order_details?.id}/worksheets`, {
         headers: { Authorization: `Bearer ${token.access_token}` },
       })
-      .then((res) => {
+    ])
+      
+      .then(axios.spread((res, res2) => {
         console.log(res.data.data);
+        console.log(res2.data)
         setState({
           ...state,
           ...res.data.data,
-          work_order_detail: res.data.data,
+           work_order_detail: res.data.data,
           work_group: res.data.data.work_group,
-          worksheet_reports:res.data.data.work_group.worksheet_reports,
+          worksheet_reports:res2.data.data.data
         });
-      })
+      }))
       .catch((err) => {
         console.log(err.response);
       });
@@ -266,14 +272,24 @@ const  upLoadFile= ({target: {files}})=>{
                   </div>
                 </div>
                   <div className="job23_1a">
-                  {/* <h6 className="title22">Specialists Assigned</h6> */}
                   <div className="job23_1a wrap_z">
                     <div className="group_flex">
                       <div className="grpA">
-                        {work_group.name}
+                        {work_group == null &&(
+                          <div>Not Grouped</div>
+                        )}
+                        {work_group &&(
+                          <div>{work_group.name}</div>
+                        )}  
                       </div>
                       <div className="grpB">
-                        <b>{work_group.total_members}</b> Assigned
+                       
+                        {work_group == null &&(
+                          <div>0 Assigned</div>
+                        )}
+                        {work_group &&(
+                          <div> <b>{work_group.total_members}</b> Assigned</div>
+                        )}  
                       </div>
                     </div>
                     {/* <div className="tabledata tabledataweb">
@@ -343,7 +359,7 @@ const  upLoadFile= ({target: {files}})=>{
                          return(
                            <>
                          <div className="splsttabledata tablecontent tablecont1" key={index}>
-                          <div className="header_12 tablecont0 ">
+                          <div className="header_12 tablecont0">
                             <span>Work Sheet Week{item.week}</span>
                           </div>
                           <div className="tablecont1">
