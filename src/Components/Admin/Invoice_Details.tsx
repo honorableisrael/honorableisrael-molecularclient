@@ -580,7 +580,7 @@ const Admin_Invoice_details = (props) => {
                                           }
                                           className="btn-success primary3"
                                         >
-                                          Invoice Reminder
+                                       {!data.sent? "Send Invoice" : "Resend Invoice"} 
                                         </Button>
                                       ) : (
                                         ""
