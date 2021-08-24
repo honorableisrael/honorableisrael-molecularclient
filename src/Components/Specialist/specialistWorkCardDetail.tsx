@@ -254,14 +254,14 @@ const  upLoadFile= ({target: {files}})=>{
                   to="#specialist_details"
                   activeStyle={{ background: "#fd8b003b", color: "#fd8c00" }}
                 >
-                  Specialist Details
+                  Work Sheet Details
                 </NavHashLink>
                 <NavHashLink
                   className="bview"
                   to="#specialist_payments"
                   activeStyle={{ background: "#fd8b003b", color: "#fd8c00" }}
                 >
-                  Specialist payments
+                   Payments
                 </NavHashLink>
               </Col>
               <Col md={10} className="job23_1a_splst">

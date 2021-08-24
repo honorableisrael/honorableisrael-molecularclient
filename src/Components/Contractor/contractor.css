@@ -307,7 +307,7 @@ text {
   }
   .rowta {
     padding-left: 1rem;
-    padding-right: 0rem;
+    padding-right: 1rem;
   }
   .workorderheader {
     line-height: 65px !important;
@@ -1332,8 +1332,8 @@ text {
 }
 
 .rowta {
-  padding-left: 9rem !important;
-  padding-right: 10rem !important;
+  padding-left: 9rem;
+  padding-right: 10rem;
 }
 
 .inv9 {
@@ -1369,8 +1369,8 @@ text {
 }
 @media (max-width: 969px) {
   .rowta {
-    padding-left: 1rem;
-    padding-right: 0rem;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
   }
   .boxwrapper_inv {
     padding: 1rem;
@@ -1545,12 +1545,9 @@ text {
     flex-wrap: wrap;
   }
   .home_pone12{
-    width: 220px;
+    width: 100%;
     padding-left: 0px;
     padding-top: 1.5rem;
-  }
-  .rowta {
-    padding-left: 0rem;
   }
 }
 .workorder_header{

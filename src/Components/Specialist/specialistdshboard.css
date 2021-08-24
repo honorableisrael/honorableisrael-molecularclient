@@ -365,7 +365,7 @@
     font-size: 14px;
     line-height: 16px;
     padding: 6px;
-    width: 47%;
+    width: 65%;
 }
 .paystatindcator{
     width: 10px;
@@ -813,4 +813,21 @@ input:checked + .slider::before{
 }
 .terminainvtxt{
     color: #D00219;
+}
+/* mobile screen */
+@media(max-width: 760px){
+    .orders1{
+        display: none;
+    }
+    .rowta{
+        padding-left:1rem;
+        padding-right: 1rem;
+    }
+    .namestyle111{
+        margin-left: 0;
+        padding:0;
+    }
+    .home_pone12{
+        width: 100%;
+    }
 }

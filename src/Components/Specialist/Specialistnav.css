@@ -27,7 +27,7 @@
   .navsignup2:active,
   .navsignup2:focus {
     background: var(--pure-white);
-    font-size: 14px;
+    font-size: 16px !important;
     line-height: 40px;
     font-weight: 600;
     color: var(--heavy-blue);
@@ -36,6 +36,13 @@
     text-align: center;
     margin-right: 2rem;
     border-radius: 8px;
+  }
+  .mobilenotifcationbell{
+    margin-left: 43px;
+    display: none;
+  }
+  .mobilenotifcationbell>span{
+    font-size: 29px;
   }
   .prrf {
     width: 280px;
@@ -77,6 +84,13 @@
     background: transparent !important;
     color: black;
     border: none;
+  }
+  .mobilesidenallinks{
+    padding: 20px 100px ;
+    display: inline-block;
+    color: #333333;
+    border-bottom: 3px solid transparent;
+    transition: .4s;
   }
   @media (max-width: 1200px) {
     .otherwrap {
@@ -196,7 +210,7 @@
     }
     .mobileham {
       display: flex;
-      position: relative;
+      position: initial !important;
       right: 1rem;
     }
     .ham1,
@@ -222,7 +236,7 @@
       padding-left: 0px;
     }
     .navwrap {
-      padding-left: 3rem;
+      padding-left: 0rem !important;
     }
     .ismobile {
       display: flex;
@@ -231,7 +245,7 @@
       justify-content: center;
       align-items: center;
       padding-bottom: 1rem;
-      padding-top: 2rem;
+      padding-top: 0rem !important;
       box-shadow: 0px 10px 16px rgba(187, 187, 187, 0.24);
     }
     .siggnup,
@@ -244,7 +258,7 @@
     }
     .nvtimes {
       font-size: 3rem !important;
-      margin-right: 1rem;
+      margin-right: 0rem !important;
     }
     .navwrap {
       box-shadow: none;
@@ -260,6 +274,7 @@
     .nvtimes {
       display: none;
     }
+    
   }
   
   .cicck {
@@ -449,4 +464,25 @@
 }
 .logo2{
   height: 44px;
+}
+.mobileinitialsdsply{
+  display: none;
+  color: #222073;
+  width: 36px;
+  height: 36px;
+  background: #cccccc;
+  text-align: center;
+  padding-top: 9px;
+  align-items: center;
+  border-radius: 50%;
+  font-weight: 600;
+}
+@media(max-width:769px){
+  .mobilenotifcationbell{
+    display: block;
+  }
+  .mobileinitialsdsply{
+    margin-right: 2px;
+    display: block;
+  }
 }

@@ -6,7 +6,7 @@ export const capitalize = (s) => {
   if (typeof s !== "string") return "";
   return s.charAt(0).toUpperCase() + s.slice(1);
 };
-export const formatTime = (date) => {
+export const formatTime = (date)=>{
   if(date){
     const dateTime = moment(date).format("Do MMM YYYY");
     return dateTime;
