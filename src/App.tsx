@@ -52,6 +52,7 @@ import Amin_NewWorkOrderStep3 from "./Components/Admin/Admin_Raise_Work_Order/Ne
 import Admin_Invoice_details from "./Components/Admin/Invoice_Details";
 import AdminRaiseProformaInvoice from "./Components/Admin/RaiseProformaInvoice";
 import ProformaInvoiceAccepted from "./Components/Contractor/Invoice_Accepted";
+import ScheduledPayments from "./Components/Admin/scheduledpayments";
 
 
 
@@ -138,6 +139,8 @@ class App extends Component {
               />
 
               <Route path="/admin_dashboard" component={AdminDashboard} />
+              <Route path="/scheduled_payments" component={ScheduledPayments} />
+              
               <Route path="/contractor_list" component={ListOfContractor} />
               <Route
                 path="/contractor_onboarding"

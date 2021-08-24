@@ -814,3 +814,6 @@ input:checked + .slider::before{
 .terminainvtxt{
     color: #D00219;
 }
+.invpaystatwrap{
+    min-width: 77px;
+}

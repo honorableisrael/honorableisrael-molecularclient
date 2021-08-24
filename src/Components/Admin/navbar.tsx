@@ -21,7 +21,7 @@ const DashboardNav = withRouter((props) => {
   const { NavisOpen, isloading, user_details }: any = state;
 
   useEffect(() => {
-    window.scrollTo(0,0)
+    window.scrollTo(0, 0);
     const availableToken: any = localStorage.getItem("loggedInDetails");
     const token = availableToken
       ? JSON.parse(availableToken)
@@ -122,7 +122,7 @@ const DashboardNav = withRouter((props) => {
                   <span className="boxdes"></span>
                 )}
               </Link>
-              <Link to={"/admin_payment_invoice"} className="flex-12a">
+              {/* <Link to={"/admin_payment_invoice"} className="flex-12a">
                 {" "}
                 <span
                   className={
@@ -136,7 +136,40 @@ const DashboardNav = withRouter((props) => {
                 {window.location.pathname == "/admin_payment_invoice" && (
                   <span className="boxdes"></span>
                 )}
-              </Link>
+              </Link> */}
+              <Dropdown className="uddrpdwndiv">
+                <Dropdown.Toggle id="dropdown-basic1" className="usernavdrpdwn">
+                  <div className="eff">Payment</div>
+                </Dropdown.Toggle>
+                <Dropdown.Menu className="animated payment_nav fadeIn">
+                  {/* <Dropdown.Item
+                  href="#/action-1"
+                  className="animated fadeInLeft"
+                >
+                  <Link to="/user-profile">Profile</Link>
+                </Dropdown.Item> */}
+                  <Dropdown.Item className="animated fadeInLeft">
+                    {/* <img src={settings} className="exit" />{" "} */}
+                    <span>
+                      <Link
+                        to={"/admin_payment_invoice"}
+                        className="flex-custom12"
+                      >
+                        All payments
+                      </Link>
+                    </span>
+                  </Dropdown.Item>
+                  {/* <Dropdown.Item href="#/action-1"><Link to="/user-profile">Settings</Link></Dropdown.Item> */}
+                  <Dropdown.Item
+                    href="#/action-2"
+                    className="animated fadeInLeft"
+                  >
+                    <Link to={"/scheduled_payments"} className="flex-custom12">
+                      Scheduled payments
+                    </Link>
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
               {/* <Link to={"/admin/settings"} className="flex-12a">
                 {" "}
                 <span

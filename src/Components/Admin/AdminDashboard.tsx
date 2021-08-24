@@ -219,9 +219,9 @@ const AdminDashboard = withRouter((props) => {
           const WorkForceMonths:any = Object.values(res6?.data?.data?.workforce["6_months"])
           const WorkForceKeys:any = Object.keys(res6?.data?.data?.workforce["6_months"])
 
-          const cost_of_deployment:any = Object.values(res6?.data?.data?.cost_of_deployment["month"])
+          const cost_of_deployment:any = Object.values(res6?.data?.data?.cost_of_deployment["6_months"])
           console.log(cost_of_deployment)
-          const cost_of_deploymentkeys:any = Object.keys(res6?.data?.data?.cost_of_deployment["month"])
+          const cost_of_deploymentkeys:any = Object.keys(res6?.data?.data?.cost_of_deployment["6_months"])
           setState({
             ...state,
             admin: res.data.data,
