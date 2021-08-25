@@ -2920,3 +2920,26 @@ padding-left: 34px;
   color: #fd8c00 !important;
 }
 
+
+
+.eff {
+    color: #333333;
+    /* width: 40px; */
+    /* height: 40px; */
+    /* background: #cccccc; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: .5rem;
+}
+#dropdown-basic1::after{
+  display: none;
+}
+.payment_nav{
+  min-width: 200px !important;
+}
+.flex-custom12{
+  text-align: left;
+  padding-top: 1rem;
+  margin-top: 1rem;
+}

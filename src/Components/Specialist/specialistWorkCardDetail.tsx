@@ -99,7 +99,6 @@ const SpecialistWorkOrderDetails = (props) => {
   }
 const  upLoadFile= ({target: {files}})=>{
    console.log(files[0])
-   const filename=files[0].name
    let data = new FormData();
    data.append( "worksheet", files[0]);
    data.append( "group_id", work_group.id);
@@ -134,6 +133,10 @@ const  upLoadFile= ({target: {files}})=>{
  })
      .catch((err)=>{
         console.log(err.response)
+        setState({
+          ...state,
+          isloading: false,
+        });
           notify("failed to upload work sheet")
      })
   }
@@ -223,7 +226,7 @@ const  upLoadFile= ({target: {files}})=>{
           <DashboardNav />
         </Row>
         <div id="overview"></div>
-        <Row className="rowt3 row3t2">
+        <Row className="splrowt3 row3t2">
           <Col md={12} className="job34">
             <div className="title_wo title_wo12">
               <div className="workorderheader fixedtitle">
@@ -254,7 +257,7 @@ const  upLoadFile= ({target: {files}})=>{
                   to="#specialist_details"
                   activeStyle={{ background: "#fd8b003b", color: "#fd8c00" }}
                 >
-                  Work Sheet Details
+                  Work Sheets
                 </NavHashLink>
                 <NavHashLink
                   className="bview"
@@ -264,7 +267,7 @@ const  upLoadFile= ({target: {files}})=>{
                    Payments
                 </NavHashLink>
               </Col>
-              <Col md={10} className="job23_1a_splst">
+              <Col md={9} className="job23_1a_splst">
                 <div id="specialist_details"></div>
                 <div className="job23_1a">
                   <div className="">
@@ -351,9 +354,17 @@ const  upLoadFile= ({target: {files}})=>{
                     <div>
                       <hr />
                     </div>
-                    {work_order_detail.can_upload_worksheet == true &&(
+                    
                     <div className="active_member23">
-                      <div className="active_worksheet">WORKS SHEETS <span className="acceptablefile text-info"><span className="acceptablefile text-dark">Acceptable document format:</span>pdf, docx, doc,xlsx,xls,jpeg,png <b><span className="acceptablefile text-dark">Max size:</span> 500kb</b> </span></div>
+                    {work_order_detail.can_upload_worksheet == true &&(
+                      <div className="active_worksheet">WORKS SHEETS
+                       <span className="acceptablefile text-info">
+                         <span className="acceptablefile text-dark">Acceptable document format: </span>
+                            pdf, docx, doc,xlsx,xls,jpeg,png <b>
+                        <span className="acceptablefile text-dark">Max size:</span> 500kb</b> 
+                      </span> 
+                      </div>
+                      )}
                       <div className="worksheet_1">
                        {worksheet_reports.map((item, index)=>{
                          return(
@@ -382,13 +393,14 @@ const  upLoadFile= ({target: {files}})=>{
                            </>
                          )
                         })} 
+                        {work_order_detail.can_upload_worksheet == true &&(
                          <div className="text-center">
                          <span className="uploadbtn" onClick={handleClick}>{!isloading ? "Upload Worksheet ":" Uploading..."}</span>
                          <input type="file" onChange={upLoadFile} ref={hiddenFileInput}  style={{ display: "none" }}/>
                         </div>
+                         )} 
                       </div>
                     </div>
-                    )} 
                     </div>
                   {/* <h6 className="title22 title22r2" id="actions">
                     Actions

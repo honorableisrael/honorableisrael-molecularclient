@@ -528,9 +528,9 @@ const Admin_Invoice_details = (props) => {
                                   <th className="tablehead">Specialist Cost</th>
                                   <th className="tablehead">Date</th>
                                   <th className="tablehead">Status</th>
-                                  <th className="tablehead">
+                                  {/* <th className="tablehead">
                                     Contractor Payment
-                                  </th>
+                                  </th> */}
                                   <th className="tablehead">Cycle</th>
                                   <th className="tablehead">Action</th>
                                 </tr>
@@ -544,7 +544,7 @@ const Admin_Invoice_details = (props) => {
                                     </td>
                                     <td>{formatTime(data?.date)}</td>
                                     <td>{data?.status}</td>
-                                    <td>
+                                    {/* <td>
                                       {data?.status == "Unpaid" ? (
                                         <Button
                                           onClick={() =>
@@ -557,7 +557,7 @@ const Admin_Invoice_details = (props) => {
                                       ) : (
                                         ""
                                       )}
-                                    </td>
+                                    </td> */}
                                     <td>{data?.cycle}</td>
                                     <td>
                                       {data?.status == "Paid" &&
@@ -580,7 +580,7 @@ const Admin_Invoice_details = (props) => {
                                           }
                                           className="btn-success primary3"
                                         >
-                                          Invoice Reminder
+                                       {!data.sent? "Send Invoice" : "Resend Invoice"} 
                                         </Button>
                                       ) : (
                                         ""

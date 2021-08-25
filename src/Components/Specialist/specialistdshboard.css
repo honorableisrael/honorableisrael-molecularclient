@@ -830,4 +830,16 @@ input:checked + .slider::before{
     .home_pone12{
         width: 100%;
     }
+.invpaystatwrap{
+    min-width: 77px;
 }
+}
+.splrowt3 {
+    padding-top: 7rem;
+    margin-top: 2.45rem;
+    padding-left: 7rem;
+    padding-right: 5rem;
+    background: #e5e5e5;
+    min-height: 97vh;
+    padding-bottom: 5rem;
+  }

@@ -71,14 +71,14 @@ const Specialist_Payment_Invoice = (props) => {
        if(e.target.value > calculateLoanableAmount()){
         return setState({
           ...state,
-          [e.target.name]: calculateLoanableAmount()
+          [e.target.name]: calculateLoanableAmount().toFixed(2)
         });
        }
     }
   };
   const calculateLoanableAmount =() => {
-    const loanableamount = rate * max_requested_amount
-    return loanableamount.toFixed(2)
+    const loanableamount = (rate * max_requested_amount)
+    return loanableamount
   }
   const workModal = (id, index, amount) => {
     console.log(id)
@@ -86,7 +86,7 @@ const Specialist_Payment_Invoice = (props) => {
       ...state,
       cycle_id: id,
       max_requested_amount: amount,
-      requested_amount: rate * amount,
+      requested_amount: (rate * amount)?.toFixed(2),
       terminateWorkModal: true,
     });
   };
@@ -222,7 +222,7 @@ const fieldRef: any = useRef();
       )}
      <div className="splinvoicemodalmssgwrap">
        <i className="fa fa-exclamation fa-rotate-180 invoiceexclm" aria-hidden="true"></i>
-       <p>You can only make a maximum of  {current_currency}{ FormatAmount(0.65 * max_requested_amount)}  from this cycle. </p>
+       <p>You can only make a maximum of  {current_currency}{ FormatAmount((0.65 * max_requested_amount)?.toFixed(2))}  from this cycle. </p>
      </div>
      {/* <div className="splinvoicemodalmssgwrap">
        <i className="fa fa-exclamation fa-rotate-180 invoiceexclm" aria-hidden="true"></i>
@@ -245,8 +245,9 @@ const fieldRef: any = useRef();
                   min={0}
                   max={0.65 * requested_amount} 
                   />
-                </Form.Group></Col>
-        </Row>n
+            </Form.Group>
+          </Col>
+        </Row>
        </form>
        <div className="wrkmodal-btnwrap">
           <span className="wrkmodal-cancelbtn" onClick={closeworkModal}>
@@ -352,6 +353,12 @@ const fieldRef: any = useRef();
                        <span className="paystatindcator"></span>
                        <span className="paystattext">paid</span>
                      </div>
+                    )}
+                    {data.status == "Not Due" &&(
+                      <div className="invpaystatwrap pendinwrap">
+                      <span className="paystatindcator pendininvoice"></span>
+                      <span className="paystattext pendininvtext">Not Due</span>
+                    </div>
                     )}
                     {data.status == "Outstanding" &&(
                       <div className="invpaystatwrap pendinwrap">

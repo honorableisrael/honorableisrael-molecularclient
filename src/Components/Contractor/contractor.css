@@ -340,8 +340,8 @@ text {
 .rowt3 {
   padding-top: 2rem;
   margin-top: 2.45rem;
-  padding-left: 5rem;
-  padding-right: 7rem;
+  padding-left: 7rem;
+  padding-right: 5rem;
   background: #fafafa;
   min-height: 97vh;
   padding-bottom: 5rem;
@@ -1561,7 +1561,7 @@ text {
   margin-left: 29%;
 }
 .job23_1a_splst{
-  margin-left: 20%;
+  margin-left: 22%;
 }
 a,a:focus,a:active{
   color: initial;
