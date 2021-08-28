@@ -22,6 +22,7 @@ import Qualification from "./specialistQualification";
 import exclam from "../../images/exclammark.png";
 import SplstBankDetails from "./splstBankDetails";
 
+
 const SpecialistSettings = () => {
   useEffect(() => {
     window.scrollTo(-0, -0);
@@ -121,11 +122,15 @@ const SpecialistSettings = () => {
     if(reader.readyState === 2){
       setState({
         ...state,
-        photo: reader.result
+        photo: reader.result,
       })
     }
   }
+
   reader.readAsDataURL(e.target.files[0]);
+
+    console.log(photo)
+
   console.log(e.target.files[0]);
       // upload image to server; 
      const availableToken = localStorage.getItem("loggedInDetails");
@@ -133,7 +138,7 @@ const SpecialistSettings = () => {
      const token = availableToken ? JSON.parse(availableToken) : "";
      console.log(token);
       const imageData = new FormData()
-      imageData.append("image" , photo);
+      imageData.append("image" , e.target.files[0]);
      console.log(imageData);
      axios.post(`${API}/photo`,imageData, {
        headers: {
@@ -145,7 +150,7 @@ const SpecialistSettings = () => {
      .then((res)=>{
        console.log(res.data);
        setTimeout(()=>{
-          notify("Successful")
+          notify("image uploaded Successfully")
        },1000)
      })
      .catch((err)=>{
@@ -880,7 +885,7 @@ const fieldRef: any = useRef();
                   )}  
                   {/* Third Tab ends*/}
                   {fourthtab && (
-                    <>
+                    <div>
                       <Row className="section_form1">
                         <Col md={12}>
                           <h3 className="userprofile userprofile12 profillabels">
@@ -907,7 +912,7 @@ const fieldRef: any = useRef();
                           </span>
                         </Col>
                       </Row>
-                    </>
+                    </div>
                   )}
                   {/* fifthtab  starts*/}
                   {fifthtab &&(
