@@ -1,5 +1,5 @@
 import React, { useState, useEffect,useRef } from "react";
-import { Col, Row, Container, Form, Pagination, Modal } from "react-bootstrap";
+import { Col, Row, Container, Form, Pagination, Modal,Alert } from "react-bootstrap";
 import "../Admin/contractor.css";
 import DashboardNav from "./specialistNavbar";
 import portfolio from "../../images/portfolio.png";
@@ -19,6 +19,7 @@ import { API, formatTime } from "../../config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Payments from "./payments";
+import closeimg from "../../images/closeimg.png";
 
 
 const SpecialistWorkOrderDetails = (props) => {
@@ -44,7 +45,39 @@ const SpecialistWorkOrderDetails = (props) => {
     filename:"",
     worksheet_reports: [{}],
     is_group_leader: false,
+    terminateWorkModal: false,
+    errorMessage:"",
+    successMessage:"",
+    number_of_joints:"",
+    date:"",
+    work_sheet_file:"",
+    spread_name:"",
   });
+  const {
+    work_order_detail,
+    work_sheet_file,
+    work_group,
+    spread_name,
+    number_of_joints,
+    date,
+    worksheet_reports,
+    project_purpose,
+    errorMessage,
+    successMessage,
+    country,
+    work_order_description,
+    order_title,
+    end_date,
+    terminateWorkModal,
+    filename,
+    isloading,
+    reason,
+    location_terrain,
+    start_date,
+    show,
+    is_group_leader,
+    hour
+  }: any= state;
   const onchange = (e) => {
     console.log(e.target.value);
     setState({
@@ -97,70 +130,89 @@ const SpecialistWorkOrderDetails = (props) => {
   const notify = (message: string, type = "B") =>{
     toast(message, { containerId: type, position: "top-right" });
   }
-const  upLoadFile= ({target: {files}})=>{
-   console.log(files[0])
-   const filename=files[0].name
-   let data = new FormData();
-   data.append( "worksheet", files[0]);
-   data.append( "group_id", work_group.id);
-
-   const availableToken: any = localStorage.getItem("loggedInDetails");
-   const token = availableToken ? JSON.parse(availableToken) : "";
-   console.log(token);
-   const work_order = localStorage.getItem("work_order_details");
-   const work_order_details = work_order ? JSON.parse(work_order) : "";
-   
-   setState({
-    ...state,
-    isloading: true,
-  })
-   axios
-     .post(`${API}/specialist/work-orders/${work_order_details?.id}/worksheets`,data, {
-       headers: { Authorization: `Bearer ${token.access_token}` },
-     })
-     .then((res)=>{
-        console.log(res.data) 
-        if(res.data.success == true){
-      setState({
-        ...state,
-        isloading: false,
-      });
-      notify("Work sheet uploaded successfully")
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
-    }
-
- })
-     .catch((err)=>{
-        console.log(err.response)
-          notify("failed to upload work sheet")
-     })
-  }
   const hiddenFileInput: any= useRef();
   const handleClick = event => {
     hiddenFileInput.current.click();
   };
-  
+const  upLoadFile= ({target: {files}})=>{
+   console.log(files[0])
+   setState({
+     ...state,
+     filename: files[0].name,
+     work_sheet_file: files[0]
+   })
+  };
+  const postWorkSheetDetails =()=>{
+   let data = new FormData();
+   data.append( "worksheet", work_sheet_file);
+   data.append( "group_id", work_group.id);
+   data.append("spread_name", spread_name );
+   data.append("number_of_joints", number_of_joints);
+   data.append("date", date);
+   
+   const availableToken: any = localStorage.getItem("loggedInDetails");
+   const token = availableToken ? JSON.parse(availableToken) : "";
+       console.log(token);
+   const work_order = localStorage.getItem("work_order_details");
+       const work_order_details = work_order ? JSON.parse(work_order) : "";
+   
+    setState({
+    ...state,
+     isloading: true,
+     })
+   axios
+     .post(`${API}/specialist/work-orders/${work_order_details?.id}/worksheets`,data, {
+        headers: { Authorization: `Bearer ${token.access_token}` },
+     })
+     .then((res)=>{
+         console.log(res.data) 
+        if(res.data.success == true){
+       setState({
+        ...state,
+        isloading: false,
+        terminateWorkModal: false
+      });
+       notify("Work sheet uploaded successfully")
+       setTimeout(() => {
+         window.location.reload();
+      }, 2000);
+     }
 
-  const {
-    work_order_detail,
-    work_group,
-    worksheet_reports,
-    project_purpose,
-    country,
-    work_order_description,
-    order_title,
-    end_date,
-    filename,
-    isloading,
-    reason,
-    location_terrain,
-    start_date,
-    show,
-    is_group_leader,
-    hour
-  }: any= state;
+  })
+      .catch((err)=>{
+         console.log(err.response)
+        setState({
+           ...state,
+           isloading: false,
+           errorMessage: err?.response?.data?.message,
+         });
+           notify("failed to upload work sheet")
+      })
+  }
+  const validateForm= ()=>{
+    if (work_sheet_file == ""){
+    setState({
+      ...state,
+      errorMessage: "please upload your Worksheet"
+    })
+    }
+    else{
+      postWorkSheetDetails()
+    }
+  }
+  const workModal = () => {
+    setState({
+      ...state,
+      terminateWorkModal: true,
+    });
+  };
+  const closeworkModal = () => {
+    setState({
+      ...state,
+      terminateWorkModal: false
+    });
+  };
+ 
   return (
     <>
       <ToastContainer
@@ -214,6 +266,93 @@ const  upLoadFile= ({target: {files}})=>{
         </Modal.Body>
       </Modal>
       <Container fluid={true}>
+      <Modal
+        centered={true}
+        onHide={closeworkModal}
+        show={terminateWorkModal}
+       >
+      <div className="terminateworkmodalwrap">
+       <div className="terminateworkmodalimg">
+         <img
+          src={closeimg}
+          alt="close"
+          onClick={closeworkModal}
+        />
+     </div>
+      <div className="terminateworkmodaltitle" >
+         Work Sheet Details
+      </div>
+      {successMessage && (
+         <Alert key={2} variant="success" className="alertmessg">
+            {successMessage}
+         </Alert>
+      )}
+      {errorMessage && (  
+         <Alert key={2} variant="danger" className="alertmessg">
+            {errorMessage}
+         </Alert>
+      )}
+      <form>
+      <Row>
+          <Col md={12} className="formsection1">
+            <Form.Group>
+                <h6 className="userprofile userprofile12">
+                    Spread Name
+                </h6>
+                <Form.Control
+                  type="text"
+                  name="spread_name"
+                  value={work_group == null ? "Not grouped" : work_group.name} 
+                  className="userfield"
+                  onChange={onchange}
+                  />
+            </Form.Group>
+          </Col>
+        </Row>
+        <Row>
+          <Col md={6} className="formsection1">
+            <Form.Group>
+                <h6 className="userprofile userprofile12">
+                    Number of Joints
+                </h6>
+                <Form.Control
+                  type="number"
+                  name="number_of_joints" 
+                  className="userfield"
+                  onChange={onchange}
+                  value={number_of_joints}
+                  min={0}
+                  />
+            </Form.Group>
+          </Col>
+          <Col md={6} className="formsection1">
+            <Form.Group>
+                <h6 className="userprofile userprofile12">
+                    Date of Operation
+                </h6>
+                <Form.Control
+                  type="date"
+                  name="date"
+                  value={date} 
+                  className="userfield"
+                  onChange={onchange}
+                  />
+            </Form.Group>
+          </Col>
+        </Row>
+        <p><span className="modalupldwrksheetbtn" onClick={handleClick}>Upload Work Sheet: </span> {filename} </p>
+        <input type="file" onChange={upLoadFile} ref={hiddenFileInput}  style={{ display: "none" }}/>
+       </form>
+       <div className="wrkmodal-btnwrap">
+          <span className="wrkmodal-cancelbtn" onClick={closeworkModal}>
+            Cancel
+          </span>
+          <span className="profcertbtn upfrmodalbtn" onClick={validateForm}>
+            {!isloading ? "Add Work Sheet" : "Adding..."}
+          </span> 
+       </div>
+    </div>
+   </Modal>
         <Helmet>
           <meta charSet="utf-8" />
           <title>Molecular - Specialist Work Order</title>
@@ -223,7 +362,7 @@ const  upLoadFile= ({target: {files}})=>{
           <DashboardNav />
         </Row>
         <div id="overview"></div>
-        <Row className="rowt3 row3t2">
+        <Row className="splrowt3 row3t2">
           <Col md={12} className="job34">
             <div className="title_wo title_wo12">
               <div className="workorderheader fixedtitle">
@@ -254,17 +393,17 @@ const  upLoadFile= ({target: {files}})=>{
                   to="#specialist_details"
                   activeStyle={{ background: "#fd8b003b", color: "#fd8c00" }}
                 >
-                  Specialist Details
+                  Work Sheets
                 </NavHashLink>
                 <NavHashLink
                   className="bview"
                   to="#specialist_payments"
                   activeStyle={{ background: "#fd8b003b", color: "#fd8c00" }}
                 >
-                  Specialist payments
+                   Payments
                 </NavHashLink>
               </Col>
-              <Col md={10} className="job23_1a_splst">
+              <Col md={9} className="job23_1a_splst">
                 <div id="specialist_details"></div>
                 <div className="job23_1a">
                   <div className="">
@@ -351,16 +490,25 @@ const  upLoadFile= ({target: {files}})=>{
                     <div>
                       <hr />
                     </div>
-                    {work_order_detail.can_upload_worksheet == true &&(
+                    
                     <div className="active_member23">
-                      <div className="active_worksheet">WORKS SHEETS <span className="acceptablefile text-info"><span className="acceptablefile text-dark">Acceptable document format:</span>pdf, docx, doc,xlsx,xls,jpeg,png <b><span className="acceptablefile text-dark">Max size:</span> 500kb</b> </span></div>
+                    {work_order_detail.can_upload_worksheet == true &&(
+                      <div className="active_worksheet">WORKS SHEETS
+                       <span className="acceptablefile text-info">
+                         <span className="acceptablefile text-dark">Acceptable document format: </span>
+                            pdf, docx, doc,xlsx,xls,jpeg,png <b>
+                        <span className="acceptablefile text-dark">Max size:</span> 500kb</b> 
+                      </span> 
+                      </div>
+                      )}
                       <div className="worksheet_1">
                        {worksheet_reports.map((item, index)=>{
                          return(
                            <>
                          <div className="splsttabledata tablecontent tablecont1" key={index}>
-                          <div className="header_12 tablecont0">
+                          <div className="header_12 spltablecont0 ">
                             <span>Work Sheet Week{item.week}</span>
+                            <span className="nofjntsspan">Number of Joints : {item.number_of_joints} </span>
                           </div>
                           <div className="tablecont1">
                             <a href={item.worksheet}>
@@ -382,13 +530,13 @@ const  upLoadFile= ({target: {files}})=>{
                            </>
                          )
                         })} 
+                        {work_order_detail.can_upload_worksheet == true &&(
                          <div className="text-center">
-                         <span className="uploadbtn" onClick={handleClick}>{!isloading ? "Upload Worksheet ":" Uploading..."}</span>
-                         <input type="file" onChange={upLoadFile} ref={hiddenFileInput}  style={{ display: "none" }}/>
+                         <span className="uploadbtn" onClick={workModal}>Add Worksheet</span>
                         </div>
+                         )} 
                       </div>
                     </div>
-                    )} 
                     </div>
                   {/* <h6 className="title22 title22r2" id="actions">
                     Actions

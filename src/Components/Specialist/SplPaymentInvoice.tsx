@@ -245,7 +245,8 @@ const fieldRef: any = useRef();
                   min={0}
                   max={0.65 * requested_amount} 
                   />
-                </Form.Group></Col>
+            </Form.Group>
+          </Col>
         </Row>
        </form>
        <div className="wrkmodal-btnwrap">
@@ -278,12 +279,12 @@ const fieldRef: any = useRef();
                 View Payment
               </div>
             </div>
-            {PaymentErrorMessage &&(
-              <div className="wrktimelinediv" >
-                <img src={exclam} alt="img" />
+            {PaymentErrorMessage && (
+              <div className="wrktimelinediv">
+                <img src={exclam} alt="img"/>
                 <p>sorry you cannot make an Early payment request now</p>
                 <div className="terminateworkmodalimg" onClick={toggleErrormessageClose}>
-                  <i className="fa fa-times" ></i>
+                  <i className="fa fa-times"></i>
                 </div>
               </div>
              )}
@@ -291,7 +292,7 @@ const fieldRef: any = useRef();
               <div className="spltpaybreakdwn-logowrap">
                 <div>
                   <p className="brkdwn">Breakdown ID</p>
-                  <p className="brkdwn-id">  {invoice_details?.number }</p>
+                  <p className="brkdwn-id">{invoice_details?.number}</p>
                 </div>
                 <div>
                   <img src={logo} alt="molecular-logo" />
@@ -328,7 +329,7 @@ const fieldRef: any = useRef();
                       <th>Amount Paid</th>
                       <th>Status</th>
                       <th>Date</th>
-                      <th>Request Early Payment</th>
+                      <th></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -353,10 +354,16 @@ const fieldRef: any = useRef();
                        <span className="paystattext">paid</span>
                      </div>
                     )}
-                    {data.status == "Unpaid" &&(
+                    {data.status == "Not Due" &&(
                       <div className="invpaystatwrap pendinwrap">
                       <span className="paystatindcator pendininvoice"></span>
-                      <span className="paystattext pendininvtext">Unpaid</span>
+                      <span className="paystattext pendininvtext">Not Due</span>
+                    </div>
+                    )}
+                    {data.status == "Outstanding" &&(
+                      <div className="invpaystatwrap pendinwrap">
+                      <span className="paystatindcator pendininvoice"></span>
+                      <span className="paystattext pendininvtext">Outstanding</span>
                     </div>
                     )}
                    </td> 
@@ -364,14 +371,14 @@ const fieldRef: any = useRef();
                    <td>
                        {data.can_make_upfront == true &&(
                         <span className="upfrontbtn" onClick={()=>workModal(data.id, index,data.amount)}>
-                          Request Payment
+                          Request Early Payment
                         </span>
                        )}
-                      {data.can_make_upfront == false && (
+                      {/* {data.can_make_upfront == false && (
                        <span className="upfrontbtn inactivebtn" onClick={toggleErrormessage}>
-                         Request Payment
+                         Request Early Payment
                        </span>
-                      )}
+                      )} */}
                    </td>
                   </tr>
                     ))} 

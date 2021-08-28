@@ -33,7 +33,12 @@ const DashboardNav = props => {
       anchorEl: null
     });
   };
-
+const mobilenavbar =()=>{
+  setState({
+    ...state,
+    NavisOpen: !NavisOpen
+  });
+}
   useEffect(() => {
     window.scrollTo(-0, -0);
     const availableToken = localStorage.getItem("loggedInDetails");
@@ -96,20 +101,6 @@ const DashboardNav = props => {
                   Works
                 </NavLink>
               </div>
-              {/* <div>
-                <NavLink
-                  to="/payments"
-                  className="spclstnavlinks"
-                  activeStyle={{
-                    padding: "33px 30px 27px 30px",
-                    backgroundColor: "#fd8b003a",
-                    borderBottom: "3px solid #fd8c00",
-                    color: "#333333"
-                  }}
-                >
-                  Payments
-                </NavLink>
-              </div> */}
               <div>
                 <NavLink
                   to="/settings"
@@ -170,14 +161,20 @@ const DashboardNav = props => {
               </Menu>
             </div>
           </div>
+          <Link to="/specialistnotifications">
+            <div className="mobilenotifcationbell">
+             <span className="fa fa-bell"></span>
+            </div>
+          </Link>
+          <span className=" mobileinitialsdsply">
+            {capitalize(user_details?.first_name?.split("")[0])}
+            {capitalize(user_details?.last_name?.split("")[0])}
+          </span>
         <div
           className="mobileham"
-          //   onClick={() => {
-          //     setState({
-          //       NavisOpen: NavisOpen ? false : true,
-          //     });
-          //   }}
+            onClick={mobilenavbar}
         >
+        
           {!NavisOpen ? (
             <>
               <div className="ham1 animated slideInLeft"></div>
@@ -193,33 +190,59 @@ const DashboardNav = props => {
         <div className="ismobile animated slideInDown">
           <div className="siggnup1 animated slideInRight">
             {" "}
-            <Link to="/">
+            <NavLink
+             to="/specialistdashboard" 
+             className="spclstnavlinks mobilesidenallinks"
+              activeStyle={{
+                  padding: "20px 86px ",
+                  backgroundColor: "#fd8b003a",
+                  borderLeft: "3px solid #fd8c00",
+                  color: "#333333"
+                }}>
               <span className="navsignup2">Dashboard</span>
-            </Link>
+            </NavLink>
           </div>
           <div className="siggnup1 animated slideInRight">
             {" "}
-            <Link to="/properties">
-              <span className="navsignup2">Job Offers</span>
-            </Link>
+            <NavLink
+               className="spclstnavlinks mobilesidenallinks"
+               activeStyle={{
+                   padding: "20px 100px",
+                   backgroundColor: "#fd8b003a",
+                   borderLeft: "3px solid #fd8c00",
+                   color: "#333333"
+                 }}
+             to="/works"
+             >
+              <span className="navsignup2">Works</span>
+            </NavLink>
           </div>
           <div className="siggnup1 animated slideInRight">
             {" "}
-            <Link to="/mortgage">
-              <span className="navsignup2">Profile</span>
-            </Link>
-          </div>
-          <div className="siggnup1 animated slideInRight">
-            {" "}
-            <Link to="/contact">
+            <NavLink 
+              className="spclstnavlinks mobilesidenallinks"
+            activeStyle={{
+                  padding: "20px 100px",
+                  backgroundColor: "#fd8b003a",
+                  borderLeft: "3px solid #fd8c00",
+                  color: "#333333"
+              }}
+            to="/settings"
+            >
               <span className="navsignup2">Settings</span>
-            </Link>
+            </NavLink>
           </div>
-          <div className="siggnup animated slideInRight">
+          <div className="siggnup1 animated slideInRight">
             {" "}
-            <Link to="/signup">
-              <Button className="navsignup navsignup1">Sign Up</Button>
-            </Link>
+            <div 
+              className="spclstnavlinks mobilesidenallinks"
+            onClick={()=>{
+              localStorage.clear()
+              window.location.assign("/#signin")
+            }}
+            >
+              <span className="navsignup2">Log Out</span>
+            </div>
           </div>
         </div>
       ) : (

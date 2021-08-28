@@ -365,7 +365,7 @@
     font-size: 14px;
     line-height: 16px;
     padding: 6px;
-    width: 47%;
+    width: 65%;
 }
 .paystatindcator{
     width: 10px;
@@ -625,6 +625,9 @@
     border-top: 1px solid #999999;
     padding-top: 16px;
 }
+.bnkwrapdemacator{
+    padding-top: 16px;
+}
 .projdateperiod{
     font-size: 13px;
     color: #999999;
@@ -814,6 +817,44 @@ input:checked + .slider::before{
 .terminainvtxt{
     color: #D00219;
 }
+/* mobile screen */
+@media(max-width: 760px){
+    .orders1{
+        display: none;
+    }
+    .rowta{
+        padding-left:1rem;
+        padding-right: 1rem;
+    }
+    .namestyle111{
+        margin-left: 0;
+        padding:0;
+    }
+    .home_pone12{
+        width: 100%;
+    }
 .invpaystatwrap{
     min-width: 77px;
 }
+}
+.splrowt3 {
+    padding-top: 7rem;
+    margin-top: 2.45rem;
+    padding-left: 7rem;
+    padding-right: 5rem;
+    background: #e5e5e5;
+    min-height: 97vh;
+    padding-bottom: 5rem;
+  }
+  .modalupldwrksheetbtn{
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 15px;
+  }
+  .nofjntsspan{
+     font-weight: 600;
+     margin-left: 64px; 
+  }
+  .spltablecont0{
+      width: 100%;
+  }
