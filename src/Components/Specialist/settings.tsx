@@ -20,7 +20,7 @@ import Projects from "./specialistProject";
 import Certification from "./specialistCertification";
 import Qualification from "./specialistQualification";
 import exclam from "../../images/exclammark.png";
-
+import SplstBankDetails from "./splstBankDetails";
 
 const SpecialistSettings = () => {
   useEffect(() => {
@@ -32,6 +32,7 @@ const SpecialistSettings = () => {
     secondtab: false,
     thirdtab: false,
     fourthtab: false,
+    fifthtab:false,
     show: false,
     user: "",
     userExperience:"",
@@ -73,6 +74,7 @@ const SpecialistSettings = () => {
     thirdtab,
     fourthtabInactive,
     fourthtab,
+    fifthtab,
     total_works,
     status,
     verified,
@@ -161,6 +163,7 @@ const SpecialistSettings = () => {
         secondtab: false,
         thirdtab: false,
         fourthtab: false,
+        fifthtab: false
       });
     }
     if (a == "secondtab") {
@@ -170,6 +173,7 @@ const SpecialistSettings = () => {
         secondtab: true,
         thirdtab: false,
         fourthtab: false,
+        fifthtab: false
       });
     }
     if (a == "thirdtab") {
@@ -179,6 +183,7 @@ const SpecialistSettings = () => {
         secondtab: false,
         thirdtab: true,
         fourthtab: false,
+        fifthtab: false
       });
     }
     if (a == "fourthtab") {
@@ -188,6 +193,17 @@ const SpecialistSettings = () => {
         secondtab: false,
         thirdtab: false,
         fourthtab: true,
+        fifthtab: false
+      });
+    }
+    if (a == "fifthtab") {
+      return setState({
+        ...state,
+        firsttab: false,
+        secondtab: false,
+        thirdtab: false,
+        fourthtab: false,
+        fifthtab: true
       });
     }
   };
@@ -577,6 +593,21 @@ const fieldRef: any = useRef();
                        Qualifications
                       </div>
                     )}
+                    {fifthtab ? (
+                      <div
+                        className="Profile2002 Profile2002a"
+                        onClick={() => switchTab("fifthtab")}
+                      >
+                        Bank Account Details
+                      </div>
+                    ) : (
+                      <div
+                        className={`Profile2002 Profile2002a inactivebordr ${fourthtabInactive}`}
+                        onClick={() => switchTab("fifthtab")}
+                      >
+                         Bank Account Details
+                      </div>
+                    )}
                     {fourthtab ? (
                       <div
                         className="Profile2002 Profile2002a"
@@ -878,6 +909,17 @@ const fieldRef: any = useRef();
                       </Row>
                     </>
                   )}
+                  {/* fifthtab  starts*/}
+                  {fifthtab &&(
+                      <div>
+                        <Row className="profileceriticatesectn">
+                        <Col md={12}>
+                        <SplstBankDetails/>
+                       </Col> 
+                      </Row>
+                      </div>
+                  )}
+                  {/* fifthtab  ends*/}
                   {/* <ProFileInfo /> */}
                 </div>
               </div>
