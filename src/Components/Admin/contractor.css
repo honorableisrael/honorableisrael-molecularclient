@@ -2936,10 +2936,36 @@ padding-left: 34px;
   display: none;
 }
 .payment_nav{
-  min-width: 200px !important;
+  min-width: 240px !important;
 }
 .flex-custom12{
   text-align: left;
   padding-top: 1rem;
   margin-top: 1rem;
+}
+.payspecialist1{
+  font-size: 14px;
+}
+#dropdown-basic1:focus{
+  box-shadow: none;
+  outline: none !important;
+}
+.contractorname{
+  width:140px;
+  overflow: hidden;
+}
+.deployflex{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 2rem;
+}
+.flxf1{
+  display: flex;
+  align-items: baseline;
+}
+.pslstnamecell{
+  padding-top: 1rem !important;
+  display: flex;
+  align-items: center;
 }

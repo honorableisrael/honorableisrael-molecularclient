@@ -402,3 +402,9 @@
   padding-left: 1rem !important;
   padding-right: 1rem !important;
 }
+
+.dropdown-item {
+  display: block;
+  width: 100%;
+  padding: 1.25rem 1.5rem;
+}

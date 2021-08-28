@@ -155,7 +155,7 @@ const DashboardNav = withRouter((props) => {
                         to={"/admin_payment_invoice"}
                         className="flex-custom12"
                       >
-                        All payments
+                      Payments and Invoices
                       </Link>
                     </span>
                   </Dropdown.Item>
@@ -218,12 +218,7 @@ const DashboardNav = withRouter((props) => {
                   {isloading && <Spinner animation="grow" />}
                 </Dropdown.Item>
                 {/* <Dropdown.Item href="#/action-1"><Link to="/user-profile">Settings</Link></Dropdown.Item> */}
-                <Dropdown.Item
-                  href="#/action-2"
-                  className="animated fadeInLeft"
-                >
-                  {/* <img src={exit} className="exit" /> Log out */}
-                </Dropdown.Item>
+               
               </Dropdown.Menu>
             </Dropdown>
           </div>

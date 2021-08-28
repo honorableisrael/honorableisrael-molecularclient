@@ -312,7 +312,7 @@ const AssignSpecialist = () => {
         console.log(res);
         setState({
           ...state,
-          isloading: true,
+          isloading: false,
         });
         notify("Successfully assigned specialist");
         setTimeout(() => {
@@ -322,7 +322,7 @@ const AssignSpecialist = () => {
       .catch((err) => {
         setState({
           ...state,
-          isloading: true,
+          isloading: false,
         });
         console.log(err);
         notify("Failed to assign specialist", "D");

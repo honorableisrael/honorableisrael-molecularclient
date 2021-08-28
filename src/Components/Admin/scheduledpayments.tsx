@@ -30,10 +30,11 @@ const ScheduledPayments = withRouter((props) => {
     active: false,
     thirdtab: false,
     chevron: "",
-    selectedspecialist: "",
+    selectedspecialist: [],
     work_order_detail: {},
     workDetails: {},
     isloading: false,
+    id: "",
     ungrouped: false,
     grouped: false,
     allUngrouped: [],
@@ -66,7 +67,7 @@ const ScheduledPayments = withRouter((props) => {
     allUngrouped,
     isloading,
     group_name,
-    group_description,
+    id,
     show,
     show2,
     ungrouped,
@@ -123,6 +124,10 @@ const ScheduledPayments = withRouter((props) => {
 
   const get_all = () => {
     const token = returnAdminToken();
+    setState({
+      ...state,
+      isloading:true
+    })
     const work_order = localStorage.getItem("work_order_details");
     const work_order_details = work_order ? JSON.parse(work_order) : "";
     axios
@@ -133,18 +138,23 @@ const ScheduledPayments = withRouter((props) => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data.data);
+          console.log(res.data.data);
           setState({
             ...state,
             ...res.data.data.links,
             ...res.data.data.meta,
             allAssignedSpecialist: res.data.data.data,
+            isloading:false
           });
           console.log(work_order_detail);
         })
       )
       .catch((err) => {
         console.log(err);
+        setState({
+          ...state,
+          isloading:false
+        })
       });
   };
 
@@ -173,6 +183,7 @@ const ScheduledPayments = withRouter((props) => {
             ...state,
             ...res.data.data.links,
             ...res.data.data.meta,
+            allAssignedSpecialist: res.data.data.data,
           });
         })
       )
@@ -180,10 +191,107 @@ const ScheduledPayments = withRouter((props) => {
         console.log(err);
       });
   };
-  const openModal = () => {
+  const openModal = (id) => {
     setState({
       ...state,
       show: true,
+      id: id,
+    });
+  };
+  const openModal2 = () => {
+    setState({
+      ...state,
+      show2: true,
+    });
+  };
+  const initialize_payment_gatewate = () => {
+    setState({
+      ...state,
+      isloading: true,
+    });
+    const availableToken: any = localStorage.getItem("loggedInDetails");
+    const token = availableToken
+      ? JSON.parse(availableToken)
+      : window.location.assign("/");
+    const data = {
+      payments: [id],
+    };
+    console.log(data);
+    axios
+      .post(`${API}/admin/scheduled-payments/pay`, data, {
+        headers: { Authorization: `Bearer ${token.access_token}` },
+      })
+      .then((res) => {
+        console.log(res);
+        setState({
+          ...state,
+          isloading: false,
+        });
+        notify("Payment Successfully");
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      })
+      .catch((err) => {
+        setState({
+          ...state,
+          isloading: false,
+        });
+        console.log(err);
+        notify("Failed to make payment", "D");
+      });
+  };
+  const make_batch_payment = () => {
+    setState({
+      ...state,
+      isloading: true,
+    });
+    const availableToken: any = localStorage.getItem("loggedInDetails");
+    const token = availableToken
+      ? JSON.parse(availableToken)
+      : window.location.assign("/");
+    const data = {
+      payments: selectedspecialist,
+    };
+    console.log(data);
+    axios
+      .post(`${API}/admin/scheduled-payments/pay`, data, {
+        headers: { Authorization: `Bearer ${token.access_token}` },
+      })
+      .then((res) => {
+        console.log(res);
+        setState({
+          ...state,
+          isloading: false,
+        });
+        notify("Payment Successfully");
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      })
+      .catch((err) => {
+        setState({
+          ...state,
+          isloading: false,
+        });
+        console.log(err);
+        notify("Failed to make payment", "D");
+      });
+  };
+  const sendSpecialistId = (id: any) => {
+    const add_new: any = [id];
+    const old_array = state.selectedspecialist;
+    const index = old_array.indexOf(id);
+    if (index > -1) {
+      old_array.splice(index, 1);
+      return setState({
+        ...state,
+        selectedspecialist: [...old_array],
+      });
+    }
+    setState({
+      ...state,
+      selectedspecialist: [...state.selectedspecialist, ...add_new],
     });
   };
   return (
@@ -193,23 +301,103 @@ const ScheduledPayments = withRouter((props) => {
         <title>Molecular - Scheduled Payments</title>
         <link />
       </Helmet>
-
+      <Modal
+        size="sm"
+        show={show}
+        onHide={() =>
+          setState({
+            ...state,
+            show: false,
+          })
+        }
+        dialogClassName="modal-90w"
+        className="mdl12c"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="example-custom-modal-styling-title">
+            Confirm Payment
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Row>
+            <Col md={12}>
+              <h6>Please confirm payment</h6>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={12} className="terminate2">
+              <Button
+                className="btn-success succinline"
+                onClick={() => {
+                  setState({
+                    ...state,
+                    show2: false,
+                  });
+                }}
+              >
+                Cancel
+              </Button>
+              <div className="" onClick={initialize_payment_gatewate}>
+                <Button className="btn-success primary3">
+                  {isloading ? "Processing" : "Make Payment"}
+                </Button>
+              </div>
+            </Col>
+          </Row>
+        </Modal.Body>
+      </Modal>
+      <Modal
+        size="sm"
+        show={show2}
+        onHide={() =>
+          setState({
+            ...state,
+            show2: false,
+          })
+        }
+        dialogClassName="modal-90w"
+        className="mdl12c"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="example-custom-modal-styling-title">
+            Batch Payment
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Row>
+            <Col md={12}>
+              <h6>
+                Please confirm payment of {selectedspecialist?.length} selected
+                specialists
+              </h6>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={12} className="terminate2">
+              <Button
+                className="btn-success succinline"
+                onClick={() => {
+                  setState({
+                    ...state,
+                    show2: false,
+                  });
+                }}
+              >
+                Cancel
+              </Button>
+              <div className="" onClick={make_batch_payment}>
+                <Button className="btn-success primary3">
+                  {isloading ? "Processing" : "Make Payment"}
+                </Button>
+              </div>
+            </Col>
+          </Row>
+        </Modal.Body>
+      </Modal>
       <DashboardNav />
       <Container fluid>
         <Row className="depsplstrow">
           <Col md={11}>
-            <div className="title_wo title_wo12 title_wo_">
-              <div className="workorderheader">
-                <Link to="/admin_work_details?inreview=true">
-                  {" "}
-                  <img src={arrowback} className="arrowback" />
-                </Link>
-                &nbsp; Scheduled Payments
-              </div>
-              <div className="manage_" onClick={openModal}>
-                Manage Groups
-              </div>
-            </div>
             <div className="dpsplsttabs">
               {/* <div
                 onClick={() => get_all("overview")}
@@ -230,14 +418,27 @@ const ScheduledPayments = withRouter((props) => {
                 Grouped
               </div> */}
             </div>
+            {isloading && <Spinner animation={"grow"} />}
             <div>
               {overview && (
                 <div>
-                  <div className="deploysplstheader">
-                    <div className="depsplstimg">
-                      <img src={blueavatar} alt="img" />
+                  <div className="deploysplstheader deployflex">
+                    <div className="flxf1">
+                      <div className="depsplstimg">
+                        <img src={blueavatar} alt="img" />
+                      </div>
+                      <p>Scheduled Payments</p>
                     </div>
-                    <p>All Specialists payment</p>
+                    <div>
+                      {selectedspecialist.length !== 0 && (
+                        <Button
+                          onClick={() => openModal2()}
+                          className="payspecialist1"
+                        >
+                          Make Batch Payment
+                        </Button>
+                      )}
+                    </div>
                   </div>
                   <div className="deployedsplsttable">
                     <Table hover>
@@ -255,13 +456,25 @@ const ScheduledPayments = withRouter((props) => {
                       <tbody>
                         {allAssignedSpecialist?.map((data: any, i) => (
                           <tr key={i}>
-                            <td className="dpslstnamecell">
+                            <td className="dpslstnamecell pslstnamecell">
                               <div className="dplsplusernmeimg">
-                                <span></span>
+                                {/* <span></span> */}
+                                <input
+                                  type="checkbox"
+                                  name="radio"
+                                  checked={selectedspecialist.includes(data.id)}
+                                  onClick={() => sendSpecialistId(data.id)}
+                                />{" "}
+                                &nbsp; &nbsp;
                                 <div>{data.specialist}</div>
                               </div>
                             </td>
-                            <td>{data?.contractor}</td>
+                            <td
+                              className="contractorname"
+                              title={data?.contractor}
+                            >
+                              {data?.contractor}
+                            </td>
                             <td>{data?.description}</td>
                             <td>{data?.account_number}</td>
                             <td>{data?.reference}</td>
@@ -269,7 +482,7 @@ const ScheduledPayments = withRouter((props) => {
                             <td>
                               {data?.status == "Pending" ? (
                                 <Button
-                                  // onClick={() => openPaymentModal(data.id)}
+                                  onClick={() => openModal(data.id)}
                                   className="payspecialist1"
                                 >
                                   Pay
@@ -288,10 +501,19 @@ const ScheduledPayments = withRouter((props) => {
                           Displaying <b>{current_page}</b> of <b>{last_page}</b>
                         </div>
                         <Pagination>
-                          <Pagination.First onClick={() => nextPage(first)} />
-                          <Pagination.Prev onClick={() => nextPage(prev)} />
-                          <Pagination.Next onClick={() => nextPage(next)} />
-                          <Pagination.Last onClick={() => nextPage(last)} />
+                          {first && (
+                            <Pagination.First onClick={() => nextPage(first)} />
+                          )}
+                          {prev && (
+                            <Pagination.Prev onClick={() => nextPage(prev)} />
+                          )}
+                          {next && (
+                            <Pagination.Next onClick={() => nextPage(next)} />
+                          )}
+
+                          {last && (
+                            <Pagination.Last onClick={() => nextPage(last)} />
+                          )}
                         </Pagination>
                       </div>
                     )}
