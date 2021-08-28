@@ -126,8 +126,8 @@ const ScheduledPayments = withRouter((props) => {
     const token = returnAdminToken();
     setState({
       ...state,
-      isloading:true
-    })
+      isloading: true,
+    });
     const work_order = localStorage.getItem("work_order_details");
     const work_order_details = work_order ? JSON.parse(work_order) : "";
     axios
@@ -144,7 +144,7 @@ const ScheduledPayments = withRouter((props) => {
             ...res.data.data.links,
             ...res.data.data.meta,
             allAssignedSpecialist: res.data.data.data,
-            isloading:false
+            isloading: false,
           });
           console.log(work_order_detail);
         })
@@ -153,8 +153,80 @@ const ScheduledPayments = withRouter((props) => {
         console.log(err);
         setState({
           ...state,
-          isloading:false
+          isloading: false,
+        });
+      });
+  };
+  const get_paid = () => {
+    console.log("paid");
+    const token = returnAdminToken();
+    setState({
+      ...state,
+      isloading: true,
+    });
+    const work_order = localStorage.getItem("work_order_details");
+    const work_order_details = work_order ? JSON.parse(work_order) : "";
+    axios
+      .all([
+        axios.get(`${API}/admin/scheduled-payments?paginate=1&filter=paid`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
+      ])
+      .then(
+        axios.spread((res) => {
+          console.log(res.data.data);
+          setState({
+            ...state,
+            ...res.data.data.links,
+            ...res.data.data.meta,
+            allAssignedSpecialist: res.data.data.data,
+            isloading: false,
+          });
+          console.log(work_order_detail);
         })
+      )
+      .catch((err) => {
+        console.log(err);
+        setState({
+          ...state,
+          isloading: false,
+        });
+      });
+  };
+
+  const get_un_paid = () => {
+    const token = returnAdminToken();
+    setState({
+      ...state,
+      isloading: true,
+    });
+    const work_order = localStorage.getItem("work_order_details");
+    const work_order_details = work_order ? JSON.parse(work_order) : "";
+    axios
+      .all([
+        axios.get(`${API}/admin/scheduled-payments?paginate=1&filter=pending`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
+      ])
+      .then(
+        axios.spread((res) => {
+          console.log(res.data.data);
+          setState({
+            ...state,
+            ...res.data.data.links,
+            ...res.data.data.meta,
+            allAssignedSpecialist: res.data.data.data,
+            isloading: false,
+          });
+          console.log(work_order_detail);
+        })
+      )
+      .catch((err) => {
+        console.log(err);
+        setState({
+          ...state,
+          isloading: false,
+        });
       });
   };
 
@@ -430,6 +502,33 @@ const ScheduledPayments = withRouter((props) => {
                       <p>Scheduled Payments</p>
                     </div>
                     <div>
+                      <div className="Filter">
+                        <select
+                          name=""
+                          id=""
+                          onChange={(e) => {
+                            if (e.target.value == "paid") {
+                              get_paid();
+                            }
+                            if (e.target.value == "unpaid") {
+                              get_un_paid();
+                            }
+                            if (e.target.value == "all") {
+                              get_all();
+                            }
+                          }}
+                        >
+                          <option onChange={get_all} value="all">
+                            All
+                          </option>
+                          <option onChange={get_paid} value="paid">
+                            Paid
+                          </option>
+                          <option onChange={get_un_paid} value="unpaid">
+                            Unpaid
+                          </option>
+                        </select>
+                      </div>
                       {selectedspecialist.length !== 0 && (
                         <Button
                           onClick={() => openModal2()}
@@ -459,12 +558,14 @@ const ScheduledPayments = withRouter((props) => {
                             <td className="dpslstnamecell pslstnamecell">
                               <div className="dplsplusernmeimg">
                                 {/* <span></span> */}
+                                {data?.status == "Pending" ? (
                                 <input
                                   type="checkbox"
                                   name="radio"
                                   checked={selectedspecialist.includes(data.id)}
                                   onClick={() => sendSpecialistId(data.id)}
-                                />{" "}
+                                />)
+                                :""}
                                 &nbsp; &nbsp;
                                 <div>{data.specialist}</div>
                               </div>

@@ -455,6 +455,7 @@ text {
 .minicardwrapper {
   display: flex;
   width: 100%;
+  justify-content: space-between;
 }
 
 .inprogress_4 {

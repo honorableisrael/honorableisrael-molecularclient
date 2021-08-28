@@ -2969,3 +2969,6 @@ padding-left: 34px;
   display: flex;
   align-items: center;
 }
+.Filter{
+  padding-bottom: .5rem;
+}

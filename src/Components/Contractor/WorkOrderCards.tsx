@@ -52,7 +52,7 @@ const WorkOrderCards = (props) => {
                     ? "Awaiting approval"
                     : props?.order_details?.status == "In Review"
                     ? "In Review"
-                    : "Completed"}
+                    :  props?.order_details?.status == "Active"?"Active":"Completed"}
                 </span>
               </div>
             </div>

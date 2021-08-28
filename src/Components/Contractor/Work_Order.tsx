@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Col, Row, Container, ProgressBar } from "react-bootstrap";
+import { Col, Row, Container, ProgressBar, Spinner } from "react-bootstrap";
 import "./contractor.css";
 import DashboardNav from "./navbar";
 import portfolio from "../../images/portfolio.png";
@@ -12,7 +12,7 @@ import WorkOrderCards from "./WorkOrderCards";
 import { Link } from "react-router-dom";
 import no_work_order from "../../images/document 1.png";
 import no_work_order2 from "../../images/calendar 1.png";
-import { API, capitalize } from "../../config";
+import { API, capitalize, contractorToken } from "../../config";
 import axios from "axios";
 import Axios, { AxiosResponse } from "axios";
 
@@ -23,7 +23,7 @@ const ContractorWorkOrder = () => {
     pending_request: false,
     past: false,
     work_order_title: "",
-    new_order:true,
+    new_order: true,
     work_order_description: "",
     project_purpose: "",
     location: "",
@@ -32,13 +32,14 @@ const ContractorWorkOrder = () => {
     start_date: "",
     end_date: "",
     hours_perday: "",
+    isloading:false
   });
   const switchTab = (a) => {
     if (a == "firsttab") {
       return setState({
         ...state,
         inprogress: false,
-        new_order:true,
+        new_order: true,
         pending_request: false,
         past: false,
       });
@@ -48,7 +49,7 @@ const ContractorWorkOrder = () => {
         ...state,
         inprogress: false,
         pending_request: true,
-        new_order:false,
+        new_order: false,
         past: false,
       });
     }
@@ -56,7 +57,7 @@ const ContractorWorkOrder = () => {
       return setState({
         ...state,
         inprogress: true,
-        new_order:false,
+        new_order: false,
         pending_request: false,
         past: false,
       });
@@ -65,7 +66,7 @@ const ContractorWorkOrder = () => {
       return setState({
         ...state,
         inprogress: false,
-        new_order:false,
+        new_order: false,
         pending_request: false,
         past: true,
       });
@@ -79,10 +80,15 @@ const ContractorWorkOrder = () => {
   };
   useEffect(() => {
     window.scrollTo(-0, -0);
+    get_all();
+  }, []);
+  const get_all = () => {
     const availableToken: any = localStorage.getItem("loggedInDetails");
-    const token = availableToken
-      ? JSON.parse(availableToken)
-      : window.location.assign("/#signin");
+    const token = contractorToken();
+    setState({
+      ...state,
+      isloading:true
+    })
     axios
       .all([
         axios.get(`${API}/contractor/work-orders?paginate=1`, {
@@ -95,13 +101,92 @@ const ContractorWorkOrder = () => {
           setState({
             ...state,
             work_orders: res.data.data.data,
+            inprogress: false,
+            new_order: true,
+            pending_request: false,
+            past: false,
+            isloading:false
           });
         })
       )
       .catch((err) => {
+        setState({
+          ...state,
+          isloading:false
+        })
         console.log(err);
       });
-  }, []);
+  };
+  const get_active = () => {
+    const availableToken: any = localStorage.getItem("loggedInDetails");
+    const token = contractorToken();
+    setState({
+      ...state,
+      isloading:true
+    })
+    axios
+      .all([
+        axios.get(`${API}/contractor/work-orders/active?paginate=1`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
+      ])
+      .then(
+        axios.spread((res) => {
+          console.log(res.data.data);
+          setState({
+            ...state,
+            work_orders: res.data.data.data,
+            inprogress: false,
+            pending_request: true,
+            new_order: false,
+            past: false,
+            isloading:false
+          });
+        })
+      )
+      .catch((err) => {
+        setState({
+          ...state,
+          isloading:false
+        })
+        console.log(err);
+      });
+  };
+  const get_previous = () => {
+    const availableToken: any = localStorage.getItem("loggedInDetails");
+    const token = contractorToken();
+    setState({
+      ...state,
+      isloading:true
+    })
+    axios
+      .all([
+        axios.get(`${API}/contractor/work-orders/previous?paginate=1`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
+      ])
+      .then(
+        axios.spread((res) => {
+          console.log(res.data.data);
+          setState({
+            ...state,
+            work_orders: res.data.data.data,
+            inprogress: true,
+            new_order: false,
+            pending_request: false,
+            past: false,
+            isloading:false
+          });
+        })
+      )
+      .catch((err) => {
+        setState({
+          ...state,
+          isloading:false
+        })
+        console.log(err);
+      });
+  };
   const {
     inprogress,
     pending_request,
@@ -114,7 +199,7 @@ const ContractorWorkOrder = () => {
     location_terrain,
     work_orders,
     start_date,
-    end_date,
+    isloading,
     new_order,
   } = state;
   console.log(work_orders);
@@ -141,33 +226,34 @@ const ContractorWorkOrder = () => {
             </div>
             <div className="intab">
               <div
-                onClick={() => switchTab("firsttab")}
+                onClick={() => get_all()}
                 className={new_order ? "inprogress tab_active" : "inprogress"}
               >
-                New
+                All
               </div>
               <div
-                onClick={() => switchTab("secondtab")}
+                onClick={() => get_active()}
                 className={
                   pending_request ? "inprogress tab_active" : "inprogress"
                 }
               >
-                Pending Request
+                Active
               </div>
               <div
-                onClick={() => switchTab("thirdtab")}
+                onClick={() => get_previous()}
                 className={inprogress ? "inprogress tab_active" : "inprogress"}
               >
-                In Progress
+                Previous
               </div>
-              <div
+              {/* <div
                 onClick={() => switchTab("fourthtab")}
                 className={past ? "inprogress tab_active" : "inprogress"}
               >
                 Past
-              </div>
+              </div> */}
             </div>
             <Row>
+              {isloading && <Spinner animation={"border"} variant={"info"} />}
               {work_orders.length == 0 && (
                 <Col md={11} className="containerforemptyorder1">
                   <div className="containerforemptyorder">
@@ -210,6 +296,18 @@ const ContractorWorkOrder = () => {
                         order_details={data}
                         key={i}
                         status={"Awaiting Approval"}
+                      />
+                    )
+                )}
+              </div>
+              <div className="cardflex_jo">
+                {work_orders?.map(
+                  (data: any, i) =>
+                    data?.status == "Active" && (
+                      <WorkOrderCards
+                        order_details={data}
+                        key={i}
+                        status={"Active"}
                       />
                     )
                 )}
