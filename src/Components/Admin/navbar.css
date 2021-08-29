@@ -199,6 +199,15 @@
   .otherwrap {
     display: none;
   }
+  .otherwrap23{
+    flex-direction: column;
+  }
+  .mobileshow1{
+    display: block;
+  }
+  .navlink_is_active1{
+    justify-content: initial !important;
+  }
   .mobileham {
     display: flex;
     position: relative;

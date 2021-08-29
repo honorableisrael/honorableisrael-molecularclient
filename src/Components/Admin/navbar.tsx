@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./navbar.css";
 import { Button, Dropdown, Spinner } from "react-bootstrap";
 import logo from "../../images/Molecular.png";
@@ -10,6 +10,7 @@ import bell from "../../images/bell.png";
 import { API, capitalize } from "../../config";
 import axios from "axios";
 import Axios, { AxiosResponse } from "axios";
+import SideNav from "react-simple-sidenav";
 
 const DashboardNav = withRouter((props) => {
   const [state, setState] = React.useState({
@@ -18,7 +19,9 @@ const DashboardNav = withRouter((props) => {
     isloading: false,
     user_details: {},
   });
-  const { NavisOpen, isloading, user_details }: any = state;
+  const [showNav, setShowNav]: any = useState(false);
+
+  const { NavisOpen, isloading, user_details, drop_down_open }: any = state;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -48,6 +51,10 @@ const DashboardNav = withRouter((props) => {
         console.log(err);
       });
   }, []);
+
+  const OpenNav = () => {
+    setShowNav(true);
+  };
   return (
     <div className="fixfdnav">
       <div className="navwrap nav__wrap">
@@ -155,7 +162,7 @@ const DashboardNav = withRouter((props) => {
                         to={"/admin_payment_invoice"}
                         className="flex-custom12"
                       >
-                      Payments and Invoices
+                        Payments and Invoices
                       </Link>
                     </span>
                   </Dropdown.Item>
@@ -218,7 +225,6 @@ const DashboardNav = withRouter((props) => {
                   {isloading && <Spinner animation="grow" />}
                 </Dropdown.Item>
                 {/* <Dropdown.Item href="#/action-1"><Link to="/user-profile">Settings</Link></Dropdown.Item> */}
-               
               </Dropdown.Menu>
             </Dropdown>
           </div>
@@ -254,11 +260,11 @@ const DashboardNav = withRouter((props) => {
         )}
         <div
           className="mobileham"
-          //   onClick={() => {
-          //     setState({
-          //       NavisOpen: NavisOpen ? false : true,
-          //     });
-          //   }}
+          onClick={() => {
+            setShowNav({
+              NavisOpen: NavisOpen ? false : true,
+            });
+          }}
         >
           {!NavisOpen ? (
             <>
@@ -271,6 +277,177 @@ const DashboardNav = withRouter((props) => {
           )}
         </div>
       </div>
+      {/* mobile nav starts here */}
+      <SideNav
+        showNav={showNav}
+        style={{ background: showNav ? "rgba(251, 251, 251, 1)" : "none" }}
+        navStyle={{ width: "70%", background: "rgba(251, 251, 251, 1)" }}
+        onHideNav={() => setShowNav(false)}
+        titleStyle={{
+          backgroundColor: "#fff",
+          color: "#444444",
+          paddingLeft: 10,
+          paddingBottom: 0,
+          paddingTop: 0,
+          fontSize: 17,
+          textAlign: "left",
+        }}
+        itemHoverStyle={{
+          backgroundColor: "rgba(251, 251, 251, 1) !important",
+        }}
+        itemStyle={{ backgroundColor: "" }}
+        title={[
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              padding: "18px 10px 18px 17px",
+            }}
+          >
+            <img src={logo} alt="logo" className="logo2" />
+            <i className="fa fa-close" onClick={() => setShowNav(false)}></i>
+          </div>,
+        ]}
+        items={[
+          <div className="otherwrap mobileshow1">
+            <div className="otherwrap23 otherwrap23admin">
+              <Link to={"/admin_dashboard"} className="flex-12a">
+                {" "}
+                <span
+                  className={
+                    window.location.pathname == "/#/admin_dashboard"
+                      ? "navlink_is_active lightorange  "
+                      : "navlink_is_active1"
+                  }
+                >
+                  <div className="speialcl">Dashboard</div>
+                </span>
+                {window.location.pathname == "/#/admin_dashboard" && (
+                  <span className="boxdes"></span>
+                )}
+              </Link>
+              <Link to={"/admin_work_order"} className="flex-12a">
+                {" "}
+                <span
+                  className={
+                    window.location.pathname == "/admin_work_order"
+                      ? "navlink_is_active lightorange"
+                      : "navlink_is_active1"
+                  }
+                >
+                  <div className="speialcl">Work Order</div>
+                </span>
+                {window.location.pathname == "/admin_work_order" && (
+                  <span className="boxdes"></span>
+                )}
+              </Link>
+              <Link to={"/contractor_list"} className="flex-12a">
+                {" "}
+                <span
+                  className={
+                    window.location.pathname == "/contractor_list" ||
+                    window.location.pathname == "/contractor_list"
+                      ? "navlink_is_active lightorange"
+                      : "navlink_is_active1"
+                  }
+                >
+                  <div className="speialcl">Contractor</div>
+                </span>
+                {window.location.pathname == "/contractor_list" ||
+                  (window.location.pathname == "/contractor_list" && (
+                    <span className="boxdes"></span>
+                  ))}
+              </Link>
+              <Link to={"/allspecialist"} className="flex-12a">
+                {" "}
+                <span
+                  className={
+                    window.location.pathname == "/allspecialist"
+                      ? "navlink_is_active lightorange"
+                      : "navlink_is_active1"
+                  }
+                >
+                  <div className="speialcl">Specialist</div>
+                </span>
+                {window.location.pathname == "/allspecialist" && (
+                  <span className="boxdes"></span>
+                )}
+              </Link>
+              <a>
+                {" "}
+                <span
+                  onClick={() => {
+                    props.history.push("/");
+                    localStorage.clear();
+                  }}
+                  className={
+                    window.location.pathname == "/allspecialist"
+                      ? "navlink_is_active lightorange"
+                      : "navlink_is_active1"
+                  }
+                >
+                  Log out
+                </span>
+              </a>
+              <Link to={"/scheduled_payments"} className={"navlink_is_active1"}>
+                Scheduled payments
+              </Link>
+                <span>
+                  <Link
+                    to={"/admin_payment_invoice"}
+                    className={"navlink_is_active1"}
+                  >
+                    Payments and Invoices
+                  </Link>
+                </span>
+              {/* <Link to={"/admin_payment_invoice"} className="flex-12a">
+                {" "}
+                <span
+                  className={
+                    window.location.pathname == "/admin_payment_invoice"
+                      ? "navlink_is_active lightorange"
+                      : "navlink_is_active1"
+                  }
+                >
+                  <div className="speialcl">Payment</div>
+                </span>
+                {window.location.pathname == "/admin_payment_invoice" && (
+                  <span className="boxdes"></span>
+                )}
+              </Link> */}
+
+              {/* <Link to={"/admin/settings"} className="flex-12a">
+                {" "}
+                <span
+                  className={
+                    window.location.pathname == "/admin/settings"
+                      ? "navlink_is_active lightorange"
+                      : "navlink_is_active1"
+                  }
+                >
+                  <div className="speialcl">Settings</div>
+                </span>
+                {window.location.pathname == "/admin/settings" && (
+                  <span className="boxdes"></span>
+                )}
+              </Link> */}
+            </div>
+            <Dropdown className="uddrpdwndiv">
+              <div className="bell2">
+                <Link to={"/admin_notification"}>
+                  {" "}
+                  <img src={bell} className="bell" alt="bell" />
+                </Link>
+              </div>
+              <span className="lfff">
+                {capitalize(user_details?.first_name?.split("")[0])}
+                {capitalize(user_details?.last_name?.split("")[0])}
+              </span>
+            </Dropdown>
+          </div>,
+        ]}
+      />
+      {/* mobile nav ends here */}
       {NavisOpen ? (
         <div className="ismobile animated slideInDown">
           <div className="siggnup1 animated slideInRight">
