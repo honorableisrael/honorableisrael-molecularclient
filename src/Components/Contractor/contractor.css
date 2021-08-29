@@ -1516,8 +1516,8 @@ text {
   padding: 1rem;
   padding-left: 0px;
   font-size: 15px;
-  padding-left: 3rem;
-  padding-right: 3rem;
+  padding-left: 2.5rem !important;
+  padding-right: 2.5rem !important;
 }
 .inactivebordr {
   color: inherit;

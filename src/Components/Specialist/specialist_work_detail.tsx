@@ -17,11 +17,9 @@ import { isTSIndexSignature } from "@babel/types";
 const Specialist_Work_details = props => {
   const [state, setState] = useState({
     terminateWorkModal: false,
-    data: [{}],
+    data: [],
     title: "",
     work_details: "",
-    emptyworkorder: true,
-    workorderdetails:false,
     reference: "",
     contractor: "",
     description: "",
@@ -48,9 +46,7 @@ const Specialist_Work_details = props => {
   const {
     terminateWorkModal,
     data,
-    emptyworkorder,
     selectedWork,
-    workorderdetails,
     work_details,
     title,
     reference,
@@ -97,6 +93,7 @@ const Specialist_Work_details = props => {
   toast(message, { containerId: type, position: "top-right" });
 
   useEffect(() => {
+
     window.scrollTo(-0, -0);
     const availableToken = localStorage.getItem("loggedInDetails");
     console.log(availableToken);
@@ -116,8 +113,6 @@ const Specialist_Work_details = props => {
         ...state,
         ...res.data.data,
         id: res.data.data,
-        workorderdetails: data.length > 0 ? true : false,
-        emptyworkorder: data.length == 0 ? false : true,
       });
     });
   }, []);
@@ -242,7 +237,7 @@ const Specialist_Work_details = props => {
         position={"top-right"}
       />
       <div className="cardflex_jo">
-        {emptyworkorder && (
+        {data.length == 0  && (
           <div className="emptypendingworkwrap">
             <img
               src={document}
@@ -262,7 +257,6 @@ const Specialist_Work_details = props => {
           <p>{errorMessage}</p>
         </div>
         )}
-        {workorderdetails && (
           <div>
             {data.map((data, index) => {
               return (
@@ -488,7 +482,7 @@ const Specialist_Work_details = props => {
               );
             })}
           </div>
-        )}
+
       </div>
     </>
   );
