@@ -491,7 +491,7 @@ const ScheduledPayments = withRouter((props) => {
               </div> */}
             </div>
             {isloading && <Spinner animation={"grow"} />}
-            <div>
+            <div className="ddeplsmni1">
               {overview && (
                 <div>
                   <div className="deploysplstheader deployflex">

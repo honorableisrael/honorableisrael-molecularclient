@@ -304,6 +304,11 @@ text {
   .main_wrap_ws22 div {
     min-width: 143px !important;
   }
+  .mgtop {
+    min-width: 1350px !important;
+    /* overflow-x: scroll; */
+    margin-top: 7rem !important;
+  }
 }
 
 @media (max-width: 769px) {
@@ -472,7 +477,7 @@ text {
   display: flex;
   width: 100% !important;
 }
-.towrap{
+.towrap {
   margin-left: 31px;
 }
 .inprogress_4 {
@@ -492,6 +497,9 @@ text {
   width: 102px;
   text-align: center;
   display: contents;
+}
+.job23_1a_p {
+  margin-left: 21% !important;
 }
 a,
 a:hover {
@@ -573,6 +581,25 @@ a:hover {
   .cardflex_jo {
     width: 100%;
   }
+  .job23_1a_p {
+    margin-left: 0px !important;
+  }
+  .job23_1a_ {
+    flex: 0 0 99.666667% !important;
+    max-width: 99.666667% !important;
+  }
+  .mheight_ {
+    display: none !important;
+  }
+  .tablecontent {
+    flex-wrap: nowrap !important;
+  }
+  .tabledata div {
+    margin-left: 0px !important;
+  }
+  .deploydsplstwrapp {
+    padding-left: 9px !important;
+  } 
 }
 
 .paidd2green {
@@ -1203,59 +1230,60 @@ a:hover {
   .intab {
     flex-wrap: wrap;
   }
-}
-@media (max-width: 498px) {
-  .job23_ {
-    padding-right: 1rem;
-    display: none;
+  .title_wo {
+    flex-wrap: wrap;
   }
-  .tablecontent {
-    padding-top: 2rem;
-    padding-bottom: 2rem;
+  .title_wo div {
+    width: 80%;
+    max-width: 200px;
   }
-  .carderw_no_12 {
-    min-width: 360px;
+  .cardwrap_cont {
+    min-height: 48px;
   }
-  .grph34 {
-    min-width: 260px !important;
-    width: 260px !important;
+  .portfolio2 {
+    width: 50px;
+    object-fit: initial;
   }
-  .dshb12m {
-    padding-left: 3px;
-    padding-right: 1px;
+
+  .unpaidgreen {
+    min-width: 120px;
   }
-  .fc14 {
-    padding: 1rem 0.8rem !important;
+  .pipline {
+    width: 95%;
   }
-  .carderw {
-    margin-right: 0rem;
+  .minicardwrapper {
+    width: 90% !important;
   }
-  .carderw_no00 {
-    margin-left: 0rem;
+  .nxtbtn3 {
+    left: 3.5rem !important;
   }
-  .row3t2 {
-    padding-right: 0rem;
+  .card_sec2 {
+    padding-left: 0.5rem;
   }
-  .rowt3 {
-    padding-left: 0rem;
-    margin-top: 4rem;
+  .cardwrap_jo {
+    margin-left: 1rem;
+  }
+  .crd23 {
+    padding-left: 1rem;
   }
   .job34 {
-    padding: 7px;
+    overflow-x: scroll;
   }
-  .workorderheader {
-    margin-bottom: 0rem;
+  .job23_1a .card,.job23_1a .dplsplsacc{
+    margin-left: 1rem;
   }
-  .cubewrap2 {
-    width: 54%;
-    position: relative;
-    top: 1.15rem;
-    right: 3rem;
+  .fixedtitle {
+    min-width: fit-content;
   }
-  .work_details {
-    padding-top: 2rem;
+  .carder_notification{
+    display: block;
+    padding-left: 1rem;
+  }
+  .textxenter {
+    text-align: left;
   }
 }
+
 .glead {
   width: fit-content;
   width: 100% !important;
@@ -2199,9 +2227,7 @@ label i {
   width: 100%;
   justify-content: space-between;
 }
-.job23_1a_p {
-  margin-left: 21% !important;
-}
+
 .mrgin__right {
   margin-right: 4rem !important;
 }
@@ -2518,6 +2544,12 @@ label i {
 .enfgaged {
   font-size: 12px;
 }
+
+.rowt3x {
+  padding-right: 4rem !important;
+  padding-left: 3rem !important;
+  justify-content: center !important;
+}
 @media (max-width: 800px) {
   .carderw_no00 {
     margin-left: 0rem !important;
@@ -2527,6 +2559,58 @@ label i {
     padding-left: 12px !important;
     padding-right: 41px !important;
   }
+  .raise1 {
+    display: flex;
+    justify-content: flex-start !important;
+    position: relative;
+    top: 4rem;
+}
+.depsplstrow {
+  padding: 9rem 0rem 10rem 0rem;
+  overflow-x: scroll;
+}
+.search_field{
+  margin-bottom: 2rem;
+}
+.ddeplsmni{
+  min-width: 600px;
+}
+.rowt3x {
+  padding-right: 1rem !important;
+  padding-left: .5rem !important;
+}
+.workorderheader{
+  white-space: pre;
+  position: relative;
+  bottom: 1rem;
+  left: 1rem;
+}
+.manage_{
+  position: relative;
+  top: 2.9rem;
+}
+.dpsplsttabs {
+  margin-top: 4rem;
+  }
+  .deployedsplsttable {
+  padding: 0px 16px 3px;
+  }
+  .dpsplsttabs {
+    padding-left: .1rem;
+  }
+  .crd23{
+    font-size: 16px;
+  }
+  .active_member2{
+    padding-right: 0rem;
+    padding-left: 0.3rem;
+  }
+  .workorderheader002{
+    left: 0px !important;
+  }
+  .ddeplsmni1 {
+    min-width: 1003px;
+}
 }
 .nojob2 a .job3 {
   margin: auto;
@@ -2538,11 +2622,6 @@ label i {
   border: 1px solid #fd8c00 !important;
   background: white !important;
   color: #fd8c00 !important;
-}
-.rowt3x {
-  padding-right: 4rem !important;
-  padding-left: 3rem !important;
-  justify-content: center !important;
 }
 .formCi {
   padding: 1rem !important;
@@ -2735,95 +2814,100 @@ label i {
   position: absolute;
   right: 70px;
 }
-.nxtbtn3{
+.nxtbtn3 {
   position: relative;
-    left: 2.3rem;
-    bottom: 0.3rem;
+  left: 2.3rem;
+  bottom: 0.3rem;
 }
 .cotn232 {
   position: relative;
   bottom: 8.4px;
 }
-.raise1{
+.raise1 {
   display: flex;
   justify-content: flex-end;
 }
-.raise_inv,.raise_inv:hover{
+.raise_inv,
+.raise_inv:hover {
   width: 221px !important;
   background: none;
   border-color: var(--molecular-orange);
 }
-.slidd2z a div img{
+.slidd2z a div img {
   top: -0.5rem;
   left: 1rem !important;
 }
-.pipelength1{
+.pipelength1 {
   min-height: 54px;
 }
-.admin__notif{
+.admin__notif {
   left: -1.5rem;
   bottom: -2.7rem;
 }
-.modl34 .modal-dialog{
+.modl34 .modal-dialog {
   width: 494px !important;
   max-width: 600px !important;
 }
-.mdl2 .modal-dialog{ 
+.mdl2 .modal-dialog {
   width: 494px !important;
   max-width: 600px !important;
 }
-.viewall_{
+.viewall_ {
   color: #fd8c00;
 }
-.manage_,.manage_:focus,.manage_:hover{
+.manage_,
+.manage_:focus,
+.manage_:hover {
   display: flex;
-    background: #fd8c00;
-    justify-content: center;
-    align-items: center;
-    height: 38px;
-    width: 156px;
-    border-radius: 6px;
-    color: white;
-    cursor: pointer;
-    border-color: #fd8c00;
+  background: #fd8c00;
+  justify-content: center;
+  align-items: center;
+  height: 38px;
+  width: 156px;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  border-color: #fd8c00;
 }
-.avvworkgroup{
+.avvworkgroup {
   padding-top: 3rem;
 }
-.contractorname,.mnversiona{
+.contractorname,
+.mnversiona {
   color: #464e5f;
-  padding-top: .4rem;
-  padding-bottom: .6rem;
+  padding-top: 0.4rem;
+  padding-bottom: 0.6rem;
 }
 
-.cca{
+.cca {
   color: #464e5f;
 }
-.job_12{
+.job_12 {
   text-align: center !important;
 }
-.manage_:hover{
+.manage_:hover {
   width: 197px;
 }
-.add_fel{
-display: flex;
-justify-content: space-between;
-width: 100%;
+.add_fel {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
-.add_to_group,.add_to_group:hover{
+.add_to_group,
+.add_to_group:hover {
   width: fit-content;
 }
 
 .deploydsplstwrapp {
-padding-left: 34px;
+  padding-left: 34px;
 }
 .tabledata div {
   width: 70% !important;
 }
-.tablecontent .tablecont0{
+.tablecontent .tablecont0 {
   width: 57% !important;
 }
-.tetr{
+.tetr {
   font-size: 14px;
   font-weight: 900;
   margin-left: 2rem;
@@ -2832,143 +2916,211 @@ padding-left: 34px;
   padding: 1rem;
   border-radius: 2rem;
 }
-.frequew{
+.frequew {
   display: flex;
   flex-direction: row-reverse;
   text-align: left;
   justify-content: space-between;
 }
-.tetr2{
+.tetr2 {
   width: 300px;
   font-weight: 900;
 }
-.form_h1{
+.form_h1 {
   justify-content: space-between;
 }
 
-.payspecialist1,.payspecialist1:hover,.payspecialist1:focus{
+.payspecialist1,
+.payspecialist1:hover,
+.payspecialist1:focus {
   background: var(--molecular-orange);
   border: none;
 }
-.primary3{
+.primary3 {
   min-width: 108px;
 }
-.terminate2 button{
-  margin-right: .4rem;
+.terminate2 button {
+  margin-right: 0.4rem;
 }
-.succinline,.succinline:hover{
+.succinline,
+.succinline:hover {
   background: white;
   border: 1px solid #28a745;
   color: #28a745;
 }
-.startproject{
+.startproject {
   display: flex !important;
   min-width: 200px;
   align-items: center;
   justify-content: center;
 }
-.startproject svg{
-  margin-left: .4rem;
+.startproject svg {
+  margin-left: 0.4rem;
 }
-.stop3{
+.stop3 {
   display: inline-block;
   width: 15px;
   height: 15px;
   background: white;
-  border-radius: .2rem;
-  margin-left: .3rem;
+  border-radius: 0.2rem;
+  margin-left: 0.3rem;
 }
-.userfield{
+.userfield {
   color: #000000 !important;
 }
 
-.paddtop{
-  padding-top:0px;
+.paddtop {
+  padding-top: 0px;
   padding-bottom: 0px;
 }
-.dplsplsacc{
+.dplsplsacc {
   padding-bottom: 1rem;
 }
-.acccollapsediv .text-center{
-  margin-top: .3rem;
+.acccollapsediv .text-center {
+  margin-top: 0.3rem;
 }
-.upby span,.upby span:hover{
+.upby span,
+.upby span:hover {
   background: var(--molecular-orange);
   color: white;
   display: inline-block;
   width: 89px !important;
   text-align: center;
-  border-radius: .3rem;
+  border-radius: 0.3rem;
   cursor: pointer;
 }
 
-.lightgray{
+.lightgray {
   color: #8b8a8a !important;
 }
 
-.accrjct{
+.accrjct {
   min-width: 230px;
-    display: flex;
-    justify-content: space-around;
+  display: flex;
+  justify-content: space-around;
 }
-.awaiting9{
+.awaiting9 {
   min-width: 140px;
 }
-.reje4{
+.reje4 {
   border: 2px solid;
   background: transparent !important;
   color: #fd8c00 !important;
 }
 
-
-
 .eff {
-    color: #333333;
-    /* width: 40px; */
-    /* height: 40px; */
-    /* background: #cccccc; */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-bottom: .5rem;
+  color: #333333;
+  /* width: 40px; */
+  /* height: 40px; */
+  /* background: #cccccc; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 0.5rem;
 }
-#dropdown-basic1::after{
+#dropdown-basic1::after {
   display: none;
 }
-.payment_nav{
+.payment_nav {
   min-width: 240px !important;
 }
-.flex-custom12{
+.flex-custom12 {
   text-align: left;
   padding-top: 1rem;
   margin-top: 1rem;
 }
-.payspecialist1{
+.payspecialist1 {
   font-size: 14px;
 }
-#dropdown-basic1:focus{
+#dropdown-basic1:focus {
   box-shadow: none;
   outline: none !important;
 }
-.contractorname{
-  width:140px;
+.contractorname {
+  width: 140px;
   overflow: hidden;
 }
-.deployflex{
+.deployflex {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding-right: 2rem;
 }
-.flxf1{
+.flxf1 {
   display: flex;
   align-items: baseline;
 }
-.pslstnamecell{
+.pslstnamecell {
   padding-top: 1rem !important;
   display: flex;
   align-items: center;
 }
-.Filter{
-  padding-bottom: .5rem;
+.Filter {
+  padding-bottom: 0.5rem;
+}
+@media (max-width: 498px) {
+  .job23_ {
+    padding-right: 1rem;
+    display: none;
+  }
+  .tablecontent {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+  .carderw_no_12 {
+    min-width: 360px;
+  }
+  .grph34 {
+    min-width: 260px !important;
+    width: 260px !important;
+  }
+  .dshb12m {
+    padding-left: 3px;
+    padding-right: 1px;
+  }
+  .fc14 {
+    padding: 1rem 0.8rem !important;
+  }
+  .carderw {
+    margin-right: 0rem;
+  }
+  .carderw_no00 {
+    margin-left: 0rem;
+  }
+  .row3t2 {
+    padding-right: 0rem;
+  }
+  .rowt3 {
+    padding-left: 0rem;
+    margin-top: 4rem;
+  }
+  .job34 {
+    padding: 7px;
+  }
+  .workorderheader {
+    margin-bottom: 0rem;
+  }
+  .cubewrap2 {
+    width: 54%;
+    position: relative;
+    top: 1.15rem;
+    right: 3rem;
+  }
+  .work_details {
+    padding-top: 2rem;
+  }
+  .carderw{
+    /* display: block !important; */
+    text-align: left !important;
+    width: 100% !important;
+  }
+  .textxenter{
+    text-align: left !important;
+  }
+  .carderw_no_12{
+    min-width: 100% !important;
+  }
+  .dshb12m {
+    padding-right: 4px !important;
+}
 }

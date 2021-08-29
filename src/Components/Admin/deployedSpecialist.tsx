@@ -656,9 +656,9 @@ const DeployedSpecialist = withRouter((props) => {
                 Grouped
               </div>
             </div>
-            <div>
+            <div className="ddeplsmni">
               {overview && (
-                <div>
+                <div >
                   <div className="deploysplstheader">
                     <div className="depsplstimg">
                       <img src={blueavatar} alt="img" />
@@ -717,7 +717,7 @@ const DeployedSpecialist = withRouter((props) => {
                 </div>
               )}
               {grouped && (
-                <div>
+                <div >
                   <div className="deploysplstheader">
                     <div className="depsplstimg">
                       <img src={blueavatar} alt="img" />

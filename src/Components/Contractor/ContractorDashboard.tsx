@@ -22,7 +22,7 @@ const Notification = (props) => {
   console.log(props);
   return (
     <>
-      <div className="carderw carderwxc">
+      <div className="carderw carderwxc carder_notification">
         <div className="text-center">
           <div className="notif12v textxenter1">Notification </div>
         </div>
