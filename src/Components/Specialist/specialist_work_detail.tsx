@@ -117,7 +117,7 @@ const Specialist_Work_details = props => {
         ...res.data.data,
         id: res.data.data,
         workorderdetails: data.length > 0 ? true : false,
-        emptyworkorder: data.length == 0 ? false : true,
+        emptyworkorder: data.length == 1 ? false : true,
       });
     });
   }, []);
