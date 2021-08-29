@@ -135,7 +135,7 @@ const SpecialistWorkOrderDetails = (props) => {
     hiddenFileInput.current.click();
   };
 const  upLoadFile= ({target: {files}})=>{
-   console.log(files[0])
+   console.log(files[0]);
    setState({
      ...state,
      filename: files[0].name,
