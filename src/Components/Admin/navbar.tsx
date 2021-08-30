@@ -162,7 +162,7 @@ const DashboardNav = withRouter((props) => {
                         to={"/admin_payment_invoice"}
                         className="flex-custom12"
                       >
-                        Payments and Invoices
+                        Payment by Contractors
                       </Link>
                     </span>
                   </Dropdown.Item>
@@ -172,7 +172,7 @@ const DashboardNav = withRouter((props) => {
                     className="animated fadeInLeft"
                   >
                     <Link to={"/scheduled_payments"} className="flex-custom12">
-                      Scheduled payments
+                      Payment to Specialists
                     </Link>
                   </Dropdown.Item>
                 </Dropdown.Menu>
@@ -390,14 +390,14 @@ const DashboardNav = withRouter((props) => {
                 </span>
               </a>
               <Link to={"/scheduled_payments"} className={"navlink_is_active1"}>
-                Scheduled payments
+              Payment to Specialist 
               </Link>
                 <span>
                   <Link
                     to={"/admin_payment_invoice"}
                     className={"navlink_is_active1"}
                   >
-                    Payments and Invoices
+                    Payment by Contractors
                   </Link>
                 </span>
               {/* <Link to={"/admin_payment_invoice"} className="flex-12a">

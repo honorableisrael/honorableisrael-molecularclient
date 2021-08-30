@@ -2935,6 +2935,7 @@ label i {
 .payspecialist1:focus {
   background: var(--molecular-orange);
   border: none;
+  font-weight: 700;
 }
 .primary3 {
   min-width: 108px;
@@ -3057,6 +3058,8 @@ label i {
 }
 .Filter {
   padding-bottom: 0.5rem;
+  display: flex;
+  justify-content: flex-end;
 }
 @media (max-width: 498px) {
   .job23_ {

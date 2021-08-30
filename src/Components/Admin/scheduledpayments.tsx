@@ -20,7 +20,13 @@ import { Link, withRouter } from "react-router-dom";
 import blueavatar from "../../images/group2.png";
 import Accordions from "../Widgets/Accordion";
 import axios from "axios";
-import { API, notify, returnAdminToken } from "../../config";
+import {
+  API,
+  current_currency,
+  FormatAmount,
+  notify,
+  returnAdminToken,
+} from "../../config";
 import { ToastContainer } from "react-toastify";
 
 const ScheduledPayments = withRouter((props) => {
@@ -34,6 +40,7 @@ const ScheduledPayments = withRouter((props) => {
     work_order_detail: {},
     workDetails: {},
     isloading: false,
+    total_amount: "",
     id: "",
     ungrouped: false,
     grouped: false,
@@ -72,6 +79,7 @@ const ScheduledPayments = withRouter((props) => {
     show2,
     ungrouped,
     grouped,
+    total_amount,
     last_page,
     next,
     prev,
@@ -350,7 +358,7 @@ const ScheduledPayments = withRouter((props) => {
         notify("Failed to make payment", "D");
       });
   };
-  const sendSpecialistId = (id: any) => {
+  const sendSpecialistId = (id: any, cost) => {
     const add_new: any = [id];
     const old_array = state.selectedspecialist;
     const index = old_array.indexOf(id);
@@ -359,11 +367,13 @@ const ScheduledPayments = withRouter((props) => {
       return setState({
         ...state,
         selectedspecialist: [...old_array],
+        total_amount: (Number(total_amount) - Number(cost)).toFixed(2),
       });
     }
     setState({
       ...state,
       selectedspecialist: [...state.selectedspecialist, ...add_new],
+      total_amount: (Number(total_amount) + Number(cost)).toFixed(2),
     });
   };
   return (
@@ -530,12 +540,23 @@ const ScheduledPayments = withRouter((props) => {
                         </select>
                       </div>
                       {selectedspecialist.length !== 0 && (
-                        <Button
-                          onClick={() => openModal2()}
-                          className="payspecialist1"
-                        >
-                          Make Batch Payment
-                        </Button>
+                        <>
+                          <span>
+                            Total amount:{" "}
+                            <b>
+                              {" "}
+                              {current_currency}
+                              {FormatAmount(total_amount)}
+                            </b>
+                          </span>{" "}
+                          &nbsp; &nbsp;
+                          <Button
+                            onClick={() => openModal2()}
+                            className="payspecialist1"
+                          >
+                            Make Batch Payment
+                          </Button>
+                        </>
                       )}
                     </div>
                   </div>
@@ -546,7 +567,8 @@ const ScheduledPayments = withRouter((props) => {
                           <th>Full Name</th>
                           <th>Contractor</th>
                           <th>Type</th>
-                          <th>Account Number</th>
+                          <th>Account Num.</th>
+                          <th>Amount({current_currency})</th>
                           <th>Reference</th>
                           <th>Status</th>
                           <th>Action</th>
@@ -559,13 +581,19 @@ const ScheduledPayments = withRouter((props) => {
                               <div className="dplsplusernmeimg">
                                 {/* <span></span> */}
                                 {data?.status == "Pending" ? (
-                                <input
-                                  type="checkbox"
-                                  name="radio"
-                                  checked={selectedspecialist.includes(data.id)}
-                                  onClick={() => sendSpecialistId(data.id)}
-                                />)
-                                :""}
+                                  <input
+                                    type="checkbox"
+                                    name="radio"
+                                    checked={selectedspecialist.includes(
+                                      data.id
+                                    )}
+                                    onClick={() =>
+                                      sendSpecialistId(data.id, data.amount)
+                                    }
+                                  />
+                                ) : (
+                                  ""
+                                )}
                                 &nbsp; &nbsp;
                                 <div>{data.specialist}</div>
                               </div>
@@ -578,7 +606,20 @@ const ScheduledPayments = withRouter((props) => {
                             </td>
                             <td>{data?.description}</td>
                             <td>{data?.account_number}</td>
-                            <td>{data?.reference}</td>
+                            <td>{FormatAmount(data?.amount)}</td>
+                            <td>
+                              <Link
+                                to="/admin_work_details?inreview=true"
+                                onClick={() =>
+                                  localStorage.setItem(
+                                    "work_order_details",
+                                    JSON.stringify({ id: data.work_order_id })
+                                  )
+                                }
+                              >
+                                {data?.reference}
+                              </Link>
+                            </td>
                             <td>{data?.status}</td>{" "}
                             <td>
                               {data?.status == "Pending" ? (
