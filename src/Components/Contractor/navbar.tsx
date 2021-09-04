@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./navbar.css";
 import { Button, Dropdown, Spinner } from "react-bootstrap";
 import logo from "../../images/Molecular.png";
@@ -7,6 +7,7 @@ import bell from "../../images/bell.png";
 import { API, capitalize } from "../../config";
 import axios from "axios";
 import Axios, { AxiosResponse } from "axios";
+import SideNav from "react-simple-sidenav";
 
 const DashboardNav = withRouter((props) => {
   const [state, setState] = React.useState({
@@ -15,6 +16,8 @@ const DashboardNav = withRouter((props) => {
     isloading: false,
     user_details: {},
   });
+  const [showNav, setShowNav]: any = useState(false);
+
   const { NavisOpen, isloading, user_details }: any = state;
 
   useEffect(() => {
@@ -117,12 +120,12 @@ const DashboardNav = withRouter((props) => {
                 {window.location.pathname == "/contractor_profile" && (
                   <span className="boxdes"></span>
                 )}
-              </Link> 
+              </Link>
             </div>
             <Dropdown className="uddrpdwndiv">
               <div className="bell2">
                 <Link to={"/notification"}>
-                <img src={bell} className="bell" alt="bell" />
+                  <img src={bell} className="bell" alt="bell" />
                 </Link>
               </div>
               <span className="lfff">
@@ -150,11 +153,129 @@ const DashboardNav = withRouter((props) => {
                   {isloading && <Spinner animation="grow" />}
                 </Dropdown.Item>
                 {/* <Dropdown.Item href="#/action-1"><Link to="/user-profile">Settings</Link></Dropdown.Item> */}
-               
               </Dropdown.Menu>
             </Dropdown>
           </div>
         )}
+        <SideNav
+          showNav={showNav}
+          style={{ background: showNav ? "rgba(251, 251, 251, 1)" : "none" }}
+          navStyle={{ width: "70%", background: "rgba(251, 251, 251, 1)" }}
+          onHideNav={() => setShowNav(false)}
+          titleStyle={{
+            backgroundColor: "#fff",
+            color: "#444444",
+            paddingLeft: 10,
+            paddingBottom: 0,
+            paddingTop: 0,
+            fontSize: 17,
+            textAlign: "left",
+          }}
+          itemHoverStyle={{
+            backgroundColor: "rgba(251, 251, 251, 1) !important",
+          }}
+          itemStyle={{ backgroundColor: "" }}
+          title={[
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                padding: "18px 10px 18px 17px",
+              }}
+            >
+              <img src={logo} alt="logo" className="logo2" />
+              <i className="fa fa-close" onClick={() => setShowNav(false)}></i>
+            </div>,
+          ]}
+          items={[
+            <div className="otherwrap mobileshow1">
+              <div className="otherwrap23 otherwrap23admin">
+                <div className="otherwrap23">
+                  <Link to={"/contractor_dashboard"} className="flex-12a">
+                    {" "}
+                    <span
+                      className={
+                        window.location.pathname == "/contractor_dashboard"
+                          ? "navlink_is_active lightorange  "
+                          : "navlink_is_active1"
+                      }
+                    >
+                      <div className="speialcl">Dashboard</div>
+                    </span>
+                    {window.location.pathname == "/contractor_dashboard" && (
+                      <span className="boxdes"></span>
+                    )}
+                  </Link>
+                  <Link to={"/contractor_work_order"} className="flex-12a">
+                    {" "}
+                    <span
+                      className={
+                        window.location.pathname == "/contractor_work_order" ||
+                        window.location.pathname == "/work_order"
+                          ? "navlink_is_active lightorange"
+                          : "navlink_is_active1"
+                      }
+                    >
+                      <div className="speialcl">Work Orders</div>
+                    </span>
+                    {window.location.pathname == "/contractor_work_order" ||
+                      (window.location.pathname == "/work_order" && (
+                        <span className="boxdes"></span>
+                      ))}
+                  </Link>
+                  <Link to={"/payment_invoice"} className="flex-12a">
+                    {" "}
+                    <span
+                      className={
+                        window.location.pathname == "/payment_invoice"
+                          ? "navlink_is_active lightorange"
+                          : "navlink_is_active1"
+                      }
+                    >
+                      <div className="speialcl">Payment</div>
+                    </span>
+                    {window.location.pathname == "/payment_invoice" && (
+                      <span className="boxdes"></span>
+                    )}
+                  </Link>
+                  <Link to={"/contractor_profile"} className="flex-12a">
+                    {" "}
+                    <span
+                      className={
+                        window.location.pathname == "/contractor_profile"
+                          ? "navlink_is_active lightorange"
+                          : "navlink_is_active1"
+                      }
+                    >
+                      <div className="speialcl">Settings</div>
+                    </span>
+                    {window.location.pathname == "/contractor_profile" && (
+                      <span className="boxdes"></span>
+                    )}
+                  </Link>
+                  <a
+                    onClick={() => {
+                      props.history.push("/");
+                      localStorage.clear();
+                    }}
+                    className="flex-12a flex-1xxx"
+                  >
+                    Log out
+                  </a>
+                </div>
+              </div>
+              <Dropdown className="uddrpdwndiv">
+                <div className="bell2">
+                  <Link to={"/notification"}>
+                    {" "}
+                    <img src={bell} className="bell" alt="bell" />
+                  </Link>
+                </div>
+              </Dropdown>
+            </div>,
+          ]}
+        />
+        {/* mobile nav ends here */}
         {true && (
           <div className="prrf">
             <Dropdown className="uddrpdwndiv">
@@ -186,11 +307,11 @@ const DashboardNav = withRouter((props) => {
         )}
         <div
           className="mobileham"
-          //   onClick={() => {
-          //     setState({
-          //       NavisOpen: NavisOpen ? false : true,
-          //     });
-          //   }}
+          onClick={() => {
+            setShowNav({
+              NavisOpen: NavisOpen ? false : true,
+            });
+          }}
         >
           {!NavisOpen ? (
             <>

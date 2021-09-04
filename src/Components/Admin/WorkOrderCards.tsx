@@ -93,15 +93,15 @@ const WorkOrderCards = (props) => {
             <div className="content24">
               <img src={group2} alt="cotn23" className="cotn232" />
               <div className="spcclst12">
-                <div className="spcclst1">Groups Head</div>
-                <div className="spcclst">n/a</div>
+                <div className="spcclst1">Contact Phone</div>
+                <div className="spcclst">{props?.contractor?.contractor?.phone??"n/a"}</div>
               </div>
             </div>
             <div className="content24">
               <img src={group2} alt="cotn23" className="cotn232" />
               <div className="spcclst12">
-                <div className="spcclst1">Contact Person</div>
-                <div className="spcclst">n/a</div>
+                <div className="spcclst1">Contact Email</div>
+                <div className="spcclst"><a href={`mailto:${props?.contractor?.contractor?.email??"n/a"}`}>{props?.contractor?.contractor?.email??"n/a"}</a></div>
               </div>
             </div>
           </div>
