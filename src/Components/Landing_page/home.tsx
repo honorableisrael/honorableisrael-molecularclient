@@ -56,23 +56,23 @@ const Home = () => {
             <Col md={8} className="fixedti22">
               <div className="section-one-content">
                 <h4 className="section-one-heading">
-                  We Empower you to get the work Done!
+                Let’s Build the Natural Gas Pipeline to Global Standards
                 </h4>
                 <p className="section-one-descriptn">
                   Get special skill work done and transforming how work gets
-                  done. We offer the m high-quality workforce you need, when you
+                  done. We offer them high-quality workforce you need, when you
                   need it. Our solutions help you deliver any project on time
                   and within budget.
                 </p>
                 <div className="section-one-btn-div">
                   <Link to="/contractorlanding">
                     <span className="home-btn-primary contrtor-btn">
-                      Contractor
+                    EPC Contractor
                     </span>
                   </Link>
                   <Link to="/specialistlanding">
                     <span className="home-btn-primary specilst-btn">
-                      Specialist
+                    Pipeline Specialists
                     </span>
                   </Link>
                 </div>
@@ -95,7 +95,8 @@ const Home = () => {
                 />
               </div>
               <h4 className="section-three-heading">
-                A workforce management for the specialists
+              Molecular is a technology-driven workforce management
+             solution for technical specialists in Africa’s natural gas industry
               </h4>
               <p className="section-three-parag1">
                 We are the leading workforce management solution for the skilled
@@ -125,31 +126,29 @@ const Home = () => {
             <div className="homepg-cards">
               <div className="homepg-cards-title">
                 <img src={star} alt="pic4" />
-                <p>Industry Standard</p>
+                <p>Get the Job Done</p>
               </div>
               <p>
-                Our support team is the best in the business. We're ready to
-                support you with what you need, as quickly as you need it.
+              Our technical specialists get your jobs done right the first time, and every time.
               </p>
             </div>
             <div className="homepg-cards">
               <div className="homepg-cards-title">
                 <img src={target} alt="pic5" />
-                <p>Reliable Results</p>
+                <p>Quality and Safety</p>
               </div>
               <p>
-                Quality and safety are our top priorities. Our workers get your
-                jobs done right the first time, every time.
+              Our highly vetted technical specialists are certified and skilled to ensure strict adherence to
+               international standards and great project outcomes. We take Quality and Safety very seriously.
               </p>
             </div>
             <div className="homepg-cards">
               <div className="homepg-cards-title">
                 <img src={meter} alt="pic6" />
-                <p>Resource Efficiency</p>
+                <p>Efficient Deployment </p>
               </div>
               <p>
-                Our flexible, local, and scalable solutions reduce your costs
-                and drive greater efficiencies for your business.
+              We provide the technical specialists you need, when you need them
               </p>
             </div>
             <div className="homepg-cards" >
@@ -177,32 +176,27 @@ const Home = () => {
                 <span> What we do </span>
               </div>
               <p className="section-five-paragp1">
-                Our highly trained skilled specialists are the best in their
-                industries.
+              We Empower the People Who Do the Hard Work of Powering Africa though Natural Gas Pipelines.
               </p>
               <div className="section-fivebtn-wrapp">
                 <span className="section-five-btn sctnfvcntrbtn">
-                  Contractors
+                EPC Contractors
                 </span>
                 <span
                   onClick={specialistSection}
                   className="section-five-btn scfvspclstbtn"
                 >
-                  Specialists
+                  Pipeline Specialists
                 </span>
               </div>
-              <p className="section-five-heading">
-                We Power you with high skilled specialists to get your projects
-                done.{" "}
-              </p>
-              <p className="section-five-paragp2">
+              {/* <p className="section-five-paragp2">
                 Access reliable workforce.
                 <br /> Our platform meets your need as a contractor, as well as
                 a specialised skilled worker.
-              </p>
+              </p> */}
               <p className="section-five-paragp3">
-                Our highly trained specialists are the best in each and every
-                industry we serve.
+              MolecularTech aggregates end-to-end natural gas pipeline operations to help Engineering, Procurement & Construction(EPC) Operators in the upstream, midstream and downstream sectors of the natural gas industry, on one hand, and Technical Pipeline Specialists such as Pipeline Welding, Fitting, HDD, Drilling and Steering Professionals, 
+              on the other hand, to achieve efficient deployment and engagement for Pipeline Construction Projects.
               </p>
               <div className="section-five-btn-wrap">
                 <Link to="/contractor_signup">

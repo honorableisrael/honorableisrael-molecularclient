@@ -78,7 +78,7 @@ const Navlist = ({ open }) => {
           borderBottom: "4px solid #fd8c00"
         }}
       >
-        <li>Project</li>
+        <li>Industry Segments</li>
       </NavHashLink>
       <NavHashLink
         to="/learnmore"

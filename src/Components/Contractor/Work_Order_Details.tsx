@@ -39,7 +39,7 @@ import {
 } from "../../config";
 import WorkInformationBreakdown from "./Work_information_Breakdown";
 import { NavHashLink } from "react-router-hash-link";
-import chevrondown from "../../images/chevrondown.png";
+import chevrondown from "../../images/chevrondown.png"; 
 
 const Work_Details = (props: any) => {
   const [state, setState] = useState<any>({

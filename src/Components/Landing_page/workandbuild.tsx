@@ -24,9 +24,9 @@ const Work =()=>{
            </Col>
            <Col md={6} className="section-seven-content-wrapp">
              <h4 className="section-seven-heading">
-             Let’s go to work and build
+             Let’s discuss your next project?
              </h4>
-             <p className="section-seven-content">We make work processes and cycle easy for completion </p>
+             <p className="section-seven-content">We make your work processes and cycle easy for completion  </p>
              <form className="section-seven-form">
                 <Row style={{justifyContent:"space-between", flexWrap:"nowrap"}}>
                   <Col md={6} className="inputcol">

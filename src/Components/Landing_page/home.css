@@ -182,12 +182,12 @@
   border-left: 5px solid #333;
 }
 .section-three-heading {
-  font-weight: 800;
-  font-size: 40px;
-  width: 90%;
-  line-height: 54px;
-  color: #333333;
-  margin-bottom: 60px;
+    font-weight: 700;
+    font-size: 30px;
+    width: 90%;
+    color: #222073;
+    line-height: 40px;
+    margin-bottom: 60px;
 }
 .section-three-parag1 {
   margin-bottom: 34px;
@@ -427,6 +427,7 @@
 }
 .section-five-paragp3{
     width: 85%;
+    margin-top: 45px;
 }
 .skilseclectdiv{
     display: flex;
@@ -516,7 +517,7 @@
     padding: 104px 6px 112px 43px;
 }
 .section-seven-heading{
-    font-size: 40px;
+    font-size: 35px;
     font-weight: 800;
     color: #222073;
     margin-bottom: 18px;
@@ -524,7 +525,7 @@
 .section-seven-content{
     color: #333333;
     font-size: 20px;
-    font-weight: 600;
+    font-weight: 400;
     margin-bottom: 28px;
 }
 .section-seven-form{
