@@ -392,7 +392,7 @@
 .section-fivebtn-wrapp{
     display: flex;
     justify-content: space-evenly;
-    width: 73%;
+    width: 85%;
 }
 .section-five-btn {
     padding: 4px 19px;
@@ -1003,4 +1003,15 @@
 }
 .partner-logo:hover{
     filter: grayscale(1%);
+}
+
+.section-fivebtn-wrapp .home-btn-primary{
+  min-width: fit-content;
+  margin-left: .6rem;
+}
+.section-five-img-col img{
+  object-fit: cover;
+  width: unset;
+  max-width: -webkit-fill-available;
+  height: 100%;
 }
