@@ -58,12 +58,12 @@ const Home = () => {
                 <h4 className="section-one-heading">
                   Let’s Build the Natural Gas Pipeline to Global Standards
                 </h4>
-                <p className="section-one-descriptn">
+                {/* <p className="section-one-descriptn">
                   Get special skill work done and transforming how work gets
                   done. We offer them high-quality workforce you need, when you
                   need it. Our solutions help you deliver any project on time
                   and within budget.
-                </p>
+                </p> */}
                 <div className="section-one-btn-div">
                   <Link to="/contractorlanding">
                     <span className="home-btn-primary contrtor-btn">
@@ -98,7 +98,7 @@ const Home = () => {
                 Molecular is a technology-driven workforce management solution
                 for technical specialists in Africa’s natural gas industry
               </h4>
-              <p className="section-three-parag1">
+              {/* <p className="section-three-parag1">
                 We are the leading workforce management solution for the skilled
                 specialists. We make it easier for workers to find work and for
                 companies to find in-demand for special workforce needed.
@@ -107,12 +107,23 @@ const Home = () => {
                 Through people and technology, we provide staffing, training,
                 and professional services to empower the specialists who get
                 hard work done.
-              </p>
+              </p> */}
               <Link to="/Learnmore">
                 <span className="home-btn-primary learnmorebtn">
                   Learn More
                 </span>
               </Link>
+              <div className="section-three-subheading">
+                <span> Our Mission </span>
+                <img
+                  src={yellowline}
+                  className="purpleline img-fluid"
+                  alt="pic2"
+                />
+              </div>
+              <p className="section-three-heading">
+              To empower the people who do the hard work of powering Africa through natural gas pipelines
+              </p>
             </div>
           </Col>
           <Col md={6} data-aos="zoom-in-up">
@@ -155,7 +166,7 @@ const Home = () => {
                 them
               </p>
             </div>
-            <div className="homepg-cards">
+            {/* <div className="homepg-cards">
               <div className="homepg-cards-title">
                 <img src={greencheck} alt="pic7" />
                 <p>Certify Specialists</p>
@@ -164,12 +175,11 @@ const Home = () => {
                 We connect you with the workers you need. No matter what you're
                 looking for, our diverse workforce can meet your unique needs.
               </p>
-            </div>
+            </div> */}
           </div>
         </Container>
         <div id="our_services"></div>
       </div>
-      {toggleSections === true && (
         <div className="section-five">
           <Row>
             <Col md={6} className="section-five-img-col">
@@ -184,26 +194,30 @@ const Home = () => {
                 though Natural Gas Pipelines.
               </p>
               <div className="section-fivebtn-wrapp">
+                <Link to="/contractorlanding">
                 <span className="home-btn-primary contrtor-btn">
                   EPC Contractors
                 </span>
+                </Link>
                 {/* <span
                   onClick={specialistSection}
                   className="section-five-btn scfvspclstbtn"
                 > */}
+                <Link to="/specialistlanding">
                 <span
                   className="home-btn-primary specilst-btn"
                   onClick={specialistSection}
                 >
                   Pipeline Specialists
                 </span>
+                </Link>
               </div>
               {/* <p className="section-five-paragp2">
                 Access reliable workforce.
                 <br /> Our platform meets your need as a contractor, as well as
                 a specialised skilled worker.
               </p> */}
-              <p className="section-five-paragp3">
+              {/* <p className="section-five-paragp3">
                 MolecularTech aggregates end-to-end natural gas pipeline
                 operations to help Engineering, Procurement & Construction(EPC)
                 Operators in the upstream, midstream and downstream sectors of
@@ -211,19 +225,18 @@ const Home = () => {
                 Specialists such as Pipeline Welding, Fitting, HDD, Drilling and
                 Steering Professionals, on the other hand, to achieve efficient
                 deployment and engagement for Pipeline Construction Projects.
-              </p>
-              <div className="section-five-btn-wrap">
+              </p> */}
+              {/* <div className="section-five-btn-wrap">
                 <Link to="/contractor_signup">
                   <span className="home-btn-primary sectnfivecontrtor-btn">
                     Hire Specialists
                   </span>
                 </Link>
-              </div>
+              </div> */}
             </Col>
           </Row>
         </div>
-      )}
-      {toggleSections === false && (
+      {/* {toggleSections === false && (
         <div className="section-five">
           <Row>
             <Col md={6} className="section-five-img-col">
@@ -282,7 +295,7 @@ const Home = () => {
             </Col>
           </Row>
         </div>
-      )}
+      )} */}
       <div className="section-six">
         <h4>
           Our goal is to revolutionize the industry, using technology to

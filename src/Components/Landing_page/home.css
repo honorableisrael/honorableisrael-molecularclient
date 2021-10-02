@@ -49,7 +49,7 @@
 }
 .home-btn-primary {
   display: inline-block;
-  padding: 15px 53px;
+  padding: 15px 47px;
   font-size: 18px;
   border-radius: 8px;
   font-weight: 600;
@@ -169,13 +169,13 @@
   margin: 0px 0px 12px 3px;
 }
 .section-three-subheading {
-  margin-bottom: 60px;
+  margin-bottom: 20px;
 }
 .section-three-subheading > span {
   display: block;
   font-size: 24px;
-  font-weight: 400;
-  color: #333333;
+  font-weight: 600;
+  color: #222073;
 }
 .section-five-subheading > span {
   display: inline-block;
@@ -187,12 +187,12 @@
   border-left: 5px solid #333;
 }
 .section-three-heading {
-  font-weight: 700;
-  font-size: 30px;
+  font-weight: 600;
+  font-size: 20px;
   width: 90%;
-  color: #222073;
-  line-height: 40px;
-  margin-bottom: 60px;
+  color: #333333;
+  line-height: 31px;
+  margin-bottom: 27px;
 }
 .section-three-parag1 {
   margin-bottom: 34px;
@@ -211,6 +211,7 @@
   color: #fd8c00;
   padding: 12px 53px;
   transition: all 0.4s;
+  margin-bottom: 95px;
 }
 .learnmorebtn:hover {
   background-color: #fd8c00;
@@ -235,8 +236,8 @@
   .section-three-subheading > span {
     display: block;
     font-size: 24px;
-    font-weight: 400;
-    color: #333333;
+    font-weight: 600;
+    color: #222073;
   }
   .sctn3span {
     display: block;
@@ -350,7 +351,7 @@
   justify-content: space-around;
 }
 .homepg-cards {
-  width: 23%;
+  width: 30%;
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 0 10px 0 rgb(6 117 193 / 16%);
@@ -512,10 +513,10 @@
 .section-seven {
   background-color: rgba(240, 245, 253, 1);
 }
-.lightbulb-img {
+ .lightbulb-img {
   background-image: url(../../images/lightbulb.png);
   background-repeat: no-repeat;
-  background-position-y: -84px;
+  background-position-y: 15px;
   background-position-x: 16px;
 }
 .section-seven-content-wrapp {
@@ -584,14 +585,21 @@
 .lightbulb-img {
   background-image: url(../../images/lightbulb.png);
   background-repeat: no-repeat;
-  background-position-y: -84px;
-  background-position-x: 16px;
+  background-position-y: 76px;
+  background-position-x: center;
+  width: 34%;
 }
 .section-seven-content-wrapp {
-  padding: 104px 6px 112px 43px;
+  padding: 132px 6px 105px 0px;
+  width: 29%;
+}
+.section_sevenrow{
+  display: flex;
+  justify-content: space-around;
+  padding-left: 29px;
 }
 .section-seven-heading {
-  font-size: 40px;
+  font-size: 32px;
   font-weight: 800;
   color: #222073;
   margin-bottom: 18px;
@@ -601,6 +609,27 @@
   font-size: 20px;
   font-weight: 600;
   margin-bottom: 28px;
+}
+.buildsctnbtn{
+  display: inline-block;
+  font-size: 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-align: center;
+  width: 51%;
+  padding: 9px 0px;
+  cursor: pointer;
+}
+.bldcontrtor-btn{
+  background-color: #fd8c00;
+  color: #ffffff;
+  margin-bottom: 12px;
+}
+.bldspecilst-btn{
+  border: 2px solid #fd8c00;
+}
+.scoialswrap{
+  width: 20%;
 }
 .section-seven-form {
   background-color: rgba(123, 123, 123, 0.2);
@@ -722,7 +751,7 @@
   background-repeat: no-repeat;
 }
 .cntrotlndg-section1-contnt {
-  padding: 220px 0px 94px 95px;
+  padding: 220px 0px 0px 95px;
   background-image: url(../../images/jointcircle.png);
   background-repeat: no-repeat;
   background-position-x: center;
@@ -740,7 +769,7 @@
   font-weight: 400;
   line-height: 27px;
   width: 90%;
-  margin-bottom: 85px;
+  margin-bottom: 53px;
 }
 .cntrotlndg-section2 {
   padding: 40px 27px 629px 78px;
@@ -766,12 +795,21 @@
   background-size: auto;
   padding: 47px 78px 100px 78px;
 }
-.cntrotlndg-section3 > p {
+.cntrotlndg-section3_heading {
   color: #333333;
   font-size: 25px;
   font-weight: 700;
   line-height: 34px;
-  margin-bottom: 67px;
+  text-align: center;
+  margin-bottom: 12px;
+}
+.cntrotlndg-section3_subheading {
+  color: #333333;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 34px;
+  text-align: center;
+  margin-bottom: 45px;
 }
 .cntrotlndg-section3-cards {
   display: flex;
@@ -800,6 +838,7 @@
   font-weight: bold;
   font-size: 25px;
   line-height: 34px;
+  text-align: center;
   margin-bottom: 24px;
 }
 .cntrotlndg-section3-card-descr {
@@ -1022,4 +1061,175 @@
 .section-fivebtn-wrapp .specilst-btn {
   color: #fd8c00 !important;
   border-color: #fd8c00;
+}
+/* Industry segment styling */
+.toppagepadding {
+  padding-top: 97px;
+}
+.Industry_segment_section-1{
+  background-image: url(../../images/wallpapersty.png);
+  background-repeat: no-repeat;
+ text-align: center;
+ padding: 50px 0px;
+}
+.Is_section-1-row {
+  padding-left: 80px;
+  padding-bottom: 52px;
+}
+.Industry_segment_section-1>h6{
+  color: #222073;
+  font-size: 20px;
+  font-weight: 700;
+}
+.Industry_segment_section-1>h2{
+  font-weight: 800;
+  font-size: 40px;
+  line-height: 54px;
+}
+.Industry_segment_section-1>p{
+  color: #666666;
+  width: 48%;
+  margin: auto;
+  line-height: 21px;
+}
+.Industry_segment_section-1>img{
+  margin-bottom: 12px;
+}
+.Industry_segment_section-2{
+  background-color: #f7f7f7;
+  /* background-image: url(../../images/Is_elipse.png);
+  background-repeat: no-repeat;
+  background-position-x: 499px;
+  background-position-y: 605px; */
+}
+.Is_rowcol1wrap{
+  padding: 56px 71px 0px 0px;
+}
+.Is_rowcol1wrap>h4{
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+.Is_rowcol1wrap>p{
+  font-size: 18px;
+  font-weight: 400;
+}
+.Is_images_section_wrap{
+  padding: 0px 74px;
+}
+.Is_images_section{
+  display: flex;
+  justify-content: space-around;
+  padding-bottom: 90px;
+}
+.Is_images_section>div{
+  width: 22%;
+}
+.Is_section-2-row{
+  padding-right: 80px;
+  padding-bottom: 52px;
+}
+.Is_row2col2wrap{
+  padding: 56px 0px 0px 71px;
+}
+.Is_row2col2wrap>h4{
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+/* contact page */
+.contact_form-wrap{
+  padding: 12px 2px 12px 48px;
+}
+.contact_form{
+  display: flex;
+  padding-left: 129px;
+  flex-direction: column;
+}
+.contact_form>h2{
+  text-align: center;
+  font-size: 40px;
+  font-weight: 700;
+  color: #333333;
+}
+.contact_form>p{
+  color: #666666;
+  font-weight: 600;
+  font-size: 18px;
+}
+.contact_jointcircle{
+  padding-left: 56px;
+  padding-top: 27px;
+}
+.contact_form>label{
+  margin-bottom: 23px;
+  padding-top: 41px
+}
+.cntinput{
+  border-top: none;
+  border-right: none;
+  border-radius: unset;
+  border-left: none;
+}
+.contactpgcol2{
+  background-color: #3a3a3a;
+  clip-path: polygon( 40% 0%, 100% 0, 100% 100%, 40% 104%);
+}
+.cntactpg_logos{
+  display: inline-block;
+  background-color: rgba(255, 255, 255, .17);
+  height: 38px;
+  width: 38px;
+  border-radius: 100px;
+  margin-bottom: 15px;
+  transition: all .2s;
+  text-align: center;
+  font-size: 21px;
+  line-height: 35px;
+  cursor: pointer;
+}
+.cntctpg_socialicons{
+  display: flex;
+  justify-content: space-around;
+  width: 30%;
+  float: right;
+  padding-top: 629px;
+  padding-bottom: 30px;  
+}
+.listflex{
+  display: flex;
+  color: #fafafa;
+  font-size: 18px;
+  font-weight: 400;
+  margin-bottom: 35px !important;
+}
+.infowrapcol{
+  padding-right: 0;
+}
+.infowrap{
+  background-image:    linear-gradient(90deg, rgba(0,0,0,0.9) , rgba(0, 0, 0, 0) 112.58%),url(../../images/manwithflame.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding: 85px 0px 163px 60px;
+  margin-top: -100%;
+}
+.info{
+  font-weight: bold;
+  font-size: 40px;
+  color: #fff;
+  margin-bottom: 34px;
+}
+.list_bullet {
+  margin-right: 15px;
+}
+.formbtn{
+  display: inline-block;
+  background-color: #fd8c00;
+  color: #fff;
+  text-align: center;
+    padding: 21px;
+    font-weight: 600;
+    margin-top: 10px;
+    margin-bottom: 23px;
+    cursor: pointer;
 }

@@ -6,7 +6,7 @@ import styled from "styled-components";
 
 const Ul = styled.ul`
      display: flex !important;
-     width: 50%;
+     width: 55%;
      color: #999999;
      font-size: 16px;
      font-weight: 600;
@@ -70,7 +70,7 @@ const Navlist = ({ open }) => {
         <li>Our Services</li>
       </NavHashLink>
       <NavHashLink
-        to="/projects"
+        to="/Industry_segments"
         className="homenavlnks"
         activeStyle={{
           color: "#222073",

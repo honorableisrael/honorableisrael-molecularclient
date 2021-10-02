@@ -42,6 +42,7 @@ import Admin_Notification from "./Components/Admin/Notification";
 import All_Specialist from "./Components/Admin/All_Specialist";
 import ContactUs from "./Components/Landing_page/contactUs";
 import Projects from "./Components/Landing_page/projects";
+import IndustrySegments from  "./Components/Landing_page/IndustrySegments";
 import Admin_Payment_Invoice from "./Components/Admin/Payment_Invoice";
 import DeployedSpecialist from "./Components/Admin/deployedSpecialist";
 import Specialistdetails from "./Components/Admin/SpecialistPersonalDetails"
@@ -92,6 +93,7 @@ class App extends Component {
               <Route path="/projects" component={Projects} />
               <Route path="/contactus" component={ContactUs} />
               <Route path="/contractorlanding" component={ContractorLanding} />
+              <Route path="/Industry_segments" component={IndustrySegments} />
               <Route path="/work_order" component={NewWorkOrderForm} />
               <Route
                 path="/contractor_work_order"

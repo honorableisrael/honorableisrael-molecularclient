@@ -202,14 +202,13 @@ useEffect(() => {
                 <Form className="form-wrapper" onSubmit={validateForm}>
                   <div className="padded-form-wrapper">
                     <div className="form-header">
-                      <h4 className="form-title">Sign up to get Work</h4>
+                      <h4 className="form-title">Sign up to FInd Work</h4>
+                      <p>Join one of the largest communities of technical specialists in Africa.</p>
                     </div>
                     <div className="form-descr-text">
                       <p>
-                        Connect with a member of our team to explore how
-                        Molecular can help you broaden work skills and career.
-                        Leave us some information about you and we’ll get in
-                        touch with you.
+                      Leave some information about you in the form below, attach your resume and we’ll get in touch with you.
+Learn what to expect when you sign up to find work with MolecularTech
                       </p>
                     </div>
                   </div>
