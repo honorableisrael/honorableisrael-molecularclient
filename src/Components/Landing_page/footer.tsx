@@ -19,11 +19,11 @@ const Footer =()=>{
           <div className="footer-wrapper">
             <div className="fter-cmpny-dscrtn">
               <div className="footer-logodv"><img src={footerlogo} alt="molecularlogo"/></div>
-              <p className="">Get special skill work done and transforming how work gets done. 
+              {/* <p className="">Get special skill work done and transforming how work gets done. 
                 We offer the high quality workforce 
                 you need, when you need it. Our solutions help you deliver 
                 any project on time and within budget.
-              </p>
+              </p> */}
             </div>
             <div>
               <h4 className="footer-title">Company</h4>

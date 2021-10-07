@@ -1023,3 +1023,17 @@
   color: #fd8c00 !important;
   border-color: #fd8c00;
 }
+
+@media(max-width:500px){
+    .section-fivebtn-wrapp {
+      display: flex;
+      justify-content: normal;
+      width: 85%;
+      flex-wrap: wrap;
+  }
+  .section-fivebtn-wrapp .specilst-btn,.section-fivebtn-wrapp .home-btn-primary {
+    width: 100%;
+    margin-bottom: .5rem;
+    text-align: center;
+  }
+}

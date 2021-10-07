@@ -59,10 +59,6 @@ const Home = () => {
                   Let’s Build the Natural Gas Pipeline to Global Standards
                 </h4>
                 <p className="section-one-descriptn">
-                  Get special skill work done and transforming how work gets
-                  done. We offer them high-quality workforce you need, when you
-                  need it. Our solutions help you deliver any project on time
-                  and within budget.
                 </p>
                 <div className="section-one-btn-div">
                   <Link to="/contractorlanding">

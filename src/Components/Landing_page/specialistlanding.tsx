@@ -36,7 +36,7 @@ const SpecialistLanding = () => {
       </div>
       <div className="cntrotlndg-section3">
         <p>We connect you with the best opportunities.</p>
-        <div className="cardlift">
+        {/* <div className="cardlift">
           <div className="cntrotlndg-section3-cards">
             <div className="cntrotlndg-section3-card-content">
               <img src={weldingflame} className="img-fluid" alt="img" />
@@ -152,7 +152,7 @@ const SpecialistLanding = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
       <div className="cntrotlndg-section4">
         <Link to="/specialist_signup">
