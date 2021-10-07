@@ -27,7 +27,7 @@ const Ul = styled.ul`
 @media screen and (max-width:1024px){
      width: 73%;
 }
-@media screen and (max-width:760px){
+@media screen and (max-width:769px){
     position: fixed;
     left: -1px;
     height: 92vh;
@@ -36,7 +36,7 @@ const Ul = styled.ul`
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 50%;
+    width: 61%;
     z-index: -6;
     transform: ${({ open }) => (open ? "translateX(0)" : "translateX(-100%)")};
     transition: transform 0.5s ease-in-out;

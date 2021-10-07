@@ -53,7 +53,7 @@ const Learnmore = () => {
             </p>
           </Col>
           <Col md={6} className="whithelmetwrapp">
-            <img src={whitehelmet} className="whitehelmet-img" alt="img" />
+            <img src={whitehelmet} className="whitehelmet-img img-fluid" alt="img" />
           </Col>
         </Row>
       </div>

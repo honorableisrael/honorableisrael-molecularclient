@@ -18,7 +18,9 @@ const Work = () => {
     <div>
       <div className="section-seven">
         <div className="section_sevenrow"> 
-          <div  className="lightbulb-img"></div>
+          <div  className="lightbulb-img">
+          <img src={lightbulb} className="img-fluid"/>
+          </div>
           <div  className="section-seven-content-wrapp">
             <h4 className="section-seven-heading">
               Let’s get the hard work done
@@ -27,7 +29,7 @@ const Work = () => {
               We make your work processes and cycle easy for completion{" "}
             </p>
           </div>
-          <div   className="section-seven-content-wrapp">
+          <div   className="section-seven-content-wrapp wnbmobbtnwrap">
             <div>
               <div>
                 <Link to="/contractorlanding">

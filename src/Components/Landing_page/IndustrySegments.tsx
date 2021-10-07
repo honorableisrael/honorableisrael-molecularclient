@@ -59,7 +59,7 @@ const IndustrySegments = () => {
               </p>
             </div>
           </Col>
-          <Col md={6}>
+          <Col md={6} className="sctn3col2">
             <img src={tractors} className="img-fluid" alt="pic3" />
           </Col>
         </Row>
@@ -111,7 +111,7 @@ const IndustrySegments = () => {
           </div>
         </div>
         <Row className="Is_section-2-row">
-          <Col md={6}>
+          <Col md={6} className="Is_sectn2_col1">
             <img src={ethylene_flame} className="img-fluid" alt="pic3" />
           </Col>
           <Col md={6}>

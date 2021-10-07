@@ -5,12 +5,12 @@ import NavBar from "../Widgets/navigation";
 import "./home.css";
 import PartnerSection from "./partenerSection";
 import yellowline from "../../images/yellowline.png";
-import oilengineers from "../../images/oilengineers.png";
+import oilengineers from "../../images/oilengineers.jpg";
 import star from "../../images/star.png";
 import target from "../../images/target.png";
 import meter from "../../images/meter.png";
 import greencheck from "../../images/greencheck.png";
-import lead from "../../images/leadengineers.png";
+import lead from "../../images/leadengineers.jpg";
 import plumber from "../../images/plumber.png";
 import fire from "../../images/fire.png";
 import tap from "../../images/tap.png";
@@ -53,7 +53,7 @@ const Home = () => {
       <div className="section-one">
         <Container>
           <Row className="hmsectn1row">
-            <Col md={8} className="fixedti22">
+            <Col md={12} className="fixedti22">
               <div className="section-one-content">
                 <h4 className="section-one-heading">
                   Let’s Build the Natural Gas Pipeline to Global Standards
@@ -126,8 +126,8 @@ const Home = () => {
               </p>
             </div>
           </Col>
-          <Col md={6} data-aos="zoom-in-up">
-            <img src={oilengineers} className="img-fluid" alt="pic3" />
+          <Col md={6} data-aos="zoom-in-up" className="sctn3col2">
+            <img src={oilengineers} className="img-fluid oilengimg" alt="pic3" />
           </Col>
         </Row>
       </div>

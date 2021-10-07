@@ -28,7 +28,7 @@ const ContacUs = () => {
       <div className="toppagepadding"></div>
       <div></div>
       <Container fluid>
-        <Row>
+        <Row className="cntctpgrow">
           <Col md={6}>
             <div className="contact_jointcircle">
               <img src={jointcircle} alt="img" />

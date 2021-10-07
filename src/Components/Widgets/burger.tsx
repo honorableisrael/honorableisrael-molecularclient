@@ -25,7 +25,7 @@ const StyledBurger = styled.div`
         transform: ${({open}) => open ? 'rotate(-45deg)' : 'rotate(0)'};
       }
     }
-    @media screen and (max-width:760px){
+    @media screen and (max-width:769px){
         display: block;
 `;
 
