@@ -1,4 +1,4 @@
-import React,{useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Col, Row, Container, Alert, Form } from "react-bootstrap";
 import { Link, withRouter } from "react-router-dom";
 import "./signup.css";
@@ -69,128 +69,105 @@ const onSubmit = () => {
         }, 3000);
         setState({
           ...state,
-          errorMessage: "",
-          successMessage: response.data.message,
+          errorMessage: "signup failed, check your internet connection",
           isLoading: false,
         });
       }
-    })
-    .catch((error) => {
-      console.log(error.response);
-      if (error?.response?.status == 406) {
-        return setState({
-          ...state,
-          errorMessage: error?.response?.data?.errors?.email?.join(""),
-          successMessage: "",
-        });
-      }
-      if (error?.response?.status == 400) {
-        return setState({
-          ...state,
-          errorMessage: error?.response?.data?.message,
-        });
-      }
-      setState({
-        ...state,
-        errorMessage: "signup failed, check your internet connection",
-        isLoading: false,
       });
-    });
-};
+  }
+  
 
-const onChangeHandler = (e) => {
-  setState({
-    ...state,
-    [e.target.name]: e.target.value,
-    errorMessage: "",
-    successMessage: "",
- 
-  });
-};
-const onChangepassword = (e) => {
-  setState({
-    ...state,
-    password: e.target.value,
-    btnState: true
-  });
-};
-const selectedSKillHandler = (e) => {
-  setState({
-    ...state,
-    skill: e.target.value,
-  });
-};
-const hidePassword = () => {
-  setState({
-    ...state,
-    passwordIsOpen: passwordIsOpen ? false : true
-  });
-};
-const fieldRef: any = useRef();
+  const onChangeHandler = (e) => {
+    setState({
+      ...state,
+      [e.target.name]: e.target.value,
+      errorMessage: "",
+      successMessage: "",
+    });
+  };
+  const onChangepassword = (e) => {
+    setState({
+      ...state,
+      password: e.target.value,
+      btnState: true,
+    });
+  };
+  const selectedSKillHandler = (e) => {
+    setState({
+      ...state,
+      skill: e.target.value,
+    });
+  };
+  const hidePassword = () => {
+    setState({
+      ...state,
+      passwordIsOpen: passwordIsOpen ? false : true,
+    });
+  };
+  const fieldRef: any = useRef();
   useEffect(() => {
-    if (errorMessage || successMessage && fieldRef) {
+    if (errorMessage || (successMessage && fieldRef)) {
       fieldRef.current.scrollIntoView({
-        behavior: "smooth"
+        behavior: "smooth",
       });
     }
   }, [errorMessage, successMessage]);
-const validateForm = (e) => {
-  e.preventDefault();
-  if (firstName == "" && lastName == "" && email == "" && password == "") {
-    return setState({
-      ...state,
-      errorMessage: "please enter your details",
-    });
-  } 
-  if (firstName == "") {
-    return setState({
-      ...state,
-      errorMessage: "Please enter your first name",
-    });
-  }
-  if (lastName == "") {
-    return setState({
-      ...state,
-      errorMessage: "Please enter your lastname",
-    });
-  }
-  if (email == "") {
-    return setState({
-      ...state,
-      errorMessage: "Please enter your email",
-    });
-  }
-  if (skill == "") {
-    return setState({
-      ...state,
-      errorMessage: "Please enter your skill",
-    });
-  }
-  if (password == "") {
-    return setState({
-      ...state,
-      errorMessage: "Please enter your password",
-    });
-  } 
-  else {
-    onSubmit();
-  }
-};
-useEffect(() => {
-  window.scrollTo(-0,-0);
-  axios
-  .get(`${API}/skills`)
-  .then((res) => {
-    console.log(res.data);
-    setState({
-      ...state,
-      jobs: res.data.data
-    });
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-}, []);
+  const validateForm = (e) => {
+    e.preventDefault();
+    if (firstName == "" && lastName == "" && email == "" && password == "") {
+      return setState({
+        ...state,
+        errorMessage: "please enter your details",
+      });
+    }
+    if (firstName == "") {
+      return setState({
+        ...state,
+        errorMessage: "Please enter your first name",
+      });
+    }
+    if (lastName == "") {
+      return setState({
+        ...state,
+        errorMessage: "Please enter your lastname",
+      });
+    }
+    if (email == "") {
+      return setState({
+        ...state,
+        errorMessage: "Please enter your email",
+      });
+    }
+    if (skill == "") {
+      return setState({
+        ...state,
+        errorMessage: "Please enter your skill",
+      });
+    }
+    if (password == "") {
+      return setState({
+        ...state,
+        errorMessage: "Please enter your password",
+      });
+    } else {
+      onSubmit();
+    }
+  };
+  useEffect(() => {
+    window.scrollTo(-0, -0);
+    axios
+      .get(`${API}/skills`)
+      .then((res) => {
+        console.log(res.data);
+        setState({
+          ...state,
+          jobs: res.data.data,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
   return (
     <div>
        <NavBar />
@@ -203,8 +180,11 @@ useEffect(() => {
                 <Form className="form-wrapper" onSubmit={validateForm}>
                   <div className="padded-form-wrapper">
                     <div className="form-header">
-                      <h4 className="form-title">Sign up to FInd Work</h4>
-                      <p>Join one of the largest communities of technical specialists in Africa.</p>
+                      <h4 className="form-title">Sign up to Find Work</h4>
+                      <p>
+                        Join one of the largest communities of technical
+                        specialists in Africa.
+                      </p>
                     </div>
                     <div className="form-descr-text">
                       <p>
@@ -215,19 +195,22 @@ useEffect(() => {
                   </div>
                   <div className="padded-input-wrapper" ref={fieldRef}>
                     <Row>
-                    {successMessage && (
-                     <Alert key={2} variant="success" className="alertmessg">
-                    {successMessage}
-                  </Alert>
-                )}
-                {errorMessage && (
-                  <Alert key={2} variant="danger" className="alertmessg">
-                    {errorMessage}
-                  </Alert>
-                )}
+                      {successMessage && (
+                        <Alert key={2} variant="success" className="alertmessg">
+                          {successMessage}
+                        </Alert>
+                      )}
+                      {errorMessage && (
+                        <Alert key={2} variant="danger" className="alertmessg">
+                          {errorMessage}
+                        </Alert>
+                      )}
                       <Col md={6}>
                         <label className="inputlabel">
-                          <span className="rdfrmlbl"> First Name<span className="asteric">*</span></span>
+                          <span className="rdfrmlbl">
+                            {" "}
+                            First Name<span className="asteric">*</span>
+                          </span>
                           <input
                             type="text"
                             name="firstName"
@@ -241,7 +224,10 @@ useEffect(() => {
                       </Col>
                       <Col md={6}>
                         <label className="inputlabel">
-                          <span className="rdfrmlbl"> Last Name<span className="asteric">*</span></span>
+                          <span className="rdfrmlbl">
+                            {" "}
+                            Last Name<span className="asteric">*</span>
+                          </span>
                           <input
                             type="text"
                             name="lastName"
@@ -255,7 +241,10 @@ useEffect(() => {
                       </Col>
                     </Row>
                     <label className="inputlabel">
-                      <span className="rdfrmlbl"> Email Address<span className="asteric">*</span></span>
+                      <span className="rdfrmlbl">
+                        {" "}
+                        Email Address<span className="asteric">*</span>
+                      </span>
                       <input
                         type="text"
                         name="email"
@@ -267,7 +256,10 @@ useEffect(() => {
                       />
                     </label>
                     <label className="inputlabel">
-                      <span className="rdfrmlbl"> Phone Number<span className="asteric">*</span></span>
+                      <span className="rdfrmlbl">
+                        {" "}
+                        Phone Number<span className="asteric">*</span>
+                      </span>
                       <input
                         type="text"
                         name="phone"
@@ -280,36 +272,37 @@ useEffect(() => {
                     </label>
                     <Row>
                       <Col md={12}>
-                    <span className="inputlabel">
-                      Skills
-                    </span>
-                    <select
-                      className="forminput formselect form-control"
-                      required
-                      onChange={selectedSKillHandler}
-                    >
-                      <option
-                        value=""
-                        className="formselect"
-                        disabled
-                        selected
-                        hidden
-                      >
-                        Select your qualified Skills
-                      </option>
-                        {jobs.map((job: any, i) => (
-                        <option className="rdsltopt" key={i} value={job.id}>
-                          {job.name}
-                        </option>
-                      ))};
-                    </select>
-                    <div className="text-right">
-                      <img src={formCaret} className="drparr" />
-                    </div>
-                    </Col>
+                        <span className="inputlabel">Skills</span>
+                        <select
+                          className="forminput formselect form-control"
+                          required
+                          onChange={selectedSKillHandler}
+                        >
+                          <option
+                            value=""
+                            className="formselect"
+                            disabled
+                            selected
+                            hidden
+                          >
+                            Select your qualified Skills
+                          </option>
+                          {jobs.map((job: any, i) => (
+                            <option className="rdsltopt" key={i} value={job.id}>
+                              {job.name}
+                            </option>
+                          ))}
+                          ;
+                        </select>
+                        <div className="text-right">
+                          <img src={formCaret} className="drparr" />
+                        </div>
+                      </Col>
                     </Row>
                     <label className="inputlabel">
-                      <span className="rdfrmlbl">Password<span className="asteric">*</span></span>
+                      <span className="rdfrmlbl">
+                        Password<span className="asteric">*</span>
+                      </span>
                       <input
                         type={passwordIsOpen ? "password" : "text"}
                         name="password"
@@ -321,40 +314,58 @@ useEffect(() => {
                       />
                     </label>
                     <div className="text-right">
-                  {passwordIsOpen ? (
-                    <img
-                      src={eye}
-                      className="hideeye"
-                      onClick={hidePassword}
-                      alt="hideeye"
-                    />
-                  ) : (
-                    <img
-                      src={eyeclose}
-                      className="hideeye"
-                      onClick={hidePassword}
-                      alt="hideeye"
-                    />
-                  )}
-                </div>
+                      {passwordIsOpen ? (
+                        <img
+                          src={eye}
+                          className="hideeye"
+                          onClick={hidePassword}
+                          alt="hideeye"
+                        />
+                      ) : (
+                        <img
+                          src={eyeclose}
+                          className="hideeye"
+                          onClick={hidePassword}
+                          alt="hideeye"
+                        />
+                      )}
+                    </div>
                     <div className="form-check">
                       <label className="form-check-label">
-                       <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault"/>
-                         Creating an account means you’re okay with our Terms of Service, Privacy Policy, and our<br/>
-                         default Notification Settings.
-                     </label>
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          value=""
+                          id="flexCheckDefault"
+                        />
+                        Creating an account means you’re okay with our Terms of
+                        Service, Privacy Policy, and our
+                        <br />
+                        default Notification Settings.
+                      </label>
                     </div>
                     <div className="form-btn-wrapper">
-                      <span className={btnState === true ?"form-btnactive":"form-btn"} onClick={validateForm}>
-                      {!isLoading ? "Create Account" : "Processing..."}
+                      <span
+                        className={
+                          btnState === true ? "form-btnactive" : "form-btn"
+                        }
+                        onClick={validateForm}
+                      >
+                        {!isLoading ? "Create Account" : "Processing..."}
                       </span>
                     </div>
-                  <Link to="/signin"><p className="signuprgqt">Have Molecular account?<span>Login</span></p></Link>
+                    <Link to="/signin">
+                      <p className="signuprgqt">
+                        Have Molecular account?<span>Login</span>
+                      </p>
+                    </Link>
                   </div>
                 </Form>
               </Col>
             </Row>
-            <div className="footer-rights">©2021 Molecular copyright All rights Reserved</div>
+            <div className="footer-rights">
+              ©2021 Molecular copyright All rights Reserved
+            </div>
           </Container>
         </div>
       </section>

@@ -1354,3 +1354,8 @@ text-align: center;
     margin-bottom: 23px;
     cursor: pointer;
 }
+
+.findworkimage{
+  width: inherit;
+  height: 798px;
+}

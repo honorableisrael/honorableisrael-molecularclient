@@ -163,7 +163,7 @@ const SpecialistLanding = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> 
       </div>
       <div className="cntrotlndg-section4">
         <Link to="/specialist_signup">

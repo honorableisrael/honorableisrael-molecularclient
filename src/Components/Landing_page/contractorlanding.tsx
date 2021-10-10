@@ -41,7 +41,7 @@ const ContractorLanding = () => {
             </Link>
           </Col>
           <Col md={6} className="">
-            <img src={greenbib} alt="img" />
+            <img src={greenbib} className="findworkimage" alt="img" />
           </Col>
         </Row>
       </div>

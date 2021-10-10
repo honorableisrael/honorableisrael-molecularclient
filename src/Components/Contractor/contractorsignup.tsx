@@ -227,6 +227,9 @@ const Contractorsignup = withRouter((props) => {
                       <p>
                       Connect with a member of our team to explore how MolecularTech can support you and your business to get technical specialists.
                       </p>
+                      <p>
+                        Leave some information about you & company, and we’ll contact you within 24 hours.
+                      </p>
                     </div>
                   </div>
                   <div className="padded-input-wrapper" ref={fieldRef}>

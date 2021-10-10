@@ -142,7 +142,7 @@ const SignIn = withRouter((props) => {
                       value={isloading ? "Logging in..." : "Login"}
                     />
                   </div>
-                  <Link to="/"><p className="signuprgqt">Dont have Molecular account?<span>Sign up</span></p></Link>
+                  <Link to="/contractor_signup"><p className="signuprgqt">Dont have Molecular account?<span>Sign up</span></p></Link>
                 </div>
               </form>
             </Col>
