@@ -7,7 +7,7 @@ import axios from "axios";
 import { API } from "../../config";
 import eye from "../../images/eye.png";
 import eyeclose from "../../images/eye-off.png";
-
+import NavBar from "../Widgets/navigation";
 
 const SignUp = withRouter( (props:any) => {
  
@@ -193,6 +193,7 @@ useEffect(() => {
 }, []);
   return (
     <div>
+       <NavBar />
       <section className="forms-section">
         <div className="specialistforms-section-image"></div>
         <div className="formwrplift">
@@ -208,7 +209,7 @@ useEffect(() => {
                     <div className="form-descr-text">
                       <p>
                       Leave some information about you in the form below, attach your resume and we’ll get in touch with you.
-Learn what to expect when you sign up to find work with MolecularTech
+                      Learn what to expect when you sign up to find work with MolecularTech
                       </p>
                     </div>
                   </div>

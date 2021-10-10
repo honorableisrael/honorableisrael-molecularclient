@@ -8,6 +8,8 @@ import { API } from "../../config";
 import Axios, { AxiosResponse } from "axios";
 import eye from "../../images/eye.png";
 import eyeclose from "../../images/eye-off.png";
+import NavBar from "../Widgets/navigation";
+
 
 
 const Contractorsignup = withRouter((props) => {
@@ -208,6 +210,7 @@ const Contractorsignup = withRouter((props) => {
   console.log(listOfIndustries);
   return (
     <div>
+       <NavBar />
       <section className="forms-section">
         <div className="forms-section-image"></div>
         <div className="formwrplift">
