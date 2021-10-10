@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import NavBar from "../Widgets/navigation";
@@ -12,45 +12,54 @@ import labourers from "../../images/labourers.png";
 import blueoverall from "../../images/blueoverall.png";
 
 const SpecialistLanding = () => {
+  useEffect(() => {
+    window.scrollTo(-0, -0);
+  }, []);
+
   return (
     <div>
       <NavBar />
       <div className="cntrotlndg-section1">
         <Row>
           <Col md={6} className="cntrotlndg-section1-contnt">
-            <h4>More Opportunity. Better Pay. Better Work.</h4>
+            <h4> More Work Opportunities with Better Pay</h4>
             <p>
-              We are a company you can count on when you need to get hard work
-              done. We offer the high-quality workforce you need, when you need
-              it. Our solutions help you deliver any project on time and within
-              budget.
+              MolecularTech is committed to enabling our technical specialists
+              to get a better work experience. Which means you get more work
+              opportunities while ensuring you get paid well and on time. We’re
+              dedicated to making it easier for you to get hard work done.
             </p>
             <Link to="/specialist_signup">
               <span className="home-btn-primary contrtor-btn">Find Work</span>
             </Link>
           </Col>
           <Col md={6} className="">
-            <img src={redoverall} alt="img" className="redoverall-img"/>
+            <img src={redoverall} alt="img" className="redoverall-img" />
           </Col>
         </Row>
       </div>
       <div className="cntrotlndg-section3">
-        <p>We connect you with the best opportunities.</p>
-        {/* <div className="cardlift">
+        <p className="cntrotlndg-section3_heading">
+          FOR TECHNICAL SPECIALISTS{" "}
+        </p>
+        <p className="cntrotlndg-section3_subheading">
+          Your Technical Career is in good hands
+        </p>
+        <div className="cardlift">
           <div className="cntrotlndg-section3-cards">
             <div className="cntrotlndg-section3-card-content">
               <img src={weldingflame} className="img-fluid" alt="img" />
               <div className="cntrotlndg-section3-card-wrapp">
-                <p className="cntrotlndg-section3-card-subhead">Dive Deeper</p>
+                {/* <p className="cntrotlndg-section3-card-subhead">Dive Deeper</p> */}
                 <h4 className="cntrotlndg-section3-card-heading">
-                  We match you with the best contractor
+                  More Work Opportunities
                 </h4>
                 <p className="cntrotlndg-section3-card-descr">
-                  Our dedicated recruiting team is committed to identifying the
-                  right opportunities aligned with your unique preferences and
-                  goals.
+                  We’ve built the most robust workforce marketplace for
+                  technical specialists in Africa. We’re always looking for your
+                  next work opportunities from several EPC Contractors
                 </p>
-                <div className="cardbulletwrap">
+                {/* <div className="cardbulletwrap">
                   <div>
                     <img src={bullet} alt="img" />
                   </div>
@@ -73,31 +82,32 @@ const SpecialistLanding = () => {
                     Ensure you are supported throughout the entire process—from
                     the initial match to your first day on the job
                   </p>
-                </div>
+                </div> */}
               </div>
             </div>
             <div className="cntrotlndg-section3-card-content">
               <img src={labourers} className="img-fluid" alt="img" />
               <div className="cntrotlndg-section3-card-wrapp">
-                <p className="cntrotlndg-section3-card-subhead">Dive Deeper</p>
+                {/* <p className="cntrotlndg-section3-card-subhead">Dive Deeper</p> */}
                 <h4 className="cntrotlndg-section3-card-heading">
-                  Providing High-Quality Training
+                  Better Work
                 </h4>
                 <p className="cntrotlndg-section3-card-descr">
                   Our dedicated recruiting team is committed to identifying the
                   right opportunities aligned with your unique preferences and
                   goals.
                 </p>
-                <div className="cardbulletwrap">
+                {/* <div className="cardbulletwrap">
                   <div>
                     <img src={bullet} alt="img" />
                   </div>
                   <p>
-                    Understand the skill, certification, and safety requirements
-                    for every job and cross-check against your qualifications
+                    We’re dedicated to matching you with the right jobs. We
+                    profile you to understand your goals and find the jobs that
+                    meet your expectations.
                   </p>
-                </div>
-                <div className="cardbulletwrap">
+                </div> */}
+                {/* <div className="cardbulletwrap">
                   <div>
                     <img src={bullet} alt="img" />
                   </div>
@@ -113,22 +123,23 @@ const SpecialistLanding = () => {
                     Offer additional cross-training opportunities for new
                     industries
                   </p>
-                </div>
+                </div> */}
               </div>
             </div>
             <div className="cntrotlndg-section3-card-content">
               <img src={blueoverall} className="img-fluid" alt="img" />
               <div className="cntrotlndg-section3-card-wrapp">
-                <p className="cntrotlndg-section3-card-subhead">Dive Deeper</p>
+                {/* <p className="cntrotlndg-section3-card-subhead">Dive Deeper</p> */}
                 <h4 className="cntrotlndg-section3-card-heading">
-                  Offering Comprehensive Benefits
+                  Better and Timely Pay
                 </h4>
                 <p className="cntrotlndg-section3-card-descr">
-                  The health and well-being of our workers is our top priority.
-                  We offer a robust and comprehensive program with a variety of
-                  options to best meet your needs.
+                  Our technical Specialists benefit from the most flexible
+                  payment terms in the industry. We ensure you get paid what you
+                  deserve plus other great benefits such as Health Insurance and
+                  Professional Indemnity.
                 </p>
-                <div className="cardbulletwrap">
+                {/* <div className="cardbulletwrap">
                   <div>
                     <img src={bullet} alt="img" />
                   </div>
@@ -148,16 +159,16 @@ const SpecialistLanding = () => {
                     <img src={bullet} alt="img" />
                   </div>
                   <p>Request for early payment</p>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
-        </div> */}
+        </div> 
       </div>
       <div className="cntrotlndg-section4">
         <Link to="/specialist_signup">
           <span className="home-btn-primary contrtor-btn">
-            Sign up as a Specialist
+            Get Started
           </span>
         </Link>
       </div>

@@ -6,7 +6,7 @@ import styled from "styled-components";
 
 const Ul = styled.ul`
      display: flex !important;
-     width: 50%;
+     width: 55%;
      color: #999999;
      font-size: 16px;
      font-weight: 600;
@@ -27,7 +27,7 @@ const Ul = styled.ul`
 @media screen and (max-width:1024px){
      width: 73%;
 }
-@media screen and (max-width:760px){
+@media screen and (max-width:769px){
     position: fixed;
     left: -1px;
     height: 92vh;
@@ -36,7 +36,7 @@ const Ul = styled.ul`
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 50%;
+    width: 61%;
     z-index: -6;
     transform: ${({ open }) => (open ? "translateX(0)" : "translateX(-100%)")};
     transition: transform 0.5s ease-in-out;
@@ -70,7 +70,7 @@ const Navlist = ({ open }) => {
         <li>Our Services</li>
       </NavHashLink>
       <NavHashLink
-        to="/projects"
+        to="/Industry_segments"
         className="homenavlnks"
         activeStyle={{
           color: "#222073",

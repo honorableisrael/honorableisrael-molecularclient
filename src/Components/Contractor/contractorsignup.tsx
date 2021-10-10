@@ -218,11 +218,14 @@ const Contractorsignup = withRouter((props) => {
                   <div className="padded-form-wrapper">
                     <div className="form-header">
                       <h4 className="form-title">Sign up to get Technical Specialist</h4>
+                      <p>Sign up to get Technical Specialists</p>
                     </div>
                     <div className="form-descr-text">
                       <p>
-                        Are you ready to join one of the largest communities for
-                        contractor? Simply fill out the form below.
+                      Connect with a member of our team to explore how MolecularTech can support you and your business to get technical specialists.
+                      </p>
+                      <p>
+                        Leave some information about you & company, and we’ll contact you within 24 hours.
                       </p>
                     </div>
                   </div>

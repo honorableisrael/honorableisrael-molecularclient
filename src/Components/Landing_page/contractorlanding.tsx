@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 import { Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import NavBar from "../Widgets/navigation";
@@ -11,30 +11,41 @@ import bullet from "../../images/shortline.png";
 import Work from "./workandbuild";
 import Footer from "./footer";
 
+
 const ContractorLanding = () => {
+  useEffect(() => {
+    window.scrollTo(-0, -0);
+  }, []);
+
   return (
     <div>
       <NavBar />
       <div className="cntrotlndg-section1">
         <Row>
           <Col md={6} className="cntrotlndg-section1-contnt">
-            <h4>Workforce Solutions that scale!</h4>
+            <h4>
+              Hire Technical Specialists you can count on to get quality work
+              done.
+            </h4>
             <p>
-              We are a company you can count on when you need to get hard work
-              done. We offer the high-quality workforce you need, when you need
-              it. Our solutions help you deliver any project on time and within
-              budget.
+              MolecularTech is a company you can count on to get hard work done
+              well and efficiently. We provide vetted, certified and highly
+              skilled workforce you need, when you need them. Our Solutions help
+              you deliver on time and within budget on your pipeline
+              construction projects.
             </p>
             <Link to="/contractor_signup">
-              <span className="home-btn-primary contrtor-btn">Hire Specialist</span>
+              <span className="home-btn-primary contrtor-btn">
+                Hire Specialist
+              </span>
             </Link>
           </Col>
           <Col md={6} className="">
-            <img src={greenbib} alt="img" />
+            <img src={greenbib} className="findworkimage" alt="img" />
           </Col>
         </Row>
       </div>
-      <div className="cntrotlndg-section3">
+      {/* <div className="cntrotlndg-section3">
         <p>People You Can Count On. High-Quality Work.</p>
         <div className="cardlift">
           <div className="cntrotlndg-section3-cards">
@@ -151,14 +162,14 @@ const ContractorLanding = () => {
             </div>
           </div>
         </div>
-      </div>
-      <div className="cntrotlndg-section4">
+      </div> */}
+      {/* <div className="cntrotlndg-section4">
         <Link to="/contractor_signup">
           <span className="home-btn-primary contrtor-btn">
             Sign up as a Contractor
           </span>
         </Link>
-      </div>
+      </div> */}
       <Work />
       <Footer />
     </div>

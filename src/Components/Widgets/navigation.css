@@ -1,9 +1,9 @@
 .nav{
     display: flex;
-    justify-content: space-around;
-    align-items: baseline;
+    justify-content: space-between;
+    align-items: center;
     background-color: #fafaff;
-    padding: 19px 0px;
+    padding: 19px 66px;
     position: fixed;
     width: 100vw;
     z-index: 45;
@@ -12,7 +12,7 @@
    color: inherit;
 }
 .nav-logo{
-    width: 23%;
+    width: 17%;
 }
 .nav-login-btn{
     padding: 7px 34px;
@@ -36,7 +36,7 @@
 @media (max-width: 760px){
     .nav{
         align-items: center;
-        padding: 10px 0px;
+        padding: 10px 17px;
     }
     .navlinks{
         display: none;

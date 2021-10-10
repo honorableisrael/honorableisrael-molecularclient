@@ -53,11 +53,11 @@ const Learnmore = () => {
             </p>
           </Col>
           <Col md={6} className="whithelmetwrapp">
-            <img src={whitehelmet} className="whitehelmet-img" alt="img" />
+            <img src={whitehelmet} className="whitehelmet-img img-fluid" alt="img" />
           </Col>
         </Row>
       </div>
-      <div className="learnmrsection2">
+      {/* <div className="learnmrsection2">
            <h4>Industries we operate in</h4> 
           <div className="learnm-cards-wrapper">
             <div className="learnmr-cards"  data-aos='flip-left'>
@@ -99,7 +99,7 @@ const Learnmore = () => {
         <div className="lernmrbtndv">
           <span className="home-btn-primary lndlearnmr-btn" data-aos='fade-up'>Sign up</span>
         </div>
-      </div>
+      </div> */}
      <Work/>  
      <Footer/>
     </div>

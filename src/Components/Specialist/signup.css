@@ -1,7 +1,8 @@
 .specialistforms-section-image{
     padding-top: 349px;
     background-size: cover;
-    background-image: linear-gradient(to right, rgba(44, 44, 112, 0.5) , rgba(44, 44, 112, 0.5)),url(../../images/workers.png);
+    background-image: linear-gradient(to right, rgba(44, 44, 112, 0.5) , rgba(44, 44, 112, 0.5)),url(../../images/binoculars.png);
+    background-repeat: no-repeat;
 }
 .form-row{
     justify-content: center;
