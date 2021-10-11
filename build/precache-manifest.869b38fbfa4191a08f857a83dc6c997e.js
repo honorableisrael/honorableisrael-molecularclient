@@ -1,27 +1,27 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "eda6992f4176e57e72e18fcb54ddcad2",
+    "revision": "5ca68233898d8d8a2bc809a6f8d44da1",
     "url": "/index.html"
   },
   {
-    "revision": "b91c3d51eb220b32c51a",
+    "revision": "acdeb53b4ce39fd8e44f",
     "url": "/static/css/2.7a9f3b0b.chunk.css"
   },
   {
-    "revision": "089a382b08aa15e894b8",
-    "url": "/static/css/main.ac489653.chunk.css"
+    "revision": "c53ef6f94ae71c49d218",
+    "url": "/static/css/main.b49f0e66.chunk.css"
   },
   {
-    "revision": "b91c3d51eb220b32c51a",
-    "url": "/static/js/2.58d31e04.chunk.js"
+    "revision": "acdeb53b4ce39fd8e44f",
+    "url": "/static/js/2.519fa3ab.chunk.js"
   },
   {
     "revision": "4ca87f944091c72a6f1e72a740e5698e",
-    "url": "/static/js/2.58d31e04.chunk.js.LICENSE"
+    "url": "/static/js/2.519fa3ab.chunk.js.LICENSE"
   },
   {
-    "revision": "089a382b08aa15e894b8",
-    "url": "/static/js/main.b097d6ce.chunk.js"
+    "revision": "c53ef6f94ae71c49d218",
+    "url": "/static/js/main.71ab04a0.chunk.js"
   },
   {
     "revision": "177d52efa2c7db582a05",
@@ -34,6 +34,10 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "769dae6b4c4177bddae718edc92456d0",
     "url": "/static/media/Groupedlines.769dae6b.png"
+  },
+  {
+    "revision": "7e5812f30e369f9f05a5e947bde3b043",
+    "url": "/static/media/Pipeline_stick.7e5812f3.jpg"
   },
   {
     "revision": "e1da2ba03d2577aa38064e59c301eb5c",
@@ -60,10 +64,6 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/media/greenbib.23a9f8a3.png"
   },
   {
-    "revision": "5723c3dc9c7f62427ada5d28a968dc80",
-    "url": "/static/media/labourers.5723c3dc.png"
-  },
-  {
     "revision": "e1da2ba03d2577aa38064e59c301eb5c",
     "url": "/static/media/leadengineers.e1da2ba0.jpg"
   },
@@ -84,28 +84,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/media/oilengineers.23a9f8a3.jpg"
   },
   {
-    "revision": "a883f1ea63b79912d8cc18c66aa6161b",
-    "url": "/static/media/pipelineindesert.a883f1ea.png"
-  },
-  {
-    "revision": "38a8503917b3c70ec639f52d496346d1",
-    "url": "/static/media/pipelineonice.38a85039.png"
-  },
-  {
-    "revision": "a76b499df0935ab21eeb978ee102b51d",
-    "url": "/static/media/pipelineonsand.a76b499d.png"
-  },
-  {
     "revision": "008426803ff912d0b6400f2cc3c3936c",
     "url": "/static/media/redoverall.00842680.png"
   },
   {
     "revision": "4493f269a71a24ba11964604f9f35f6a",
     "url": "/static/media/tractors.4493f269.png"
-  },
-  {
-    "revision": "dd58a80d97a3de528070210eb780f5ae",
-    "url": "/static/media/tropicalregion.dd58a80d.png"
   },
   {
     "revision": "f25c002f3282c6c56b3d33b071617ac2",

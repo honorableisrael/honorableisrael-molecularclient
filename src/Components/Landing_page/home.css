@@ -227,6 +227,7 @@
 @media (max-width: 760px) {
   .purpleline {
     width: 54%;
+    height: 2px;
   }
   .section-three-row {
     padding-left: 20px;
