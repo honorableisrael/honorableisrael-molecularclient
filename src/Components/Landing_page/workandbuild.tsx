@@ -23,11 +23,11 @@ const Work = () => {
           </div>
           <div  className="section-seven-content-wrapp">
             <h4 className="section-seven-heading">
-              Let’s get the hard work done
+              Let’s get the hard work done smartly
             </h4>
-            <p className="section-seven-content">
+            {/* <p className="section-seven-content">
               We make your work processes and cycle easy for completion{" "}
-            </p>
+            </p> */}
           </div>
           <div   className="section-seven-content-wrapp wnbmobbtnwrap">
             <div>

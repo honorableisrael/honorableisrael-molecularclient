@@ -7,97 +7,75 @@ import axios from "axios";
 import { API } from "../../config";
 import eye from "../../images/eye.png";
 import eyeclose from "../../images/eye-off.png";
+import NavBar from "../Widgets/navigation";
 
-const SignUp = withRouter((props: any) => {
-  const [state, setState] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    password: "",
-    skill: "",
-    isLoading: false,
-    errorMessage: "",
-    successMessage: "",
-    btnState: false,
-    jobs: [],
-    passwordIsOpen: true,
-  });
-  const {
-    firstName,
-    lastName,
-    email,
-    phone,
-    password,
-    skill,
-    isLoading,
-    errorMessage,
-    successMessage,
-    btnState,
-    jobs,
-    passwordIsOpen,
-  } = state;
-  const onSubmit = () => {
-    setState({ ...state, isLoading: true });
-    const data = {
-      first_name: firstName,
-      last_name: lastName,
-      email: email,
-      phone: phone,
-      password: password,
-      skill: skill,
-    };
-    console.log(data);
-    //posting data to the api
-    axios
-      .post(`${API}/register/specialist`, data)
-      .then((response) => {
-        console.log(response);
-        if (response.status === 200) {
-          //store name and email to local storage
-          const userdata: any = [];
-          userdata.push(email, firstName);
-          localStorage.setItem("userdata", JSON.stringify(userdata));
-          //store user token to to local storage
-          localStorage.setItem(
-            "loggedInDetails",
-            JSON.stringify(response.data)
-          );
-          //push to otp page
-          setTimeout(() => {
-            props?.history?.push("/molecular_otp");
-            console.log(props);
-          }, 3000);
-          setState({
-            ...state,
-            errorMessage: "",
-            successMessage: response.data.message,
-            isLoading: false,
-          });
-        }
-      })
-      .catch((error) => {
-        console.log(error.response);
-        if (error?.response?.status == 406) {
-          return setState({
-            ...state,
-            errorMessage: error?.response?.data?.errors?.email?.join(""),
-            successMessage: "",
-          });
-        }
-        if (error?.response?.status == 400) {
-          return setState({
-            ...state,
-            errorMessage: error?.response?.data?.message,
-          });
-        }
+const SignUp = withRouter( (props:any) => {
+ 
+const [state, setState] = useState({
+  firstName: "",
+  lastName: "",
+  email: "",
+  phone: "",
+  password: "",
+  skill:"",
+  isLoading: false,
+  errorMessage: "",
+  successMessage: "",
+  btnState: false,
+  jobs: [],
+  passwordIsOpen: true
+});
+const{
+  firstName,
+  lastName,
+  email,
+  phone,
+  password,
+  skill,
+  isLoading,
+  errorMessage,
+  successMessage,
+  btnState,
+  jobs,
+  passwordIsOpen
+} = state;
+const onSubmit = () => {
+  setState({ ...state, isLoading: true });
+  const data = {
+    first_name: firstName,
+    last_name: lastName,
+    email: email,
+    phone: phone,
+    password: password,
+    skill: skill
+  };
+  console.log(data);
+  //posting data to the api
+  axios
+    .post(`${API}/register/specialist`, data)
+    .then((response) => {
+      console.log(response);
+      if (response.status === 200) {
+        //store name and email to local storage
+        const userdata: any = [];
+        userdata.push(email,firstName);
+        localStorage.setItem("userdata", JSON.stringify(userdata));
+        //store user token to to local storage 
+        localStorage.setItem("loggedInDetails", JSON.stringify(response.data));
+        //push to otp page
+        setTimeout(() => {
+          props?.history?.push("/molecular_otp");
+          console.log(props);
+        }, 3000);
         setState({
           ...state,
           errorMessage: "signup failed, check your internet connection",
           isLoading: false,
         });
+      }
       });
-  };
+  }
+  
 
   const onChangeHandler = (e) => {
     setState({
@@ -192,6 +170,7 @@ const SignUp = withRouter((props: any) => {
   }, []);
   return (
     <div>
+       <NavBar />
       <section className="forms-section">
         <div className="specialistforms-section-image"></div>
         <div className="formwrplift">
@@ -209,10 +188,8 @@ const SignUp = withRouter((props: any) => {
                     </div>
                     <div className="form-descr-text">
                       <p>
-                        Leave some information about you in the form below,
-                        attach your resume and we’ll get in touch with you.
-                        Learn what to expect when you sign up to find work with
-                        MolecularTech
+                      Leave some information about you in the form below, attach your resume and we’ll get in touch with you.
+                      Learn what to expect when you sign up to find work with MolecularTech
                       </p>
                     </div>
                   </div>

@@ -5,6 +5,9 @@ import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
 import { API } from "../../config";
 import "./signin.css";
+import NavBar from "../Widgets/navigation";
+
+
 
 const SignIn = withRouter((props) => {
   const [state, setState] = useState({
@@ -89,6 +92,7 @@ const SignIn = withRouter((props) => {
   };
   return (
     <div>
+       <NavBar />
       <section className="signin-section">
         <div className="signinImage"></div>
         <Container>
