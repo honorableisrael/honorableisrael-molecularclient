@@ -720,7 +720,7 @@ text-align: center;
   border: 2px solid #fd8c00;
 }
 .scoialswrap{
-  width: 20%;
+  width: 18%;
 }
 .section-seven-form {
   background-color: rgba(123, 123, 123, 0.2);
@@ -1130,6 +1130,9 @@ text-align: center;
   .whithelmetwrapp {
     padding-top: 83px;
   }
+  .Pipeline_stick_img{
+    height: 33% !important;
+  }
 }
 .porderheader {
   width: 159px;
@@ -1358,4 +1361,7 @@ text-align: center;
 .findworkimage{
   width: inherit;
   height: 798px;
+}
+.Pipeline_stick_img{
+  height: 56%;
 }

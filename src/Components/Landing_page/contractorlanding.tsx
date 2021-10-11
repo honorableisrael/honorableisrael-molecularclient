@@ -28,7 +28,7 @@ const ContractorLanding = () => {
               done.
             </h4>
             <p>
-              MolecularTech is a company you can count on to get hard work done
+              Molecular is a company you can count on to get hard work done
               well and efficiently. We provide vetted, certified and highly
               skilled workforce you need, when you need them. Our Solutions help
               you deliver on time and within budget on your pipeline

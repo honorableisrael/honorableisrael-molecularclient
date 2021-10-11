@@ -35,12 +35,12 @@ const IndustrySegments = () => {
         <img src={jointcircle} alt="img" />
         <h6>Industry Segments</h6>
         <h2>Industry Segments We Operate In</h2>
-        <p>
+        {/* <p>
           We help contractors and subcontractors working on commercial,
           industrial, and infrastructure projects scale their businesses and
           accept more work through high-quality specialists and solutions we
           offer.
-        </p>
+        </p> */}
       </div>
       <div className="Industry_segment_section-2">
         <Row className="Is_section-1-row">
@@ -128,7 +128,7 @@ const IndustrySegments = () => {
             </div>
           </Col>
         </Row>
-        <div className="Is_images_section_wrap">
+        {/* <div className="Is_images_section_wrap">
           <div className="Is_images_section">
             <div>
               <img src={pipelineonsand} className="img-fluid" alt="pic" />
@@ -143,7 +143,7 @@ const IndustrySegments = () => {
               <img src={pipelineindesert} className="img-fluid" alt="pic" />
             </div>
           </div>
-        </div>
+        </div> */}
         {/* <Row className="Is_section-1-row">
           <Col md={6}>
             <div className="Is_rowcol1wrap">

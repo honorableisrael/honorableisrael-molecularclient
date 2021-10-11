@@ -67,7 +67,7 @@ const Home = () => {
                 <div className="section-one-btn-div">
                   <Link to="/contractorlanding">
                     <span className="home-btn-primary contrtor-btn">
-                      EPC Contractor
+                      EPC Contractors
                     </span>
                   </Link>
                   <Link to="/specialistlanding">
@@ -108,11 +108,11 @@ const Home = () => {
                 and professional services to empower the specialists who get
                 hard work done.
               </p> */}
-              <Link to="/Learnmore">
+              {/* <Link to="/Learnmore">
                 <span className="home-btn-primary learnmorebtn">
                   Learn More
                 </span>
-              </Link>
+              </Link> */}
               <div className="section-three-subheading">
                 <span> Our Mission </span>
                 <img
@@ -297,12 +297,11 @@ const Home = () => {
         </div>
       )} */}
       <div className="section-six">
-        <h4>
-          Our goal is to revolutionize the industry, using technology to
-          streamline everything from recruiting to payments. We're focused on
-          delivering quality outcomes for our workers and clients.
+        <h4 data-aos="fade-down">
+          We use technology to streamline everything from recruiting to payments.
+           We're focused on delivering qualityoutcomes for EPC Contractors and Technical Specialists
         </h4>
-        <p data-aos="fade-down">Jennifer Ghan — CEO</p>
+        {/* <p>Jennifer Ghan — CEO</p> */}
       </div>
       <Work />
       <Footer />

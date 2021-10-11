@@ -252,7 +252,7 @@ const Contractorsignup = withRouter((props) => {
                         <label className="inputlabel">
                           <span className="rdfrmlbl">
                             {" "}
-                            Contact Person’s First Name
+                            First Name
                             <span className="asteric">*</span>
                           </span>
                           <input
@@ -413,7 +413,7 @@ const Contractorsignup = withRouter((props) => {
                         className="form-control forminput"
                       />
                     </label>
-                    <span className="rdfrmlbl">
+                    {/* <span className="rdfrmlbl">
                       {" "}
                       Industry<span className="asteric">*</span>
                     </span>
@@ -428,12 +428,12 @@ const Contractorsignup = withRouter((props) => {
                         <option value={data.id}>{data.name}</option>
                       ))}
                       <option></option>
-                      {/* {listOfIndustries?.map((data: any, i) => (
+                       {listOfIndustries?.map((data: any, i) => (
                         <option className="rdsltopt" key={i}>
                           {data?.name}
                         </option>
-                      ))} */}
-                    </select>
+                      ))} 
+                    </select> */}
                     <br></br>
                     <div className="form-check">
                       <label className="form-check-label">
@@ -443,7 +443,7 @@ const Contractorsignup = withRouter((props) => {
                           value=""
                           id="flexCheckDefault"
                         />
-                        Creating an account means you’re okay with our Terms of
+                        Creating an account means you agree with our Terms of
                         Service, Privacy Policy, and our
                         <br />
                         default Notification Settings.

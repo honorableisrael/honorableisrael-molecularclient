@@ -80,13 +80,13 @@ const ContacUs = () => {
                   <span className="list_bullet">
                     <img src={mail} />
                   </span>
-                  <span>info@molecular.com.ng</span>
+                  <span>Aoderinde@molecularpro.co</span>
                 </li>
                 <li className="listflex">
                   <span className="list_bullet">
                     <img src={phone} />
                   </span>
-                  +2349012345678
+                  08134045999
                 </li>
                 <li className="listflex">
                   <span className="list_bullet">

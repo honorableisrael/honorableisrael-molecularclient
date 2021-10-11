@@ -36,20 +36,28 @@ const Footer = () => {
                 <p className="footer-links">Industry Segments</p>
               </Link>
               <Link to="/learnmore">
-                <p className="footer-links">Careers</p>
+                <p className="footer-links">Blog</p>
               </Link>
               <Link to="/contactus">
                 <p className="footer-links">Contact Us</p>
               </Link>
             </div>
-            {/* <div>
-              <h4 className="footer-title">Contractor</h4>
+             <div>
+              <h4 className="footer-title">EPC Contractor</h4>
               <Link to="/contractor_signup">
                 <p className="footer-links">Hire</p>
               </Link>
-              <p className="footer-links">Industries</p>
+              {/* <p className="footer-links">Industries</p> */}
             </div>
+           
             <div>
+              <h4 className="footer-title">Pipeline Specialist</h4>
+              <Link to="/specialist_signup">
+                <p className="footer-links">Find Work</p>
+              </Link>
+              {/* <p className="footer-links">Industries</p> */}
+            </div>
+            {/* <div>
               <h4 className="footer-title">Specialist</h4>
               <Link to="/specialist_signup">
                 <p className="footer-links">Find Work</p>
@@ -57,7 +65,7 @@ const Footer = () => {
               <Link to="/Industry_segments">
                 <p className="footer-links">Industries</p>
               </Link>
-            </div> */}
+            </div>  */}
             <div className="scoialswrap">
               <h4 className="footer-title">Socials</h4>
               <div className="footer-socialwrapper">
