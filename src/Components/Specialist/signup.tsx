@@ -145,12 +145,13 @@ const onSubmit = () => {
         errorMessage: "Please enter your skill",
       });
     }
-    if (password == "") {
-      return setState({
-        ...state,
-        errorMessage: "Please enter your password",
-      });
-    } else {
+    // if (password == "") {
+    //   return setState({
+    //     ...state,
+    //     errorMessage: "Please enter your password",
+    //   });
+    // } 
+    else {
       onSubmit();
     }
   };

@@ -49,10 +49,25 @@ const Home = () => {
     );
     return () => clearTimeout(intervalId);
   }, []);
-
+  useEffect(()=>{
+    setInterval(()=>{
+      if (current.length >30){
+        setState({
+          ...state,
+          current: `Let's ${" "}  do ${" "}  the ${" "}  hard ${" "}  work`
+        })
+      }
+      if (current.length <30){
+        setState({
+          ...state,
+          current: `Let's ${" "}  do ${" "}  the ${" "}  hard  ${" "} work`
+        })
+      }
+    },4000)
+  })
   const [state, setState] = useState({
     toggleSections: true,
-    current:"Let's build more pipelines"
+    current:`Let's ${" "} build ${"  "} more  ${" "} pipelines`
   });
   const { toggleSections,current } = state;
 
@@ -68,6 +83,7 @@ const Home = () => {
       toggleSections: false,
     });
   };
+
   return (
     <div>
       <div id="home"></div>
@@ -91,7 +107,7 @@ const Home = () => {
                     animationMaxMargin={"200px"}
                     animationMinMargin={"0px"}
                   >
-                    {/* {current} */}Let's &nbsp; build&nbsp; more &nbsp;pipelines
+                    {current}
                   </FloatingLettersTextBuilder>
                 </h4>
                 {/* <p className="section-one-descriptn">
