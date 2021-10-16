@@ -8,7 +8,7 @@ import Work from "./workandbuild";
 import Footer from "./footer";
 import redoverall from "../../images/redoverall.png";
 import weldingflame from "../../images/weldingflame.png";
-import Pipeline_stick from "../../images/Pipeline_stick.jpg";
+import labourers from "../../images/labourers.png";
 import blueoverall from "../../images/blueoverall.png";
 
 const SpecialistLanding = () => {
@@ -22,7 +22,7 @@ const SpecialistLanding = () => {
       <div className="cntrotlndg-section1">
         <Row>
           <Col md={6} className="cntrotlndg-section1-contnt">
-            <h4> Get More Work</h4>
+            <h4> More Work Opportunities with Better Pay</h4>
             <p>
               MolecularTech is committed to enabling our technical specialists
               to get a better work experience. Which means you get more work
@@ -34,7 +34,7 @@ const SpecialistLanding = () => {
             </Link>
           </Col>
           <Col md={6} className="">
-            <img src={redoverall} alt="img" className="redoverall-img" />
+            <img src={redoverall} alt="img"  className="redoverall-img" />
           </Col>
         </Row>
       </div>
@@ -86,7 +86,7 @@ const SpecialistLanding = () => {
               </div>
             </div>
             <div className="cntrotlndg-section3-card-content">
-              <img src={Pipeline_stick} className="img-fluid Pipeline_stick_img" alt="img" />
+              <img src={labourers} className="img-fluid" alt="img" />
               <div className="cntrotlndg-section3-card-wrapp">
                 {/* <p className="cntrotlndg-section3-card-subhead">Dive Deeper</p> */}
                 <h4 className="cntrotlndg-section3-card-heading">

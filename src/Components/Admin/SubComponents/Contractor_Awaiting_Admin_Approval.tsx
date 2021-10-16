@@ -9,7 +9,7 @@ import { ageCalculator, API, capitalize, notify } from "../../../config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const Specialist_Awaiting_Admin = withRouter((props) => {
+const Contractor_Awaiting_Admin = withRouter((props) => {
   useEffect(() => {
     const availableToken: any = localStorage.getItem("loggedInDetails");
     const token = availableToken
@@ -20,7 +20,7 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
     }
     axios
       .all([
-        axios.get(`${API}/admin/specialists/new`, {
+        axios.get(`${API}/admin/contractors/inactive`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }),
       ])
@@ -52,7 +52,7 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
     selected_specialist: "",
   });
 
-  const accept_new_specailist = (id) => {
+  const accept_new_contractor = (id) => {
     const availableToken: any = localStorage.getItem("loggedInDetails");
     const token = availableToken
       ? JSON.parse(availableToken)
@@ -67,7 +67,7 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
     axios
       .all([
         axios.post(
-          `${API}/admin/specialists/${id}/accept`,
+          `${API}/admin/contractors/${id}/accept`,
           {},
           {
             headers: { Authorization: `Bearer ${token.access_token}` },
@@ -76,7 +76,7 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
       ])
       .then(
         axios.spread((res) => {
-          notify("Specialist successfully verified");
+          notify("Contractor accepted");
           console.log(res.data.data);
           setState({
             ...state,
@@ -88,7 +88,7 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
         })
       )
       .catch((err) => {
-        notify("failed to process", "D");
+        notify("Contractor rejected", "D");
         setState({
           ...state,
           isloading: false,
@@ -103,7 +103,7 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
       [e.target.name]: e.target.value,
     });
   };
-  const reject_new_specailist = () => {
+  const reject_new_contractor = () => {
     const availableToken: any = localStorage.getItem("loggedInDetails");
     const token = availableToken
       ? JSON.parse(availableToken)
@@ -125,7 +125,7 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
     axios
       .all([
         axios.post(
-          `${API}/admin/specialists/${state.selected_specialist}/decline`,
+          `${API}/admin/contractors/${state.selected_specialist}/decline`,
           data,
           {
             headers: { Authorization: `Bearer ${token.access_token}` },
@@ -134,7 +134,7 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
       ])
       .then(
         axios.spread((res) => {
-          notify("Specialist application rejected");
+          notify("Contractor application approved");
           console.log(res.data.data);
           setState({
             ...state,
@@ -161,18 +161,15 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
     <>
       <Col className="fc12" md={12}>
         <div className="carderw carderwax carderwaxx fc14 specialist_one">
-          <div className="Projectsx">Specialists Awaiting Approval</div>
+          <div className="Projectsx">Contractor Awaiting Approval</div>
           {isloading && <Spinner variant="info" animation={"grow"} />}
           <div className="specialistrow">
             <div className="specialistwrapper">
-              <div className="skill_of_specialist1 itemwidth"> Full name</div>
+              <div className="skill_of_specialist1 itemwidth"> Company name</div>
               <div className="skill_of_specialist1">email</div>
 
               <div className="skill_of_specialist1">
-                <div>Skills</div>
-              </div>
-              <div className="skill_of_specialist1">
-                <div>Age</div>
+                <div>Request type</div>
               </div>
               <div className="accpt3"></div>
             </div>
@@ -187,12 +184,12 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
                     />
                   )}
                   {
-                    <span className="lfff dashboard_userfoto">
-                      {capitalize(data?.first_name?.split("")[0])}
-                      {capitalize(data?.last_name?.split("")[0])}
-                    </span>
+                    // <span className="lfff dashboard_userfoto">
+                    //   {capitalize(data?.first_name?.split("")[0])}
+                    //   {capitalize(data?.last_name?.split("")[0])}
+                    // </span>
                   }
-                  <div className="name_of_specialist">
+                  <div className="name_of_specialist nameofcontractor">
                     <div
                       className="name_specailist"
                       onClick={(e) => {
@@ -203,33 +200,24 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
                         props.history.push("/specialistdetails");
                       }}
                     >
-                      {data.first_name} {data.last_name}
+                      {data.company_name}
                     </div>
                     <div className="name_specailist1">
                       {data?.registered_on}
                     </div>
                   </div>
-                  <div className="skill_of_specialist1">{data?.email}</div>
+                  <div className="skill_of_specialist1">{data?.contractor.email}</div>
                   <div className="skill_of_specialist1">
-                    <div>
-                      {" "}
-                      {data?.skills?.map((data1, i) => (
-                        <span key={i}>{capitalize(data1.name)}</span>
-                      ))}
-                    </div>
                     <div className="skill_of_specialist1">
-                      {capitalize(data?.skills?.[0]?.title)}
+                      {capitalize(data?.need)}
                     </div>  
-                  </div>
-                  <div className="skill_of_specialist1">
-                    <div>{ageCalculator(data?.dob)}</div>
                   </div>
                   <div className="accpt3">
                     <button
                       className="accpt2"
-                      onClick={() => accept_new_specailist(data.id)}
+                      onClick={() => accept_new_contractor(data.id)}
                     >
-                      {!isloading ? "Accept" : "Accepting"}
+                      {"Accept"}
                     </button>
                     <button
                       className="rejct2"
@@ -244,7 +232,7 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
               )
             )}
           </div>
-          <div className="text_align2">
+          {/* <div className="text_align2">
             <Link to="/allspecialist">
               <span className="arrow21 _arrow21 text11 "></span>{" "}
               <img
@@ -254,7 +242,7 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
                 alt="arrow"
               />
             </Link>
-          </div>
+          </div> */}
         </div>
       </Col>
       <ToastContainer
@@ -285,7 +273,7 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
       >
         <Modal.Header closeButton>
           <Modal.Title id="example-custom-modal-styling-title">
-            Reject Specialist
+            Reject Contractor
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -307,7 +295,7 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
           </Row>
           <Row>
             <Col md={12} className="terminate2">
-              <div className="terminate1" onClick={reject_new_specailist}>
+              <div className="terminate1" onClick={reject_new_contractor}>
                 Reject
               </div>
             </Col>
@@ -318,4 +306,4 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
   );
 });
 
-export default Specialist_Awaiting_Admin;
+export default Contractor_Awaiting_Admin;

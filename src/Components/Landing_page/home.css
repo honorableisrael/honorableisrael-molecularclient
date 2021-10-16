@@ -17,6 +17,8 @@
     url(../../images/oil-pipeline.png);
   background-size: cover;
   background-repeat: no-repeat;
+  padding-top: 5rem;
+  text-align: center;
 }
 .section-one-content {
   padding: 220px 0px 150px 0px;
@@ -1364,4 +1366,20 @@ text-align: center;
 }
 .Pipeline_stick_img{
   height: 56%;
+}
+.trans3{
+  text-align: center;
+}
+.text-transition_inner div{
+  text-align: center;
+  width: 100%;
+}
+::placeholder{
+  color: #101010 !important;
+}
+.accpt3 button{
+  height: fit-content;
+}
+.nameofcontractor{
+  width: 350px !important;
 }

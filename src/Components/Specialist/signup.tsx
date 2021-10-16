@@ -63,10 +63,11 @@ const onSubmit = () => {
         //store user token to to local storage 
         localStorage.setItem("loggedInDetails", JSON.stringify(response.data));
         //push to otp page
-        setTimeout(() => {
-          props?.history?.push("/molecular_otp");
-          console.log(props);
-        }, 3000);
+        // setTimeout(() => {
+        //   props?.history?.push("/molecular_otp");
+        //   console.log(props);
+        // }, 3000);
+        window.scrollTo(0,0)
         setState({
           ...state,
           errorMessage: "signup failed, check your internet connection",
@@ -299,7 +300,7 @@ const onSubmit = () => {
                         </div>
                       </Col>
                     </Row>
-                    <label className="inputlabel">
+                    {/* <label className="inputlabel">
                       <span className="rdfrmlbl">
                         Password<span className="asteric">*</span>
                       </span>
@@ -312,7 +313,7 @@ const onSubmit = () => {
                         size={96}
                         className="form-control forminput"
                       />
-                    </label>
+                    </label> */}
                     <div className="text-right">
                       {passwordIsOpen ? (
                         <img
