@@ -237,21 +237,22 @@ const Home = () => {
         </Container>
         <div id="our_services"></div>
       </div>
-      <div className="section-five">
-        <Row>
-          <Col md={6} className="section-five-img-col">
-            <img src={lead} className="img-fluid fluid8" alt="pic8" />
-          </Col>
-          <Col md={6} className="section-five-content">
-            <div className="section-five-subheading">
-              <span> What we do </span>
-            </div>
-            <p className="section-five-paragp1">
-              We Empower the People Who Do the Hard Work of Powering Africa
-              though Natural Gas Pipelines.
-            </p>
-            <div className="section-fivebtn-wrapp">
-              <Link to="/contractorlanding">
+        <div className="section-five">
+          <Row>
+            <Col md={6} className="section-five-img-col">
+              <img src={lead} className="img-fluid fluid8" alt="pic8" />
+            </Col>
+            <Col md={6} className="section-five-content">
+              <div className="section-five-subheading">
+                <span> What we do </span>
+              </div>
+              <div className="section-five-paragp1">
+                We Empower the People Who Do the Hard Work of Powering Africa
+                though Natural Gas Pipelines.
+              </div>
+              <div><Link to="/learnmore" className="btn-text">Learn more &rarr;</Link></div>
+              <div className="section-fivebtn-wrapp">
+                <Link to="/contractorlanding">
                 <span className="home-btn-primary contrtor-btn">
                   EPC Contractors
                 </span>
@@ -355,9 +356,8 @@ const Home = () => {
       )} */}
       <div className="section-six">
         <h4 data-aos="fade-down">
-          We use technology to streamline everything from recruiting to
-          payments. We're focused on delivering qualityoutcomes for EPC
-          Contractors and Technical Specialists
+          We use technology to streamline everything from recruiting to payments.
+           We're focused on delivering quality outcomes for EPC Contractors and Technical Specialists
         </h4>
         {/* <p>Jennifer Ghan — CEO</p> */}
       </div>

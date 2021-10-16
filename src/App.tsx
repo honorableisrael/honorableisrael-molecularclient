@@ -12,6 +12,7 @@ import NewWorkOrderStep3 from "./Components/Contractor/New_Work_Order_Step3";
 import WorkOrderDetails from "./Components/Contractor/Work_Order_Details";
 import ContractorLanding from "./Components/Landing_page/contractorlanding";
 import Learnmore from "./Components/Landing_page/learnmore";
+import Blog from "./Components/Landing_page/blog";
 import SpecialistLanding from "./Components/Landing_page/specialistlanding";
 import Notification from "./Components/Contractor/Notification";
 import Contractor_Payment_Invoice from "./Components/Contractor/Payment_Invoice";
@@ -90,6 +91,7 @@ class App extends Component {
               <Route path="/work_order" component={NewWorkOrderForm} />
               <Route path="/specialistlanding" component={SpecialistLanding} />
               <Route path="/Learnmore" component={Learnmore} />
+              <Route path="/blog" component={Blog} />
               <Route path="/projects" component={Projects} />
               <Route path="/contactus" component={ContactUs} />
               <Route path="/contractorlanding" component={ContractorLanding} />

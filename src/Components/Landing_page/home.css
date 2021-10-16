@@ -173,6 +173,7 @@
 }
 .oilengimg{
   height: 100%;
+  width: 100%;
 }
 .section-three-subheading {
   margin-bottom: 20px;
@@ -229,6 +230,7 @@
 @media (max-width: 760px) {
   .purpleline {
     width: 54%;
+    height: 2px;
   }
   .section-three-row {
     padding-left: 20px;
@@ -403,7 +405,28 @@
   font-size: 20px;
   font-weight: 400;
   width: 80%;
-  margin-bottom: 41px;
+  margin-bottom: 16px;
+}
+.btn-text:link, .btn-text:visited {
+  font-size: 1.2rem;
+  color: #333333;
+  display: inline-block;
+  text-decoration: none;
+  border-bottom: 2px solid #333333;
+  padding: 7px 7px 1px;
+  transition: all 0.3s ease;
+  margin-bottom: 35px;
+}
+.btn-text:hover {
+  background-color: #ff9a1f;
+  color: #fff;
+  border-bottom: 2px solid #ff9a1f;
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+}
+.btn-text:active {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  transform: translateY(0px);
 }
 .section-fivebtn-wrapp {
   display: flex;
@@ -722,7 +745,7 @@ text-align: center;
   border: 2px solid #fd8c00;
 }
 .scoialswrap{
-  width: 18%;
+  width: 13%;
 }
 .section-seven-form {
   background-color: rgba(123, 123, 123, 0.2);
@@ -1002,7 +1025,7 @@ text-align: center;
 }
 /* learnmore styling */
 .learnmrlndg-section1-contnt {
-  padding: 220px 0px 17px 95px;
+  padding: 220px 0px 0px 95px;
   background-image: url(../../images/jointcircle.png);
   background-repeat: no-repeat;
   background-position-x: center;
@@ -1024,7 +1047,7 @@ text-align: center;
   width: 100%;
 }
 .learnmsctn1-pargh2 {
-  margin-bottom: 43px;
+  margin-bottom: 16px;
   font-size: 20px;
   font-weight: 400;
   line-height: 27px;
@@ -1135,6 +1158,9 @@ text-align: center;
   .Pipeline_stick_img{
     height: 33% !important;
   }
+  .industry-segment_section-3 {
+    padding: 0px 15px !important;
+}
 }
 .porderheader {
   width: 159px;
@@ -1240,6 +1266,9 @@ text-align: center;
 }
 .Is_images_section{
   -webkit-overflow-scrolling: touch;
+}
+.industry-segment_section-3{
+  padding: 0px 76px;
 }
 @media (max-width: 760px){
   .Is_images_section_wrap{
@@ -1367,6 +1396,94 @@ text-align: center;
 .Pipeline_stick_img{
   height: 56%;
 }
+.yellhlmetimg{
+  height: 62%;
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
+}
+
+/* blogstyling starts */
+
+/* Header/Blog Title */
+.blogheader{
+  padding-top: 146px; 
+}
+.blog-container{
+  padding: 0px 56px;
+}
+
+.blog_images{
+  height: 100%;
+  width: 100%;
+}
+.blog_card>h2{
+  font-size: 27px;
+  font-weight: 600;
+  color: #222073;
+}
+.blog-readmoretxt{
+  color: #ff9a1f;
+  cursor: pointer;
+}
+/* Create two unequal columns that floats next to each other */
+/* Left column */
+.leftcolumn {
+  float: left;
+  width: 75%;
+}
+
+/* Right column */
+.rightcolumn {
+  float: left;
+  width: 25%;
+  padding-left: 20px;
+}
+
+/* Fake image */
+.fakeimg {
+  background-color: #aaa;
+  width: 100%;
+}
+
+/* Add a card effect for articles */
+.card {
+  background-color: white;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Footer */
+.footer {
+  padding: 20px;
+  text-align: center;
+  background: #ddd;
+  margin-top: 20px;
+}
+
+/* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 800px) {
+  .leftcolumn, .rightcolumn {
+    width: 100%;
+    padding: 0;
+  }
+   .rightcolumn {
+  margin-bottom: 30px; 
+  }
+  .blogheader{
+    padding-top: 91px; 
+  }
+  .blog-container {
+    padding: 0px 32px;
+}
+}
+/* blogstyling ends */
 .trans3{
   text-align: center;
 }
