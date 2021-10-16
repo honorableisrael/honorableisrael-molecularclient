@@ -30,16 +30,19 @@ const Footer = () => {
                 <p className="footer-links">Home</p>
               </NavHashLink>
               <NavHashLink to="/#our_services">
-                <p className="footer-links">Our Services</p>
+                <p className="footer-links">Our services</p>
               </NavHashLink>
               <Link to="/Industry_segments">
                 <p className="footer-links">Industry Segments</p>
               </Link>
               <Link to="/learnmore">
-                <p className="footer-links">Blog</p>
+                <p className="footer-links">What we do</p>
+              </Link>
+              <Link to="/blog">
+                <p className="footer-links">Gray connects</p>
               </Link>
               <Link to="/contactus">
-                <p className="footer-links">Contact Us</p>
+                <p className="footer-links">Contact us</p>
               </Link>
             </div>
              <div>
@@ -53,7 +56,7 @@ const Footer = () => {
             <div>
               <h4 className="footer-title">Pipeline Specialist</h4>
               <Link to="/specialist_signup">
-                <p className="footer-links">Find Work</p>
+                <p className="footer-links">Find work</p>
               </Link>
               {/* <p className="footer-links">Industries</p> */}
             </div>
@@ -75,14 +78,14 @@ const Footer = () => {
                 <span>
                   <img src={instagram} alt="img" />
                 </span>
-                <span>
+                {/* <span>
                   <img src={twitter} alt="img" />
-                </span>
+                </span> */}
                 <span>
                   <img src={linkedin} alt="img" />
                 </span>
               </div>
-              <p className="footer-links">info@molecular.com</p>
+              <p className="footer-links">info@molecularpro.co</p>
             </div>
           </div>
           <div className="copyrightwrap">

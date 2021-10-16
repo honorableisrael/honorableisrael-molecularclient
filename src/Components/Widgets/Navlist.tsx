@@ -6,7 +6,7 @@ import styled from "styled-components";
 
 const Ul = styled.ul`
      display: flex !important;
-     width: 55%;
+     width: 78%;
      color: #999999;
      font-size: 16px;
      font-weight: 600;
@@ -24,10 +24,8 @@ const Ul = styled.ul`
     a:hover{
       text-decoration: none;
   }
+
 @media screen and (max-width:1024px){
-     width: 73%;
-}
-@media screen and (max-width:769px){
     position: fixed;
     left: -1px;
     height: 92vh;
@@ -89,7 +87,18 @@ const Navlist = ({ open }) => {
           borderBottom: "4px solid #fd8c00"
         }}
       >
-        <li>Careers</li>
+        <li>What we do</li>
+      </NavHashLink>
+      <NavHashLink
+        to="/blog"
+        activeStyle={{
+          color: "#222073",
+          lineHeight: "29px",
+          borderBottom: "4px solid #fd8c00"
+        }}
+        className="homenavlnks"
+      >
+        <li>Gray Connects</li>
       </NavHashLink>
       <NavHashLink
         to="/contactus"
