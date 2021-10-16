@@ -85,7 +85,7 @@ const Footer = () => {
                   <img src={linkedin} alt="img" />
                 </span>
               </div>
-              <p className="footer-links">info@molecularpro.co</p>
+              <p className="footer-links"> <a href="mailto:info@dev.molecularpro.co"></a> info@molecularpro.co</p>
             </div>
           </div>
           <div className="copyrightwrap">
