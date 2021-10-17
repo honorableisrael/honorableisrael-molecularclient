@@ -836,6 +836,38 @@ input:checked + .slider::before{
 .invpaystatwrap{
     min-width: 77px;
 }
+    .spldshbdcardwrapper{
+        flex-wrap: wrap;
+    }
+    .spldshbdcard-small{
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+    .dshworksectnrow1 {
+        justify-content: center;
+        padding: 8rem 1rem 7rem 1rem;
+    }
+    .splstprogressbarwrapper .cardwrap_cont{
+        display: none;
+    }
+    .content24{
+        margin-left: 0px !important;
+    }
+    .splrowt3{
+        padding-left: 0rem !important;
+    }
+    .job23_1a_splst{
+        margin: auto;
+    }
+    .cardwrap_jo{
+        margin-left: 0px;
+    }
+    .job34{
+        padding-left: 7px !important;
+    }
+    .settingtop{
+        min-height: 70px;
+    }
 }
 .splrowt3 {
     padding-top: 7rem;

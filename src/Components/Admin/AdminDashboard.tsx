@@ -28,6 +28,7 @@ import {
   returnAdminToken,
 } from "../../config";
 import Specialist_Awaiting_Admin from "./SubComponents/Specailist_Awaiting_Admin_Approval";
+import Contractor_Awaiting_Admin from "./SubComponents/Contractor_Awaiting_Admin_Approval";
 
 const Notification = (props) => {
   console.log(props);
@@ -392,6 +393,7 @@ const AdminDashboard = withRouter((props) => {
               </div>
             </div>
           </Col>
+          <Contractor_Awaiting_Admin />
           <Specialist_Awaiting_Admin />
           <Col className="fc12 fc14 ">
             <div className="carderw carderw_no_12  carderwax">

@@ -19,8 +19,21 @@ import Footer from "./footer";
 import Work from "./workandbuild";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import TextTransition, { presets } from "react-text-transition";
+import {
+  BlinkingCursorTextBuilder,
+  FloatingLettersTextBuilder,
+} from "react-animated-text-builders";
+
+const TEXTS = [
+  "Let's build more pipelines",
+  "Let's do the hard work",
+  "Let's empower the grey collar workers",
+];
 
 const Home = () => {
+  const [index, setIndex] = React.useState(0);
+
   useEffect(() => {
     window.scrollTo(-0, -0);
     AOS.init({
@@ -29,10 +42,19 @@ const Home = () => {
     AOS.refresh();
   }, []);
 
+  React.useEffect(() => {
+    const intervalId = setInterval(
+      () => setIndex((index) => index + 1),
+      3000 // every 3 seconds
+    );
+    return () => clearTimeout(intervalId);
+  }, []);
+
   const [state, setState] = useState({
     toggleSections: true,
+    current:"Let's build more pipelines"
   });
-  const { toggleSections } = state;
+  const { toggleSections,current } = state;
 
   const contractorSection = () => {
     setState({
@@ -56,7 +78,21 @@ const Home = () => {
             <Col md={12} className="fixedti22">
               <div className="section-one-content">
                 <h4 className="section-one-heading">
-                  Let’s Build the Natural Gas Pipeline to Global Standards
+                  {/* <TextTransition
+                    text={TEXTS[index % TEXTS.length]}
+                    springConfig={presets.wobbly}
+                    direction="up"
+                    className="trans3"
+                  /> */}
+
+                  <FloatingLettersTextBuilder
+                    floatingSpeed={500}
+                    lettersAppearanceDelay={250}
+                    animationMaxMargin={"200px"}
+                    animationMinMargin={"0px"}
+                  >
+                    {/* {current} */}Let's &nbsp; build&nbsp; more &nbsp;pipelines
+                  </FloatingLettersTextBuilder>
                 </h4>
                 {/* <p className="section-one-descriptn">
                   Get special skill work done and transforming how work gets
@@ -122,12 +158,17 @@ const Home = () => {
                 />
               </div>
               <p className="section-three-heading">
-              To empower the people who do the hard work of powering Africa through natural gas pipelines
+                To empower the people who do the hard work of powering Africa
+                through natural gas pipelines
               </p>
             </div>
           </Col>
           <Col md={6} data-aos="zoom-in-up" className="sctn3col2">
-            <img src={oilengineers} className="img-fluid oilengimg" alt="pic3" />
+            <img
+              src={oilengineers}
+              className="img-fluid oilengimg"
+              alt="pic3"
+            />
           </Col>
         </Row>
       </div>
@@ -199,26 +240,26 @@ const Home = () => {
                 <span className="home-btn-primary contrtor-btn">
                   EPC Contractors
                 </span>
-                </Link>
-                {/* <span
+              </Link>
+              {/* <span
                   onClick={specialistSection}
                   className="section-five-btn scfvspclstbtn"
                 > */}
-                <Link to="/specialistlanding">
+              <Link to="/specialistlanding">
                 <span
                   className="home-btn-primary specilst-btn"
                   onClick={specialistSection}
                 >
                   Pipeline Specialists
                 </span>
-                </Link>
-              </div>
-              {/* <p className="section-five-paragp2">
+              </Link>
+            </div>
+            {/* <p className="section-five-paragp2">
                 Access reliable workforce.
                 <br /> Our platform meets your need as a contractor, as well as
                 a specialised skilled worker.
               </p> */}
-              {/* <p className="section-five-paragp3">
+            {/* <p className="section-five-paragp3">
                 MolecularTech aggregates end-to-end natural gas pipeline
                 operations to help Engineering, Procurement & Construction(EPC)
                 Operators in the upstream, midstream and downstream sectors of
@@ -227,16 +268,16 @@ const Home = () => {
                 Steering Professionals, on the other hand, to achieve efficient
                 deployment and engagement for Pipeline Construction Projects.
               </p> */}
-              {/* <div className="section-five-btn-wrap">
+            {/* <div className="section-five-btn-wrap">
                 <Link to="/contractor_signup">
                   <span className="home-btn-primary sectnfivecontrtor-btn">
                     Hire Specialists
                   </span>
                 </Link>
               </div> */}
-            </Col>
-          </Row>
-        </div>
+          </Col>
+        </Row>
+      </div>
       {/* {toggleSections === false && (
         <div className="section-five">
           <Row>

@@ -10,8 +10,6 @@ import eye from "../../images/eye.png";
 import eyeclose from "../../images/eye-off.png";
 import NavBar from "../Widgets/navigation";
 
-
-
 const Contractorsignup = withRouter((props) => {
   const [state, setState] = useState({
     email: "",
@@ -85,18 +83,18 @@ const Contractorsignup = withRouter((props) => {
         errorMessage: "Company name is required",
       });
     }
-    if (!website_url) {
-      return setState({
-        ...state,
-        errorMessage: "website url is required",
-      });
-    }
-    if (!industry) {
-      return setState({
-        ...state,
-        errorMessage: "industry is required",
-      });
-    }
+    // if (!website_url) {
+    //   return setState({
+    //     ...state,
+    //     errorMessage: "website url is required",
+    //   });
+    // }
+    // if (!industry) {
+    //   return setState({
+    //     ...state,
+    //     errorMessage: "industry is required",
+    //   });
+    // }
     submitForm();
   };
   const submitForm = () => {
@@ -106,7 +104,7 @@ const Contractorsignup = withRouter((props) => {
     });
     const data = {
       email,
-      password,
+      // password,
       first_name,
       last_name,
       help,
@@ -121,14 +119,15 @@ const Contractorsignup = withRouter((props) => {
       .then((res) => {
         console.log(res.data);
         localStorage.setItem("loggedInDetails", JSON.stringify(res.data));
-        if (res?.data?.user_type == "contractor") {
-          return props.history.push("/contractor_dashboard");
-        }
+        // if (res?.data?.user_type == "contractor") {
+        //   return props.history.push("/contractor_dashboard");
+        // }
         setState({
           ...state,
           isloading: false,
-          successMessage: "Successfully signed up",
+          successMessage: "Successfully signed up, your account would be activated within the next 48hours",
         });
+        window.scrollTo(0,0)
       })
       .catch((err) => {
         console.log(err?.response);
@@ -175,19 +174,19 @@ const Contractorsignup = withRouter((props) => {
   const hidePassword = () => {
     setState({
       ...state,
-      passwordIsOpen: passwordIsOpen ? false : true
+      passwordIsOpen: passwordIsOpen ? false : true,
     });
   };
   const fieldRef: any = useRef();
   useEffect(() => {
-    if (errorMessage || successMessage && fieldRef) {
+    if (errorMessage || (successMessage && fieldRef)) {
       fieldRef.current.scrollIntoView({
-        behavior: "smooth"
+        behavior: "smooth",
       });
     }
   }, [errorMessage, successMessage]);
   useEffect(() => {
-    window.scrollTo(-0,-0);
+    window.scrollTo(-0, -0);
     Axios.all([
       Axios.get<any, AxiosResponse<any>>(`${API}/industries`),
       Axios.get<any, AxiosResponse<any>>(`${API}/contractor-needs`),
@@ -210,7 +209,7 @@ const Contractorsignup = withRouter((props) => {
   console.log(listOfIndustries);
   return(
     <div>
-       <NavBar />
+      <NavBar />
       <section className="forms-section">
         <div className="forms-section-image"></div>
         <div className="formwrplift">
@@ -234,12 +233,16 @@ const Contractorsignup = withRouter((props) => {
                       <Col md={12} className="col_space">
                         {errorMessage && (
                           <div className="text-center">
-                            <Alert variant="danger" className="cntralertmessg">{errorMessage}</Alert>
+                            <Alert variant="danger" className="cntralertmessg">
+                              {errorMessage}
+                            </Alert>
                           </div>
                         )}
                         {successMessage && (
                           <div className="text-center ">
-                            <Alert variant="success" className="cntralertmessg">{successMessage}</Alert>
+                            <Alert variant="success" className="cntralertmessg">
+                              {successMessage}
+                            </Alert>
                           </div>
                         )}
                       </Col>
@@ -298,7 +301,7 @@ const Contractorsignup = withRouter((props) => {
                         </label>
                       </Col>
                     </Row>
-                    <Row>
+                    {/* <Row>
                       <Col md={12}>
                         <label className="inputlabel">
                           <span className="rdfrmlbl">
@@ -316,24 +319,24 @@ const Contractorsignup = withRouter((props) => {
                           />
                         </label>
                         <div className="text-right">
-                  {passwordIsOpen ? (
-                    <img
-                      src={eye}
-                      className="hideeye"
-                      onClick={hidePassword}
-                      alt="hideeye"
-                    />
-                  ) : (
-                    <img
-                      src={eyeclose}
-                      className="hideeye"
-                      onClick={hidePassword}
-                      alt="hideeye"
-                    />
-                  )}
-                </div>
+                          {passwordIsOpen ? (
+                            <img
+                              src={eye}
+                              className="hideeye"
+                              onClick={hidePassword}
+                              alt="hideeye"
+                            />
+                          ) : (
+                            <img
+                              src={eyeclose}
+                              className="hideeye"
+                              onClick={hidePassword}
+                              alt="hideeye"
+                            />
+                          )}
+                        </div>
                       </Col>
-                    </Row>
+                    </Row> */}
                     <Row>
                       <Col md={12}>
                         <label className="inputlabel">
@@ -454,7 +457,11 @@ const Contractorsignup = withRouter((props) => {
                         {!isloading ? "Create Account" : "Creating Account"}
                       </span>
                     </div>
-                    <Link to="/signin"><p className="signuprgqt">Have Molecular account?<span>Login</span></p></Link>
+                    <Link to="/signin">
+                      <p className="signuprgqt">
+                        Have Molecular account?<span> Login</span>
+                      </p>
+                    </Link>
                   </div>
                 </form>
               </Col>
