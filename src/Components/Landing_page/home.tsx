@@ -49,22 +49,23 @@ const Home = () => {
     );
     return () => clearTimeout(intervalId);
   }, []);
-  useEffect(()=>{
-    setInterval(()=>{
-      if (current.length >30){
-        setState({
-          ...state,
-          current: `Let's ${" "}  do ${" "}  the ${" "}  hard ${" "}  work`
-        })
-      }
-      if (current.length <30){
-        setState({
-          ...state,
-          current: `Let's ${" "}  do ${" "}  the ${" "}  hard  ${" "} work`
-        })
-      }
-    },4000)
-  })
+  // useEffect(()=>{
+  //   setInterval(()=>{
+  //     if (current.length >30){
+  //       setState({
+  //         ...state,
+  //         current: `Let's ${" "}  do ${" "}  the ${" "}  hard ${" "}  work`
+  //       })
+  //     }
+      
+  //     if (current.length <30){
+  //       setState({
+  //         ...state,
+  //         current: `Let's ${" "}  do ${" "}  the ${" "}  hard  ${" "} work`
+  //       })
+  //     }
+  //   },4000)
+  // })
   const [state, setState] = useState({
     toggleSections: true,
     current:`Let's ${" "} build ${"  "} more  ${" "} pipelines`

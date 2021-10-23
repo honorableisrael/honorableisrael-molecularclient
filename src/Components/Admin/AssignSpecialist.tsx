@@ -14,7 +14,7 @@ import checkcircle from "../../images/check-circle.png";
 import searchicon from "../../images/search.png";
 import no_work_order from "../../images/document 1.png";
 import axios from "axios";
-import { API, notify } from "../../config";
+import { API,capitalize, notify } from "../../config";
 // import { capitalize } from "@material-ui/core";
 import { ToastContainer } from "react-toastify";
 
