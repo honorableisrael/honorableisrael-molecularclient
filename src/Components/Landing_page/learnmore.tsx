@@ -34,10 +34,9 @@ const Learnmore = () => {
       <div className="cntrotlndg-section1">
         <Row>
           <Col md={6} className="learnmrlndg-section1-contnt">
-            {/* <h4 data-aos="fade-up">
-              We Empower the People Who Do the Hard Work of Powering Africa
-              though Natural Gas Pipelines.
-            </h4> */}
+             <h4 data-aos="fade-up">
+             What we do
+            </h4> 
             <p className="learnmsctn1-mpargh1">
               MolecularTech aggregates end-to-end natural gas pipeline
               operations to help Engineering, Procurement & Construction(EPC)

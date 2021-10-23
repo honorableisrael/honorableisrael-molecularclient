@@ -260,7 +260,7 @@ const Contractorsignup = withRouter((props) => {
                             name="first_name"
                             value={first_name}
                             onChange={onchange}
-                            placeholder="Enter your first name"
+                            // placeholder="Enter your first name"
                             size={75}
                             className="form-control forminput"
                           />
@@ -277,7 +277,7 @@ const Contractorsignup = withRouter((props) => {
                             name="last_name"
                             value={last_name}
                             onChange={onchange}
-                            placeholder="Enter your Last name"
+                            // placeholder="Enter your Last name"
                             size={75}
                             className="form-control forminput"
                           />
@@ -294,8 +294,8 @@ const Contractorsignup = withRouter((props) => {
                             name="email"
                             value={email}
                             onChange={onchange}
-                            placeholder="Enter your email"
-                            size={75}
+                            // placeholder="Enter your email"
+                            // size={75}
                             className="form-control forminput"
                           />
                         </label>
@@ -313,8 +313,8 @@ const Contractorsignup = withRouter((props) => {
                             name="password"
                             onChange={onChangepassword}
                             value={password}
-                            placeholder="Enter your password"
-                            size={75}
+                            // placeholder="Enter your password"
+                            // size={75}
                             className="form-control forminput"
                           />
                         </label>
@@ -349,7 +349,7 @@ const Contractorsignup = withRouter((props) => {
                             name="company_name"
                             value={company_name}
                             onChange={onchange}
-                            placeholder="Enter your Company Name"
+                            // placeholder="Enter your Company Name"
                             size={75}
                             className="form-control forminput"
                           />
@@ -369,7 +369,7 @@ const Contractorsignup = withRouter((props) => {
                             name="phone"
                             value={phone}
                             onChange={onchange}
-                            placeholder="Enter your Phone Number"
+                            // placeholder="Enter your Phone Number"
                             size={96}
                             className="form-control forminput"
                           />
@@ -408,7 +408,7 @@ const Contractorsignup = withRouter((props) => {
                         name="website_url"
                         value={website_url}
                         onChange={onchange}
-                        placeholder="E.g http://www.example.com"
+                        // placeholder="E.g http://www.example.com"
                         size={96}
                         className="form-control forminput"
                       />

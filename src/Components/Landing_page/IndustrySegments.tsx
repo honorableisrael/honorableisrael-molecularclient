@@ -29,7 +29,7 @@ const IndustrySegments = () => {
       <div className="toppagepadding"></div>
       <div className="Industry_segment_section-1">
         <img src={jointcircle} alt="img" />
-        <h6>Industry Segments</h6>
+        {/* <h6>Industry Segments</h6> */}
         <h2>Industry Segments We Operate In</h2>
         {/* <p>
           We help contractors and subcontractors working on commercial,
@@ -44,7 +44,7 @@ const IndustrySegments = () => {
             <div className="Is_rowcol1wrap">
               <h4>EPC Contractors</h4>
               <p>
-                We help operators and EPC contractors in the upstream, midstream
+                We help EPC contractors in the upstream, midstream
                 and downstream segments of the Gas Industry to deliver on their
                 pipeline projects to quality standards, on time and within
                 budget.
@@ -116,7 +116,7 @@ const IndustrySegments = () => {
               <p>
                 We seek highly skilled technical specialists in welding 5G & 6G,
                 pipe fitting, drilling and HDD, to support gas pipeline
-                construction projects undertaken by our clients.
+                welding undertaken by our clients.
               </p>
               <p>Let’s get the hard work done</p>
             </div>

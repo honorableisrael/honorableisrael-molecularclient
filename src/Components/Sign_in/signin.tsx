@@ -116,7 +116,7 @@ const SignIn = withRouter((props) => {
                       name="email"
                       value={email}
                       onChange={onchange}
-                      placeholder="Enter your Email Address"
+                      // placeholder="Enter your Email Address"
                       size={60}
                       className="form-control forminput"
                     />
@@ -128,7 +128,7 @@ const SignIn = withRouter((props) => {
                       name="password"
                       value={password}
                       onChange={onchange}
-                      placeholder="Enter your Password"
+                      //placeholder="Enter your Password"
                       size={60}
                       className="form-control forminput"
                     />

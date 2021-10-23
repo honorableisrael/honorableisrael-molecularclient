@@ -217,7 +217,7 @@ const onSubmit = () => {
                             name="firstName"
                             value={firstName}
                             onChange={onChangeHandler}
-                            placeholder="Enter your first name"
+                            // placeholder="Enter your first name"
                             size={75}
                             className="form-control forminput"
                           />
@@ -234,7 +234,7 @@ const onSubmit = () => {
                             name="lastName"
                             value={lastName}
                             onChange={onChangeHandler}
-                            placeholder="Enter your Last name"
+                            // placeholder="Enter your Last name"
                             size={75}
                             className="form-control forminput"
                           />
@@ -251,7 +251,7 @@ const onSubmit = () => {
                         name="email"
                         value={email}
                         onChange={onChangeHandler}
-                        placeholder="Enter your Email Address"
+                        // placeholder="Enter your Email Address"
                         size={96}
                         className="form-control forminput"
                       />
@@ -266,7 +266,7 @@ const onSubmit = () => {
                         name="phone"
                         value={phone}
                         onChange={onChangeHandler}
-                        placeholder="Enter your Phone Number"
+                        // placeholder="Enter your Phone Number"
                         size={96}
                         className="form-control forminput"
                       />
@@ -308,8 +308,8 @@ const onSubmit = () => {
                         type={passwordIsOpen ? "password" : "text"}
                         name="password"
                         value={password}
-                        placeholder="******"
-                        onChange={onChangepassword}
+                        // placeholder="******"
+                        // onChange={onChangepassword}
                         size={96}
                         className="form-control forminput"
                       />

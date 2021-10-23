@@ -98,7 +98,7 @@ const Navlist = ({ open }) => {
         }}
         className="homenavlnks"
       >
-        <li>Gray Connects</li>
+        <li>Blog</li>
       </NavHashLink>
       <NavHashLink
         to="/contactus"
@@ -107,7 +107,7 @@ const Navlist = ({ open }) => {
           lineHeight: "29px",
           borderBottom: "4px solid #fd8c00"
         }}
-        className="homenavlnks"
+        className ="homenavlnks"
       >
         <li>Contact us</li>
       </NavHashLink>
