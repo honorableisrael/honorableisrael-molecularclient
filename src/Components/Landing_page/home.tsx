@@ -91,7 +91,7 @@ const Home = () => {
                     animationMaxMargin={"200px"}
                     animationMinMargin={"0px"}
                   >
-                    {/* {current} */}Let's &nbsp; build&nbsp; more &nbsp;pipelines
+                    {/* {current} */}Let's &nbsp; build&nbsp; more &nbsp; gas&nbsp; pipelines
                   </FloatingLettersTextBuilder>
                 </h4>
                 {/* <p className="section-one-descriptn">
