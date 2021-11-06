@@ -88,10 +88,13 @@ const Home = () => {
                   <FloatingLettersTextBuilder
                     floatingSpeed={500}
                     lettersAppearanceDelay={250}
-                    animationMaxMargin={"200px"}
+                    animationMaxMargin={"150px"}
                     animationMinMargin={"0px"}
+                    style={{
+                      justifyContent: "center",
+                    }}
                   >
-                    {/* {current} */}Let's &nbsp; build&nbsp; more &nbsp; gas&nbsp; pipelines
+                    {/* {current} */}Let's &nbsp; build&nbsp; more &nbsp; gas &nbsp; pipelines
                   </FloatingLettersTextBuilder>
                 </h4>
                 {/* <p className="section-one-descriptn">

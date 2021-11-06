@@ -34,8 +34,8 @@
   line-height: 89px;
   color: #ffffff;
   margin-bottom: 41px;
-  animation: moveUp 1s ease-out 0.8s;
-  animation-fill-mode: backwards;
+  /* animation: moveUp 1s ease-out 0.8s;
+  animation-fill-mode: backwards; */
 }
 .section-one-descriptn {
   font-weight: 400;
@@ -1495,7 +1495,7 @@ text-align: center;
   margin-bottom: 30px; 
   }
   .blogheader{
-    padding-top: 91px; 
+    padding: 184px 13px 160px 18px; 
   }
   .blog-container {
     padding: 0px 32px;
@@ -1517,4 +1517,7 @@ text-align: center;
 }
 .nameofcontractor{
   width: 350px !important;
+}
+.floatinletterswrap{
+  justify-content: center;
 }
