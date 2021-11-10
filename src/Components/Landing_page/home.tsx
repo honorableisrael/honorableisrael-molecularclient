@@ -26,7 +26,7 @@ import {
 } from "react-animated-text-builders";
 
 const TEXTS = [
-  "Let's build more pipelines",
+  "Let's build more gas pipelines",
   "Let's do the hard work",
   "Let's empower the grey collar workers",
 ];
@@ -42,6 +42,7 @@ const Home = () => {
     AOS.refresh();
   }, []);
 
+  
   React.useEffect(() => {
     const intervalId = setInterval(
       () => setIndex((index) => index + 1),
@@ -78,14 +79,14 @@ const Home = () => {
             <Col md={12} className="fixedti22">
               <div className="section-one-content">
                 <h4 className="section-one-heading">
-                  {/* <TextTransition
+                   <TextTransition
                     text={TEXTS[index % TEXTS.length]}
                     springConfig={presets.wobbly}
                     direction="up"
                     className="trans3"
-                  /> */}
+                  /> 
 
-                  <FloatingLettersTextBuilder
+                  {/* <FloatingLettersTextBuilder
                     floatingSpeed={500}
                     lettersAppearanceDelay={250}
                     animationMaxMargin={"150px"}
@@ -94,8 +95,8 @@ const Home = () => {
                       justifyContent: "center",
                     }}
                   >
-                    {/* {current} */}Let's &nbsp; build&nbsp; more &nbsp; gas &nbsp; pipelines
-                  </FloatingLettersTextBuilder>
+                     Let's &nbsp; build&nbsp; more &nbsp; gas &nbsp; pipelines
+                  </FloatingLettersTextBuilder> */}
                 </h4>
                 {/* <p className="section-one-descriptn">
                   Get special skill work done and transforming how work gets

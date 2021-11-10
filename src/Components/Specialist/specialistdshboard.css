@@ -836,6 +836,9 @@ input:checked + .slider::before{
 .invpaystatwrap{
     min-width: 77px;
 }
+.emptypendingworkwrap{
+    margin-bottom: 27px;
+}
     .spldshbdcardwrapper{
         flex-wrap: wrap;
     }
@@ -890,3 +893,8 @@ input:checked + .slider::before{
   .spltablecont0{
       width: 100%;
   }
+@media (max-width:1024px){
+    .dshbdhome{
+        padding-bottom: 31rem;
+    }
+}
