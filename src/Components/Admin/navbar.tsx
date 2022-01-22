@@ -7,7 +7,7 @@ import { Link, withRouter } from "react-router-dom";
 // import arrowhead from "../../assets/arrowhead.png";
 // import settings from "../../assets/settings.png";
 import bell from "../../images/bell.png";
-import { API, capitalize } from "../../config";
+import { API, capitalize } from "../../config"; 
 import axios from "axios";
 import Axios, { AxiosResponse } from "axios";
 import SideNav from "react-simple-sidenav";

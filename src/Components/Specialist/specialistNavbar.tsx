@@ -4,8 +4,8 @@ import { Button, } from "react-bootstrap";
 import dshlogo from "../../images/dashbdlogo.png";
 import { Link, NavLink } from "react-router-dom";
 import bell from "../../images/bell.png";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
+// import Menu from "@material-ui/core/Menu";
+// import MenuItem from "@material-ui/core/MenuItem";
 import chevron from "../../images/chevrondown.png";
 import { API, capitalize  } from "../../config";
 import Axios, { AxiosResponse } from "axios";
@@ -138,7 +138,7 @@ const mobilenavbar =()=>{
               <div className="chevron-imgwrap" onClick={handleClick}>
                 <img src={chevron} alt="img" />
               </div>
-              <Menu
+              {/* <Menu
                 id="simple-menu"
                 anchorEl={anchorEl}
                 keepMounted
@@ -158,7 +158,7 @@ const mobilenavbar =()=>{
                   }} className="muilistitem">
                     Logout
                   </MenuItem>
-              </Menu>
+              </Menu> */}
             </div>
           </div>
           <Link to="/specialistnotifications">

@@ -2,6 +2,9 @@ import { ToastContainer, toast } from "react-toastify";
 const moment = require("moment");
 // Molecular Production API
 export const API = "https://staging-api.molecularpro.co/api/v1";
+
+// const live API = "https://api.molecularpro.co/api/v1/"
+
 export const capitalize = (s) => {
   if (typeof s !== "string") return "";
   return s.charAt(0).toUpperCase() + s.slice(1);
