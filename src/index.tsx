@@ -14,7 +14,7 @@ import { createBrowserHistory } from "history";
 const history = createBrowserHistory();
 ReactDOM.render(
   <HashRouter>
-    <App />
+    <App history={history} />
   </HashRouter>,
   document.getElementById("root")
 );

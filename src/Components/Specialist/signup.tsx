@@ -355,7 +355,7 @@ const SignUp = withRouter((props: any) => {
                           value=""
                           id="flexCheckDefault"
                         />
-                        Creating an account means you’re okay with our Terms of
+                        Creating an account means you agree to our Terms of
                         Service, Privacy Policy, and our
                         <br />
                         default Notification Settings.

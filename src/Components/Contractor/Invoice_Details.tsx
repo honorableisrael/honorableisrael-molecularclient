@@ -22,15 +22,23 @@ import {
   current_currency,
   FormatAmount,
   formatTime,
+  MID,
   notify,
   returnAdminToken,
 } from "../../config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+declare global {
+  interface Window {
+    initPayment: any;
+  }
+}
+
 const Admin_Invoice_details = (props) => {
   const [state, setState] = useState<any>({
     invoice_details: {},
+    user_details: "",
     country: "",
     inprogress: true,
     pending_request: false,
@@ -43,6 +51,7 @@ const Admin_Invoice_details = (props) => {
     end_date: "",
     start_date: "",
     hour: "",
+    u_id: "",
     show: false,
     show2: false,
     reason: "",
@@ -50,6 +59,7 @@ const Admin_Invoice_details = (props) => {
     work_order_detail: {},
     id: "",
     cycle_amount: "",
+    MID: "GP0000001",
   });
 
   const onchange = (e) => {
@@ -99,14 +109,18 @@ const Admin_Invoice_details = (props) => {
         axios.get(`${API}/contractor/invoices/${props?.match?.params?.id}`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }),
+        axios.get(`${API}/contractor`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
       ])
       .then(
-        axios.spread((res2) => {
-          console.log(res2.data.data);
+        axios.spread((res2, res3) => {
+          console.log(res3.data.data);
           setState({
             ...state,
             work_order_detail: res2.data.data.work_order,
             invoice_details: res2.data.data,
+            user_details: res3.data.data,
           });
         })
       )
@@ -161,6 +175,25 @@ const Admin_Invoice_details = (props) => {
         console.log(err);
       });
   };
+  const initPayment = () => {
+    window.initPayment({
+      MID: MID,
+      email: user_details?.contractor?.email,
+      firstname: user_details?.contractor?.first_name,
+      lastname: user_details?.contractor?.last_name,
+      description: u_id,
+      title: "",
+      amount: cycle_amount,
+      country: "NG",
+      currency: "NGN",
+      onclose: function () {
+        notify("failed to complete payment");
+      },
+      callback: function (response) {
+        notify("payment completed");
+      },
+    });
+  };
   const MakePayment = () => {
     const token = contractorToken();
     const work_order = localStorage.getItem("work_order_details");
@@ -203,14 +236,15 @@ const Admin_Invoice_details = (props) => {
         console.log(err);
       });
   };
+
   const {
     project_purpose,
     country,
     work_order_description,
     work_order_detail,
     order_title,
-    end_date,
-    reason,
+    u_id,
+    user_details,
     isloading,
     id,
     show2,
@@ -218,6 +252,7 @@ const Admin_Invoice_details = (props) => {
     show,
     cycle_amount,
   } = state;
+  console.log(MID);
   return (
     <>
       <Modal
@@ -308,9 +343,11 @@ const Admin_Invoice_details = (props) => {
               >
                 {"Cancel"}
               </div>
+
               <Button
                 className="greenbtn2 btn-success"
-                onClick={(e) => MakePayment()}
+                // onClick={(e) => MakePayment()}
+                onClick={(e) => initPayment()}
               >
                 {isloading ? "Processing" : "Proceed"}
               </Button>
@@ -477,6 +514,7 @@ const Admin_Invoice_details = (props) => {
                                               show2: true,
                                               cycle_amount: data.amount,
                                               id: data.id,
+                                              u_id: data.number,
                                             });
                                           }}
                                         >

@@ -51,7 +51,7 @@ const Navlist = ({ open }) => {
         activeStyle={{
           color: "#222073",
           lineHeight: "29px",
-          borderBottom: "4px solid #fd8c00"
+          borderBottom: "4px solid #fd8c00",
         }}
       >
         <li>Home</li>
@@ -62,7 +62,7 @@ const Navlist = ({ open }) => {
         activeStyle={{
           color: "#222073",
           lineHeight: "29px",
-          borderBottom: "4px solid #fd8c00"
+          borderBottom: "4px solid #fd8c00",
         }}
       >
         <li>Our Services</li>
@@ -73,7 +73,7 @@ const Navlist = ({ open }) => {
         activeStyle={{
           color: "#222073",
           lineHeight: "29px",
-          borderBottom: "4px solid #fd8c00"
+          borderBottom: "4px solid #fd8c00",
         }}
       >
         <li>Industry Segments</li>
@@ -84,7 +84,7 @@ const Navlist = ({ open }) => {
         activeStyle={{
           color: "#222073",
           lineHeight: "29px",
-          borderBottom: "4px solid #fd8c00"
+          borderBottom: "4px solid #fd8c00",
         }}
       >
         <li>What we do</li>
@@ -94,7 +94,7 @@ const Navlist = ({ open }) => {
         activeStyle={{
           color: "#222073",
           lineHeight: "29px",
-          borderBottom: "4px solid #fd8c00"
+          borderBottom: "4px solid #fd8c00",
         }}
         className="homenavlnks"
       >
@@ -105,15 +105,19 @@ const Navlist = ({ open }) => {
         activeStyle={{
           color: "#222073",
           lineHeight: "29px",
-          borderBottom: "4px solid #fd8c00"
+          borderBottom: "4px solid #fd8c00",
         }}
-        className ="homenavlnks"
+        className="homenavlnks"
       >
         <li>Contact us</li>
       </NavHashLink>
-      <Link to="/signin">
+      <NavHashLink
+        className="details"
+        to="/signin"
+        // activeStyle={{ background: "#fd8b003b", color: "#fd8c00" }}
+      >
         <li className="nav-login-btn">Login</li>
-      </Link>
+      </NavHashLink>
     </Ul>
   );
 };

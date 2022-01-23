@@ -34,8 +34,8 @@
   line-height: 89px;
   color: #ffffff;
   margin-bottom: 41px;
-  animation: moveUp 1s ease-out 0.8s;
-  animation-fill-mode: backwards;
+  /* animation: moveUp 1s ease-out 0.8s;
+  animation-fill-mode: backwards; */
 }
 .section-one-descriptn {
   font-weight: 400;
@@ -1398,6 +1398,8 @@ text-align: center;
 }
 .yellhlmetimg{
   height: 62%;
+  max-height: 250px;
+  width: 100%;
   border-top-left-radius: 7px;
   border-top-right-radius: 7px;
 }
@@ -1406,7 +1408,25 @@ text-align: center;
 
 /* Header/Blog Title */
 .blogheader{
-  padding-top: 146px; 
+  padding: 186px 13px 160px 114px;
+  background-image: linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.9),
+      rgba(0, 0, 0, 0) 112.58%
+    ),
+    url(../../images/blog_backgroundimg.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin-bottom: 52px;
+}
+.blogheader>p{
+  font-size: 14px;
+  color: #fff;
+}
+.blog-title{
+  font-size: 40px;
+  font-weight: 700;
+  color: #ffffff;
 }
 .blog-container{
   padding: 0px 56px;
@@ -1477,7 +1497,7 @@ text-align: center;
   margin-bottom: 30px; 
   }
   .blogheader{
-    padding-top: 91px; 
+    padding: 184px 13px 160px 18px; 
   }
   .blog-container {
     padding: 0px 32px;
@@ -1500,11 +1520,6 @@ text-align: center;
 .nameofcontractor{
   width: 350px !important;
 }
-.section-one-heading div{
-  /* justify-content: center; */
-  /* display: block; */
-  /* text-align: center; */
-  animation-duration:infinite;
-  /* width: 100%; */
+.floatinletterswrap{
+  justify-content: center;
 }
-/* start */

@@ -1269,9 +1269,9 @@ a:hover {
   .crd23 {
     padding-left: 1rem;
   }
-  .job34 {
+  /* .job34 {
     overflow-x: scroll;
-  }
+  } */
   .job23_1a .card,.job23_1a .dplsplsacc{
     margin-left: 1rem;
   }
@@ -1619,8 +1619,9 @@ a:hover {
   padding: 1rem;
   padding-left: 0px;
   font-size: 15px;
-  padding-left: 3rem;
-  padding-right: 3rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  white-space: pre;
 }
 .inactivebordr {
   color: inherit;
@@ -3098,7 +3099,7 @@ label i {
   }
   .rowt3 {
     padding-left: 0rem;
-    margin-top: 4rem;
+    /* margin-top: 4rem; */
   }
   .job34 {
     padding: 7px;

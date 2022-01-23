@@ -40,22 +40,22 @@ const Learnmore = () => {
             <p className="learnmsctn1-mpargh1">
               MolecularTech aggregates end-to-end natural gas pipeline
               operations to help Engineering, Procurement & Construction(EPC)
-              Operators in the upstream, midstream and downstream sectors of the
+              contractors in the upstream, midstream and downstream sectors of the
               natural gas industry, on one hand, and Technical Pipeline
               Specialists such as Pipeline Welding, Fitting, HDD, Drilling and
-              Steering Professionals, on the other hand, to achieve efficient
+              Steering specialists, on the other hand, to achieve efficient
               deployment and engagement for Pipeline Construction Projects.
             </p>
             <p className="learnmsctn1-pargh2">
-              With people and technology, we make it easier for the Operators to
+              With people and technology, we make it easier for the contractors to
               find in-demand technical pipeline specialists and for the latter
               to find more work. With a few clicks of a button on our seamless
-              Mobile and Web applications, EPC Operators can simply request any
+              Mobile and Web applications, EPC contractors can simply request any
               type and number of Technical Specialists for deployment to their
               projects.
             </p>
             <p className="learnmsctn1-pargh3">
-            Molecular uses big data and artificial intelligence to efficiently match the Operators’ requirements to the work preferences of our Technical Specialists.
+            Molecular uses big data and artificial intelligence to efficiently match the contractors requirements to the work preferences of our Technical Specialists.
 Molecular enables rapid, efficient and cost effective deployment of Pipeline Specialists, while ensuring that the latter get more jobs and get paid promptly.
             </p>
           </Col>

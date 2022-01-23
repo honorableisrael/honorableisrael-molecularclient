@@ -1,10 +1,15 @@
 import React, { Component } from "react";
-import { Switch, Route, BrowserRouter, HashRouter } from "react-router-dom";
+import {
+  Switch,
+  Route,
+  BrowserRouter,
+  HashRouter,
+  Router,
+} from "react-router-dom";
 import "./App.css";
 import ContractorDashboard from "./Components/Contractor/ContractorDashboard";
 import NewWorkOrderForm from "./Components/Contractor/New_Work_Order";
 import ContractorWorkOrder from "./Components/Contractor/Work_Order";
-import SignIn from "./Components/Sign_in/signin";
 import SignUp from "./Components/Specialist/signup";
 import Home from "./Components/Landing_page/home";
 import NewWorkOrderStep2 from "./Components/Contractor/New_Work_Order_Step2";
@@ -55,184 +60,196 @@ import Admin_Invoice_details from "./Components/Admin/Invoice_Details";
 import AdminRaiseProformaInvoice from "./Components/Admin/RaiseProformaInvoice";
 import ProformaInvoiceAccepted from "./Components/Contractor/Invoice_Accepted";
 import ScheduledPayments from "./Components/Admin/scheduledpayments";
+import SignIn from "./Components/Sign_in/signin";
 
-const App = () => {
+const App: any = ({ history }) => {
   return (
     <div className="App">
       <div>
-        <HashRouter>
-          <Switch>
-            {/* <Home /> */}
-            {/* Contractor Dashbaord */}
-            <Route
-              exact={true}
-              path="/contractor_dashboard"
-              component={ContractorDashboard}
-            />
-            <Route path="/signin#" exact={true} component={SignIn} />
-            <Route path="/work_order" component={NewWorkOrderForm} />
-            <Route
-              exact={true}
-              path="/contractor_signup"
-              component={ContractorsignUp}
-            />
-            <Route path="/work_order" component={NewWorkOrderForm} />
-            <Route path="/specialistlanding" component={SpecialistLanding} />
-            <Route path="/Learnmore" component={Learnmore} />
-            <Route path="/contractorlanding" component={ContractorLanding} />
-            <Route
-              exact={true}
-              path="/molecular_OTP"
-              component={ContractorOTP}
-            />
-            <Route path="/work_order" component={NewWorkOrderForm} />
-            <Route path="/specialistlanding" component={SpecialistLanding} />
-            <Route path="/Learnmore" component={Learnmore} />
-            <Route path="/blog" component={Blog} />
-            <Route path="/projects" component={Projects} />
-            <Route path="/contactus" component={ContactUs} />
-            <Route path="/contractorlanding" component={ContractorLanding} />
-            <Route path="/Industry_segments" component={IndustrySegments} />
-            <Route path="/work_order" component={NewWorkOrderForm} />
-            <Route
-              path="/contractor_work_order"
-              component={ContractorWorkOrder}
-            />
-            <Route
-              path="/contractor_work_order_step2"
-              component={NewWorkOrderStep2}
-            />
-            <Route
-              path="/contractor_work_order_step3"
-              component={NewWorkOrderStep3}
-            />
+        <Router history={history}>
+          <HashRouter>
+            <Switch>
+              {/* <Home /> */}
+              {/* Contractor Dashbaord */}
+              <Route
+                exact={true}
+                path="/contractor_dashboard"
+                component={ContractorDashboard}
+              />
+              <Route path="/work_order" component={NewWorkOrderForm} />
+              <Route
+                exact={true}
+                path="/contractor_signup"
+                component={ContractorsignUp}
+              />
+              <Route path="/work_order" component={NewWorkOrderForm} />
+              <Route path="/specialistlanding" component={SpecialistLanding} />
+              <Route path="/Learnmore" component={Learnmore} />
+              <Route path="/contractorlanding" component={ContractorLanding} />
+              <Route
+                exact={true}
+                path="/molecular_OTP"
+                component={ContractorOTP}
+              />
+              <Route path="/work_order" component={NewWorkOrderForm} />
+              <Route path="/specialistlanding" component={SpecialistLanding} />
+              <Route path="/blog" component={Blog} />
+              <Route path="/projects" component={Projects} />
+              <Route path="/contactus" component={ContactUs} />
+              <Route path="/contractorlanding" component={ContractorLanding} />
+              <Route path="/Industry_segments" component={IndustrySegments} />
+              <Route path="/work_order" component={NewWorkOrderForm} />
+              <Route
+                path="/contractor_work_order"
+                component={ContractorWorkOrder}
+              />
+              <Route
+                path="/contractor_work_order_step2"
+                component={NewWorkOrderStep2}
+              />
+              <Route
+                path="/contractor_work_order_step3"
+                component={NewWorkOrderStep3}
+              />
 
-            <Route
-              path="/contractor_work_order_details"
-              component={WorkOrderDetails}
-            />
-            <Route path="/notification" component={Notification} />
-            <Route
-              path="/payment_invoice"
-              component={Contractor_Payment_Invoice}
-            />
+              <Route
+                path="/contractor_work_order_details"
+                component={WorkOrderDetails}
+              />
+              <Route path="/notification" component={Notification} />
+              <Route
+                path="/payment_invoice"
+                component={Contractor_Payment_Invoice}
+              />
 
-            <Route
-              path="/admin_invoice_details/:id"
-              component={Admin_Invoice_details}
-            />
-            <Route path="/invoice_details/:id" component={Invoice_details} />
-            <Route
-              path="/raise_proforma_invoice"
-              component={AdminRaiseProformaInvoice}
-            />
+              <Route
+                path="/admin_invoice_details/:id"
+                component={Admin_Invoice_details}
+              />
+              <Route path="/invoice_details/:id" component={Invoice_details} />
+              <Route
+                path="/raise_proforma_invoice"
+                component={AdminRaiseProformaInvoice}
+              />
 
-            <Route
-              path="/contractor_profile"
-              component={Contractor_Profile}
-              exact={true}
-            />
-            {/* Contractor Dashbaord */}
-            {/* Admin Dashboard */}
+              <Route
+                path="/contractor_profile"
+                component={Contractor_Profile}
+                exact={true}
+              />
+              {/* Contractor Dashbaord */}
+              {/* Admin Dashboard */}
 
-            <Route
-              path="/work_order_evaluation"
-              component={AdminWorkOrderEvaluation}
-            />
-            <Route path="/admin_assign/:id" component={AssignSpecialist} />
-            <Route
-              path="/admin_evaluation_step3"
-              component={AdminWorkOrderEvaluationStep3}
-            />
+              <Route
+                path="/work_order_evaluation"
+                component={AdminWorkOrderEvaluation}
+              />
+              <Route path="/admin_assign/:id" component={AssignSpecialist} />
+              <Route
+                path="/admin_evaluation_step3"
+                component={AdminWorkOrderEvaluationStep3}
+              />
 
-            <Route path="/admin_dashboard" component={AdminDashboard} />
-            <Route path="/scheduled_payments" component={ScheduledPayments} />
+              <Route path="/admin_dashboard" component={AdminDashboard} />
+              <Route path="/scheduled_payments" component={ScheduledPayments} />
 
-            <Route path="/contractor_list" component={ListOfContractor} />
-            <Route
-              path="/contractor_onboarding"
-              component={ContractorOnboarding}
-            />
-            <Route path="/contractor_signup" component={Contractorsignup} />
-            <Route
-              path="/contractor_onboarding"
-              component={ContractorOnboarding}
-            />
-            <Route
-              path="/proforma_invoice_accepted"
-              component={ProformaInvoiceAccepted}
-            />
+              <Route path="/contractor_list" component={ListOfContractor} />
+              <Route
+                path="/contractor_onboarding"
+                component={ContractorOnboarding}
+              />
+              <Route path="/contractor_signup" component={Contractorsignup} />
+              <Route
+                path="/contractor_onboarding"
+                component={ContractorOnboarding}
+              />
+              <Route
+                path="/proforma_invoice_accepted"
+                component={ProformaInvoiceAccepted}
+              />
 
-            <Route path="/deployedspecialist" component={DeployedSpecialist} />
-            <Route
-              path="/admin_work_details"
-              component={AdminViewWorkOrderDetails}
-            />
-            <Route path="/allspecialist" component={All_Specialist} />
-            <Route
-              path="/admin_payment_invoice"
-              component={Admin_Payment_Invoice}
-            />
+              <Route
+                path="/deployedspecialist"
+                component={DeployedSpecialist}
+              />
+              <Route
+                path="/admin_work_details"
+                component={AdminViewWorkOrderDetails}
+              />
+              <Route path="/allspecialist" component={All_Specialist} />
+              <Route
+                path="/admin_payment_invoice"
+                component={Admin_Payment_Invoice}
+              />
 
-            <Route
-              path="/admin_evaluation_step4"
-              component={AdminWorkOrderEvaluationStep4}
-            />
-            <Route path="/admin_notification" component={Admin_Notification} />
+              <Route
+                path="/admin_evaluation_step4"
+                component={AdminWorkOrderEvaluationStep4}
+              />
+              <Route
+                path="/admin_notification"
+                component={Admin_Notification}
+              />
 
-            <Route
-              path="/admin_evaluation_step2"
-              component={AdminWorkOrderEvaluationStep2}
-            />
-            <Route path="/admin_work_order" component={AdminWorkOrder} />
-            <Route
-              path="/admin_new_work_order"
-              component={Admin_NewWorkOrderForm}
-            />
-            <Route
-              path="/admin_new_work_order_step2"
-              component={Admin_NewWorkOrderStep2}
-            />
-            <Route
-              path="/admin_new_work_order_step3"
-              component={Amin_NewWorkOrderStep3}
-            />
+              <Route
+                path="/admin_evaluation_step2"
+                component={AdminWorkOrderEvaluationStep2}
+              />
+              <Route path="/admin_work_order" component={AdminWorkOrder} />
+              <Route
+                path="/admin_new_work_order"
+                component={Admin_NewWorkOrderForm}
+              />
+              <Route
+                path="/admin_new_work_order_step2"
+                component={Admin_NewWorkOrderStep2}
+              />
+              <Route
+                path="/admin_new_work_order_step3"
+                component={Amin_NewWorkOrderStep3}
+              />
 
-            <Route
-              path="/admin_assign_specialist"
-              component={AssignSpecialist}
-            />
-            <Route path="/specialistdetails" component={Specialistdetails} />
+              <Route
+                path="/admin_assign_specialist"
+                component={AssignSpecialist}
+              />
+              <Route path="/specialistdetails" component={Specialistdetails} />
 
-            {/* Admin Dashboard ends */}
-            {/* specialist Dashboard */}
-            <Route
-              path="/specialistdashboard"
-              component={SpecialistDashboard}
-            />
-            <Route
-              path="/specialistWorkOrderDetails"
-              component={SpecialistWorkOrderDetails}
-            />
-            <Route path="/works" component={Works} />
-            <Route path="/payments" component={Payments} />
-            <Route path="/settings" component={SpecialistSettings} />
-            {/* specialist Dashboard */}
-            <Route path="/specialist_signup" component={SignUp} />
-            {/* <Route path="/signin" component={signIn} /> */}
-            <Route
-              path="/specialistnotifications"
-              component={SpecialistNotification}
-            />
-            <Route
-              path="/Specialist_Payment_Invoice/:id"
-              component={Specialist_Payment_Invoice}
-            />
-
-            <Route path="/forgot_password" component={ForgotPassword} />
-            <Route path="/" component={Home} />
-          </Switch>
-        </HashRouter>
+              {/* Admin Dashboard ends */}
+              {/* specialist Dashboard */}
+              <Route
+                path="/specialistdashboard"
+                component={SpecialistDashboard}
+              />
+              <Route
+                path="/specialistWorkOrderDetails"
+                component={SpecialistWorkOrderDetails}
+              />
+              <Route path="/works" component={Works} />
+              <Route path="/payments" component={Payments} />
+              <Route path="/settings" component={SpecialistSettings} />
+              {/* specialist Dashboard */}
+              <Route path="/specialist_signup" component={SignUp} />
+              <Route
+                exact={true}
+                path="/specialistnotifications"
+                component={SpecialistNotification}
+              />
+              <Route
+                exact={true}
+                path="/Specialist_Payment_Invoice/:id"
+                component={Specialist_Payment_Invoice}
+              />
+              <Route path="/signin" exact={true} component={SignIn} />
+              <Route
+                path="/forgot_password"
+                exact={true}
+                component={ForgotPassword}
+              />
+              <Route path="/" exact={true} component={Home} />
+            </Switch>
+          </HashRouter>
+        </Router>
       </div>
     </div>
   );

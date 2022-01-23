@@ -25,6 +25,11 @@ const Blog = () => {
     <div>
       <NavBar />
       <div className="blogheader">
+        <h2 className="blog-title">Grey Connects</h2>
+        <p>
+          Molecular is a technology-driven workforce management 
+          solution for technical specialists in Africa’s natural gas industry
+        </p>
       </div>
       <div className="blog-container">
         <div className="row">
@@ -84,10 +89,10 @@ const Blog = () => {
               <br />
               <div className="fakeimg">Image</div>
             </div>
-            {/* <div className="blog_card">
+           {/* <div className="blog_card">
               <h3>Follow Us</h3>
               <p>Some text..</p>
-            </div> */}
+            </div>  */}
           </div>
         </div>
       </div>
