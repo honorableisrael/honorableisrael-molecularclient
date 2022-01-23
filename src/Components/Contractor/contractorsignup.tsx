@@ -454,7 +454,7 @@ const Contractorsignup = withRouter((props) => {
                         className="form-btn form-btnactive"
                         onClick={submitForm}
                       >
-                        {!isloading ? "Create Account" : "Creating Account"}
+                        {!isloading ? "Create Account" : "Processing..."}
                       </span>
                     </div>
                     <Link to="/signin">
