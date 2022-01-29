@@ -56,7 +56,7 @@ const Specialist_card = withRouter((props: any) => {
         </div>
 
         <div className="imagecontainer01">
-          <img src={welder} className="welder" alt="welder" />
+          <img src={props?.specialist_data?.photo??welder} className="welder" alt="welder" />
         </div>
         <div className="cardbody01 flex_card1">
           <div>

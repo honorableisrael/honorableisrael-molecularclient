@@ -61,6 +61,7 @@ import AdminRaiseProformaInvoice from "./Components/Admin/RaiseProformaInvoice";
 import ProformaInvoiceAccepted from "./Components/Contractor/Invoice_Accepted";
 import ScheduledPayments from "./Components/Admin/scheduledpayments";
 import SignIn from "./Components/Sign_in/signin";
+import AdminSpecialistSettings from './Components/Admin/Specailist_Settings/specialist_settings';
 
 const App: any = ({ history }) => {
   return (
@@ -208,7 +209,7 @@ const App: any = ({ history }) => {
                 path="/admin_new_work_order_step3"
                 component={Amin_NewWorkOrderStep3}
               />
-
+              <Route path="/admin/specialist/settings/:id" component={AdminSpecialistSettings} />
               <Route
                 path="/admin_assign_specialist"
                 component={AssignSpecialist}

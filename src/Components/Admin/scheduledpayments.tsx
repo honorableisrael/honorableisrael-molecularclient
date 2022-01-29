@@ -24,15 +24,26 @@ import {
   API,
   current_currency,
   FormatAmount,
+  MID,
   notify,
   returnAdminToken,
 } from "../../config";
 import { ToastContainer } from "react-toastify";
 
+declare global {
+  interface Window {
+    initPayment: any;
+  }
+}
+
+
+
+
 const ScheduledPayments = withRouter((props) => {
   const [state, setState] = useState<any>({
     overview: true,
     deployedspecialist: false,
+    user_details:"",
     active: false,
     thirdtab: false,
     chevron: "",
@@ -78,7 +89,7 @@ const ScheduledPayments = withRouter((props) => {
     show,
     show2,
     ungrouped,
-    grouped,
+    user_details,
     total_amount,
     last_page,
     next,
@@ -95,7 +106,26 @@ const ScheduledPayments = withRouter((props) => {
       [e.target.id]: e.target.value,
     });
   };
-
+  const initPayment = () => {
+    window.initPayment({
+      MID: MID,
+      email: user_details?.contractor?.email,
+      firstname: user_details?.contractor?.first_name,
+      lastname: user_details?.contractor?.last_name,
+      // description: u_id,
+      title: "",
+      // amount: cycle_amount,
+      country: "NG",
+      currency: "NGN",
+      onclose: function () {
+        notify("failed to complete payment");
+      },
+      callback: function (response) {
+        notify("payment completed");
+        initialize_payment_gatewate()
+      },
+    });
+  };
   const refresh_all = () => {
     const token = returnAdminToken();
     const work_order = localStorage.getItem("work_order_details");
@@ -271,11 +301,13 @@ const ScheduledPayments = withRouter((props) => {
         console.log(err);
       });
   };
-  const openModal = (id) => {
+  const openModal = (id,user_data) => {
+    console.log(user_data)
     setState({
       ...state,
       show: true,
       id: id,
+      user_details:user_data,
     });
   };
   const openModal2 = () => {
@@ -624,7 +656,7 @@ const ScheduledPayments = withRouter((props) => {
                             <td>
                               {data?.status == "Pending" ? (
                                 <Button
-                                  onClick={() => openModal(data.id)}
+                                  onClick={() => openModal(data.id,data)}
                                   className="payspecialist1"
                                 >
                                   Pay

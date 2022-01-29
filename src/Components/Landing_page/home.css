@@ -112,6 +112,9 @@
   .redoverall-img {
     width: 100%;
   }
+  .findworkimage{
+    height: 290px;
+  }
 }
 
 /* partner section styling */
@@ -341,6 +344,7 @@
 .homepg-cards-wrapper {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 2rem;
 }
 .homepg-cards {
   width: 23%;
@@ -363,7 +367,7 @@
   justify-content: space-around;
 }
 .homepg-cards {
-  width: 30%;
+  width: 23%;
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 0 10px 0 rgb(6 117 193 / 16%);
@@ -935,7 +939,7 @@ text-align: center;
   position: relative;
 }
 .cntrotlndg-section3-card-content {
-  width: 32%;
+  width: 24%;
   box-shadow: 0 0 10px 0 rgb(6 117 193 / 16%);
   background-color: #fff;
   border-radius: 11px;
@@ -1402,6 +1406,7 @@ text-align: center;
   width: 100%;
   border-top-left-radius: 7px;
   border-top-right-radius: 7px;
+  object-fit: cover;
 }
 
 /* blogstyling starts */
@@ -1522,4 +1527,8 @@ text-align: center;
 }
 .floatinletterswrap{
   justify-content: center;
+}
+.specailist2{
+  max-height: 300px;
+  min-height: 300px;
 }

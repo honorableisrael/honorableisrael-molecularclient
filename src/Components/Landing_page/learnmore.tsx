@@ -23,7 +23,7 @@ const Learnmore = () => {
   useEffect(() => {
     window.scrollTo(-0, -0);
     AOS.init({
-      duration: 1500
+      duration: 1500,
     });
     AOS.refresh();
   }, []);
@@ -34,37 +34,36 @@ const Learnmore = () => {
       <div className="cntrotlndg-section1">
         <Row>
           <Col md={6} className="learnmrlndg-section1-contnt">
-             <h4 data-aos="fade-up">
-             What we do
-            </h4> 
+            <h4 data-aos="fade-up">What we do</h4>
             <p className="learnmsctn1-mpargh1">
               MolecularTech aggregates end-to-end natural gas pipeline
               operations to help Engineering, Procurement & Construction(EPC)
-              contractors in the upstream, midstream and downstream sectors of the
-              natural gas industry, on one hand, and Technical Pipeline
+              contractors in the upstream, midstream and downstream sectors of
+              the natural gas industry, on one hand, and Technical Pipeline
               Specialists such as Pipeline Welding, Fitting, HDD, Drilling and
               Steering specialists, on the other hand, to achieve efficient
               deployment and engagement for Pipeline Construction Projects.
             </p>
             <p className="learnmsctn1-pargh2">
-              With people and technology, we make it easier for the contractors to
-              find in-demand technical pipeline specialists and for the latter
-              to find more work. With a few clicks of a button on our seamless
-              Mobile and Web applications, EPC contractors can simply request any
-              type and number of Technical Specialists for deployment to their
-              projects.
+              With people and technology, we make it easier for the contractors
+              to find in-demand technical pipeline specialists and for the
+              latter to find more work. With a few clicks of a button on our
+              seamless Mobile and Web applications, EPC contractors can simply
+              request any type and number of Technical Specialists for
+              deployment to their projects.
             </p>
+            <br />
+            <h4 data-aos="fade-up">How we do it</h4>
             <p className="learnmsctn1-pargh3">
-            Molecular uses big data and artificial intelligence to efficiently match the contractors requirements to the work preferences of our Technical Specialists.
-Molecular enables rapid, efficient and cost effective deployment of Pipeline Specialists, while ensuring that the latter get more jobs and get paid promptly.
+              Molecular uses big data and artificial intelligence to efficiently
+              match the contractors requirements to the work preferences of our
+              Technical Specialists. Molecular enables rapid, efficient and cost
+              effective deployment of Pipeline Specialists, while ensuring that
+              the latter get more jobs and get paid promptly.
             </p>
           </Col>
           <Col md={6} className="whithelmetwrapp">
-            <img
-              src={lead}
-              className="whitehelmet-img img-fluid"
-              alt="img"
-            />
+            <img src={lead} className="whitehelmet-img img-fluid" alt="img" />
           </Col>
         </Row>
       </div>

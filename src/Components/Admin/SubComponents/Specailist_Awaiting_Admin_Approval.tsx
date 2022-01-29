@@ -229,7 +229,7 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
                       className="accpt2"
                       onClick={() => accept_new_specailist(data.id)}
                     >
-                      {!isloading ? "Accept" : "Accepting"}
+                      {!isloading ? "Accept" : "Accept"}
                     </button>
                     <button
                       className="rejct2"

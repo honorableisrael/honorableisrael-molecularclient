@@ -191,13 +191,12 @@ const Admin_Invoice_details = (props) => {
       },
       callback: function (response) {
         notify("payment completed");
+        MakePayment()
       },
     });
   };
   const MakePayment = () => {
     const token = contractorToken();
-    const work_order = localStorage.getItem("work_order_details");
-    const work_order_details = work_order ? JSON.parse(work_order) : "";
     setState({
       ...state,
       isloading: true,
