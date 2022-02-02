@@ -502,7 +502,7 @@ const  upLoadFile= ({target: {files}})=>{
                       </div>
                       )}
                       <div className="worksheet_1">
-                       {worksheet_reports.map((item, index)=>{
+                       {worksheet_reports?.map((item, index)=>{
                          return(
                            <>
                          <div className="splsttabledata tablecontent tablecont1" key={index}>
