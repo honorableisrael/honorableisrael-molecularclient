@@ -160,6 +160,41 @@ const ContractorLanding = () => {
                 </div> */}
               </div>
             </div>
+            <div className="cntrotlndg-section3-card-content">
+              <img src={lightbulb} className="img-fluid yellhlmetimg" alt="img" />
+              <div className="cntrotlndg-section3-card-wrapp">
+                {/* <p className="cntrotlndg-section3-card-subhead">Hire Smartly</p> */}
+                <h4 className="cntrotlndg-section3-card-heading">
+                Convenience and Speed
+                </h4>
+                <p className="cntrotlndg-section3-card-descr">
+                </p>
+                {/* <div className="cardbulletwrap">
+                  <div>
+                    <img src={bullet} alt="img" />
+                  </div>
+                  <p>Understand your project specific requirements</p>
+                </div>
+                <div className="cardbulletwrap">
+                  <div>
+                    <img src={bullet} alt="img" />
+                  </div>
+                  <p>
+                    Identify the best candidates from our bench of 268k+ workers
+                  </p>
+                </div>
+                <div className="cardbulletwrap">
+                  <div>
+                    <img src={bullet} alt="img" />
+                  </div>
+                  <p>
+                    Create a pool of back-up candidates to ensure your project
+                    is always fully staffed
+                  </p>
+                </div> */}
+              </div>
+            </div>
+
           </div>
         </div>
       </div>

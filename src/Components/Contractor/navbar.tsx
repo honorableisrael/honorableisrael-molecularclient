@@ -35,7 +35,7 @@ const DashboardNav = withRouter((props) => {
     ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          // console.log(res.data.data);
           setState({
             ...state,
             theUserIsLoggedIn: true,
@@ -47,7 +47,7 @@ const DashboardNav = withRouter((props) => {
         console.log(err);
       });
   }, []);
-  console.log(user_details);
+  // console.log(user_details);
   return (
     <div className="fixfdnav">
       <div className="navwrap nav__wrap navwrap_cont">

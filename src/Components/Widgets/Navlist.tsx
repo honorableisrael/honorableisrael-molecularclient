@@ -45,27 +45,49 @@ const Ul = styled.ul`
 const Navlist = ({ open }) => {
   return (
     <Ul open={open}>
-      <NavHashLink
+      {/* <NavHashLink
         to="/#home"
         className="homenavlnks"
         activeStyle={{
           color: "#222073",
           lineHeight: "29px",
-          borderBottom: "4px solid #fd8c00"
+          borderBottom: "4px solid #fd8c00",
         }}
       >
         <li>Home</li>
-      </NavHashLink>
-      <NavHashLink
+      </NavHashLink> */}
+      {/* <NavHashLink
         to="/#our_services"
         className="homenavlnks"
         activeStyle={{
           color: "#222073",
           lineHeight: "29px",
-          borderBottom: "4px solid #fd8c00"
+          borderBottom: "4px solid #fd8c00",
         }}
       >
         <li>Our Services</li>
+      </NavHashLink> */}
+      <NavHashLink
+        to="/contractorlanding"
+        activeStyle={{
+          color: "#222073",
+          lineHeight: "29px",
+          borderBottom: "4px solid #fd8c00",
+        }}
+        className="homenavlnks"
+      >
+        <li>Hire Specialist</li>
+      </NavHashLink>
+      <NavHashLink
+        to="/specialistlanding"
+        activeStyle={{
+          color: "#222073",
+          lineHeight: "29px",
+          borderBottom: "4px solid #fd8c00",
+        }}
+        className="homenavlnks"
+      >
+        <li>Find work</li>
       </NavHashLink>
       <NavHashLink
         to="/Industry_segments"
@@ -73,7 +95,7 @@ const Navlist = ({ open }) => {
         activeStyle={{
           color: "#222073",
           lineHeight: "29px",
-          borderBottom: "4px solid #fd8c00"
+          borderBottom: "4px solid #fd8c00",
         }}
       >
         <li>Industry Segments</li>
@@ -84,36 +106,18 @@ const Navlist = ({ open }) => {
         activeStyle={{
           color: "#222073",
           lineHeight: "29px",
-          borderBottom: "4px solid #fd8c00"
+          borderBottom: "4px solid #fd8c00",
         }}
       >
         <li>What we do</li>
       </NavHashLink>
       <NavHashLink
-        to="/blog"
-        activeStyle={{
-          color: "#222073",
-          lineHeight: "29px",
-          borderBottom: "4px solid #fd8c00"
-        }}
-        className="homenavlnks"
+        className="details"
+        to="/signin"
+        // activeStyle={{ background: "#fd8b003b", color: "#fd8c00" }}
       >
-        <li>Blog</li>
-      </NavHashLink>
-      <NavHashLink
-        to="/contactus"
-        activeStyle={{
-          color: "#222073",
-          lineHeight: "29px",
-          borderBottom: "4px solid #fd8c00"
-        }}
-        className ="homenavlnks"
-      >
-        <li>Contact us</li>
-      </NavHashLink>
-      <Link to="/signin">
         <li className="nav-login-btn">Login</li>
-      </Link>
+      </NavHashLink>
     </Ul>
   );
 };

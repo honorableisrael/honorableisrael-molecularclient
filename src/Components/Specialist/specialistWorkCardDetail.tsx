@@ -373,8 +373,8 @@ const  upLoadFile= ({target: {files}})=>{
                 Work Details
               </div>
             </div>
-            <Row className="mgtop">
-              <Col md={2} className="job23_ mheight_">
+            <Row className="splstdetcardmgtop">
+              <Col md={2} className="splwkcddetalnav">
                 <p className="exp23">
                   <img src={portfolio} alt="portfolio" className="portfolioq" />
                 </p>
@@ -505,12 +505,10 @@ const  upLoadFile= ({target: {files}})=>{
                        {worksheet_reports?.map((item, index)=>{
                          return(
                            <>
-                         <div className="splsttabledata tablecontent tablecont1" key={index}>
-                          <div className="header_12 spltablecont0 ">
-                            <span>Work Sheet Week{item.week}</span>
-                            <span className="nofjntsspan">Number of Joints : {item.number_of_joints} </span>
-                          </div>
-                          <div className="tablecont1">
+                         <div className="splsttabledata" key={index}>
+                            <div>Work Sheet Week{item.week}</div>
+                            <div className="nofjntsspan">Number of Joints : {item.number_of_joints} </div>
+                          <div className="dwnlodiconwrap">
                             <a href={item.worksheet}>
                             <div className="worksheetdw worksheetdate1">
                               {" "}
@@ -524,8 +522,8 @@ const  upLoadFile= ({target: {files}})=>{
                               Download
                             </div>
                             </a>
-                            <div className="worksheetdate">{formatTime(item.date)}</div>
-                          </div>
+                            </div>
+                            <div>{formatTime(item.date)}</div>  
                         </div>
                            </>
                          )

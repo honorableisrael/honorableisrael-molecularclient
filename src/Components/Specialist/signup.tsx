@@ -9,74 +9,87 @@ import eye from "../../images/eye.png";
 import eyeclose from "../../images/eye-off.png";
 import NavBar from "../Widgets/navigation";
 
-const SignUp = withRouter( (props:any) => {
- 
-const [state, setState] = useState({
-  firstName: "",
-  lastName: "",
-  email: "",
-  phone: "",
-  password: "",
-  skill:"",
-  isLoading: false,
-  errorMessage: "",
-  successMessage: "",
-  btnState: false,
-  jobs: [],
-  passwordIsOpen: true
-});
-const{
-  firstName,
-  lastName,
-  email,
-  phone,
-  password,
-  skill,
-  isLoading,
-  errorMessage,
-  successMessage,
-  btnState,
-  jobs,
-  passwordIsOpen
-} = state;
-const onSubmit = () => {
-  setState({ ...state, isLoading: true });
-  const data = {
-    first_name: firstName,
-    last_name: lastName,
-    email: email,
-    phone: phone,
-    password: password,
-    skill: skill
-  };
-  console.log(data);
-  //posting data to the api
-  axios
-    .post(`${API}/register/specialist`, data)
-    .then((response) => {
-      console.log(response);
-      if (response.status === 200) {
-        //store name and email to local storage
-        const userdata: any = [];
-        userdata.push(email,firstName);
-        localStorage.setItem("userdata", JSON.stringify(userdata));
-        //store user token to to local storage 
-        localStorage.setItem("loggedInDetails", JSON.stringify(response.data));
-        //push to otp page
-       setTimeout(() => {
-           props?.history?.push("/molecular_otp");
-           console.log(props);
-         }, 3000);
-        window.scrollTo(0,0)
+const SignUp = withRouter((props: any) => {
+  const [state, setState] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    password: "",
+    skill: "",
+    isLoading: false,
+    errorMessage: "",
+    successMessage: "",
+    btnState: false,
+    jobs: [],
+    passwordIsOpen: true,
+  });
+  const {
+    firstName,
+    lastName,
+    email,
+    phone,
+    password,
+    skill,
+    isLoading,
+    errorMessage,
+    successMessage,
+    btnState,
+    jobs,
+    passwordIsOpen,
+  } = state;
+  const onSubmit = () => {
+    setState({ ...state, isLoading: true });
+    const data = {
+      first_name: firstName,
+      last_name: lastName,
+      email: email,
+      phone: phone,
+      skill: skill,
+    };
+    console.log(data);
+    //posting data to the api
+    axios
+      .post(`${API}/register/specialist`, data)
+      .then((response) => {
+        console.log(response);
+        if (response.status === 200) {
+          //store name and email to local storage
+          const userdata: any = [];
+          userdata.push(email, firstName);
+          localStorage.setItem("userdata", JSON.stringify(userdata));
+          //store user token to to local storage
+          localStorage.setItem(
+            "loggedInDetails",
+            JSON.stringify(response.data)
+          );
+          //push to otp page
+          // setTimeout(() => {
+          //   props?.history?.push("/molecular_otp");
+          //   console.log(props);
+          // }, 3000);
+          window.scrollTo(0, 0);
+          setState({
+            ...state,
+            successMessage: "Thanks for signing up on molecular platform! We are currently reviewing your application and will get back to you shortly.",
+            isLoading: false,
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err?.response)
+        if (err?.response?.status == 406) {
+          return setState({
+            ...state,
+            errorMessage: err?.response?.data?.errors?.email?.join(""),
+          });
+        }
         setState({
           ...state,
-          errorMessage: "signup failed, check your internet connection",
-          isLoading: false,
+          errorMessage: "Registration failed",
         });
-      }
       });
-  }
-  
+  };
 
   const onChangeHandler = (e) => {
     setState({
@@ -115,7 +128,7 @@ const onSubmit = () => {
   }, [errorMessage, successMessage]);
   const validateForm = (e) => {
     e.preventDefault();
-    if (firstName == "" && lastName == "" && email == "" && password == "") {
+    if (firstName == "" && lastName == "" && email == "") {
       return setState({
         ...state,
         errorMessage: "please enter your details",
@@ -145,12 +158,13 @@ const onSubmit = () => {
         errorMessage: "Please enter your skill",
       });
     }
-    if (password == "") {
-      return setState({
-        ...state,
-        errorMessage: "Please enter your password",
-      });
-    } else {
+    // if (password == "") {
+    //   return setState({
+    //     ...state,
+    //     errorMessage: "Please enter your password",
+    //   });
+    // }
+    else {
       onSubmit();
     }
   };
@@ -171,7 +185,7 @@ const onSubmit = () => {
   }, []);
   return (
     <div>
-       <NavBar />
+      <NavBar />
       <section className="forms-section">
         <div className="specialistforms-section-image"></div>
         <div className="formwrplift">
@@ -189,8 +203,10 @@ const onSubmit = () => {
                     </div>
                     <div className="form-descr-text">
                       <p>
-                      Leave some information about you in the form below, attach your resume and we’ll get in touch with you.
-                      Learn what to expect when you sign up to find work with MolecularTech
+                        Leave some information about you in the form below,
+                        attach your resume and we’ll get in touch with you.
+                        Learn what to expect when you sign up to find work with
+                        MolecularTech
                       </p>
                     </div>
                   </div>

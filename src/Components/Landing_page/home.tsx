@@ -26,7 +26,7 @@ import {
 } from "react-animated-text-builders";
 
 const TEXTS = [
-  "Let's build more gas pipelines",
+  "Efficiently, deployed, vetted, certified pipeline specialist",
   "Let's do the hard work",
   "Let's empower the grey collar workers",
 ];
@@ -42,7 +42,6 @@ const Home = () => {
     AOS.refresh();
   }, []);
 
-  
   React.useEffect(() => {
     const intervalId = setInterval(
       () => setIndex((index) => index + 1),
@@ -50,12 +49,28 @@ const Home = () => {
     );
     return () => clearTimeout(intervalId);
   }, []);
+  // useEffect(()=>{
+  //   setInterval(()=>{
+  //     if (current.length >30){
+  //       setState({
+  //         ...state,
+  //         current: `Let's ${" "}  do ${" "}  the ${" "}  hard ${" "}  work`
+  //       })
+  //     }
 
+  //     if (current.length <30){
+  //       setState({
+  //         ...state,
+  //         current: `Let's ${" "}  do ${" "}  the ${" "}  hard  ${" "} work`
+  //       })
+  //     }
+  //   },4000)
+  // })
   const [state, setState] = useState({
     toggleSections: true,
-    current:"Let's build more pipelines"
+    current: `Let's ${" "} build ${"  "} more  ${" "} pipelines`,
   });
-  const { toggleSections,current } = state;
+  const { toggleSections, current } = state;
 
   const contractorSection = () => {
     setState({
@@ -69,6 +84,7 @@ const Home = () => {
       toggleSections: false,
     });
   };
+
   return (
     <div>
       <div id="home"></div>
@@ -79,12 +95,12 @@ const Home = () => {
             <Col md={12} className="fixedti22">
               <div className="section-one-content">
                 <h4 className="section-one-heading">
-                   <TextTransition
+                  <TextTransition
                     text={TEXTS[index % TEXTS.length]}
                     springConfig={presets.wobbly}
                     direction="up"
                     className="trans3"
-                  /> 
+                  />
 
                   {/* <FloatingLettersTextBuilder
                     floatingSpeed={500}
@@ -211,36 +227,81 @@ const Home = () => {
                 them
               </p>
             </div>
-            {/* <div className="homepg-cards">
+            <div className="homepg-cards">
               <div className="homepg-cards-title">
                 <img src={greencheck} alt="pic7" />
-                <p>Certify Specialists</p>
+                <p>Convenience and Speed</p>
+              </div>
+              <p></p>
+            </div>
+          </div>
+          {/* second */}
+          <div className="homepg-cards-wrapper">
+            <div className="homepg-cards">
+              <div className="homepg-cards-title">
+                <img src={star} alt="pic4" />
+                <p>More Work Opportunities</p>
               </div>
               <p>
-                We connect you with the workers you need. No matter what you're
-                looking for, our diverse workforce can meet your unique needs.
+                We’ve built the most robust workforce marketplace for technical
+                specialists in Africa. We’re always looking for your next work
+                opportunities from several EPC Contractors
               </p>
-            </div> */}
+            </div>
+            <div className="homepg-cards">
+              <div className="homepg-cards-title">
+                <img src={target} alt="pic5" />
+                <p>Better Work Conditions</p>
+              </div>
+              <p>
+                Our dedicated recruiting team is committed to identifying the
+                right opportunities aligned with your unique preferences and
+                goals.
+              </p>
+            </div>
+            <div className="homepg-cards">
+              <div className="homepg-cards-title">
+                <img src={meter} alt="pic6" />
+                <p>Better and Timely Pay</p>
+              </div>
+              <p>
+                Our technical Specialists benefit from the most flexible payment
+                terms in the industry. We ensure you get paid what you deserve
+                plus other great benefits such as Health Insurance and
+                Professional Indemnity.
+              </p>
+            </div>
+            <div className="homepg-cards">
+              <div className="homepg-cards-title">
+                <img src={greencheck} alt="pic7" />
+                <p>Continous Training and Certification</p>
+              </div>
+              <p></p>
+            </div>
           </div>
         </Container>
         <div id="our_services"></div>
       </div>
-        <div className="section-five">
-          <Row>
-            <Col md={6} className="section-five-img-col">
-              <img src={lead} className="img-fluid fluid8" alt="pic8" />
-            </Col>
-            <Col md={6} className="section-five-content">
-              <div className="section-five-subheading">
-                <span> What we do </span>
-              </div>
-              <div className="section-five-paragp1">
-                We Empower the People Who Do the Hard Work of Powering Africa
-                though Natural Gas Pipelines.
-              </div>
-              <div><Link to="/learnmore" className="btn-text">Learn more &rarr;</Link></div>
-              <div className="section-fivebtn-wrapp">
-                <Link to="/contractorlanding">
+      <div className="section-five">
+        <Row>
+          <Col md={6} className="section-five-img-col">
+            <img src={lead} className="img-fluid fluid8" alt="pic8" />
+          </Col>
+          <Col md={6} className="section-five-content">
+            <div className="section-five-subheading">
+              <span> What we do </span>
+            </div>
+            <div className="section-five-paragp1">
+              We Empower the People Who Do the Hard Work of Powering Africa
+              though Natural Gas Pipelines.
+            </div>
+            <div>
+              <Link to="/learnmore" className="btn-text">
+                Learn more &rarr;
+              </Link>
+            </div>
+            <div className="section-fivebtn-wrapp">
+              <Link to="/contractorlanding">
                 <span className="home-btn-primary contrtor-btn">
                   EPC Contractors
                 </span>
@@ -344,8 +405,9 @@ const Home = () => {
       )} */}
       <div className="section-six">
         <h4 data-aos="fade-down">
-          We use technology to streamline everything from recruiting to payments.
-           We're focused on delivering quality outcomes for EPC Contractors and Technical Specialists
+          We use technology to streamline everything from recruiting to
+          payments. We're focused on delivering quality outcomes for EPC
+          Contractors and Technical Specialists
         </h4>
         {/* <p>Jennifer Ghan — CEO</p> */}
       </div>

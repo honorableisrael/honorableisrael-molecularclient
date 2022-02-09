@@ -320,15 +320,15 @@ const fieldRef: any = useRef();
                 </div>
               </div>
               <div>
-                <Table hover>
+                <Table hover size="md" responsive="md">
                   <thead className="splinvoitablehead">
                     <tr>
                       <th>Cycle</th>
-                      <th>Payment Reference</th>
-                      <th>Amount</th>
-                      <th>Amount Paid</th>
-                      <th>Status</th>
-                      <th>Date</th>
+                      <th className="payrefth">Payment Reference</th>
+                      <th className="amountpdth">Amount</th>
+                      <th className="amountpdth">Amount Paid</th>
+                      <th className="statusth">Status</th>
+                      <th className="amountpdth">Date</th>
                       <th></th>
                     </tr>
                   </thead>
@@ -391,7 +391,7 @@ const fieldRef: any = useRef();
             </div>
             <div className="spltpaybreakdwnwrapper">
               <div>
-                <Table hover>
+                <Table hover size="md" responsive="md">
                   <thead className="splinvoitablehead">
                     <tr>
                       <th>S/N</th>

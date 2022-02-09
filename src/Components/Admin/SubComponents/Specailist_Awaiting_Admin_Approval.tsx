@@ -229,7 +229,7 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
                       className="accpt2"
                       onClick={() => accept_new_specailist(data.id)}
                     >
-                      {!isloading ? "Accept" : "Accepting"}
+                      {!isloading ? "Accept" : "Accept"}
                     </button>
                     <button
                       className="rejct2"
@@ -245,7 +245,7 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
             )}
           </div>
           <div className="text_align2">
-            <Link to="/allspecialist">
+            {/* <Link to="/allspecialist">
               <span className="arrow21 _arrow21 text11 "></span>{" "}
               <img
                 src={arrow}
@@ -253,7 +253,7 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
                 className="arrow21c arrow2x top__t1"
                 alt="arrow"
               />
-            </Link>
+            </Link> */}
           </div>
         </div>
       </Col>
