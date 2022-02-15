@@ -317,7 +317,7 @@ const All_Specialist = () => {
               >
                 All
               </div>
-              <div
+              {/* <div
                 onClick={() => filter_by_new(switchTab("secondtab"))}
                 className={
                   pending_request ? "inprogress tab_active" : "inprogress"
@@ -330,7 +330,7 @@ const All_Specialist = () => {
                 className={past ? "inprogress tab_active" : "inprogress"}
               >
                 In Active
-              </div>
+              </div> */}
             </div>
             <Row>
               <Col md={12} className="job23">

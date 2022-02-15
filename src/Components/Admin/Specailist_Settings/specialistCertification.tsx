@@ -22,7 +22,7 @@ const Certification = withRouter((props) => {
     year: "",
     certificate_id: "",
     certificateAddModal: false,
-    description:"",
+    Institution:"",
     deleteCredential: false,
     credential_id:"",
     errorMessage:"",
@@ -35,7 +35,7 @@ const Certification = withRouter((props) => {
     isloading,
     certifications,
     deleteCredential,
-    description,
+    Institution,
     credential_id,
     certificate_id,
     certificateEditModal,
@@ -84,7 +84,7 @@ const Certification = withRouter((props) => {
      const data={
       certification: title,
       year,
-      description,
+      Institution,
     }
      Axios.put(`${API}/admin/specialists/certifications/${credential_id}`, data , {
        headers: { Authorization: `Bearer ${token.access_token}` }
@@ -145,7 +145,7 @@ const Certification = withRouter((props) => {
     const data ={
       certification: title,
       year,
-      description,
+      Institution,
     }
     Axios.post(`${API}/admin/specialists/${props.match.params.id}/certifications`, data, {
       headers: { Authorization: `Bearer ${token.access_token}` },
@@ -326,8 +326,8 @@ const Certification = withRouter((props) => {
             <label className="addexptitle">
               Description
               <textarea
-                name="description"
-                value={description}
+                name="Institution"
+                value={Institution}
                 onChange={onchange}
                 className="form-control wrkmodaltextarea"
                 placeholder="Enter Description"
@@ -387,8 +387,8 @@ const Certification = withRouter((props) => {
             <label className="addexptitle">
               Description
               <textarea
-                name="description"
-                value={description}
+                name="Institution"
+                value={Institution}
                 onChange={onchange}
                 className="form-control wrkmodaltextarea"
                 placeholder="Enter Description"

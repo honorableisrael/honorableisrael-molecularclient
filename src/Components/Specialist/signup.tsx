@@ -4,7 +4,7 @@ import { Link, withRouter } from "react-router-dom";
 import "./signup.css";
 import formCaret from "../../images/caret.png";
 import axios from "axios";
-import { API } from "../../config";
+import { API, reloadPage } from "../../config";
 import eye from "../../images/eye.png";
 import eyeclose from "../../images/eye-off.png";
 import NavBar from "../Widgets/navigation";
@@ -63,11 +63,7 @@ const SignUp = withRouter((props: any) => {
             "loggedInDetails",
             JSON.stringify(response.data)
           );
-          //push to otp page
-          // setTimeout(() => {
-          //   props?.history?.push("/molecular_otp");
-          //   console.log(props);
-          // }, 3000);
+          reloadPage()
           window.scrollTo(0, 0);
           setState({
             ...state,
@@ -78,6 +74,7 @@ const SignUp = withRouter((props: any) => {
       })
       .catch((err) => {
         console.log(err?.response)
+        window.scrollTo(-0,-0)
         if (err?.response?.status == 406) {
           return setState({
             ...state,
@@ -364,7 +361,7 @@ const SignUp = withRouter((props: any) => {
                     <div className="form-btn-wrapper">
                       <span
                         className={
-                          btnState === true ? "form-btnactive" : "form-btn"
+                          btnState === true ? "form-btnactive" : "form-btn form-btnactive"
                         }
                         onClick={validateForm}
                       >

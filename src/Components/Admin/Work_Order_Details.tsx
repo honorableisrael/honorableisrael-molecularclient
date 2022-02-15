@@ -246,7 +246,7 @@ const Work_Sheet = (props: any) => {
                     </a>
                   </div>
                   <div className="worksheetdate">{formatTime(data.date)}</div>
-                  <div className="upby">uploaded by {data.uploaded_by}</div>
+                  <div className="upby">uploaded by <br /> {data.uploaded_by}</div>
                   <div className="upby">
                     {" "}
                     <div>

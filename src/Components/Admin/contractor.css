@@ -2912,6 +2912,8 @@ label i {
 }
 .tabledata div {
   width: 70% !important;
+  min-width: fit-content;
+  margin-right: 1.4rem;
 }
 .tablecontent .tablecont0 {
   width: 57% !important;
@@ -2945,6 +2947,8 @@ label i {
   background: var(--molecular-orange);
   border: none;
   font-weight: 700;
+  min-width: fit-content !important;
+  margin-bottom: .5rem;
 }
 .primary3 {
   min-width: 108px;
@@ -2999,7 +3003,9 @@ label i {
   border-radius: 0.3rem;
   cursor: pointer;
 }
-
+.upby{
+  min-width: 190px;
+}
 .lightgray {
   color: #8b8a8a !important;
 }
@@ -3135,4 +3141,9 @@ label i {
   .dshb12m {
     padding-right: 4px !important;
   }
+}
+.Deletebtn{
+  margin-top: 1rem;
+  margin-bottom: .7rem;
+  margin-left: .5rem ;
 }

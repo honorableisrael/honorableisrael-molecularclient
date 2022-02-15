@@ -222,7 +222,7 @@ const fieldRef: any = useRef();
       )}
      <div className="splinvoicemodalmssgwrap">
        <i className="fa fa-exclamation fa-rotate-180 invoiceexclm" aria-hidden="true"></i>
-       <p>You can only make a maximum of  {current_currency}{ FormatAmount((0.65 * max_requested_amount)?.toFixed(2))}  from this cycle. </p>
+       <p> The Amount on early payment is limited to {current_currency}{ FormatAmount((0.65 * max_requested_amount)?.toFixed(2))}  from this cycle. please note that an early payment fee of 5% will be charged </p>
      </div>
      {/* <div className="splinvoicemodalmssgwrap">
        <i className="fa fa-exclamation fa-rotate-180 invoiceexclm" aria-hidden="true"></i>

@@ -13,9 +13,10 @@ const SignIn = (props) => {
     password: "",
     isloading: false,
     errorMessage: "",
+    success: "",
     open: false,
   });
-  const { email, password, open, errorMessage, isloading } = state;
+  const { email, password, open, errorMessage, isloading, success } = state;
   const validateForm = (e) => {
     e.preventDefault();
     if (!email) {
@@ -58,6 +59,7 @@ const SignIn = (props) => {
         setState({
           ...state,
           isloading: false,
+          success: res.data.message,
         });
       })
       .catch((err) => {
@@ -87,6 +89,7 @@ const SignIn = (props) => {
       ...state,
       [e.target.name]: e.target.value,
       errorMessage: "",
+      success: "",
     });
   };
   return (
@@ -104,6 +107,11 @@ const SignIn = (props) => {
                   {errorMessage && (
                     <div className="signinalertmssg">
                       <Alert variant={"danger"}>{errorMessage}</Alert>
+                    </div>
+                  )}
+                  {success && (
+                    <div className="signinalertmssg">
+                      <Alert variant={"info"}>{success}</Alert>
                     </div>
                   )}
                 </div>
@@ -145,7 +153,7 @@ const SignIn = (props) => {
                       &#128065;
                     </span>
                   </div>
-                  {/* <div className="forgotpassword"><Link to="/forgot_password">Forgot Password?</Link></div> */}
+                  <Link to="/forgot_password">Forgot password?</Link>
                   <div className="form-btn-wrapper loginbtdv">
                     <input
                       className="signinbtn"

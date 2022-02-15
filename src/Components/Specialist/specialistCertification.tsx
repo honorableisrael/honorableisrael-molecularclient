@@ -21,7 +21,7 @@ const Certification = () => {
     year: "",
     certificate_id: "",
     certificateAddModal: false,
-    description:"",
+    Institution:"",
     deleteCredential: false,
     credential_id:"",
     errorMessage:"",
@@ -34,7 +34,7 @@ const Certification = () => {
     isloading,
     certifications,
     deleteCredential,
-    description,
+    Institution,
     credential_id,
     certificate_id,
     certificateEditModal,
@@ -81,7 +81,7 @@ const Certification = () => {
      const data={
       certification: title,
       year,
-      description,
+      Institution,
     }
      Axios.put(`${API}/specialist/certifications/${credential_id}`, data , {
        headers: { Authorization: `Bearer ${token.access_token}` }
@@ -142,7 +142,7 @@ const Certification = () => {
     const data ={
       certification: title,
       year,
-      description,
+      Institution,
     }
     Axios.post(`${API}/specialist/certifications`, data, {
       headers: { Authorization: `Bearer ${token.access_token}` },
@@ -323,8 +323,8 @@ const Certification = () => {
             <label className="addexptitle">
               Description
               <textarea
-                name="description"
-                value={description}
+                name="Institution"
+                value={Institution}
                 onChange={onchange}
                 className="form-control wrkmodaltextarea"
                 placeholder="Enter Description"
@@ -382,13 +382,13 @@ const Certification = () => {
               />
             </label>
             <label className="addexptitle">
-              Description
+            Institution
               <textarea
-                name="description"
-                value={description}
+                name="Institution"
+                value={Institution}
                 onChange={onchange}
                 className="form-control wrkmodaltextarea"
-                placeholder="Enter Description"
+                placeholder="Enter Institution"
                 rows={5}
                 cols={5}
               />

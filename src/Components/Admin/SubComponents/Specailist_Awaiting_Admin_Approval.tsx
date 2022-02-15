@@ -16,7 +16,7 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
       ? JSON.parse(availableToken)
       : window.location.assign("/");
     if (token.user_type !== "admin") {
-      return props.history.push("/login");
+      return props.history.push("/sigin");
     }
     axios
       .all([
@@ -109,7 +109,7 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
       ? JSON.parse(availableToken)
       : window.location.assign("/");
     if (token.user_type !== "admin") {
-      return props.history.push("/login");
+      return props.history.push("/sigin");
     }
     setState({
       ...state,

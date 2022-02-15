@@ -6,7 +6,14 @@ import "./contractor.css";
 import { Helmet } from "react-helmet";
 import arrowback from "../../images/dtls.png";
 import { Link } from "react-router-dom";
-import { ageCalculator, API, capitalize, notify } from "../../config";
+import {
+  ageCalculator,
+  API,
+  capitalize,
+  formatTime,
+  notify,
+  returnAdminToken,
+} from "../../config";
 import axios from "axios";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -25,10 +32,22 @@ const Specialistdetais = (props) => {
     window.scrollTo(-0, -0);
     const specialist1 = localStorage.getItem("specialist_info");
     const retrieved_specialist = specialist1 ? JSON.parse(specialist1) : "";
-    setState({
-      ...state,
-      user: retrieved_specialist,
-    });
+    axios
+      .get(`${API}/admin/specialists/${retrieved_specialist.id}`, {
+        headers: {
+          Authorization: `Bearer ${returnAdminToken()?.access_token}`,
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        setState({
+          ...state,
+          user: res.data.data,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   const openModal = (id) => {
@@ -45,7 +64,7 @@ const Specialistdetais = (props) => {
       ? JSON.parse(availableToken)
       : window.location.assign("/");
     if (token.user_type !== "admin") {
-      return props.history.push("/login");
+      return props.history.push("/sigin");
     }
     setState({
       ...state,
@@ -96,7 +115,7 @@ const Specialistdetais = (props) => {
       ? JSON.parse(availableToken)
       : window.location.assign("/");
     if (token.user_type !== "admin") {
-      return props.history.push("/login");
+      return props.history.push("/sigin");
     }
     setState({
       ...state,
@@ -143,7 +162,7 @@ const Specialistdetais = (props) => {
       });
   };
   const { admin, all_specialist, isloading, reason, show, user }: any = state;
-
+  console.log(user);
   return (
     <>
       <Helmet>
@@ -252,7 +271,30 @@ const Specialistdetais = (props) => {
                     <div key={i}>
                       <p className="pdcontent">
                         <span className="fa fa-circle pdbulleticon"></span>
-                        {data.title}
+                        {data.institution}{" "}
+                        <small>
+                          {formatTime(data?.from)} ~~ {formatTime(data?.to)}
+                        </small>
+                      </p>
+                      <p className="pdcontent pdrow4content">{data.field}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="pesonainforow3">
+                <div className="pesonainforow3-title">Certification:</div>
+                <div className="pesonainforow3-content">
+                  {user?.qualifications?.map((data, i) => (
+                    <div key={i}>
+                      <p className="pdcontent">
+                        <span className="fa fa-circle pdbulleticon"></span>
+                        {data?.title}{" "}
+                        <small>
+                          {formatTime(data?.from)} ~~ {formatTime(data?.to)}
+                        </small>
+                      </p>
+                      <p className="pdcontent pdrow4content">
+                        {data.description}
                       </p>
                     </div>
                   ))}

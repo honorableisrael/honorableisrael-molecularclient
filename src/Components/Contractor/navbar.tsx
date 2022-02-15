@@ -26,7 +26,7 @@ const DashboardNav = withRouter((props) => {
       ? JSON.parse(availableToken)
       : window.location.assign("/");
     if (token.user_type !== "contractor") {
-      return props.history.push("/login");
+      return props.history.push("/sigin");
     }
     Axios.all([
       Axios.get<any, AxiosResponse<any>>(`${API}/contractor`, {
@@ -135,7 +135,6 @@ const DashboardNav = withRouter((props) => {
               <Dropdown.Toggle id="dropdown-basic" className="usernavdrpdwn" />
               <Dropdown.Menu className="animated fadeIn">
                 <Dropdown.Item
-                  href="#/action-1"
                   className="animated fadeInLeft"
                 >
                   <Link to="/contractor_profile">Profile</Link>
@@ -296,7 +295,6 @@ const DashboardNav = withRouter((props) => {
                 </Dropdown.Item>
                 {/* <Dropdown.Item href="#/action-1"><Link to="/user-profile">Settings</Link></Dropdown.Item> */}
                 <Dropdown.Item
-                  href="#/action-2"
                   className="animated fadeInLeft"
                 >
                   {/* <img src={exit} className="exit" /> Log out */}

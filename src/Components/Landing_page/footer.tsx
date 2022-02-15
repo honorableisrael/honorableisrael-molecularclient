@@ -29,9 +29,6 @@ const Footer = () => {
               <NavHashLink to="/#home">
                 <p className="footer-links">Home</p>
               </NavHashLink>
-              <NavHashLink to="/#our_services">
-                <p className="footer-links">Our services</p>
-              </NavHashLink>
               <Link to="/Industry_segments">
                 <p className="footer-links">Industry Segments</p>
               </Link>
