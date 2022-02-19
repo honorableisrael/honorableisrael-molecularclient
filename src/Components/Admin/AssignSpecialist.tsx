@@ -15,7 +15,7 @@ import searchicon from "../../images/search.png";
 import no_work_order from "../../images/document 1.png";
 import axios from "axios";
 import { API, notify } from "../../config";
-import { capitalize } from "@material-ui/core";
+import { capitalize } from "../../config";
 import { ToastContainer } from "react-toastify";
 
 const SpecialistContext: any = React.createContext({

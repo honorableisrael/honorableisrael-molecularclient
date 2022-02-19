@@ -108,7 +108,7 @@ const Admin_Payment_Invoice = () => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data);
+          // console.log(res.data);
           setState({
             ...state,
             all_invoices: res.data.data.data,
@@ -132,7 +132,7 @@ const Admin_Payment_Invoice = () => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          console.log(res.data);
           window.scrollTo(-0, -0);
           setState({
             ...state,
@@ -194,7 +194,7 @@ const Admin_Payment_Invoice = () => {
               >
                 All Payments
               </div>
-              <div
+              {/* <div
                 onClick={() => switchTab("secondtab")}
                 className={
                   pending_request ? "inprogress tab_active" : "inprogress"
@@ -207,7 +207,7 @@ const Admin_Payment_Invoice = () => {
                 className={past ? "inprogress tab_active" : "inprogress"}
               >
                 Unpaid
-              </div>
+              </div> */}
             </div>
             <Row>
               <Col md={12} className="plf">

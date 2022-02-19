@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Col, Row, Container,Modal, Spinner, Form } from "react-bootstrap";
+import { Col, Row, Container, Modal, Spinner, Form } from "react-bootstrap";
 import "./contractor.css";
 import DashboardNav from "./navbar";
 import "./contractor.css";
@@ -10,8 +10,6 @@ import { ageCalculator, API, capitalize, notify } from "../../config";
 import axios from "axios";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-
 
 const Specialistdetais = (props) => {
   const [state, setState] = useState<any>({
@@ -72,7 +70,7 @@ const Specialistdetais = (props) => {
             isloading: false,
           });
           setTimeout(() => {
-            window.location.assign("/#allspecialist")
+            window.location.assign("/#allspecialist");
           }, 2000);
         })
       )
@@ -165,12 +163,14 @@ const Specialistdetais = (props) => {
                 </Link>
                 Specialist Personal Details
               </div>
-              {false && (
+              {true && (
                 <div className="pdetbtnwrap">
-                  <span className="pdetssupnbtn">Suspend</span>
-                  <span className="pdetasgnspltbtn">Assign Specialist</span>
+                  <Link to={`/admin/specialist/settings/${user.id}`}>
+                    <span className="pdetssupnbtn">Edit</span>
+                  </Link>
                 </div>
               )}
+
               {user.status == "Inactive" && (
                 <div className="pdetbtnwrap">
                   <span
@@ -324,10 +324,7 @@ const Specialistdetais = (props) => {
           </Row>
           <Row>
             <Col md={12} className="terminate2">
-              <div
-                className="terminate1"
-                onClick={reject_new_specailist}
-              >
+              <div className="terminate1" onClick={reject_new_specailist}>
                 Reject
               </div>
             </Col>

@@ -86,7 +86,8 @@ const Specialist_Payment_Invoice = (props) => {
       ...state,
       cycle_id: id,
       max_requested_amount: amount,
-      requested_amount: (rate * amount)?.toFixed(2),
+      requested_amount: 0.00,
+      // requested_amount: (rate * amount)?.toFixed(2),
       terminateWorkModal: true,
     });
   };
@@ -222,12 +223,12 @@ const fieldRef: any = useRef();
       )}
      <div className="splinvoicemodalmssgwrap">
        <i className="fa fa-exclamation fa-rotate-180 invoiceexclm" aria-hidden="true"></i>
-       <p>You can only make a maximum of  {current_currency}{ FormatAmount((0.65 * max_requested_amount)?.toFixed(2))}  from this cycle. </p>
+       <p>The amount on early payment is limited to {current_currency}{ FormatAmount((0.65 * max_requested_amount)?.toFixed(2))}  from this cycle. </p>
      </div>
-     {/* <div className="splinvoicemodalmssgwrap">
+     <div className="splinvoicemodalmssgwrap">
        <i className="fa fa-exclamation fa-rotate-180 invoiceexclm" aria-hidden="true"></i>
        <p>Early payments attracts 5% charge of your amount from this cycle. </p>
-     </div>  */}
+     </div>
       <form>
         <Row>
            <Col md={12} className="formsection1">
@@ -243,7 +244,7 @@ const fieldRef: any = useRef();
                   onChange={onchange}
                   placeholder="Amount"
                   min={0}
-                  max={0.65 * requested_amount} 
+                  max={(0.65 * requested_amount)?.toFixed(2)} 
                   />
             </Form.Group>
           </Col>
@@ -295,7 +296,7 @@ const fieldRef: any = useRef();
                   <p className="brkdwn-id">{invoice_details?.number}</p>
                 </div>
                 <div>
-                  <img src={logo} alt="molecular-logo" />
+                  <img src={logo} alt="molecular-logo" className="img-fluid" />
                 </div>
               </div>
               <p className="spltpaybreakdwn-title">
@@ -320,15 +321,15 @@ const fieldRef: any = useRef();
                 </div>
               </div>
               <div>
-                <Table hover>
+                <Table hover size="md" responsive>
                   <thead className="splinvoitablehead">
                     <tr>
                       <th>Cycle</th>
-                      <th>Payment Reference</th>
-                      <th>Amount</th>
-                      <th>Amount Paid</th>
-                      <th>Status</th>
-                      <th>Date</th>
+                      <th style={{minWidth: "10rem"}}>Payment Reference</th>
+                      <th style={{minWidth: "8rem"}}>Amount</th>
+                      <th style={{minWidth: "8rem"}}>Amount Paid</th>
+                      <th style={{minWidth: "9rem"}}>Status</th>
+                      <th style={{minWidth: "8rem"}}>Date</th>
                       <th></th>
                     </tr>
                   </thead>
@@ -391,13 +392,13 @@ const fieldRef: any = useRef();
             </div>
             <div className="spltpaybreakdwnwrapper">
               <div>
-                <Table hover>
+                <Table hover size="md" responsive>
                   <thead className="splinvoitablehead">
                     <tr>
                       <th>S/N</th>
-                      <th> Amount</th>
-                      <th>Status</th>
-                      <th>Date</th>
+                      <th style={{minWidth: "8rem"}}> Amount</th>
+                      <th style={{minWidth: "8rem"}}>Status</th>
+                      <th style={{minWidth: "8rem"}}>Date</th>
                     </tr>
                   </thead>
                   <tbody>

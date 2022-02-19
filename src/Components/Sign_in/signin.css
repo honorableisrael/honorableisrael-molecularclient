@@ -29,7 +29,7 @@
     display: inline-block;
     background-color: #fd8c00;
     color: #fff;
-    font-size: 16px;
+    font-size: 22px;
     border-radius: 7px;
     font-weight: 700;
     font-family: 'Noto Sans JP', sans-serif;
@@ -44,7 +44,19 @@
     font-size: 14px;
     margin: 48px 0px;
 }
-
+.text-righ {
+    display: flex !important;
+    justify-content: flex-end;
+    width: 100%;
+    padding-right: 2rem;
+  }
+  .text-righ span{
+    cursor: pointer;
+    position: relative;
+    bottom: 3.7rem;
+    right: 0rem;
+  }
+  
 
 @media (max-width:760px){
  

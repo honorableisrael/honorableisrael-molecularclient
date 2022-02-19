@@ -8,20 +8,16 @@ import Work from "./workandbuild";
 import Footer from "./footer";
 import jointcircle from "../../images/jointcircle.png";
 import tractors from "../../images/tractors.png";
-import pipelineonsand from "../../images/pipelineonsand.png";
-import pipelineonice from "../../images/pipelineonice.png";
-import pipelineindesert from "../../images/pipelineindesert.png";
 import ethylene_flame from "../../images/ethlene_flame.png";
-import ibejulekki from "../../images/ibejulekki.png";
-import db13 from "../../images/db13.png";
-import db14 from "../../images/db14.png";
-import db16 from "../../images/db16.png";
 import flame from "../../images/flame.png";
 import lightflame from "../../images/lightflame.png";
 import ladder from "../../images/ladder.png";
 import lightladder from "../../images/lightladder.png";
 import cupboard from "../../images/cupboard.png";
 import lightbarrel from "../../images/lightbarrel.png";
+import weldingflame from "../../images/weldingflame.png";
+import Pipeline_stick from "../../images/Pipeline_stick.jpg";
+import blueoverall from "../../images/blueoverall.png";
 
 const IndustrySegments = () => {
   useEffect(() => {
@@ -33,7 +29,7 @@ const IndustrySegments = () => {
       <div className="toppagepadding"></div>
       <div className="Industry_segment_section-1">
         <img src={jointcircle} alt="img" />
-        <h6>Industry Segments</h6>
+        {/* <h6>Industry Segments</h6> */}
         <h2>Industry Segments We Operate In</h2>
         {/* <p>
           We help contractors and subcontractors working on commercial,
@@ -48,7 +44,7 @@ const IndustrySegments = () => {
             <div className="Is_rowcol1wrap">
               <h4>EPC Contractors</h4>
               <p>
-                We help operators and EPC contractors in the upstream, midstream
+                We help EPC contractors in the upstream, midstream
                 and downstream segments of the Gas Industry to deliver on their
                 pipeline projects to quality standards, on time and within
                 budget.
@@ -120,68 +116,60 @@ const IndustrySegments = () => {
               <p>
                 We seek highly skilled technical specialists in welding 5G & 6G,
                 pipe fitting, drilling and HDD, to support gas pipeline
-                construction projects undertaken by our clients.
+                welding undertaken by our clients.
               </p>
-              <p>
-              Let’s get the hard work done
-              </p>
+              <p>Let’s get the hard work done</p>
             </div>
           </Col>
         </Row>
-        {/* <div className="Is_images_section_wrap">
-          <div className="Is_images_section">
-            <div>
-              <img src={pipelineonsand} className="img-fluid" alt="pic" />
+        <div className="industry-segment_section-3">
+          <div className="cntrotlndg-section3-cards">
+            <div className="cntrotlndg-section3-card-content">
+              <img src={weldingflame} className="img-fluid" alt="img" />
+              <div className="cntrotlndg-section3-card-wrapp">
+                <h4 className="cntrotlndg-section3-card-heading">
+                  More Work Opportunities
+                </h4>
+                <p className="cntrotlndg-section3-card-descr">
+                  We’ve built the most robust workforce marketplace for
+                  technical specialists in Africa. We’re always looking for your
+                  next work opportunities from several EPC Contractors
+                </p>
+              </div>
             </div>
-            <div>
-              <img src={pipelineonice} className="img-fluid" alt="pic" />
+            <div className="cntrotlndg-section3-card-content">
+              <img
+                src={Pipeline_stick}
+                className="img-fluid Pipeline_stick_img"
+                alt="img"
+              />
+              <div className="cntrotlndg-section3-card-wrapp">
+                <h4 className="cntrotlndg-section3-card-heading">
+                  Better Work
+                </h4>
+                <p className="cntrotlndg-section3-card-descr">
+                  Our dedicated recruiting team is committed to identifying the
+                  right opportunities aligned with your unique preferences and
+                  goals.
+                </p>
+              </div>
             </div>
-            <div>
-              <img src={tropicalregion} className="img-fluid" alt="pic" />
-            </div>
-            <div>
-              <img src={pipelineindesert} className="img-fluid" alt="pic" />
-            </div>
-          </div>
-        </div> */}
-        {/* <Row className="Is_section-1-row">
-          <Col md={6}>
-            <div className="Is_rowcol1wrap">
-              <h4>Dangote Refinery, Ibeju Lekki</h4>
-              <p>
-                We help contractors and subcontractors working on commercial,
-                industrial, and infrastructure projects scale their businesses
-                and accept more work through high-quality specialists and
-                solutions we offer.
-              </p>
-              <p>
-                We get the job done to the highest standards of quality and
-                safety. Our work and our track record speak for itself. Your
-                business is our business, and we focus on delivering what your
-                business needs and doing the job right the first time.
-              </p>
-            </div>
-          </Col>
-          <Col md={6}>
-            <img src={ibejulekki} className="img-fluid" alt="pic3" />
-          </Col>
-        </Row>
-        <div className="Is_images_section_wrap">
-          <div className="Is_images_section">
-            <div>
-              <img src={db13} className="img-fluid" alt="pic" />
-            </div>
-            <div>
-              <img src={db14} className="img-fluid" alt="pic" />
-            </div>
-            <div>
-              <img src={tropicalregion} className="img-fluid" alt="pic" />
-            </div>
-            <div>
-              <img src={db16} className="img-fluid" alt="pic" />
+            <div className="cntrotlndg-section3-card-content">
+              <img src={blueoverall} className="img-fluid" alt="img" />
+              <div className="cntrotlndg-section3-card-wrapp">
+                <h4 className="cntrotlndg-section3-card-heading">
+                  Better and Timely Pay
+                </h4>
+                <p className="cntrotlndg-section3-card-descr">
+                  Our technical Specialists benefit from the most flexible
+                  payment terms in the industry. We ensure you get paid what you
+                  deserve plus other great benefits such as Health Insurance and
+                  Professional Indemnity.
+                </p>
+              </div>
             </div>
           </div>
-        </div> */}
+        </div>
       </div>
       <Work />
       <Footer />

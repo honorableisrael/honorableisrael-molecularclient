@@ -335,7 +335,7 @@ const Specialist_Work_details = props => {
                               <img src={calenda} alt="img" />
                             </div>
                             <div className="pendingwrkcard-asset-cnt">
-                              <h5>duration</h5>
+                              <h5>Duration</h5>
                               <p>{data.duration} Weeks</p>
                             </div>
                           </div>

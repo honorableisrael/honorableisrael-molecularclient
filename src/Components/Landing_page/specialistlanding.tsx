@@ -8,7 +8,7 @@ import Work from "./workandbuild";
 import Footer from "./footer";
 import redoverall from "../../images/redoverall.png";
 import weldingflame from "../../images/weldingflame.png";
-import Pipeline_stick from "../../images/Pipeline_stick.jpg";
+import yellowhelmet from "../../images/yellowhelmet.jpg";
 import blueoverall from "../../images/blueoverall.png";
 
 const SpecialistLanding = () => {
@@ -22,7 +22,7 @@ const SpecialistLanding = () => {
       <div className="cntrotlndg-section1">
         <Row>
           <Col md={6} className="cntrotlndg-section1-contnt">
-            <h4> Get More Work</h4>
+            <h4>Get More Work Opportunities with Better Pay</h4>
             <p>
               MolecularTech is committed to enabling our technical specialists
               to get a better work experience. Which means you get more work
@@ -48,7 +48,11 @@ const SpecialistLanding = () => {
         <div className="cardlift">
           <div className="cntrotlndg-section3-cards">
             <div className="cntrotlndg-section3-card-content">
-              <img src={weldingflame} className="img-fluid" alt="img" />
+              <img
+                src={weldingflame}
+                className="img-fluid specailist2"
+                alt="img"
+              />
               <div className="cntrotlndg-section3-card-wrapp">
                 {/* <p className="cntrotlndg-section3-card-subhead">Dive Deeper</p> */}
                 <h4 className="cntrotlndg-section3-card-heading">
@@ -86,11 +90,15 @@ const SpecialistLanding = () => {
               </div>
             </div>
             <div className="cntrotlndg-section3-card-content">
-              <img src={Pipeline_stick} className="img-fluid Pipeline_stick_img" alt="img" />
+              <img
+                src={yellowhelmet}
+                className="img-fluid yellhlmetimg specailist2"
+                alt="img"
+              />
               <div className="cntrotlndg-section3-card-wrapp">
                 {/* <p className="cntrotlndg-section3-card-subhead">Dive Deeper</p> */}
                 <h4 className="cntrotlndg-section3-card-heading">
-                  Better Work
+                  Better Work Conditions
                 </h4>
                 <p className="cntrotlndg-section3-card-descr">
                   Our dedicated recruiting team is committed to identifying the
@@ -127,7 +135,11 @@ const SpecialistLanding = () => {
               </div>
             </div>
             <div className="cntrotlndg-section3-card-content">
-              <img src={blueoverall} className="img-fluid" alt="img" />
+              <img
+                src={blueoverall}
+                className="img-fluid specailist2"
+                alt="img"
+              />
               <div className="cntrotlndg-section3-card-wrapp">
                 {/* <p className="cntrotlndg-section3-card-subhead">Dive Deeper</p> */}
                 <h4 className="cntrotlndg-section3-card-heading">
@@ -162,14 +174,49 @@ const SpecialistLanding = () => {
                 </div> */}
               </div>
             </div>
+            <div className="cntrotlndg-section3-card-content">
+              <img
+                src={blueoverall}
+                className="img-fluid specailist2"
+                alt="img"
+              />
+              <div className="cntrotlndg-section3-card-wrapp">
+                {/* <p className="cntrotlndg-section3-card-subhead">Dive Deeper</p> */}
+                <h4 className="cntrotlndg-section3-card-heading">
+                  Continous Training and Certification
+                </h4>
+                <p className="cntrotlndg-section3-card-descr">
+                  
+                </p>
+                {/* <div className="cardbulletwrap">
+                  <div>
+                    <img src={bullet} alt="img" />
+                  </div>
+                  <p>Provide best-in-class healthcare benefit options</p>
+                </div>
+                <div className="cardbulletwrap">
+                  <div>
+                    <img src={bullet} alt="img" />
+                  </div>
+                  <p>
+                    Create additional earning opportunities through bonus and
+                    referral programs
+                  </p>
+                </div>
+                <div className="cardbulletwrap">
+                  <div>
+                    <img src={bullet} alt="img" />
+                  </div>
+                  <p>Request for early payment</p>
+                </div> */}
+              </div>
+            </div>
           </div>
-        </div> 
+        </div>
       </div>
       <div className="cntrotlndg-section4">
         <Link to="/specialist_signup">
-          <span className="home-btn-primary contrtor-btn">
-            Get Started
-          </span>
+          <span className="home-btn-primary contrtor-btn">Get Started</span>
         </Link>
       </div>
       <Work />

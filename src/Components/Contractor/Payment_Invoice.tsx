@@ -180,7 +180,7 @@ const Contractor_Payment_Invoice = () => {
               </div>
             </div>
             <div className="intab">
-              <div
+              {/* <div
                 onClick={() => switchTab("firsttab")}
                 className={inprogress ? "inprogress tab_active" : "inprogress"}
               >
@@ -199,7 +199,7 @@ const Contractor_Payment_Invoice = () => {
                 className={past ? "inprogress tab_active" : "inprogress"}
               >
                 Unpaid
-              </div>
+              </div> */}
             </div>
             <Row>
               {false && (

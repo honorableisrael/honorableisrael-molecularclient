@@ -338,7 +338,7 @@ text {
   .ttola1a {
     white-space: pre;
   }
-  .active_member2{
+  .active_member2 {
     padding-left: 1rem !important;
   }
 }
@@ -602,7 +602,7 @@ a:hover {
   }
   .deploydsplstwrapp {
     padding-left: 9px !important;
-  } 
+  }
 }
 
 .paidd2green {
@@ -1252,7 +1252,7 @@ a:hover {
     min-width: 120px;
   }
   .pipline {
-    width: 95%;
+    width: 100%;
   }
   .minicardwrapper {
     width: 90% !important;
@@ -1266,19 +1266,20 @@ a:hover {
   .cardwrap_jo {
     margin-left: 1rem;
   }
-  .crd23 {
+  /* .crd23 {
     padding-left: 1rem;
-  }
-  .job34 {
+  } */
+  /* .job34 {
     overflow-x: scroll;
-  }
-  .job23_1a .card,.job23_1a .dplsplsacc{
+  } */
+  .job23_1a .card,
+  .job23_1a .dplsplsacc {
     margin-left: 1rem;
   }
   .fixedtitle {
     min-width: fit-content;
   }
-  .carder_notification{
+  .carder_notification {
     display: block;
     padding-left: 1rem;
   }
@@ -1619,8 +1620,9 @@ a:hover {
   padding: 1rem;
   padding-left: 0px;
   font-size: 15px;
-  padding-left: 3rem;
-  padding-right: 3rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  white-space: pre;
 }
 .inactivebordr {
   color: inherit;
@@ -1677,6 +1679,7 @@ a:hover {
   }
   .cardwrap_jo {
     padding-left: 9px;
+    
   }
   .formcontent {
     padding: 0rem 1rem;
@@ -1936,6 +1939,10 @@ a {
   border-radius: 9px;
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 0px;
+  height: 243px;
+  width: 243px;
+  max-height: 243px;
+  object-fit: contain;
 }
 .cerfified1 {
   color: #222073;
@@ -2567,53 +2574,58 @@ label i {
     justify-content: flex-start !important;
     position: relative;
     top: 4rem;
-}
-.depsplstrow {
-  padding: 9rem 0rem 10rem 0rem;
-  overflow-x: scroll;
-}
-.search_field{
-  margin-bottom: 2rem;
-}
-.ddeplsmni{
-  min-width: 600px;
-}
-.rowt3x {
-  padding-right: 1rem !important;
-  padding-left: .5rem !important;
-}
-.workorderheader{
-  white-space: pre;
-  position: relative;
-  bottom: 1rem;
-  left: 1rem;
-}
-.manage_{
-  position: relative;
-  top: 2.9rem;
-}
-.dpsplsttabs {
-  margin-top: 4rem;
   }
-  .deployedsplsttable {
-  padding: 0px 16px 3px;
+  .depsplstrow {
+    padding: 9rem 0rem 10rem 0rem;
+    overflow-x: scroll;
+  }
+  .search_field {
+    margin-bottom: 2rem;
+  }
+  .ddeplsmni {
+    min-width: 600px;
+  }
+  .rowt3x {
+    padding-right: 1rem !important;
+    padding-left: 0.5rem !important;
+  }
+  .workorderheader {
+    white-space: pre;
+    position: relative;
+    bottom: 1rem;
+    left: 1rem;
+  }
+  .manage_ {
+    position: relative;
+    top: 2.9rem;
   }
   .dpsplsttabs {
-    padding-left: .1rem;
+    margin-top: 4rem;
   }
-  .crd23{
+  .deployedsplsttable {
+    padding: 0px 16px 3px;
+  }
+  .dpsplsttabs {
+    padding-left: 0.1rem;
+  }
+  .crd23 {
     font-size: 16px;
   }
-  .active_member2{
+  .active_member2 {
     padding-right: 0rem;
     padding-left: 0.3rem;
   }
-  .workorderheader002{
+  .workorderheader002 {
     left: 0px !important;
   }
   .ddeplsmni1 {
     min-width: 1003px;
+  }
 }
+@media(max-width:760px){
+  .ddeplsmni1{
+    min-width: 34px;
+  }
 }
 .nojob2 a .job3 {
   margin: auto;
@@ -3098,7 +3110,7 @@ label i {
   }
   .rowt3 {
     padding-left: 0rem;
-    margin-top: 4rem;
+    /* margin-top: 4rem; */
   }
   .job34 {
     padding: 7px;
@@ -3115,18 +3127,18 @@ label i {
   .work_details {
     padding-top: 2rem;
   }
-  .carderw{
+  .carderw {
     /* display: block !important; */
     text-align: left !important;
     width: 100% !important;
   }
-  .textxenter{
+  .textxenter {
     text-align: left !important;
   }
-  .carderw_no_12{
+  .carderw_no_12 {
     min-width: 100% !important;
   }
   .dshb12m {
     padding-right: 4px !important;
-}
+  }
 }

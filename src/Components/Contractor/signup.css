@@ -61,7 +61,7 @@
     appearance: none;
 }
 .forminput::placeholder{
-    color:rgba(198, 198, 198, 1);
+    color:#333333;
     font-size: 16px;
     letter-spacing: .1px;
 }

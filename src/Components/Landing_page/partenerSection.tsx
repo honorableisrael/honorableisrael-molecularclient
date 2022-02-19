@@ -1,11 +1,12 @@
 import React from 'react';
-import NNPC from '../../images/NNPC.png';
-import Lng from '../../images/Lng.png';
-import shell from '../../images/shell.png';
-import eterna from '../../images/Eterna.png';
-import Mobi from '../../images/Exxon.png';
-import total from '../../images/total.png';
-import chevron from '../../images/chevron.png';
+import BRENTEX from '../../images/BRENTEX.png';
+import BRIGHTWATERS from '../../images/BRIGHTWATERS.png';
+import MELCURT from '../../images/MELCURT.png';
+import NIGERDOCK from '../../images/NIGERDOCK.png';
+import MORPOL from '../../images/MORPOL.png';
+import Paddoe from '../../images/Paddoe.png';
+import Jenoil from '../../images/Jenoil.png';
+import SELLYFAK from '../../images/SELLYFAK.png';
 
 
 
@@ -22,13 +23,14 @@ const PatnersSection = () => {
          }}>
       {
         [
-          { title: 'nnpc', img: NNPC, id: 1 },
-          { title: 'shevron', img: chevron , id: 2},
-          { title: 'shell', img: shell , id: 3},
-          { title: 'total', img: total , id: 4},
-          { title: 'eterna', img: eterna , id: 5},
-          { title: 'mobi', img: Mobi , id: 6},
-          { title: 'lng', img: Lng , id: 7}
+          { title: 'BRENTEX', img: BRENTEX, id: 1 },
+          { title: 'Jenoil', img: Jenoil , id: 2},
+          { title: 'MELCURT', img: MELCURT , id: 3},
+          { title: 'Paddoe', img: Paddoe , id: 4},
+          { title: 'NIGERDOCK', img: NIGERDOCK , id: 5},
+          { title: 'MORPOL', img: MORPOL , id: 6},
+          { title: 'BRIGHTWATERS', img: BRIGHTWATERS , id: 7},
+          { title: 'SELLYFAK', img: SELLYFAK , id: 8}
         ].map(({ title, img, id }) => (
           <div className="partner-spacing">
           <img
