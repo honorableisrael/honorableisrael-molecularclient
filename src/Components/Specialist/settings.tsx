@@ -40,7 +40,7 @@ const SpecialistSettings = () => {
     email: "",
     city: "",
     address: "",
-    experience_years: "",
+    experience: "",
     description:"",
     bio: "",
     messageModal: true,
@@ -94,7 +94,7 @@ const SpecialistSettings = () => {
     address,
     phone,
     dob,
-    experience_years,
+    experience,
     bio,
     rating,
     reason,
@@ -222,7 +222,7 @@ const SpecialistSettings = () => {
       dob,
       city: city,
       address: address,
-      experience_years,
+      experience,
       bio: bio,
       first_name,
       last_name,
@@ -732,8 +732,8 @@ const fieldRef: any = useRef();
                             </h6>
                             <Form.Control
                               type="number"
-                              name="experience_years"
-                              value={experience_years}
+                              name="experience"
+                              value={experience}
                               className="userfield"
                               onChange={onchange}
                               placeholder=""

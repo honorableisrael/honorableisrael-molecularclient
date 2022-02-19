@@ -61,7 +61,8 @@ import AdminRaiseProformaInvoice from "./Components/Admin/RaiseProformaInvoice";
 import ProformaInvoiceAccepted from "./Components/Contractor/Invoice_Accepted";
 import ScheduledPayments from "./Components/Admin/scheduledpayments";
 import SignIn from "./Components/Sign_in/signin";
-import AdminSpecialistSettings from './Components/Admin/Specailist_Settings/specialist_settings';
+import AdminSpecialistSettings from "./Components/Admin/Specailist_Settings/specialist_settings";
+import Password_Reset from "./Components/Sign_in/password_reset";
 
 const App: any = ({ history }) => {
   return (
@@ -112,7 +113,6 @@ const App: any = ({ history }) => {
                 path="/contractor_work_order_step3"
                 component={NewWorkOrderStep3}
               />
-
               <Route
                 path="/contractor_work_order_details"
                 component={WorkOrderDetails}
@@ -122,7 +122,6 @@ const App: any = ({ history }) => {
                 path="/payment_invoice"
                 component={Contractor_Payment_Invoice}
               />
-
               <Route
                 path="/admin_invoice_details/:id"
                 component={Admin_Invoice_details}
@@ -132,7 +131,6 @@ const App: any = ({ history }) => {
                 path="/raise_proforma_invoice"
                 component={AdminRaiseProformaInvoice}
               />
-
               <Route
                 path="/contractor_profile"
                 component={Contractor_Profile}
@@ -140,7 +138,6 @@ const App: any = ({ history }) => {
               />
               {/* Contractor Dashbaord */}
               {/* Admin Dashboard */}
-
               <Route
                 path="/work_order_evaluation"
                 component={AdminWorkOrderEvaluation}
@@ -150,10 +147,8 @@ const App: any = ({ history }) => {
                 path="/admin_evaluation_step3"
                 component={AdminWorkOrderEvaluationStep3}
               />
-
               <Route path="/admin_dashboard" component={AdminDashboard} />
               <Route path="/scheduled_payments" component={ScheduledPayments} />
-
               <Route path="/contractor_list" component={ListOfContractor} />
               <Route
                 path="/contractor_onboarding"
@@ -168,7 +163,6 @@ const App: any = ({ history }) => {
                 path="/proforma_invoice_accepted"
                 component={ProformaInvoiceAccepted}
               />
-
               <Route
                 path="/deployedspecialist"
                 component={DeployedSpecialist}
@@ -182,7 +176,6 @@ const App: any = ({ history }) => {
                 path="/admin_payment_invoice"
                 component={Admin_Payment_Invoice}
               />
-
               <Route
                 path="/admin_evaluation_step4"
                 component={AdminWorkOrderEvaluationStep4}
@@ -191,7 +184,6 @@ const App: any = ({ history }) => {
                 path="/admin_notification"
                 component={Admin_Notification}
               />
-
               <Route
                 path="/admin_evaluation_step2"
                 component={AdminWorkOrderEvaluationStep2}
@@ -209,13 +201,15 @@ const App: any = ({ history }) => {
                 path="/admin_new_work_order_step3"
                 component={Amin_NewWorkOrderStep3}
               />
-              <Route path="/admin/specialist/settings/:id" component={AdminSpecialistSettings} />
+              <Route
+                path="/admin/specialist/settings/:id"
+                component={AdminSpecialistSettings}
+              />
               <Route
                 path="/admin_assign_specialist"
                 component={AssignSpecialist}
               />
               <Route path="/specialistdetails" component={Specialistdetails} />
-
               {/* Admin Dashboard ends */}
               {/* specialist Dashboard */}
               <Route
@@ -247,6 +241,12 @@ const App: any = ({ history }) => {
                 exact={true}
                 component={ForgotPassword}
               />
+              <Route
+                path="/reset-password"
+                exact={true}
+                component={Password_Reset}
+              />
+
               <Route path="/" exact={true} component={Home} />
             </Switch>
           </HashRouter>

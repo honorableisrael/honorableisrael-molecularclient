@@ -4,7 +4,7 @@ import { Link, withRouter } from "react-router-dom";
 import "./signup.css";
 import formCaret from "../../images/caret.png";
 import axios from "axios";
-import { API } from "../../config";
+import { API, reloadPage } from "../../config";
 import Axios, { AxiosResponse } from "axios";
 import eye from "../../images/eye.png";
 import eyeclose from "../../images/eye-off.png";
@@ -127,6 +127,7 @@ const Contractorsignup = withRouter((props) => {
           isloading: false,
           successMessage: "Successfully signed up, your account would be activated within the next 48hours",
         });
+        reloadPage()
         window.scrollTo(0,0)
       })
       .catch((err) => {

@@ -30,7 +30,7 @@ const DashboardNav = withRouter((props) => {
       ? JSON.parse(availableToken)
       : window.location.assign("/");
     if (token.user_type !== "admin") {
-      return props.history.push("/login");
+      return props.history.push("/signin");
     }
     Axios.all([
       Axios.get<any, AxiosResponse<any>>(`${API}/admin`, {

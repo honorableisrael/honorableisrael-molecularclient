@@ -10,6 +10,10 @@ import star from "../../images/star.png";
 import target from "../../images/target.png";
 import meter from "../../images/meter.png";
 import greencheck from "../../images/greencheck.png";
+import compass from "../../images/compass.svg";
+import compass1 from "../../images/Circle-icons-briefcase.png";
+import compass2 from "../../images/service.png";
+import smile from "../../images/images.jpeg";
 import lead from "../../images/leadengineers.jpg";
 import plumber from "../../images/plumber.png";
 import fire from "../../images/fire.png";
@@ -26,7 +30,7 @@ import {
 } from "react-animated-text-builders";
 
 const TEXTS = [
-  "Efficiently, deployed, vetted, certified pipeline specialist",
+  "Rapidly deploy vetted, certified pipeline specialists",
   "Let's do the hard work",
   "Let's empower the grey collar workers",
 ];
@@ -194,6 +198,9 @@ const Home = () => {
       </div>
       <div className="section-four">
         <Container>
+          <p className="textx1 cntrotlndg-section3_heading">
+            FOR EPC Contractors{" "}
+          </p>
           <div className="homepg-cards-wrapper">
             <div className="homepg-cards">
               <div className="homepg-cards-title">
@@ -229,17 +236,20 @@ const Home = () => {
             </div>
             <div className="homepg-cards">
               <div className="homepg-cards-title">
-                <img src={greencheck} alt="pic7" />
+                <img src={smile} className="homepg-cards-image" alt="pic7" />
                 <p>Convenience and Speed</p>
               </div>
               <p></p>
             </div>
           </div>
+          <p className="textx1 cntrotlndg-section3_heading">
+            FOR Pipeline Specialists{" "}
+          </p>
           {/* second */}
           <div className="homepg-cards-wrapper">
             <div className="homepg-cards">
               <div className="homepg-cards-title">
-                <img src={star} alt="pic4" />
+                <img src={compass} className="homepg-cards-image" alt="pic4" />
                 <p>More Work Opportunities</p>
               </div>
               <p>
@@ -250,7 +260,7 @@ const Home = () => {
             </div>
             <div className="homepg-cards">
               <div className="homepg-cards-title">
-                <img src={target} alt="pic5" />
+                <img src={compass1} className="homepg-cards-image" alt="pic5" />
                 <p>Better Work Conditions</p>
               </div>
               <p>
@@ -261,7 +271,7 @@ const Home = () => {
             </div>
             <div className="homepg-cards">
               <div className="homepg-cards-title">
-                <img src={meter} alt="pic6" />
+                <img src={compass2} className="homepg-cards-image" alt="pic6" />
                 <p>Better and Timely Pay</p>
               </div>
               <p>
@@ -273,7 +283,7 @@ const Home = () => {
             </div>
             <div className="homepg-cards">
               <div className="homepg-cards-title">
-                <img src={greencheck} alt="pic7" />
+                <img src={greencheck} className="homepg-cards-image" alt="pic7" />
                 <p>Continous Training and Certification</p>
               </div>
               <p></p>

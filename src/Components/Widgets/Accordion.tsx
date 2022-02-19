@@ -214,7 +214,7 @@ const Accordions = (props) => {
                           {formatTime(data.date)}
                         </div>
                         <div className="upby">
-                        uploaded by {data.uploaded_by}
+                        uploaded by <br /> {data.uploaded_by}
                         </div>
                       </div>
                     </div>

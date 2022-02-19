@@ -598,6 +598,42 @@
   text-align: initial;
   font-size: 15px;
 }
+.emptypendingworkwrap{
+    margin-bottom: 27px;
+}
+    .spldshbdcardwrapper{
+        flex-wrap: wrap;
+    }
+    .spldshbdcard-small{
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+    .dshworksectnrow1 {
+        justify-content: center;
+        padding: 8rem 1rem 7rem 1rem;
+    }
+    .splstprogressbarwrapper .cardwrap_cont{
+        display: none;
+    }
+    .content24{
+        margin-left: 0px !important;
+    }
+    .splrowt3{
+        padding-left: 0rem !important;
+    }
+    .job23_1a_splst{
+        margin: auto;
+    }
+    .cardwrap_jo{
+        margin-left: 0px;
+    }
+    .job34{
+        padding-left: 7px !important;
+    }
+    .settingtop{
+        min-height: 70px;
+    }
+
 .profiexpetitle {
   font-weight: 600;
 }
@@ -976,4 +1012,12 @@ input:checked + .slider::before {
 }
 .splstdetcardmgtop {
   margin-top: 4rem;
+}
+  .spltablecont0{
+      width: 100%;
+  }
+@media (max-width:1024px){
+    .dshbdhome{
+        padding-bottom: 31rem;
+    }
 }

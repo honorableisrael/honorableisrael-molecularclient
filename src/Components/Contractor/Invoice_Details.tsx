@@ -28,6 +28,13 @@ import {
 } from "../../config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { copyFileSync } from "fs";
+
+declare global {
+  interface Window {
+    initPayment: any;
+  }
+}
 
 declare global {
   interface Window {
@@ -175,13 +182,15 @@ const Admin_Invoice_details = (props) => {
         console.log(err);
       });
   };
-  const initPayment = () => {
+
+  const initPayment = (x) => {
     window.initPayment({
       MID: MID,
       email: user_details?.contractor?.email,
       firstname: user_details?.contractor?.first_name,
       lastname: user_details?.contractor?.last_name,
-      description: u_id,
+      customer_txnref:x,
+      description: "Cycle payment",
       title: "",
       amount: cycle_amount,
       country: "NG",
@@ -190,11 +199,15 @@ const Admin_Invoice_details = (props) => {
         notify("failed to complete payment");
       },
       callback: function (response) {
-        notify("payment completed");
-        MakePayment()
+        console.log(response)
+        notify(response.message);
+        if(response?.bank_message=="Approved"){
+          MakePayment()
+        }
       },
     });
   };
+
   const MakePayment = () => {
     const token = contractorToken();
     setState({
@@ -230,12 +243,50 @@ const Admin_Invoice_details = (props) => {
           isloading: false,
         });
         if (err?.response?.status == 400) {
-          return notify(err?.response?.data?.message);
+          // return notify(err?.response?.data?.message);
         }
         console.log(err);
       });
   };
-
+  const get_payment_ref =()=>{
+    const token = contractorToken();
+    setState({
+      ...state,
+      isloading: true,
+    });
+    axios
+      .all([
+        axios.get(
+          `${API}/contractor/sub-invoices/${id}/pay`,
+          {
+            headers: { Authorization: `Bearer ${token.access_token}` },
+          }
+        ),
+      ])
+      .then(
+        axios.spread((res) => {
+          console.log(res.data)
+          initPayment(res?.data?.data?.reference)
+          setTimeout(() => {
+            setState({
+              ...state,
+              isloading: false,
+              show2: false,
+            });
+          }, 2000);
+        })
+      )
+      .catch((err) => {
+        setState({
+          ...state,
+          isloading: false,
+        });
+        if (err?.response?.status == 400) {
+          // return notify(err?.response?.data?.message);
+        }
+        console.log(err);
+      });
+  }
   const {
     project_purpose,
     country,
@@ -346,7 +397,7 @@ const Admin_Invoice_details = (props) => {
               <Button
                 className="greenbtn2 btn-success"
                 // onClick={(e) => MakePayment()}
-                onClick={(e) => initPayment()}
+                onClick={(e) => get_payment_ref()}
               >
                 {isloading ? "Processing" : "Proceed"}
               </Button>
@@ -402,7 +453,7 @@ const Admin_Invoice_details = (props) => {
                           <div className="box_inv outerpink">
                             <span className="box_smalltick smalltickpink"></span>
                             {invoice_details?.total_amount_paid > 0
-                              ? "Paid"
+                              ? "Payment in progress"
                               : "Unpaid"}
                           </div>
                           <div className="boxwrapper__1">

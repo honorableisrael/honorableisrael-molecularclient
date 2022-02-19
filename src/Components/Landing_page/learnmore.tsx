@@ -53,6 +53,15 @@ const Learnmore = () => {
               deployment to their projects.
             </p>
             <br />
+            <h4 data-aos="fade-up">How we do it</h4>
+            <p className="learnmsctn1-pargh3">
+              Molecular uses big data and artificial intelligence to efficiently
+              match the contractors requirements to the work preferences of our
+              Technical Specialists. Molecular enables rapid, efficient and cost
+              effective deployment of Pipeline Specialists, while ensuring that
+              the latter get more jobs and get paid promptly.
+            </p>
+            <br />
             <div>
               <h4 data-aos="fade-up">How we do it</h4>
               <p className="learnmsctn1-pargh3">

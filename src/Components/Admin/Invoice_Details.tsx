@@ -23,6 +23,7 @@ import {
   FormatAmount,
   formatTime,
   notify,
+  reloadPage,
   returnAdminToken,
 } from "../../config";
 import { ToastContainer, toast } from "react-toastify";
@@ -94,6 +95,7 @@ const Admin_Invoice_details = (props) => {
       selected_id: id,
     });
   };
+
   useEffect(() => {
     window.scrollTo(-0, -0);
     const invoice_: any = localStorage.getItem("invoice_id");
@@ -243,7 +245,7 @@ const Admin_Invoice_details = (props) => {
         axios.spread((res) => {
           notify("Successful");
           setTimeout(() => {
-            window.location.reload();
+            window.location.assign("/scheduled_payments")
           }, 2000);
           console.log(res.data.data);
           setState({
@@ -286,10 +288,7 @@ const Admin_Invoice_details = (props) => {
       .then(
         axios.spread((res) => {
           notify("Successful");
-          // setTimeout(()=>{
-          //   window.location.reload()
-          // },2000)
-          console.log(res.data);
+          reloadPage()
           setState({
             ...state,
             isloading: false,
@@ -438,7 +437,7 @@ const Admin_Invoice_details = (props) => {
                           <div className="box_inv outerpink">
                             <span className="box_smalltick smalltickpink"></span>
                             {invoice_details?.total_amount_paid > 0
-                              ? "Paid"
+                              ? "Payment in progress"
                               : "Unpaid"}
                           </div>
                           <div className="boxwrapper__1">
@@ -568,7 +567,7 @@ const Admin_Invoice_details = (props) => {
                                           }
                                           className="payspecialist1"
                                         >
-                                          Pay Specialists
+                                          Schedule Specialists Payments
                                         </Button>
                                       ) : (
                                         ""
@@ -580,7 +579,9 @@ const Admin_Invoice_details = (props) => {
                                           }
                                           className="btn-success primary3"
                                         >
-                                       {!data.sent? "Send Invoice" : "Resend Invoice"} 
+                                          {!data.sent
+                                            ? "Send Invoice"
+                                            : "Resend Invoice"}
                                         </Button>
                                       ) : (
                                         ""

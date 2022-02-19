@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Col, Row, Form, Modal,Alert } from "react-bootstrap";
+import { Col, Row, Form, Modal, Alert } from "react-bootstrap";
 import Axios, { AxiosResponse } from "axios";
 import closeimg from "../../../images/closeimg.png";
 import editicon from "../../../images/editicon.png";
@@ -7,9 +7,7 @@ import { API } from "../../../config";
 import cert from "../../../images/certificate.png";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { withRouter } from 'react-router-dom';
-
-
+import { withRouter } from "react-router-dom";
 
 const Certification = withRouter((props) => {
   const [state, setState] = useState({
@@ -22,11 +20,11 @@ const Certification = withRouter((props) => {
     year: "",
     certificate_id: "",
     certificateAddModal: false,
-    description:"",
+    institution: "",
     deleteCredential: false,
-    credential_id:"",
-    errorMessage:"",
-    successMessage:"",
+    credential_id: "",
+    errorMessage: "",
+    successMessage: "",
     isloading: false,
   });
   const {
@@ -35,7 +33,7 @@ const Certification = withRouter((props) => {
     isloading,
     certifications,
     deleteCredential,
-    description,
+    institution,
     credential_id,
     certificate_id,
     certificateEditModal,
@@ -47,22 +45,22 @@ const Certification = withRouter((props) => {
     year,
   }: any = state;
 
-  const onchange = e => {
+  const onchange = (e) => {
     console.log(e.target.value);
     setState({
       ...state,
       [e.target.name]: e.target.value,
-      errorMessage:""
+      errorMessage: "",
     });
   };
 
-  const editCertificate = (id,index,data) => {
+  const editCertificate = (id, index, data) => {
     setState({
       ...state,
       ...data,
       certificate_id: index,
       credential_id: id,
-      certificateEditModal: true
+      certificateEditModal: true,
     });
   };
 
@@ -74,108 +72,119 @@ const Certification = withRouter((props) => {
     setState({
       ...state,
       certifications: tempCertificateDetails,
-      certificateEditModal: false
+      certificateEditModal: false,
     });
-     //post to API
-     const availableToken = localStorage.getItem("loggedInDetails");
-     console.log(availableToken);
-     const token = availableToken ? JSON.parse(availableToken) : "";
-     console.log(token);
-     const data={
+    //post to API
+    const availableToken = localStorage.getItem("loggedInDetails");
+    console.log(availableToken);
+    const token = availableToken ? JSON.parse(availableToken) : "";
+    console.log(token);
+    const data = {
       certification: title,
       year,
-      description,
-    }
-     Axios.put(`${API}/admin/specialists/certifications/${credential_id}`, data , {
-       headers: { Authorization: `Bearer ${token.access_token}` }
-     })
-     .then((res)=>{
-      console.log(res.data)
-        if(res.status==200 ){ 
-          notify("Certificate updated successfully ")
+      institution,
+    };
+    Axios.put(
+      `${API}/admin/specialists/certifications/${credential_id}`,
+      data,
+      {
+        headers: { Authorization: `Bearer ${token.access_token}` },
+      }
+    )
+      .then((res) => {
+        console.log(res.data);
+        if (res.status == 200) {
+          notify("Certificate updated successfully ");
         }
-     })
-     .catch((err)=>{
-       console.log(err.response)
-       if(err.response ){ 
-         notify("failed to Update")
-       }
-     })
+      })
+      .catch((err) => {
+        console.log(err.response);
+        if (err.response) {
+          notify("failed to Update");
+        }
+      });
   };
   const certEditModal = () => {
     setState({
       ...state,
-      certificateEditModal: true
+      certificateEditModal: true,
     });
   };
   const closeEditModal = () => {
     setState({
       ...state,
-      certificateEditModal: false
+      certificateEditModal: false,
     });
   };
   const addCertModal = () => {
     setState({
       ...state,
-      certificateAddModal: true
+      certificateAddModal: true,
     });
   };
   const closeAddModal = () => {
     setState({
       ...state,
-      certificateAddModal: false
+      certificateAddModal: false,
     });
   };
 
-  const notify = (message: string, type = "B") =>{
+  const notify = (message: string, type = "B") => {
     toast(message, { containerId: type, position: "top-right" });
-  }
-
+  };
 
   const displayCertification = () => {
     //add certhification to UI
     setState({
       ...state,
       isloading: true,
-    })
+    });
     const availableToken = localStorage.getItem("loggedInDetails");
     console.log(availableToken);
     const token = availableToken ? JSON.parse(availableToken) : "";
     console.log(token);
-    const data ={
+    const data = {
       certification: title,
       year,
-      description,
-    }
-    Axios.post(`${API}/admin/specialists/${props.match.params.id}/certifications`, data, {
-      headers: { Authorization: `Bearer ${token.access_token}` },
-    })
-    .then((res)=>{
-      console.log(res.data)
+      institution,
+    };
+    Axios.post(
+      `${API}/admin/specialists/${props.match.params.id}/certifications`,
+      data,
+      {
+        headers: { Authorization: `Bearer ${token.access_token}` },
+      }
+    )
+      .then((res) => {
+        console.log(res.data);
         setState({
           ...state,
           noCertificateAdded: false,
           certifications: [...certifications, { title: title, year: year }],
           certificateAddModal: false,
           certificationActive:
-            certifications.length >= 0 ? "profcertifncntent" : "nowrapdemacator",
+            certifications.length >= 0
+              ? "profcertifncntent"
+              : "nowrapdemacator",
           certificationbtn:
-            certifications.length >= 0 ? "profcerbtnwrapper" : "nowrapdemacator",
-            isloading:false
-        });
-        notify("New Certification added")
-    })
-    .catch((err)=>{
-      console.log(err.response)
-      if(err.response ){ 
-        notify("failed to add Certification")
-        setState({
-          ...state,
+            certifications.length >= 0
+              ? "profcerbtnwrapper"
+              : "nowrapdemacator",
           isloading: false,
-          errorMessage: err?.response?.data?.message,
-        })
-      }
-    })
+        });
+        notify("New Certification added");
+      })
+      .catch((err) => {
+        console.log(err.response);
+        if (err.response) {
+          notify("failed to add Certification");
+          setState({
+            ...state,
+            isloading: false,
+            errorMessage: err?.response?.data?.message,
+          });
+        }
+      });
   };
 
   useEffect(() => {
@@ -184,9 +193,11 @@ const Certification = withRouter((props) => {
     console.log(availableToken);
     setState({
       ...state,
-      noCertificateAdded: certifications.length == 1? true:false,
-      certificationActive: certifications.length == 1? "nowrapdemacator":"wrapdemacator",
-      certificationbtn: certifications.length == 1? "nowrapdemacator":"profcerbtnwrapper",
+      noCertificateAdded: certifications.length == 1 ? true : false,
+      certificationActive:
+        certifications.length == 1 ? "nowrapdemacator" : "wrapdemacator",
+      certificationbtn:
+        certifications.length == 1 ? "nowrapdemacator" : "profcerbtnwrapper",
     });
     const token = availableToken ? JSON.parse(availableToken) : "";
     console.log(token);
@@ -198,78 +209,81 @@ const Certification = withRouter((props) => {
       .then(
         Axios.spread((res) => {
           console.log(res.data);
-          const user= res.data.data;
+          const user = res.data.data;
           setState({
             ...state,
             ...res.data.data,
             user: res.data.data,
             ...res.data.data,
-            noCertificateAdded: user.certifications.length<=0? true:false,
-            certificationActive: user.certifications.length<=0? "nowrapdemacator":"profcertifncntent",
-            certificationbtn: user.certifications.length<=0? "nowrapdemacator":"profcerbtnwrapper",
+            noCertificateAdded: user.certifications.length <= 0 ? true : false,
+            certificationActive:
+              user.certifications.length <= 0
+                ? "nowrapdemacator"
+                : "profcertifncntent",
+            certificationbtn:
+              user.certifications.length <= 0
+                ? "nowrapdemacator"
+                : "profcerbtnwrapper",
           });
         })
       )
       .catch((err) => {
         console.log(err.response);
       });
-    
   }, []);
 
-  const deleteCertificate=(id, index)=>{
+  const deleteCertificate = (id, index) => {
     setState({
       ...state,
       credential_id: id,
       deleteCredential: true,
       certificate_id: index,
     });
-    };
-    const closeDeleteModal = () => {
-      setState({
-        ...state,
-        deleteCredential: false
-      });
-    };
-   
-    const deleteModalChange= (state, credential_id)=>{
-      let tempExperienceDetails = state.certifications;
-    tempExperienceDetails.splice(certificate_id, 1);
-      setState({
-        ...state,
-        certifications: tempExperienceDetails,
-        deleteCredential: false,
-      });
-        //post to API
-   const availableToken = localStorage.getItem("loggedInDetails");
-   console.log(availableToken);
-   const token = availableToken ? JSON.parse(availableToken) : "";
-   console.log(token);
+  };
+  const closeDeleteModal = () => {
+    setState({
+      ...state,
+      deleteCredential: false,
+    });
+  };
 
-   Axios.delete(`${API}/admin/specialists/certifications/${credential_id}`, {
-     headers: { Authorization: `Bearer ${token.access_token}` }
-   })
-     .then(res => {
-       console.log(res.data);
-       if (res.status == 200) {
-         notify("Certificate successfully deleted ");
-       }
-     })
-     .catch(err => {
-       console.log(err.response);
-       if (err.response) {
-         notify("failed to Delete");
-       }
-     });
-}
+  const deleteModalChange = (state, credential_id) => {
+    let tempExperienceDetails = state.certifications;
+    tempExperienceDetails.splice(certificate_id, 1);
+    setState({
+      ...state,
+      certifications: tempExperienceDetails,
+      deleteCredential: false,
+    });
+    //post to API
+    const availableToken = localStorage.getItem("loggedInDetails");
+    console.log(availableToken);
+    const token = availableToken ? JSON.parse(availableToken) : "";
+    console.log(token);
+
+    Axios.delete(`${API}/admin/specialists/certifications/${credential_id}`, {
+      headers: { Authorization: `Bearer ${token.access_token}` },
+    })
+      .then((res) => {
+        console.log(res.data);
+        if (res.status == 200) {
+          notify("Certificate successfully deleted ");
+        }
+      })
+      .catch((err) => {
+        console.log(err.response);
+        if (err.response) {
+          notify("failed to Delete");
+        }
+      });
+  };
 
   return (
     <>
-     <Modal show={deleteCredential} centered={true} onHide={closeDeleteModal}>
-        <div className="usermodaltitle">
-          Delete Certificate?
-        </div>
+      <Modal show={deleteCredential} centered={true} onHide={closeDeleteModal}>
+        <div className="usermodaltitle">Delete Certificate?</div>
         <Modal.Body>
-        <div className="wrkmodal-btnwrap">
+          <div className="wrkmodal-btnwrap">
             <span className="wrkmodal-cancelbtn" onClick={closeDeleteModal}>
               Cancel
             </span>
@@ -293,10 +307,10 @@ const Certification = withRouter((props) => {
               {successMessage}
             </Alert>
           )}
-         {errorMessage && (
-           <Alert key={2} variant="danger" className="alertmessg">
-            {errorMessage}
-          </Alert>
+          {errorMessage && (
+            <Alert key={2} variant="danger" className="alertmessg">
+              {errorMessage}
+            </Alert>
           )}
           <form>
             <label className="addexptitle">
@@ -319,20 +333,17 @@ const Certification = withRouter((props) => {
                 name="year"
                 value={year}
                 onChange={onchange}
-                placeholder="yyyy-mm-dd"
                 size={70}
               />
             </label>
             <label className="addexptitle">
-              Description
-              <textarea
-                name="description"
-                value={description}
+              institution
+              <input
+                type={"text"}
+                name="institution"
+                value={institution}
                 onChange={onchange}
                 className="form-control wrkmodaltextarea"
-                placeholder="Enter Description"
-                rows={5}
-                cols={5}
               />
             </label>
           </form>
@@ -385,15 +396,14 @@ const Certification = withRouter((props) => {
               />
             </label>
             <label className="addexptitle">
-              Description
-              <textarea
-                name="description"
-                value={description}
+              institution
+              <input
+                type={"text"}
+                name="institution"
+                value={institution}
                 onChange={onchange}
                 className="form-control wrkmodaltextarea"
-                placeholder="Enter Description"
-                rows={5}
-                cols={5}
+                placeholder="Enter institution"
               />
             </label>
           </form>
@@ -403,7 +413,7 @@ const Certification = withRouter((props) => {
             </span>
             <span
               className="wrkmodal-declinebtn addexpbtn"
-              onClick={() => inputModalChange(state,credential_id)}
+              onClick={() => inputModalChange(state, credential_id)}
             >
               Save
             </span>
@@ -412,7 +422,7 @@ const Certification = withRouter((props) => {
       </Modal>
       <div className="profileceriticatesectn">
         <h3 className=" profillabels ">Certifications</h3>
-        {certifications?.length==0 && (
+        {certifications?.length == 0 && (
           <div>
             <img src={cert} alt="img" />
             <p>You have no Certificates Added</p>
@@ -435,21 +445,25 @@ const Certification = withRouter((props) => {
                 <p className="profcertheading">Year</p>
                 <p>{item.year}</p>
               </div>
+              <div className="profcertdate">
+                <p className="profcertheading">Institution</p>
+                <p>{item?.institution}</p>
+              </div>
               <div className="credentialsactions">
-                    <div>
-                      <img
-                        src={editicon}
-                        onClick={() => editCertificate(item.id, index,item)}
-                        className="editimg"
-                      />
-                    </div>
-                    <div
-                     className="credentialdeletebtn"
-                     onClick={()=>deleteCertificate(item.id, index)}
-                    >
-                    X
-                    </div>
-                  </div>
+                <div>
+                  <img
+                    src={editicon}
+                    onClick={() => editCertificate(item.id, index, item)}
+                    className="editimg"
+                  />
+                </div>
+                <div
+                  className="credentialdeletebtn"
+                  onClick={() => deleteCertificate(item.id, index)}
+                >
+                  X
+                </div>
+              </div>
             </div>
           );
         })}
@@ -459,7 +473,6 @@ const Certification = withRouter((props) => {
           </span>
         </div>
       </div>
-   
     </>
   );
 });

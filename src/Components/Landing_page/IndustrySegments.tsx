@@ -123,9 +123,9 @@ const IndustrySegments = () => {
           </Col>
         </Row>
         <div className="industry-segment_section-3">
-          <div className="cntrotlndg-section3-cards">
+          <div className="cntrotlndg-section3-cards s02">
             <div className="cntrotlndg-section3-card-content">
-              <img src={weldingflame} className="img-fluid" alt="img" />
+              <img src={weldingflame} className="img-fluid specailist2" alt="img" />
               <div className="cntrotlndg-section3-card-wrapp">
                 <h4 className="cntrotlndg-section3-card-heading">
                   More Work Opportunities
@@ -140,7 +140,7 @@ const IndustrySegments = () => {
             <div className="cntrotlndg-section3-card-content">
               <img
                 src={Pipeline_stick}
-                className="img-fluid Pipeline_stick_img"
+                className="img-fluid Pipeline_stick_img specailist2"
                 alt="img"
               />
               <div className="cntrotlndg-section3-card-wrapp">
@@ -155,7 +155,7 @@ const IndustrySegments = () => {
               </div>
             </div>
             <div className="cntrotlndg-section3-card-content">
-              <img src={blueoverall} className="img-fluid" alt="img" />
+              <img src={blueoverall} className="img-fluid specailist2" alt="img" />
               <div className="cntrotlndg-section3-card-wrapp">
                 <h4 className="cntrotlndg-section3-card-heading">
                   Better and Timely Pay

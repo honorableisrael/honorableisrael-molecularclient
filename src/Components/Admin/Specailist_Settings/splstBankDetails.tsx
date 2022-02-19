@@ -462,7 +462,7 @@ const SplstBankDetails = withRouter((props) => {
         </div>
       </Modal>
       <div className="text-center">
-        <h3 className=" profillabels ">Bank Account Details</h3>
+        <h3 className=" profillabels ">Bank Account Details <small>(to receive payment for work done)</small> </h3>
         {bank_account == null && (
           <div>
             <img

@@ -74,12 +74,12 @@ const Specialist_card = withRouter((props: any) => {
               {props?.specialist_data?.skills?.map((data) => data.name)}
             </div>
             <div className="prim_skills">
-              <span className="leveltitle"> Expert Level:</span>{" "}
+              <span className="leveltitle"> Rating:</span>{" "}
               <StarRatingComponent
                 name="specialist_rating"
                 className="specialist_rating"
                 starCount={5}
-                value={specialist_rating}
+                value={props?.specialist_data?.rating}
                 onStarClick={onStarClick}
                 emptyStarColor={"#444"}
               />
