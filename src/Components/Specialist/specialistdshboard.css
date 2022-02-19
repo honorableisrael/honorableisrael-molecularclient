@@ -601,6 +601,7 @@
 .emptypendingworkwrap{
     margin-bottom: 27px;
 }
+@media(max-width:760px) {
     .spldshbdcardwrapper{
         flex-wrap: wrap;
     }
@@ -633,7 +634,7 @@
     .settingtop{
         min-height: 70px;
     }
-
+}
 .profiexpetitle {
   font-weight: 600;
 }
