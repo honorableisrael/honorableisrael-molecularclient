@@ -327,7 +327,7 @@ const SignUp = withRouter((props: any) => {
                         className="form-control forminput"
                       />
                     </label> */}
-                    <div className="text-right">
+                    {/* <div className="text-right">
                       {passwordIsOpen ? (
                         <img
                           src={eye}
@@ -343,7 +343,7 @@ const SignUp = withRouter((props: any) => {
                           alt="hideeye"
                         />
                       )}
-                    </div>
+                    </div> */}
                     <div className="form-check">
                       <label className="form-check-label">
                         <input

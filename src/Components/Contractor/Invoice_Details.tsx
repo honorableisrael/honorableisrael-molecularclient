@@ -36,6 +36,12 @@ declare global {
   }
 }
 
+declare global {
+  interface Window {
+    initPayment: any;
+  }
+}
+
 const Admin_Invoice_details = (props) => {
   const [state, setState] = useState<any>({
     invoice_details: {},

@@ -67,7 +67,7 @@ const mobilenavbar =()=>{
       <div className="navwrap">
         <div className="dsbdlogo">
           <Link to="/home">
-            <img src={dshlogo} alt="logo" className="logo2" />
+            <img src={dshlogo} alt="logo" className="logo2 img-fluid" />
           </Link>
         </div>
 

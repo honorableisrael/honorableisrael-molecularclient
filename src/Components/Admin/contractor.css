@@ -1252,7 +1252,7 @@ a:hover {
     min-width: 120px;
   }
   .pipline {
-    width: 95%;
+    width: 100%;
   }
   .minicardwrapper {
     width: 90% !important;
@@ -1266,9 +1266,9 @@ a:hover {
   .cardwrap_jo {
     margin-left: 1rem;
   }
-  .crd23 {
+  /* .crd23 {
     padding-left: 1rem;
-  }
+  } */
   /* .job34 {
     overflow-x: scroll;
   } */
@@ -1679,6 +1679,7 @@ a:hover {
   }
   .cardwrap_jo {
     padding-left: 9px;
+    
   }
   .formcontent {
     padding: 0rem 1rem;
@@ -2619,6 +2620,11 @@ label i {
   }
   .ddeplsmni1 {
     min-width: 1003px;
+  }
+}
+@media(max-width:760px){
+  .ddeplsmni1{
+    min-width: 34px;
   }
 }
 .nojob2 a .job3 {

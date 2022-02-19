@@ -100,7 +100,7 @@ const Footer = () => {
           </div>
           <div className="copyrightwrap">
             <div className="reserves">
-              ©2021 Molecular copyright, All rights Reserved.
+              ©2022 Molecular copyright, All rights Reserved.
             </div>
             <div className="terms">Terms & Conditions</div>
             <div className="privacy">Privacy Policy</div>

@@ -172,7 +172,7 @@ const SignIn = (props) => {
             </Col>
           </Row>
           <div className="signin-footer-rights">
-            ©2021 Molecular copyright All rights Reserved
+            ©2022 Molecular copyright All rights Reserved
           </div>
         </Container>
       </section>

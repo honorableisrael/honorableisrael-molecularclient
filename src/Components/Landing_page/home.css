@@ -1289,10 +1289,13 @@
 .Is_images_section {
   -webkit-overflow-scrolling: touch;
 }
-.industry-segment_section-3 {
+.industry-segment_section-3{
   padding: 0px 76px;
 }
 @media (max-width: 760px) {
+  .industry-segment_section-3 {
+    padding: 0px 76px;
+  }
   .Is_images_section_wrap {
     padding: 0;
   }

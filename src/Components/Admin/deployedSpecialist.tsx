@@ -666,7 +666,7 @@ const DeployedSpecialist = withRouter((props) => {
                     <p>All Specialists deployed to this work order</p>
                   </div>
                   <div className="deployedsplsttable">
-                    <Table hover>
+                    <Table hover responsive>
                       <thead>
                         <tr>
                           <th>Full Name</th>
@@ -748,7 +748,7 @@ const DeployedSpecialist = withRouter((props) => {
                     </div>
                   </div>
                   <div className="deployedsplsttable">
-                    <Table hover>
+                    <Table hover responsive>
                       <thead>
                         <tr>
                           <th>Full Name</th>

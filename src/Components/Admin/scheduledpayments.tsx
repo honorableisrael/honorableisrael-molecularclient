@@ -593,16 +593,16 @@ const ScheduledPayments = withRouter((props) => {
                     </div>
                   </div>
                   <div className="deployedsplsttable">
-                    <Table hover>
+                    <Table hover responsive>
                       <thead>
                         <tr>
-                          <th>Full Name</th>
-                          <th>Contractor</th>
-                          <th>Type</th>
-                          <th>Account Num.</th>
-                          <th>Amount({current_currency})</th>
-                          <th>Reference</th>
-                          <th>Status</th>
+                          <th style={{minWidth: "12rem"}}>Full Name</th>
+                          <th style={{minWidth: "12rem"}}>Contractor</th>
+                          <th style={{minWidth: "12rem"}}>Type</th>
+                          <th style={{minWidth: "9rem"}}>Account Num.</th>
+                          <th style={{minWidth: "8rem"}}>Amount({current_currency})</th>
+                          <th style={{minWidth: "8rem"}}>Reference</th>
+                          <th style={{minWidth: "8rem"}}>Status</th>
                           <th>Action</th>
                         </tr>
                       </thead>

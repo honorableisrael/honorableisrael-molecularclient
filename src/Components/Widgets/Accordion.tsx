@@ -136,7 +136,7 @@ const Accordions = (props) => {
           ref={content}
         >
           <div className="deployedsplsttable">
-            <Table hover>
+            <Table hover responsive>
               <thead>
                 <tr>
                   <th>Full Name</th>
