@@ -10,9 +10,10 @@ const ForgotPassword = (props) => {
     email: "",
     password: "",
     isloading: false,
+    success: "",
     errorMessage: "",
   });
-  const { email, password, errorMessage, isloading } = state;
+  const { email, success, errorMessage, isloading } = state;
   const validateForm = (e) => {
     e.preventDefault();
     if (!email) {
@@ -23,7 +24,7 @@ const ForgotPassword = (props) => {
     }
     submitForm();
   };
-  
+
   const submitForm = () => {
     setState({
       ...state,
@@ -37,10 +38,10 @@ const ForgotPassword = (props) => {
       .then((res) => {
         console.log(res.data);
         localStorage.setItem("loggedInDetails", JSON.stringify(res.data));
-
         setState({
           ...state,
           isloading: false,
+          success: "A token has been sent to the provided email address",
         });
       })
       .catch((err) => {
@@ -70,6 +71,7 @@ const ForgotPassword = (props) => {
       ...state,
       [e.target.name]: e.target.value,
       errorMessage: "",
+      success: "",
       isloading: false,
     });
   };
@@ -87,6 +89,11 @@ const ForgotPassword = (props) => {
                   {errorMessage && (
                     <div className="text-center">
                       <Alert variant={"danger"}>{errorMessage}</Alert>
+                    </div>
+                  )}
+                  {success && (
+                    <div className="text-center">
+                      <Alert variant={"success"}>{success}</Alert>
                     </div>
                   )}
                 </div>
