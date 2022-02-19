@@ -96,7 +96,7 @@ const WorkOrderCards = (props) => {
             <div className="content24">
               <img src={group2} alt="cotn23" className="cotn232" />
               <div className="spcclst12">
-                <div className="spcclst1">No of Groups</div>
+                <div className="spcclst1">No of Spread</div>
                 <div className="spcclst">
                   {props?.order_details?.total_groups}
                 </div>

@@ -405,7 +405,7 @@ const SpecialistDeployed = ({ work_order_detail }) => {
                 <div className="tabledata tabledataweb">
                   <div className="header_12 pleft">Reference</div>
                   <div className="header_12">Type</div>
-                  <div className="header_12">Group Position</div>
+                  <div className="header_12">Spread Position</div>
                   <div className="header_12">Status</div>
                 </div>
                 {work_order_detail?.assigned_specialists?.length !== 0 &&
@@ -430,7 +430,7 @@ const SpecialistDeployed = ({ work_order_detail }) => {
                         </div>
                         <div className="header_12">
                           <div className="mobiletabledata mobiletabledata22">
-                            Group Position
+                          Spread Position
                           </div>
                           <div className="glead"> Member </div>
                         </div>

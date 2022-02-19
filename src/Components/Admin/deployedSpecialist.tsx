@@ -475,7 +475,7 @@ const DeployedSpecialist = withRouter((props) => {
       >
         <Modal.Header closeButton>
           <Modal.Title id="example-custom-modal-styling-title">
-            Manage Groups
+            Manage Spread
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -485,7 +485,7 @@ const DeployedSpecialist = withRouter((props) => {
                 <Row>
                   <Col md={12} className="formsection1">
                     <Form.Group>
-                      <h6 className="userprofile">Group name</h6>
+                      <h6 className="userprofile">Spread name</h6>
                       <Form.Control
                         type="text"
                         value={group_name}
@@ -498,7 +498,7 @@ const DeployedSpecialist = withRouter((props) => {
                   </Col>
                   <Col md={12} className="formsection1">
                     <Form.Group>
-                      <h6 className="userprofile">Group Description</h6>
+                      <h6 className="userprofile">Spread Description</h6>
                       <Form.Control
                         type="text"
                         value={group_description}
@@ -524,13 +524,13 @@ const DeployedSpecialist = withRouter((props) => {
           </Row>
           <Row className="avvworkgroup">
             <Col md={12}>
-              <h6 className="cca">Available Work Groups</h6>
+              <h6 className="cca">Available Work Spread</h6>
             </Col>
             <Col md={12}>
               <Table hover>
                 <thead>
                   <tr>
-                    <th>Group Name</th>
+                    <th>Spread Name</th>
                     <th>Total Members</th>
                     <th>Action</th>
                   </tr>
@@ -588,7 +588,7 @@ const DeployedSpecialist = withRouter((props) => {
               <Table hover>
                 <thead>
                   <tr>
-                    <th>Group Name</th>
+                    <th>Spread Name</th>
                     <th>Total Members</th>
                     <th>Action</th>
                   </tr>
@@ -633,7 +633,7 @@ const DeployedSpecialist = withRouter((props) => {
                 &nbsp; Invited Specailist
               </div>
               <div className="manage_" onClick={openModal}>
-                Manage Groups
+                Manage Spread
               </div>
             </div>
             <div className="dpsplsttabs">

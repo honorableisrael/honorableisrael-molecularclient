@@ -238,7 +238,7 @@ const fieldRef: any = useRef();
                 <Form.Control
                   type="number"
                   name="requested_amount"
-                  value={requested_amount} 
+                  // value={requested_amount} 
                   className="userfield"
                   onChange={onchange}
                   placeholder="Amount"

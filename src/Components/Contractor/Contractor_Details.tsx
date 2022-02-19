@@ -179,7 +179,7 @@ const Contractor_Details = () => {
                   <div className="job23_1a wrap_z">
                     <div className="group_flex">
                       <div className="grpA">
-                        Group <b>A</b>
+                      Spread <b>A</b>
                       </div>
                       <div className="grpB">
                         <b>27</b> Assigned
@@ -188,7 +188,7 @@ const Contractor_Details = () => {
                     <div className="tabledata tabledataweb">
                       <div className="header_12 pleft">Fullname</div>
                       <div className="header_12">Type</div>
-                      <div className="header_12">Group Position</div>
+                      <div className="header_12">Spread Position</div>
                       <div className="header_12">Status</div>
                     </div>
                     <div className="tabledata tablecontent">

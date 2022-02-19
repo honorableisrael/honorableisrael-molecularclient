@@ -1181,7 +1181,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                           <div className="tabledata tabledataweb">
                             <div className="header_12 pleft">Fullname</div>
                             <div className="header_12">Type</div>
-                            <div className="header_12">Group Position</div>
+                            <div className="header_12">Spread Position</div>
                             <div className="header_12">Status</div>
                           </div>
                           {assigned_specialists.length !== 0 &&
@@ -1218,7 +1218,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                                     </div>
                                     <div className="header_12">
                                       <div className="mobiletabledata mobiletabledata22">
-                                        Group Position
+                                        Spread Position
                                       </div>
                                       <div className="glead"> Member </div>
                                     </div>
