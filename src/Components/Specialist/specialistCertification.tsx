@@ -52,11 +52,12 @@ const Certification = () => {
     });
   };
 
-  const editCertificate = (id, index) => {
+  const editCertificate = (data, index) => {
     setState({
       ...state,
+      ...data,
       certificate_id: index,
-      credential_id: id,
+      credential_id: data.id,
       certificateEditModal: true,
     });
   };
@@ -93,6 +94,7 @@ const Certification = () => {
       .catch((err) => {
         console.log(err.response);
         if (err.response) {
+          notify(err?.response?.data?.errors?.year?.join(""))
           notify("failed to Update");
         }
       });
@@ -442,7 +444,7 @@ const Certification = () => {
                 <div>
                   <img
                     src={editicon}
-                    onClick={() => editCertificate(item.id, index)}
+                    onClick={() => editCertificate(item, index)}
                     className="editimg"
                   />
                 </div>

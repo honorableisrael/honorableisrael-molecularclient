@@ -34,7 +34,7 @@ const Password_Reset = (props) => {
     const Token = query.get("token");
     console.log(Token);
     const data = {
-      confirm_password,
+      password_confirmation: confirm_password,
       password,
       email,
       token: Token,
@@ -56,13 +56,15 @@ const Password_Reset = (props) => {
         if (err?.response?.status == 406) {
           return setState({
             ...state,
-            errorMessage: err?.response?.data?.errors?.confirm_password[0],
+            errorMessage: err?.response?.data?.errors?.password?.join(""),
+            isloading: false,
           });
         }
         if (err?.response?.status == 400) {
           return setState({
             ...state,
             errorMessage: err?.response?.data?.message,
+            isloading: false,
           });
         }
         setState({
@@ -114,8 +116,8 @@ const Password_Reset = (props) => {
                     <span className="rdfrmlbl"> Password</span>
                     <input
                       type="password"
-                      name="confirm_password"
-                      value={confirm_password}
+                      name="password"
+                      value={password}
                       onChange={onchange}
                       size={60}
                       className="form-control forminput"
@@ -125,8 +127,8 @@ const Password_Reset = (props) => {
                     <span className="rdfrmlbl"> Confirm Password</span>
                     <input
                       type="password"
-                      name="password"
-                      value={password}
+                      name="confirm_password"
+                      value={confirm_password}
                       onChange={onchange}
                       size={60}
                       className="form-control forminput"
