@@ -23,6 +23,7 @@ const SignUp = withRouter((props: any) => {
     btnState: false,
     jobs: [],
     passwordIsOpen: true,
+    agree: false,
   });
   const {
     firstName,
@@ -30,8 +31,9 @@ const SignUp = withRouter((props: any) => {
     email,
     phone,
     password,
-    skill,
     isLoading,
+    skill,
+    agree,
     errorMessage,
     successMessage,
     btnState,
@@ -63,18 +65,19 @@ const SignUp = withRouter((props: any) => {
             "loggedInDetails",
             JSON.stringify(response.data)
           );
-          reloadPage()
+          reloadPage();
           window.scrollTo(0, 0);
           setState({
             ...state,
-            successMessage: "Thanks for signing up on molecular platform! We are currently reviewing your application and will get back to you shortly.",
+            successMessage:
+              "Thanks for signing up on molecular platform! We are currently reviewing your application and will get back to you shortly.",
             isLoading: false,
           });
         }
       })
       .catch((err) => {
-        console.log(err?.response)
-        window.scrollTo(-0,-0)
+        console.log(err?.response);
+        window.scrollTo(-0, -0);
         if (err?.response?.status == 406) {
           return setState({
             ...state,
@@ -118,9 +121,7 @@ const SignUp = withRouter((props: any) => {
   const fieldRef: any = useRef();
   useEffect(() => {
     if (errorMessage || (successMessage && fieldRef)) {
-      fieldRef.current.scrollIntoView({
-        behavior: "smooth",
-      });
+      window.scrollTo(0, 0);
     }
   }, [errorMessage, successMessage]);
   const validateForm = (e) => {
@@ -155,15 +156,13 @@ const SignUp = withRouter((props: any) => {
         errorMessage: "Please enter your skill",
       });
     }
-    // if (password == "") {
-    //   return setState({
-    //     ...state,
-    //     errorMessage: "Please enter your password",
-    //   });
-    // }
-    else {
-      onSubmit();
+    if (!agree) {
+      return setState({
+        ...state,
+        errorMessage: "Please agree to terms and condition",
+      });
     }
+    onSubmit();
   };
   useEffect(() => {
     window.scrollTo(-0, -0);
@@ -219,6 +218,7 @@ const SignUp = withRouter((props: any) => {
                           {errorMessage}
                         </Alert>
                       )}
+                      <br />
                       <Col md={6}>
                         <label className="inputlabel">
                           <span className="rdfrmlbl">
@@ -345,23 +345,35 @@ const SignUp = withRouter((props: any) => {
                       )}
                     </div> */}
                     <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked={agree ? true : false}
+                        onChange={() => {
+                          setState({
+                            ...state,
+                            agree: !agree ? true : false,
+                          });
+                        }}
+                        id="flexCheckDefault"
+                      />
+                      Creating an account means you agree with our{" "}
                       <label className="form-check-label">
-                        <input
-                          className="form-check-input"
-                          type="checkbox"
-                          value=""
-                          id="flexCheckDefault"
-                        />
-                        Creating an account means you agree to our Terms of
-                        Service, Privacy Policy, and our
-                        <br />
-                        default Notification Settings.
+                        <Link to="/privacy" target="_blank">
+                          Terms of Service , Privacy Policy
+                        </Link>
                       </label>
+                      , and our
+                      <br />
+                      default Notification Settings.
                     </div>
                     <div className="form-btn-wrapper">
                       <span
                         className={
-                          btnState === true ? "form-btnactive" : "form-btn form-btnactive"
+                          btnState === true
+                            ? "form-btnactive"
+                            : "form-btn form-btnactive"
                         }
                         onClick={validateForm}
                       >

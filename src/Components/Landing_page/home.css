@@ -1534,14 +1534,17 @@
     padding: 0px 32px;
   }
 }
+
 /* blogstyling ends */
 .trans3 {
   text-align: center;
 }
+
 .text-transition_inner div {
   text-align: center;
   width: 100%;
 }
+
 ::placeholder {
   color: #101010 !important;
 }
@@ -1551,24 +1554,30 @@
 .nameofcontractor {
   width: 350px !important;
 }
+
 .floatinletterswrap {
   justify-content: center;
 }
+
 .specailist2 {
   max-height: 300px;
   min-height: 300px;
   width: 100%;
   object-fit: cover;
 }
+
 .s02 div {
   width: 32%;
 }
+
 .s02 img{
   width: 100%;
 }
+
 .cntrotlndg-section3-card-wrapp {
   width: 100% !important;
 }
+
 .row3t2{
   overflow: scroll;
 }
@@ -1581,4 +1590,26 @@
 .homepg-cards-image{
   width: 50px;
   height: 50px;
+}
+
+
+.terms-privacy {
+  font-weight: 200;
+  padding-top: 150px;
+}
+
+.terms-privacy h2 {
+  /* margin-top: 200px; */
+  font-weight: 500;
+}
+
+.terms-privacy h5 {
+  margin-top: 50px;
+  font-weight: 500;
+}
+.privacycont{
+  padding-bottom: 3rem;
+}
+.alertmessg{
+  margin-bottom: .8rem !important;
 }

@@ -63,6 +63,7 @@ import ScheduledPayments from "./Components/Admin/scheduledpayments";
 import SignIn from "./Components/Sign_in/signin";
 import AdminSpecialistSettings from "./Components/Admin/Specailist_Settings/specialist_settings";
 import Password_Reset from "./Components/Sign_in/password_reset";
+import Privacy from './Components/Landing_page/Privacy';
 
 const App: any = ({ history }) => {
   return (
@@ -234,6 +235,11 @@ const App: any = ({ history }) => {
                 exact={true}
                 path="/Specialist_Payment_Invoice/:id"
                 component={Specialist_Payment_Invoice}
+              />
+                <Route
+                exact={true}
+                path="/privacy"
+                component={Privacy}
               />
               <Route path="/signin" exact={true} component={SignIn} />
               <Route

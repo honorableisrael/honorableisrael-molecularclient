@@ -4,7 +4,7 @@ import { Link, withRouter } from "react-router-dom";
 import "./signup.css";
 import formCaret from "../../images/caret.png";
 import axios from "axios";
-import { API, reloadPage } from "../../config";
+import { API, notify, reloadPage } from "../../config";
 import Axios, { AxiosResponse } from "axios";
 import eye from "../../images/eye.png";
 import eyeclose from "../../images/eye-off.png";
@@ -24,6 +24,7 @@ const Contractorsignup = withRouter((props) => {
     isloading: false,
     listOfIndustries: [],
     contractor_needs: [],
+    agree: false,
     help: "",
     errorMessage: "",
     successMessage: "",
@@ -43,6 +44,7 @@ const Contractorsignup = withRouter((props) => {
     industry,
     errorMessage,
     isloading,
+    agree,
     passwordIsOpen,
   } = state;
   const validateForm = (e) => {
@@ -51,12 +53,6 @@ const Contractorsignup = withRouter((props) => {
       return setState({
         ...state,
         errorMessage: "Email address is required",
-      });
-    }
-    if (!password) {
-      return setState({
-        ...state,
-        errorMessage: "Password is required",
       });
     }
     if (!first_name) {
@@ -83,18 +79,12 @@ const Contractorsignup = withRouter((props) => {
         errorMessage: "Company name is required",
       });
     }
-    // if (!website_url) {
-    //   return setState({
-    //     ...state,
-    //     errorMessage: "website url is required",
-    //   });
-    // }
-    // if (!industry) {
-    //   return setState({
-    //     ...state,
-    //     errorMessage: "industry is required",
-    //   });
-    // }
+    if (!agree) {
+      return setState({
+        ...state,
+        errorMessage: "Please agree to terms and condition",
+      });
+    }
     submitForm();
   };
   const submitForm = () => {
@@ -125,10 +115,11 @@ const Contractorsignup = withRouter((props) => {
         setState({
           ...state,
           isloading: false,
-          successMessage: "Successfully signed up, your account would be activated within the next 48hours",
+          successMessage:
+            "Successfully signed up, your account would be activated within the next 48hours",
         });
-        reloadPage()
-        window.scrollTo(0,0)
+        reloadPage();
+        window.scrollTo(0, 0);
       })
       .catch((err) => {
         console.log(err?.response);
@@ -181,9 +172,7 @@ const Contractorsignup = withRouter((props) => {
   const fieldRef: any = useRef();
   useEffect(() => {
     if (errorMessage || (successMessage && fieldRef)) {
-      fieldRef.current.scrollIntoView({
-        behavior: "smooth",
-      });
+      window.scrollTo(0, 0);
     }
   }, [errorMessage, successMessage]);
   useEffect(() => {
@@ -207,8 +196,8 @@ const Contractorsignup = withRouter((props) => {
         console.log(err);
       });
   }, []);
-  console.log(listOfIndustries);
-  return(
+  console.log(agree);
+  return (
     <div>
       <NavBar />
       <section className="forms-section">
@@ -220,12 +209,16 @@ const Contractorsignup = withRouter((props) => {
                 <form className="form-wrapper ml__">
                   <div className="padded-form-wrapper">
                     <div className="form-header">
-                      <h4 className="form-title">Sign up to get Technical Specialist</h4>
+                      <h4 className="form-title">
+                        Sign up to get Technical Specialist
+                      </h4>
                     </div>
                     <div className="form-descr-text">
                       <p>
-                      Connect with a member of our team to explore how MolecularTech can support you and your business to get technical specialists.
-                      Leave some information about you & company, and we’ll contact you within 24 hours.
+                        Connect with a member of our team to explore how
+                        MolecularTech can support you and your business to get
+                        technical specialists. Leave some information about you
+                        & company, and we’ll contact you within 24 hours.
                       </p>
                     </div>
                   </div>
@@ -437,23 +430,33 @@ const Contractorsignup = withRouter((props) => {
                     </select> */}
                     <br></br>
                     <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked={agree ? true : false}
+                        onChange={() => {
+                          setState({
+                            ...state,
+                            agree: !agree ? true : false,
+                          });
+                        }}
+                        id="flexCheckDefault"
+                      />
+                      Creating an account means you agree with our{" "}
                       <label className="form-check-label">
-                        <input
-                          className="form-check-input"
-                          type="checkbox"
-                          value=""
-                          id="flexCheckDefault"
-                        />
-                        Creating an account means you agree with our Terms of
-                        Service, Privacy Policy, and our
-                        <br />
-                        default Notification Settings.
+                        <Link to="/privacy" target="_blank">
+                          Terms of Service , Privacy Policy
+                        </Link>
                       </label>
+                      , and our
+                      <br />
+                      default Notification Settings.
                     </div>
                     <div className="form-btn-wrapper">
                       <span
                         className="form-btn form-btnactive"
-                        onClick={submitForm}
+                        onClick={validateForm}
                       >
                         {!isloading ? "Create Account" : "Processing..."}
                       </span>
