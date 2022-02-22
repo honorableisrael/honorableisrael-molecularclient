@@ -511,7 +511,7 @@ const ScheduledPayments = withRouter((props) => {
       <DashboardNav />
       <Container fluid>
         <Row className="depsplstrow">
-          <Col md={11}>
+          <Col md={12}>
             <div className="dpsplsttabs">
               {/* <div
                 onClick={() => get_all("overview")}

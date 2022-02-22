@@ -6,7 +6,7 @@ import "react-rangeslider/lib/index.css";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { API } from "../../config";
+import { API, formatTime2 } from "../../config";
 import useravatar from "../../images/user-avatar.png";
 import formCaret from "../../images/caret.png";
 import { NavHashLink } from "react-router-hash-link";
@@ -686,7 +686,7 @@ const fieldRef: any = useRef();
                               type="date"
                               name="dob"
                               className="userfield"
-                              value={dob}
+                              value={formatTime2(dob)}
                               onChange={onchange}
                               placeholder="yyyy-mm-dd"
                             />
