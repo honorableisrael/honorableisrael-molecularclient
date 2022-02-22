@@ -630,7 +630,7 @@ const DeployedSpecialist = withRouter((props) => {
                   {" "}
                   <img src={arrowback} className="arrowback" />
                 </Link>
-                &nbsp; Invited Specailist
+                &nbsp; Invited Specialist
               </div>
               <div className="manage_" onClick={openModal}>
                 Manage Spread

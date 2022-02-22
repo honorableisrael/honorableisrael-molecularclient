@@ -1005,7 +1005,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                     className=" raise_inv startproject"
                     onClick={StartProject}
                   >
-                    {!isloading ? "Start Work" : "Starting"} <Play />
+                    {!isloading ? "Commence Work" : "Processing"} <Play />
                   </Button>
                 </div>
               </div>

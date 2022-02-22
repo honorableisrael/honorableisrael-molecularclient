@@ -206,6 +206,7 @@ text {
 .app23 {
   margin-left: 0.4rem;
 }
+.
 .unpaid1 {
   color: var(--molecular-orange);
   border-radius: 50px;
@@ -2957,7 +2958,7 @@ label i {
   margin-bottom: .5rem;
 }
 .primary3 {
-  min-width: 108px;
+  min-width: 137.8px;
 }
 .terminate2 button {
   margin-right: 0.4rem;
@@ -3060,6 +3061,8 @@ label i {
 }
 .contractorname {
   width: 140px;
+  max-width: 140px !important;
+  text-overflow: ellipsis;
   overflow: hidden;
 }
 .deployflex {
