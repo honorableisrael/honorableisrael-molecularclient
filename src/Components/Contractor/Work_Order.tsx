@@ -32,7 +32,7 @@ const ContractorWorkOrder = () => {
     start_date: "",
     end_date: "",
     hours_perday: "",
-    isloading:false
+    isloading: false,
   });
   const switchTab = (a) => {
     if (a == "firsttab") {
@@ -87,8 +87,8 @@ const ContractorWorkOrder = () => {
     const token = contractorToken();
     setState({
       ...state,
-      isloading:true
-    })
+      isloading: true,
+    });
     axios
       .all([
         axios.get(`${API}/contractor/work-orders?paginate=1`, {
@@ -105,15 +105,15 @@ const ContractorWorkOrder = () => {
             new_order: true,
             pending_request: false,
             past: false,
-            isloading:false
+            isloading: false,
           });
         })
       )
       .catch((err) => {
         setState({
           ...state,
-          isloading:false
-        })
+          isloading: false,
+        });
         console.log(err);
       });
   };
@@ -122,8 +122,8 @@ const ContractorWorkOrder = () => {
     const token = contractorToken();
     setState({
       ...state,
-      isloading:true
-    })
+      isloading: true,
+    });
     axios
       .all([
         axios.get(`${API}/contractor/work-orders/active?paginate=1`, {
@@ -140,15 +140,15 @@ const ContractorWorkOrder = () => {
             pending_request: true,
             new_order: false,
             past: false,
-            isloading:false
+            isloading: false,
           });
         })
       )
       .catch((err) => {
         setState({
           ...state,
-          isloading:false
-        })
+          isloading: false,
+        });
         console.log(err);
       });
   };
@@ -157,8 +157,8 @@ const ContractorWorkOrder = () => {
     const token = contractorToken();
     setState({
       ...state,
-      isloading:true
-    })
+      isloading: true,
+    });
     axios
       .all([
         axios.get(`${API}/contractor/work-orders/previous?paginate=1`, {
@@ -175,15 +175,15 @@ const ContractorWorkOrder = () => {
             new_order: false,
             pending_request: false,
             past: false,
-            isloading:false
+            isloading: false,
           });
         })
       )
       .catch((err) => {
         setState({
           ...state,
-          isloading:false
-        })
+          isloading: false,
+        });
         console.log(err);
       });
   };
@@ -308,6 +308,18 @@ const ContractorWorkOrder = () => {
                         order_details={data}
                         key={i}
                         status={"Active"}
+                      />
+                    )
+                )}
+              </div>
+              <div className="cardflex_jo">
+                {work_orders?.map(
+                  (data: any, i) =>
+                    data?.status == "Completed" && (
+                      <WorkOrderCards
+                        order_details={data}
+                        key={i}
+                        status={"Completed"}
                       />
                     )
                 )}

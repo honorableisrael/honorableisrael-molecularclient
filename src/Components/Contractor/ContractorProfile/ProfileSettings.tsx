@@ -57,6 +57,9 @@ const Contractor_Profile = withRouter((props) => {
     list_of_industries: [],
     industry_id: "",
     role2: "",
+    role_id1: "",
+    role_id2: "",
+    role_id3: "",
     phone_number2: "",
     email2: "",
     first_name2: "",
@@ -287,6 +290,9 @@ const Contractor_Profile = withRouter((props) => {
             email3: res?.data?.data?.contacts?.[2]?.email,
             first_name3: res?.data?.data?.contacts?.[2]?.first_name,
             last_name3: res?.data?.data?.contacts?.[2]?.last_name,
+            role_id1: res?.data?.data?.contacts?.[0]?.role_id,
+            role_id2: res?.data?.data?.contacts?.[1]?.role_id,
+            role_id3: res?.data?.data?.contacts?.[2]?.role_id,
           });
         })
       )
@@ -338,6 +344,50 @@ const Contractor_Profile = withRouter((props) => {
         notify("failed to Upload Image");
       });
   };
+  const UpdateContactPerson = (
+    id: any,
+    first_name,
+    last_name,
+    email,
+    phone,
+    role
+  ) => {
+    const data = {
+      first_name,
+      last_name,
+      email,
+      phone,
+      role,
+    };
+    console.log(data);
+    setState({
+      ...state,
+      isloading: true,
+    });
+    axios
+      .put(`${API}/contractor/contacts/${id}`, data, {
+        headers: { Authorization: `Bearer ${contractorToken().access_token}` },
+      })
+      .then((res) => {
+        console.log(res);
+        notify("Updated successfully");
+        setState({
+          ...state,
+          isloading: false,
+        });
+      })
+      .catch((err) => {
+        setState({
+          ...state,
+          isloading: false,
+        });
+        if (err?.response?.status == 406) {
+          notify(err?.response?.data?.errors?.email?.join(""), "D");
+          return notify(err?.response?.data?.errors?.role?.join(""), "D");
+        }
+        notify("Failed to update", "D");
+      });
+  };
   const {
     firsttab,
     secondtab,
@@ -381,7 +431,10 @@ const Contractor_Profile = withRouter((props) => {
     email3,
     first_name3,
     last_name3,
-  } = state;
+    role_id1,
+    role_id2,
+    role_id3,
+  }: any = state;
   console.log(contacts);
   return (
     <>
@@ -793,8 +846,8 @@ const Contractor_Profile = withRouter((props) => {
                                   Role
                                 </h6>
                                 <select
-                                  name="role1"
-                                  id="role1"
+                                  name="role_id1"
+                                  id="role_id1"
                                   onChange={onchange}
                                   className="form-control userfield"
                                 >
@@ -812,7 +865,16 @@ const Contractor_Profile = withRouter((props) => {
                             <Col md={12}>
                               <div
                                 className="job31"
-                                onClick={() => CreateContactPerson()}
+                                onClick={() =>
+                                  UpdateContactPerson(
+                                    contacts[0]?.id,
+                                    first_name1,
+                                    last_name1,
+                                    email1,
+                                    phone_number1,
+                                    role_id1
+                                  )
+                                }
                               >
                                 {isloading ? "Updating" : "Update"}
                               </div>
@@ -821,102 +883,6 @@ const Contractor_Profile = withRouter((props) => {
                         </>
                       )}
                       {contacts[1] && (
-                        <>
-                          <Row className="section_form1">
-                            <Col md={12}>
-                              <h3 className="userprofile userprofile12 boldtext"></h3>
-                            </Col>
-                            <Col md={4} className="formsection1">
-                              <Form.Group>
-                                <h6 className="userprofile userprofile12">
-                                  First Name
-                                </h6>
-                                <Form.Control
-                                  className="userfield"
-                                  id="first_name1"
-                                  value={first_name1}
-                                  onChange={onchange}
-                                />
-                              </Form.Group>
-                            </Col>
-                            <Col md={4} className="formsection1">
-                              <Form.Group>
-                                <h6 className="userprofile userprofile12">
-                                  Last Name
-                                </h6>
-                                <Form.Control
-                                  type="text"
-                                  className="userfield"
-                                  id="last_name1"
-                                  value={last_name1}
-                                  onChange={onchange}
-                                  placeholder=""
-                                />
-                              </Form.Group>
-                            </Col>
-                            <Col md={4} className="formsection1">
-                              <Form.Group>
-                                <h6 className="userprofile userprofile12">
-                                  Email
-                                </h6>
-                                <Form.Control
-                                  type="text"
-                                  className="userfield"
-                                  id="email2"
-                                  value={email1}
-                                  onChange={onInputChange}
-                                />
-                              </Form.Group>
-                            </Col>
-                          </Row>
-                          <Row>
-                            <Col md={4} className="formsection1">
-                              <Form.Group>
-                                <h6 className="userprofile userprofile12">
-                                  Phone Number
-                                </h6>
-                                <Form.Control
-                                  className="userfield"
-                                  id="phone_number2"
-                                  value={phone_number2}
-                                  onChange={onchange}
-                                />
-                              </Form.Group>
-                            </Col>
-                            <Col md={4} className="formsection1">
-                              <Form.Group>
-                                <h6 className="userprofile userprofile12">
-                                  Role
-                                </h6>
-                                <select
-                                  name="role1"
-                                  id="role1"
-                                  onChange={onchange}
-                                  className="form-control userfield"
-                                >
-                                  <option>{role1 ? role1 : ""}</option>
-                                  {roles?.map((data: any, i) => (
-                                    <option key={i} value={data?.id}>
-                                      {data?.name}
-                                    </option>
-                                  ))}
-                                </select>
-                              </Form.Group>
-                            </Col>
-                          </Row>
-                          <Row>
-                            <Col md={12}>
-                              <div
-                                className="job31"
-                                onClick={() => CreateContactPerson()}
-                              >
-                                {isloading ? "Updating" : "Update"}
-                              </div>
-                            </Col>
-                          </Row>
-                        </>
-                      )}
-                      {contacts[2] && (
                         <>
                           <Row className="section_form1">
                             <Col md={12}>
@@ -985,8 +951,8 @@ const Contractor_Profile = withRouter((props) => {
                                   Role
                                 </h6>
                                 <select
-                                  name="role2"
-                                  id="role2"
+                                  name="role_id2"
+                                  id="role_id2"
                                   onChange={onchange}
                                   className="form-control userfield"
                                 >
@@ -1004,7 +970,121 @@ const Contractor_Profile = withRouter((props) => {
                             <Col md={12}>
                               <div
                                 className="job31"
-                                onClick={() => CreateContactPerson()}
+                                onClick={() =>
+                                  UpdateContactPerson(
+                                    contacts[1]?.id,
+                                    first_name2,
+                                    last_name2,
+                                    email2,
+                                    phone_number2,
+                                    role_id2
+                                  )
+                                }
+                              >
+                                {isloading ? "Updating" : "Update"}
+                              </div>
+                            </Col>
+                          </Row>
+                        </>
+                      )}
+                      {contacts[2] && (
+                        <>
+                          <Row className="section_form1">
+                            <Col md={12}>
+                              <h3 className="userprofile userprofile12 boldtext"></h3>
+                            </Col>
+                            <Col md={4} className="formsection1">
+                              <Form.Group>
+                                <h6 className="userprofile userprofile12">
+                                  First Name
+                                </h6>
+                                <Form.Control
+                                  className="userfield"
+                                  id="first_name3"
+                                  value={first_name3}
+                                  onChange={onchange}
+                                />
+                              </Form.Group>
+                            </Col>
+                            <Col md={4} className="formsection1">
+                              <Form.Group>
+                                <h6 className="userprofile userprofile12">
+                                  Last Name
+                                </h6>
+                                <Form.Control
+                                  type="text"
+                                  className="userfield"
+                                  id="last_name3"
+                                  value={last_name3}
+                                  onChange={onchange}
+                                  placeholder=""
+                                />
+                              </Form.Group>
+                            </Col>
+                            <Col md={4} className="formsection1">
+                              <Form.Group>
+                                <h6 className="userprofile userprofile12">
+                                  Email
+                                </h6>
+                                <Form.Control
+                                  type="text"
+                                  className="userfield"
+                                  id="email3"
+                                  value={email3}
+                                  onChange={onInputChange}
+                                />
+                              </Form.Group>
+                            </Col>
+                          </Row>
+                          <Row>
+                            <Col md={4} className="formsection1">
+                              <Form.Group>
+                                <h6 className="userprofile userprofile12">
+                                  Phone Number
+                                </h6>
+                                <Form.Control
+                                  className="userfield"
+                                  id="phone_number3"
+                                  value={phone_number3}
+                                  onChange={onchange}
+                                />
+                              </Form.Group>
+                            </Col>
+                            <Col md={4} className="formsection1">
+                              <Form.Group>
+                                <h6 className="userprofile userprofile12">
+                                  Role
+                                </h6>
+                                <select
+                                  name="role_id3"
+                                  id="role_id3"
+                                  onChange={onchange}
+                                  className="form-control userfield"
+                                >
+                                  <option>{role3 ? role3 : ""}</option>
+                                  {roles?.map((data: any, i) => (
+                                    <option key={i} value={data?.id}>
+                                      {data?.name}
+                                    </option>
+                                  ))}
+                                </select>
+                              </Form.Group>
+                            </Col>
+                          </Row>
+                          <Row>
+                            <Col md={12}>
+                              <div
+                                className="job31"
+                                onClick={() =>
+                                  UpdateContactPerson(
+                                    contacts[2]?.id,
+                                    first_name3,
+                                    last_name3,
+                                    email3,
+                                    phone_number3,
+                                    role_id3
+                                  )
+                                }
                               >
                                 {isloading ? "Updating" : "Update"}
                               </div>

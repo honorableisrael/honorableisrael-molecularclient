@@ -206,7 +206,7 @@ text {
 .app23 {
   margin-left: 0.4rem;
 }
-.
+
 .unpaid1 {
   color: var(--molecular-orange);
   border-radius: 50px;
@@ -1524,7 +1524,7 @@ a:hover {
   justify-content: center;
   align-items: center;
   color: white;
-  margin-right: 1rem;
+  /* margin-right: 1rem; */
 }
 .namestyle11 {
   display: flex;
@@ -2465,14 +2465,16 @@ label i {
   color: #333333;
 }
 .Await001 {
-  background: hsla(33, 100%, 50%, 0.212);
+  background: hsla(33, 100%, 50%, 0.055);
   color: #fd8c00;
   width: max-content;
   padding: 0.4rem 1rem;
+  font-size: 25px;
   margin: auto;
   margin-top: 1rem;
   margin-bottom: 1rem;
   border-radius: 50px;
+  font-weight: 900;
 }
 .gentback {
   color: #fd8c00;

@@ -69,11 +69,14 @@ const Footer = () => {
             <div className="scoialswrap">
               <h4 className="footer-title">Socials</h4>
               <div className="footer-socialwrapper">
-              <a target="_blank" href="https://web.facebook.com/MolecularTechHQ">
-                <span>
-                  <img src={facebook} alt="img" />
-                </span>
-              </a>
+                <a
+                  target="_blank"
+                  href="https://web.facebook.com/MolecularTechHQ"
+                >
+                  <span>
+                    <img src={facebook} alt="img" />
+                  </span>
+                </a>
                 <a
                   target="_blank"
                   href="https://www.instagram.com/moleculartechhq/"
@@ -85,10 +88,13 @@ const Footer = () => {
                 {/* <span>
                   <img src={twitter} alt="img" />
                 </span> */}
-                <a target="_blank" href="https://www.linkedin.com/company/molecular-tech-services/about/">
+                <a
+                  target="_blank"
+                  href="https://www.linkedin.com/company/molecular-tech-services/about/"
+                >
                   <span>
                     <img src={linkedin} alt="img" />
-                   </span>
+                  </span>
                 </a>
               </div>
               <p className="footer-links">
@@ -103,7 +109,10 @@ const Footer = () => {
               ©2022 Molecular copyright, All rights Reserved.
             </div>
             <div className="terms">Terms & Conditions</div>
-            <div className="privacy">Privacy Policy</div>
+            <div className="privacy">
+              {" "}
+              <Link to="/privacy"> Privacy Policy</Link>
+            </div>
           </div>
         </Container>
       </div>

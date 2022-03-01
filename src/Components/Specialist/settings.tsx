@@ -11,7 +11,8 @@ import useravatar from "../../images/user-avatar.png";
 import formCaret from "../../images/caret.png";
 import { NavHashLink } from "react-router-hash-link";
 import StarRatingComponent from "react-star-rating-component";
-import camimg from "../../images/imagecam.png";
+import camimg from "../../images/imagecam.png"
+
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Axios, { AxiosResponse } from "axios";
@@ -126,11 +127,8 @@ const SpecialistSettings = () => {
       })
     }
   }
-
   reader.readAsDataURL(e.target.files[0]);
-
     console.log(photo)
-
   console.log(e.target.files[0]);
       // upload image to server; 
      const availableToken = localStorage.getItem("loggedInDetails");
@@ -157,7 +155,6 @@ const SpecialistSettings = () => {
        console.log(err.response)
        notify("failed to Upload Image")
      })
-
 };
   
   const switchTab = (a) => {

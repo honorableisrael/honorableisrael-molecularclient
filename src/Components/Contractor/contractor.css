@@ -2053,3 +2053,9 @@ a:active {
   position: relative;
   right: 2.8rem;
 }
+.portfolio2{
+  width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 50%;
+}
