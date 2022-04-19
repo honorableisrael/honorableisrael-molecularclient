@@ -64,6 +64,7 @@ const Admin_Invoice_details = (props) => {
     reason: "",
     isloading: false,
     work_order_detail: {},
+    pipe_breakdown: [],
     id: "",
     cycle_amount: "",
     MID: "GP0000001",
@@ -119,15 +120,19 @@ const Admin_Invoice_details = (props) => {
         axios.get(`${API}/contractor`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }),
+        axios.get(`${API}/contractor/work-orders/${work_order_details?.id}`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
       ])
       .then(
-        axios.spread((res2, res3) => {
+        axios.spread((res2, res3, res4) => {
           console.log(res3.data.data);
           setState({
             ...state,
-            work_order_detail: res2.data.data.work_order,
+            work_order_detail: res4.data.data,
             invoice_details: res2.data.data,
             user_details: res3.data.data,
+            pipe_breakdown: res4.data.data.pipe_configs,
           });
         })
       )
@@ -189,7 +194,7 @@ const Admin_Invoice_details = (props) => {
       email: user_details?.contractor?.email,
       firstname: user_details?.contractor?.first_name,
       lastname: user_details?.contractor?.last_name,
-      customer_txnref:x,
+      customer_txnref: x,
       description: "Cycle payment",
       title: "",
       amount: cycle_amount,
@@ -199,10 +204,10 @@ const Admin_Invoice_details = (props) => {
         notify("failed to complete payment");
       },
       callback: function (response) {
-        console.log(response)
+        console.log(response);
         notify(response.message);
-        if(response?.bank_message=="Approved"){
-          MakePayment()
+        if (response?.bank_message == "Approved") {
+          MakePayment();
         }
       },
     });
@@ -248,7 +253,7 @@ const Admin_Invoice_details = (props) => {
         console.log(err);
       });
   };
-  const get_payment_ref =()=>{
+  const get_payment_ref = () => {
     const token = contractorToken();
     setState({
       ...state,
@@ -256,17 +261,14 @@ const Admin_Invoice_details = (props) => {
     });
     axios
       .all([
-        axios.get(
-          `${API}/contractor/sub-invoices/${id}/pay`,
-          {
-            headers: { Authorization: `Bearer ${token.access_token}` },
-          }
-        ),
+        axios.get(`${API}/contractor/sub-invoices/${id}/pay`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data)
-          initPayment(res?.data?.data?.reference)
+          console.log(res.data);
+          initPayment(res?.data?.data?.reference);
           setTimeout(() => {
             setState({
               ...state,
@@ -286,13 +288,13 @@ const Admin_Invoice_details = (props) => {
         }
         console.log(err);
       });
-  }
+  };
   const {
     project_purpose,
     country,
     work_order_description,
     work_order_detail,
-    order_title,
+    pipe_breakdown,
     u_id,
     user_details,
     isloading,
@@ -302,7 +304,7 @@ const Admin_Invoice_details = (props) => {
     show,
     cycle_amount,
   } = state;
-  console.log(MID);
+  console.log(work_order_detail);
   return (
     <>
       <Modal
@@ -405,7 +407,7 @@ const Admin_Invoice_details = (props) => {
           </Row>
         </Modal.Body>
       </Modal>
-      <Container fluid={true} className="dasbwr">
+      <Container fluid={true} className="dasbwr tainer3">
         <Helmet>
           <meta charSet="utf-8" />
           <title>Molecular - Contractor Work Order</title>
@@ -415,7 +417,7 @@ const Admin_Invoice_details = (props) => {
           <DashboardNav />
           <div id="overview"></div>
         </Row>
-        <Row className="rowt3 row3t2">
+        <Row className="rowt3 row3t2 brt00">
           <Col md={11} className="job34">
             <div className="title_wo title_wo12 title_wo_ tbtom ttbom">
               <div className="workorderheader fixedtitle">
@@ -427,7 +429,7 @@ const Admin_Invoice_details = (props) => {
               </div>
             </div>
             <Row className="mgtop mgzero">
-              <Col md={12} className="">
+              <Col md={12} className="mgtop345">
                 <div className="job23_1a hidden__1">
                   <div className="">
                     <div className="overview12 overviewflex-down">
@@ -485,9 +487,13 @@ const Admin_Invoice_details = (props) => {
                             </div>
                             <div className="rcomponent">
                               <img src={logo} alt="" className="Simage" />
-                              <div className="Stext2">
-                                {invoice_details?.company_address ?? "n/a"}
-                              </div>
+                              <div
+                                className="Stext2"
+                                dangerouslySetInnerHTML={{
+                                  __html:
+                                    invoice_details?.company_address ?? "n/a",
+                                }}
+                              ></div>
                             </div>
                           </div>
                           <hr />
@@ -578,6 +584,14 @@ const Admin_Invoice_details = (props) => {
                                 ))}
                               </tbody>
                             </Table>
+                            <div className="gtotal">
+                              <span>Grand total</span>
+                              <span>
+                                {FormatAmount(
+                                  work_order_detail?.costing?.contractor_cost
+                                )}
+                              </span>
+                            </div>
                             <div className="text-right mgg2"></div>
                           </div>
                         </div>
@@ -606,6 +620,164 @@ const Admin_Invoice_details = (props) => {
                     </div>
                   </div>
                 </div>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+        <Row className="row3456 row3t2 rowt3">
+          <Col md={12}>
+            <div
+              className="accordion accordion-flush"
+              id="accordionFlushExample"
+            >
+              <div className="accordion-item">
+                <h2 className="accordion-header" id="flush-headingThree">
+                  <button
+                    className="accordion-button collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#flush-collapseThree"
+                    aria-expanded="false"
+                    aria-controls="flush-collapseThree"
+                  >
+                   <b>Project Description</b>
+                  </button>
+                </h2>
+                <div
+                  id="flush-collapseThree"
+                  className="accordion-collapse collapse show"
+                  aria-labelledby="flush-headingThree"
+                  data-bs-parent="#accordionFlushExample"
+                >
+                  <div className="accordion-body">
+                    <p>
+                      {work_order_detail?.description}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="accordion-item">
+                <h2 className="accordion-header" id="flush-headingOne">
+                  <button
+                    className="accordion-button collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#flush-collapseOne"
+                    aria-expanded="true"
+                    aria-controls="flush-collapseOne"
+                  >
+                  <b>  PIPELINE WELDING BREAKDOWN</b>
+                  </button>
+                </h2>
+                <div
+                  id="flush-collapseOne"
+                  className="accordion-collapse collapse show"
+                  aria-labelledby="flush-headingOne"
+                  data-bs-parent="#accordionFlushExample"
+                >
+                  <div className="accordion-body">
+                    <Table hover responsive>
+                      <thead>
+                        <tr>
+                          <th>Pipe Size</th>
+                          <th>Length</th>
+                          <th>Pipe Schedule</th>
+                          <th>Number of Joints</th>
+                          <th>Cost Per Joint (NGN)</th>
+                          <th>Total Amount (NGN)</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {pipe_breakdown?.map((data: any, i) => (
+                          <tr key={i}>
+                            <td >
+                              {data?.size}
+                            </td>
+                            <td>{FormatAmount(data?.length)}</td>
+                            <td>{FormatAmount(data?.pipe_schedule) ?? "n/a"}</td>
+                            <td>{FormatAmount(data?.joints)}</td>
+                            <td>{FormatAmount(data?.cost_per_joint??"n/a")}</td>
+                            <td>{FormatAmount(data?.contractor_cost)??"n/a"}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </Table>
+                    <div className="gtotal">
+                      <span>
+                        Grand total
+                      </span>
+                      <span>
+                        {FormatAmount((work_order_detail?.costing?.contractor_cost))}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="accordion-item">
+                <h2 className="accordion-header" id="flush-headingTwo">
+                  <button
+                    className="accordion-button collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#flush-collapseTwo"
+                    aria-expanded="false"
+                    aria-controls="flush-collapseTwo"
+                  >
+                  <b>  LIST OF COST EXCLUSIONS</b>
+                  </button>
+                </h2>
+                <div
+                  id="flush-collapseTwo"
+                  className="accordion-collapse collapse show"
+                  aria-labelledby="flush-headingTwo"
+                  data-bs-parent="#accordionFlushExample"
+                >
+                  <div className="accordion-body">
+                    <p>
+                      <ul>
+                        <li>
+                          {" "}
+                          All welding consumables and accessories etc.
+                          Consumables such as electrodes, grinding disks, fuel
+                          and power.
+                        </li>
+                        <li>
+                          {" "}
+                          All welding equipments and accessories etc. Equipments
+                          such as welding machines, grinding machines, vehicles
+                          conveying all equipment etc
+                        </li>
+                        <li>
+                          Helpers and other ancillary workers. This Proforma
+                          does NOT cover helpers or electricians and
+                          construction subordinate workers etc.
+                        </li>
+                      </ul>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Col>
+        </Row>
+        <Row className="invoicefooter">
+          <Col md={12}>
+            <h5>Conditions</h5>
+            <p>The Profoma Invoice is based on COST PER JOINT and covers:</p>
+            <Row>
+              <Col md={6}>
+                <p>
+                  (1.) Total Welding & Fitting Specialists Spreads (Labour) Cost
+                  (2 Spread i.e 12 Welding Specialists & 4 Fitting Specialists,
+                  16 Technical Specialists in all)
+                </p>
+              </Col>
+              <Col md={6}>
+                <p>
+                  (2.) Per diem per day (Daily Feeding, Daily Accomomdation,
+                  Milk, Soap, Daily Bottled water provision allowances). Other
+                  general welfare and Quality Assurance costs
+                </p>
               </Col>
             </Row>
           </Col>

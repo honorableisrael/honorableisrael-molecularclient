@@ -47,7 +47,7 @@ const DashboardNav = withRouter((props) => {
         console.log(err);
       });
   }, []);
-  // console.log(user_details);
+  console.log(user_details);
   return (
     <div className="fixfdnav">
       <div className="navwrap nav__wrap navwrap_cont">
@@ -129,14 +129,16 @@ const DashboardNav = withRouter((props) => {
                 </Link>
               </div>
               <span className="lfff">
-                {capitalize(user_details?.first_name?.split("")[0])}
-                {capitalize(user_details?.last_name?.split("")[0])}
+                { <img src={user_details?.industry_icon } className="udetails" alt="" /> ?? (
+                  <>
+                    {capitalize(user_details?.first_name?.split("")[0])}
+                    {capitalize(user_details?.last_name?.split("")[0])}
+                  </>
+                )}
               </span>
               <Dropdown.Toggle id="dropdown-basic" className="usernavdrpdwn" />
               <Dropdown.Menu className="animated fadeIn">
-                <Dropdown.Item
-                  className="animated fadeInLeft"
-                >
+                <Dropdown.Item className="animated fadeInLeft">
                   <Link to="/contractor_profile">Profile</Link>
                 </Dropdown.Item>
                 <Dropdown.Item className="animated fadeInLeft">
@@ -294,9 +296,7 @@ const DashboardNav = withRouter((props) => {
                   {isloading && <Spinner animation="grow" />}
                 </Dropdown.Item>
                 {/* <Dropdown.Item href="#/action-1"><Link to="/user-profile">Settings</Link></Dropdown.Item> */}
-                <Dropdown.Item
-                  className="animated fadeInLeft"
-                >
+                <Dropdown.Item className="animated fadeInLeft">
                   {/* <img src={exit} className="exit" /> Log out */}
                 </Dropdown.Item>
               </Dropdown.Menu>

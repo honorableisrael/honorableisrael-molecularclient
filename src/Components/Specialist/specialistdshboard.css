@@ -378,6 +378,10 @@
   display: inline-block;
   color: #038500;
   margin-left: 5px;
+  position: relative;
+  right: 1.7rem;
+  font-weight: 800;
+  font-size: 18px;
 }
 .pendinwrap {
   background-color: rgba(253, 140, 0, 0.1);
@@ -834,6 +838,7 @@ input:checked + .slider::before {
   letter-spacing: 0.04em;
   color: #333333;
   margin: 32px 0px 15px;
+  margin-left: 2rem;
 }
 .invoiceexclm {
   font-size: 21px;
@@ -1021,4 +1026,11 @@ input:checked + .slider::before {
     .dshbdhome{
         padding-bottom: 31rem;
     }
+}
+
+
+.po912{
+  color:#fd8c00 !important;
+  background: none !important;
+  padding-right: 1rem;
 }

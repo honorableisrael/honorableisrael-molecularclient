@@ -44,7 +44,7 @@ const Password_Reset = (props) => {
       .then((res) => {
         console.log(res.data);
         setTimeout(() => {
-          window.location.assign("/signin");
+          return window.location.assign("/#/signin");
         }, 3000);
         setState({
           ...state,

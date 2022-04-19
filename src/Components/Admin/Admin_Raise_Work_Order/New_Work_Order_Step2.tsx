@@ -63,14 +63,14 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
       pipe_name: new_obj.name,
     });
   };
-  const onchange_pipesize = (e) => {
+  const onchange_pipesize = (e) => { 
     // if (e.target.name == "pipe_type") {
     const new_obj = JSON.parse(e.target.value);
     console.log(new_obj);
     setState({
       ...state,
       size_value: new_obj.name,
-      pipe_size: new_obj.id,
+      pipe_size: new_obj.name,
     });
   };
   const onchange_Area_Of_Specialization = (e) => {

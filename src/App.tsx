@@ -63,7 +63,9 @@ import ScheduledPayments from "./Components/Admin/scheduledpayments";
 import SignIn from "./Components/Sign_in/signin";
 import AdminSpecialistSettings from "./Components/Admin/Specailist_Settings/specialist_settings";
 import Password_Reset from "./Components/Sign_in/password_reset";
-import Privacy from './Components/Landing_page/Privacy';
+import Privacy from "./Components/Landing_page/Privacy";
+import AdminProfile from "./Components/Admin/ContractorProfile/ProfileSettings";
+import AdminSettingManagment from "./Components/Admin/admin_setting_management";
 
 const App: any = ({ history }) => {
   return (
@@ -150,7 +152,8 @@ const App: any = ({ history }) => {
               />
               <Route path="/admin_dashboard" component={AdminDashboard} />
               <Route path="/scheduled_payments" component={ScheduledPayments} />
-              <Route path="/contractor_list" component={ListOfContractor} />
+              <Route path="/admin/settings" component={AdminProfile} />
+
               <Route
                 path="/contractor_onboarding"
                 component={ContractorOnboarding}
@@ -177,6 +180,13 @@ const App: any = ({ history }) => {
                 path="/admin_payment_invoice"
                 component={Admin_Payment_Invoice}
               />
+
+              <Route path="/contractor_list" component={ListOfContractor} />
+              <Route
+                path="/pipe_schedule_management"
+                component={AdminSettingManagment}
+              />
+
               <Route
                 path="/admin_evaluation_step4"
                 component={AdminWorkOrderEvaluationStep4}
@@ -236,11 +246,7 @@ const App: any = ({ history }) => {
                 path="/Specialist_Payment_Invoice/:id"
                 component={Specialist_Payment_Invoice}
               />
-                <Route
-                exact={true}
-                path="/privacy"
-                component={Privacy}
-              />
+              <Route exact={true} path="/privacy" component={Privacy} />
               <Route path="/signin" exact={true} component={SignIn} />
               <Route
                 path="/forgot_password"

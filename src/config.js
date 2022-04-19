@@ -1,7 +1,7 @@
 import { ToastContainer, toast } from "react-toastify";
 const moment = require("moment");
 // Molecular Production API
-export const API = "https://api.molecularpro.co/api/v1";
+export const API = "https://staging-api.molecularpro.co/api/v1";
 // const live API = "https://api.molecularpro.co/api/v1"
 // staging https://staging-api.molecularpro.co/api/v1
 export const MID = "GP_leAoQ8M1QPNbEowD5x9TWHCdIE0NlDdB";
@@ -26,7 +26,7 @@ export const reloadPage = () => {
 }
 
 export const FormatAmount = (amount) => {
-  return amount?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return amount?.toString()?.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 export const ageCalculator = (dateString) => {
   if (dateString) {

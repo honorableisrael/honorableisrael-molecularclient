@@ -4,6 +4,9 @@ import "./contractor.css";
 import DashboardNav from "./navbar";
 import portfolio from "../../images/portfolio.png";
 import group2 from "../../images/group2.png";
+import email2 from "../../assets/email.png";
+import Phone_icon from "../../assets/Phone_icon.png";
+
 import Slider from "react-rangeslider";
 import "react-rangeslider/lib/index.css";
 import { Helmet } from "react-helmet";
@@ -84,21 +87,21 @@ const WorkOrderCards = (props) => {
           </div>
           <div className="minicardwrapper">
             <div className="content24">
-              <img src={group2} alt="cotn23" className="cotn232" />
+              <img src={props?.contractor?.industry_icon??group2} alt="cotn23" className="cotn232" />
               <div className="spcclst12">
                 <div className="spcclst1">Industry</div>
                 <div className="spcclst">{props?.contractor?.industry}</div>
               </div>
             </div>
             <div className="content24">
-              <img src={group2} alt="cotn23" className="cotn232" />
+              <img src={Phone_icon} alt="cotn23" className="cotn232" />
               <div className="spcclst12">
                 <div className="spcclst1">Contact Phone</div>
                 <div className="spcclst">{props?.contractor?.contractor?.phone??"n/a"}</div>
               </div>
             </div>
             <div className="content24">
-              <img src={group2} alt="cotn23" className="cotn232" />
+              <img src={email2} alt="cotn23" className="cotn232" />
               <div className="spcclst12">
                 <div className="spcclst1">Contact Email</div>
                 <div className="spcclst"><a href={`mailto:${props?.contractor?.contractor?.email??"n/a"}`}>{props?.contractor?.contractor?.email??"n/a"}</a></div>

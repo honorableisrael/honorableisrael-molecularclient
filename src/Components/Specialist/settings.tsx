@@ -1,4 +1,4 @@
-import   React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Col, Row, Container, Form, Modal } from "react-bootstrap";
 import "../Contractor/contractor.css";
 import DashboardNav from "./specialistNavbar";
@@ -11,7 +11,7 @@ import useravatar from "../../images/user-avatar.png";
 import formCaret from "../../images/caret.png";
 import { NavHashLink } from "react-router-hash-link";
 import StarRatingComponent from "react-star-rating-component";
-import camimg from "../../images/imagecam.png"
+import camimg from "../../images/imagecam.png";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -22,7 +22,7 @@ import Certification from "./specialistCertification";
 import Qualification from "./specialistQualification";
 import exclam from "../../images/exclammark.png";
 import SplstBankDetails from "./splstBankDetails";
-
+import { DividerProps } from "@mui/material";
 
 const SpecialistSettings = () => {
   useEffect(() => {
@@ -34,16 +34,20 @@ const SpecialistSettings = () => {
     secondtab: false,
     thirdtab: false,
     fourthtab: false,
-    fifthtab:false,
+    fifthtab: false,
     show: false,
     user: "",
-    userExperience:"",
+    current_password: "",
+    new_password: "",
+    confirm_password: "",
+    userExperience: "",
     email: "",
     city: "",
     address: "",
     experience: "",
-    description:"",
+    description: "",
     bio: "",
+    limit: "",
     messageModal: true,
     viewPopup: false,
     reason: "",
@@ -61,9 +65,12 @@ const SpecialistSettings = () => {
     verified: false,
     unverified: false,
     status: "",
-    year:"",
-    total_works:  null,
+    year: "",
+    total_works: null,
     fourthtabInactive: "",
+    coverall_size: "",
+    coverall_sizes: [],
+    sixthtab: false,
     available: false,
     is_available: false,
     errorMessage: false,
@@ -75,17 +82,23 @@ const SpecialistSettings = () => {
     secondtab,
     thirdtab,
     fourthtabInactive,
+    coverall_sizes,
     fourthtab,
     fifthtab,
     total_works,
+    current_password,
+    new_password,
+    confirm_password,
     status,
-    verified,
+    sixthtab,
     is_available,
+    verified,
     available,
     unverified,
     photo,
     skill_id,
     messageModal,
+    coverall_size,
     email,
     viewPopup,
     show,
@@ -95,6 +108,7 @@ const SpecialistSettings = () => {
     address,
     phone,
     dob,
+    limit,
     experience,
     bio,
     rating,
@@ -106,57 +120,65 @@ const SpecialistSettings = () => {
     successMessage,
   }: any = state;
   const onchange = (e) => {
-    console.log(e.target.value);
+    if (e.target.name == "bio" && bio.split("").length == 150) {
+      return setState({
+        ...state,
+        limit: "true",
+        [e.target.name]: e.target.value,
+      });
+    }
     setState({
       ...state,
       [e.target.name]: e.target.value,
+      limit: "",
     });
   };
-  const hiddenFileInput: any= useRef();
-  const handleClick = event => {
+  const hiddenFileInput: any = useRef();
+  const handleClick = (event) => {
     hiddenFileInput.current.click();
   };
 
- const handleImageChange = (e) => {
-  const reader: any= new FileReader();
-  reader.onload =()=>{
-    if(reader.readyState === 2){
-      setState({
-        ...state,
-        photo: reader.result,
+  const handleImageChange = (e) => {
+    const reader: any = new FileReader();
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        setState({
+          ...state,
+          photo: reader.result,
+        });
+      }
+    };
+    reader.readAsDataURL(e.target.files[0]);
+    console.log(photo);
+    console.log(e.target.files[0]);
+    // upload image to server;
+    const availableToken = localStorage.getItem("loggedInDetails");
+    console.log(availableToken);
+    const token = availableToken ? JSON.parse(availableToken) : "";
+    console.log(token);
+    const imageData = new FormData();
+    imageData.append("image", e.target.files[0]);
+    console.log(imageData);
+    axios
+      .post(`${API}/photo`, imageData, {
+        headers: {
+          Authorization: `Bearer ${token.access_token}`,
+          Accept: "application/json",
+          "Content-Type": "multipart/form-data",
+        },
       })
-    }
-  }
-  reader.readAsDataURL(e.target.files[0]);
-    console.log(photo)
-  console.log(e.target.files[0]);
-      // upload image to server; 
-     const availableToken = localStorage.getItem("loggedInDetails");
-     console.log(availableToken);
-     const token = availableToken ? JSON.parse(availableToken) : "";
-     console.log(token);
-      const imageData = new FormData()
-      imageData.append("image" , e.target.files[0]);
-     console.log(imageData);
-     axios.post(`${API}/photo`,imageData, {
-       headers: {
-         Authorization: `Bearer ${token.access_token}`,
-         Accept: "application/json",
-         "Content-Type": "multipart/form-data",
-       },
-     })
-     .then((res)=>{
-       console.log(res.data);
-       setTimeout(()=>{
-          notify("image uploaded Successfully")
-       },1000)
-     })
-     .catch((err)=>{
-       console.log(err.response)
-       notify("failed to Upload Image")
-     })
-};
-  
+      .then((res) => {
+        console.log(res.data);
+        setTimeout(() => {
+          notify("image uploaded Successfully");
+        }, 1000);
+      })
+      .catch((err) => {
+        console.log(err.response);
+        notify("failed to Upload Image");
+      });
+  };
+
   const switchTab = (a) => {
     if (a == "firsttab") {
       return setState({
@@ -165,7 +187,8 @@ const SpecialistSettings = () => {
         secondtab: false,
         thirdtab: false,
         fourthtab: false,
-        fifthtab: false
+        fifthtab: false,
+        sixthtab: false,
       });
     }
     if (a == "secondtab") {
@@ -175,7 +198,8 @@ const SpecialistSettings = () => {
         secondtab: true,
         thirdtab: false,
         fourthtab: false,
-        fifthtab: false
+        fifthtab: false,
+        sixthtab: false,
       });
     }
     if (a == "thirdtab") {
@@ -185,7 +209,8 @@ const SpecialistSettings = () => {
         secondtab: false,
         thirdtab: true,
         fourthtab: false,
-        fifthtab: false
+        fifthtab: false,
+        sixthtab: false,
       });
     }
     if (a == "fourthtab") {
@@ -195,7 +220,8 @@ const SpecialistSettings = () => {
         secondtab: false,
         thirdtab: false,
         fourthtab: true,
-        fifthtab: false
+        fifthtab: false,
+        sixthtab: false,
       });
     }
     if (a == "fifthtab") {
@@ -205,7 +231,19 @@ const SpecialistSettings = () => {
         secondtab: false,
         thirdtab: false,
         fourthtab: false,
-        fifthtab: true
+        fifthtab: true,
+        sixthtab: false,
+      });
+    }
+    if (a == "sixthtab") {
+      return setState({
+        ...state,
+        firsttab: false,
+        secondtab: false,
+        thirdtab: false,
+        fourthtab: false,
+        fifthtab: false,
+        sixthtab: true,
       });
     }
   };
@@ -223,6 +261,7 @@ const SpecialistSettings = () => {
       bio: bio,
       first_name,
       last_name,
+      coverall_size,
     };
     console.log(data);
     axios
@@ -242,7 +281,7 @@ const SpecialistSettings = () => {
             secondtab: true,
             thirdtab: false,
             fourthtab: false,
-            successMessage:res.data.message,
+            successMessage: res.data.message,
           });
         }, 2000);
         console.log(res);
@@ -252,11 +291,11 @@ const SpecialistSettings = () => {
           ...state,
           isloading: false,
           errorMessage: err?.response?.data?.message,
-        })
+        });
         notify("Failed to save", "D");
         console.log(err.response);
       });
-  } 
+  };
   const closeMessageModal = () => {
     setState({
       ...state,
@@ -269,14 +308,14 @@ const SpecialistSettings = () => {
       [name]: nextValue.toString(),
     });
   };
-  const notify = (message: string, type = "B") =>{
+  const notify = (message: string, type = "B") => {
     toast(message, { containerId: type, position: "top-right" });
-  }
-   useEffect(() => {
+  };
+  useEffect(() => {
     window.scrollTo(-0, -0);
     const availableToken = localStorage.getItem("loggedInDetails");
     console.log(availableToken);
-  
+
     const token = availableToken ? JSON.parse(availableToken) : "";
     console.log(token);
     Axios.all([
@@ -284,29 +323,32 @@ const SpecialistSettings = () => {
         headers: { Authorization: `Bearer ${token.access_token}` },
       }),
       Axios.get<any, AxiosResponse<any>>(`${API}/skills`),
+      Axios.get(`${API}/coverall-sizes`, {
+        headers: { Authorization: `Bearer ${token.access_token}` },
+      }),
     ])
       .then(
-        axios.spread((res,res2) => {
+        axios.spread((res, res2, res3) => {
           console.log(res.data);
-          console.log(res2.data);
-          const user= res.data.data;
+          console.log(res3.data.data);
+          const user = res.data.data;
           setState({
             ...state,
             ...res.data.data,
             user: res.data.data,
-            verified: user.status === "Active"? true: false,
-            unverified: user.status === "New"? true : false,
-            viewPopup: user.status === "Active"? false : true,
-            fourthtabInactive: user.status === "New" ? "inactivetab": "activetab",
+            coverall_sizes: res3.data.data,
+            verified: user.status === "Active" ? true : false,
+            unverified: user.status === "New" ? true : false,
+            viewPopup: user.status === "Active" ? false : true,
+            fourthtabInactive:
+              user.status === "New" ? "inactivetab" : "activetab",
           });
         })
       )
       .catch((err) => {
         console.log(err.response);
       });
-    
   }, []);
-
 
   const third_tab = () => {
     // const availableToken = localStorage.getItem("loggedInDetails");
@@ -316,8 +358,8 @@ const SpecialistSettings = () => {
     // const data1 = {
     //   skill_id
     // };
-    // console.log(skill_id)   
-  
+    // console.log(skill_id)
+
     // Axios.all([
     //   Axios.post(`${API}/specialist/skills`, data1, {
     //     headers: { Authorization: `Bearer ${token.access_token}` },
@@ -325,23 +367,23 @@ const SpecialistSettings = () => {
     // ])
     //   .then(
     //     axios.spread((response) => {
-          
-          setState({
-            ...state,
-            firsttab: false,
-            secondtab: false,
-            thirdtab: true,
-            fourthtab: false,
-          });
-      //     notify("Successful");
-      //   })
-      // )
-      // .catch((err) => {
-      //   console.log(err.response);
-      //   notify("Failed to save", "D");
-      // });
+
+    setState({
+      ...state,
+      firsttab: false,
+      secondtab: false,
+      thirdtab: true,
+      fourthtab: false,
+    });
+    //     notify("Successful");
+    //   })
+    // )
+    // .catch((err) => {
+    //   console.log(err.response);
+    //   notify("Failed to save", "D");
+    // });
   };
-  
+
   const deactivateAccount = () => {
     const availableToken = localStorage.getItem("loggedInDetails");
     console.log(availableToken);
@@ -350,87 +392,124 @@ const SpecialistSettings = () => {
     setState({
       ...state,
       isloading: true,
-    })
-    let config = { 
+    });
+    let config = {
       headers: {
-          Authorization: `Bearer ${token.access_token}`
+        Authorization: `Bearer ${token.access_token}`,
       },
-      data: { 
-          reason,
-      } 
-  }
-    console.log(reason)   
-  
-      Axios.delete(`${API}/specialist/deactivate`, config )
+      data: {
+        reason,
+      },
+    };
+    console.log(reason);
+
+    Axios.delete(`${API}/specialist/deactivate`, config)
       .then((response) => {
-          console.log(response.data)
-          notify("specialist account was successfully deactivated ");
-          setState({
-            ...state,
-            isloading: false,
-          })
-        })
+        console.log(response.data);
+        notify("specialist account was successfully deactivated ");
+        setState({
+          ...state,
+          isloading: false,
+        });
+      })
       .catch((err) => {
         console.log(err.response);
         setState({
           ...state,
           isloading: false,
-        })
+        });
         notify("Failed to Deactivate", "D");
       });
   };
- const toggleAvailbility = ()=>{
-   setState({
-     ...state,
-     available: !available
-   })
-   console.log(available)
-   //post to API
-   const availableToken = localStorage.getItem("loggedInDetails");
-   console.log(availableToken);
-   const token = availableToken ? JSON.parse(availableToken) : "";
-   console.log(token);
-  const data ={
-      status: !available
-   }
-   Axios.post(`${API}/specialist/availability`, data, {
-    headers: { Authorization: `Bearer ${token.access_token}` },
-  }) 
-   .then((response) => {
-       console.log(response.data)
-       notify(" availability status changed successfully ");
-       setState({
-         ...state,
-         isloading: false,
-       available: !available,
-       successMessage:response.data.message,
-       })
-     })
-   .catch((err) => {
-     console.log(err.response);
-     setState({
-       ...state,
-       isloading: false,
-       errorMessage: err?.response?.data?.message,
-     })
-     notify("Failed to change status", "D");
-   });
-}
-const toggleErrormessageClose =()=>{
-  setState({
-    ...state,
-    errorMessage: false,
-    successMessage:false,
-  })
-}
-const fieldRef: any = useRef();
+
+  const toggleAvailbility = () => {
+    setState({
+      ...state,
+      available: !available,
+    });
+    console.log(available);
+    //post to API
+    const availableToken = localStorage.getItem("loggedInDetails");
+    console.log(availableToken);
+    const token = availableToken ? JSON.parse(availableToken) : "";
+    console.log(token);
+    const data = {
+      status: !available,
+    };
+    Axios.post(`${API}/specialist/availability`, data, {
+      headers: { Authorization: `Bearer ${token.access_token}` },
+    })
+      .then((response) => {
+        console.log(response.data);
+        notify(" availability status changed successfully ");
+        setState({
+          ...state,
+          isloading: false,
+          available: !available,
+          successMessage: response.data.message,
+        });
+      })
+      .catch((err) => {
+        console.log(err.response);
+        setState({
+          ...state,
+          isloading: false,
+          errorMessage: err?.response?.data?.message,
+        });
+        notify("Failed to change status", "D");
+      });
+  };
+
+  const toggleErrormessageClose = () => {
+    setState({
+      ...state,
+      errorMessage: false,
+      successMessage: false,
+    });
+  };
+  const SubmitPassword = () => {
+    const data = {
+      old_password: current_password,
+      password: new_password,
+      password_confirmation: confirm_password,
+    };
+    const availableToken = localStorage.getItem("loggedInDetails");
+    console.log(availableToken);
+
+    const token = availableToken ? JSON.parse(availableToken) : "";
+    setState({
+      ...state,
+      isloading: true,
+    });
+    axios
+      .post(`${API}/password`, data, {
+        headers: { Authorization: `Bearer ${token.access_token}` },
+      })
+      .then((res) => {
+        console.log(res);
+        notify("Update successful");
+        setState({
+          ...state,
+          isloading: false,
+        });
+      })
+      .catch((err) => {
+        notify("Update failed", "D");
+        setState({
+          ...state,
+          isloading: false,
+        });
+      });
+  };
+  const fieldRef: any = useRef();
   useEffect(() => {
-    if (errorMessage || successMessage && fieldRef) {
+    if (errorMessage || (successMessage && fieldRef)) {
       fieldRef.current.scrollIntoView({
-        behavior: "smooth"
+        behavior: "smooth",
       });
     }
   }, [errorMessage, successMessage]);
+  console.log(coverall_sizes);
   return (
     <>
       <Container fluid={true}>
@@ -467,31 +546,40 @@ const fieldRef: any = useRef();
               </Modal>
               <div className="settings11">
                 <div className="titleprofile1">Settings</div>
-                {errorMessage &&(
-              <div className="wrktimelinediv" >
-                <img src={exclam} alt="img" />
-                <p>{errorMessage}</p>
-                <div className="terminateworkmodalimg" onClick={toggleErrormessageClose}>
-                  <i className="fa fa-times" ></i>
-                </div>
-              </div>
-             )}
-               {successMessage &&(
-              <div className="wrktimelinediv" >
-                <img src={exclam} alt="img" />
-                <p>{successMessage}</p>
-                <div className="terminateworkmodalimg" onClick={toggleErrormessageClose}>
-                  <i className="fa fa-times" ></i>
-                </div>
-              </div>
-             )}
+                {errorMessage && (
+                  <div className="wrktimelinediv">
+                    <img src={exclam} alt="img" />
+                    <p>{errorMessage}</p>
+                    <div
+                      className="terminateworkmodalimg"
+                      onClick={toggleErrormessageClose}
+                    >
+                      <i className="fa fa-times"></i>
+                    </div>
+                  </div>
+                )}
+                {successMessage && (
+                  <div className="wrktimelinediv">
+                    <img src={exclam} alt="img" />
+                    <p>{successMessage}</p>
+                    <div
+                      className="terminateworkmodalimg"
+                      onClick={toggleErrormessageClose}
+                    >
+                      <i className="fa fa-times"></i>
+                    </div>
+                  </div>
+                )}
                 <div id="skilltab"></div>
                 <div id="experiencetab"></div>
                 <div className="setting1">
                   <div className="namestyle111">
                     <div>
                       <span className="spluserimg">
-                         <img src={photo !== null ? photo: useravatar} className="useravatar" /> 
+                        <img
+                          src={photo !== null ? photo : useravatar}
+                          className="useravatar"
+                        />
                       </span>
                       <div className="camdv">
                         <img
@@ -507,8 +595,10 @@ const fieldRef: any = useRef();
                         style={{ display: "none" }}
                         accept="image/*"
                         ref={hiddenFileInput}
-                        />
-                      <p className="upldtxt" onClick={handleClick}>Upload Picture</p>
+                      />
+                      <p className="upldtxt" onClick={handleClick}>
+                        Upload Picture
+                      </p>
                     </div>
                     <div className="home_pone12">
                       <div className="username">{user.first_name}</div>
@@ -528,22 +618,24 @@ const fieldRef: any = useRef();
                     <div>
                       <span className="num12a">{total_works}</span>
                     </div>
-                    {verified  &&( 
-                     <span className="splverifiduser">Verified user</span> 
+                    {verified && (
+                      <span className="splverifiduser">Verified user</span>
                     )}
-                    {unverified &&(
-                     <span className="splunverifieduser ">Unverified user</span>
+                    {unverified && (
+                      <span className="splunverifieduser ">
+                        Unverified user
+                      </span>
                     )}
                     <div>
-                      {available == false &&(<p>  Not Available : </p>)}
-                      {available == true &&(<p>   Available : </p>)} 
+                      {available == false && <p> Not Available : </p>}
+                      {available == true && <p> Available : </p>}
                       <label className="switch">
-                        <input 
-                         type="checkbox"  
-                         checked={available}
-                         onChange={toggleAvailbility}
-                         />
-                        <span className="slider"  />
+                        <input
+                          type="checkbox"
+                          checked={available}
+                          onChange={toggleAvailbility}
+                        />
+                        <span className="slider" />
                       </label>
                     </div>
                   </div>
@@ -577,7 +669,7 @@ const fieldRef: any = useRef();
                         className="Profile2002 Profile2002a inactivebordr"
                         onClick={() => switchTab("secondtab")}
                       >
-                       Skill and Experience
+                        Skill and Experience
                       </div>
                     )}
                     {thirdtab ? (
@@ -585,14 +677,14 @@ const fieldRef: any = useRef();
                         className="Profile2002 Profile2002a"
                         onClick={() => switchTab("thirdtab")}
                       >
-                       Qualifications
+                        Qualifications
                       </div>
                     ) : (
                       <div
                         className="Profile2002 Profile2002a inactivebordr"
                         onClick={() => switchTab("thirdtab")}
                       >
-                       Qualifications
+                        Qualifications
                       </div>
                     )}
                     {fifthtab ? (
@@ -607,7 +699,22 @@ const fieldRef: any = useRef();
                         className={`Profile2002 Profile2002a inactivebordr ${fourthtabInactive}`}
                         onClick={() => switchTab("fifthtab")}
                       >
-                         Bank Account Details
+                        Bank Account Details
+                      </div>
+                    )}
+                    {sixthtab ? (
+                      <div
+                        className="Profile2002 Profile2002a"
+                        onClick={() => switchTab("sixthtab")}
+                      >
+                        Password Change
+                      </div>
+                    ) : (
+                      <div
+                        className={`Profile2002 Profile2002a inactivebordr ${fourthtabInactive}`}
+                        onClick={() => switchTab("sixthtab")}
+                      >
+                        Password Change
                       </div>
                     )}
                     {fourthtab ? (
@@ -637,8 +744,8 @@ const fieldRef: any = useRef();
                             </h6>
                             <Form.Control
                               className="userfield"
-                              name="firstName"
-                              value={user.first_name}
+                              name="first_name"
+                              value={first_name}
                               onChange={onchange}
                             />
                           </Form.Group>
@@ -650,9 +757,9 @@ const fieldRef: any = useRef();
                             </h6>
                             <Form.Control
                               type="text"
-                              name="lastName"
+                              name="last_name"
                               className="userfield"
-                              value={user.last_name}
+                              value={last_name}
                               onChange={onchange}
                               placeholder=""
                             />
@@ -709,7 +816,7 @@ const fieldRef: any = useRef();
                         <Col md={12} className="formsection1">
                           <Form.Group>
                             <h6 className="userprofile userprofile12">
-                              Home Address
+                              Address
                             </h6>
                             <Form.Control
                               type="text-area"
@@ -752,16 +859,43 @@ const fieldRef: any = useRef();
                         <Col md={12} className="formsection1">
                           <Form.Group>
                             <h6 className="userprofile userprofile12">
-                              About yourself (Optional)
+                              Tell us about yourself (Optional){" "}
                             </h6>
                             <Form.Control
                               type="text"
                               name="bio"
                               value={bio}
-                              className="userfield"
+                              className="userfield formcontrol"
                               onChange={onchange}
+                              maxLength={200}
                             />
                           </Form.Group>
+                          <div className="textgrn text-right">
+                            <small>
+                              {limit && "character limit is fixed at 200"}
+                            </small>
+                          </div>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col md={12} className="profpriski">
+                          <h6 className="userprofile userprofile12">Coverall Size</h6>
+                          <select
+                            className="forminput profsettinformselect form-control"
+                            required
+                            name="coverall_size"
+                            onChange={onchange}
+                          >
+                            <option>{coverall_size ?? "choose one"}</option>
+                            {coverall_sizes?.map((data, i) => (
+                              <option
+                                value={data.name}
+                                className="profsettinformselect"
+                              >
+                                {data.name}
+                              </option>
+                            ))}
+                          </select>
                         </Col>
                       </Row>
                       <Row>
@@ -771,7 +905,7 @@ const fieldRef: any = useRef();
                               className="job31"
                               onClick={() => submitProfile()}
                             >
-                              Next
+                              Save
                             </div>
                           </NavHashLink>
                         </Col>
@@ -783,9 +917,7 @@ const fieldRef: any = useRef();
                     <div>
                       <Row className="section_form1">
                         <Col md={12} className="profpriski">
-                          <h6 className="profillabels">
-                            Primary skill
-                          </h6>
+                          <h6 className="profillabels">Primary skill</h6>
                           <select
                             className="forminput profsettinformselect form-control"
                             required
@@ -839,20 +971,17 @@ const fieldRef: any = useRef();
                         </Col>
                       </Row> */}
                       <Row className="section_form1">
-                      <Col md={12}>
-                         <Experience/>
-                          </Col>
-                          <Col md={12}>
-                          <Projects/>
-                          </Col>
+                        <Col md={12}>
+                          <Experience />
+                        </Col>
+                        <Col md={12}>
+                          <Projects />
+                        </Col>
                       </Row>
                       <Row>
                         <Col md={12}>
                           <NavHashLink to="#experiencetab">
-                            <div
-                              className="job31"
-                              onClick={third_tab}
-                            >
+                            <div className="job31" onClick={third_tab}>
                               Next
                             </div>
                           </NavHashLink>
@@ -866,11 +995,11 @@ const fieldRef: any = useRef();
                     <div>
                       <Row className="section_form1">
                         <Col md={12}>
-                         <Qualification/>
-                       </Col> 
+                          <Qualification />
+                        </Col>
                       </Row>
                       <div className="sectndivider"></div>
-                      <Certification/>
+                      <Certification />
                       {/* <Row>
                         <Col md={12}>
                           <div className="job31" onClick={post_qualification_and_experience}>
@@ -878,8 +1007,8 @@ const fieldRef: any = useRef();
                           </div>
                         </Col>
                       </Row> */}
-                  </div>
-                  )}  
+                    </div>
+                  )}
                   {/* Third Tab ends*/}
                   {fourthtab && (
                     <div>
@@ -904,22 +1033,89 @@ const fieldRef: any = useRef();
                               className="form-control"
                             ></textarea>
                           </Form.Group>
-                          <span className="wrkmodal-declinebtn deactivebtn" onClick={deactivateAccount}>
-                               {!isloading ? "Deactivate" : "Deactivating..."}
+                          <span
+                            className="wrkmodal-declinebtn deactivebtn"
+                            onClick={deactivateAccount}
+                          >
+                            {!isloading ? "Deactivate" : "Deactivating..."}
                           </span>
                         </Col>
                       </Row>
                     </div>
                   )}
                   {/* fifthtab  starts*/}
-                  {fifthtab &&(
-                      <div>
-                        <Row className="profileceriticatesectn">
+                  {fifthtab && (
+                    <div>
+                      <Row className="profileceriticatesectn">
                         <Col md={12}>
-                        <SplstBankDetails/>
-                       </Col> 
+                          <SplstBankDetails />
+                        </Col>
                       </Row>
-                      </div>
+                    </div>
+                  )}
+                  {sixthtab && (
+                    <>
+                      <Row className="section_form1">
+                        <Col md={12}>
+                          <h3 className="userprofile userprofile12 boldtext">
+                            Change Password
+                          </h3>
+                          <br></br>
+                        </Col>
+                        <Col md={4} className="formsection1">
+                          <Form.Group>
+                            <h6 className="userprofile userprofile12">
+                              Current Password
+                            </h6>
+                            <Form.Control
+                              type={"password"}
+                              className="userfield"
+                              name="current_password"
+                              value={current_password}
+                              onChange={onchange}
+                            />
+                          </Form.Group>
+                        </Col>
+                        <Col md={4} className="formsection1">
+                          <Form.Group>
+                            <h6 className="userprofile userprofile12">
+                              New Password{" "}
+                            </h6>
+                            <Form.Control
+                              type={"password"}
+                              className="userfield"
+                              name="new_password"
+                              value={new_password}
+                              onChange={onchange}
+                              placeholder=""
+                            />
+                          </Form.Group>
+                        </Col>
+                        <Col md={4} className="formsection1">
+                          <Form.Group>
+                            <h6 className="userprofile userprofile12">
+                              Confirm Password
+                            </h6>
+                            <Form.Control
+                              type={"password"}
+                              className="userfield"
+                              name="confirm_password"
+                              value={confirm_password}
+                              onChange={onchange}
+                            />
+                          </Form.Group>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col>
+                          <Col md={12}>
+                            <div className="job31" onClick={SubmitPassword}>
+                              {isloading ? "Submitting" : "Submit"}
+                            </div>
+                          </Col>
+                        </Col>
+                      </Row>
+                    </>
                   )}
                   {/* fifthtab  ends*/}
                   {/* <ProFileInfo /> */}

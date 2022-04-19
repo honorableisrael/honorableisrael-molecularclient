@@ -466,7 +466,7 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
                                 {invoice_details?.cycles?.map(
                                   (data, i) => (
                                     <tr className="tdata" key={i}>
-                                       <td>{FormatAmount(data?.specialist_cost)}</td>
+                                       <td>{FormatAmount(data?.amount)}</td>
                                       <td>{formatTime(data?.date)}</td>
                                       <td>{data?.status}</td>
                                       <td>{data?.cycle}</td>

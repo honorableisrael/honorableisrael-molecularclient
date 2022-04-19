@@ -246,7 +246,9 @@ const Work_Sheet = (props: any) => {
                     </a>
                   </div>
                   <div className="worksheetdate">{formatTime(data.date)}</div>
-                  <div className="upby">uploaded by <br /> {data.uploaded_by}</div>
+                  <div className="upby">
+                    uploaded by <br /> {data.uploaded_by}
+                  </div>
                   <div className="upby">
                     {" "}
                     <div>
@@ -295,8 +297,8 @@ const Upfront_payment = (props: any) => {
     upfront: [],
     work_id: "",
     reason: "",
-    show:false,
-    id:""
+    show: false,
+    id: "",
   });
   const content1: any = useRef();
   const toggleAccordion1 = () => {
@@ -376,10 +378,10 @@ const Upfront_payment = (props: any) => {
     setState({
       ...state,
       show: true,
-      id
+      id,
     });
   };
- 
+
   const declineUpfrontRequest = () => {
     setState({
       ...state,
@@ -425,11 +427,11 @@ const Upfront_payment = (props: any) => {
     work_id,
     reason,
     show,
-    id
+    id,
   } = state;
   return (
     <>
-    <Modal
+      <Modal
         size="lg"
         show={show}
         onHide={() =>
@@ -443,7 +445,7 @@ const Upfront_payment = (props: any) => {
       >
         <Modal.Header closeButton>
           <Modal.Title id="example-custom-modal-styling-title">
-            Reject 
+            Reject
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -462,8 +464,11 @@ const Upfront_payment = (props: any) => {
           </Row>
           <Row>
             <Col md={12} className="terminate2">
-              <div className="terminate1" onClick={(e) => declineUpfrontRequest()}>
-                {isloading?"Rejecting":"Reject"}
+              <div
+                className="terminate1"
+                onClick={(e) => declineUpfrontRequest()}
+              >
+                {isloading ? "Rejecting" : "Reject"}
               </div>
             </Col>
           </Row>
@@ -499,34 +504,35 @@ const Upfront_payment = (props: any) => {
                 </div>
                 <div className="tablecont1">
                   <div className="worksheetdw worksheetdate1"> </div>
-                  <div className="upby awaiting9">{current_currency}{FormatAmount(data.amount)}</div>
+                  <div className="upby awaiting9">
+                    {current_currency}
+                    {FormatAmount(data.amount)}
+                  </div>
                   <div className="upby awaiting9">
                     {" "}
-                    <div>
-                      {data.approved ? "Approved" : ""}
-                    </div>
+                    <div>{data.approved ? "Approved" : ""}</div>
                   </div>
                   <div className="upby accrjct">
-                    {data.status=="Paid" ? (
+                    {data.status == "Paid" ? (
                       "Paid"
-                    ) :
-                      data.status=="Declined"? "Declined":(
-                        <>
-                          <span
-                            className="raise_inv"
-                            onClick={() => approveUpfrontRequest(data.id)}
-                          >
-                            {isloading ? "Approving" : "Approve"}
-                          </span>
-                          <span
-                            className="raise_inv reje4"
-                            onClick={() => openModal(data.id)}
-                          >
-                            {"Decline"}
-                          </span>
-                        </>
-                      )
-                    }
+                    ) : data.status == "Declined" ? (
+                      "Declined"
+                    ) : (
+                      <>
+                        <span
+                          className="raise_inv"
+                          onClick={() => approveUpfrontRequest(data.id)}
+                        >
+                          {isloading ? "Approving" : "Approve"}
+                        </span>
+                        <span
+                          className="raise_inv reje4"
+                          onClick={() => openModal(data.id)}
+                        >
+                          {"Decline"}
+                        </span>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
@@ -668,10 +674,18 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
     active: "",
     active1: "",
     collapseHeight: "0px",
+    cost_show: false,
     chevron: "",
     chevron1: "",
     allAssignedSpecialist: [],
     work_sheet: [],
+    markup_percentage: "",
+    health_insurance_cost: "",
+    coverall_cost: "",
+    per_diem: "",
+    project_duration: "",
+    spreads: "",
+    professional_indemnity_insurance: "",
   });
   const onchange = (e) => {
     console.log(e.target.value);
@@ -708,7 +722,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
   const {
     assigned_specialists,
     country,
-    work_order_description,
+    cost_show,
     order_title,
     end_date,
     already_approved,
@@ -722,7 +736,13 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
     active,
     active1,
     collapseHeight,
-    chevron,
+    markup_percentage,
+    health_insurance_cost,
+    coverall_cost,
+    per_diem,
+    project_duration,
+    spreads,
+    professional_indemnity_insurance,
     chevron1,
     isloading,
   } = state;
@@ -795,6 +815,11 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
         setState({
           ...state,
           ...res.data.data,
+          ...res.data.data.costing,
+          health_insurance_cost:res?.data?.data?.costing?.health_insurance_per_specialist,
+          coverall_cost:res?.data?.data?.costing?.coverall_per_specialist,
+          per_diem:res?.data?.data?.costing?.per_diem_per_specialist,
+          project_duration:res?.data?.data?.costing?.duration_in_days,
           already_approved: urlkey ? true : false,
           work_order_detail: res.data.data,
           new_work: res.data.data.status == "New" ? true : false,
@@ -906,7 +931,59 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
       chevron: active === "active" ? "" : "arrowflip",
     });
   };
-
+  const modalShow1 = () => {
+    setState({
+      ...state,
+      cost_show: true,
+    });
+  };
+  const SendCost = () => {
+    const work_order = localStorage.getItem("work_order_details");
+    const work_order_details = work_order ? JSON.parse(work_order) : "";
+    setState({
+      ...state,
+      isloading: true,
+    });
+    const data = {
+      markup_percentage,
+      health_insurance_cost,
+      coverall_cost,
+      per_diem,
+      project_duration,
+      spreads,
+      professional_indemnity_insurance,
+    };
+    axios
+      .post(`${API}/admin/work-orders/${work_order_details?.id}/cost`, data, {
+        headers: {
+          Authorization: `Bearer ${returnAdminToken().access_token}`,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+        notify("successfully computed work order cost");
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+        setState({
+          ...state,
+          ...res.data.data,
+          isloading: false,
+        });
+      })
+      .catch((err) => {
+        if (err?.response?.status == 400) {
+          notify(err?.response?.data?.message);
+        }
+        notify("failed to process");
+        setState({
+          ...state,
+          isloading: false,
+        });
+        console.log(err);
+      });
+  };
+ 
   return (
     <>
       <Modal
@@ -945,6 +1022,166 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
               {/* <div className="terminate1" onClick={(e) => Reject_work_order()}>
                 Reject
               </div> */}
+            </Col>
+          </Row>
+        </Modal.Body>
+      </Modal>
+      <Modal
+        size="lg"
+        show={cost_show}
+        onHide={() =>
+          setState({
+            ...state,
+            cost_show: false,
+          })
+        }
+        dialogClassName="modal-90w"
+        className="mdl12"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="example-custom-modal-styling-title">
+            Cost Settings
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Row>
+            <Col md={6}>
+              <div className="pipelength pipelng">
+                <div className="pipelength1q">
+                  Markup Percentage <span className="text-danger">*</span>
+                </div>
+                <div className="">
+                  <input
+                    type="number"
+                    className=" form-control"
+                    placeholder=""
+                    name="markup_percentage"
+                    value={markup_percentage}
+                    onChange={onchange}
+                  />
+                </div>
+              </div>
+            </Col>
+            <Col md={6}>
+              <div className="pipelength pipelng">
+                <div className="pipelength1q">
+                  Health Insurance per Specialist{" "}
+                  <span className="text-danger">*</span>
+                </div>
+                <div className="">
+                  <input
+                    type="number"
+                    className=" form-control"
+                    placeholder=""
+                    name="health_insurance_cost"
+                    value={health_insurance_cost}
+                    onChange={onchange}
+                  />
+                </div>
+              </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={6}>
+              <div className="pipelength pipelng">
+                <div className="pipelength1q">
+                  Coverall per Specialist <span className="text-danger">*</span>
+                </div>
+                <div className="">
+                  <input
+                    type="number"
+                    className=" form-control"
+                    placeholder=""
+                    name="coverall_cost"
+                    value={coverall_cost}
+                    onChange={onchange}
+                  />
+                </div>
+              </div>
+            </Col>
+            <Col md={6}>
+              <div className="pipelength pipelng">
+                <div className="pipelength1q">
+                  Per Diem Per Specialist Per Day{" "}
+                  <span className="text-danger">*</span>
+                </div>
+                <div className="">
+                  <input
+                    type="number"
+                    className=" form-control"
+                    placeholder=""
+                    name="per_diem"
+                    value={per_diem}
+                    onChange={onchange}
+                  />
+                </div>
+              </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={6}>
+              <div className="pipelength pipelng">
+                <div className="pipelength1q">
+                  Project Duration (days) <span className="text-danger">*</span>
+                </div>
+                <div className="">
+                  <input
+                    type="number"
+                    className=" form-control"
+                    placeholder=""
+                    name="project_duration"
+                    value={project_duration}
+                    onChange={onchange}
+                  />
+                </div>
+              </div>
+            </Col>
+            <Col md={6}>
+              <div className="pipelength pipelng">
+                <div className="pipelength1q">
+                  Spreads <span className="text-danger">*</span>
+                </div>
+                <div className="">
+                  <input
+                    type="number"
+                    className=" form-control"
+                    placeholder=""
+                    name="spreads"
+                    value={spreads}
+                    onChange={onchange}
+                  />
+                </div>
+              </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={6}>
+              <div className="pipelength pipelng">
+                <div className="pipelength1q">
+                  Professional Indemnity Insurance Per Spread{" "}
+                  <span className="text-danger">*</span>
+                </div>
+                <div className="">
+                  <input
+                    type="number"
+                    className=" form-control"
+                    placeholder=""
+                    name="professional_indemnity_insurance"
+                    value={professional_indemnity_insurance}
+                    onChange={onchange}
+                  />
+                </div>
+              </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={12} className="terminate2">
+              <Button
+                className=" raise_inv computecost"
+                onClick={(e) => SendCost()}
+              >
+                Compute Cost
+              </Button>
             </Col>
           </Row>
         </Modal.Body>
@@ -998,6 +1235,15 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                   </div>
                 </div>
               )}
+            {inreview && work_order_detail?.actions?.canCost == true && (
+              <div className="raise1">
+                <div className="rjwrapper mrgin__right">
+                  <Button className=" raise_inv" onClick={modalShow1}>
+                    {"Cost Settings"}
+                  </Button>
+                </div>
+              </div>
+            )}
             {inreview && work_order_detail?.assigned_specialists.length !== 0 && (
               <div className="raise1">
                 <div className="rjwrapper mrgin__right">

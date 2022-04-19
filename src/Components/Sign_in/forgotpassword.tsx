@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Col, Row, Container, Alert, Button } from "react-bootstrap";
 import { withRouter } from "react-router";
+import { Link } from "react-router-dom";
 import { API } from "../../config";
 import "./signin.css";
 
@@ -110,6 +111,7 @@ const ForgotPassword = (props) => {
                       className="form-control forminput"
                     />
                   </label>
+                  <Link to="/signin"> Sign in</Link>
                   <div className="form-btn-wrapper loginbtdv">
                     <input
                       className="signinbtn"

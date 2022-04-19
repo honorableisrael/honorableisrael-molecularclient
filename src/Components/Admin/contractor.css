@@ -18,6 +18,15 @@
   padding-bottom: 1.3rem;
   font-size: 14px;
 }
+
+.colreverse {
+  display: flex;
+  flex-direction: column-reverse;
+  position: absolute;
+  z-index: 4;
+  width: 130px;
+  z-index: 2000;
+}
 .fc12 {
   display: flex;
   justify-content: space-between;
@@ -283,6 +292,21 @@ text {
   .fc12ax .carderw {
     min-width: 270px;
   }
+  .invoicefooter,
+  .row3456 {
+    width: 100% !important;
+  }
+  .accordion-body p {
+    padding: 1rem !important;
+    margin-bottom: 0px;
+  }
+
+  .row3456 div {
+    padding: 0px;
+  }
+  .invoicefooter {
+    padding: 1rem 0px !important;
+  }
   .fc12ax {
     flex-wrap: wrap;
   }
@@ -341,6 +365,9 @@ text {
   }
   .active_member2 {
     padding-left: 1rem !important;
+  }
+  .accordion-body .table-responsive {
+    padding: 25px !important;
   }
 }
 .job31 {
@@ -695,6 +722,9 @@ a:hover {
   .helloworld1 {
     padding-left: 0.6rem;
     padding-right: 0.9rem;
+  }
+  .row3t2 {
+    overflow: hidden;
   }
 }
 .text_align2 {
@@ -1429,6 +1459,9 @@ a:hover {
 }
 .Stext2 {
   padding-top: 2rem;
+  text-align: left;
+  display: flex;
+  justify-content: end;
 }
 
 .rowta {
@@ -1680,7 +1713,6 @@ a:hover {
   }
   .cardwrap_jo {
     padding-left: 9px;
-    
   }
   .formcontent {
     padding: 0rem 1rem;
@@ -2285,6 +2317,7 @@ label i {
 .ttbom .fixedtitle {
   position: initial;
   padding-bottom: 0rem;
+  min-width: fit-content;
 }
 .overview12 {
   background: white;
@@ -2625,8 +2658,8 @@ label i {
     min-width: 1003px;
   }
 }
-@media(max-width:760px){
-  .ddeplsmni1{
+@media (max-width: 760px) {
+  .ddeplsmni1 {
     min-width: 34px;
   }
 }
@@ -2659,6 +2692,7 @@ label i {
   border-bottom-right-radius: 0px;
   position: relative;
   top: 1rem;
+  width: 100%;
 }
 .accpt3 {
   width: 13%;
@@ -2851,6 +2885,9 @@ label i {
   background: none;
   border-color: var(--molecular-orange);
 }
+.raise_inv {
+  margin-top: 0.5rem;
+}
 .slidd2z a div img {
   top: -0.5rem;
   left: 1rem !important;
@@ -2957,7 +2994,7 @@ label i {
   border: none;
   font-weight: 700;
   min-width: fit-content !important;
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
 }
 .primary3 {
   min-width: 137.8px;
@@ -3012,7 +3049,7 @@ label i {
   border-radius: 0.3rem;
   cursor: pointer;
 }
-.upby{
+.upby {
   min-width: 190px;
 }
 .lightgray {
@@ -3153,8 +3190,59 @@ label i {
     padding-right: 4px !important;
   }
 }
-.Deletebtn{
+.Deletebtn {
   margin-top: 1rem;
-  margin-bottom: .7rem;
-  margin-left: .5rem ;
+  margin-bottom: 0.7rem;
+  margin-left: 0.5rem;
+}
+.archiv2,
+.archiv2:hover {
+  background: #fd8c00;
+  border: #fd8c00;
+}
+.jwidth {
+  width: inherit !important;
+}
+.computecost,
+.computecost:hover {
+  background: #fd8c00;
+  color: white;
+}
+
+.row3456 {
+  margin: 0px;
+  padding: 0px;
+  overflow: hidden;
+  min-height: fit-content;
+  width: 85%;
+  margin: auto;
+}
+.nopaddrt {
+  padding: 0px;
+}
+.invoicefooter {
+  padding: 2rem;
+  background: #fd8b0027;
+  /* opacity: 0.1; */
+  width: 83%;
+  margin: auto;
+  justify-content: center;
+}
+.tainer3 {
+  background: #e5e5e5;
+}
+.gtotal {
+  padding-top: 2rem;
+  padding: 1rem;
+  padding-left: 0px;
+  display: flex;
+  justify-content: space-between;
+  width: 88%;
+  font-weight: 600;
+}
+.brt00{
+  padding-bottom: 2rem !important;
+}
+.mgtop345{
+  padding-left: 0px;
 }

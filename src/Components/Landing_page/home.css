@@ -112,7 +112,9 @@
   .redoverall-img {
     width: 100%;
   }
-  
+  .mobileinitialsdsply{
+    display: none !important;
+  }
   .findworkimage {
     height: 290px !important;
   }

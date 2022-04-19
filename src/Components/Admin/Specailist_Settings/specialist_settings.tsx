@@ -29,6 +29,7 @@ const AdminSpecialistSettings = (props) => {
     work_orders: [],
     firsttab: true,
     secondtab: false,
+    limit:"",
     thirdtab: false,
     fourthtab: false,
     fifthtab: false,
@@ -61,6 +62,8 @@ const AdminSpecialistSettings = (props) => {
     year: "",
     total_works: null,
     fourthtabInactive: "",
+    coverall_size: "",
+    coverall_sizes: [],
     available: false,
     is_available: false,
     errorMessage: false,
@@ -79,6 +82,8 @@ const AdminSpecialistSettings = (props) => {
     status,
     verified,
     is_available,
+    coverall_size,
+    coverall_sizes,
     available,
     unverified,
     photo,
@@ -86,6 +91,7 @@ const AdminSpecialistSettings = (props) => {
     bank_account,
     email,
     viewPopup,
+    limit,
     show,
     user,
     isloading,
@@ -104,10 +110,17 @@ const AdminSpecialistSettings = (props) => {
     successMessage,
   }: any = state;
   const onchange = (e) => {
-    console.log(e.target.value);
+    if (e.target.name == "bio" && bio.split("").length == 150) {
+      return setState({
+        ...state,
+        limit: "true",
+        [e.target.name]: e.target.value,
+      });
+    }
     setState({
       ...state,
       [e.target.name]: e.target.value,
+      limit:""
     });
   };
   const hiddenFileInput: any = useRef();
@@ -222,6 +235,7 @@ const AdminSpecialistSettings = (props) => {
       bio: bio,
       first_name,
       last_name,
+      coverall_size
     };
     console.log(data);
     axios
@@ -282,9 +296,12 @@ const AdminSpecialistSettings = (props) => {
         headers: { Authorization: `Bearer ${token.access_token}` },
       }),
       Axios.get<any, AxiosResponse<any>>(`${API}/skills`),
+      Axios.get(`${API}/coverall-sizes`, {
+        headers: { Authorization: `Bearer ${token.access_token}` },
+      }),
     ])
       .then(
-        axios.spread((res, res2) => {
+        axios.spread((res, res2,res3) => {
           console.log(res.data);
           console.log(res2.data);
           const user = res.data.data;
@@ -292,6 +309,7 @@ const AdminSpecialistSettings = (props) => {
             ...state,
             ...res.data.data,
             user: res.data.data,
+            coverall_sizes: res3.data.data,
             verified: user.status === "Active" ? true : false,
             unverified: user.status === "New" ? true : false,
             viewPopup: user.status === "Active" ? false : true,
@@ -428,6 +446,7 @@ const AdminSpecialistSettings = (props) => {
       });
     }
   }, [errorMessage, successMessage]);
+  console.log(coverall_sizes);
   return (
     <>
       <Container fluid={true}>
@@ -645,8 +664,8 @@ const AdminSpecialistSettings = (props) => {
                             </h6>
                             <Form.Control
                               className="userfield"
-                              name="firstName"
-                              value={user.first_name}
+                              name="first_name"
+                              value={first_name}
                               onChange={onchange}
                             />
                           </Form.Group>
@@ -658,9 +677,9 @@ const AdminSpecialistSettings = (props) => {
                             </h6>
                             <Form.Control
                               type="text"
-                              name="lastName"
+                              name="last_name"
                               className="userfield"
-                              value={user.last_name}
+                              value={last_name}
                               onChange={onchange}
                               placeholder=""
                             />
@@ -717,7 +736,7 @@ const AdminSpecialistSettings = (props) => {
                         <Col md={12} className="formsection1">
                           <Form.Group>
                             <h6 className="userprofile userprofile12">
-                              Home Address
+                              Address
                             </h6>
                             <Form.Control
                               type="text-area"
@@ -760,7 +779,7 @@ const AdminSpecialistSettings = (props) => {
                         <Col md={12} className="formsection1">
                           <Form.Group>
                             <h6 className="userprofile userprofile12">
-                              About yourself (Optional)
+                            Tell us about yourself (not more than 20 words)
                             </h6>
                             <Form.Control
                               type="text"
@@ -768,8 +787,33 @@ const AdminSpecialistSettings = (props) => {
                               value={bio}
                               className="userfield"
                               onChange={onchange}
+                              maxLength={150}
                             />
                           </Form.Group>
+                          <small>
+                          {limit && "character limit is fixed at 150"}
+                            </small>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col md={12} className="profpriski">
+                          <h6 className="userprofile userprofile12">Coverall Size</h6>
+                          <select
+                            className="forminput profsettinformselect form-control"
+                            required
+                            name="coverall_size"
+                            onChange={onchange}
+                          >
+                            <option>{coverall_size ?? "choose one"}</option>
+                            {coverall_sizes?.map((data, i) => (
+                              <option
+                                value={data.name}
+                                className="profsettinformselect"
+                              >
+                                {data.name}
+                              </option>
+                            ))}
+                          </select>
                         </Col>
                       </Row>
                       <Row>

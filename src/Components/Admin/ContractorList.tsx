@@ -10,12 +10,14 @@ import { Helmet } from "react-helmet";
 import WorkOrderCards from "./WorkOrderCards";
 import { Link } from "react-router-dom";
 import no_work_order from "../../images/document 1.png";
+import email3 from "../../images/email3.png";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import axios from "axios";
 import { API, loggedInDetails } from "../../config";
 
 const MySwal = withReactContent(Swal);
+
 const ListOfContractor = () => {
   const [state, setState] = useState({
     contractor_list: [],
@@ -285,7 +287,7 @@ const ListOfContractor = () => {
               <div className="jobs">Contractor</div>
               <div className="job2">
                 <Link to="/contractor_onboarding" target="blank">
-                  <div className="job3">Add Contractor</div>
+                  <div className="job3 jwidth">Add Contractor</div>
                 </Link>
               </div>
             </div>
@@ -325,17 +327,17 @@ const ListOfContractor = () => {
                       <button
                         type="button"
                         onClick={() => archiveContractor(data?.id)}
-                        className="btn btn-info Deletebtn"
+                        className="btn btn-info Deletebtn archiv2"
                       >
                         Archive
                       </button>
-                      <button
+                      {/* <button
                         type="button"
                         onClick={() => deleteContractor(data?.id)}
                         className="btn btn-danger Deletebtn"
                       >
                         Delete
-                      </button>
+                      </button> */}
                     </div>
                     <WorkOrderCards
                       contractor={data}

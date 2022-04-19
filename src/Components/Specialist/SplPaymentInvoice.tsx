@@ -223,11 +223,11 @@ const fieldRef: any = useRef();
       )}
      <div className="splinvoicemodalmssgwrap">
        <i className="fa fa-exclamation fa-rotate-180 invoiceexclm" aria-hidden="true"></i>
-       <p>The amount on early payment is limited to {current_currency}{ FormatAmount((0.65 * max_requested_amount)?.toFixed(2))}  from this cycle. </p>
+       <p>The amount of early payment is limited to {current_currency}{ FormatAmount((0.65 * max_requested_amount)?.toFixed(2))}. </p>
      </div>
      <div className="splinvoicemodalmssgwrap">
        <i className="fa fa-exclamation fa-rotate-180 invoiceexclm" aria-hidden="true"></i>
-       <p>Early payments attracts 5% charge of your amount from this cycle. </p>
+       <p>Early payment attracts 5% charge. </p>
      </div>
       <form>
         <Row>
@@ -350,21 +350,21 @@ const fieldRef: any = useRef();
                    </td>
                    <td>
                      {data.status == "Paid" && (
-                       <div className="invpaystatwrap">
-                       <span className="paystatindcator"></span>
-                       <span className="paystattext">paid</span>
+                       <div className="invpaystatwrap po912">
+                       <span className="paystatindcator po912"></span>
+                       <span className="paystattext po912">paid</span>
                      </div>
                     )}
                     {data.status == "Not Due" &&(
-                      <div className="invpaystatwrap pendinwrap">
-                      <span className="paystatindcator pendininvoice"></span>
-                      <span className="paystattext pendininvtext">Not Due</span>
+                      <div className="invpaystatwrap pendinwrap po912">
+                      <span className="paystatindcator pendininvoice po912"></span>
+                      <span className="paystattext pendininvtext po912">Not Due</span>
                     </div>
                     )}
                     {data.status == "Outstanding" &&(
-                      <div className="invpaystatwrap pendinwrap">
-                      <span className="paystatindcator pendininvoice"></span>
-                      <span className="paystattext pendininvtext">Outstanding</span>
+                      <div className="invpaystatwrap pendinwrap po912">
+                      <span className="paystatindcator pendininvoice po912"></span>
+                      <span className="paystattext pendininvtext po912">Outstanding</span>
                     </div>
                     )}
                    </td> 

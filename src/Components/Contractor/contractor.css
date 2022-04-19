@@ -1534,7 +1534,7 @@ text {
   padding: 1rem;
   padding-left: 0px;
   font-size: 15px;
-  padding-left: 2.5rem !important;
+  /* padding-left: 2.5rem !important; */
   padding-right: 2.5rem !important;
 }
 .inactivebordr {
@@ -2058,4 +2058,18 @@ a:active {
     height: 60px;
     object-fit: cover;
     border-radius: 50%;
+    
+}
+.brt00{
+  padding-bottom: 0px !important;
+}
+
+.gtotal {
+  padding-top: 2rem;
+  padding: 1rem;
+  padding-left: 0px;
+  display: flex;
+  justify-content: space-between;
+  width: 88%;
+  font-weight: 600;
 }
