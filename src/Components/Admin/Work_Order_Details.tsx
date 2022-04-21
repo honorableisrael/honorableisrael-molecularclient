@@ -686,14 +686,26 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
     project_duration: "",
     spreads: "",
     professional_indemnity_insurance: "",
+    cost_per_inch: "",
+    association_cost_per_inch: "",
+    fx_rate: "",
+    cost_per_inch_dollar: "",
+    per_diem_dollar: "",
   });
   const onchange = (e) => {
-    console.log(e.target.value);
     setState({
       ...state,
       [e.target.name]: e.target.value,
     });
+    // if (e.target.name == "cost_per_inch_dollar") {
+    // console.log(calc_cost_per_inc_naira(cost_per_inch_dollar))
+    // }
   };
+  
+  const calc_cost_per_inc_naira =(d)=>{
+    return d * fx_rate
+  }
+
   const onInputChange = (e) => {
     const letterNumber = /^[A-Za-z]+$/;
     if (e.target.value) {
@@ -728,6 +740,9 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
     already_approved,
     reason,
     location_terrain,
+    cost_per_inch,
+    association_cost_per_inch,
+    fx_rate,
     new_work,
     start_date,
     work_order_detail,
@@ -745,6 +760,8 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
     professional_indemnity_insurance,
     chevron1,
     isloading,
+    cost_per_inch_dollar,
+    per_diem_dollar,
   } = state;
   const Accept_work_order = () => {
     const availableToken: any = localStorage.getItem("loggedInDetails");
@@ -816,10 +833,11 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
           ...state,
           ...res.data.data,
           ...res.data.data.costing,
-          health_insurance_cost:res?.data?.data?.costing?.health_insurance_per_specialist,
-          coverall_cost:res?.data?.data?.costing?.coverall_per_specialist,
-          per_diem:res?.data?.data?.costing?.per_diem_per_specialist,
-          project_duration:res?.data?.data?.costing?.duration_in_days,
+          health_insurance_cost:
+            res?.data?.data?.costing?.health_insurance_per_specialist,
+          coverall_cost: res?.data?.data?.costing?.coverall_per_specialist,
+          per_diem: res?.data?.data?.costing?.per_diem_per_specialist,
+          project_duration: res?.data?.data?.costing?.duration_in_days,
           already_approved: urlkey ? true : false,
           work_order_detail: res.data.data,
           new_work: res.data.data.status == "New" ? true : false,
@@ -952,6 +970,9 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
       project_duration,
       spreads,
       professional_indemnity_insurance,
+      cost_per_inch,
+      association_cost_per_inch,
+      fx_rate,
     };
     axios
       .post(`${API}/admin/work-orders/${work_order_details?.id}/cost`, data, {
@@ -983,7 +1004,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
         console.log(err);
       });
   };
- 
+
   return (
     <>
       <Modal
@@ -1048,13 +1069,14 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
             <Col md={6}>
               <div className="pipelength pipelng">
                 <div className="pipelength1q">
-                  Markup Percentage <span className="text-danger">*</span>
+                  Markup Percentage %<span className="text-danger">*</span>
                 </div>
                 <div className="">
                   <input
                     type="number"
                     className=" form-control"
                     placeholder=""
+                    min={0}
                     name="markup_percentage"
                     value={markup_percentage}
                     onChange={onchange}
@@ -1065,7 +1087,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
             <Col md={6}>
               <div className="pipelength pipelng">
                 <div className="pipelength1q">
-                  Health Insurance per Specialist{" "}
+                  Health Insurance per Specialist (₦)
                   <span className="text-danger">*</span>
                 </div>
                 <div className="">
@@ -1073,6 +1095,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                     type="number"
                     className=" form-control"
                     placeholder=""
+                    min={0}
                     name="health_insurance_cost"
                     value={health_insurance_cost}
                     onChange={onchange}
@@ -1085,13 +1108,15 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
             <Col md={6}>
               <div className="pipelength pipelng">
                 <div className="pipelength1q">
-                  Coverall per Specialist <span className="text-danger">*</span>
+                  Coverall per Specialist (₦){" "}
+                  <span className="text-danger">*</span>
                 </div>
                 <div className="">
                   <input
                     type="number"
                     className=" form-control"
                     placeholder=""
+                    min={0}
                     name="coverall_cost"
                     value={coverall_cost}
                     onChange={onchange}
@@ -1102,7 +1127,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
             <Col md={6}>
               <div className="pipelength pipelng">
                 <div className="pipelength1q">
-                  Per Diem Per Specialist Per Day{" "}
+                  Association Cost Per Inch (₦)
                   <span className="text-danger">*</span>
                 </div>
                 <div className="">
@@ -1110,8 +1135,8 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                     type="number"
                     className=" form-control"
                     placeholder=""
-                    name="per_diem"
-                    value={per_diem}
+                    name="association_cost_per_inch"
+                    value={association_cost_per_inch}
                     onChange={onchange}
                   />
                 </div>
@@ -1129,6 +1154,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                     type="number"
                     className=" form-control"
                     placeholder=""
+                    min={0}
                     name="project_duration"
                     value={project_duration}
                     onChange={onchange}
@@ -1147,6 +1173,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                     className=" form-control"
                     placeholder=""
                     name="spreads"
+                    min={0}
                     value={spreads}
                     onChange={onchange}
                   />
@@ -1158,7 +1185,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
             <Col md={6}>
               <div className="pipelength pipelng">
                 <div className="pipelength1q">
-                  Professional Indemnity Insurance Per Spread{" "}
+                  Professional Indemnity Insurance Per Spread (₦)
                   <span className="text-danger">*</span>
                 </div>
                 <div className="">
@@ -1166,6 +1193,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                     type="number"
                     className=" form-control"
                     placeholder=""
+                    min={0}
                     name="professional_indemnity_insurance"
                     value={professional_indemnity_insurance}
                     onChange={onchange}
@@ -1173,7 +1201,104 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                 </div>
               </div>
             </Col>
+            <Col md={6}>
+              <div className="pipelength pipelng">
+                <div className="pipelength1q">
+                  FX RATE (₦) <span className="text-danger">*</span>
+                </div>
+                <div className="">
+                  <input
+                    type="number"
+                    className=" form-control"
+                    placeholder="US Dollar to naira rate eg. 550"
+                    name="fx_rate"
+                    min={0}
+                    value={fx_rate}
+                    onChange={onchange}
+                  />
+                </div>
+              </div>
+            </Col>
           </Row>
+          <Row>
+            <Col md={6}>
+              <div className="pipelength pipelng">
+                <div className="pipelength1q">
+                  Per Diem Per Specialist Per Day (₦)
+                  <span className="text-danger">*</span>
+                </div>
+                <div className="">
+                  <input
+                    type="number"
+                    className=" form-control"
+                    placeholder=""
+                    min={0}
+                    name="per_diem"
+                    value={per_diem}
+                    onChange={onchange}
+                  />
+                </div>
+              </div>
+            </Col>
+            <Col md={6}>
+              <div className="pipelength pipelng">
+                <div className="pipelength1q">
+                  Cost Per Inch (₦)<span className="text-danger">*</span>
+                </div>
+                <div className="">
+                  <input
+                    type="number"
+                    className=" form-control"
+                    placeholder=""
+                    min={0}
+                    name="cost_per_inch"
+                    value={cost_per_inch}
+                    onChange={onchange}
+                  />
+                </div>
+              </div>
+            </Col>
+          </Row>
+          {/* Dollar */}
+          {/* <Row>
+            <Col md={6}>
+              <div className="pipelength pipelng">
+                <div className="pipelength1q">
+                  Per Diem Per Specialist Per Day ($)
+                  <span className="text-danger">*</span>
+                </div>
+                <div className="">
+                  <input
+                    type="number"
+                    className=" form-control"
+                    placeholder=""
+                    min={0}
+                    name="per_diem_dollar"
+                    value={per_diem_dollar}
+                    onChange={onchange}
+                  />
+                </div>
+              </div>
+            </Col>
+            <Col md={6}>
+            <div className="pipelength pipelng">
+                <div className="pipelength1q">
+                  Cost Per Inch ($)<span className="text-danger">*</span>
+                </div>
+                <div className="">
+                  <input
+                    type="number"
+                    className=" form-control"
+                    placeholder=""
+                    min={0}
+                    name="cost_per_inch_dollar"
+                    value={cost_per_inch_dollar}
+                    onChange={onchange}
+                  />
+                </div>
+              </div>
+            </Col>
+          </Row> */}
           <Row>
             <Col md={12} className="terminate2">
               <Button
