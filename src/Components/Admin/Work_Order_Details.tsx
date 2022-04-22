@@ -837,8 +837,12 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
             res?.data?.data?.costing?.health_insurance_per_specialist,
           coverall_cost: res?.data?.data?.costing?.coverall_per_specialist,
           per_diem: res?.data?.data?.costing?.per_diem_per_specialist,
-          cost_per_inch_dollar:res?.data?.data?.costing?.cost_per_inch / res?.data?.data?.costing?.fx_rate??0,
-          per_diem_dollar:res?.data?.data?.costing?.per_diem_per_specialist / res?.data?.data?.costing?.fx_rate??0,
+          cost_per_inch_dollar:
+            res?.data?.data?.costing?.cost_per_inch /
+              res?.data?.data?.costing?.fx_rate ?? 0,
+          per_diem_dollar:
+            res?.data?.data?.costing?.per_diem_per_specialist /
+              res?.data?.data?.costing?.fx_rate ?? 0,
           project_duration: res?.data?.data?.costing?.duration_in_days,
           already_approved: urlkey ? true : false,
           work_order_detail: res.data.data,
@@ -1008,17 +1012,21 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
   };
 
   const calc_cost_per_inch_in_naira = () => {
-    if(fx_rate && cost_per_inch_dollar){
-      return FormatAmount(fx_rate * cost_per_inch_dollar) ?? 0;
+    if (fx_rate && cost_per_inch_dollar) {
+      let num = fx_rate * cost_per_inch_dollar;
+      num.toFixed(2);
+      return FormatAmount(num ?? 0);
     }
-    return 0
+    return 0;
   };
 
   const calc_cost_per_diem_in_naira = () => {
-    if(fx_rate && per_diem_dollar){
-     return FormatAmount(fx_rate * per_diem_dollar)?? 0;
+    if (fx_rate && per_diem_dollar) {
+      let num = fx_rate * per_diem_dollar;
+      num.toFixed(2);
+      return FormatAmount(num ?? 0);
     }
-    return 0
+    return 0;
   };
 
   return (
