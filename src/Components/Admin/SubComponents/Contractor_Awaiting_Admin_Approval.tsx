@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Col, Row, Container, Modal, Spinner, Form } from "react-bootstrap";
+import {
+  Col,
+  Row,
+  Container,
+  Modal,
+  Spinner,
+  Form,
+  Pagination,
+} from "react-bootstrap";
 import "../contractor.css";
 import arrow from "../../../images/arrow.png";
 import { Link, withRouter } from "react-router-dom";
@@ -20,7 +28,7 @@ const Contractor_Awaiting_Admin = withRouter((props) => {
     }
     axios
       .all([
-        axios.get(`${API}/admin/contractors/inactive`, {
+        axios.get(`${API}/admin/contractors/inactive?paginate=1`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }),
       ])
@@ -29,7 +37,9 @@ const Contractor_Awaiting_Admin = withRouter((props) => {
           console.log(res.data.data);
           setState({
             ...state,
-            all_specialist: res.data.data.data,
+            all_contractors: res.data.data.data,
+            ...res.data.data.links,
+            ...res.data.data.meta,
           });
         })
       )
@@ -45,11 +55,19 @@ const Contractor_Awaiting_Admin = withRouter((props) => {
     });
   };
   const [state, setState] = useState({
-    all_specialist: [],
+    all_contractors: [],
     isloading: false,
     reason: "",
     show: false,
     selected_specialist: "",
+    next: "",
+    prev: "",
+    first: "",
+    last: "",
+    current_page: "",
+    last_page: "",
+    to: "",
+    total: "",
   });
 
   const accept_new_contractor = (id) => {
@@ -155,8 +173,49 @@ const Contractor_Awaiting_Admin = withRouter((props) => {
         console.log(err);
       });
   };
-  const { admin, all_specialist, isloading, reason, show }: any = state;
-  console.log(all_specialist);
+
+  const nextPage = (x) => {
+    const availableToken: any = localStorage.getItem("loggedInDetails");
+    const token = availableToken
+      ? JSON.parse(availableToken)
+      : window.location.assign("/");
+    axios
+      .all([
+        axios.get(`${x}`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
+      ])
+      .then(
+        axios.spread((res) => {
+          console.log(res.data.data);
+          window.scrollTo(0, 500);
+          setState({
+            ...state,
+            all_contractors: res.data.data.data,
+            ...res.data.data.links,
+            ...res.data.data.meta,
+          });
+        })
+      )
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const {
+    admin,
+    all_contractors,
+    isloading,
+    reason,
+    show,
+    last_page,
+    next,
+    prev,
+    first,
+    last,
+    current_page,
+    to,
+  }: any = state;
+  console.log(all_contractors);
   return (
     <>
       <Col className="fc12" md={12}>
@@ -165,7 +224,10 @@ const Contractor_Awaiting_Admin = withRouter((props) => {
           {isloading && <Spinner variant="info" animation={"grow"} />}
           <div className="specialistrow">
             <div className="specialistwrapper">
-              <div className="skill_of_specialist1 itemwidth"> Company name</div>
+              <div className="skill_of_specialist1 itemwidth">
+                {" "}
+                Company name
+              </div>
               <div className="skill_of_specialist1">email</div>
 
               <div className="skill_of_specialist1">
@@ -173,7 +235,7 @@ const Contractor_Awaiting_Admin = withRouter((props) => {
               </div>
               <div className="accpt3"></div>
             </div>
-            {all_specialist.map((data, i) =>
+            {all_contractors.map((data, i) =>
               data.status ? (
                 <div className="specialistwrapper">
                   {false && (
@@ -206,11 +268,13 @@ const Contractor_Awaiting_Admin = withRouter((props) => {
                       {data?.registered_on}
                     </div>
                   </div>
-                  <div className="skill_of_specialist1">{data?.contractor.email}</div>
+                  <div className="skill_of_specialist1">
+                    {data?.contractor.email}
+                  </div>
                   <div className="skill_of_specialist1">
                     <div className="skill_of_specialist1">
                       {capitalize(data?.need)}
-                    </div>  
+                    </div>
                   </div>
                   <div className="accpt3">
                     <button
@@ -231,6 +295,17 @@ const Contractor_Awaiting_Admin = withRouter((props) => {
                 ""
               )
             )}
+          </div>
+          <div className="active_member2">
+            <div>
+              Displaying <b>{current_page}</b> of <b>{last_page}</b>
+            </div>
+            <Pagination>
+              <Pagination.First onClick={() => nextPage(first)} />
+              <Pagination.Prev onClick={() => nextPage(prev)} />
+              <Pagination.Next onClick={() => nextPage(next)} />
+              <Pagination.Last onClick={() => nextPage(last)} />
+            </Pagination>
           </div>
           {/* <div className="text_align2">
             <Link to="/allspecialist">

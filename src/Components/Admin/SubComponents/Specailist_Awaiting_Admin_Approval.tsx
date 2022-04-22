@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Col, Row, Container, Modal, Spinner, Form } from "react-bootstrap";
+import {
+  Col,
+  Row,
+  Container,
+  Modal,
+  Spinner,
+  Form,
+  Pagination,
+} from "react-bootstrap";
 import "../contractor.css";
 import arrow from "../../../images/arrow.png";
 import { Link, withRouter } from "react-router-dom";
@@ -20,7 +28,7 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
     }
     axios
       .all([
-        axios.get(`${API}/admin/specialists/new`, {
+        axios.get(`${API}/admin/specialists/new?paginate=1`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }),
       ])
@@ -30,6 +38,8 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
           setState({
             ...state,
             all_specialist: res.data.data.data,
+            ...res.data.data.links,
+            ...res.data.data.meta,
           });
         })
       )
@@ -50,6 +60,14 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
     reason: "",
     show: false,
     selected_specialist: "",
+    next: "",
+    prev: "",
+    first: "",
+    last: "",
+    current_page: "",
+    last_page: "",
+    to: "",
+    total: "",
   });
 
   const accept_new_specailist = (id) => {
@@ -155,7 +173,47 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
         console.log(err);
       });
   };
-  const { admin, all_specialist, isloading, reason, show }: any = state;
+  const nextPage = (x) => {
+    const availableToken: any = localStorage.getItem("loggedInDetails");
+    const token = availableToken
+      ? JSON.parse(availableToken)
+      : window.location.assign("/");
+    axios
+      .all([
+        axios.get(`${x}`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
+      ])
+      .then(
+        axios.spread((res) => {
+          console.log(res.data.data);
+          window.scrollTo(0,500);
+          setState({
+            ...state,
+            all_specialist: res.data.data.data,
+            ...res.data.data.links,
+            ...res.data.data.meta,
+          });
+        })
+      )
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const {
+    admin,
+    all_specialist,
+    isloading,
+    reason,
+    show,
+    last_page,
+    next,
+    prev,
+    first,
+    last,
+    current_page,
+    to,
+  }: any = state;
   console.log(all_specialist);
   return (
     <>
@@ -178,7 +236,7 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
             </div>
             {all_specialist.map((data, i) =>
               data.status ? (
-                <div className="specialistwrapper">
+                <div className="specialistwrapper" key={i}>
                   {false && (
                     <img
                       src={specialist1}
@@ -219,7 +277,7 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
                     </div>
                     <div className="skill_of_specialist1">
                       {capitalize(data?.skills?.[0]?.title)}
-                    </div>  
+                    </div>
                   </div>
                   <div className="skill_of_specialist1">
                     <div>{ageCalculator(data?.dob)}</div>
@@ -243,6 +301,17 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
                 ""
               )
             )}
+          </div>
+          <div className="active_member2">
+            <div>
+              Displaying <b>{current_page}</b> of <b>{last_page}</b>
+            </div>
+            <Pagination>
+              <Pagination.First onClick={() => nextPage(first)} />
+              <Pagination.Prev onClick={() => nextPage(prev)} />
+              <Pagination.Next onClick={() => nextPage(next)} />
+              <Pagination.Last onClick={() => nextPage(last)} />
+            </Pagination>
           </div>
           <div className="text_align2">
             {/* <Link to="/allspecialist">
