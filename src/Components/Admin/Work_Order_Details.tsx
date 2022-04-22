@@ -1008,11 +1008,17 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
   };
 
   const calc_cost_per_inch_in_naira = () => {
-    return FormatAmount(fx_rate * cost_per_inch_dollar);
+    if(fx_rate && cost_per_inch_dollar){
+      return FormatAmount(fx_rate * cost_per_inch_dollar) ?? 0;
+    }
+    return 0
   };
 
   const calc_cost_per_diem_in_naira = () => {
-    return FormatAmount(fx_rate * per_diem_dollar);
+    if(fx_rate && per_diem_dollar){
+     return FormatAmount(fx_rate * per_diem_dollar)?? 0;
+    }
+    return 0
   };
 
   return (
