@@ -701,10 +701,10 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
     // console.log(calc_cost_per_inc_naira(cost_per_inch_dollar))
     // }
   };
-  
-  const calc_cost_per_inc_naira =(d)=>{
-    return d * fx_rate
-  }
+
+  const calc_cost_per_inc_naira = (d) => {
+    return d * fx_rate;
+  };
 
   const onInputChange = (e) => {
     const letterNumber = /^[A-Za-z]+$/;
@@ -966,11 +966,11 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
       markup_percentage,
       health_insurance_cost,
       coverall_cost,
-      per_diem,
+      per_diem: fx_rate * per_diem_dollar,
       project_duration,
       spreads,
       professional_indemnity_insurance,
-      cost_per_inch,
+      cost_per_inch: fx_rate * cost_per_inch_dollar,
       association_cost_per_inch,
       fx_rate,
     };
@@ -1003,6 +1003,14 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
         });
         console.log(err);
       });
+  };
+
+  const calc_cost_per_inch_in_naira = () => {
+    return FormatAmount(fx_rate * cost_per_inch_dollar);
+  };
+
+  const calc_cost_per_diem_in_naira = () => {
+    return FormatAmount(fx_rate * per_diem_dollar);
   };
 
   return (
@@ -1224,8 +1232,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
             <Col md={6}>
               <div className="pipelength pipelng">
                 <div className="pipelength1q">
-                  Per Diem Per Specialist Per Day (₦)
-                  <span className="text-danger">*</span>
+                  Cost Per Inch ($)<span className="text-danger">*</span>
                 </div>
                 <div className="">
                   <input
@@ -1233,8 +1240,8 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                     className=" form-control"
                     placeholder=""
                     min={0}
-                    name="per_diem"
-                    value={per_diem}
+                    name="cost_per_inch_dollar"
+                    value={cost_per_inch_dollar}
                     onChange={onchange}
                   />
                 </div>
@@ -1247,12 +1254,12 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                 </div>
                 <div className="">
                   <input
-                    type="number"
+                    type="text"
                     className=" form-control"
                     placeholder=""
                     min={0}
-                    name="cost_per_inch"
-                    value={cost_per_inch}
+                    // name="cost_per_inch"
+                    value={calc_cost_per_inch_in_naira()}
                     onChange={onchange}
                   />
                 </div>
@@ -1260,7 +1267,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
             </Col>
           </Row>
           {/* Dollar */}
-          {/* <Row>
+          <Row>
             <Col md={6}>
               <div className="pipelength pipelng">
                 <div className="pipelength1q">
@@ -1281,31 +1288,32 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
               </div>
             </Col>
             <Col md={6}>
-            <div className="pipelength pipelng">
+              <div className="pipelength pipelng">
                 <div className="pipelength1q">
-                  Cost Per Inch ($)<span className="text-danger">*</span>
+                  Per Diem Per Specialist Per Day (₦)
+                  <span className="text-danger">*</span>
                 </div>
                 <div className="">
                   <input
-                    type="number"
+                    type="text"
                     className=" form-control"
                     placeholder=""
                     min={0}
-                    name="cost_per_inch_dollar"
-                    value={cost_per_inch_dollar}
+                    name="per_diem"
+                    value={calc_cost_per_diem_in_naira()}
                     onChange={onchange}
                   />
                 </div>
               </div>
             </Col>
-          </Row> */}
+          </Row>
           <Row>
             <Col md={12} className="terminate2">
               <Button
                 className=" raise_inv computecost"
                 onClick={(e) => SendCost()}
               >
-                Compute Cost
+                {isloading ? "processing" : "Compute Cost"}
               </Button>
             </Col>
           </Row>
