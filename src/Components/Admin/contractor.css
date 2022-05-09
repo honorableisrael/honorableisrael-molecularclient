@@ -7,6 +7,7 @@
   color: #222073;
   width: 100px;
   background: #cccccc;
+  max-width: 40px;
 }
 .raise_joborder12a {
   color: #333333;
@@ -2605,6 +2606,9 @@ label i {
     padding-left: 12px !important;
     padding-right: 41px !important;
   }
+  .specialistwrapper {
+    flex-wrap: wrap;
+  }
   .raise1 {
     display: flex;
     justify-content: flex-start !important;
@@ -3240,9 +3244,20 @@ label i {
   width: 88%;
   font-weight: 600;
 }
-.brt00{
+.brt00 {
   padding-bottom: 2rem !important;
 }
-.mgtop345{
+.mgtop345 {
   padding-left: 0px;
+}
+.wdf{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex: 1;
+}
+
+.mrt5{
+  margin: auto;
+  margin-bottom: 1rem;
 }

@@ -66,6 +66,7 @@ import Password_Reset from "./Components/Sign_in/password_reset";
 import Privacy from "./Components/Landing_page/Privacy";
 import AdminProfile from "./Components/Admin/ContractorProfile/ProfileSettings";
 import AdminSettingManagment from "./Components/Admin/admin_setting_management";
+import Contractor_Details from './Components/Admin/Contractor_Details';
 
 const App: any = ({ history }) => {
   return (
@@ -182,6 +183,7 @@ const App: any = ({ history }) => {
               />
 
               <Route path="/contractor_list" component={ListOfContractor} />
+              {/* <Route path="/contractor/:id" component={ListOfContractor} /> */}
               <Route
                 path="/pipe_schedule_management"
                 component={AdminSettingManagment}
@@ -221,6 +223,7 @@ const App: any = ({ history }) => {
                 component={AssignSpecialist}
               />
               <Route path="/specialistdetails" component={Specialistdetails} />
+              <Route path="/admin/contractors/:id" component={Contractor_Details} />
               {/* Admin Dashboard ends */}
               {/* specialist Dashboard */}
               <Route

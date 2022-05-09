@@ -201,6 +201,7 @@ const ListOfContractor = () => {
         console.log(err);
       });
   };
+
   const deleteContractor = (id) => {
     setState({
       ...state,
@@ -222,6 +223,7 @@ const ListOfContractor = () => {
       }
     });
   };
+
   const delete_contractor = (id) => {
     axios
       .delete(`${API}/admin/contractors/${id}`, {
@@ -235,6 +237,7 @@ const ListOfContractor = () => {
         console.log(err);
       });
   };
+
   const archive_contractor = (id) => {
     axios
       .delete(`${API}/admin/contractors/${id}/archive`, {
@@ -339,11 +342,13 @@ const ListOfContractor = () => {
                         Delete
                       </button> */}
                     </div>
-                    <WorkOrderCards
-                      contractor={data}
-                      key={i}
-                      title="Nigerian National Petroleum Corporation"
-                    />
+                    <Link to={`/admin/contractors/${data.id}`}>
+                      <WorkOrderCards
+                        contractor={data}
+                        key={i}
+                        title="Nigerian National Petroleum Corporation"
+                      />
+                    </Link>
                   </>
                 ))}
               </div>

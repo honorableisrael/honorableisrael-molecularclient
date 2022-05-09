@@ -774,7 +774,7 @@ const Admin_Invoice_details = (props) => {
               </Col>
               <Col md={6}>
                 <p>
-                  (2.) Per diem per day (Daily Feeding, Daily Accomomdation,
+                  (2.) Per diem per day (Daily Feeding, Daily Accomodation,
                   Milk, Soap, Daily Bottled water provision allowances). Other
                   general welfare and Quality Assurance costs
                 </p>

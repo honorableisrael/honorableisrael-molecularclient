@@ -28,6 +28,7 @@ export const reloadPage = () => {
 export const FormatAmount = (amount) => {
   return amount?.toString()?.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
+
 export const ageCalculator = (dateString) => {
   if (dateString) {
     var today = new Date();
