@@ -61,20 +61,24 @@ const Contractor_Details = (props) => {
   const generate_virtual_account = () => {
     setState({
       ...state,
-      isloading:true
-    })
+      isloading: true,
+    });
     axios
       .all([
-        axios.post(`${API}/admin/contractors/${props.match.params.id}/virtual-account`,{}, {
-          headers: {
-            Authorization: `Bearer ${returnAdminToken()?.access_token}`,
-          },
-        }),
+        axios.post(
+          `${API}/admin/contractors/${props.match.params.id}/virtual-account`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${returnAdminToken()?.access_token}`,
+            },
+          }
+        ),
       ])
       .then(
         axios.spread((res) => {
-          reloadPage()
-          notify("Successful")
+          reloadPage();
+          notify("Successful");
           setState({
             ...state,
             isloading: false,
@@ -113,14 +117,17 @@ const Contractor_Details = (props) => {
               </div>
               {!user?.virtual_bank_account && (
                 <div className="pdetbtnwrap">
-                  <span className="wrkmodal-declinebtn addexpbtn" onClick={generate_virtual_account}>
-                   {isloading?"Processing":" Generate Virtual Account"}
+                  <span
+                    className="wrkmodal-declinebtn addexpbtn"
+                    onClick={generate_virtual_account}
+                  >
+                    {isloading ? "Processing" : " Generate Virtual Account"}
                   </span>
                 </div>
               )}
             </div>
             <div className="pdwrapper">
-              <div className="pdheader">Personal Information</div>
+              <div className="pdheader">Basic Information</div>
               <div className="pesonainforow1">
                 <div className="pesonainfocol1">
                   {user?.industry_icon ? (
@@ -178,7 +185,49 @@ const Contractor_Details = (props) => {
                   </p>
                 </div>
               </div>
-
+              <div className="pesonainforow3">
+                <div className="pesonainforow3-title">
+                  Virtual Bank Details:
+                </div>
+                <div className="pesonainforow3-content">
+                  {/* {user?.qualifications?.map((data, i) => (
+                    <div key={i}>
+                      <p className="pdcontent">
+                        <span className="fa fa-circle pdbulleticon"></span>
+                        {data?.title}{" "}
+                        <small>
+                          {formatTime(data?.from)} ~~ {formatTime(data?.to)}
+                        </small>
+                      </p>
+                      <p className="pdcontent pdrow4content">
+                        {data.description}
+                      </p>
+                    </div>
+                  ))} */}
+                  <div className="pesonainfocol2 wdf">
+                    <div className="fwe1">
+                      <p className="pdheading-primary">Account name </p>
+                      <p className="pdcontent">
+                        {user?.virtual_bank_account?.account_name ?? "n/a"}{" "}
+                      </p>
+                    </div>
+                    <p className="pdcontent"></p>
+                    <br />
+                    <div className="fwe1">
+                      <p className="pdheading-primary">Account number</p>
+                      <p className="pdcontent">
+                        {user?.virtual_bank_account?.account_number ?? "n/a"}
+                      </p>
+                    </div>
+                    <div className="fwe1">
+                      <p className="pdheading-primary">Bank Name</p>
+                      <p className="pdcontent">
+                        {user?.virtual_bank_account?.bank_name ?? "n/a"}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div className="pesonainforow3">
                 <div className="pesonainforow3-title">Contractor:</div>
                 <div className="pesonainforow3-content">
@@ -218,7 +267,7 @@ const Contractor_Details = (props) => {
                 </div>
               </div>
               <div className="pesonainforow3">
-                <div className="pesonainforow3-title">Virtual Bank Details:</div>
+                <div className="pesonainforow3-title">Contacts:</div>
                 <div className="pesonainforow3-content">
                   {/* {user?.qualifications?.map((data, i) => (
                     <div key={i}>
@@ -234,26 +283,33 @@ const Contractor_Details = (props) => {
                       </p>
                     </div>
                   ))} */}
-                  <div className="pesonainfocol2 wdf">
-                    <div className="fwe1">
-                      <p className="pdheading-primary">Account name </p>
-                      <p className="pdcontent">
-                        {user?.virtual_bank_account?.account_name ?? "n/a"}{" "}
-                      </p>
+                  {user?.contacts?.map((data, i) => (
+                    <div className="pesonainfocol2 wdf" key={i}>
+                      <div className="fwe1">
+                        <p className="pdheading-primary">Fullname</p>
+                        <p className="pdcontent">
+                          {data?.first_name ?? "n/a"}{" "}
+                          {data?.last_name ?? "n/a"}
+                        </p>
+                      </div>
+                      <br />
+                      <div className="fwe1">
+                        <p className="pdheading-primary">Email</p>
+                        <p className="pdcontent">{data?.email}</p>
+                      </div>
+                      <div className="fwe1">
+                        <p className="pdheading-primary">Phone</p>
+                        <p className="pdcontent">{data?.phone}</p>
+                      </div>
+                      <div className="fwe1">
+                        <p className="pdheading-primary">Role</p>
+                        <p className="pdcontent">{data?.role}</p>
+                      </div>
                     </div>
-                    <p className="pdcontent"></p>
-                    <br />
-                    <div className="fwe1">
-                      <p className="pdheading-primary">Account number</p>
-                      <p className="pdcontent">{user?.virtual_bank_account?.account_number ?? "n/a"}</p>
-                    </div>
-                    <div className="fwe1">
-                      <p className="pdheading-primary">Bank Name</p>
-                      <p className="pdcontent">{user?.virtual_bank_account?.bank_name ?? "n/a"}</p>
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </div>
+             
               <div className="pdrowdemacator"></div>
             </div>
           </Col>
