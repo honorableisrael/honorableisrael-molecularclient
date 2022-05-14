@@ -370,6 +370,18 @@ text {
   .accordion-body .table-responsive {
     padding: 25px !important;
   }
+  .addexpbtn {
+    margin-bottom: 0.5rem;
+  }
+  .title_wo div {
+    margin-left: 2.7rem;
+  }
+  .pdtitleheader a {
+    margin-right: 0.5rem;
+  }
+  .wdf {
+    flex-wrap: wrap;
+  }
 }
 .job31 {
   color: #ffffff;
@@ -1722,6 +1734,16 @@ a:hover {
   .overview12 {
     padding-left: 1rem !important;
     padding-right: 1rem !important;
+  }
+  .pesonainforow3 {
+    padding: 10px 10px 4px;
+  }
+  .pesonainforow2 {
+    padding: 21px 12px 0px;
+    flex-wrap: wrap;
+  }
+  .wrkmodal-declinebtn {
+    padding: 7px 14px 7px;
   }
 }
 .num_round {
@@ -3250,14 +3272,18 @@ label i {
 .mgtop345 {
   padding-left: 0px;
 }
-.wdf{
+.wdf {
   width: 100%;
   display: flex;
   justify-content: space-between;
-  flex: 1;
+  /* flex: 1; */
 }
 
-.mrt5{
+.mrt5 {
   margin: auto;
   margin-bottom: 1rem;
+}
+.filtercc {
+  display: block;
+  width: 190px;
 }

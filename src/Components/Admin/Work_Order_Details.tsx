@@ -961,6 +961,45 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
       cost_show: true,
     });
   };
+  const sendSLA = () => {
+    const work_order = localStorage.getItem("work_order_details");
+    const work_order_details = work_order ? JSON.parse(work_order) : "";
+    setState({
+      ...state,
+      isloading: true,
+    });
+    axios
+      .post(
+        `${API}/admin/work-orders/${work_order_details?.id}/send-contract`,{},
+        {
+          headers: {
+            Authorization: `Bearer ${returnAdminToken().access_token}`,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res.data);
+        notify("successfully  sent contract");
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+        setState({
+          ...state,
+          isloading: false,
+        });
+      })
+      .catch((err) => {
+        if (err?.response?.status == 400) {
+          notify(err?.response?.data?.message);
+        }
+        notify("failed to process");
+        setState({
+          ...state,
+          isloading: false,
+        });
+        console.log(err);
+      });
+  };
   const SendCost = () => {
     const work_order = localStorage.getItem("work_order_details");
     const work_order_details = work_order ? JSON.parse(work_order) : "";
@@ -1418,6 +1457,15 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                   </div>
                 </div>
               )}
+            {work_order_detail?.actions?.canSendSla && (
+              <div className="raise1">
+                <div className="rjwrapper mrgin__right">
+                  <Button className=" raise_inv startproject" onClick={sendSLA}>
+                    {!isloading ? "Send SLA" : "Processing"}
+                  </Button>
+                </div>
+              </div>
+            )}
             <Row className="mgtop">
               <Col md={2} className="job23_ mheight_">
                 <p className="exp23">

@@ -1935,6 +1935,7 @@ a:active {
 .pesonainforow3-content {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 .pdbulleticon {
   position: relative;
