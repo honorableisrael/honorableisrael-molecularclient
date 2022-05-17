@@ -126,7 +126,7 @@ const Admin_Invoice_details = (props) => {
       ])
       .then(
         axios.spread((res2, res3, res4) => {
-          console.log(res3.data.data);
+          console.log(res2.data.data);
           setState({
             ...state,
             work_order_detail: res4.data.data,
@@ -304,7 +304,7 @@ const Admin_Invoice_details = (props) => {
     show,
     cycle_amount,
   } = state;
-  console.log(work_order_detail);
+  console.log(invoice_details);
   return (
     <>
       <Modal
@@ -587,7 +587,7 @@ const Admin_Invoice_details = (props) => {
                             <div className="gtotal">
                               <span>Grand total</span>
                               <span>
-                                {FormatAmount(
+                                N{FormatAmount(
                                   work_order_detail?.costing?.contractor_cost
                                 )}
                               </span>

@@ -3247,7 +3247,7 @@ label i {
   padding: 0px;
 }
 .invoicefooter {
-  padding: 2rem;
+  padding: 2rem .5rem;
   background: #fd8b0027;
   /* opacity: 0.1; */
   width: 83%;
@@ -3308,7 +3308,7 @@ label i {
   border-radius: .5rem;
   padding: 0.1rem .4rem;
   font-size: 12px;
-  margin-left: 0rem;
+  margin-left: 0.2rem;
   cursor: pointer;
 }
 .rdfrmlblw2{
@@ -3320,4 +3320,8 @@ label i {
 }
 .bvnbt{
   margin-right: 1.4rem;
+}
+
+.hu0{
+  height: 200px !important;
 }

@@ -183,7 +183,7 @@ const Admin_Invoice_details = (props) => {
     axios
       .all([
         axios.post(
-          `${API}/admin/work-orders/${invoice_details?.id}/invoice/send`,
+          `${API}/admin/work-orders/${work_order_details?.id}/invoice/send`,
           {},
           {
             headers: { Authorization: `Bearer ${token.access_token}` },
@@ -852,15 +852,16 @@ const Admin_Invoice_details = (props) => {
                     aria-expanded="false"
                     aria-controls="flush-collapseTwo"
                   >
-                    <b> LIST OF COST EXCLUSIONS </b>
+                    <b> LIST OF COST EXCLUSIONS </b>{" "}
+                    <span
+                      className="addentry2"
+                      onClick={() => handleShow("create_exclusion")}
+                    >
+                      Add entry
+                    </span>
                   </button>
                 </h2>
-                <span
-                  className="addentry1"
-                  onClick={() => handleShow("create_exclusion")}
-                >
-                  Add entry
-                </span>
+
                 <div
                   id="flush-collapseTwo"
                   className="accordion-collapse collapse show"
@@ -887,10 +888,7 @@ const Admin_Invoice_details = (props) => {
           <Col md={12}>
             <h5>
               Conditions{" "}
-              <span
-                className="addentry2"
-                onClick={() => handleShow1()}
-              >
+              <span className="addentry2" onClick={() => handleShow1()}>
                 Add entry
               </span>
             </h5>
@@ -930,7 +928,7 @@ const Admin_Invoice_details = (props) => {
                 name="cost_exclusions"
                 value={cost_exclusions}
                 onChange={onchange}
-                className="form-control forminput"
+                className="form-control forminput hu0"
               />
             </div>
           </div>
@@ -968,13 +966,13 @@ const Admin_Invoice_details = (props) => {
                 name="conditions"
                 value={conditions}
                 onChange={onchange}
-                className="form-control forminput"
+                className="form-control forminput hu0"
               />
             </div>
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button variant="secondary" onClick={handleClose1}>
             Back
           </Button>
           <Button variant="" className="bvnbt" onClick={SubmitConditions}>
