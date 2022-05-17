@@ -2420,7 +2420,7 @@ label i {
   display: flex;
   justify-content: flex-end;
 }
-.gent122 {
+.gent122,.bvnbt {
   background: #fd8c00;
   border-radius: 5px;
   width: 130px;
@@ -3286,4 +3286,38 @@ label i {
 .filtercc {
   display: block;
   width: 190px;
+}
+.fllx2{
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row-reverse;
+}
+
+.addentry1{
+  background: rgb(24, 110, 24);
+  color: white;
+  border-radius: .5rem;
+  padding: 0.1rem .4rem;
+  font-size: 12px;
+  margin-left: 2rem;
+  cursor: pointer;
+}
+.addentry2{
+  background: #fd8c00;
+  color: white;
+  border-radius: .5rem;
+  padding: 0.1rem .4rem;
+  font-size: 12px;
+  margin-left: 0rem;
+  cursor: pointer;
+}
+.rdfrmlblw2{
+  margin-bottom: .5rem;
+}
+
+.fl3e4{
+  font-size: 1.2rem;
+}
+.bvnbt{
+  margin-right: 1.4rem;
 }

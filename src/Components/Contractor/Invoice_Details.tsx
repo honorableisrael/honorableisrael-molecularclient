@@ -734,24 +734,12 @@ const Admin_Invoice_details = (props) => {
                 >
                   <div className="accordion-body">
                     <p>
-                      <ul>
-                        <li>
-                          {" "}
-                          All welding consumables and accessories etc.
-                          Consumables such as electrodes, grinding disks, fuel
-                          and power.
-                        </li>
-                        <li>
-                          {" "}
-                          All welding equipments and accessories etc. Equipments
-                          such as welding machines, grinding machines, vehicles
-                          conveying all equipment etc
-                        </li>
-                        <li>
-                          Helpers and other ancillary workers. This Proforma
-                          does NOT cover helpers or electricians and
-                          construction subordinate workers etc.
-                        </li>
+                    <ul>
+                        {invoice_details?.cost_exclusions
+                          ?.split("\n")
+                          ?.map((data, i) => (
+                            <li> {data}</li>
+                          ))}
                       </ul>
                     </p>
                   </div>
@@ -765,19 +753,10 @@ const Admin_Invoice_details = (props) => {
             <h5>Conditions</h5>
             <p>The Profoma Invoice is based on COST PER JOINT and covers:</p>
             <Row>
-              <Col md={6}>
-                <p>
-                  (1.) Total Welding & Fitting Specialists Spreads (Labour) Cost
-                  (2 Spread i.e 12 Welding Specialists & 4 Fitting Specialists,
-                  16 Technical Specialists in all)
-                </p>
-              </Col>
-              <Col md={6}>
-                <p>
-                  (2.) Per diem per day (Daily Feeding, Daily Accomodation,
-                  Milk, Soap, Daily Bottled water provision allowances). Other
-                  general welfare and Quality Assurance costs
-                </p>
+              <Col md={12}>
+                {invoice_details?.conditions?.split("\n")?.map((data, i) => (
+                  <p>{data}</p>
+                ))}
               </Col>
             </Row>
           </Col>

@@ -30,7 +30,6 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Admin_Invoice_details = (props) => {
-  console.log(props);
   const [state, setState] = useState<any>({
     invoice_details: {},
     country: "",
@@ -52,7 +51,37 @@ const Admin_Invoice_details = (props) => {
     work_order_detail: {},
     pipe_breakdown: [],
     selected_id: "",
+    cost_exclusions: "",
+    conditions: "",
+    modal_state: "",
+    show_modal: false,
+    show_modal_1: false,
   });
+
+  const handleClose = () =>
+    setState({
+      ...state,
+      show_modal: false,
+    });
+
+  const handleShow = (type) =>
+    setState({
+      ...state,
+      show_modal: true,
+      modal_state: type,
+    });
+
+  const handleClose1 = () =>
+    setState({
+      ...state,
+      show_modal_1: false,
+    });
+
+  const handleShow1 = () =>
+    setState({
+      ...state,
+      show_modal_1: true,
+    });
 
   const onchange = (e) => {
     console.log(e.target.value);
@@ -61,6 +90,7 @@ const Admin_Invoice_details = (props) => {
       [e.target.name]: e.target.value,
     });
   };
+
   const onInputChange = (e) => {
     const letterNumber = /^[A-Za-z]+$/;
     if (e.target.value) {
@@ -82,6 +112,7 @@ const Admin_Invoice_details = (props) => {
       });
     }
   };
+
   const openPaymentModal = (id) => {
     setState({
       ...state,
@@ -89,6 +120,7 @@ const Admin_Invoice_details = (props) => {
       selected_id: id,
     });
   };
+
   const openPaymentModal2 = (id) => {
     setState({
       ...state,
@@ -312,9 +344,92 @@ const Admin_Invoice_details = (props) => {
       });
   };
 
+  const SubmitCostExclusion = () => {
+    setState({
+      ...state,
+      isloading: true,
+    });
+    const data = { cost_exclusions };
+    axios
+      .all([
+        axios.post(
+          `${API}/admin/invoices/${props.match.params.id}/cost-exclusions`,
+          data,
+          {
+            headers: {
+              Authorization: `Bearer ${returnAdminToken().access_token}`,
+            },
+          }
+        ),
+      ])
+      .then(
+        axios.spread((res) => {
+          notify("Successful");
+          reloadPage();
+          setState({
+            ...state,
+            isloading: false,
+          });
+        })
+      )
+      .catch((err) => {
+        setState({
+          ...state,
+          isloading: false,
+        });
+        if (err?.response?.status == 400) {
+          return notify(err?.response?.data?.message);
+        }
+        console.log(err);
+      });
+  };
+
+  const SubmitConditions = () => {
+    setState({
+      ...state,
+      isloading: true,
+    });
+    const data = { conditions };
+    axios
+      .all([
+        axios.post(
+          `${API}/admin/invoices/${props.match.params.id}/conditions`,
+          data,
+          {
+            headers: {
+              Authorization: `Bearer ${returnAdminToken().access_token}`,
+            },
+          }
+        ),
+      ])
+      .then(
+        axios.spread((res) => {
+          notify("Successful");
+          reloadPage();
+          setState({
+            ...state,
+            isloading: false,
+          });
+        })
+      )
+      .catch((err) => {
+        setState({
+          ...state,
+          isloading: false,
+        });
+        if (err?.response?.status == 400) {
+          return notify(err?.response?.data?.message);
+        }
+        console.log(err);
+      });
+  };
+
   const {
-    project_purpose,
-    country,
+    show_modal_1,
+    type,
+    cost_exclusions,
+    conditions,
+    show_modal,
     work_order_description,
     work_order_detail,
     order_title,
@@ -328,6 +443,7 @@ const Admin_Invoice_details = (props) => {
     selected_id,
     show,
   } = state;
+  console.log(invoice_details);
   return (
     <>
       <Modal
@@ -717,6 +833,7 @@ const Admin_Invoice_details = (props) => {
                     <div className="gtotal">
                       <span>Grand total</span>
                       <span>
+                        NGN
                         {FormatAmount(
                           work_order_detail?.costing?.contractor_cost
                         )}
@@ -738,6 +855,12 @@ const Admin_Invoice_details = (props) => {
                     <b> LIST OF COST EXCLUSIONS </b>
                   </button>
                 </h2>
+                <span
+                  className="addentry1"
+                  onClick={() => handleShow("create_exclusion")}
+                >
+                  Add entry
+                </span>
                 <div
                   id="flush-collapseTwo"
                   className="accordion-collapse collapse show"
@@ -747,23 +870,11 @@ const Admin_Invoice_details = (props) => {
                   <div className="accordion-body">
                     <p>
                       <ul>
-                        <li>
-                          {" "}
-                          All welding consumables and accessories etc.
-                          Consumables such as electrodes, grinding disks, fuel
-                          and power.
-                        </li>
-                        <li>
-                          {" "}
-                          All welding equipments and accessories etc. Equipments
-                          such as welding machines, grinding machines, vehicles
-                          conveying all equipment etc
-                        </li>
-                        <li>
-                          Helpers and other ancillary workers. This Proforma
-                          does NOT cover helpers or electricians and
-                          construction subordinate workers etc.
-                        </li>
+                        {invoice_details?.cost_exclusions
+                          ?.split("\n")
+                          ?.map((data, i) => (
+                            <li> {data}</li>
+                          ))}
                       </ul>
                     </p>
                   </div>
@@ -774,31 +885,103 @@ const Admin_Invoice_details = (props) => {
         </Row>
         <Row className="invoicefooter">
           <Col md={12}>
-            <h5>Conditions</h5>
+            <h5>
+              Conditions{" "}
+              <span
+                className="addentry2"
+                onClick={() => handleShow1()}
+              >
+                Add entry
+              </span>
+            </h5>
+
             <p>The Profoma Invoice is based on COST PER JOINT and covers:</p>
             <Row>
-              <Col md={6}>
-                <p>
-                  (1.) Total Welding & Fitting Specialists Spreads (Labour) Cost
-                  ({work_order_detail?.costing?.spreads ?? ""} Spread i.e{" "}
-                  {work_order_detail?.specialist_requests?.map((data, i) =>
-                    i < work_order_detail?.specialist_requests.length - 1
-                      ? data.number + "-" + data.skill + ", "
-                      : data.number + "-" + data.skill
-                  )}{" "}
-                </p>
-              </Col>
-              <Col md={6}>
-                <p>
-                  (2.) Per diem per day (Daily Feeding, Daily Accomodation,
-                  Milk, Soap, Daily Bottled water provision allowances). Other
-                  general welfare and Quality Assurance costs
-                </p>
+              <Col md={12}>
+                {invoice_details?.conditions?.split("\n")?.map((data, i) => (
+                  <p>{data}</p>
+                ))}
               </Col>
             </Row>
           </Col>
         </Row>
       </Container>
+      <Modal
+        show={show_modal}
+        onHide={handleClose}
+        backdrop="static"
+        keyboard={false}
+        size={"lg"}
+      >
+        <Modal.Header>
+          <Modal.Title>
+            {" "}
+            <span className="fl3e4">Append Cost Exclusion</span>{" "}
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="">
+          <div className="row inputlabel label_pad justify-between">
+            <div className="col-md-12 form_waller">
+              <span className="rdfrmlbl rdfrmlblw2">
+                {" "}
+                Cost Exclusions <span className="text-danger">*</span>
+              </span>
+              <textarea
+                name="cost_exclusions"
+                value={cost_exclusions}
+                onChange={onchange}
+                className="form-control forminput"
+              />
+            </div>
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Back
+          </Button>
+          <Button variant="" className="bvnbt" onClick={SubmitCostExclusion}>
+            {state.isloading ? "Processing" : "Submit"}
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      <Modal
+        show={show_modal_1}
+        onHide={handleClose1}
+        backdrop="static"
+        keyboard={false}
+        size={"lg"}
+      >
+        <Modal.Header>
+          <Modal.Title>
+            {" "}
+            <span className="fl3e4">Append Conditions</span>{" "}
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="">
+          <div className="row inputlabel label_pad justify-between">
+            <div className="col-md-12 form_waller">
+              <span className="rdfrmlbl rdfrmlblw2">
+                {" "}
+                Work Conditions <span className="text-danger">*</span>
+              </span>
+              <textarea
+                name="conditions"
+                value={conditions}
+                onChange={onchange}
+                className="form-control forminput"
+              />
+            </div>
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Back
+          </Button>
+          <Button variant="" className="bvnbt" onClick={SubmitConditions}>
+            {state.isloading ? "Processing" : "Submit"}
+          </Button>
+        </Modal.Footer>
+      </Modal>
       <ToastContainer
         enableMultiContainer
         containerId={"B"}
