@@ -970,7 +970,8 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
     });
     axios
       .post(
-        `${API}/admin/work-orders/${work_order_details?.id}/send-contract`,{},
+        `${API}/admin/work-orders/${work_order_details?.id}/send-contract`,
+        {},
         {
           headers: {
             Authorization: `Bearer ${returnAdminToken().access_token}`,
@@ -981,7 +982,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
         console.log(res.data);
         notify("successfully  sent contract");
         setTimeout(() => {
-          window.location.reload();
+          // window.location.reload();
         }, 2000);
         setState({
           ...state,
@@ -1460,9 +1461,22 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
             {work_order_detail?.actions?.canSendSla && (
               <div className="raise1">
                 <div className="rjwrapper mrgin__right">
-                  <Button className=" raise_inv startproject" onClick={sendSLA}>
-                    {!isloading ? "Send SLA" : "Processing"}
-                  </Button>
+                  {!work_order_detail?.sla_sent && (
+                    <Button
+                      className=" raise_inv startproject"
+                      onClick={sendSLA}
+                    >
+                      {!isloading ? "Send SLA" : "Processing"}
+                    </Button>
+                  )}
+                  {work_order_detail?.sla_sent && (
+                    <Button
+                      className=" raise_inv startproject"
+                      onClick={sendSLA}
+                    >
+                      {!isloading ? "Resend SLA" : "Processing"}
+                    </Button>
+                  )}
                 </div>
               </div>
             )}

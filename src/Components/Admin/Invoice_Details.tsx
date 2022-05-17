@@ -674,7 +674,7 @@ const Admin_Invoice_details = (props) => {
                     aria-expanded="true"
                     aria-controls="flush-collapseOne"
                   >
-                   <b> PIPELINE WELDING BREAKDOWN </b>
+                    <b> PIPELINE WELDING BREAKDOWN </b>
                   </button>
                 </h2>
                 <div
@@ -735,7 +735,7 @@ const Admin_Invoice_details = (props) => {
                     aria-expanded="false"
                     aria-controls="flush-collapseTwo"
                   >
-                   <b> LIST OF COST EXCLUSIONS </b>
+                    <b> LIST OF COST EXCLUSIONS </b>
                   </button>
                 </h2>
                 <div
@@ -780,8 +780,12 @@ const Admin_Invoice_details = (props) => {
               <Col md={6}>
                 <p>
                   (1.) Total Welding & Fitting Specialists Spreads (Labour) Cost
-                  (2 Spread i.e 12 Welding Specialists & 4 Fitting Specialists,
-                  16 Technical Specialists in all)
+                  ({work_order_detail?.costing?.spreads ?? ""} Spread i.e{" "}
+                  {work_order_detail?.specialist_requests?.map((data, i) =>
+                    i < work_order_detail?.specialist_requests.length - 1
+                      ? data.number + "-" + data.skill + ", "
+                      : data.number + "-" + data.skill
+                  )}{" "}
                 </p>
               </Col>
               <Col md={6}>
