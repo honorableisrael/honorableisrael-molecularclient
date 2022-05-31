@@ -126,7 +126,7 @@ const Admin_Invoice_details = (props) => {
       ])
       .then(
         axios.spread((res2, res3, res4) => {
-          console.log(res3.data.data);
+          console.log(res2.data.data);
           setState({
             ...state,
             work_order_detail: res4.data.data,
@@ -304,7 +304,7 @@ const Admin_Invoice_details = (props) => {
     show,
     cycle_amount,
   } = state;
-  console.log(work_order_detail);
+  console.log(invoice_details);
   return (
     <>
       <Modal
@@ -587,6 +587,7 @@ const Admin_Invoice_details = (props) => {
                             <div className="gtotal">
                               <span>Grand total</span>
                               <span>
+                                N
                                 {FormatAmount(
                                   work_order_detail?.costing?.contractor_cost
                                 )}
@@ -640,7 +641,7 @@ const Admin_Invoice_details = (props) => {
                     aria-expanded="false"
                     aria-controls="flush-collapseThree"
                   >
-                   <b>Project Description</b>
+                    <b>Project Description</b>
                   </button>
                 </h2>
                 <div
@@ -650,9 +651,7 @@ const Admin_Invoice_details = (props) => {
                   data-bs-parent="#accordionFlushExample"
                 >
                   <div className="accordion-body">
-                    <p>
-                      {work_order_detail?.description}
-                    </p>
+                    <p>{work_order_detail?.description}</p>
                   </div>
                 </div>
               </div>
@@ -666,7 +665,7 @@ const Admin_Invoice_details = (props) => {
                     aria-expanded="true"
                     aria-controls="flush-collapseOne"
                   >
-                  <b>  PIPELINE WELDING BREAKDOWN</b>
+                    <b> PIPELINE WELDING BREAKDOWN</b>
                   </button>
                 </h2>
                 <div
@@ -690,24 +689,28 @@ const Admin_Invoice_details = (props) => {
                       <tbody>
                         {pipe_breakdown?.map((data: any, i) => (
                           <tr key={i}>
-                            <td >
-                              {data?.size}
-                            </td>
+                            <td>{data?.size}</td>
                             <td>{FormatAmount(data?.length)}</td>
-                            <td>{FormatAmount(data?.pipe_schedule) ?? "n/a"}</td>
+                            <td>
+                              {FormatAmount(data?.pipe_schedule) ?? "n/a"}
+                            </td>
                             <td>{FormatAmount(data?.joints)}</td>
-                            <td>{FormatAmount(data?.cost_per_joint??"n/a")}</td>
-                            <td>{FormatAmount(data?.contractor_cost)??"n/a"}</td>
+                            <td>
+                              {FormatAmount(data?.cost_per_joint ?? "n/a")}
+                            </td>
+                            <td>
+                              {FormatAmount(data?.contractor_cost) ?? "n/a"}
+                            </td>
                           </tr>
                         ))}
                       </tbody>
                     </Table>
                     <div className="gtotal">
+                      <span>Grand total</span>
                       <span>
-                        Grand total
-                      </span>
-                      <span>
-                        {FormatAmount((work_order_detail?.costing?.contractor_cost))}
+                        {FormatAmount(
+                          work_order_detail?.costing?.contractor_cost
+                        )}
                       </span>
                     </div>
                   </div>
@@ -723,7 +726,7 @@ const Admin_Invoice_details = (props) => {
                     aria-expanded="false"
                     aria-controls="flush-collapseTwo"
                   >
-                  <b>  LIST OF COST EXCLUSIONS</b>
+                    <b> LIST OF COST EXCLUSIONS</b>
                   </button>
                 </h2>
                 <div
@@ -732,26 +735,18 @@ const Admin_Invoice_details = (props) => {
                   aria-labelledby="flush-headingTwo"
                   data-bs-parent="#accordionFlushExample"
                 >
+                  <p className="cclsf">
+                    The exclusions shall be the responsibilty of{" "}
+                    {invoice_details?.work_order?.contractor}:
+                  </p>
                   <div className="accordion-body">
                     <p>
                       <ul>
-                        <li>
-                          {" "}
-                          All welding consumables and accessories etc.
-                          Consumables such as electrodes, grinding disks, fuel
-                          and power.
-                        </li>
-                        <li>
-                          {" "}
-                          All welding equipments and accessories etc. Equipments
-                          such as welding machines, grinding machines, vehicles
-                          conveying all equipment etc
-                        </li>
-                        <li>
-                          Helpers and other ancillary workers. This Proforma
-                          does NOT cover helpers or electricians and
-                          construction subordinate workers etc.
-                        </li>
+                        {invoice_details?.cost_exclusions
+                          ?.split("\n")
+                          ?.map((data, i) => (
+                            <li> {data}</li>
+                          ))}
                       </ul>
                     </p>
                   </div>
@@ -765,23 +760,10 @@ const Admin_Invoice_details = (props) => {
             <h5>Conditions</h5>
             <p>The Profoma Invoice is based on COST PER JOINT and covers:</p>
             <Row>
-            <Col md={6}>
-                <p>
-                  (1.) Total Welding & Fitting Specialists Spreads (Labour) Cost
-                  ({work_order_detail?.costing?.spreads ?? ""} Spread i.e{" "}
-                  {work_order_detail?.specialist_requests?.map((data, i) =>
-                    i < work_order_detail?.specialist_requests.length - 1
-                      ? data.number + "-" + data.skill + ", "
-                      : data.number + "-" + data.skill
-                  )}{" "}
-                </p>
-              </Col>
-              <Col md={6}>
-                <p>
-                  (2.) Per diem per day (Daily Feeding, Daily Accomodation,
-                  Milk, Soap, Daily Bottled water provision allowances). Other
-                  general welfare and Quality Assurance costs
-                </p>
+              <Col md={12}>
+                {invoice_details?.conditions?.split("\n")?.map((data, i) => (
+                  <p>{data}</p>
+                ))}
               </Col>
             </Row>
           </Col>

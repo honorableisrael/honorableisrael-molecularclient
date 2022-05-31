@@ -89,6 +89,10 @@
       "last 1 safari version"
     ]
   },
+  "engines": {
+    "node": "14.15.0",
+    "npm":"8.1.4"
+  },
   "devDependencies": {
     "redux-devtools": "^3.7.0",
     "tslint": "^6.1.3"

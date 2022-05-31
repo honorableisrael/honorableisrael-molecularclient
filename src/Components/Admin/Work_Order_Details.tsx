@@ -961,6 +961,46 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
       cost_show: true,
     });
   };
+  const sendSLA = () => {
+    const work_order = localStorage.getItem("work_order_details");
+    const work_order_details = work_order ? JSON.parse(work_order) : "";
+    setState({
+      ...state,
+      isloading: true,
+    });
+    axios
+      .post(
+        `${API}/admin/work-orders/${work_order_details?.id}/send-contract`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${returnAdminToken().access_token}`,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res.data);
+        notify("successfully  sent contract");
+        setTimeout(() => {
+          // window.location.reload();
+        }, 2000);
+        setState({
+          ...state,
+          isloading: false,
+        });
+      })
+      .catch((err) => {
+        if (err?.response?.status == 400) {
+          notify(err?.response?.data?.message);
+        }
+        notify("failed to process");
+        setState({
+          ...state,
+          isloading: false,
+        });
+        console.log(err);
+      });
+  };
   const SendCost = () => {
     const work_order = localStorage.getItem("work_order_details");
     const work_order_details = work_order ? JSON.parse(work_order) : "";
@@ -1374,50 +1414,76 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                 </Button> */}
               </div>
             )}
-            {inreview &&
-              work_order_detail?.actions?.canAssignSpecialist == false && (
-                <div className="raise1">
-                  <div className="rjwrapper mrgin__right">
-                    <Link to="/work_order_evaluation">
-                      <Button className=" raise_inv">{"Edit"}</Button>
-                    </Link>
+            <div className="fllx2">
+              {inreview &&
+                work_order_detail?.actions?.canAssignSpecialist == false && (
+                  <div className="raise1">
+                    <div className="rjwrapper mrgin__right">
+                      <Link to="/work_order_evaluation">
+                        <Button className=" raise_inv">{"Edit"}</Button>
+                      </Link>
+                    </div>
                   </div>
-                </div>
-              )}
-            {inreview && work_order_detail?.actions?.canCost == true && (
-              <div className="raise1">
-                <div className="rjwrapper mrgin__right">
-                  <Button className=" raise_inv" onClick={modalShow1}>
-                    {"Cost Settings"}
-                  </Button>
-                </div>
-              </div>
-            )}
-            {inreview && work_order_detail?.assigned_specialists.length !== 0 && (
-              <div className="raise1">
-                <div className="rjwrapper mrgin__right">
-                  <Button
-                    className=" raise_inv startproject"
-                    onClick={StartProject}
-                  >
-                    {!isloading ? "Commence Work" : "Processing"} <Play />
-                  </Button>
-                </div>
-              </div>
-            )}
-            {work_order_detail?.status == "Active" &&
-              work_order_detail?.assigned_specialists?.length !== 0 && (
+                )}
+              {inreview && work_order_detail?.actions?.canCost == true && (
                 <div className="raise1">
                   <div className="rjwrapper mrgin__right">
-                    <Button
-                      className=" raise_inv startproject"
-                      onClick={StopProject}
-                    >
-                      {!isloading ? "End Work" : "Processing"} <Stop />
+                    <Button className=" raise_inv" onClick={modalShow1}>
+                      {"Cost Settings"}
                     </Button>
                   </div>
                 </div>
               )}
+              {inreview &&
+                work_order_detail?.assigned_specialists.length !== 0 && (
+                  <div className="raise1">
+                    <div className="rjwrapper mrgin__right">
+                      <Button
+                        className=" raise_inv startproject"
+                        onClick={StartProject}
+                      >
+                        {!isloading ? "Commence Work" : "Processing"} <Play />
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              {work_order_detail?.status == "Active" &&
+                work_order_detail?.assigned_specialists?.length !== 0 && (
+                  <div className="raise1">
+                    <div className="rjwrapper mrgin__right">
+                      <Button
+                        className=" raise_inv startproject"
+                        onClick={StopProject}
+                      >
+                        {!isloading ? "End Work" : "Processing"} <Stop />
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              {work_order_detail?.actions?.canSendSla && (
+                <div className="raise1">
+                  <div className="rjwrapper mrgin__right">
+                    {!work_order_detail?.sla_sent && (
+                      <Button
+                        className=" raise_inv startproject"
+                        onClick={sendSLA}
+                      >
+                        {!isloading ? "Send SLA" : "Processing"}
+                      </Button>
+                    )}
+                    {work_order_detail?.sla_sent && (
+                      <Button
+                        className=" raise_inv startproject"
+                        onClick={sendSLA}
+                      >
+                        {!isloading ? "Resend SLA" : "Processing"}
+                      </Button>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+
             <Row className="mgtop">
               <Col md={2} className="job23_ mheight_">
                 <p className="exp23">
