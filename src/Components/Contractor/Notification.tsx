@@ -33,7 +33,7 @@ const Notification = withRouter((props) => {
       ? JSON.parse(availableToken)
       : window.location.assign("/");
     if (token.user_type !== "contractor") {
-      return props.history.push("/sigin");
+      return props.history.push("/signin");
     }
     axios
       .all([

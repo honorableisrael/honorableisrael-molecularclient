@@ -33,7 +33,7 @@ const Admin_Notification = withRouter((props) => {
       ? JSON.parse(availableToken)
       : window.location.assign("/");
     if (token.user_type !== "admin") {
-      return props.history.push("/sigin");
+      return props.history.push("/signin");
     }
     axios
       .all([

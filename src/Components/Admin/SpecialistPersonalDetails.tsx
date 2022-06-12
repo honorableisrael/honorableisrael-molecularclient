@@ -64,7 +64,7 @@ const Specialistdetais = (props) => {
       ? JSON.parse(availableToken)
       : window.location.assign("/");
     if (token.user_type !== "admin") {
-      return props.history.push("/sigin");
+      return props.history.push("/signin");
     }
     setState({
       ...state,
@@ -115,7 +115,7 @@ const Specialistdetais = (props) => {
       ? JSON.parse(availableToken)
       : window.location.assign("/");
     if (token.user_type !== "admin") {
-      return props.history.push("/sigin");
+      return props.history.push("/signin");
     }
     setState({
       ...state,

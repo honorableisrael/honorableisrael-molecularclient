@@ -250,7 +250,7 @@ const Contractor_Profile = withRouter((props) => {
     window.scrollTo(0, 0);
     const token = contractorToken();
     if (token.user_type !== "contractor") {
-      return props.history.push("/sigin");
+      return props.history.push("/signin");
     }
     axios
       .all([

@@ -304,11 +304,11 @@ const Admin_Invoice_details = (props) => {
     show,
     cycle_amount,
   } = state;
-  console.log(invoice_details);
+  console.log(work_order_detail, "work_order_detail");
   return (
     <>
       <Modal
-        size="sm"
+        size='sm'
         show={show}
         onHide={() =>
           setState({
@@ -316,11 +316,10 @@ const Admin_Invoice_details = (props) => {
             show: false,
           })
         }
-        dialogClassName="modal-90w"
-        className="mdl12_ mdl2"
-      >
+        dialogClassName='modal-90w'
+        className='mdl12_ mdl2'>
         <Modal.Header closeButton>
-          <Modal.Title id="example-custom-modal-styling-title">
+          <Modal.Title id='example-custom-modal-styling-title'>
             Accept Proforma Invoice
           </Modal.Title>
         </Modal.Header>
@@ -334,22 +333,20 @@ const Admin_Invoice_details = (props) => {
             </Col>
           </Row>
           <Row>
-            <Col md={12} className="terminate2">
+            <Col md={12} className='terminate2'>
               <div
-                className="terminate1"
+                className='terminate1'
                 onClick={() =>
                   setState({
                     ...state,
                     show: false,
                   })
-                }
-              >
+                }>
                 {"Cancel"}
               </div>
               <Button
-                className="greenbtn2 btn-success"
-                onClick={(e) => AcceptInvoice()}
-              >
+                className='greenbtn2 btn-success'
+                onClick={(e) => AcceptInvoice()}>
                 {isloading ? "Processing" : "Ok"}
               </Button>
             </Col>
@@ -357,7 +354,7 @@ const Admin_Invoice_details = (props) => {
         </Modal.Body>
       </Modal>
       <Modal
-        size="sm"
+        size='sm'
         show={show2}
         onHide={() =>
           setState({
@@ -365,11 +362,10 @@ const Admin_Invoice_details = (props) => {
             show2: false,
           })
         }
-        dialogClassName="modal-90w"
-        className="mdl12_ mdl2"
-      >
+        dialogClassName='modal-90w'
+        className='mdl12_ mdl2'>
         <Modal.Header closeButton>
-          <Modal.Title id="example-custom-modal-styling-title">
+          <Modal.Title id='example-custom-modal-styling-title'>
             Complete Payment
           </Modal.Title>
         </Modal.Header>
@@ -383,56 +379,54 @@ const Admin_Invoice_details = (props) => {
             </Col>
           </Row>
           <Row>
-            <Col md={12} className="terminate2">
+            <Col md={12} className='terminate2'>
               <div
-                className="terminate1"
+                className='terminate1'
                 onClick={() =>
                   setState({
                     ...state,
                     show2: false,
                   })
-                }
-              >
+                }>
                 {"Cancel"}
               </div>
 
               <Button
-                className="greenbtn2 btn-success"
+                className='greenbtn2 btn-success'
                 // onClick={(e) => MakePayment()}
-                onClick={(e) => get_payment_ref()}
-              >
+                onClick={(e) => get_payment_ref()}>
                 {isloading ? "Processing" : "Proceed"}
               </Button>
             </Col>
           </Row>
         </Modal.Body>
       </Modal>
-      <Container fluid={true} className="dasbwr tainer3">
+      <Container fluid={true} className='dasbwr tainer3'>
         <Helmet>
-          <meta charSet="utf-8" />
+          <meta charSet='utf-8' />
           <title>Molecular - Contractor Work Order</title>
           <link />
         </Helmet>
         <Row>
           <DashboardNav />
-          <div id="overview"></div>
+          <div id='overview'></div>
         </Row>
-        <Row className="rowt3 row3t2 brt00">
-          <Col md={11} className="job34">
-            <div className="title_wo title_wo12 title_wo_ tbtom ttbom">
-              <div className="workorderheader fixedtitle">
-                <Link to="/payment_invoice">
+        <Row className='rowt3 row3t2 brt00'>
+          <Col md={11} className='job34'>
+            <div className='title_wo title_wo12 title_wo_ tbtom ttbom'>
+              <div className='workorderheader fixedtitle'>
+                <Link to='/payment_invoice'>
                   {" "}
-                  <img src={arrowback} className="arrowback" />
+                  <img src={arrowback} className='arrowback' />
                 </Link>{" "}
                 &nbsp; Invoice Details
               </div>
             </div>
-            <Row className="mgtop mgzero">
-              <Col md={12} className="mgtop345">
-                <div className="job23_1a hidden__1">
-                  <div className="">
-                    <div className="overview12 overviewflex-down">
+            <Row className='mgtop mgzero'>
+              <Col md={12} className='mgtop345'>
+                <div className='job23_1a hidden__1'>
+                  <div className=''>
+                    <div className='overview12 overviewflex-down'>
                       {/* <Col md={12} className="mm12">
                         <h6>Account Details</h6>
                         <select
@@ -450,76 +444,75 @@ const Admin_Invoice_details = (props) => {
                           </option>
                         </select>
                       </Col> */}
-                      <Col md={12} className="plf">
-                        <div className="">
-                          <div className="box_inv outerpink">
-                            <span className="box_smalltick smalltickpink"></span>
+                      <Col md={12} className='plf'>
+                        <div className=''>
+                          <div className='box_inv outerpink'>
+                            <span className='box_smalltick smalltickpink'></span>
                             {invoice_details?.total_amount_paid > 0
                               ? "Payment in progress"
                               : "Unpaid"}
                           </div>
-                          <div className="boxwrapper__1">
-                            <div className="lcomponent">
-                              <div className="inv_title">
+                          <div className='boxwrapper__1'>
+                            <div className='lcomponent'>
+                              <div className='inv_title'>
                                 Invoice : {invoice_details.reference}
                               </div>
-                              <div className="inv_title2">
-                                <div className="inv_title3">
+                              <div className='inv_title2'>
+                                <div className='inv_title3'>
                                   {" "}
                                   Invoice Number{" "}
-                                  <span className="acceptedinvoc">
+                                  <span className='acceptedinvoc'>
                                     {invoice_details.is_approved
                                       ? "Accepted"
                                       : "Awaiting Acceptance"}
                                   </span>
                                 </div>
-                                <div className="inv_title4">
+                                <div className='inv_title4'>
                                   {invoice_details?.number ?? "~~/~~"}
                                 </div>
                               </div>
-                              <div className="inv_title2">
-                                <div className="inv_title3">Invoice Date</div>
-                                <div className="inv_title4">
+                              <div className='inv_title2'>
+                                <div className='inv_title3'>Invoice Date</div>
+                                <div className='inv_title4'>
                                   {formatTime(invoice_details?.sent_at) ??
                                     "~~/~~"}
                                 </div>
                               </div>
                             </div>
-                            <div className="rcomponent">
-                              <img src={logo} alt="" className="Simage" />
+                            <div className='rcomponent'>
+                              <img src={logo} alt='' className='Simage' />
                               <div
-                                className="Stext2"
+                                className='Stext2'
                                 dangerouslySetInnerHTML={{
                                   __html:
                                     invoice_details?.company_address ?? "n/a",
-                                }}
-                              ></div>
+                                }}></div>
                             </div>
                           </div>
                           <hr />
-                          <div className="boxwrapper__1 inv9">
-                            <div className="lcomponent">
-                              <div className="inv_title2">
-                                <div className="inv_title3">Client</div>
-                                <div className="inv_title4 ing">
+                          <div className='boxwrapper__1 inv9'>
+                            <div className='lcomponent'>
+                              <div className='inv_title2'>
+                                <div className='inv_title3'>Client</div>
+                                <div className='inv_title4 ing'>
                                   {work_order_detail?.contractor}
                                 </div>
-                                <div className="inv_title3 inv_titlex ">
+                                <div className='inv_title3 inv_titlex '>
                                   {work_order_detail?.country}
                                 </div>
                               </div>
                             </div>
-                            <div className="rcomponent">
-                              <div className="inv_title2">
-                                <div className="inv_title3">Total Amount</div>
-                                <div className="inv_title4 ing">
+                            <div className='rcomponent'>
+                              <div className='inv_title2'>
+                                <div className='inv_title3'>Total Amount</div>
+                                <div className='inv_title4 ing'>
                                   {current_currency}
                                   {FormatAmount(
                                     invoice_details?.total_amount
                                   ) ?? "~~/~~"}
                                 </div>
-                                <div className="inv_title3">Amount Paid</div>
-                                <div className="inv_title4 ing">
+                                <div className='inv_title3'>Amount Paid</div>
+                                <div className='inv_title4 ing'>
                                   {current_currency}
                                   {FormatAmount(
                                     invoice_details?.total_amount_paid
@@ -527,10 +520,10 @@ const Admin_Invoice_details = (props) => {
                                 </div>
                               </div>
                             </div>
-                            <div className="rcomponent">
-                              <div className="inv_title2">
-                                <div className="inv_title3">Balance Due</div>
-                                <div className="inv_title4 ing">
+                            <div className='rcomponent'>
+                              <div className='inv_title2'>
+                                <div className='inv_title3'>Balance Due</div>
+                                <div className='inv_title4 ing'>
                                   {current_currency}
                                   {FormatAmount(
                                     invoice_details?.total_amount_unpaid
@@ -539,20 +532,20 @@ const Admin_Invoice_details = (props) => {
                               </div>
                             </div>
                           </div>
-                          <div className="ing_11">
+                          <div className='ing_11'>
                             <Table responsive>
-                              <thead className="theadinvoice">
+                              <thead className='theadinvoice'>
                                 <tr>
-                                  <th className="tablehead">Specialist Cost</th>
-                                  <th className="tablehead">Date</th>
-                                  <th className="tablehead">Status</th>
-                                  <th className="tablehead">Cycle</th>
-                                  <th className="tablehead">Payment</th>
+                                  <th className='tablehead'>Specialist Cost</th>
+                                  <th className='tablehead'>Date</th>
+                                  <th className='tablehead'>Status</th>
+                                  <th className='tablehead'>Cycle</th>
+                                  <th className='tablehead'>Payment</th>
                                 </tr>
                               </thead>
                               <tbody>
                                 {invoice_details?.cycles?.map((data, i) => (
-                                  <tr className="tdata" key={i}>
+                                  <tr className='tdata' key={i}>
                                     <td>
                                       {current_currency}
                                       {FormatAmount(data?.amount)}
@@ -563,7 +556,7 @@ const Admin_Invoice_details = (props) => {
                                     <td>
                                       {data?.status == "Unpaid" ? (
                                         <Button
-                                          className="btn-success primary3"
+                                          className='btn-success primary3'
                                           onClick={() => {
                                             setState({
                                               ...state,
@@ -572,8 +565,7 @@ const Admin_Invoice_details = (props) => {
                                               id: data.id,
                                               u_id: data.number,
                                             });
-                                          }}
-                                        >
+                                          }}>
                                           Pay
                                         </Button>
                                       ) : (
@@ -584,32 +576,35 @@ const Admin_Invoice_details = (props) => {
                                 ))}
                               </tbody>
                             </Table>
-                            <div className="gtotal">
-                              <span>Grand total</span>
-                              <span>
-                                N{FormatAmount(
-                                  work_order_detail?.costing?.contractor_cost
-                                )}
-                              </span>
-                            </div>
-                            <div className="text-right mgg2"></div>
+                            {work_order_detail?.costing && (
+                              <div className='gtotal'>
+                                <span>Grand total</span>
+                                <span>
+                                  N
+                                  {FormatAmount(
+                                    work_order_detail?.costing?.contractor_cost
+                                  )}
+                                </span>
+                              </div>
+                            )}
+                            <div className='text-right mgg2'></div>
                           </div>
                         </div>
-                        <div className="allpayment00">
-                          <div className="allpayment1">
+                        <div className='allpayment00'>
+                          <div className='allpayment1'>
                             All payments go to any of the account details below
                           </div>
                           {invoice_details?.bank_accounts?.map((data, i) => (
-                            <div className="fbn1">
-                              <div className="bnclass">{data.bank}</div>
-                              <div className="bnclass">
+                            <div className='fbn1'>
+                              <div className='bnclass'>{data.bank}</div>
+                              <div className='bnclass'>
                                 {data.account_number}
                               </div>
-                              <div className="bnclass">{data.account_name}</div>
+                              <div className='bnclass'>{data.account_name}</div>
                             </div>
                           ))}
                         </div>
-                        <div className="proformer_Invoc">
+                        <div className='proformer_Invoc'>
                           {invoice_details.is_approved == false && (
                             <Button onClick={openModal}>
                               Accept Proforma Invoice
@@ -624,58 +619,51 @@ const Admin_Invoice_details = (props) => {
             </Row>
           </Col>
         </Row>
-        <Row className="row3456 row3t2 rowt3">
+        <Row className='row3456 row3t2 rowt3'>
           <Col md={12}>
             <div
-              className="accordion accordion-flush"
-              id="accordionFlushExample"
-            >
-              <div className="accordion-item">
-                <h2 className="accordion-header" id="flush-headingThree">
+              className='accordion accordion-flush'
+              id='accordionFlushExample'>
+              <div className='accordion-item'>
+                <h2 className='accordion-header' id='flush-headingThree'>
                   <button
-                    className="accordion-button collapsed"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#flush-collapseThree"
-                    aria-expanded="false"
-                    aria-controls="flush-collapseThree"
-                  >
-                   <b>Project Description</b>
+                    className='accordion-button collapsed'
+                    type='button'
+                    data-bs-toggle='collapse'
+                    data-bs-target='#flush-collapseThree'
+                    aria-expanded='false'
+                    aria-controls='flush-collapseThree'>
+                    <b>Project Description</b>
                   </button>
                 </h2>
                 <div
-                  id="flush-collapseThree"
-                  className="accordion-collapse collapse show"
-                  aria-labelledby="flush-headingThree"
-                  data-bs-parent="#accordionFlushExample"
-                >
-                  <div className="accordion-body">
-                    <p>
-                      {work_order_detail?.description}
-                    </p>
+                  id='flush-collapseThree'
+                  className='accordion-collapse collapse show'
+                  aria-labelledby='flush-headingThree'
+                  data-bs-parent='#accordionFlushExample'>
+                  <div className='accordion-body'>
+                    <p>{work_order_detail?.description}</p>
                   </div>
                 </div>
               </div>
-              <div className="accordion-item">
-                <h2 className="accordion-header" id="flush-headingOne">
+              <div className='accordion-item'>
+                <h2 className='accordion-header' id='flush-headingOne'>
                   <button
-                    className="accordion-button collapsed"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#flush-collapseOne"
-                    aria-expanded="true"
-                    aria-controls="flush-collapseOne"
-                  >
-                  <b>  PIPELINE WELDING BREAKDOWN</b>
+                    className='accordion-button collapsed'
+                    type='button'
+                    data-bs-toggle='collapse'
+                    data-bs-target='#flush-collapseOne'
+                    aria-expanded='true'
+                    aria-controls='flush-collapseOne'>
+                    <b> PIPELINE WELDING BREAKDOWN</b>
                   </button>
                 </h2>
                 <div
-                  id="flush-collapseOne"
-                  className="accordion-collapse collapse show"
-                  aria-labelledby="flush-headingOne"
-                  data-bs-parent="#accordionFlushExample"
-                >
-                  <div className="accordion-body">
+                  id='flush-collapseOne'
+                  className='accordion-collapse collapse show'
+                  aria-labelledby='flush-headingOne'
+                  data-bs-parent='#accordionFlushExample'>
+                  <div className='accordion-body'>
                     <Table hover responsive>
                       <thead>
                         <tr>
@@ -690,51 +678,53 @@ const Admin_Invoice_details = (props) => {
                       <tbody>
                         {pipe_breakdown?.map((data: any, i) => (
                           <tr key={i}>
-                            <td >
-                              {data?.size}
-                            </td>
+                            <td>{data?.size}</td>
                             <td>{FormatAmount(data?.length)}</td>
-                            <td>{FormatAmount(data?.pipe_schedule) ?? "n/a"}</td>
+                            <td>
+                              {FormatAmount(data?.pipe_schedule) ?? "n/a"}
+                            </td>
                             <td>{FormatAmount(data?.joints)}</td>
-                            <td>{FormatAmount(data?.cost_per_joint??"n/a")}</td>
-                            <td>{FormatAmount(data?.contractor_cost)??"n/a"}</td>
+                            <td>
+                              {FormatAmount(data?.cost_per_joint ?? "n/a")}
+                            </td>
+                            <td>
+                              {FormatAmount(data?.contractor_cost) ?? "n/a"}
+                            </td>
                           </tr>
                         ))}
                       </tbody>
                     </Table>
-                    <div className="gtotal">
+                    <div className='gtotal'>
+                      <span>Grand total</span>
                       <span>
-                        Grand total
-                      </span>
-                      <span>
-                        {FormatAmount((work_order_detail?.costing?.contractor_cost))}
+                        {FormatAmount(
+                          work_order_detail?.costing?.contractor_cost
+                        )}
                       </span>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="accordion-item">
-                <h2 className="accordion-header" id="flush-headingTwo">
+              <div className='accordion-item'>
+                <h2 className='accordion-header' id='flush-headingTwo'>
                   <button
-                    className="accordion-button collapsed"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#flush-collapseTwo"
-                    aria-expanded="false"
-                    aria-controls="flush-collapseTwo"
-                  >
-                  <b>  LIST OF COST EXCLUSIONS</b>
+                    className='accordion-button collapsed'
+                    type='button'
+                    data-bs-toggle='collapse'
+                    data-bs-target='#flush-collapseTwo'
+                    aria-expanded='false'
+                    aria-controls='flush-collapseTwo'>
+                    <b> LIST OF COST EXCLUSIONS</b>
                   </button>
                 </h2>
                 <div
-                  id="flush-collapseTwo"
-                  className="accordion-collapse collapse show"
-                  aria-labelledby="flush-headingTwo"
-                  data-bs-parent="#accordionFlushExample"
-                >
-                  <div className="accordion-body">
+                  id='flush-collapseTwo'
+                  className='accordion-collapse collapse show'
+                  aria-labelledby='flush-headingTwo'
+                  data-bs-parent='#accordionFlushExample'>
+                  <div className='accordion-body'>
                     <p>
-                    <ul>
+                      <ul>
                         {invoice_details?.cost_exclusions
                           ?.split("\n")
                           ?.map((data, i) => (
@@ -748,7 +738,7 @@ const Admin_Invoice_details = (props) => {
             </div>
           </Col>
         </Row>
-        <Row className="invoicefooter">
+        <Row className='invoicefooter'>
           <Col md={12}>
             <h5>Conditions</h5>
             <p>The Profoma Invoice is based on COST PER JOINT and covers:</p>
@@ -765,7 +755,7 @@ const Admin_Invoice_details = (props) => {
       <ToastContainer
         enableMultiContainer
         containerId={"B"}
-        toastClassName="bg-orange text-white"
+        toastClassName='bg-orange text-white'
         hideProgressBar={true}
         position={"top-right"}
       />

@@ -7,10 +7,9 @@ import {
   Table,
   Modal,
   Button,
-  Spinner,
 } from "react-bootstrap";
 import "./contractor.css";
-import DashboardNav from "./navbar";
+import DashboardNav from "../Admin/navbar";
 import "react-rangeslider/lib/index.css";
 import { Helmet } from "react-helmet";
 import arrowback from "../../images/dtls.png";
@@ -22,17 +21,30 @@ import {
   current_currency,
   FormatAmount,
   formatTime,
+  MID,
   notify,
-  reloadPage,
   returnAdminToken,
 } from "../../config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { HashLink } from 'react-router-hash-link';
+import { copyFileSync } from "fs";
 
-const Admin_Invoice_details = (props) => {
+declare global {
+  interface Window {
+    initPayment: any;
+  }
+}
+
+declare global {
+  interface Window {
+    initPayment: any;
+  }
+}
+
+const ContractorInvoiceDetails = (props) => {
   const [state, setState] = useState<any>({
     invoice_details: {},
+    user_details: "",
     country: "",
     inprogress: true,
     pending_request: false,
@@ -45,44 +57,17 @@ const Admin_Invoice_details = (props) => {
     end_date: "",
     start_date: "",
     hour: "",
+    u_id: "",
     show: false,
     show2: false,
     reason: "",
     isloading: false,
     work_order_detail: {},
     pipe_breakdown: [],
-    selected_id: "",
-    cost_exclusions: "",
-    conditions: "",
-    modal_state: "",
-    show_modal: false,
-    show_modal_1: false,
+    id: "",
+    cycle_amount: "",
+    MID: "GP0000001",
   });
-
-  const handleClose = () =>
-    setState({
-      ...state,
-      show_modal: false,
-    });
-
-  const handleShow = (type) =>
-    setState({
-      ...state,
-      show_modal: true,
-      modal_state: type,
-    });
-
-  const handleClose1 = () =>
-    setState({
-      ...state,
-      show_modal_1: false,
-    });
-
-  const handleShow1 = () =>
-    setState({
-      ...state,
-      show_modal_1: true,
-    });
 
   const onchange = (e) => {
     console.log(e.target.value);
@@ -91,7 +76,6 @@ const Admin_Invoice_details = (props) => {
       [e.target.name]: e.target.value,
     });
   };
-
   const onInputChange = (e) => {
     const letterNumber = /^[A-Za-z]+$/;
     if (e.target.value) {
@@ -113,25 +97,15 @@ const Admin_Invoice_details = (props) => {
       });
     }
   };
-
-  const openPaymentModal = (id) => {
+  const openModal = () => {
     setState({
       ...state,
       show: true,
-      selected_id: id,
     });
   };
-
-  const openPaymentModal2 = (id) => {
-    setState({
-      ...state,
-      show2: true,
-      selected_id: id,
-    });
-  };
-
   useEffect(() => {
     window.scrollTo(-0, -0);
+    console.log(props);
     const invoice_: any = localStorage.getItem("invoice_id");
     const invoice = invoice_ ? JSON.parse(invoice_) : "";
     const token = returnAdminToken();
@@ -139,25 +113,28 @@ const Admin_Invoice_details = (props) => {
     const work_order_details = work_order ? JSON.parse(work_order) : "";
     axios
       .all([
-        axios.get(`${API}/admin/invoices/${props?.match?.params?.id}`, {
-          headers: { Authorization: `Bearer ${token.access_token}` },
-        }),
-        axios.get(`${API}/bank-accounts`, {
-          headers: { Authorization: `Bearer ${token.access_token}` },
-        }),
-        axios.get(`${API}/admin/work-orders/${work_order_details?.id}`, {
-          headers: { Authorization: `Bearer ${token.access_token}` },
-        }),
+        axios.get(
+          `${API}/admin/invoices/${props?.match?.params?.id}?contractor=${props?.match?.params?.contractorid}`,
+          {
+            headers: { Authorization: `Bearer ${token.access_token}` },
+          }
+        ),
+        // axios.get(`${API}/contractor`, {
+        //   headers: { Authorization: `Bearer ${token.access_token}` },
+        // }),
+        // axios.get(`${API}/contractor/work-orders/${work_order_details?.id}`, {
+        //   headers: { Authorization: `Bearer ${token.access_token}` },
+        // }),
       ])
       .then(
         axios.spread((res2, res3, res4) => {
-          console.log(res4.data.data);
+          console.log(res2.data.data);
           setState({
             ...state,
-            ...res2.data.data,
-            work_order_detail: res4.data.data,
+            // work_order_detail: res4.data.data,
             invoice_details: res2.data.data,
-            pipe_breakdown: res4.data.data.pipe_configs,
+            // user_details: res3.data.data,
+            // pipe_breakdown: res4.data.data.pipe_configs,
           });
         })
       )
@@ -170,11 +147,8 @@ const Admin_Invoice_details = (props) => {
       });
   }, []);
 
-  const sendInvoice = () => {
-    const availableToken: any = localStorage.getItem("loggedInDetails");
-    const token = availableToken
-      ? JSON.parse(availableToken)
-      : window.location.assign("/");
+  const AcceptInvoice = () => {
+    const token = returnAdminToken();
     const work_order = localStorage.getItem("work_order_details");
     const work_order_details = work_order ? JSON.parse(work_order) : "";
     setState({
@@ -184,7 +158,7 @@ const Admin_Invoice_details = (props) => {
     axios
       .all([
         axios.post(
-          `${API}/admin/work-orders/${work_order_details?.id}/invoice/send`,
+          `${API}/contractor/invoices/${props?.match?.params?.id}/approve`,
           {},
           {
             headers: { Authorization: `Bearer ${token.access_token}` },
@@ -194,6 +168,9 @@ const Admin_Invoice_details = (props) => {
       .then(
         axios.spread((res) => {
           notify("Successful");
+          setTimeout(() => {
+            props.history.push("/proforma_invoice_accepted");
+          }, 2000);
           console.log(res.data.data);
           setState({
             ...state,
@@ -213,9 +190,33 @@ const Admin_Invoice_details = (props) => {
       });
   };
 
-  const makePaymentForSubInvoice = () => {
-    const work_order = localStorage.getItem("work_order_details");
-    const work_order_details = work_order ? JSON.parse(work_order) : "";
+  const initPayment = (x) => {
+    window.initPayment({
+      MID: MID,
+      email: user_details?.contractor?.email,
+      firstname: user_details?.contractor?.first_name,
+      lastname: user_details?.contractor?.last_name,
+      customer_txnref: x,
+      description: "Cycle payment",
+      title: "",
+      amount: cycle_amount,
+      country: "NG",
+      currency: "NGN",
+      onclose: function () {
+        notify("failed to complete payment");
+      },
+      callback: function (response) {
+        console.log(response);
+        notify(response.message);
+        if (response?.bank_message == "Approved") {
+          MakePayment();
+        }
+      },
+    });
+  };
+
+  const MakePayment = () => {
+    const token = returnAdminToken();
     setState({
       ...state,
       isloading: true,
@@ -223,73 +224,60 @@ const Admin_Invoice_details = (props) => {
     axios
       .all([
         axios.post(
-          `${API}/admin/sub-invoices/${selected_id}/paid`,
+          `${API}/contractor/sub-invoices/${id}/pay`,
           {},
           {
-            headers: {
-              Authorization: `Bearer ${returnAdminToken().access_token}`,
-            },
+            headers: { Authorization: `Bearer ${token.access_token}` },
           }
         ),
       ])
       .then(
         axios.spread((res) => {
+          notify("Payment successful");
           setTimeout(() => {
+            setState({
+              ...state,
+              isloading: false,
+              show2: false,
+            });
             window.location.reload();
           }, 2000);
-          notify("Successful");
-          console.log(res.data.data);
-          setState({
-            ...state,
-            isloading: false,
-          });
         })
       )
       .catch((err) => {
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
         setState({
           ...state,
           isloading: false,
         });
         if (err?.response?.status == 400) {
-          return notify(err?.response?.data?.message);
+          // return notify(err?.response?.data?.message);
         }
         console.log(err);
       });
   };
-
-  const makePaymentToSpecialist = () => {
-    const work_order = localStorage.getItem("work_order_details");
-    const work_order_details = work_order ? JSON.parse(work_order) : "";
+  const get_payment_ref = () => {
+    const token = returnAdminToken();
     setState({
       ...state,
       isloading: true,
     });
     axios
       .all([
-        axios.post(
-          `${API}/admin/sub-invoices/${selected_id}/specialists/paid`,
-          {},
-          {
-            headers: {
-              Authorization: `Bearer ${returnAdminToken().access_token}`,
-            },
-          }
-        ),
+        axios.get(`${API}/contractor/sub-invoices/${id}/pay`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
       ])
       .then(
         axios.spread((res) => {
-          notify("Successful");
+          console.log(res.data);
+          initPayment(res?.data?.data?.reference);
           setTimeout(() => {
-            window.location.assign("/scheduled_payments");
+            setState({
+              ...state,
+              isloading: false,
+              show2: false,
+            });
           }, 2000);
-          console.log(res.data.data);
-          setState({
-            ...state,
-            isloading: false,
-          });
         })
       )
       .catch((err) => {
@@ -298,153 +286,27 @@ const Admin_Invoice_details = (props) => {
           isloading: false,
         });
         if (err?.response?.status == 400) {
-          return notify(err?.response?.data?.message);
+          // return notify(err?.response?.data?.message);
         }
         console.log(err);
       });
   };
-
-  const sendInvoiceReminder = (id) => {
-    const work_order = localStorage.getItem("work_order_details");
-    const work_order_details = work_order ? JSON.parse(work_order) : "";
-    setState({
-      ...state,
-      isloading: true,
-    });
-    axios
-      .all([
-        axios.post(
-          `${API}/admin/sub-invoices/${id}/send`,
-          {},
-          {
-            headers: {
-              Authorization: `Bearer ${returnAdminToken().access_token}`,
-            },
-          }
-        ),
-      ])
-      .then(
-        axios.spread((res) => {
-          notify("Successful");
-          reloadPage();
-          setState({
-            ...state,
-            isloading: false,
-          });
-        })
-      )
-      .catch((err) => {
-        setState({
-          ...state,
-          isloading: false,
-        });
-        if (err?.response?.status == 400) {
-          return notify(err?.response?.data?.message);
-        }
-        console.log(err);
-      });
-  };
-
-  const SubmitCostExclusion = () => {
-    setState({
-      ...state,
-      isloading: true,
-    });
-    const data = { cost_exclusions };
-    axios
-      .all([
-        axios.post(
-          `${API}/admin/invoices/${props.match.params.id}/cost-exclusions`,
-          data,
-          {
-            headers: {
-              Authorization: `Bearer ${returnAdminToken().access_token}`,
-            },
-          }
-        ),
-      ])
-      .then(
-        axios.spread((res) => {
-          notify("Successful");
-          reloadPage();
-          setState({
-            ...state,
-            isloading: false,
-          });
-        })
-      )
-      .catch((err) => {
-        setState({
-          ...state,
-          isloading: false,
-        });
-        if (err?.response?.status == 400) {
-          return notify(err?.response?.data?.message);
-        }
-        console.log(err);
-      });
-  };
-
-  const SubmitConditions = () => {
-    setState({
-      ...state,
-      isloading: true,
-    });
-    const data = { conditions };
-    axios
-      .all([
-        axios.post(
-          `${API}/admin/invoices/${props.match.params.id}/conditions`,
-          data,
-          {
-            headers: {
-              Authorization: `Bearer ${returnAdminToken().access_token}`,
-            },
-          }
-        ),
-      ])
-      .then(
-        axios.spread((res) => {
-          notify("Successful");
-          reloadPage();
-          setState({
-            ...state,
-            isloading: false,
-          });
-        })
-      )
-      .catch((err) => {
-        setState({
-          ...state,
-          isloading: false,
-        });
-        if (err?.response?.status == 400) {
-          return notify(err?.response?.data?.message);
-        }
-        console.log(err);
-      });
-  };
-
   const {
-    show_modal_1,
-    type,
-    cost_exclusions,
-    conditions,
-    show_modal,
+    project_purpose,
+    country,
     work_order_description,
     work_order_detail,
-    order_title,
-    end_date,
-    reason,
-    isloading,
-    show2,
     pipe_breakdown,
-    start_date,
+    u_id,
+    user_details,
+    isloading,
+    id,
+    show2,
     invoice_details,
-    selected_id,
     show,
+    cycle_amount,
   } = state;
-  console.log(invoice_details);
+  console.log(work_order_detail, "work_order_detail");
   return (
     <>
       <Modal
@@ -457,25 +319,39 @@ const Admin_Invoice_details = (props) => {
           })
         }
         dialogClassName='modal-90w'
-        className='mdl12c'>
+        className='mdl12_ mdl2'>
         <Modal.Header closeButton>
           <Modal.Title id='example-custom-modal-styling-title'>
-            Confirm Payment
+            Accept Proforma Invoice
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Row>
             <Col md={12}>
-              <h6>Are you sure you want to make payment</h6>
+              <div>
+                You are about to accept the Proforma invoice, please click Ok to
+                continue
+              </div>
             </Col>
           </Row>
           <Row>
             <Col md={12} className='terminate2'>
-              <div className='' onClick={makePaymentToSpecialist}>
-                <Button className='btn-success primary3'>
-                  {isloading ? "Processing" : "Confirm Payment"}
-                </Button>
+              <div
+                className='terminate1'
+                onClick={() =>
+                  setState({
+                    ...state,
+                    show: false,
+                  })
+                }>
+                {"Cancel"}
               </div>
+              <Button
+              disabled
+                className='greenbtn2 btn-success'
+                onClick={(e) => AcceptInvoice()}>
+                {isloading ? "Processing" : "Ok"}
+              </Button>
             </Col>
           </Row>
         </Modal.Body>
@@ -490,75 +366,88 @@ const Admin_Invoice_details = (props) => {
           })
         }
         dialogClassName='modal-90w'
-        className='mdl12c'>
+        className='mdl12_ mdl2'>
         <Modal.Header closeButton>
           <Modal.Title id='example-custom-modal-styling-title'>
-            Confirm Payment
+            Complete Payment
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Row>
             <Col md={12}>
-              <h6>
-                Are you sure the contractor has made payment for this payment
-                cycle
-              </h6>
+              <div>
+                You are about to make payement of N{FormatAmount(cycle_amount)}{" "}
+                for this cycle
+              </div>
             </Col>
           </Row>
           <Row>
             <Col md={12} className='terminate2'>
-              <Button
-                className='btn-success succinline'
-                onClick={() => {
+              <div
+                className='terminate1'
+                onClick={() =>
                   setState({
                     ...state,
                     show2: false,
-                  });
-                }}>
-                Cancel
-              </Button>
-              <div className='' onClick={makePaymentForSubInvoice}>
-                <Button className='btn-success primary3'>
-                  {isloading ? "Processing" : "Confirm Payment"}
-                </Button>
+                  })
+                }>
+                {"Cancel"}
               </div>
+
+              <Button
+                className='greenbtn2 btn-success'
+                disabled
+                // onClick={(e) => MakePayment()}
+                onClick={(e) => get_payment_ref()}>
+                {isloading ? "Processing" : "Proceed"}
+              </Button>
             </Col>
           </Row>
         </Modal.Body>
       </Modal>
-      <Container fluid={true} className='dasbwr nopaddrt tainer3'>
+      <Container fluid={true} className='dasbwr tainer3'>
         <Helmet>
           <meta charSet='utf-8' />
-          <title>Molecular - Admin Work Order</title>
+          <title>Molecular - Admin view contractor invoice</title>
           <link />
         </Helmet>
         <Row>
           <DashboardNav />
           <div id='overview'></div>
         </Row>
-        <Row className='rowt3 row3t2  brt00'>
-          <Col md={11} className='job34 brt99x'>
+        <Row className='rowt3 row3t2 brt00'>
+          <Col md={11} className='job34'>
             <div className='title_wo title_wo12 title_wo_ tbtom ttbom'>
               <div className='workorderheader fixedtitle'>
-                <Link to='/admin_payment_invoice'>
+                <Link to={`/admin_invoice_details/${props.match.params.id}`}>
                   {" "}
                   <img src={arrowback} className='arrowback' />
                 </Link>{" "}
-                &nbsp; Proforma Invoice Details
+                &nbsp; Viewing contractor invoice
               </div>
             </div>
-            {!invoice_details?.sent_at && !isloading && (
-              <div className='nxtbck'>
-                <div className='gent122 gent12212' onClick={sendInvoice}>
-                  {isloading ? "processing" : "Send Proforma Invoice"}
-                </div>
-              </div>
-            )}
-            <Row className='mgtop'>
+            <Row className='mgtop mgzero'>
               <Col md={12} className='mgtop345'>
                 <div className='job23_1a hidden__1'>
                   <div className=''>
                     <div className='overview12 overviewflex-down'>
+                      {/* <Col md={12} className="mm12">
+                        <h6>Account Details</h6>
+                        <select
+                          className="forminput formselect form-control"
+                          required
+                        >
+                          <option value="" className="formselect">
+                            Select account number
+                          </option>
+                          <option value="2009393939" className="rdsltopt">
+                            2009393939
+                          </option>
+                          <option value="2009393931" className="rdsltopt">
+                            2009393931
+                          </option>
+                        </select>
+                      </Col> */}
                       <Col md={12} className='plf'>
                         <div className=''>
                           <div className='box_inv outerpink'>
@@ -648,20 +537,14 @@ const Admin_Invoice_details = (props) => {
                             </div>
                           </div>
                           <div className='ing_11'>
-                            {isloading && (
-                              <Spinner animation={"grow"} variant='info' />
-                            )}
                             <Table responsive>
                               <thead className='theadinvoice'>
                                 <tr>
                                   <th className='tablehead'>Specialist Cost</th>
                                   <th className='tablehead'>Date</th>
                                   <th className='tablehead'>Status</th>
-                                  {/* <th className="tablehead">
-                                    Contractor Payment
-                                  </th> */}
                                   <th className='tablehead'>Cycle</th>
-                                  <th className='tablehead'>Action</th>
+                                  <th className='tablehead'>Payment</th>
                                 </tr>
                               </thead>
                               <tbody>
@@ -673,44 +556,22 @@ const Admin_Invoice_details = (props) => {
                                     </td>
                                     <td>{formatTime(data?.date)}</td>
                                     <td>{data?.status}</td>
-                                    {/* <td>
-                                      {data?.status == "Unpaid" ? (
-                                        <Button
-                                          onClick={() =>
-                                            openPaymentModal2(data.id)
-                                          }
-                                          className="btn-success primary3"
-                                        >
-                                          Confirm Payment
-                                        </Button>
-                                      ) : (
-                                        ""
-                                      )}
-                                    </td> */}
                                     <td>{data?.cycle}</td>
                                     <td>
-                                      {data?.status == "Paid" &&
-                                      !data.paid_specialists ? (
-                                        <Button
-                                          onClick={() =>
-                                            openPaymentModal(data.id)
-                                          }
-                                          className='payspecialist1'>
-                                          Schedule Specialists Payments
-                                        </Button>
-                                      ) : (
-                                        ""
-                                      )}
-
                                       {data?.status == "Unpaid" ? (
                                         <Button
-                                          onClick={() =>
-                                            sendInvoiceReminder(data.id)
-                                          }
-                                          className='btn-success primary3'>
-                                          {!data.sent
-                                            ? "Send Invoice"
-                                            : "Resend Invoice"}
+                                          disabled
+                                          className='btn-success primary3'
+                                          onClick={() => {
+                                            setState({
+                                              ...state,
+                                              show2: true,
+                                              cycle_amount: data.amount,
+                                              id: data.id,
+                                              u_id: data.number,
+                                            });
+                                          }}>
+                                          Pay
                                         </Button>
                                       ) : (
                                         ""
@@ -720,6 +581,17 @@ const Admin_Invoice_details = (props) => {
                                 ))}
                               </tbody>
                             </Table>
+                            {work_order_detail?.costing && (
+                              <div className='gtotal'>
+                                <span>Grand total</span>
+                                <span>
+                                  N
+                                  {FormatAmount(
+                                    work_order_detail?.costing?.contractor_cost
+                                  )}
+                                </span>
+                              </div>
+                            )}
                             <div className='text-right mgg2'></div>
                           </div>
                         </div>
@@ -736,6 +608,13 @@ const Admin_Invoice_details = (props) => {
                               <div className='bnclass'>{data.account_name}</div>
                             </div>
                           ))}
+                        </div>
+                        <div className='proformer_Invoc'>
+                          {invoice_details.is_approved == false && (
+                            <Button onClick={openModal} disabled>
+                              Accept Proforma Invoice
+                            </Button>
+                          )}
                         </div>
                       </Col>
                     </div>
@@ -781,7 +660,7 @@ const Admin_Invoice_details = (props) => {
                     data-bs-target='#flush-collapseOne'
                     aria-expanded='true'
                     aria-controls='flush-collapseOne'>
-                    <b> PIPELINE WELDING BREAKDOWN </b>
+                    <b> PIPELINE WELDING BREAKDOWN</b>
                   </button>
                 </h2>
                 <div
@@ -823,7 +702,6 @@ const Admin_Invoice_details = (props) => {
                     <div className='gtotal'>
                       <span>Grand total</span>
                       <span>
-                        NGN
                         {FormatAmount(
                           work_order_detail?.costing?.contractor_cost
                         )}
@@ -841,15 +719,9 @@ const Admin_Invoice_details = (props) => {
                     data-bs-target='#flush-collapseTwo'
                     aria-expanded='false'
                     aria-controls='flush-collapseTwo'>
-                    <b> LIST OF COST EXCLUSIONS </b>{" "}
-                    <span
-                      className='addentry2'
-                      onClick={() => handleShow("create_exclusion")}>
-                      Add entry
-                    </span>
+                    <b> LIST OF COST EXCLUSIONS</b>
                   </button>
                 </h2>
-
                 <div
                   id='flush-collapseTwo'
                   className='accordion-collapse collapse show'
@@ -873,13 +745,7 @@ const Admin_Invoice_details = (props) => {
         </Row>
         <Row className='invoicefooter'>
           <Col md={12}>
-            <h5>
-              Conditions{" "}
-              <span className='addentry2' onClick={() => handleShow1()}>
-                Add entry
-              </span>
-            </h5>
-
+            <h5>Conditions</h5>
             <p>The Profoma Invoice is based on COST PER JOINT and covers:</p>
             <Row>
               <Col md={12}>
@@ -890,92 +756,7 @@ const Admin_Invoice_details = (props) => {
             </Row>
           </Col>
         </Row>
-        <Row>
-          <Col>
-            <div className='nxtbck btmadjustment'>
-              <HashLink to={`/admin_view/${invoice_details?.work_order?.contractor_id}/contractor_invoice/${invoice_details?.id}`}>
-                <div className='gent122 gent12212'>
-                  { "Contractor Invoice Preview"}
-                </div>
-              </HashLink>
-            </div>
-          </Col>
-        </Row>
       </Container>
-      <Modal
-        show={show_modal}
-        onHide={handleClose}
-        backdrop='static'
-        keyboard={false}
-        size={"lg"}>
-        <Modal.Header>
-          <Modal.Title>
-            {" "}
-            <span className='fl3e4'>Append Cost Exclusion</span>{" "}
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body className=''>
-          <div className='row inputlabel label_pad justify-between'>
-            <div className='col-md-12 form_waller'>
-              <span className='rdfrmlbl rdfrmlblw2'>
-                {" "}
-                Cost Exclusions <span className='text-danger'>*</span>
-              </span>
-              <textarea
-                name='cost_exclusions'
-                value={cost_exclusions}
-                onChange={onchange}
-                className='form-control forminput hu0'
-              />
-            </div>
-          </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant='secondary' onClick={handleClose}>
-            Back
-          </Button>
-          <Button variant='' className='bvnbt' onClick={SubmitCostExclusion}>
-            {state.isloading ? "Processing" : "Submit"}
-          </Button>
-        </Modal.Footer>
-      </Modal>
-      <Modal
-        show={show_modal_1}
-        onHide={handleClose1}
-        backdrop='static'
-        keyboard={false}
-        size={"lg"}>
-        <Modal.Header>
-          <Modal.Title>
-            {" "}
-            <span className='fl3e4'>Append Conditions</span>{" "}
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body className=''>
-          <div className='row inputlabel label_pad justify-between'>
-            <div className='col-md-12 form_waller'>
-              <span className='rdfrmlbl rdfrmlblw2'>
-                {" "}
-                Work Conditions <span className='text-danger'>*</span>
-              </span>
-              <textarea
-                name='conditions'
-                value={conditions}
-                onChange={onchange}
-                className='form-control forminput hu0'
-              />
-            </div>
-          </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant='secondary' onClick={handleClose1}>
-            Back
-          </Button>
-          <Button variant='' className='bvnbt' onClick={SubmitConditions}>
-            {state.isloading ? "Processing" : "Submit"}
-          </Button>
-        </Modal.Footer>
-      </Modal>
       <ToastContainer
         enableMultiContainer
         containerId={"B"}
@@ -987,4 +768,4 @@ const Admin_Invoice_details = (props) => {
   );
 };
 
-export default Admin_Invoice_details;
+export default ContractorInvoiceDetails;
