@@ -592,9 +592,31 @@ const Admin_Invoice_details = (props) => {
                         </div>
                         <div className='allpayment00'>
                           <div className='allpayment1'>
-                            All payments go to any of the account details below
+                          All payments go to the account details below
                           </div>
-                          {invoice_details?.bank_accounts?.map((data, i) => (
+                          {
+                            <div className='fbn1'>
+                              <div className='bnclass'>
+                                <span className='lightcolor'> Bank name:</span>
+                                {invoice_details?.bank_account?.bank_name}
+                              </div>
+                              <div className='bnclass'>
+                                <span className='lightcolor'>
+                                  {" "}
+                                  Account name:
+                                </span>
+                                {invoice_details?.bank_account?.account_name}
+                              </div>
+                              <div className='bnclass'>
+                                <span className='lightcolor'>
+                                  {" "}
+                                  Account number:
+                                </span>
+                                {invoice_details?.bank_account?.account_number}
+                              </div>
+                            </div>
+                          }
+                          {/* {invoice_details?.bank_accounts?.map((data, i) => (
                             <div className='fbn1'>
                               <div className='bnclass'>{data.bank}</div>
                               <div className='bnclass'>
@@ -602,7 +624,7 @@ const Admin_Invoice_details = (props) => {
                               </div>
                               <div className='bnclass'>{data.account_name}</div>
                             </div>
-                          ))}
+                          ))} */}
                         </div>
                         <div className='proformer_Invoc'>
                           {invoice_details.is_approved == false && (

@@ -716,7 +716,7 @@ const AdminRaiseProformaInvoice = (props) => {
                   {" "}
                   <img src={arrowback} className="arrowback" />
                 </Link>
-               &nbsp; Proforma Invoice
+               Proforma Invoice
               </div>
             </div>
             <Row className="mgtop">

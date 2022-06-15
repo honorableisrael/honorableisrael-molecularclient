@@ -3183,7 +3183,7 @@ label i {
     padding-right: 0rem;
   }
   .rowt3 {
-    padding-left: 0rem;
+    padding-left: 1rem;
     /* margin-top: 4rem; */
   }
   .job34 {
@@ -3215,7 +3215,12 @@ label i {
   .dshb12m {
     padding-right: 4px !important;
   }
+  .tainer3{
+    width: 98%;
+    background: inherit;
+  }
 }
+
 .Deletebtn {
   margin-top: 1rem;
   margin-bottom: 0.7rem;

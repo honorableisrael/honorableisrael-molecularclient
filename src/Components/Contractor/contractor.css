@@ -305,6 +305,13 @@ text {
     padding-left: 18px;
     padding-right: 18px;
   }
+  .fixedtitle {
+    line-height: initial !important;
+    margin-left: 0px;
+  }
+  .fixedtitle #text {
+    display: flex;
+  }
   .rowta {
     padding-left: 1rem;
     padding-right: 1rem;
@@ -315,8 +322,8 @@ text {
   .otherwrap23 {
     min-width: 181px;
   }
-  .job34{
-    padding-left: .8rem !important;
+  .job34 {
+    padding-left: 0.8rem !important;
   }
 }
 .job31 {
@@ -1172,7 +1179,7 @@ text {
     flex-wrap: wrap;
     line-height: 25px;
   }
-  .intab{
+  .intab {
     padding-left: 1rem !important;
   }
 }
@@ -1206,6 +1213,25 @@ text {
   .carderw {
     margin-right: 0rem;
   }
+  .title_wo div {
+    line-height: initial !important;
+    text-align: left;
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  .title_wo div {
+    margin-left: -0.3rem !important;
+    white-space: pre-line;
+  }
+  .row3456 div {
+    margin: auto;
+    padding: 1rem 0px !important;
+  }
+}
+.fixedtitle a{
+  width: 50px !important;
 }
 .glead {
   width: fit-content;
@@ -1573,8 +1599,8 @@ text {
   .profile__001::-webkit-scrollbar {
     display: none;
   }
-  .profile__001{
-    -webkit-overflow-scrolling: touch
+  .profile__001 {
+    -webkit-overflow-scrolling: touch;
   }
 }
 .workorder_header {
@@ -2054,14 +2080,13 @@ a:active {
   position: relative;
   right: 2.8rem;
 }
-.portfolio2{
+.portfolio2 {
   width: 60px;
-    height: 60px;
-    object-fit: cover;
-    border-radius: 50%;
-    
+  height: 60px;
+  object-fit: cover;
+  border-radius: 50%;
 }
-.brt00{
+.brt00 {
   padding-bottom: 0px !important;
 }
 
@@ -2073,4 +2098,13 @@ a:active {
   justify-content: space-between;
   width: 88%;
   font-weight: 600;
+}
+button:disabled {
+  background: #fd8c00 !important;
+  border: none;
+  outline: none;
+  color: #fff;
+}
+.lightcolor{
+  color: #4e4c4c;
 }

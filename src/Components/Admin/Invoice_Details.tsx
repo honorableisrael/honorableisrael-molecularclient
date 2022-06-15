@@ -28,7 +28,7 @@ import {
 } from "../../config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { HashLink } from 'react-router-hash-link';
+import { HashLink } from "react-router-hash-link";
 
 const Admin_Invoice_details = (props) => {
   const [state, setState] = useState<any>({
@@ -544,7 +544,7 @@ const Admin_Invoice_details = (props) => {
                   {" "}
                   <img src={arrowback} className='arrowback' />
                 </Link>{" "}
-                &nbsp; Proforma Invoice Details
+                Proforma Invoice Details
               </div>
             </div>
             {!invoice_details?.sent_at && !isloading && (
@@ -725,9 +725,31 @@ const Admin_Invoice_details = (props) => {
                         </div>
                         <div className='allpayment00'>
                           <div className='allpayment1'>
-                            All payments go to any of the account details below
+                          All payments go to the account details below
                           </div>
-                          {invoice_details?.bank_accounts?.map((data, i) => (
+                          {
+                            <div className='fbn1'>
+                              <div className='bnclass'>
+                                <span className='lightcolor'> Bank name:</span>
+                                {invoice_details?.bank_account?.bank_name}
+                              </div>
+                              <div className='bnclass'>
+                                <span className='lightcolor'>
+                                  {" "}
+                                  Account name:
+                                </span>
+                                {invoice_details?.bank_account?.account_name}
+                              </div>
+                              <div className='bnclass'>
+                                <span className='lightcolor'>
+                                  {" "}
+                                  Account number:
+                                </span>
+                                {invoice_details?.bank_account?.account_number}
+                              </div>
+                            </div>
+                          }
+                          {/* {invoice_details?.bank_accounts?.map((data, i) => (
                             <div className='fbn1'>
                               <div className='bnclass'>{data.bank}</div>
                               <div className='bnclass'>
@@ -735,7 +757,7 @@ const Admin_Invoice_details = (props) => {
                               </div>
                               <div className='bnclass'>{data.account_name}</div>
                             </div>
-                          ))}
+                          ))} */}
                         </div>
                       </Col>
                     </div>
@@ -893,9 +915,10 @@ const Admin_Invoice_details = (props) => {
         <Row>
           <Col>
             <div className='nxtbck btmadjustment'>
-              <HashLink to={`/admin_view/${invoice_details?.work_order?.contractor_id}/contractor_invoice/${invoice_details?.id}`}>
+              <HashLink
+                to={`/admin_view/${invoice_details?.work_order?.contractor_id}/contractor_invoice/${invoice_details?.id}`}>
                 <div className='gent122 gent12212'>
-                  { "Contractor Invoice Preview"}
+                  {"Contractor Invoice Preview"}
                 </div>
               </HashLink>
             </div>

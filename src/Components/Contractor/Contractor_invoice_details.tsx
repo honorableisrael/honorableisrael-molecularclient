@@ -122,19 +122,19 @@ const ContractorInvoiceDetails = (props) => {
         // axios.get(`${API}/contractor`, {
         //   headers: { Authorization: `Bearer ${token.access_token}` },
         // }),
-        // axios.get(`${API}/contractor/work-orders/${work_order_details?.id}`, {
-        //   headers: { Authorization: `Bearer ${token.access_token}` },
-        // }),
+        axios.get(`${API}/admin/work-orders/${work_order_details?.id}`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
       ])
       .then(
-        axios.spread((res2, res3, res4) => {
+        axios.spread((res2, res4) => {
           console.log(res2.data.data);
           setState({
             ...state,
-            // work_order_detail: res4.data.data,
+            work_order_detail: res4.data.data,
             invoice_details: res2.data.data,
             // user_details: res3.data.data,
-            // pipe_breakdown: res4.data.data.pipe_configs,
+            pipe_breakdown: res4.data.data.pipe_configs,
           });
         })
       )
@@ -347,7 +347,8 @@ const ContractorInvoiceDetails = (props) => {
                 {"Cancel"}
               </div>
               <Button
-              disabled
+                disabled
+                title='Button disabled'
                 className='greenbtn2 btn-success'
                 onClick={(e) => AcceptInvoice()}>
                 {isloading ? "Processing" : "Ok"}
@@ -397,6 +398,7 @@ const ContractorInvoiceDetails = (props) => {
               <Button
                 className='greenbtn2 btn-success'
                 disabled
+                title='Button disabled'
                 // onClick={(e) => MakePayment()}
                 onClick={(e) => get_payment_ref()}>
                 {isloading ? "Processing" : "Proceed"}
@@ -423,7 +425,7 @@ const ContractorInvoiceDetails = (props) => {
                   {" "}
                   <img src={arrowback} className='arrowback' />
                 </Link>{" "}
-                &nbsp; Viewing contractor invoice
+                Contractor Invoice Preview
               </div>
             </div>
             <Row className='mgtop mgzero'>
@@ -561,6 +563,7 @@ const ContractorInvoiceDetails = (props) => {
                                       {data?.status == "Unpaid" ? (
                                         <Button
                                           disabled
+                                          title='Button disabled'
                                           className='btn-success primary3'
                                           onClick={() => {
                                             setState({
@@ -597,9 +600,31 @@ const ContractorInvoiceDetails = (props) => {
                         </div>
                         <div className='allpayment00'>
                           <div className='allpayment1'>
-                            All payments go to any of the account details below
+                            All payments go to the account details below
                           </div>
-                          {invoice_details?.bank_accounts?.map((data, i) => (
+                          {
+                            <div className='fbn1'>
+                              <div className='bnclass'>
+                                <span className='lightcolor'> Bank name:</span>
+                                {invoice_details?.bank_account?.bank_name}
+                              </div>
+                              <div className='bnclass'>
+                                <span className='lightcolor'>
+                                  {" "}
+                                  Account name:
+                                </span>
+                                {invoice_details?.bank_account?.account_name}
+                              </div>
+                              <div className='bnclass'>
+                                <span className='lightcolor'>
+                                  {" "}
+                                  Account number:
+                                </span>
+                                {invoice_details?.bank_account?.account_number}
+                              </div>
+                            </div>
+                          }
+                          {/* {invoice_details?.bank_accounts?.map((data, i) => (
                             <div className='fbn1'>
                               <div className='bnclass'>{data.bank}</div>
                               <div className='bnclass'>
@@ -607,11 +632,14 @@ const ContractorInvoiceDetails = (props) => {
                               </div>
                               <div className='bnclass'>{data.account_name}</div>
                             </div>
-                          ))}
+                          ))} */}
                         </div>
                         <div className='proformer_Invoc'>
                           {invoice_details.is_approved == false && (
-                            <Button onClick={openModal} disabled>
+                            <Button
+                              onClick={openModal}
+                              disabled
+                              title='Button disabled'>
                               Accept Proforma Invoice
                             </Button>
                           )}
