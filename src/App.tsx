@@ -68,6 +68,7 @@ import AdminProfile from "./Components/Admin/ContractorProfile/ProfileSettings";
 import AdminSettingManagment from "./Components/Admin/admin_setting_management";
 import Contractor_Details from "./Components/Admin/Contractor_Details";
 import ContractorInvoiceDetails from "./Components/Contractor/Contractor_invoice_details";
+import Contractor_Invoices from "./Components/Admin/Contractor_Invoices";
 
 const App: any = ({ history }) => {
   return (
@@ -128,7 +129,7 @@ const App: any = ({ history }) => {
                 component={Contractor_Payment_Invoice}
               />
               <Route
-                path='/admin_invoice_details/:id'
+                path='/admin_invoice_details/:id/:workorderid'
                 component={Admin_Invoice_details}
               />
               <Route path='/invoice_details/:id' component={Invoice_details} />
@@ -174,13 +175,17 @@ const App: any = ({ history }) => {
                 component={DeployedSpecialist}
               />
               <Route
-                path='/admin_work_details'
+                path='/admin_work_details/:id'
                 component={AdminViewWorkOrderDetails}
               />
               <Route path='/allspecialist' component={All_Specialist} />
               <Route
                 path='/admin_payment_invoice'
                 component={Admin_Payment_Invoice}
+              />
+              <Route
+                path='/contractor_invoices/:id'
+                component={Contractor_Invoices}
               />
 
               <Route

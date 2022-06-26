@@ -42,7 +42,7 @@ const AssignOneSpecialist = (x) => {
       console.log(res);
       notify("Successfully assigned specialist");
       setTimeout(() => {
-        window.location.assign("/#admin_work_details?inreview=true");
+        window.location.assign(`/#admin_work_details/${workorder.id}?inreview=true`);
       }, 2000);
     })
     .catch((err) => {
@@ -320,7 +320,7 @@ const AssignSpecialist = () => {
         });
         notify("Successfully assigned specialist");
         setTimeout(() => {
-          window.location.assign("/#admin_work_details?inreview=true");
+          window.location.assign(`/#admin_work_details/${workorder.id}?inreview=true`);
         }, 2000);
       })
       .catch((err) => {

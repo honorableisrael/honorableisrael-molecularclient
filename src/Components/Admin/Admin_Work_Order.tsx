@@ -552,7 +552,7 @@ const AdminWorkOrder = () => {
                 {work_orders?.map(
                   (data: any, i) =>
                     data.status == "Terminated" && (
-                      <Link to="/admin_work_details">
+                      <Link to={`/admin_work_details/${data.id}`}>
                         <AdminWorkOrderCards
                           order_details={data}
                           status={"Completed"}

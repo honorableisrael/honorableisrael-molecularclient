@@ -635,7 +635,7 @@ const Invoice_details = ({ work_order_detail }: any) => {
                 <span className="viewall_">
                   {" "}
                   <Link
-                    to={`/admin_invoice_details/${work_order_detail.invoice?.id}`}
+                    to={`/admin_invoice_details/${work_order_detail?.invoice?.id}/${work_order_detail?.invoice?.work_order?.id}`}
                     title="view payment cycle information"
                   >
                     view more
@@ -793,7 +793,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
             JSON.stringify(props.order_details)
           );
           setTimeout(() => {
-            props.history.push("/admin_work_details?inreview=true");
+            props.history.push(`/admin_work_details${props.order_details.id}?inreview=true`);
           }, 2000);
           console.log(res.data);
           setState({
@@ -824,7 +824,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
     const work_order = localStorage.getItem("work_order_details");
     const work_order_details = work_order ? JSON.parse(work_order) : "";
     axios
-      .get(`${API}/admin/work-orders/${work_order_details?.id}`, {
+      .get(`${API}/admin/work-orders/${props.match.params.id}`, {
         headers: { Authorization: `Bearer ${token.access_token}` },
       })
       .then((res) => {

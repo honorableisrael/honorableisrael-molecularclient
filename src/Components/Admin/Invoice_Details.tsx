@@ -145,9 +145,12 @@ const Admin_Invoice_details = (props) => {
         axios.get(`${API}/bank-accounts`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }),
-        axios.get(`${API}/admin/work-orders/${work_order_details?.id}`, {
-          headers: { Authorization: `Bearer ${token.access_token}` },
-        }),
+        axios.get(
+          `${API}/admin/work-orders/${props?.match?.params?.workorderid}`,
+          {
+            headers: { Authorization: `Bearer ${token.access_token}` },
+          }
+        ),
       ])
       .then(
         axios.spread((res2, res3, res4) => {
@@ -540,10 +543,12 @@ const Admin_Invoice_details = (props) => {
           <Col md={11} className='job34 brt99x'>
             <div className='title_wo title_wo12 title_wo_ tbtom ttbom'>
               <div className='workorderheader fixedtitle'>
-                <Link to='/admin_payment_invoice'>
+                <span
+                  onClick={() => window.history.back()}
+                  className='curspointer'>
                   {" "}
                   <img src={arrowback} className='arrowback' />
-                </Link>{" "}
+                </span>{" "}
                 Proforma Invoice Details
               </div>
             </div>
@@ -725,7 +730,7 @@ const Admin_Invoice_details = (props) => {
                         </div>
                         <div className='allpayment00'>
                           <div className='allpayment1'>
-                          All payments go to the account details below
+                            All payments go to the account details below
                           </div>
                           {
                             <div className='fbn1'>

@@ -944,7 +944,7 @@ const AdminRaiseProformaInvoice = (props) => {
                         </div>
                       </div>
                       <div className="nxtbck">
-                        <Link to="/admin_work_details?inreview=true">
+                        <Link to={`/admin_work_details/${work_order_detail.id}?inreview=true`}>
                           {" "}
                           <div className="gent122 gent1221">Back</div>
                         </Link>{" "}

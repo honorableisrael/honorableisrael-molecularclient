@@ -55,7 +55,7 @@ const PaymentCards_1 = (props) => {
             </div>
           </div>
           <div className="slidd2z">
-            <Link to={`/admin_invoice_details/${props?.payment_details?.id}`}>
+            <Link to={`/admin_invoice_details/${props?.payment_details?.id}/${props?.payment_details?.work_order?.id}`}>
               <div className="nextbtn">
                 <img src={nextbtn} alt="nxtbtn" className="nxtbtn3 nxtt4" />
               </div>

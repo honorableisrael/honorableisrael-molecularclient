@@ -641,7 +641,7 @@ const ScheduledPayments = withRouter((props) => {
                             <td>{FormatAmount(data?.amount)}</td>
                             <td>
                               <Link
-                                to="/admin_work_details?inreview=true"
+                                to={`/admin_work_details/${data.work_order_id}?inreview=true`}
                                 onClick={() =>
                                   localStorage.setItem(
                                     "work_order_details",

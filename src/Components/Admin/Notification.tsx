@@ -154,7 +154,7 @@ const Admin_Notification = withRouter((props) => {
                       <div className="nextbtn nextbtn_2">
                         {data?.category == "work order" ? (
                           <Link
-                          to="/admin_work_details?inreview=true"
+                          to={`/admin_work_details${data.category_id}?inreview=true`}
                           onClick={() =>
                             localStorage.setItem(
                               "work_order_details",

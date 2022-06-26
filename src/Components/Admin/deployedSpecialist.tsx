@@ -626,7 +626,7 @@ const DeployedSpecialist = withRouter((props) => {
           <Col md={11}>
             <div className="title_wo title_wo12 title_wo_">
               <div className="workorderheader">
-                <Link to="/admin_work_details?inreview=true">
+                <Link to={`/admin_work_details/${work_order_detail?.id}?inreview=true`}>
                   {" "}
                   <img src={arrowback} className="arrowback" />
                 </Link>
