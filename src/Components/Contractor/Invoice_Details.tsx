@@ -254,6 +254,10 @@ const Admin_Invoice_details = (props) => {
       });
   };
   const get_payment_ref = () => {
+    return setState({
+      ...state,
+      show2: false,
+    });
     const token = contractorToken();
     setState({
       ...state,
@@ -373,14 +377,30 @@ const Admin_Invoice_details = (props) => {
           <Row>
             <Col md={12}>
               <div>
-                You are about to make payement of N{FormatAmount(cycle_amount)}{" "}
-                for this cycle
+                Make a payment of N{FormatAmount(cycle_amount)} to the account
+                number below
+                {
+                  <div className='fbn1'>
+                    <div className='bnclass flex-wrap'>
+                      <span className='lightcolor'> Bank name:</span>
+                      {invoice_details?.bank_account?.bank_name}
+                    </div>
+                    <div className='bnclass'>
+                      <span className='lightcolor'> Account name:</span>
+                      {invoice_details?.bank_account?.account_name}
+                    </div>
+                    <div className='bnclass'>
+                      <span className='lightcolor'> Account number:</span>
+                      {invoice_details?.bank_account?.account_number}
+                    </div>
+                  </div>
+                }
               </div>
             </Col>
           </Row>
           <Row>
             <Col md={12} className='terminate2'>
-              <div
+              {/* <div
                 className='terminate1'
                 onClick={() =>
                   setState({
@@ -389,13 +409,13 @@ const Admin_Invoice_details = (props) => {
                   })
                 }>
                 {"Cancel"}
-              </div>
+              </div> */}
 
               <Button
                 className='greenbtn2 btn-success'
                 // onClick={(e) => MakePayment()}
                 onClick={(e) => get_payment_ref()}>
-                {isloading ? "Processing" : "Proceed"}
+                {isloading ? "Processing" : "Ok"}
               </Button>
             </Col>
           </Row>
@@ -592,7 +612,7 @@ const Admin_Invoice_details = (props) => {
                         </div>
                         <div className='allpayment00'>
                           <div className='allpayment1'>
-                          All payments go to the account details below
+                            All payments go to the account details below
                           </div>
                           {
                             <div className='fbn1'>

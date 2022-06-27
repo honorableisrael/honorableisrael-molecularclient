@@ -3421,3 +3421,19 @@ label i {
   padding-right: 1rem;
   font-weight: 600;
 }
+.redbg{
+  background: darkred;
+  color: white;
+  border-radius: 2rem;
+  padding: .2rem .5rem;
+  font-size: 12px;
+  font-weight: bolder;
+}
+.greenbgbatch{
+  background: rgba(49, 99, 16, 0.582);
+  color: white;
+  border-radius: 2rem;
+  padding: .2rem .5rem;
+  font-size: 12px;
+  font-weight: bolder;
+}

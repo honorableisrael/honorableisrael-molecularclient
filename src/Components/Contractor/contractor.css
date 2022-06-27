@@ -2108,3 +2108,6 @@ button:disabled {
 .lightcolor{
   color: #4e4c4c;
 }
+.flex-wrap{
+  flex-wrap: wrap;
+}

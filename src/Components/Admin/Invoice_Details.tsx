@@ -216,7 +216,7 @@ const Admin_Invoice_details = (props) => {
       });
   };
 
-  const makePaymentForSubInvoice = () => {
+  const schedule_Specailist_Payment = () => {
     const work_order = localStorage.getItem("work_order_details");
     const work_order_details = work_order ? JSON.parse(work_order) : "";
     setState({
@@ -520,7 +520,7 @@ const Admin_Invoice_details = (props) => {
                 }}>
                 Cancel
               </Button>
-              <div className='' onClick={makePaymentForSubInvoice}>
+              <div className='' onClick={schedule_Specailist_Payment}>
                 <Button className='btn-success primary3'>
                   {isloading ? "Processing" : "Confirm Payment"}
                 </Button>
