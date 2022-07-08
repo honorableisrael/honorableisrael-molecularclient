@@ -36,11 +36,11 @@ declare global {
   }
 }
 
-const ScheduledPayments = withRouter((props) => {
+const ScheduledPaymentDetails = withRouter((props) => {
   const [state, setState] = useState<any>({
     overview: true,
     deployedspecialist: false,
-    user_details: "",
+    schedule_details: "",
     active: false,
     thirdtab: false,
     chevron: "",
@@ -87,7 +87,7 @@ const ScheduledPayments = withRouter((props) => {
     show,
     show2,
     ungrouped,
-    user_details,
+    schedule_details,
     total_amount,
     last_page,
     next,
@@ -104,35 +104,43 @@ const ScheduledPayments = withRouter((props) => {
       [e.target.id]: e.target.value,
     });
   };
-  const refresh_all = () => {
+
+  const process_payment = (id) => {
+    setState({
+      ...state,
+      isloading: true,
+    });
+    const availableToken: any = localStorage.getItem("loggedInDetails");
     const token = returnAdminToken();
-    const work_order = localStorage.getItem("work_order_details");
-    const work_order_details = work_order ? JSON.parse(work_order) : "";
     axios
-      .all([
-        axios.get(`${API}/admin/work-orders/${work_order_details?.id}`, {
+      .post(
+        `${API}/admin/payment-schedules/${id}/process`,
+        {},
+        {
           headers: { Authorization: `Bearer ${token.access_token}` },
-        }),
-      ])
-      .then(
-        axios.spread((res) => {
-          console.log(res.data.data);
-          setState({
-            ...state,
-            work_order_detail: res.data.data,
-            isloading: false,
-          });
-          console.log(work_order_detail);
-        })
+        }
       )
+      .then((res) => {
+        console.log(res);
+        setState({
+          ...state,
+          isloading: false,
+        });
+        notify(" Successfully");
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      })
       .catch((err) => {
         setState({
           ...state,
           isloading: false,
         });
         console.log(err);
+        notify(err?.response?.data?.message, "D");
       });
   };
+
   useEffect(() => {
     window.scrollTo(-0, -0);
     get_all();
@@ -146,91 +154,26 @@ const ScheduledPayments = withRouter((props) => {
     });
     axios
       .all([
-        axios.get(`${API}/admin/payment-schedules?paginate=1`, {
+        axios.get(
+          `${API}/admin/payment-schedules/${props.match.params.id}/transactions`,
+          {
+            headers: { Authorization: `Bearer ${token.access_token}` },
+          }
+        ),
+        axios.get(`${API}/admin/payment-schedules/${props.match.params.id}`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }),
       ])
       .then(
-        axios.spread((res) => {
-          console.log(res.data, "Scheduled payments");
+        axios.spread((res, res1) => {
           setState({
             ...state,
             ...res.data.data.links,
             ...res.data.data.meta,
             ScheduledList: res.data.data?.data,
+            schedule_details: res1.data.data,
             isloading: false,
           });
-        })
-      )
-      .catch((err) => {
-        console.log(err);
-        setState({
-          ...state,
-          isloading: false,
-        });
-      });
-  };
-  const get_paid = () => {
-    console.log("paid");
-    const token = returnAdminToken();
-    setState({
-      ...state,
-      isloading: true,
-    });
-    const work_order = localStorage.getItem("work_order_details");
-    const work_order_details = work_order ? JSON.parse(work_order) : "";
-    axios
-      .all([
-        axios.get(`${API}/admin/payment-schedules`, {
-          headers: { Authorization: `Bearer ${token.access_token}` },
-        }),
-      ])
-      .then(
-        axios.spread((res) => {
-          console.log(res.data.data);
-          setState({
-            ...state,
-            ...res.data.data.links,
-            ...res.data.data.meta,
-            ScheduledList: res.data.data.data,
-            isloading: false,
-          });
-        })
-      )
-      .catch((err) => {
-        console.log(err);
-        setState({
-          ...state,
-          isloading: false,
-        });
-      });
-  };
-
-  const get_un_paid = () => {
-    const token = returnAdminToken();
-    setState({
-      ...state,
-      isloading: true,
-    });
-    const work_order = localStorage.getItem("work_order_details");
-    const work_order_details = work_order ? JSON.parse(work_order) : "";
-    axios
-      .all([
-        axios.get(`${API}/admin/scheduled-payments?paginate=1&filter=pending`, {
-          headers: { Authorization: `Bearer ${token.access_token}` },
-        }),
-      ])
-      .then(
-        axios.spread((res) => {
-          console.log(res.data.data);
-          setState({
-            ...state,
-            ...res.data.data.links,
-            ...res.data.data.meta,
-            ScheduledList: res.data.data.data,
-            isloading: false,
-          });
-          console.log(work_order_detail);
         })
       )
       .catch((err) => {
@@ -323,46 +266,9 @@ const ScheduledPayments = withRouter((props) => {
           isloading: false,
         });
         console.log(err);
-        notify(err?.response?.data?.message, "D");
+        notify("Failed to make payment", "D");
       });
   };
-
-  const process_payment = (id) => {
-    setState({
-      ...state,
-      isloading: true,
-    });
-    const availableToken: any = localStorage.getItem("loggedInDetails");
-    const token = returnAdminToken();
-    axios
-      .post(
-        `${API}/admin/payment-schedules/${id}/process`,
-        {},
-        {
-          headers: { Authorization: `Bearer ${token.access_token}` },
-        }
-      )
-      .then((res) => {
-        console.log(res);
-        setState({
-          ...state,
-          isloading: false,
-        });
-        notify(" Successfully");
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
-      })
-      .catch((err) => {
-        setState({
-          ...state,
-          isloading: false,
-        });
-        console.log(err);
-        notify(err?.response?.data?.message, "D");
-      });
-  };
-
 
   const make_batch_payment = () => {
     setState({
@@ -401,6 +307,7 @@ const ScheduledPayments = withRouter((props) => {
         notify("Failed to make payment", "D");
       });
   };
+
   const query_payment = (id) => {
     setState({
       ...state,
@@ -435,7 +342,7 @@ const ScheduledPayments = withRouter((props) => {
           isloading: false,
         });
         console.log(err);
-        notify("Failed to make payment", "D");
+        notify("Failed to query payment", "D");
       });
   };
   const sendSpecialistId = (id: any, cost) => {
@@ -456,6 +363,7 @@ const ScheduledPayments = withRouter((props) => {
       total_amount: (Number(total_amount) + Number(cost)).toFixed(2),
     });
   };
+  console.log(ScheduledList);
   return (
     <>
       <Helmet>
@@ -585,10 +493,16 @@ const ScheduledPayments = withRouter((props) => {
                 <div>
                   <div className='deploysplstheader deployflex'>
                     <div className='flxf1'>
-                      <div className='depsplstimg'>
-                        <img src={blueavatar} alt='img' />
-                      </div>
-                      <p>Scheduled Payments</p>
+                      <p>
+                        {" "}
+                        <span
+                          onClick={() => window.history.back()}
+                          className='curspointer'>
+                          {" "}
+                          <img src={arrowback} className='arrowback' />
+                        </span>{" "}
+                        Scheduled Payments Details
+                      </p>
                     </div>
                     <div>
                       {/* <div className='Filter'>
@@ -617,84 +531,78 @@ const ScheduledPayments = withRouter((props) => {
                           </option>
                         </select>
                       </div> */}
+                      {schedule_details?.actions?.can_pay && (
+                        <Button
+                          onClick={() =>
+                            openModal(
+                              schedule_details.id,
+                              schedule_details,
+                              "makepayment"
+                            )
+                          }
+                          className='payspecialist1'>
+                          Make Payment
+                        </Button>
+                      )}
+                      {schedule_details?.actions?.can_process && (
+                        <Button
+                          onClick={() => process_payment(schedule_details.id)}
+                          className='payspecialist1'>
+                          Process Payment
+                        </Button>
+                      )}
+                      {schedule_details?.actions?.can_query && (
+                        <Button
+                          onClick={() => query_payment(schedule_details.id)}
+                          className='payspecialist1'>
+                          Query Payment
+                        </Button>
+                      )}
                     </div>
                   </div>
                   <div className='deployedsplsttable'>
                     <Table hover responsive className='schedule_payment_table'>
                       <thead>
                         <tr>
-                          <th scope='col'>Title</th>
-                          <th scope='col'>Amount({current_currency})</th>
-                          <th scope='col'>No of Specialist</th>
-                          <th scope='col'>Status</th>
-                          <th scope='col'>Description</th>
+                          <th scope='col'>Specialist</th>
+                          <th scope='col'>Account name</th>
+                          <th scope='col'>Account number</th>
+                          <th scope='col'>Bank name</th>
+                          <th scope='col'>Naration</th>
 
-                          <th scope='col'>Category</th>
-                          <th>Action</th>
+                          <th scope='col'>Status</th>
+                          <th></th>
                         </tr>
                       </thead>
                       <tbody>
                         {ScheduledList?.map((data: any, i) => (
                           <tr key={i}>
+                            <td>{data?.specialist}</td>{" "}
                             <td className='dpslstnamecell pslstnamecell schedule_payment_first_td'>
                               <div className='dplsplusernmeimg'>
                                 {/* <span></span> */}
                                 &nbsp; &nbsp;
-                                <div>
-                                  <Link to={`/scheduled_payments_details/${data.id}`}>
-                                    {data.title}
-                                  </Link>
-                                </div>
+                                <div>{data.account_name}</div>
                               </div>
                             </td>
                             <td className='contractorname'>
-                              <Link to={`/scheduled_payments/${data.id}`}>
-                                {FormatAmount(data?.total_amount)}
-                              </Link>
+                              {data?.account_number}
                             </td>
-                            <td>{data?.transaction_count}</td>
+                            <td>{data?.bank?.name}</td>
+                            <td>{data?.narration}</td>
                             <td>
-                              {data?.status == "unprocessed" ? (
-                                <span className='redbg'>
-                                  <Link to={`/scheduled_payments/${data.id}`}>
-                                    Unprocessed
-                                  </Link>
-                                </span>
-                              ) : (
+                              {data?.transaction_status == "unpaid" && (
                                 <span className='greenbgbatch'>
-                                  {data.status}
+                                  {data?.transaction_status}
                                 </span>
                               )}
-                            </td>{" "}
-                            <td>{data?.category}</td>
-                            <td>{data?.description}</td>
-                            <td>
-                              {data?.actions?.can_pay && (
-                                <Button
-                                  onClick={() =>
-                                    openModal(data.id, data, "makepayment")
-                                  }
-                                  className='payspecialist1'>
-                                  Make Payment
-                                </Button>
-                              )}
-                              {data?.actions?.can_process && (
-                                <Button
-                                  onClick={() =>
-                                    process_payment(data?.id)
-                                  }
-                                  className='payspecialist1'>
-                                  Process
-                                </Button>
-                              )}
-                              {data?.actions?.can_query && (
-                                <Button
-                                  onClick={() => query_payment(data.id)}
-                                  className='payspecialist1'>
-                                  View
-                                </Button>
+                              {data?.transaction_status == "no account" && (
+                                <span className='redbg'>
+                                  {data?.transaction_status}
+                                </span>
                               )}
                             </td>
+                            <td><Link to={`/admin/specialist/settings/${data?.user_id}`} target="_blank"> View</Link></td>
                             {/* <td>
                               {data?.actions?.can_pay && (
                                 <Button
@@ -756,4 +664,4 @@ const ScheduledPayments = withRouter((props) => {
   );
 });
 
-export default ScheduledPayments;
+export default ScheduledPaymentDetails;

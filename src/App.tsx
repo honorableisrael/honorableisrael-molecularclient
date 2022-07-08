@@ -69,6 +69,9 @@ import AdminSettingManagment from "./Components/Admin/admin_setting_management";
 import Contractor_Details from "./Components/Admin/Contractor_Details";
 import ContractorInvoiceDetails from "./Components/Contractor/Contractor_invoice_details";
 import Contractor_Invoices from "./Components/Admin/Contractor_Invoices";
+import ScheduledPaymentDetails from "./Components/Admin/scheduledpayment_details";
+import Admin_Sub_Invoice_Details from "./Components/Admin/Sub_Invoice_Details";
+import Invoice_details_view_only from "./Components/Admin/Invoice_Details_View_Only";
 
 const App: any = ({ history }) => {
   return (
@@ -132,6 +135,15 @@ const App: any = ({ history }) => {
                 path='/admin_invoice_details/:id/:workorderid'
                 component={Admin_Invoice_details}
               />
+              <Route
+                path='/admin_sub_invoice_details/:id/:workorderid'
+                component={Admin_Sub_Invoice_Details}
+              />
+              <Route
+                path='/admin_invoice_details_view_only/:id/:workorderid'
+                component={Invoice_details_view_only}
+              />
+
               <Route path='/invoice_details/:id' component={Invoice_details} />
               <Route
                 path='/raise_proforma_invoice'
@@ -155,6 +167,11 @@ const App: any = ({ history }) => {
               />
               <Route path='/admin_dashboard' component={AdminDashboard} />
               <Route path='/scheduled_payments' component={ScheduledPayments} />
+              <Route
+                path='/scheduled_payments_details/:id'
+                component={ScheduledPaymentDetails}
+              />
+
               <Route path='/admin/settings' component={AdminProfile} />
 
               <Route

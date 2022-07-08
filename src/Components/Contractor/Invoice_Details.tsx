@@ -441,6 +441,10 @@ const Admin_Invoice_details = (props) => {
                 </Link>{" "}
                 &nbsp; Invoice Details
               </div>
+              <Button
+                className='payspecialist1 h36' onClick={()=>window.print()}>
+                Print
+              </Button>
             </div>
             <Row className='mgtop mgzero'>
               <Col md={12} className='mgtop345'>

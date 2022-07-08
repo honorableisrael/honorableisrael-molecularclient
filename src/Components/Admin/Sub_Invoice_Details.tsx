@@ -29,9 +29,8 @@ import {
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { HashLink } from "react-router-hash-link";
-import viewmore from "../../assets/view-more.png";
 
-const Admin_Invoice_details = (props) => {
+const Admin_Sub_Invoice_Details = (props) => {
   const [state, setState] = useState<any>({
     invoice_details: {},
     country: "",
@@ -140,7 +139,7 @@ const Admin_Invoice_details = (props) => {
     const work_order_details = work_order ? JSON.parse(work_order) : "";
     axios
       .all([
-        axios.get(`${API}/admin/invoices/${props?.match?.params?.id}`, {
+        axios.get(`${API}/admin/sub-invoices/${props?.match?.params?.id}`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }),
         axios.get(`${API}/bank-accounts`, {
@@ -155,7 +154,7 @@ const Admin_Invoice_details = (props) => {
       ])
       .then(
         axios.spread((res2, res3, res4) => {
-          console.log(res4.data.data);
+          console.log(res2.data.data);
           setState({
             ...state,
             ...res2.data.data,
@@ -550,7 +549,7 @@ const Admin_Invoice_details = (props) => {
                   {" "}
                   <img src={arrowback} className='arrowback' />
                 </span>{" "}
-                Proforma Invoice Details
+                Invoice Details
               </div>
               <Button
                 className='payspecialist1 h36'
@@ -558,13 +557,6 @@ const Admin_Invoice_details = (props) => {
                 Print
               </Button>
             </div>
-            {!invoice_details?.sent_at && !isloading && (
-              <div className='nxtbck'>
-                <div className='gent122 gent12212' onClick={sendInvoice}>
-                  {isloading ? "processing" : "Send Proforma Invoice"}
-                </div>
-              </div>
-            )}
             <Row className='mgtop'>
               <Col md={12} className='mgtop345'>
                 <div className='job23_1a hidden__1'>
@@ -574,34 +566,26 @@ const Admin_Invoice_details = (props) => {
                         <div className=''>
                           <div className='box_inv outerpink'>
                             <span className='box_smalltick smalltickpink'></span>
-                            {invoice_details?.total_amount_paid > 0
-                              ? "Payment in progress"
-                              : "Unpaid"}
+                            {invoice_details?.status}
                           </div>
                           <div className='boxwrapper__1'>
                             <div className='lcomponent'>
                               <div className='inv_title'>
-                                Invoice : {invoice_details.reference}
+                                Invoice : {invoice_details?.number ?? "~~/~~"}
                               </div>
                               <div className='inv_title2'>
                                 <div className='inv_title3'>
-                                  {" "}
-                                  Invoice Number{" "}
                                   <span className='acceptedinvoc'>
-                                    {invoice_details.is_approved
-                                      ? "Accepted"
-                                      : "Awaiting Acceptance"}
+                                    {!invoice_details.sent_at
+                                      ? "Not Sent"
+                                      : "Accepted"}
                                   </span>
-                                </div>
-                                <div className='inv_title4'>
-                                  {invoice_details?.number ?? "~~/~~"}
                                 </div>
                               </div>
                               <div className='inv_title2'>
                                 <div className='inv_title3'>Invoice Date</div>
                                 <div className='inv_title4'>
-                                  {formatTime(invoice_details?.sent_at) ??
-                                    "~~/~~"}
+                                  {formatTime(invoice_details?.date) ?? "~~/~~"}
                                 </div>
                               </div>
                             </div>
@@ -630,23 +614,15 @@ const Admin_Invoice_details = (props) => {
                             </div>
                             <div className='rcomponent'>
                               <div className='inv_title2'>
-                                <div className='inv_title3'>Total Amount</div>
+                                <div className='inv_title3'>Amount</div>
                                 <div className='inv_title4 ing'>
                                   {current_currency}
-                                  {FormatAmount(
-                                    invoice_details?.total_amount
-                                  ) ?? "~~/~~"}
-                                </div>
-                                <div className='inv_title3'>Amount Paid</div>
-                                <div className='inv_title4 ing'>
-                                  {current_currency}
-                                  {FormatAmount(
-                                    invoice_details?.total_amount_paid
-                                  ) ?? "~~/~~"}
+                                  {FormatAmount(invoice_details?.amount) ??
+                                    "~~/~~"}
                                 </div>
                               </div>
                             </div>
-                            <div className='rcomponent'>
+                            {/* <div className='rcomponent'>
                               <div className='inv_title2'>
                                 <div className='inv_title3'>Balance Due</div>
                                 <div className='inv_title4 ing'>
@@ -656,85 +632,12 @@ const Admin_Invoice_details = (props) => {
                                   ) ?? "~~/~~"}
                                 </div>
                               </div>
-                            </div>
+                            </div> */}
                           </div>
                           <div className='ing_11'>
                             {isloading && (
                               <Spinner animation={"grow"} variant='info' />
                             )}
-                            <Table responsive>
-                              <thead className='theadinvoice'>
-                                <tr>
-                                  <th className='tablehead'>Date</th>
-                                  <th className='tablehead'>Amount</th>
-                                  <th className='tablehead'>Status</th>
-                                  {/* <th className="tablehead">
-                                    Contractor Payment
-                                  </th> */}
-                                  <th className='tablehead'>Cycle</th>
-                                  <th className='tablehead'>Action</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {invoice_details?.cycles?.map((data, i) => (
-                                  <tr className='tdata' key={i}>
-                                    <td>{formatTime(data?.date)}</td>
-                                    <td>
-                                      {current_currency}
-                                      {FormatAmount(data?.amount)}
-                                    </td>
-                                    <td>{data?.status}</td>
-                                    {/* <td>
-                                      {data?.status == "Unpaid" ? (
-                                        <Button
-                                          onClick={() =>
-                                            openPaymentModal2(data.id)
-                                          }
-                                          className="btn-success primary3"
-                                        >
-                                          Confirm Payment
-                                        </Button>
-                                      ) : (
-                                        ""
-                                      )}
-                                    </td> */}
-                                    <td>{data?.cycle}</td>
-                                    <td>
-                                      {data?.status == "Paid" &&
-                                      !data.paid_specialists ? (
-                                        <Button
-                                          onClick={() =>
-                                            openPaymentModal(data.id)
-                                          }
-                                          className='payspecialist1'>
-                                          Schedule Specialists Payments
-                                        </Button>
-                                      ) : (
-                                        ""
-                                      )}
-
-                                      {data?.status == "Unpaid" ? (
-                                        <Button
-                                          onClick={() =>
-                                            sendInvoiceReminder(data.id)
-                                          }
-                                          className='btn-success primary3'>
-                                          {!data.sent
-                                            ? "Send Invoice"
-                                            : "Resend Invoice"}
-                                        </Button>
-                                      ) : (
-                                        ""
-                                      )}
-                                      <Link
-                                        to={`/admin_sub_invoice_details/${data.id}/${props.match.params.workorderid}`}>
-                                        <img src={viewmore} className="viewmore" alt='' />
-                                      </Link>
-                                    </td>
-                                  </tr>
-                                ))}
-                              </tbody>
-                            </Table>
                             <div className='text-right mgg2'></div>
                           </div>
                         </div>
@@ -929,14 +832,14 @@ const Admin_Invoice_details = (props) => {
         </Row>
         <Row>
           <Col>
-            <div className='nxtbck btmadjustment'>
+            {/* <div className='nxtbck btmadjustment'>
               <HashLink
                 to={`/admin_view/${invoice_details?.work_order?.contractor_id}/contractor_invoice/${invoice_details?.id}`}>
                 <div className='gent122 gent12212'>
                   {"Contractor Invoice Preview"}
                 </div>
               </HashLink>
-            </div>
+            </div> */}
           </Col>
         </Row>
       </Container>
@@ -1025,4 +928,4 @@ const Admin_Invoice_details = (props) => {
   );
 };
 
-export default Admin_Invoice_details;
+export default Admin_Sub_Invoice_Details;

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Col, Row, Container, Form, Pagination } from "react-bootstrap";
+import { Col, Row, Container, Form, Pagination, Table } from "react-bootstrap";
 import "./contractor.css";
 import DashboardNav from "./navbar";
 import portfolio from "../../images/portfolio.png";
@@ -13,7 +13,7 @@ import no_work_order from "../../images/document 1.png";
 import nextbtn from "../../images/nextbtn.png";
 import PaymentCards_1 from "./PaymentCards_1";
 import axios from "axios";
-import { returnAdminToken, API } from "../../config";
+import { returnAdminToken, API, FormatAmount, formatTime } from "../../config";
 
 const Contractor_Invoices = (props) => {
   const [state, setState] = useState({
@@ -116,7 +116,7 @@ const Contractor_Invoices = (props) => {
             all_invoices: res.data.data.data,
             ...res.data.data.links,
             ...res.data.data.meta,
-            show_date:false
+            show_date: false,
           });
         })
       )
@@ -205,7 +205,7 @@ const Contractor_Invoices = (props) => {
                   onClick={() => {
                     setState({
                       ...state,
-                      show_date: !show_date?true:false,
+                      show_date: !show_date ? true : false,
                     });
                   }}>
                   <i className='fa fa-caret-down'></i>Filter by Month
@@ -235,7 +235,7 @@ const Contractor_Invoices = (props) => {
               </div>{" "}
             </div>
             <Row>
-              <Col md={12} className='plf'>
+              {/* <Col md={12} className='plf'>
                 <div className='cardflex_jo'>
                   {all_invoices?.map((data, i) => (
                     <PaymentCards_1
@@ -256,10 +256,6 @@ const Contractor_Invoices = (props) => {
                       <div className='no_work1'>invoice data is empty</div>
                     </Col>
                   )}
-                  {/* <PaymentCards_1
-                    title={"Pipeline construction with Sulejah"}
-                    status={false}
-                  /> */}
                 </div>
                 <div className='active_member2'>
                   <div>
@@ -272,7 +268,107 @@ const Contractor_Invoices = (props) => {
                     <Pagination.Last onClick={() => nextPage(last)} />
                   </Pagination>
                 </div>
-              </Col>
+              </Col> */}
+              <div className='deployedsplsttable'>
+                <Table hover responsive className='schedule_payment_table'>
+                  <thead>
+                    <tr>
+                      <th scope='col'>Work order</th>
+                      <th scope='col'>Reference</th>
+                      <th scope='col'>Amount(NGN)</th>
+                      <th scope='col'>Date</th>
+                      {/* <th scope='col'>Amount paid</th>
+                      <th scope='col'>Amount unpaid</th> */}
+                      <th scope='col'>Cycles</th>
+                      <th scope='col'>Exchange rate</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {all_invoices?.map((data: any, i) => (
+                      <tr key={i}>
+                        <td>
+                          <Link
+                            to={`/admin_work_details/${data.work_order?.id}?inreview=true`}>
+                            {data?.work_order?.title}{" "}
+                          </Link>
+                        </td>
+                        <td className='dpslstnamecell pslstnamecell schedule_payment_first_td'>
+                          <div className='dplsplusernmeimg'>
+                            {/* <span></span> */}
+                            &nbsp; &nbsp;
+                            <div>
+                              <Link
+                                to={`/admin_invoice_details/${data?.id}/${data?.work_order?.id}`}>
+                                {data.reference}
+                              </Link>
+                            </div>
+                          </div>
+                        </td>
+                        <td className='contractorname'>
+                          {FormatAmount(data?.total_amount)}
+                        </td>
+                        <td>{formatTime(data?.created_at)}</td>
+                        {/* <td>{FormatAmount(data?.total_amount_paid)}</td>
+                        <td>{FormatAmount(data?.total_amount_unpaid)}</td> */}
+                        <td>{data?.total_cycles} </td>
+                        {/* <td>
+                          {data?.transaction_status == "unpaid" && (
+                            <span className='greenbgbatch'>
+                              {data?.transaction_status}
+                            </span>
+                          )}
+                          {data?.transaction_status == "no account" && (
+                            <span className='redbg'>
+                              {data?.transaction_status}
+                            </span>
+                          )}
+                        </td> */}
+                        <td>{data?.work_order?.exchange_rate}</td>
+                        <td>
+                          <Link
+                            to={`/admin_invoice_details_view_only/${data?.id}/${data?.work_order?.id}`}>
+                            {" "}
+                            View
+                          </Link>
+                        </td>
+                        {/* <td>
+                              {data?.actions?.can_pay && (
+                                <Button
+                                  onClick={() => openModal(data.id,data)}
+                                  className="payspecialist1"
+                                >
+                                  Process
+                                </Button>
+                              )}
+                            </td> */}
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+                {all_invoices && (
+                  <div className='active_member2'>
+                    <div>
+                      Displaying <b>{current_page}</b> of <b>{last_page}</b>
+                    </div>
+                    <Pagination>
+                      {first && (
+                        <Pagination.First onClick={() => nextPage(first)} />
+                      )}
+                      {prev && (
+                        <Pagination.Prev onClick={() => nextPage(prev)} />
+                      )}
+                      {next && (
+                        <Pagination.Next onClick={() => nextPage(next)} />
+                      )}
+
+                      {last && (
+                        <Pagination.Last onClick={() => nextPage(last)} />
+                      )}
+                    </Pagination>
+                  </div>
+                )}
+              </div>
             </Row>
           </Col>
         </Row>

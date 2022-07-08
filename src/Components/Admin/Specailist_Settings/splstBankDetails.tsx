@@ -3,7 +3,7 @@ import { Col, Row, Form, Modal, Alert } from "react-bootstrap";
 import Axios, { AxiosResponse } from "axios";
 import closeimg from "../../../images/closeimg.png";
 import editicon from "../../../images/editicon.png";
-import { API } from "../../../config";
+import { API, returnAdminToken } from "../../../config";
 import cert from "../../../images/certificate.png";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -118,7 +118,9 @@ const SplstBankDetails = withRouter((props) => {
           setState({
             ...state,
             isloading: false,
-            errorMessage: err?.response?.data?.message + err?.response?.data?.errors?.account_number?.join(""),
+            errorMessage:
+              err?.response?.data?.message +
+              err?.response?.data?.errors?.account_number?.join(""),
           });
           notify("failed to Update");
         }
@@ -180,17 +182,17 @@ const SplstBankDetails = withRouter((props) => {
     )
       .then((res) => {
         console.log(res.data);
-          setState({
-            ...state,
-            noCertificateAdded: false,
-            bank_account: { account_name, account_number },
-            isloading: false,
-            certificateAddModal: false,
-          });
-          notify("Bank account added successfully");
-          setTimeout(() => {
-            window.location.reload();
-          }, 2000);
+        setState({
+          ...state,
+          noCertificateAdded: false,
+          bank_account: { account_name, account_number },
+          isloading: false,
+          certificateAddModal: false,
+        });
+        notify("Bank account added successfully");
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
       })
       .catch((err) => {
         console.log(err.response);
@@ -199,7 +201,9 @@ const SplstBankDetails = withRouter((props) => {
           setState({
             ...state,
             isloading: false,
-            errorMessage: err?.response?.data?.message + err?.response?.data?.errors?.account_number?.join(""),
+            errorMessage:
+              err?.response?.data?.message +
+              err?.response?.data?.errors?.account_number?.join(""),
           });
         }
       });
@@ -284,105 +288,144 @@ const SplstBankDetails = withRouter((props) => {
           setState({
             ...state,
             isloading: false,
-            errorMessage: err?.response?.data?.message + err?.response?.data?.errors?.account_number?.join(""),
+            errorMessage:
+              err?.response?.data?.message +
+              err?.response?.data?.errors?.account_number?.join(""),
           });
           notify("failed to Delete");
         }
       });
   };
   console.log(!bank_account);
+  const getBankDetails = () => {
+    //add certhification to UI
+    setState({
+      ...state,
+      isloading: true,
+    });
+    //post to API
+    const token = returnAdminToken()
+    console.log(token);
+    const data = {
+      account_number,
+      bank: bank_id,
+    };
+    Axios.post(`${API}/verify/bank-account`, data, {
+      headers: { Authorization: `Bearer ${token.access_token}` },
+    })
+      .then((res) => {
+        console.log(res.data);
+        setState({
+          ...state,
+          account_name: res?.data?.data?.account_name,
+          isloading: false,
+          // certificateAddModal: false,
+        });
+      })
+      .catch((err) => {
+        console.log(err.response);
+        if (err.response) {
+          notify("Incorrect bank details");
+          setState({
+            ...state,
+            isloading: false,
+            account_name: "",
+            errorMessage: err?.response?.data?.message,
+          });
+        }
+      });
+  };
+  console.log(banks)
   return (
     <>
       <Modal show={deleteCredential} centered={true} onHide={closeDeleteModal}>
-        <div className="usermodaltitle">Delete Bank Account ?</div>
+        <div className='usermodaltitle'>Delete Bank Account ?</div>
         <Modal.Body>
-          <div className="wrkmodal-btnwrap">
-            <span className="wrkmodal-cancelbtn" onClick={closeDeleteModal}>
+          <div className='wrkmodal-btnwrap'>
+            <span className='wrkmodal-cancelbtn' onClick={closeDeleteModal}>
               Cancel
             </span>
             <span
-              className="wrkmodal-declinebtn"
-              onClick={() => deleteModalChange(state, bank_detal_id)}
-            >
+              className='wrkmodal-declinebtn'
+              onClick={() => deleteModalChange(state, bank_detal_id)}>
               {!isloading ? "  Delete " : "Deleting..."}
             </span>
           </div>
         </Modal.Body>
       </Modal>
       <Modal centered={true} onHide={closeAddModal} show={certificateAddModal}>
-        <div className="terminateworkmodalwrap">
-          <div className="terminateworkmodalimg">
-            <img src={closeimg} alt="close" onClick={closeAddModal} />
+        <div className='terminateworkmodalwrap'>
+          <div className='terminateworkmodalimg'>
+            <img src={closeimg} alt='close' onClick={closeAddModal} />
           </div>
-          <div className="terminateworkmodaltitle">Add Bank Account </div>
+          <div className='terminateworkmodaltitle'>Add Bank Account </div>
           {successMessage && (
-            <Alert key={2} variant="success" className="alertmessg">
+            <Alert key={2} variant='success' className='alertmessg'>
               {successMessage}
             </Alert>
           )}
           {errorMessage && (
-            <Alert key={2} variant="danger" className="alertmessg">
+            <Alert key={2} variant='danger' className='alertmessg'>
               {errorMessage}
             </Alert>
           )}
-          <Row>
-            <Col md={6}>
-              <Form.Group>
-                <h6 className="userprofile userprofile12">Account Name</h6>
-                <Form.Control
-                  className="userfield"
-                  name="account_name"
-                  value={account_name}
-                  onChange={onchange}
-                />
-              </Form.Group>
-            </Col>
-            <Col md={6}>
-              <Form.Group>
-                <h6 className="userprofile userprofile12">Account Number</h6>
-                <Form.Control
-                  className="userfield"
-                  name="account_number"
-                  type="number"
-                  min={0}
-                  value={account_number}
-                  onChange={onchange}
-                />
-              </Form.Group>
-            </Col>
-          </Row>
-          <Row>
-            <Col md={12}>
-              <h6 className="userprofile userprofile12">Bank Name</h6>
+          <Col md={12}>
+            <Form.Group>
+              <h6 className='userprofile userprofile12'>Bank Name</h6>
               <select
-                className="forminput profsettinformselect form-control"
+                className='forminput profsettinformselect form-control'
                 required
-                name="bank_id"
-                onChange={onchange}
-              >
-                <option value="" className="rdsltopt" selected hidden>
-                  --Please select your bank--
+                name='bank_id'
+                onChange={onchange}>
+                <option  className='rdsltopt' selected hidden>
+                  
                 </option>
                 {banks?.map((data, i) => (
-                  <option value={data.id} className="profsettinformselect">
+                  <option value={data.id} className='profsettinformselect'>
                     {data.name}
                   </option>
                 ))}
               </select>
-              <div className="text-right">
-                <img src={formCaret} className="drparr" />
+              <div className='text-right'>
+                <img src={formCaret} className='drparr' />
               </div>
+            </Form.Group>
+          </Col>
+          <Row>
+            <Col md={6}>
+              <Form.Group>
+                <h6 className='userprofile userprofile12'>Account Name</h6>
+                <Form.Control
+                  className='userfield'
+                  name='account_name'
+                  value={account_name}
+                  onChange={onchange}
+                  disabled
+                />
+              </Form.Group>
+            </Col>
+            <Col md={6}>
+              <Form.Group>
+                <h6 className='userprofile userprofile12'>Account Number</h6>
+                <Form.Control
+                  className='userfield'
+                  name='account_number'
+                  type='number'
+                  value={account_number}
+                  onChange={onchange}
+                  onBlur={getBankDetails}
+                />
+              </Form.Group>
             </Col>
           </Row>
-          <div className="wrkmodal-btnwrap">
-            <span className="wrkmodal-cancelbtn" onClick={closeAddModal}>
+          <div className='wrkmodal-btnwrap'>
+            <span className='wrkmodal-cancelbtn' onClick={closeAddModal}>
               Cancel
             </span>
 
             <span
-              className="wrkmodal-declinebtn addexpbtn"
-              onClick={displayBankDetails}
-            >
+              className='wrkmodal-declinebtn addexpbtn'
+              onClick={displayBankDetails}>
               {!isloading ? "  Add Bank Details" : "Adding..."}
             </span>
           </div>
@@ -391,103 +434,102 @@ const SplstBankDetails = withRouter((props) => {
       <Modal
         centered={true}
         onHide={closeEditModal}
-        show={certificateEditModal}
-      >
-        <div className="terminateworkmodalwrap">
-          <div className="terminateworkmodalimg">
-            <img src={closeimg} alt="close" onClick={closeEditModal} />
+        show={certificateEditModal}>
+        <div className='terminateworkmodalwrap'>
+          <div className='terminateworkmodalimg'>
+            <img src={closeimg} alt='close' onClick={closeEditModal} />
           </div>
-          <div className="terminateworkmodaltitle">Edit Bank Account </div>
+          <div className='terminateworkmodaltitle'>Edit Bank Account </div>
+          <Col md={12}>
+            <Form.Group>
+              <h6 className='userprofile userprofile12'>Bank Name</h6>
+              <select
+                className='forminput profsettinformselect form-control'
+                required
+                name='bank_id'
+                onChange={onchange}>
+                <option value='' className='rdsltopt' selected hidden>
+                  {bank_name}
+                </option>
+                {banks?.map((data, i) => (
+                  <option value={data.id} className='profsettinformselect'>
+                    {data.name}
+                  </option>
+                ))}
+              </select>
+              <div className='text-right'>
+                <img src={formCaret} className='drparr' />
+              </div>
+            </Form.Group>
+          </Col>
           <Row>
             <Col md={6}>
               <Form.Group>
-                <h6 className="userprofile userprofile12">Account Name</h6>
+                <h6 className='userprofile userprofile12'>Account Name</h6>
                 <Form.Control
-                  className="userfield"
-                  name="account_name"
+                  className='userfield'
+                  name='account_name'
                   value={account_name}
                   onChange={onchange}
+                  disabled
                 />
               </Form.Group>
             </Col>
             <Col md={6}>
               <Form.Group>
-                <h6 className="userprofile userprofile12">Account Number</h6>
+                <h6 className='userprofile userprofile12'>Account Number</h6>
                 <Form.Control
-                  className="userfield"
-                  name="account_number"
-                  type="number"
+                  className='userfield'
+                  name='account_number'
+                  type='number'
                   value={account_number}
                   onChange={onchange}
+                  onBlur={getBankDetails}
                 />
               </Form.Group>
             </Col>
           </Row>
-          <Row>
-            <Col md={12}>
-              <Form.Group>
-                <h6 className="userprofile userprofile12">Bank Name</h6>
-                <select
-                  className="forminput profsettinformselect form-control"
-                  required
-                  name="bank_id"
-                  onChange={onchange}
-                >
-                  <option value="" className="rdsltopt" selected hidden>
-                    {bank_name}
-                  </option>
-                  {banks?.map((data, i) => (
-                    <option value={data.id} className="profsettinformselect">
-                      {data.name}
-                    </option>
-                  ))}
-                </select>
-                <div className="text-right">
-                  <img src={formCaret} className="drparr" />
-                </div>
-              </Form.Group>
-            </Col>
-          </Row>
-          <div className="wrkmodal-btnwrap">
-            <span className="wrkmodal-cancelbtn" onClick={closeEditModal}>
+          <div className='wrkmodal-btnwrap'>
+            <span className='wrkmodal-cancelbtn' onClick={closeEditModal}>
               Cancel
             </span>
             <span
-              className="wrkmodal-declinebtn addexpbtn"
-              onClick={() => inputModalChange(state, bank_detal_id)}
-            >
+              className='wrkmodal-declinebtn addexpbtn'
+              onClick={() => inputModalChange(state, bank_detal_id)}>
               {!isloading ? "  Save " : "Saving..."}
             </span>
           </div>
         </div>
       </Modal>
-      <div className="text-center">
-        <h3 className=" profillabels ">Bank Account Details <small>(to receive payment for work done)</small> </h3>
+      <div className='text-center'>
+        <h3 className=' profillabels '>
+          Bank Account Details <small>(to receive payment for work done)</small>{" "}
+        </h3>
         {bank_account == null && (
           <div>
             <img
               src={document}
-              alt="no work request"
-              className="no_work_order"
+              alt='no work request'
+              className='no_work_order'
             />
             <p>You have no Bank Account Added</p>
-            <span className="profcertbtn" onClick={addCertModal}>
+            <span className='profcertbtn' onClick={addCertModal}>
               Add Bank Account
             </span>
           </div>
         )}
         {bank_account && (
           <div className={`bnkwrapdemacator ${certificationActive}`}>
-            <div className="profcertifncntent">
-              <div className="profilequaltnwrap">
-                <p className="profcertheading">Account Name</p>
+            <div className='profcertifncntent'>
+              <div className='profilequaltnwrap'>
+                <p className='profcertheading'>Account Name</p>
                 <p>{bank_account.account_name}</p>
               </div>
-              <div className="profqualiInstitutwrap">
-                <p className="profcertheading">Account Number</p>
+              <div className='profqualiInstitutwrap'>
+                <p className='profcertheading'>Account Number</p>
                 <p>{bank_account.account_number}</p>
               </div>
-              <div className="credentialsactions">
+              <div className='credentialsactions'>
                 <div>
                   <img
                     src={editicon}
@@ -499,20 +541,19 @@ const SplstBankDetails = withRouter((props) => {
                         bank_account.bank_name
                       )
                     }
-                    className="editimg"
+                    className='editimg'
                   />
                 </div>
                 <div
-                  className="credentialdeletebtn"
-                  onClick={() => deleteQualification(bank_account.id)}
-                >
+                  className='credentialdeletebtn'
+                  onClick={() => deleteQualification(bank_account.id)}>
                   X
                 </div>
               </div>
             </div>
-            <div className="profcertifncntent">
-              <div className="profilequaltnwrap">
-                <p className="profcertheading">Bank Name</p>
+            <div className='profcertifncntent'>
+              <div className='profilequaltnwrap'>
+                <p className='profcertheading'>Bank Name</p>
                 <p>{bank_account.bank_name}</p>
               </div>
             </div>

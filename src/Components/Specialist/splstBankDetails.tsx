@@ -234,7 +234,7 @@ const SplstBankDetails = () => {
           setState({
             ...state,
             isloading: false,
-            account_name:"",
+            account_name: "",
             errorMessage: err?.response?.data?.message,
           });
         }
@@ -391,34 +391,8 @@ const SplstBankDetails = () => {
               </Form.Group>
             </Col>
           </Row>
-          <Row>
-            <Col md={6}>
-              <Form.Group>
-                <h6 className='userprofile userprofile12'>Account Name</h6>
-                <Form.Control
-                  className='userfield'
-                  name='account_name'
-                  value={account_name}
-                  onChange={onchange}
-                />
-              </Form.Group>
-            </Col>
-            <Col md={6}>
-              <Form.Group>
-                <h6 className='userprofile userprofile12'>Account Number</h6>
-                <Form.Control
-                  className='userfield'
-                  name='account_number'
-                  type='number'
-                  min={0}
-                  value={account_number}
-                  onChange={onchange}
-                />
-              </Form.Group>
-            </Col>
-          </Row>
-          <Row>
-            <Col md={12}>
+          <Col md={12}>
+            <Form.Group>
               <h6 className='userprofile userprofile12'>Bank Name</h6>
               <select
                 className='forminput profsettinformselect form-control'
@@ -426,7 +400,7 @@ const SplstBankDetails = () => {
                 name='bank_id'
                 onChange={onchange}>
                 <option value='' className='rdsltopt' selected hidden>
-                  --Please select your bank--
+                  {bank_name}
                 </option>
                 {banks?.map((data, i) => (
                   <option value={data.id} className='profsettinformselect'>
@@ -437,6 +411,33 @@ const SplstBankDetails = () => {
               <div className='text-right'>
                 <img src={formCaret} className='drparr' />
               </div>
+            </Form.Group>
+          </Col>
+          <Row>
+            <Col md={6}>
+              <Form.Group>
+                <h6 className='userprofile userprofile12'>Account Name</h6>
+                <Form.Control
+                  className='userfield'
+                  name='account_name'
+                  value={account_name}
+                  onChange={onchange}
+                  disabled
+                />
+              </Form.Group>
+            </Col>
+            <Col md={6}>
+              <Form.Group>
+                <h6 className='userprofile userprofile12'>Account Number</h6>
+                <Form.Control
+                  className='userfield'
+                  name='account_number'
+                  type='number'
+                  value={account_number}
+                  onChange={onchange}
+                  onBlur={getBankDetails}
+                />
+              </Form.Group>
             </Col>
           </Row>
           <div className='wrkmodal-btnwrap'>

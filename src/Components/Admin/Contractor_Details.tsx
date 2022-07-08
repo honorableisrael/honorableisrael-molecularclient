@@ -24,6 +24,7 @@ const Contractor_Details = (props) => {
     user: {},
     all_specialist: [],
     isloading: false,
+    show_date: false,
     reason: "",
     show: false,
     selected_specialist: "",
@@ -94,7 +95,7 @@ const Contractor_Details = (props) => {
       });
   };
 
-  const { admin, all_specialist, isloading, reason, show, user }: any = state;
+  const { admin, show_date, isloading, reason, show, user }: any = state;
   console.log(user);
   return (
     <>
@@ -133,29 +134,45 @@ const Contractor_Details = (props) => {
                 <span className=''>Basic Information</span>{" "}
                 <span>
                   <div className='dropdown1'>
-                    <button className='dropbtn'>
+                    <button
+                      className='dropbtn'
+                      onClick={() => {
+                        setState({
+                          ...state,
+                          show_date: !show_date ? true : false,
+                        });
+                      }}>
                       <i className='fa fa-caret-down'></i>Actions
                     </button>
-                    <div className='dropdown1-content'>
-                      <Link to={`/contractor_invoices/${user.id}`}>
-                        <span>
-                          {isloading ? "Processing" : "View Invoices"}
-                        </span>
-                      </Link>
-                      {!user?.virtual_bank_account && (
-                        <span
-                          className='dark-text linkitem'
-                          onClick={generate_virtual_account}>
-                          {isloading
-                            ? "Processing"
-                            : " Generate Virtual Account"}
-                        </span>
-                      )}
-                    </div>
-                  </div>{" "}
+                    {show_date && (
+                      <div className='dropdown1-content'>
+                        <Link to={`/contractor_invoices/${user.id}`}>
+                          <span>
+                            {isloading ? "Processing" : "View Invoices"}
+                          </span>
+                        </Link>
+                        {!user?.virtual_bank_account && (
+                          <span
+                            className='dark-text linkitem'
+                            onClick={generate_virtual_account}>
+                            {isloading
+                              ? "Processing"
+                              : " Generate Virtual Account"}
+                          </span>
+                        )}
+                      </div>
+                    )}
+                  </div>
                 </span>{" "}
               </div>
-              <div className='pesonainforow1'>
+              <div
+                className='pesonainforow1'
+                onClick={() => {
+                  setState({
+                    ...state,
+                    show_date: false,
+                  });
+                }}>
                 <div className='pesonainfocol1'>
                   {user?.industry_icon ? (
                     <span className='spluserimg mrt5'>
@@ -178,7 +195,14 @@ const Contractor_Details = (props) => {
                   <p className='pdcontent'>{user?.need}</p>
                 </div>
               </div>
-              <div className='pesonainforow2'>
+              <div
+                className='pesonainforow2'
+                onClick={() => {
+                  setState({
+                    ...state,
+                    show_date: false,
+                  });
+                }}>
                 <div>
                   <p className='pdheading-primary'>
                     Completed Jobs:
@@ -212,7 +236,14 @@ const Contractor_Details = (props) => {
                   </p>
                 </div>
               </div>
-              <div className='pesonainforow3'>
+              <div
+                className='pesonainforow3'
+                onClick={() => {
+                  setState({
+                    ...state,
+                    show_date: false,
+                  });
+                }}>
                 <div className='pesonainforow3-title'>
                   Virtual Bank Details:
                 </div>

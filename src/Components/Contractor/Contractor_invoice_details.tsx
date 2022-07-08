@@ -427,6 +427,10 @@ const ContractorInvoiceDetails = (props) => {
                 </Link>{" "}
                 Contractor Invoice Preview
               </div>
+              <Button
+                className='payspecialist1 h36' onClick={()=>window.print()}>
+                Print
+              </Button>
             </div>
             <Row className='mgtop mgzero'>
               <Col md={12} className='mgtop345'>

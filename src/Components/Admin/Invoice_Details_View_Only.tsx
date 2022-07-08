@@ -31,7 +31,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { HashLink } from "react-router-hash-link";
 import viewmore from "../../assets/view-more.png";
 
-const Admin_Invoice_details = (props) => {
+const Invoice_details_view_only = (props) => {
   const [state, setState] = useState<any>({
     invoice_details: {},
     country: "",
@@ -168,7 +168,7 @@ const Admin_Invoice_details = (props) => {
       .catch((err) => {
         setState({
           ...state,
-          work_order_detail: work_order_details,
+          // work_order_detail: work_order_details,
         });
         console.log(err);
       });
@@ -558,13 +558,13 @@ const Admin_Invoice_details = (props) => {
                 Print
               </Button>
             </div>
-            {!invoice_details?.sent_at && !isloading && (
+            {/* {!invoice_details?.sent_at && !isloading && (
               <div className='nxtbck'>
                 <div className='gent122 gent12212' onClick={sendInvoice}>
                   {isloading ? "processing" : "Send Proforma Invoice"}
                 </div>
               </div>
-            )}
+            )} */}
             <Row className='mgtop'>
               <Col md={12} className='mgtop345'>
                 <div className='job23_1a hidden__1'>
@@ -676,15 +676,17 @@ const Admin_Invoice_details = (props) => {
                                 </tr>
                               </thead>
                               <tbody>
-                                {invoice_details?.cycles?.map((data, i) => (
-                                  <tr className='tdata' key={i}>
-                                    <td>{formatTime(data?.date)}</td>
-                                    <td>
-                                      {current_currency}
-                                      {FormatAmount(data?.amount)}
-                                    </td>
-                                    <td>{data?.status}</td>
-                                    {/* <td>
+                                {invoice_details?.cycles?.map(
+                                  (data, i) =>
+                                    data?.status == "Paid" && (
+                                      <tr className='tdata' key={i}>
+                                        <td>{formatTime(data?.date)}</td>
+                                        <td>
+                                          {current_currency}
+                                          {FormatAmount(data?.amount)}
+                                        </td>
+                                        <td>{data?.status}</td>
+                                        {/* <td>
                                       {data?.status == "Unpaid" ? (
                                         <Button
                                           onClick={() =>
@@ -698,8 +700,8 @@ const Admin_Invoice_details = (props) => {
                                         ""
                                       )}
                                     </td> */}
-                                    <td>{data?.cycle}</td>
-                                    <td>
+                                        <td>{data?.cycle}</td>
+                                        {/* <td>
                                       {data?.status == "Paid" &&
                                       !data.paid_specialists ? (
                                         <Button
@@ -730,9 +732,17 @@ const Admin_Invoice_details = (props) => {
                                         to={`/admin_sub_invoice_details/${data.id}/${props.match.params.workorderid}`}>
                                         <img src={viewmore} className="viewmore" alt='' />
                                       </Link>
-                                    </td>
-                                  </tr>
-                                ))}
+                                    </td> */}
+                                        <td>
+                                          {" "}
+                                          <Link
+                                            to={`/admin_sub_invoice_details/${data.id}/${props.match.params.workorderid}`}>
+                                            View
+                                          </Link>
+                                        </td>
+                                      </tr>
+                                    )
+                                )}
                               </tbody>
                             </Table>
                             <div className='text-right mgg2'></div>
@@ -929,14 +939,14 @@ const Admin_Invoice_details = (props) => {
         </Row>
         <Row>
           <Col>
-            <div className='nxtbck btmadjustment'>
+            {/* <div className='nxtbck btmadjustment'>
               <HashLink
                 to={`/admin_view/${invoice_details?.work_order?.contractor_id}/contractor_invoice/${invoice_details?.id}`}>
                 <div className='gent122 gent12212'>
                   {"Contractor Invoice Preview"}
                 </div>
               </HashLink>
-            </div>
+            </div> */}
           </Col>
         </Row>
       </Container>
@@ -1025,4 +1035,4 @@ const Admin_Invoice_details = (props) => {
   );
 };
 
-export default Admin_Invoice_details;
+export default Invoice_details_view_only;

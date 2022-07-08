@@ -10,6 +10,7 @@ import {
   HashRouter,
 } from "react-router-dom";
 import { createBrowserHistory } from "history";
+import "./index.css"
 
 const history = createBrowserHistory();
 ReactDOM.render(
