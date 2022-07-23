@@ -273,10 +273,10 @@ const Contractor_Invoices = (props) => {
                 <Table hover responsive className='schedule_payment_table'>
                   <thead>
                     <tr>
+                      <th scope='col'>Date</th>
                       <th scope='col'>Work order</th>
                       <th scope='col'>Reference</th>
                       <th scope='col'>Amount(NGN)</th>
-                      <th scope='col'>Date</th>
                       {/* <th scope='col'>Amount paid</th>
                       <th scope='col'>Amount unpaid</th> */}
                       <th scope='col'>Cycles</th>
@@ -287,6 +287,7 @@ const Contractor_Invoices = (props) => {
                   <tbody>
                     {all_invoices?.map((data: any, i) => (
                       <tr key={i}>
+                        <td>{formatTime(data?.created_at)}</td>
                         <td>
                           <Link
                             to={`/admin_work_details/${data.work_order?.id}?inreview=true`}>
@@ -308,7 +309,6 @@ const Contractor_Invoices = (props) => {
                         <td className='contractorname'>
                           {FormatAmount(data?.total_amount)}
                         </td>
-                        <td>{formatTime(data?.created_at)}</td>
                         {/* <td>{FormatAmount(data?.total_amount_paid)}</td>
                         <td>{FormatAmount(data?.total_amount_unpaid)}</td> */}
                         <td>{data?.total_cycles} </td>

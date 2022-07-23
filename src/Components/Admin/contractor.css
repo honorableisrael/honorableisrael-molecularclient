@@ -3462,7 +3462,11 @@ label i {
   border: 2px solid #dee2e6 !important;
   font-weight: 600 !important;
   padding-left: .4rem !important;
+  color: #000000;
 }
 .deployedsplsttable {
   padding: 38px 30px 3px 10px;
+}
+.contractor_transactions_header{
+  width: fit-content !important;
 }

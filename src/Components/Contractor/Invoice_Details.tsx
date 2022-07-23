@@ -442,7 +442,8 @@ const Admin_Invoice_details = (props) => {
                 &nbsp; Invoice Details
               </div>
               <Button
-                className='payspecialist1 h36' onClick={()=>window.print()}>
+                className='payspecialist1 h36'
+                onClick={() => window.print()}>
                 Print
               </Button>
             </div>
@@ -560,8 +561,9 @@ const Admin_Invoice_details = (props) => {
                             <Table responsive>
                               <thead className='theadinvoice'>
                                 <tr>
-                                  <th className='tablehead'>Specialist Cost</th>
                                   <th className='tablehead'>Date</th>
+                                  <th className='tablehead'>Specialist Cost</th>
+
                                   <th className='tablehead'>Status</th>
                                   <th className='tablehead'>Cycle</th>
                                   <th className='tablehead'>Payment</th>
@@ -570,11 +572,11 @@ const Admin_Invoice_details = (props) => {
                               <tbody>
                                 {invoice_details?.cycles?.map((data, i) => (
                                   <tr className='tdata' key={i}>
+                                    <td>{formatTime(data?.date)}</td>
                                     <td>
                                       {current_currency}
                                       {FormatAmount(data?.amount)}
                                     </td>
-                                    <td>{formatTime(data?.date)}</td>
                                     <td>{data?.status}</td>
                                     <td>{data?.cycle}</td>
                                     <td>

@@ -72,6 +72,9 @@ import Contractor_Invoices from "./Components/Admin/Contractor_Invoices";
 import ScheduledPaymentDetails from "./Components/Admin/scheduledpayment_details";
 import Admin_Sub_Invoice_Details from "./Components/Admin/Sub_Invoice_Details";
 import Invoice_details_view_only from "./Components/Admin/Invoice_Details_View_Only";
+import Contractor_Transactions from "./Components/Admin/Contractor_Transactions";
+import Contractor_Transactions_details from "./Components/Admin/Contractor_Transactions_details";
+import Specialist_Transactions from "./Components/Admin/Specialist_Transactions";
 
 const App: any = ({ history }) => {
   return (
@@ -87,6 +90,7 @@ const App: any = ({ history }) => {
                 path='/contractor_dashboard'
                 component={ContractorDashboard}
               />
+              
               <Route path='/work_order' component={NewWorkOrderForm} />
               <Route
                 exact={true}
@@ -166,6 +170,10 @@ const App: any = ({ history }) => {
                 component={AdminWorkOrderEvaluationStep3}
               />
               <Route path='/admin_dashboard' component={AdminDashboard} />
+              <Route path='/contractor_transactions' component={Contractor_Transactions} />
+              <Route path='/specialist_transactions' component={Specialist_Transactions} />
+              <Route path='/contractor_transactions_details/:id' component={Contractor_Transactions_details} />
+              
               <Route path='/scheduled_payments' component={ScheduledPayments} />
               <Route
                 path='/scheduled_payments_details/:id'

@@ -13,6 +13,7 @@ import { createBrowserHistory } from "history";
 import "./index.css"
 
 const history = createBrowserHistory();
+
 ReactDOM.render(
   <HashRouter>
     <App history={history} />

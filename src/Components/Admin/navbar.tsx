@@ -168,11 +168,24 @@ const DashboardNav = withRouter((props) => {
                   </Dropdown.Item>
                   {/* <Dropdown.Item href="#/action-1"><Link to="/user-profile">Settings</Link></Dropdown.Item> */}
                   <Dropdown.Item
-                    href="#/action-2"
                     className="animated fadeInLeft"
                   >
                     <Link to={"/scheduled_payments"} className="flex-custom12">
                       Payment to Specialists
+                    </Link>
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    className="animated fadeInLeft"
+                  >
+                    <Link to={"/contractor_transactions"} className="flex-custom12">
+                      Contractor Transactions
+                    </Link>
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    className="animated fadeInLeft"
+                  >
+                    <Link to={"/specialist_transactions"} className="flex-custom12">
+                      Specialists Transactions
                     </Link>
                   </Dropdown.Item>
                 </Dropdown.Menu>
@@ -247,7 +260,6 @@ const DashboardNav = withRouter((props) => {
                 </Dropdown.Item>
                 {/* <Dropdown.Item href="#/action-1"><Link to="/user-profile">Settings</Link></Dropdown.Item> */}
                 <Dropdown.Item
-                  href="#/action-2"
                   className="animated fadeInLeft"
                 >
                   {/* <img src={exit} className="exit" /> Log out */}

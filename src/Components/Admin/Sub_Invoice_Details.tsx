@@ -564,10 +564,17 @@ const Admin_Sub_Invoice_Details = (props) => {
                     <div className='overview12 overviewflex-down'>
                       <Col md={12} className='plf'>
                         <div className=''>
-                          <div className='box_inv outerpink'>
-                            <span className='box_smalltick smalltickpink'></span>
-                            {invoice_details?.status}
-                          </div>
+                          {invoice_details?.status=="Unpaid" && (
+                            <div className='box_inv outerpink'>
+                              <span className='box_smalltick smalltickpink'></span>
+                              {invoice_details?.status}
+                            </div>
+                          )}
+                          {invoice_details?.status=="Paid" && (
+                            <span>
+                              <span className='acceptedinvoc'>Paid</span>
+                            </span>
+                          )}
                           <div className='boxwrapper__1'>
                             <div className='lcomponent'>
                               <div className='inv_title'>
