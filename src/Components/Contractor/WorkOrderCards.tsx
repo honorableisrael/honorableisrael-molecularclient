@@ -87,9 +87,9 @@ const WorkOrderCards = (props) => {
             <div className="content24">
               <img src={group2} alt="cotn23" className="cotn232" />
               <div className="spcclst12">
-                <div className="spcclst1">Total Specialist</div>
+                <div className="spcclst1">Total Assigned Specialist</div>
                 <div className="spcclst">
-                  {props?.order_details?.total_specialists}
+                  {props?.order_details?.total_assigned_specialists}
                 </div>
               </div>
             </div>

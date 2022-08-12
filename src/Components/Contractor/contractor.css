@@ -2060,6 +2060,9 @@ a:active {
 }
 .header_x {
   padding-left: 3rem !important;
+  min-width: 320px !important;
+  max-width: 320px !important;
+  overflow: hidden;
 }
 .plzeft {
   padding-left: 3rem !important;

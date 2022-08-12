@@ -3066,6 +3066,12 @@ label i {
 .acccollapsediv .text-center {
   margin-top: 0.3rem;
 }
+.maxh-378{
+  max-height: 378px;
+}
+.specailist_rv{
+  padding: 0.5rem 0.7rem
+}
 .upby span,
 .upby span:hover {
   background: var(--molecular-orange);
@@ -3078,6 +3084,9 @@ label i {
 }
 .upby {
   min-width: 190px;
+}
+.position-static{
+  margin-left: 1rem;
 }
 .lightgray {
   color: #8b8a8a !important;

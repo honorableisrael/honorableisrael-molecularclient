@@ -2,6 +2,9 @@
 	"folders": [
 		{
 			"path": "../../../.."
+		},
+		{
+			"path": "../../../../../fc_inventory"
 		}
 	],
 	"settings": {}

@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Col, Row, Container, Form, Pagination, Table } from "react-bootstrap";
+import {
+  Col,
+  Row,
+  Container,
+  Form,
+  Pagination,
+  Table,
+  Spinner,
+} from "react-bootstrap";
 import "./contractor.css";
 import DashboardNav from "./navbar";
 import portfolio from "../../images/portfolio.png";
@@ -29,7 +37,9 @@ const Contractor_Transactions = (props) => {
     filter: "",
     location: "",
     end_date: "",
+    isloading: false,
     start_date: "",
+    search: "",
     hour: "",
     show_date: false,
     next: "",
@@ -97,11 +107,16 @@ const Contractor_Transactions = (props) => {
       });
     }
   };
+  
   useEffect(() => {
     getTransactions(`${API}/admin/contractors/payment-transactions`);
   }, []);
   const getTransactions = (endpoint) => {
     const token = returnAdminToken();
+    setState({
+      ...state,
+      isloading: true,
+    });
     axios
       .all([
         axios.get(endpoint, {
@@ -116,12 +131,17 @@ const Contractor_Transactions = (props) => {
             all_invoices: res.data.data.data,
             ...res.data.data.links,
             ...res.data.data.meta,
+            isloading: false,
             show_date: false,
           });
         })
       )
       .catch((err) => {
         console.log(err);
+        setState({
+          ...state,
+          isloading: false,
+        });
       });
   };
   const nextPage = (x) => {
@@ -151,13 +171,13 @@ const Contractor_Transactions = (props) => {
   const {
     inprogress,
     show_date,
-    past,
+    filter,
     all_invoices,
-    country,
+    search,
     work_order_description,
     order_title,
     end_date,
-    filter,
+    isloading,
     start_date,
     hour,
     last_page,
@@ -169,6 +189,11 @@ const Contractor_Transactions = (props) => {
   } = state;
   console.log(all_invoices);
   console.log(filter);
+  const search_filter = () => {
+    getTransactions(
+      `${API}/admin/contractors/payment-transactions?search=${search}`
+    );
+  };
   return (
     <>
       <Container fluid={true} className='dasbwr'>
@@ -195,9 +220,29 @@ const Contractor_Transactions = (props) => {
             </div>
             <div className='intab flexx2 justify-between'>
               <div
-                onClick={() => switchTab("firsttab")}
+                onClick={() =>
+                  getTransactions(
+                    `${API}/admin/contractors/payment-transactions`
+                  )
+                }
                 className={inprogress ? "inprogress tab_active" : "inprogress"}>
                 All
+              </div>
+              <div className='searchcontrol_'>
+                <input
+                  type='text'
+                  className='form-control search_field'
+                  value={search}
+                  onChange={onchange}
+                  onKeyPress={(e) => {
+                    if (e.key == "Enter") {
+                      search_filter();
+                    }
+                  }}
+                  id='search'
+                  placeholder='Search'
+                />
+                {isloading && <Spinner animation={"grow"} variant={"info"} />}
               </div>
               <div className='dropdown1'>
                 <button
@@ -208,13 +253,13 @@ const Contractor_Transactions = (props) => {
                       show_date: !show_date ? true : false,
                     });
                   }}>
-                  <i className='fa fa-caret-down'></i>Filter by Month
+                  <i className='fa fa-caret-down'></i>Filter by date
                 </button>
                 {show_date && (
                   <div className='dropdown1-content'>
                     <span className='dark-text linkitem flexx2'>
                       <input
-                        type='month'
+                        type='date'
                         value={filter}
                         onChange={onchange}
                         id='filter'
@@ -327,6 +372,9 @@ const Contractor_Transactions = (props) => {
                     ))}
                   </tbody>
                 </Table>
+                <div className='text-center'>
+                  {all_invoices.length == 0 && !isloading && "No record found"}
+                </div>
                 {all_invoices && (
                   <div className='active_member2'>
                     <div>

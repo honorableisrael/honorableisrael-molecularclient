@@ -467,6 +467,7 @@ const Upfront_payment = (props: any) => {
           </Row>
         </Modal.Body>
       </Modal>
+
       <Card>
         <div onClick={toggleAccordion1}>
           <div className='deploydsplstwrapp'>
@@ -652,6 +653,9 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
     location: "",
     end_date: "",
     start_date: "",
+    show2: "",
+    notify_specialist: false,
+    specialist_id: "",
     isloading: false,
     hour: "",
     show: false,
@@ -726,6 +730,9 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
     order_title,
     end_date,
     already_approved,
+    show2,
+    specialist_id,
+    notify_specialist,
     reason,
     location_terrain,
     cost_per_inch,
@@ -751,6 +758,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
     cost_per_inch_dollar,
     per_diem_dollar,
   } = state;
+
   const Accept_work_order = () => {
     const availableToken: any = localStorage.getItem("loggedInDetails");
     const token = availableToken
@@ -945,12 +953,16 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
       chevron: active === "active" ? "" : "arrowflip",
     });
   };
+
   const modalShow1 = () => {
     setState({
       ...state,
       cost_show: true,
     });
   };
+
+
+
   const sendSLA = () => {
     const work_order = localStorage.getItem("work_order_details");
     const work_order_details = work_order ? JSON.parse(work_order) : "";
@@ -973,6 +985,56 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
         notify("successfully  sent contract");
         setTimeout(() => {
           // window.location.reload();
+        }, 2000);
+        setState({
+          ...state,
+          isloading: false,
+        });
+      })
+      .catch((err) => {
+        if (err?.response?.status == 400) {
+          notify(err?.response?.data?.message);
+        }
+        notify("failed to process");
+        setState({
+          ...state,
+          isloading: false,
+        });
+        console.log(err);
+      });
+  };
+  const modalShow2 = (id) => {
+    setState({
+      ...state,
+      show2: true,
+      specialist_id: id,
+    });
+  };
+
+  const removeSpecialist = () => {
+    setState({
+      ...state,
+      isloading: true,
+    });
+    const data = {
+      specialists: [specialist_id],
+      notify: notify_specialist,
+    };
+    axios
+      .post(
+        `${API}/admin/work-orders/${props.match.params.id}/unassign-specialists`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${returnAdminToken().access_token}`,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res.data);
+        notify("successfully  removed specialist");
+        setTimeout(() => {
+          window.location.reload();
         }, 2000);
         setState({
           ...state,
@@ -1095,6 +1157,54 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
               {/* <div className="terminate1" onClick={(e) => Reject_work_order()}>
                 Reject
               </div> */}
+            </Col>
+          </Row>
+        </Modal.Body>
+      </Modal>
+      <Modal
+        size='sm'
+        show={show2}
+        onHide={() =>
+          setState({
+            ...state,
+            show2: false,
+          })
+        }
+        dialogClassName=''>
+        <Modal.Header closeButton>
+          <Modal.Title id='example-custom-modal-styling-title'>
+            Remove Specialist
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Row>
+            <Col md={12}>
+              <p className='teal-text'>
+                Please confirm removal of invited specialist
+              </p>
+              <p>
+                Notify Specialist{" "}
+                <input
+                  type='checkbox'
+                  name='notify_specialist'
+                  className='form-check-input position-static'
+                  onChange={() => {
+                    setState({
+                      ...state,
+                      notify_specialist: notify_specialist ? false : true,
+                    });
+                  }}
+                  checked={notify_specialist ? true : false}
+                  id='notify_specialist '
+                />{" "}
+              </p>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={12} className='terminate2'>
+              <div className='terminate1' onClick={(e) => removeSpecialist()}>
+                {isloading ? "Processing" : "Submit"}
+              </div>
             </Col>
           </Row>
         </Modal.Body>
@@ -1593,7 +1703,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                     {isloading && <Spinner animation={"grow"} variant='info' />}
                     <div
                       style={{ maxHeight: `${collapseHeight}` }}
-                      className='acccollapsediv'
+                      className='acccollapsediv maxh-378'
                       ref={content}>
                       {!new_work && assigned_specialists.length !== 0 && (
                         <>
@@ -1624,6 +1734,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                             <div className='header_12'>Type</div>
                             <div className='header_12'>Spread Position</div>
                             <div className='header_12'>Status</div>
+                            <div className='header_12'>Action</div>
                           </div>
                           {assigned_specialists.length !== 0 &&
                             assigned_specialists
@@ -1677,6 +1788,15 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                                         )}
                                       </div>
                                     </div>
+                                    <div className='member'>
+                                      {data.status == "Pending" && (
+                                        <div
+                                          className='job3 job_1 job_12 text-white specailist_rv'
+                                          onClick={() => modalShow2(data.id)}>
+                                          Remove Specialist
+                                        </div>
+                                      )}
+                                    </div>
                                   </div>
                                 </>
                               ))}
@@ -1684,7 +1804,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                             {" "}
                             <span className='viewall_'>
                               {" "}
-                              <Link to='/deployedspecialist'>
+                              <Link to={`/deployedspecialist/${props.match.params.id}`}>
                                 View all
                               </Link>{" "}
                             </span>{" "}

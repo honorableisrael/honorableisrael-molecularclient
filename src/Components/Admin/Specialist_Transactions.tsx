@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Col, Row, Container, Form, Pagination, Table } from "react-bootstrap";
+import {
+  Col,
+  Row,
+  Container,
+  Form,
+  Pagination,
+  Table,
+  Spinner,
+} from "react-bootstrap";
 import "./contractor.css";
 import DashboardNav from "./navbar";
 import portfolio from "../../images/portfolio.png";
@@ -32,6 +40,8 @@ const Specialist_Transactions = (props) => {
     start_date: "",
     hour: "",
     show_date: false,
+    isloading: false,
+    search: "",
     next: "",
     prev: "",
     first: "",
@@ -102,6 +112,10 @@ const Specialist_Transactions = (props) => {
   }, []);
   const getTransactions = (endpoint) => {
     const token = returnAdminToken();
+    setState({
+      ...state,
+      isloading: true,
+    });
     axios
       .all([
         axios.get(endpoint, {
@@ -116,12 +130,17 @@ const Specialist_Transactions = (props) => {
             all_invoices: res.data.data.data,
             ...res.data.data.links,
             ...res.data.data.meta,
+            isloading: false,
             show_date: false,
           });
         })
       )
       .catch((err) => {
         console.log(err);
+        setState({
+          ...state,
+          isloading: false,
+        });
       });
   };
   const nextPage = (x) => {
@@ -148,13 +167,19 @@ const Specialist_Transactions = (props) => {
         console.log(err);
       });
   };
+  const search_filter = () => {
+    getTransactions(
+      `${API}/admin/specialists/payment-transactions?search=${search}`
+    );
+  };
   const {
     inprogress,
     show_date,
     past,
     all_invoices,
     country,
-    work_order_description,
+    search,
+    isloading,
     order_title,
     end_date,
     filter,
@@ -195,9 +220,29 @@ const Specialist_Transactions = (props) => {
             </div>
             <div className='intab flexx2 justify-between'>
               <div
-                onClick={() => switchTab("firsttab")}
+                onClick={() =>
+                  getTransactions(
+                    `${API}/admin/specialists/payment-transactions`
+                  )
+                }
                 className={inprogress ? "inprogress tab_active" : "inprogress"}>
                 All
+              </div>
+              <div className='searchcontrol_'>
+                <input
+                  type='text'
+                  className='form-control search_field'
+                  value={search}
+                  onChange={onchange}
+                  onKeyPress={(e) => {
+                    if (e.key == "Enter") {
+                      search_filter();
+                    }
+                  }}
+                  id='search'
+                  placeholder='Search'
+                />
+                {isloading && <Spinner animation={"grow"} variant={"info"} />}
               </div>
               <div className='dropdown1'>
                 <button
@@ -208,13 +253,13 @@ const Specialist_Transactions = (props) => {
                       show_date: !show_date ? true : false,
                     });
                   }}>
-                  <i className='fa fa-caret-down'></i>Filter by Month
+                  <i className='fa fa-caret-down'></i>Filter by date
                 </button>
                 {show_date && (
                   <div className='dropdown1-content'>
                     <span className='dark-text linkitem flexx2'>
                       <input
-                        type='month'
+                        type='date'
                         value={filter}
                         onChange={onchange}
                         id='filter'
@@ -224,7 +269,7 @@ const Specialist_Transactions = (props) => {
                         className='sendbtn'
                         onClick={() =>
                           getTransactions(
-                            `${API}/admin/contractors/payment-transactions?date=${filter}`
+                            `${API}/admin/specialists/payment-transactions?date=${filter}`
                           )
                         }>
                         Send
@@ -317,6 +362,9 @@ const Specialist_Transactions = (props) => {
                     ))}
                   </tbody>
                 </Table>
+                <div className='text-center'>
+                  {all_invoices.length == 0 && !isloading && "No record found"}
+                </div>
                 {all_invoices && (
                   <div className='active_member2'>
                     <div>

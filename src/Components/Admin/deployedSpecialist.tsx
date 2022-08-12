@@ -53,11 +53,18 @@ const DeployedSpecialist = withRouter((props) => {
     current_page: "",
     last_page: "",
     to: "",
+    show2: false,
+    show3: false,
+    specialist_id: "",
+    notify_specialist: false,
     total: "",
   });
   const {
     overview,
     deployedspecialist,
+    notify_specialist,
+    show3,
+    specialist_id,
     selectedspecialist,
     AllgroupedSpecialist,
     group_id,
@@ -198,7 +205,7 @@ const DeployedSpecialist = withRouter((props) => {
   useEffect(() => {
     window.scrollTo(-0, -0);
     const token = returnAdminToken();
-    console.log(props.location.search==="?worksheet")
+    console.log(props.location.search === "?worksheet");
     const work_order = localStorage.getItem("work_order_details");
     const work_order_details = work_order ? JSON.parse(work_order) : "";
     axios
@@ -222,8 +229,8 @@ const DeployedSpecialist = withRouter((props) => {
             ...res.data.data.meta,
             allAssignedSpecialist: res.data.data.data,
             work_order_detail: res2.data.data,
-            grouped:props.location.search==="?worksheet"?true:false,
-            overview:props.location.search==="?worksheet"?false:true,
+            grouped: props.location.search === "?worksheet" ? true : false,
+            overview: props.location.search === "?worksheet" ? false : true,
           });
         })
       )
@@ -454,15 +461,63 @@ const DeployedSpecialist = withRouter((props) => {
       show2: true,
     });
   };
+  const modalShow2 = (id) => {
+    setState({
+      ...state,
+      show3: true,
+      specialist_id: id,
+    });
+  };
+
+  const removeSpecialist = () => {
+    setState({
+      ...state,
+      isloading: true,
+    });
+    const data = {
+      specialists: [specialist_id],
+      notify: notify_specialist,
+    };
+    axios
+      .post(
+        `${API}/admin/work-orders/${props.match.params.id}/unassign-specialists`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${returnAdminToken().access_token}`,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res.data);
+        notify("successfully  removed specialist");
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+        setState({
+          ...state,
+          isloading: false,
+        });
+      })
+      .catch((err) => {
+          notify(err?.response?.data?.message);
+        notify("failed to process");
+        setState({
+          ...state,
+          isloading: false,
+        });
+        console.log(err);
+      });
+  };
   return (
     <>
       <Helmet>
-        <meta charSet="utf-8" />
+        <meta charSet='utf-8' />
         <title>Molecular - Invited Specialists</title>
         <link />
       </Helmet>
       <Modal
-        size="lg"
+        size='lg'
         show={show}
         onHide={() =>
           setState({
@@ -470,11 +525,10 @@ const DeployedSpecialist = withRouter((props) => {
             show: false,
           })
         }
-        dialogClassName="modal-90w"
-        className="mdl12"
-      >
+        dialogClassName='modal-90w'
+        className='mdl12'>
         <Modal.Header closeButton>
-          <Modal.Title id="example-custom-modal-styling-title">
+          <Modal.Title id='example-custom-modal-styling-title'>
             Manage Spread
           </Modal.Title>
         </Modal.Header>
@@ -483,29 +537,29 @@ const DeployedSpecialist = withRouter((props) => {
             <Col md={12}>
               <Form>
                 <Row>
-                  <Col md={12} className="formsection1">
+                  <Col md={12} className='formsection1'>
                     <Form.Group>
-                      <h6 className="userprofile">Spread name</h6>
+                      <h6 className='userprofile'>Spread name</h6>
                       <Form.Control
-                        type="text"
+                        type='text'
                         value={group_name}
-                        className="userfield"
-                        id="group_name"
+                        className='userfield'
+                        id='group_name'
                         onChange={onchange}
-                        placeholder=""
+                        placeholder=''
                       />
                     </Form.Group>
                   </Col>
-                  <Col md={12} className="formsection1">
+                  <Col md={12} className='formsection1'>
                     <Form.Group>
-                      <h6 className="userprofile">Spread Description</h6>
+                      <h6 className='userprofile'>Spread Description</h6>
                       <Form.Control
-                        type="text"
+                        type='text'
                         value={group_description}
-                        className="userfield"
-                        id="group_description"
+                        className='userfield'
+                        id='group_description'
                         onChange={onchange}
-                        placeholder=""
+                        placeholder=''
                       />
                     </Form.Group>
                   </Col>
@@ -514,17 +568,17 @@ const DeployedSpecialist = withRouter((props) => {
             </Col>
           </Row>
           <Row>
-            <Col md={12} className="terminate2">
-              <div className="create_group success">
-                <Button className="manage_" onClick={CreateNewGroup}>
+            <Col md={12} className='terminate2'>
+              <div className='create_group success'>
+                <Button className='manage_' onClick={CreateNewGroup}>
                   {isloading ? "processing" : "Create"}{" "}
                 </Button>
               </div>
             </Col>
           </Row>
-          <Row className="avvworkgroup">
+          <Row className='avvworkgroup'>
             <Col md={12}>
-              <h6 className="cca">Available Work Spread</h6>
+              <h6 className='cca'>Available Work Spread</h6>
             </Col>
             <Col md={12}>
               <Table hover>
@@ -538,19 +592,18 @@ const DeployedSpecialist = withRouter((props) => {
                 <tbody>
                   {work_order_detail?.work_groups?.map((data, i) => (
                     <tr key={i}>
-                      <td className="dpslstnamecell">
-                        <div className="dplsplusernmeimg">
+                      <td className='dpslstnamecell'>
+                        <div className='dplsplusernmeimg'>
                           <span></span>
                           <div>{data?.name}</div>
                         </div>
                       </td>
                       <td>{data.total_members}</td>{" "}
-                      <td className="depspltabcol1">
+                      <td className='depspltabcol1'>
                         {data.total_members == 0 ? (
                           <Button
-                            className="btn-danger"
-                            onClick={() => DeleteGroup(data.id)}
-                          >
+                            className='btn-danger'
+                            onClick={() => DeleteGroup(data.id)}>
                             Delete
                           </Button>
                         ) : (
@@ -566,7 +619,7 @@ const DeployedSpecialist = withRouter((props) => {
         </Modal.Body>
       </Modal>
       <Modal
-        size="sm"
+        size='sm'
         show={show2}
         onHide={() =>
           setState({
@@ -574,11 +627,10 @@ const DeployedSpecialist = withRouter((props) => {
             show2: false,
           })
         }
-        dialogClassName="modal-90w"
-        className="mdl12"
-      >
+        dialogClassName='modal-90w'
+        className='mdl12'>
         <Modal.Header closeButton>
-          <Modal.Title id="example-custom-modal-styling-title">
+          <Modal.Title id='example-custom-modal-styling-title'>
             Select a group to add specialist
           </Modal.Title>
         </Modal.Header>
@@ -593,22 +645,21 @@ const DeployedSpecialist = withRouter((props) => {
                     <th>Action</th>
                   </tr>
                 </thead>
-                {isloading && <Spinner animation={"grow"} variant="info" />}
+                {isloading && <Spinner animation={"grow"} variant='info' />}
                 <tbody>
                   {work_order_detail?.work_groups?.map((data, i) => (
                     <tr key={i}>
-                      <td className="dpslstnamecell">
-                        <div className="dplsplusernmeimg">
+                      <td className='dpslstnamecell'>
+                        <div className='dplsplusernmeimg'>
                           <span></span>
                           <div>{data?.name}</div>
                         </div>
                       </td>
                       <td>{data.total_members}</td>{" "}
-                      <td className="depspltabcol1">
+                      <td className='depspltabcol1'>
                         <Button
-                          className="btn-success"
-                          onClick={() => add_To_Group(data.id)}
-                        >
+                          className='btn-success'
+                          onClick={() => add_To_Group(data.id)}>
                           {!isloading ? "Add to group" : "Processing"}
                         </Button>
                       </td>
@@ -620,66 +671,112 @@ const DeployedSpecialist = withRouter((props) => {
           </Row>
         </Modal.Body>
       </Modal>
+      <Modal
+        size='sm'
+        show={show3}
+        onHide={() =>
+          setState({
+            ...state,
+            show3: false,
+          })
+        }
+        dialogClassName=''>
+        <Modal.Header closeButton>
+          <Modal.Title id='example-custom-modal-styling-title'>
+            Remove Specialist
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Row>
+            <Col md={12}>
+              <p className='teal-text'>
+                Please confirm removal of invited specialist
+              </p>
+              <p>
+                Notify Specialist{" "}
+                <input
+                  type='checkbox'
+                  name='notify_specialist'
+                  className='form-check-input position-static'
+                  onChange={() => {
+                    setState({
+                      ...state,
+                      notify_specialist: notify_specialist ? false : true,
+                    });
+                  }}
+                  checked={notify_specialist ? true : false}
+                  id='notify_specialist '
+                />{" "}
+              </p>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={12} className='terminate2'>
+              <div className='terminate1' onClick={(e) => removeSpecialist()}>
+                {isloading ? "Processing" : "Submit"}
+              </div>
+            </Col>
+          </Row>
+        </Modal.Body>
+      </Modal>
       <DashboardNav />
       <Container fluid>
-        <Row className="depsplstrow">
+        <Row className='depsplstrow'>
           <Col md={11}>
-            <div className="title_wo title_wo12 title_wo_">
-              <div className="workorderheader">
-                <Link to={`/admin_work_details/${work_order_detail?.id}?inreview=true`}>
+            <div className='title_wo title_wo12 title_wo_'>
+              <div className='workorderheader'>
+                <Link
+                  to={`/admin_work_details/${props.match.params.id}?inreview=true`}>
                   {" "}
-                  <img src={arrowback} className="arrowback" />
+                  <img src={arrowback} className='arrowback' />
                 </Link>
                 &nbsp; Invited Specialist
               </div>
-              <div className="manage_" onClick={openModal}>
+              <div className='manage_' onClick={openModal}>
                 Manage Spread
               </div>
             </div>
-            <div className="dpsplsttabs">
+            <div className='dpsplsttabs'>
               <div
                 onClick={() => get_all("overview")}
-                className={overview ? "inprogress tab_active" : "inprogress"}
-              >
+                className={overview ? "inprogress tab_active" : "inprogress"}>
                 All
               </div>
               <div
                 onClick={() => get_ungrouped("ungrouped")}
-                className={ungrouped ? "inprogress tab_active" : "inprogress"}
-              >
+                className={ungrouped ? "inprogress tab_active" : "inprogress"}>
                 Ungrouped
               </div>
               <div
                 onClick={() => get_grouped("grouped")}
-                className={grouped ? "inprogress tab_active" : "inprogress"}
-              >
+                className={grouped ? "inprogress tab_active" : "inprogress"}>
                 Grouped
               </div>
             </div>
-            <div className="ddeplsmni">
+            <div className='ddeplsmni'>
               {overview && (
-                <div >
-                  <div className="deploysplstheader">
-                    <div className="depsplstimg">
-                      <img src={blueavatar} alt="img" />
+                <div>
+                  <div className='deploysplstheader'>
+                    <div className='depsplstimg'>
+                      <img src={blueavatar} alt='img' />
                     </div>
                     <p>All Specialists deployed to this work order</p>
                   </div>
-                  <div className="deployedsplsttable">
+                  <div className='deployedsplsttable'>
                     <Table hover responsive>
                       <thead>
                         <tr>
                           <th>Full Name</th>
                           <th>Skill</th>
-                          {/* <th>Position</th> */}
                           <th>Status</th>
+                          <th>Action</th>
                         </tr>
                       </thead>
                       <tbody>
                         {allAssignedSpecialist?.map((data: any, i) => (
                           <tr key={i}>
-                            <td className="dpslstnamecell">
-                              <div className="dplsplusernmeimg">
+                            <td className='dpslstnamecell'>
+                              <div className='dplsplusernmeimg'>
                                 <span></span>
                                 <div>
                                   {data.first_name}&nbsp;{data.last_name}
@@ -689,19 +786,21 @@ const DeployedSpecialist = withRouter((props) => {
                             <td>{data?.skills[0]?.name}</td>
                             {/* <td>Member</td> */}
                             <td>{data?.status}</td>{" "}
-                            {/* <td className="depspltabcol1">
-                              <input
-                                type="radio"
-                                name="team_lead"
-                                onClick={() => assign_group_lead(data.id)}
-                              />
-                            </td> */}
+                            <td className='depspltabcol1'>
+                              {data.status == "Pending" && (
+                                <div
+                                  className='job3 job_1 job_12 text-white specailist_rv'
+                                  onClick={() => modalShow2(data.id)}>
+                                  Remove Specialist
+                                </div>
+                              )}
+                            </td>
                           </tr>
                         ))}
                       </tbody>
                     </Table>
                     {overview && (
-                      <div className="active_member2">
+                      <div className='active_member2'>
                         <div>
                           Displaying <b>{current_page}</b> of <b>{last_page}</b>
                         </div>
@@ -717,10 +816,10 @@ const DeployedSpecialist = withRouter((props) => {
                 </div>
               )}
               {grouped && (
-                <div >
-                  <div className="deploysplstheader">
-                    <div className="depsplstimg">
-                      <img src={blueavatar} alt="img" />
+                <div>
+                  <div className='deploysplstheader'>
+                    <div className='depsplstimg'>
+                      <img src={blueavatar} alt='img' />
                     </div>
                     <p>View list of grouped specialist and worksheets</p>
                   </div>
@@ -731,23 +830,22 @@ const DeployedSpecialist = withRouter((props) => {
               )}
               {ungrouped && (
                 <div>
-                  <div className="deploysplstheader">
-                    <div className="depsplstimg">
-                      <img src={blueavatar} alt="img" />
+                  <div className='deploysplstheader'>
+                    <div className='depsplstimg'>
+                      <img src={blueavatar} alt='img' />
                     </div>
-                    <div className="add_fel">
+                    <div className='add_fel'>
                       <div>Select specialists and add to group</div>
                       {selectedspecialist.length !== 0 && (
                         <Button
-                          className="add_to_group manage_"
-                          onClick={openModal2}
-                        >
+                          className='add_to_group manage_'
+                          onClick={openModal2}>
                           Add selected to group
                         </Button>
                       )}
                     </div>
                   </div>
-                  <div className="deployedsplsttable">
+                  <div className='deployedsplsttable'>
                     <Table hover responsive>
                       <thead>
                         <tr>
@@ -761,8 +859,8 @@ const DeployedSpecialist = withRouter((props) => {
                       <tbody>
                         {allUngrouped?.map((data: any, i) => (
                           <tr key={i}>
-                            <td className="dpslstnamecell">
-                              <div className="dplsplusernmeimg">
+                            <td className='dpslstnamecell'>
+                              <div className='dplsplusernmeimg'>
                                 <span></span>
                                 <div>
                                   {data.first_name}&nbsp;{data.last_name}
@@ -772,10 +870,10 @@ const DeployedSpecialist = withRouter((props) => {
                             <td>{data?.skills[0]?.name}</td>
                             <td>Member</td>
                             <td>{data?.status}</td>{" "}
-                            <td className="depspltabcol1">
+                            <td className='depspltabcol1'>
                               <input
-                                type="checkbox"
-                                name="team_lead"
+                                type='checkbox'
+                                name='team_lead'
                                 onClick={() => sendSpecialistId(data.id)}
                               />
                             </td>
@@ -784,7 +882,7 @@ const DeployedSpecialist = withRouter((props) => {
                       </tbody>
                     </Table>
                     {overview && (
-                      <div className="active_member2">
+                      <div className='active_member2'>
                         <div>
                           Displaying <b>{current_page}</b> of <b>{last_page}</b>
                         </div>
@@ -806,14 +904,14 @@ const DeployedSpecialist = withRouter((props) => {
       <ToastContainer
         enableMultiContainer
         containerId={"D"}
-        toastClassName="bg-danger text-white"
+        toastClassName='bg-danger text-white'
         hideProgressBar={true}
         position={"top-right"}
       />
       <ToastContainer
         enableMultiContainer
         containerId={"B"}
-        toastClassName="bg-info text-white"
+        toastClassName='bg-info text-white'
         hideProgressBar={true}
         position={"top-right"}
       />

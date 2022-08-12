@@ -39,7 +39,7 @@ import {
 } from "../../config";
 import WorkInformationBreakdown from "./Work_information_Breakdown";
 import { NavHashLink } from "react-router-hash-link";
-import chevrondown from "../../images/chevrondown.png"; 
+import chevrondown from "../../images/chevrondown.png";
 
 const Work_Details = (props: any) => {
   const [state, setState] = useState<any>({
@@ -73,13 +73,13 @@ const Work_Details = (props: any) => {
     <>
       <Card>
         <div onClick={toggleAccordion1}>
-          <div className="deploydsplstwrapp">
+          <div className='deploydsplstwrapp'>
             <div>
-              <span className="deplyeaggrgt">
+              <span className='deplyeaggrgt'>
                 {props?.group_data?.total_members} Work Details
               </span>
             </div>
-            <div className="accimgwrap">
+            <div className='accimgwrap'>
               <span>
                 <img src={chevrondown} className={`arrow-down1 ${chevron}`} />
               </span>
@@ -87,12 +87,11 @@ const Work_Details = (props: any) => {
           </div>
         </div>
       </Card>
-      {isloading && <Spinner animation={"grow"} variant="info" />}
+      {isloading && <Spinner animation={"grow"} variant='info' />}
       <div
         style={{ maxHeight: `${collapseHeight}` }}
-        className="acccollapsediv1"
-        ref={content1}
-      >
+        className='acccollapsediv1'
+        ref={content1}>
         <>
           <WorkInformationBreakdown
             order_detail={props.work_order_detailz}
@@ -188,11 +187,11 @@ const Work_Sheet = (props: any) => {
     <>
       <Card>
         <div onClick={toggleAccordion1}>
-          <div className="deploydsplstwrapp">
+          <div className='deploydsplstwrapp'>
             <div>
-              <span className="deplyeaggrgt">Work Sheets</span>
+              <span className='deplyeaggrgt'>Work Sheets</span>
             </div>
-            <div className="accimgwrap">
+            <div className='accimgwrap'>
               <span>
                 <img src={chevrondown} className={`arrow-down1 ${chevron}`} />
               </span>
@@ -200,48 +199,58 @@ const Work_Sheet = (props: any) => {
           </div>
         </div>
       </Card>
-      {isloading && <Spinner animation={"grow"} variant="info" />}
+      {isloading && <Spinner animation={"grow"} variant='info' />}
       <div
         style={{ maxHeight: `${collapseHeight}` }}
-        className="acccollapsediv1"
-        ref={content1}
-      >
+        className='acccollapsediv1'
+        ref={content1}>
         <>
-          <div className="worksheet_1">
+          <div className='worksheet_1'>
             {work_sheet.map((data: any, i) => (
-              <div className="tabledata tablecontent tablecont1">
-                <div className="header_12 tablecont0">
+              <div className='tabledata tablecontent tablecont1'>
+                <div className='header_12 tablecont0'>
                   <span>Worksheet Report {data.week}</span>
                 </div>
-                <div className="tablecont1">
-                  <div className="worksheetdw worksheetdate1">
+                <div className='tablecont1'>
+                  <div className='worksheetdw worksheetdate1'>
                     {" "}
-                    <img src={dwnload} alt="dwnload" className="dwnload1" />
+                    <img src={dwnload} alt='dwnload' className='dwnload1' />
                     <a href={data.worksheet} target={"blank"}>
                       Download
                     </a>
                   </div>
-                  <div className="worksheetdate">{formatTime(data.date)}</div>
-                  <div className="upby">uploaded by {data.uploaded_by}</div>
-                  <div className="upby"> <span>{data.approved}</span></div>
-                  <div className="upby">{data.approved?"Approved":<span className="raise_inv" onClick={()=>ApproveWorkSheet(data.id)}>{isloading?"loading...":"Approve"}</span>}</div>
+                  <div className='worksheetdate'>{formatTime(data.date)}</div>
+                  <div className='upby'>uploaded by {data.uploaded_by}</div>
+                  <div className='upby'>
+                    {" "}
+                    <span>{data.approved}</span>
+                  </div>
+                  <div className='upby'>
+                    {data.approved ? (
+                      "Approved"
+                    ) : (
+                      <span
+                        className='raise_inv'
+                        onClick={() => ApproveWorkSheet(data.id)}>
+                        {isloading ? "loading..." : "Approve"}
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
             ))}
             {work_sheet?.length == 0 && (
-                  <Col md={11} className="containerforemptyorder1 cust20">
-                    <div className="containerforemptyorder">
-                      <img
-                        src={no_work_order}
-                        alt={"no_work_order"}
-                        className="no_work_order"
-                      />
-                    </div>
-                    <div className="no_work1">
-                      worksheet has not been sent
-                    </div>
-                  </Col>
-                )}
+              <Col md={11} className='containerforemptyorder1 cust20'>
+                <div className='containerforemptyorder'>
+                  <img
+                    src={no_work_order}
+                    alt={"no_work_order"}
+                    className='no_work_order'
+                  />
+                </div>
+                <div className='no_work1'>worksheet has not been sent</div>
+              </Col>
+            )}
           </div>
         </>
       </div>
@@ -272,11 +281,11 @@ const Invoice_details = ({ work_order_detail }: any) => {
     <>
       <Card>
         <div onClick={toggleAccordion1}>
-          <div className="deploydsplstwrapp">
+          <div className='deploydsplstwrapp'>
             <div>
-              <span className="deplyeaggrgt">Invoice</span>
+              <span className='deplyeaggrgt'>Invoice</span>
             </div>
-            <div className="accimgwrap">
+            <div className='accimgwrap'>
               <span>
                 <img src={chevrondown} className={`arrow-down1 ${chevron}`} />
               </span>
@@ -284,53 +293,51 @@ const Invoice_details = ({ work_order_detail }: any) => {
           </div>
         </div>
       </Card>
-      {isloading && <Spinner animation={"grow"} variant="info" />}
+      {isloading && <Spinner animation={"grow"} variant='info' />}
       <div
         style={{ maxHeight: `${collapseHeight}` }}
-        className="acccollapsediv1"
-        ref={content1}
-      >
+        className='acccollapsediv1'
+        ref={content1}>
         <>
-          <div className="job23_1a wrap_z">
-            <div className="main_wrap_ws main_wrapp1">
-              <h6 className="userprofile12 userprofile123"></h6>
-              <div className="tabledata tablecontent">
-                <div className="header_12">Invoice Number</div>
-                <div className="header_12">Total Amount</div>
-                <div className="header_12">Amount Paid</div>
-                <div className="header_12 ">Outstanding</div>
-                <div className="header_12">Total cycles</div>
+          <div className='job23_1a wrap_z'>
+            <div className='main_wrap_ws main_wrapp1'>
+              <h6 className='userprofile12 userprofile123'></h6>
+              <div className='tabledata tablecontent'>
+                <div className='header_12'>Invoice Number</div>
+                <div className='header_12'>Total Amount</div>
+                <div className='header_12'>Amount Paid</div>
+                <div className='header_12 '>Outstanding</div>
+                <div className='header_12'>Total cycles</div>
               </div>
-              <div className="tabledata tablecontent">
-                <div className="header_12">
+              <div className='tabledata tablecontent'>
+                <div className='header_12'>
                   {work_order_detail?.invoice?.reference}
                 </div>
-                <div className="header_12">
+                <div className='header_12'>
                   {current_currency}
                   {FormatAmount(work_order_detail?.invoice?.total_amount)}
                 </div>
-                <div className="header_12">
+                <div className='header_12'>
                   {current_currency}
                   {FormatAmount(work_order_detail?.invoice?.total_amount_paid)}
                 </div>
-                <div className="header_12 active_member">
+                <div className='header_12 active_member'>
                   {current_currency}
                   {FormatAmount(
                     work_order_detail?.invoice?.total_amount_unpaid
                   )}
                 </div>
-                <div className="header_12 active_member">
+                <div className='header_12 active_member'>
                   {work_order_detail?.invoice?.total_cycles}
                 </div>
               </div>
-              <div className="text-center">
+              <div className='text-center'>
                 {" "}
-                <span className="viewall_">
+                <span className='viewall_'>
                   {" "}
                   <Link
                     to={`/invoice_details/${work_order_detail?.invoice?.id}`}
-                    title="view payment cycle information"
-                  >
+                    title='view payment cycle information'>
                     view more
                   </Link>{" "}
                 </span>{" "}
@@ -367,17 +374,17 @@ const SpecialistDeployed = ({ work_order_detail }) => {
   return (
     <>
       {true && (
-        <div className="dplsplsacc">
+        <div className='dplsplsacc'>
           <Card>
             <div onClick={toggleAccordion}>
-              <div className="deploydsplstwrapp">
+              <div className='deploydsplstwrapp'>
                 <div>
-                  <span className="deplyeaggrgt">
+                  <span className='deplyeaggrgt'>
                     {work_order_detail?.total_assigned_specialists} Invited
                     Specialist
                   </span>
                 </div>
-                <div className="accimgwrap">
+                <div className='accimgwrap'>
                   <span>
                     <img
                       src={chevrondown}
@@ -388,25 +395,25 @@ const SpecialistDeployed = ({ work_order_detail }) => {
               </div>
             </div>
           </Card>
-          {isloading && <Spinner animation={"grow"} variant="info" />}
+          {isloading && <Spinner animation={"grow"} variant='info' />}
           <div
             style={{ maxHeight: `${collapseHeight}` }}
-            className="acccollapsediv"
-            ref={content}
-          >
+            className='acccollapsediv'
+            ref={content}>
             {work_order_detail?.assigned_specialists?.length !== 0 && (
               <>
-                <div className="group_flex">
-                  <div className="grpB">
+                <div className='group_flex'>
+                  {/* <div className='grpB'>
                     <b>{work_order_detail?.total_assigned_specialists}</b>{" "}
                     Invited
-                  </div>
+                  </div> */}
                 </div>
-                <div className="tabledata tabledataweb">
-                  <div className="header_12 pleft">Reference</div>
-                  <div className="header_12">Type</div>
-                  <div className="header_12">Spread Position</div>
-                  <div className="header_12">Status</div>
+                <div className='tabledata tabledataweb'>
+                  <div className='header_12 pleft header_x'>Reference</div>
+                  <div className='header_12'>Type</div>
+                  <div className='header_12'>Spread Position</div>
+                  <div className='header_12'>Status</div>
+                  <div className='header_12'>Specialist Details</div>
                 </div>
                 {work_order_detail?.assigned_specialists?.length !== 0 &&
                   work_order_detail?.assigned_specialists?.map((data, i) => (
@@ -416,32 +423,31 @@ const SpecialistDeployed = ({ work_order_detail }) => {
                           checkIfIsOdd(i)
                             ? "tabledata"
                             : "tabledata tablecontent"
-                        }
-                      >
-                        <div className="header_12 header_x">
-                          <div className="mobiletabledata">Reference</div>
+                        }>
+                        <div className='header_12 header_x'>
+                          <div className='mobiletabledata'>Reference</div>
                           {data.reference}
                         </div>
-                        <div className="header_12 typ22">
-                          <div className="mobiletabledata mobiletabledata22 ">
+                        <div className='header_12 typ22'>
+                          <div className='mobiletabledata mobiletabledata22 '>
                             Type
                           </div>
                           <div> {capitalize(data.skills?.[0].name)}</div>
                         </div>
-                        <div className="header_12">
-                          <div className="mobiletabledata mobiletabledata22">
-                          Spread Position
+                        <div className='header_12'>
+                          <div className='mobiletabledata mobiletabledata22'>
+                            Spread Position
                           </div>
-                          <div className="glead"> Member </div>
+                          <div className='glead'> Member </div>
                         </div>
-                        <div className="header_12 active_member">
-                          <div className="mobiletabledata mobiletabledata22">
+                        <div className='header_12 active_member'>
+                          <div className='mobiletabledata mobiletabledata22'>
                             Status
                           </div>
-                          <div className="active_member">
+                          <div className='active_member'>
                             {" "}
                             {data.status == "Pending" ? (
-                              <span className="pending_color">
+                              <span className='pending_color'>
                                 {data.status}
                               </span>
                             ) : (
@@ -449,10 +455,19 @@ const SpecialistDeployed = ({ work_order_detail }) => {
                             )}
                           </div>
                         </div>
+                        <div className=''>
+                          <span className='sendbtn'>
+                            <Link
+                            to={`/contractor/review/specailist/${data.id}`}
+                            >
+                            View
+                            </Link>
+                          </span>
+                        </div>
                       </div>
                     </>
                   ))}
-                <div className="text-center"> </div>
+                <div className='text-center'> </div>
               </>
             )}
           </div>
@@ -590,7 +605,7 @@ const WorkOrderDetails = withRouter((props: any) => {
   return (
     <>
       <Modal
-        size="lg"
+        size='lg'
         show={show}
         onHide={() =>
           setState({
@@ -598,11 +613,10 @@ const WorkOrderDetails = withRouter((props: any) => {
             show: false,
           })
         }
-        dialogClassName="modal-90w"
-        className="mdl12"
-      >
+        dialogClassName='modal-90w'
+        className='mdl12'>
         <Modal.Header closeButton>
-          <Modal.Title id="example-custom-modal-styling-title">
+          <Modal.Title id='example-custom-modal-styling-title'>
             Reject order
           </Modal.Title>
         </Modal.Header>
@@ -614,99 +628,97 @@ const WorkOrderDetails = withRouter((props: any) => {
                   value={reason}
                   name={"reason"}
                   onChange={onchange}
-                  className="form-control reason12 reason122"
-                  placeholder="Reason for termination"
-                ></textarea>
+                  className='form-control reason12 reason122'
+                  placeholder='Reason for termination'></textarea>
               </Form>
             </Col>
           </Row>
           <Row>
-            <Col md={12} className="terminate2">
+            <Col md={12} className='terminate2'>
               <div
-                className="terminate1"
-                onClick={(e) => openModal(e, "Terminate")}
-              >
+                className='terminate1'
+                onClick={(e) => openModal(e, "Terminate")}>
                 Reject
               </div>
             </Col>
           </Row>
         </Modal.Body>
       </Modal>
-      <Container fluid={true} className="dasbwr">
+      <Container fluid={true} className='dasbwr'>
         <Helmet>
-          <meta charSet="utf-8" />
+          <meta charSet='utf-8' />
           <title>Molecular - Contractor Work Order</title>
           <link />
         </Helmet>
         <Row>
           <DashboardNav />
-          <div id="overview"></div>
+          <div id='overview'></div>
         </Row>
-        <Row className="rowt3 row3t2">
-          <Col md={12} className="job34">
-            <div className="title_wo title_wo12 title_wo_">
-              <div className="workorderheader fixedtitle">
-                <Link to="/contractor_work_order">
+        <Row className='rowt3 row3t2'>
+          <Col md={12} className='job34'>
+            <div className='title_wo title_wo12 title_wo_'>
+              <div className='workorderheader fixedtitle'>
+                <Link to='/contractor_work_order'>
                   {" "}
-                  <img src={arrowback} className="arrowback" />
+                  <img src={arrowback} className='arrowback' />
                 </Link>
                 Work Details
               </div>
             </div>
-            <Row className="mgtop">
-              <Col md={2} className="job23_ mheight_">
-                <p className="exp23">
-                  <img src={portfolio} alt="portfolio" className="portfolioq" />
+            <Row className='mgtop'>
+              <Col md={2} className='job23_ mheight_'>
+                <p className='exp23'>
+                  <img src={portfolio} alt='portfolio' className='portfolioq' />
                 </p>
-                <p className="bview">
-                  <NavHashLink to="#overview">Overview</NavHashLink>
+                <p className='bview'>
+                  <NavHashLink to='#overview'>Overview</NavHashLink>
                 </p>
-                <p className="bview inactive_bv">
-                  <NavHashLink to="#details">Specialist Details</NavHashLink>
+                <p className='bview inactive_bv'>
+                  <NavHashLink to='#details'>Specialist Details</NavHashLink>
                 </p>
-                <p className="bview inactive_bv">
-                  <NavHashLink to="#work">Work Details</NavHashLink>
+                <p className='bview inactive_bv'>
+                  <NavHashLink to='#work'>Work Details</NavHashLink>
                 </p>
-                <p className="bview inactive_bv">
-                  <NavHashLink to="#worksheet">Worksheet</NavHashLink>
+                <p className='bview inactive_bv'>
+                  <NavHashLink to='#worksheet'>Worksheet</NavHashLink>
                 </p>
-                <p className="bview inactive_bv">
-                  <NavHashLink to="#invoice">Invoice</NavHashLink>
+                <p className='bview inactive_bv'>
+                  <NavHashLink to='#invoice'>Invoice</NavHashLink>
                 </p>
               </Col>
-              <Col md={10} className="job23_1a_ job23_1a_p">
-                <div className="job23_1a">
-                  <div className="">
+              <Col md={10} className='job23_1a_ job23_1a_p'>
+                <div className='job23_1a'>
+                  <div className=''>
                     <WorkOrderCardsMinInfo order_detail={work_order_detail} />
                   </div>
                 </div>
                 {work_order_detail.invoice == null && (
-                  <Col md={11} className="containerforemptyorder1 cust20">
-                    <div className="containerforemptyorder">
+                  <Col md={11} className='containerforemptyorder1 cust20'>
+                    <div className='containerforemptyorder'>
                       <img
                         src={no_work_order}
                         alt={"no_work_order"}
-                        className="no_work_order"
+                        className='no_work_order'
                       />
                     </div>
-                    <div className="no_work1">
+                    <div className='no_work1'>
                       Proforma Invoice has not been raised
                     </div>
                   </Col>
                 )}
-                <div className="job23_1a" id="details">
+                <div className='job23_1a' id='details'>
                   {assigned_specialists.length == 0 &&
                     work_order_detail.invoice !== null && (
-                      <div className="job23_1a wrap_z kdsd">
-                        <Col md={11} className="containerforemptyorder1 cust">
-                          <div className="containerforemptyorder">
+                      <div className='job23_1a wrap_z kdsd'>
+                        <Col md={11} className='containerforemptyorder1 cust'>
+                          <div className='containerforemptyorder'>
                             <img
                               src={no_work_order}
                               alt={"no_work_order"}
-                              className="no_work_order"
+                              className='no_work_order'
                             />
                           </div>
-                          <div className="no_work1">
+                          <div className='no_work1'>
                             No Specialist have been assigned
                           </div>
                           {/* <div className="nojob2 ">
@@ -718,9 +730,9 @@ const WorkOrderDetails = withRouter((props: any) => {
                   <br />
                   <Work_Details work_order_detailz={workDetails} hide={true} />
                   <SpecialistDeployed work_order_detail={work_order_detail} />
-                  <br id="worksheet"/>
+                  <br id='worksheet' />
                   <Work_Sheet />
-                  <br id="invoice" />
+                  <br id='invoice' />
                   <Invoice_details work_order_detail={work_order_detail} />
                 </div>
               </Col>
@@ -731,7 +743,7 @@ const WorkOrderDetails = withRouter((props: any) => {
       <ToastContainer
         enableMultiContainer
         containerId={"D"}
-        toastClassName="bg-danger text-white"
+        toastClassName='bg-danger text-white'
         hideProgressBar={true}
         position={"top-right"}
       />

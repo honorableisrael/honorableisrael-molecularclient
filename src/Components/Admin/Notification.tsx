@@ -176,7 +176,7 @@ const Admin_Notification = withRouter((props) => {
                           </Link>
                         ) :data?.category == "worksheet" ? (
                           <Link
-                          to="/deployedspecialist?worksheet"
+                          to={`/deployedspecialist/${data.category_id}/?worksheet`}
                           onClick={() =>
                             localStorage.setItem(
                               "work_order_details",

@@ -75,6 +75,7 @@ import Invoice_details_view_only from "./Components/Admin/Invoice_Details_View_O
 import Contractor_Transactions from "./Components/Admin/Contractor_Transactions";
 import Contractor_Transactions_details from "./Components/Admin/Contractor_Transactions_details";
 import Specialist_Transactions from "./Components/Admin/Specialist_Transactions";
+import Specialist_Details_For_Contractor from "./Components/Contractor/SpecialistPersonalDetails";
 
 const App: any = ({ history }) => {
   return (
@@ -196,7 +197,7 @@ const App: any = ({ history }) => {
                 component={ProformaInvoiceAccepted}
               />
               <Route
-                path='/deployedspecialist'
+                path='/deployedspecialist/:id'
                 component={DeployedSpecialist}
               />
               <Route
@@ -207,6 +208,10 @@ const App: any = ({ history }) => {
               <Route
                 path='/admin_payment_invoice'
                 component={Admin_Payment_Invoice}
+              />
+               <Route
+                path='/contractor/review/specailist/:id'
+                component={Specialist_Details_For_Contractor}
               />
               <Route
                 path='/contractor_invoices/:id'
