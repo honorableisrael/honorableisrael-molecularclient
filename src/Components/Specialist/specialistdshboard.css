@@ -602,42 +602,42 @@
   text-align: initial;
   font-size: 15px;
 }
-.emptypendingworkwrap{
-    margin-bottom: 27px;
+.emptypendingworkwrap {
+  margin-bottom: 27px;
 }
-@media(max-width:760px) {
-    .spldshbdcardwrapper{
-        flex-wrap: wrap;
-    }
-    .spldshbdcard-small{
-        width: 100%;
-        margin-bottom: 1rem;
-    }
-    .dshworksectnrow1 {
-        justify-content: center;
-        padding: 8rem 1rem 7rem 1rem;
-    }
-    .splstprogressbarwrapper .cardwrap_cont{
-        display: none;
-    }
-    .content24{
-        margin-left: 0px !important;
-    }
-    .splrowt3{
-        padding-left: 0rem !important;
-    }
-    .job23_1a_splst{
-        margin: auto;
-    }
-    .cardwrap_jo{
-        margin-left: 0px;
-    }
-    .job34{
-        padding-left: 7px !important;
-    }
-    .settingtop{
-        min-height: 70px;
-    }
+@media (max-width: 760px) {
+  .spldshbdcardwrapper {
+    flex-wrap: wrap;
+  }
+  .spldshbdcard-small {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+  .dshworksectnrow1 {
+    justify-content: center;
+    padding: 8rem 1rem 7rem 1rem;
+  }
+  .splstprogressbarwrapper .cardwrap_cont {
+    display: none;
+  }
+  .content24 {
+    margin-left: 0px !important;
+  }
+  .splrowt3 {
+    padding-left: 0rem !important;
+  }
+  .job23_1a_splst {
+    margin: auto;
+  }
+  .cardwrap_jo {
+    margin-left: 0px;
+  }
+  .job34 {
+    padding-left: 7px !important;
+  }
+  .settingtop {
+    min-height: 70px;
+  }
 }
 .profiexpetitle {
   font-weight: 600;
@@ -950,10 +950,10 @@ input:checked + .slider::before {
     flex: 0 0 auto;
     margin-right: 23px;
   }
-  .spltpaybreakdwnwrapper{
-    padding:18px 14px 40px 14px !important;
+  .spltpaybreakdwnwrapper {
+    padding: 18px 14px 40px 14px !important;
   }
-  .spltpaybreakdwn-details{
+  .spltpaybreakdwn-details {
     overflow-x: scroll;
     flex-wrap: nowrap;
     overflow-y: hidden;
@@ -961,11 +961,11 @@ input:checked + .slider::before {
   .spltpaybreakdwn-details::-webkit-scrollbar {
     display: none;
   }
-  .spltpaybreakdwn-details>div{
+  .spltpaybreakdwn-details > div {
     flex: 0 0 auto;
     margin-right: 23px;
   }
-  .spltpaybreakdwn-title{
+  .spltpaybreakdwn-title {
     font-size: 20px;
   }
 }
@@ -1019,18 +1019,27 @@ input:checked + .slider::before {
 .splstdetcardmgtop {
   margin-top: 4rem;
 }
-  .spltablecont0{
-      width: 100%;
+.spltablecont0 {
+  width: 100%;
+}
+@media (max-width: 1024px) {
+  .dshbdhome {
+    padding-bottom: 31rem;
   }
-@media (max-width:1024px){
-    .dshbdhome{
-        padding-bottom: 31rem;
-    }
 }
 
-
-.po912{
-  color:#fd8c00 !important;
+.po912 {
+  color: #fd8c00 !important;
   background: none !important;
   padding-right: 1rem;
+}
+.relatedskillsubbtn {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+}
+.chip{
+  background: #cc7100 !important;
+  font-weight: 900;
 }

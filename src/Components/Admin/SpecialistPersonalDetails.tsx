@@ -166,147 +166,148 @@ const Specialistdetais = (props) => {
   return (
     <>
       <Helmet>
-        <meta charSet="utf-8" />
+        <meta charSet='utf-8' />
         <title>Molecular - Specialist Personal Details</title>
         <link />
       </Helmet>
       <DashboardNav />
       <Container fluid>
-        <Row className="depsplstrow">
+        <Row className='depsplstrow'>
           <Col md={10}>
-            <div className="title_wo title_wo12 title_wo_">
-              <div className="workorderheader pdtitleheader">
-                <Link to="/allspecialist">
+            <div className='title_wo title_wo12 title_wo_'>
+              <div className='workorderheader pdtitleheader'>
+                <Link to='/allspecialist'>
                   {" "}
-                  <img src={arrowback} className="arrowback" />
+                  <img src={arrowback} className='arrowback' />
                 </Link>
                 Specialist Personal Details
               </div>
               {true && (
-                <div className="pdetbtnwrap">
+                <div className='pdetbtnwrap'>
                   <Link to={`/admin/specialist/settings/${user.id}`}>
-                    <span className="pdetssupnbtn">Edit</span>
+                    <span className='pdetssupnbtn'>Edit</span>
                   </Link>
                 </div>
               )}
 
               {user.status == "Inactive" && (
-                <div className="pdetbtnwrap">
+                <div className='pdetbtnwrap'>
                   <span
-                    className="pdetssupnbtn"
-                    onClick={() => openModal(user.id)}
-                  >
+                    className='pdetssupnbtn'
+                    onClick={() => openModal(user.id)}>
                     {!isloading ? "Reject" : "Rejecting"}
                   </span>
                   <span
-                    className="pdetasgnspltbtn"
-                    onClick={accept_new_specailist}
-                  >
+                    className='pdetasgnspltbtn'
+                    onClick={accept_new_specailist}>
                     {!isloading ? "Accept" : "Accepting"}
                   </span>
                 </div>
               )}
             </div>
-            <div className="pdwrapper">
-              <div className="pdheader">Personal Information</div>
-              <div className="pesonainforow1">
-                <div className="pesonainfocol1">
-                  <span className="pdspluserimg"></span>
-                  <p className="pdheading-primary">
+            <div className='pdwrapper'>
+              <div className='pdheader'>Personal Information</div>
+              <div className='pesonainforow1'>
+                <div className='pesonainfocol1'>
+                  <span className='pdspluserimg'></span>
+                  <p className='pdheading-primary'>
                     {user.last_name} {user.first_name}
                   </p>
-                  <p className="pduserocupation">
+                  <p className='pduserocupation'>
                     {capitalize(user?.skills?.[0]?.name)}
                   </p>
                 </div>
-                <div className="pesonainfocol2">
-                  <p className="pdheading-primary">About</p>
-                  <p className="pdcontent">{user?.bio ?? "n/a"}</p>
-                  <p className="pdcontent"></p>
+                <div className='pesonainfocol2'>
+                  <p className='pdheading-primary'>About</p>
+                  <p className='pdcontent'>{user?.bio ?? "n/a"}</p>
+                  <p className='pdcontent'></p>
                   <br />
-                  <p className="pdheading-primary">dob</p>
-                  <p className="pdcontent">{ageCalculator(user?.dob)}</p>
+                  <p className='pdheading-primary'>dob</p>
+                  <p className='pdcontent'>{ageCalculator(user?.dob)}</p>
                 </div>
               </div>
-              <div className="pesonainforow2">
+              <div className='pesonainforow2'>
                 <div>
-                  <p className="pdheading-primary">
+                  <p className='pdheading-primary'>
                     Primary Skill:
-                    <span className="pdcontent pdrow2content">
+                    <span className='pdcontent pdrow2content'>
                       {capitalize(user?.skills?.[0]?.name)}
                     </span>
                   </p>
                 </div>
+                {user?.skills?.length && (
+                  <div>
+                    <p className='pdheading-primary'>
+                      Other Skills:
+                      <span className='pdcontent pdrow2content'>
+                        {user?.skills?.map((data, i) => (
+                          <span key={i}>{capitalize(data.name)}</span>
+                        ))}
+                      </span>
+                    </p>
+                  </div>
+                )}
+
                 <div>
-                  <p className="pdheading-primary">
-                    Other Skills:
-                    <span className="pdcontent pdrow2content">
-                      {user?.skills?.map((data, i) => (
-                        <span key={i}>{capitalize(data.name)}</span>
-                      ))}
-                    </span>
-                  </p>
-                </div>
-                <div>
-                  <p className="pdheading-primary">
+                  <p className='pdheading-primary'>
                     Phone Number:
-                    <span className="pdcontent pdrow2content">
+                    <span className='pdcontent pdrow2content'>
                       {user?.phone}
                     </span>
                   </p>
                 </div>
                 <div>
-                  <p className="pdheading-primary">
+                  <p className='pdheading-primary'>
                     Email:
-                    <span className="pdcontent pdrow2content">
+                    <span className='pdcontent pdrow2content'>
                       {user?.email}
                     </span>
                   </p>
                 </div>
               </div>
-              <div className="pesonainforow3">
-                <div className="pesonainforow3-title">Qualifications:</div>
-                <div className="pesonainforow3-content">
+              <div className='pesonainforow3'>
+                <div className='pesonainforow3-title'>Qualifications:</div>
+                <div className='pesonainforow3-content'>
                   {user?.qualifications?.map((data, i) => (
                     <div key={i}>
-                      <p className="pdcontent">
-                        <span className="fa fa-circle pdbulleticon"></span>
+                      <p className='pdcontent'>
+                        <span className='fa fa-circle pdbulleticon'></span>
                         {data.institution}{" "}
                         <small>
                           {formatTime(data?.from)} ~~ {formatTime(data?.to)}
                         </small>
                       </p>
-                      <p className="pdcontent pdrow4content">{data.field}</p>
+                      <p className='pdcontent pdrow4content'>{data.field}</p>
                     </div>
                   ))}
                 </div>
               </div>
-              <div className="pesonainforow3">
-                <div className="pesonainforow3-title">Certification:</div>
-                <div className="pesonainforow3-content">
+              <div className='pesonainforow3'>
+                <div className='pesonainforow3-title'>Certification:</div>
+                <div className='pesonainforow3-content'>
                   {user?.qualifications?.map((data, i) => (
                     <div key={i}>
-                      <p className="pdcontent">
-                        <span className="fa fa-circle pdbulleticon"></span>
+                      <p className='pdcontent'>
+                        <span className='fa fa-circle pdbulleticon'></span>
                         {data?.title}{" "}
                         <small>
                           {formatTime(data?.from)} ~~ {formatTime(data?.to)}
                         </small>
                       </p>
-                      <p className="pdcontent pdrow4content">
+                      <p className='pdcontent pdrow4content'>
                         {data.description}
                       </p>
                     </div>
                   ))}
                 </div>
               </div>
-              <div className="pdrowdemacator"></div>
-              <div className="pesonainforow4">
-                <div className="pesonainforow3-title">Experiences:</div>
+              <div className='pdrowdemacator'></div>
+              <div className='pesonainforow4'>
+                <div className='pesonainforow3-title'>Experiences:</div>
                 {user?.experiences?.map((data, i) => (
                   <div key={i}>
-                    <p className="pesonainforow4-headers">{data.title}</p>
-                    <p className="pdcontent pdrow4content">
+                    <p className='pesonainforow4-headers'>{data.title}</p>
+                    <p className='pdcontent pdrow4content'>
                       {data.description}
                     </p>
                   </div>
@@ -319,19 +320,19 @@ const Specialistdetais = (props) => {
       <ToastContainer
         enableMultiContainer
         containerId={"B"}
-        toastClassName="bg-orange text-white"
+        toastClassName='bg-orange text-white'
         hideProgressBar={true}
         position={"top-right"}
       />
       <ToastContainer
         enableMultiContainer
         containerId={"D"}
-        toastClassName="bg-danger text-white"
+        toastClassName='bg-danger text-white'
         hideProgressBar={true}
         position={"top-right"}
       />
       <Modal
-        size="lg"
+        size='lg'
         show={show}
         onHide={() =>
           setState({
@@ -339,18 +340,17 @@ const Specialistdetais = (props) => {
             show: false,
           })
         }
-        dialogClassName="modal-90w"
-        className="mdl12"
-      >
+        dialogClassName='modal-90w'
+        className='mdl12'>
         <Modal.Header closeButton>
-          <Modal.Title id="example-custom-modal-styling-title">
+          <Modal.Title id='example-custom-modal-styling-title'>
             Reject Specialist
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Row>
             <Col md={12}>
-              {isloading && <Spinner variant="info" animation={"grow"} />}
+              {isloading && <Spinner variant='info' animation={"grow"} />}
             </Col>
             <Col md={12}>
               <Form>
@@ -358,15 +358,14 @@ const Specialistdetais = (props) => {
                   value={reason}
                   name={"reason"}
                   onChange={onchange}
-                  className="form-control reason12 reason122"
-                  placeholder="Reason for termination"
-                ></textarea>
+                  className='form-control reason12 reason122'
+                  placeholder='Reason for termination'></textarea>
               </Form>
             </Col>
           </Row>
           <Row>
-            <Col md={12} className="terminate2">
-              <div className="terminate1" onClick={reject_new_specailist}>
+            <Col md={12} className='terminate2'>
+              <div className='terminate1' onClick={reject_new_specailist}>
                 Reject
               </div>
             </Col>

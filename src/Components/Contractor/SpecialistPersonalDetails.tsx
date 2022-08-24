@@ -105,6 +105,32 @@ const Specialist_Details_For_Contractor = (props) => {
                 </div>
               </div>
 
+              {user?.related_skills?.length ? (
+                <div className='pesonainforow3'>
+                  <div className='pesonainforow3-title'>Skills:</div>
+                  <div className='pesonainforow3-content'>
+                    <ul>
+                      {user?.related_skills?.map((data, i) => (
+                        // <div key={i}>
+                        //   <p className='pdcontent'>
+                        //     <span className="fa fa-circle pdbulleticon"></span>
+                        //     {data?.title}
+                        //     <small>
+                        //       {formatTime(data?.from)} ~~ {formatTime(data?.to)}
+                        //     </small>
+                        //   </p>
+                        //   <p className="pdcontent pdrow4content">
+                        //     {data.institution}
+                        //   </p>
+                        // </div>
+                        <li className='pdcontent pdrow4content' key={i}>
+                          {data.name}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              ):""}
               <div className='pesonainforow3'>
                 <div className='pesonainforow3-title'>Projects:</div>
                 <div className='pesonainforow3-content'>
@@ -126,6 +152,38 @@ const Specialist_Details_For_Contractor = (props) => {
                     ))}
                   </ul>
                 </div>
+              </div>
+              <div className='pesonainforow4'>
+                <div className='pesonainforow3-title'>Experiences:</div>
+                <ul>
+                  {user?.experiences?.map((data, i) => (
+                    // <div key={i}>
+                    //   <p className='pesonainforow4-headers'>{data.title}</p>
+                    //   <p className='pdcontent pdrow4content'>
+                    //     {data.description}
+                    //   </p>
+                    // </div>
+                    <li className='pdcontent pdrow4content' key={i}>
+                      {data.summary}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className='pesonainforow4'>
+                <div className='pesonainforow3-title'>Qualifications:</div>
+                <ul>
+                  {user?.qualifications?.map((data, i) => (
+                    // <div key={i}>
+                    //   <p className='pesonainforow4-headers'>{data.title}</p>
+                    //   <p className='pdcontent pdrow4content'>
+                    //     {data.description}
+                    //   </p>
+                    // </div>
+                    <li className='pdcontent pdrow4content' key={i}>
+                      {data.summary}
+                    </li>
+                  ))}
+                </ul>
               </div>
               <div className='pesonainforow3'>
                 <div className='pesonainforow3-title'>Certification:</div>
@@ -150,23 +208,6 @@ const Specialist_Details_For_Contractor = (props) => {
                     ))}
                   </ul>
                 </div>
-              </div>
-              <div className='pdrowdemacator'></div>
-              <div className='pesonainforow4'>
-                <div className='pesonainforow3-title'>Experiences:</div>
-                <ul>
-                  {user?.experiences?.map((data, i) => (
-                    // <div key={i}>
-                    //   <p className='pesonainforow4-headers'>{data.title}</p>
-                    //   <p className='pdcontent pdrow4content'>
-                    //     {data.description}
-                    //   </p>
-                    // </div>
-                    <li className='pdcontent pdrow4content' key={i}>
-                      {data.summary}
-                    </li>
-                  ))}
-                </ul>
               </div>
             </div>
           </Col>
