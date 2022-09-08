@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import NavBar from "../Widgets/navigation";
 import "./home.css";
@@ -12,8 +12,17 @@ import mail from "../../images/mail_2.png";
 import phone from "../../images/phone.png";
 import address from "../../images/address.png";
 import jointcircle from "../../images/jointcircle.png";
+import axios from "axios";
+import { returnAdminToken, API, notify, reloadPage } from "../../config";
+import { ToastContainer } from "react-toastify";
 
 const ContacUs = () => {
+  const [state, setState] = useState({
+    name: "",
+    email: "",
+    message: "",
+    isloading: false,
+  });
   useEffect(() => {
     window.scrollTo(-0, -0);
     AOS.init({
@@ -22,6 +31,50 @@ const ContacUs = () => {
     AOS.refresh();
   }, []);
 
+  const { name, email, message, isloading } = state;
+
+  const onchange = (e) => {
+    setState({
+      ...state,
+      [e.target.id]: e.target.value,
+    });
+  };
+
+  const SendData = (e) => {
+    e.preventDefault();
+    const data = {
+      name,
+      email,
+      message,
+    };
+    setState({
+      ...state,
+      isloading: true,
+    });
+    axios
+      .all([axios.post(`${API}/contact`, data)])
+      .then(
+        axios.spread((res) => {
+          notify("Successful");
+          // reloadPage();
+          console.log(res.data.data);
+          setState({
+            ...state,
+            isloading: false,
+          });
+        })
+      )
+      .catch((err) => {
+        setState({
+          ...state,
+          isloading: false,
+        });
+        if (err?.response?.status == 406) {
+          return notify(err?.response?.data?.errors);
+        }
+        console.log(err);
+      });
+  };
   return (
     <div>
       <NavBar />
@@ -42,17 +95,32 @@ const ContacUs = () => {
                 </p>
                 <label>
                   Name
-                  <input type='text' className='form-control cntinput' />
+                  <input
+                    type='text'
+                    id={"name"}
+                    onChange={onchange}
+                    className='form-control cntinput'
+                  />
                 </label>
                 <label>
                   Email
-                  <input type='text' className='form-control cntinput' />
+                  <input
+                    type='text'
+                    id={"email"}
+                    onChange={onchange}
+                    className='form-control cntinput'
+                  />
                 </label>
                 <label>
                   Message
-                  <input type='text' className='form-control cntinput' />
+                  <textarea
+                    id={"message"}
+                    onChange={onchange}
+                    className='form-control cntinput txtarea'></textarea>
                 </label>
-                <span className='formbtn'>SEND</span>
+                <span className='formbtn' onClick={SendData}>
+                  {isloading ? "Processing" : "Submit"}
+                </span>
               </form>
             </div>
           </Col>
@@ -80,13 +148,21 @@ const ContacUs = () => {
                   <span className='list_bullet'>
                     <img src={mail} />
                   </span>
-                  <span>Aoderinde@molecularpro.co</span>
+                  <span>
+                    <a
+                      className={"text-white"}
+                      href='mailto:Aoderinde@molecularpro.co'>
+                      Aoderinde@molecularpro.co
+                    </a>{" "}
+                  </span>
                 </li>
                 <li className='listflex'>
                   <span className='list_bullet'>
                     <img src={phone} />
                   </span>
-                  08134045999
+                  <a href='tel:08134045999' className={"text-white"}>
+                    08134045999
+                  </a>
                 </li>
                 <li className='listflex'>
                   <span className='list_bullet'>
@@ -104,6 +180,13 @@ const ContacUs = () => {
         </Row>
       </Container>
       <Footer />
+      <ToastContainer
+        enableMultiContainer
+        containerId={"B"}
+        toastClassName="bg-info text-white"
+        hideProgressBar={true}
+        position={"top-right"}
+      />
     </div>
   );
 };

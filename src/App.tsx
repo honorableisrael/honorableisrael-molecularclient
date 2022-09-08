@@ -76,6 +76,10 @@ import Contractor_Transactions from "./Components/Admin/Contractor_Transactions"
 import Contractor_Transactions_details from "./Components/Admin/Contractor_Transactions_details";
 import Specialist_Transactions from "./Components/Admin/Specialist_Transactions";
 import Specialist_Details_For_Contractor from "./Components/Contractor/SpecialistPersonalDetails";
+import BlogList from "./Components/Admin/Blog";
+import NewBlogPost from "./Components/Admin/New_Blog_Post";
+import BlogDetails from "./Components/Landing_page/blogdetails";
+import previewBlog from "./Components/Landing_page/blogpreview";
 
 const App: any = ({ history }) => {
   return (
@@ -110,6 +114,13 @@ const App: any = ({ history }) => {
               <Route path='/work_order' component={NewWorkOrderForm} />
               <Route path='/specialistlanding' component={SpecialistLanding} />
               <Route path='/blog' component={Blog} />
+              <Route path='/blog_details/:id' component={BlogDetails} />
+              <Route path='/testblog' component={previewBlog} />
+              
+              
+              <Route path='/admin/blogpost' component={BlogList} />
+              <Route path='/admin/new/blogpost' exact component={NewBlogPost} />
+              
               <Route path='/projects' component={Projects} />
               <Route path='/contactus' component={ContactUs} />
               <Route path='/contractorlanding' component={ContractorLanding} />

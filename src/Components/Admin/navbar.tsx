@@ -190,6 +190,32 @@ const DashboardNav = withRouter((props) => {
                   </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
+              <Dropdown className="uddrpdwndiv">
+                <Dropdown.Toggle id="dropdown-basic1" className="usernavdrpdwn">
+                  <div className="eff">Manage</div>
+                </Dropdown.Toggle>
+                <Dropdown.Menu className="animated payment_nav fadeIn">
+                  {/* <Dropdown.Item
+                  href="#/action-1"
+                  className="animated fadeInLeft"
+                >
+                  <Link to="/user-profile">Profile</Link>
+                </Dropdown.Item> */}
+                  <Dropdown.Item className="animated fadeInLeft">
+                    {/* <img src={settings} className="exit" />{" "} */}
+                    <span>
+                      <Link
+                        to={"/admin/blogpost"}
+                        className="flex-custom12"
+                      >
+                        Manage Blog
+                      </Link>
+                    </span>
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+
+              
               {/* <Link to={"/admin/settings"} className="flex-12a">
                 {" "}
                 <span

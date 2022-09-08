@@ -112,6 +112,17 @@ const Navlist = ({ open }) => {
         <li>What we do</li>
       </NavHashLink>
       <NavHashLink
+        to="/blog"
+        className="homenavlnks"
+        activeStyle={{
+          color: "#222073",
+          lineHeight: "29px",
+          borderBottom: "4px solid #fd8c00",
+        }}
+      >
+        <li>Blog</li>
+      </NavHashLink>
+      <NavHashLink
         className="details"
         to="/signin"
         // activeStyle={{ background: "#fd8b003b", color: "#fd8c00" }}

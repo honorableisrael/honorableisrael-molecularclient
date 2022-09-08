@@ -20,8 +20,8 @@ import {
 } from "../../config";
 import { Link } from "react-router-dom";
 
-const Blog = () => {
-  const [state, setState]: any = useState({ isloading: false, blogpost: [] });
+const BlogDetails = (props) => {
+  const [state, setState]: any = useState({ isloading: false, blogpost: {} });
   useEffect(() => {
     window.scrollTo(-0, -0);
     AOS.init({
@@ -38,7 +38,7 @@ const Blog = () => {
       isloading: true,
     });
     axios
-      .all([axios.get(`${API}/blogs/posts`)])
+      .all([axios.get(`${API}/blogs/posts/${props.match.params.id}`)])
       .then(
         axios.spread((res) => {
           console.log(res.data.data);
@@ -71,26 +71,32 @@ const Blog = () => {
       <div className='blog-container'>
         <div className='row'>
           <div className='leftcolumn'>
-            {state?.blogpost?.data?.map((data, i) => (
-              <div className='blog_card' key={i}>
-                <h2>{data?.title}</h2>
+            {
+              <div className='blog_card'>
+                <h2>{state?.blogpost?.title}</h2>
                 <small>
-                  {data?.subtitle}, {formatTime(data?.created_at)}
+                  {state?.blogpost?.subtitle},{" "}
+                  {formatTime(state?.blogpost?.created_at)}
                 </small>
                 <div className='fakeimg' style={{ height: "300px" }}>
                   <img
-                    src={data?.images?.thumb}
+                    src={state?.blogpost?.images?.thumb}
                     className='img-fluid blog_images'
                   />
                 </div>
-                <p className='postbody1'>
-                  {data?.excerpt}
-                  <Link to={`/blog_details/${data.id}`}>
-                    <span className='blog-readmoretxt'> Read More</span>
-                  </Link>
-                </p>
+                <p
+                  className='postbody1'
+                  dangerouslySetInnerHTML={{
+                    __html: state?.blogpost?.body ?? "n/a",
+                  }}></p>
               </div>
-            ))}
+            }
+            <input
+              className='backbtn2 nav-login-btn '
+              onClick={() => window.history.back()}
+              type='button'
+              value={"Back"}
+            />
           </div>
           <div className='rightcolumn'>
             <div className='blog_card'>
@@ -107,25 +113,6 @@ const Blog = () => {
                 for technical specialists in Africa’s natural gas industry
               </p>
             </div>
-            <div className='blog_card'>
-              <h2>Popular Post</h2>
-              {state?.blogpost?.data?.map((data, i) => (
-                <div key={i}>
-                  <Link to={`/blog_details/${data.id}`}>
-                    <div className='fakeimg2 '>
-                      <img
-                        src={data?.images?.thumb}
-                        className='img-fluid blog_images'
-                      />
-                      <span className="text-gray popularpost">
-                        {data?.subtitle}, {formatTime(data?.created_at)}
-                      </span>
-                    </div>
-                  </Link>
-                  <br />
-                </div>
-              ))}
-            </div>
             {/* <div className="blog_card">
               <h3>Follow Us</h3>
               <p>Some text..</p>
@@ -137,4 +124,4 @@ const Blog = () => {
     </div>
   );
 };
-export default Blog;
+export default BlogDetails;
