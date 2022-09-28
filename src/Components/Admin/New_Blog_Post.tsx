@@ -4,28 +4,36 @@ import "./contractor.css";
 import DashboardNav from "./navbar";
 import portfolio from "../../images/portfolio.png";
 import group2 from "../../images/group2.png";
-import Slider from "react-rangeslider";
+import { convertFromRaw } from "draft-js";
 import "react-rangeslider/lib/index.css";
 import { Helmet } from "react-helmet";
 import arrowback from "../../images/dtls.png";
-import { Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import axios from "axios";
 import { API, notify, reloadPage, returnAdminToken } from "../../config";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import { Editor } from "react-draft-wysiwyg";
+import draftToHtml from "draftjs-to-html";
+import htmlToDraft from "html-to-draftjs";
+import { EditorState, convertToRaw } from "draft-js";
 
 const NewBlogPost = () => {
-  const [state, setState] = useState({
+  const [state, setState] = useState<any>({
     featured_image: "",
     isloading: false,
     country: "",
+    photo: "",
     inprogress: true,
+    contentState: "",
+    editorState: EditorState.createEmpty(),
     pending_request: false,
     title: "",
     subtitle: "",
     body: "",
     past: false,
-    location_terrain: "",
-    location: "",
+    meta_tag: "",
+    slug: "",
+    title_tag: "",
     end_date: "",
     start_date: "",
     hour: "",
@@ -41,9 +49,12 @@ const NewBlogPost = () => {
   }, [images]);
 
   const handleImages = (e) => {
+    const objectUrl = URL.createObjectURL(e.target.files[0]);
+    console.log(objectUrl);
     setState({
       ...state,
       featured_image: e.target.files[0],
+      photo: objectUrl,
     });
   };
 
@@ -78,24 +89,33 @@ const NewBlogPost = () => {
 
   const {
     body,
-    country,
+    photo,
+    editorState,
+    contentState,
     subtitle,
     title,
     isloading,
     featured_image,
     feature,
     publish,
+    slug,
+    meta_tag,
+    title_tag,
   }: any = state;
 
   const CreatePost = () => {
+    console.log(draftToHtml(convertToRaw(contentState.getCurrentContent())));
     const token = returnAdminToken();
     const data = new FormData();
     data.append("featured_image", featured_image);
     data.append("subtitle", subtitle);
     data.append("title", title);
-    data.append("body", body);
+    data.append("body", contentState);
     data.append("feature", feature);
     data.append("publish", publish);
+    data.append("slug", slug);
+    data.append("meta_tag", meta_tag);
+    data.append("title_tag", title_tag);
     setState({
       ...state,
       isloading: true,
@@ -113,7 +133,7 @@ const NewBlogPost = () => {
       .then(
         axios.spread((res) => {
           notify("Successful");
-          reloadPage()
+          reloadPage();
           console.log(res.data.data);
           setState({
             ...state,
@@ -132,7 +152,7 @@ const NewBlogPost = () => {
         console.log(err);
       });
   };
-  console.log(featured_image, "featured_image");
+
   return (
     <>
       <Container fluid={true} className='dasbwr'>
@@ -170,7 +190,7 @@ const NewBlogPost = () => {
                   <Form>
                     <Row>
                       <Col md={12} className='formsection1'>
-                        <Form.Group>
+                        <Form.Group className="bold-text">
                           <h6 className='userprofile'>Post Title</h6>
                           <Form.Control
                             type='text'
@@ -182,36 +202,93 @@ const NewBlogPost = () => {
                           />
                         </Form.Group>
                       </Col>
-                      <Col md={12} className='formsection1'>
-                        <Form.Group>
+                    </Row>
+                    <Row>
+                      <Col md={6} className='formsection1'>
+                        <Form.Group className="bold-text">
                           <h6 className='userprofile'>Sub title</h6>
                           <textarea
                             value={subtitle}
                             className='userfield subtitle form-control'
                             id='subtitle'
                             onChange={onchange}
-                            placeholder='Sub title'
+                            placeholder=''
                           />
                         </Form.Group>
                       </Col>
-                    </Row>
-                    <Row>
-                      <Col md={12} className='formsection1'>
-                        <Form.Group>
-                          <h6 className='userprofile'>Content</h6>
+                      <Col md={6} className='formsection1'>
+                        <Form.Group className="bold-text">
+                          <h6 className='userprofile'>Title tag</h6>
                           <textarea
-                            value={body}
-                            className='userfield h100 subtitle form-control'
-                            id='body'
+                            value={title_tag}
+                            className='userfield subtitle form-control'
+                            id='title_tag'
                             onChange={onchange}
-                            placeholder='Enter content'
+                            placeholder=''
                           />
                         </Form.Group>
                       </Col>
                     </Row>
                     <Row>
                       <Col md={6} className='formsection1'>
-                        <Form.Group>
+                        <Form.Group className="bold-text">
+                          <h6 className='userprofile'>Meta Tag</h6>
+                          <Form.Control
+                            type='text'
+                            value={meta_tag}
+                            className='userfield'
+                            id='meta_tag'
+                            onChange={onchange}
+                            placeholder=''
+                          />
+                        </Form.Group>
+                      </Col>
+                      <Col md={6} className='formsection1'>
+                        <Form.Group className="bold-text">
+                          <h6 className='userprofile'>Slug</h6>
+                          <textarea
+                            value={slug}
+                            className='userfield subtitle form-control'
+                            id='slug'
+                            onChange={onchange}
+                            placeholder=''
+                          />
+                        </Form.Group>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col md={12} className='formsection1'>
+                        <Form.Group className="bold-text">
+                          <h6 className='userprofile'>Content</h6>
+                          {/* <textarea
+                            value={body}
+                            className='userfield h100 subtitle form-control'
+                            id='body'
+                            onChange={onchange}
+                            placeholder='Enter content'
+                          /> */}
+                          <Editor
+                            editorState={editorState}
+                            onChange={(x) => {
+                              setState({
+                                ...state,
+                                contentState: draftToHtml(x),
+                              });
+                            }}
+                            wrapperClassName='editorwrapperClassName'
+                            onEditorStateChange={(x) => {
+                              setState({
+                                ...state,
+                                editorState: x,
+                              });
+                            }}
+                          />
+                        </Form.Group >
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col md={6} className='formsection1'>
+                        <Form.Group className="bold-text">
                           <h6 className='userprofile'>Featured Image</h6>
                           <input
                             className='userfield subtitle form-control'
@@ -221,11 +298,49 @@ const NewBlogPost = () => {
                           />
                         </Form.Group>
                       </Col>
+                      <Col md={1} className='formsection1'>
+                        <Form.Group className="bold-text">
+                          <h6 className='userprofile'>Feature</h6>
+                          <label htmlFor='feature'>
+                            <input
+                              type='checkbox'
+                              id='feature'
+                              onChange={() => {
+                                setState({
+                                  ...state,
+                                  feature: feature ? 0 : 1,
+                                });
+                              }}
+                              className='form-check-input position-static'
+                              checked={feature == 1 ? true : false}
+                            />
+                          </label>
+                        </Form.Group>
+                      </Col>
+                      <Col md={1} className='formsection1'>
+                        <Form.Group className="bold-text">
+                          <h6 className='userprofile'>Publish</h6>
+                          <label htmlFor='feature'>
+                            <input
+                              type='checkbox'
+                              id='publish'
+                              onChange={() => {
+                                setState({
+                                  ...state,
+                                  publish: publish ? 0 : 1,
+                                });
+                              }}
+                              className='form-check-input position-static'
+                              checked={publish == 1 ? true : false}
+                            />
+                          </label>
+                        </Form.Group>
+                      </Col>
                     </Row>
                     <Row>
                       <Col md={12}>
                         <div className='job31' onClick={CreatePost}>
-                          Submit
+                          {isloading ? "Processing" : "Submit"}
                         </div>
                       </Col>
                     </Row>
@@ -239,14 +354,14 @@ const NewBlogPost = () => {
       <ToastContainer
         enableMultiContainer
         containerId={"D"}
-        toastClassName="bg-danger text-white"
+        toastClassName='bg-danger text-white'
         hideProgressBar={true}
         position={"top-right"}
       />
       <ToastContainer
         enableMultiContainer
         containerId={"B"}
-        toastClassName="bg-info text-white"
+        toastClassName='bg-info text-white'
         hideProgressBar={true}
         position={"top-right"}
       />

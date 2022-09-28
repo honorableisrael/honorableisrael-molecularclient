@@ -3489,3 +3489,34 @@ label i {
 .h100 {
   height: 200px !important;
 }
+.blogphotoprev {
+  width: 200px;
+  height: 200px;
+  object-fit: contain;
+  border: 2px solid mintcream;
+  padding: 1rem;
+}
+.falsefeature {
+  padding-left: 1rem;
+}
+.editorwrapperClassName {
+  border: 1px solid rgba(235, 231, 231, 0.507);
+  min-height: 200px;
+}
+.cursor-pointer {
+  cursor: pointer;
+  padding-right: 0.5rem;
+}
+.bold-text .userprofile {
+  font-weight: 900;
+}
+.publishedpost {
+  display: block;
+  border-radius: 1rem;
+  background: #999999;
+  font-weight: 900;
+  color: white;
+  text-align: center;
+  font-size: 12px;
+  margin-right: .3rem;
+}

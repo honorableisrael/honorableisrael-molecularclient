@@ -104,6 +104,7 @@
   display: flex;
   width: 33.33%;
   padding: 10px;
+  max-height: 450px;
 }
 
 .similar-posts-block .posts-row .block {
@@ -173,4 +174,7 @@
 }
 .pb-2 {
   padding-bottom: 2rem !important;
+}
+.posts-row{
+  justify-content: center;
 }

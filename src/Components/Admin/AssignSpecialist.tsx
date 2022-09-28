@@ -23,6 +23,7 @@ const SpecialistContext: any = React.createContext({
   setState: () => {},
   assignToWorkOrder: () => {},
 });
+
 const AssignOneSpecialist = (x) => {
   const workOrder = localStorage.getItem("work_order_details");
   const workorder = workOrder ? JSON.parse(workOrder) : "";
@@ -33,6 +34,7 @@ const AssignOneSpecialist = (x) => {
   const data = {
     specialists: [x],
   };
+
   console.log("here now");
   axios
     .post(`${API}/admin/work-orders/${workorder.id}/specialists`, data, {
@@ -53,6 +55,7 @@ const AssignOneSpecialist = (x) => {
       notify("Failed to assign specialist", "D");
     });
 };
+
 const Specialist_card = (props) => {
   const { state, setState, assignToWorkOrder }: any =
     useContext(SpecialistContext);

@@ -1,13 +1,71 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { API, formatTime, notify } from "../../config";
 import NavBar from "../Widgets/navigation";
 import Footer from "./footer";
 import "./test.css";
+import AOS from "aos";
+import { withRouter } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
-const previewBlog = () => {
+const PreviewBlog = withRouter((props) => {
+  const [state, setState]: any = useState({
+    isloading: false,
+    blogpost: {},
+    featuredpost: [],
+  });
+  useEffect(() => {
+    window.scrollTo(-0, -0);
+    AOS.init({
+      duration: 1500,
+    });
+    AOS.refresh();
+  }, []);
+
+  useEffect(() => {
+    GetFeatured();
+  }, [props.match.params.id]);
+
+  const GetFeatured = () => {
+    setState({
+      ...state,
+      isloading: true,
+    });
+    axios
+      .all([
+        axios.get(`${API}/blogs/posts/featured?per_page=3`),
+        axios.get(`${API}/blogs/posts/${props.match.params.id}`),
+      ])
+      .then(
+        axios.spread((res, res2) => {
+          window.scrollTo(-0, -0);
+          setState({
+            ...state,
+            featuredpost: res.data.data.data,
+            blogpost: res2.data.data,
+            isloading: false,
+          });
+        })
+      )
+      .catch((err) => {
+        console.log(err);
+        notify("Failed to fetch data", "D");
+        setState({
+          ...state,
+          isloading: false,
+        });
+      });
+  };
+  const { blogpost, featuredpost } = state;
+  console.log(featuredpost, "featured");
   return (
     <>
       <div id='home'></div>
       <NavBar />
+      <Helmet>
+        <title>{blogpost?.tags?.title}</title>
+        <meta name={blogpost?.tags?.meta} content={blogpost?.tags?.meta} />
+      </Helmet>
       <main>
         <div className='hero-hub-single-post'>
           <div className='row'>
@@ -15,23 +73,17 @@ const previewBlog = () => {
               <div className='img-hold img-placeholder'>
                 <img
                   className='img-stretch lazy-opacity yall_lazy yall_loaded full-loaded'
-                  data-srcset='https://www.workrise.com/wp-content/uploads/2021/08/Image-from-iOS-2-768x1024.jpg 320w,   https://www.workrise.com/wp-content/uploads/2021/08/Image-from-iOS-2-225x300.jpg 768w,   https://www.workrise.com/wp-content/uploads/2021/08/Image-from-iOS-2-scaled.jpg 1024w'
-                  srcSet='https://www.workrise.com/wp-content/uploads/2021/08/Image-from-iOS-2-768x1024.jpg 320w,   https://www.workrise.com/wp-content/uploads/2021/08/Image-from-iOS-2-225x300.jpg 768w,   https://www.workrise.com/wp-content/uploads/2021/08/Image-from-iOS-2-scaled.jpg 1024w'
+                  srcSet={state?.blogpost?.images?.full}
                 />
               </div>
             </div>
-            <div className='col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-1 col-desc'>
+            <div className='col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-5 col-desc'>
               <div className='desc'>
-                <strong className='category'>
-                  <a href=''>
-                    #Worker Stories
-                  </a>
-                </strong>
-                <h1>
-                 Introducing Dynamic Duo Trent
-                  and Jacob
-                </h1>
-                <span className='caption'>August 23, 2021 - El Campo, TX</span>
+                <strong className='category'></strong>
+                <h1>{state?.blogpost?.title}</h1>
+                <span className='caption'>
+                  {formatTime(state?.blogpost?.created_at)}
+                </span>
               </div>
             </div>
           </div>
@@ -43,78 +95,23 @@ const previewBlog = () => {
           <div className='post-content-row copy-md'>
             <div className='container-width-desktop'>
               <div className='row content-center'>
-                <div className='col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3'>
+                <div className='col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-7 col-md-offset-3'>
                   <div className='inner'>
                     <div className='social-network-container'>
                       <div className='container'></div>
                     </div>
                     <div className='wysiwyg'>
-                      <p>
-                        <span>
-                          When working on a{" "}
-                          <a
-                            href=''
-                            target='_blank'
-                            rel='noopener'>
-                            solar project
-                          </a>{" "}
-                          in the mud and heat of South Texas, it’s much better
-                          to be teamed up with someone who shares your work
-                          ethic and communication style. That’s what skilled
-                          workers Trent Magnum, 37, and Jacob Lujan, 25,
-                          realized when they first started working together. “
-                        </span>
-                        <span>
-                          We got along right off the bat. He’s a cool dude and
-                          he works hard,” says Jacob.
-                        </span>
-                      </p>
-                      <p>
-                        <span>&nbsp;“</span>
-                        <span>
-                          Me and him have a good friendship,” says Trent. “It’s
-                          very easy to communicate.”
-                        </span>
-                      </p>
-                      <p>
-                        <span>
-                          Though Trent and Jacob do a little bit of everything
-                          on the solar project in Bay City, Texas, many aspects
-                          of the job require two people. “We’ve got a big bolt
-                          and big wrenches to tie it down,” says Jacob.&nbsp;
-                        </span>
-                      </p>
-                      <p>
-                        <span>
-                          Not only does communication make for a smoother day on
-                          the job, but a{" "}
-                          <a
-                            href=''
-                            target='_blank'
-                            rel='noopener'>
-                            safer one
-                          </a>
-                          , too. That’s because they’re often battling the
-                          elements. “It’s real dangerous out there, and you have
-                          to watch out for your surroundings,” says Jacob.
-                        </span>
-                      </p>
-                      <p>
-                        <span>
-                          Trent and Jacob have been working on the solar project
-                          through Workrise for about 8 to 10 months. Neither had
-                          solar experience in the past, but both are excited to
-                          get into the field and learn the ropes.{" "}
-                        </span>
-                      </p>
+                      <p
+                        dangerouslySetInnerHTML={{
+                          __html: state?.blogpost?.body ?? "n/a",
+                        }}></p>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-
-          <div className='post-blockquote post-content-rowb'>
+          {/* <div className='post-blockquote post-content-rowb'>
             <div className='container-width-desktop'>
               <div className='row content-center'>
                 <div className='col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2'>
@@ -131,9 +128,8 @@ const previewBlog = () => {
                 </div>
               </div>
             </div>
-          </div>
-
-          <div className='post-content-row  copy-md'>
+          </div> */}
+          {/* <div className='post-content-row  copy-md'>
             <div className='container-width-desktop'>
               <div className='row content-center'>
                 <div className='col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3'>
@@ -151,10 +147,7 @@ const previewBlog = () => {
                       <p>
                         <span>
                           Furthering his knowledge of{" "}
-                          <a
-                            href=''
-                            target='_blank'
-                            rel='noopener'>
+                          <a href='' target='_blank' rel='noopener'>
                             the solar industry
                           </a>
                           , and eventually working his way up to become a
@@ -166,7 +159,9 @@ const previewBlog = () => {
                       <p>
                         <span>
                           Trent and Jacob have one very important thing in
-                          common which motivates their hard work: their
+                          common which motivates their himport { Helmet } from 'react-helmet';
+ard work: theirimport { Helmet } from 'react-helmet';
+
                           daughters. When Jacob’s one-month old daughter Janelle
                           was born, Trent, whose daughter Paisley is 6, picked
                           up the phone. “I called him and told him, ‘Look, man,
@@ -188,96 +183,50 @@ const previewBlog = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
-
         <section className='similar-posts-block bg-light copy-md'>
           <div className='container-width-desktop'>
             <div className='row content-center'>
               <div className='col-xs-10 col-xs-offset-1 col-md-12 col-md-offset-0'>
                 <header className='heading'>
-                  <h2 className="text-center pb-2">More Like This</h2>
+                  <h2 className='text-center pb-2'>More Like This</h2>
                 </header>
               </div>
             </div>
             <div className='row'>
               <div className='col-xs-10 col-xs-offset-1 col-md-12 col-md-offset-0'>
                 <div className='posts-row row'>
-                  <div className='col-md-4 col'>
-                    <a
-                      href=''
-                      className='block'>
-                      <div className='img'>
-                        <img
-                          className='img-stretch lazy-opacity yall_lazy yall_loaded full-loaded'
-                          data-srcset='https://www.workrise.com/wp-content/uploads/2022/02/DSC_1296-703x1024.jpg 320w,   https://www.workrise.com/wp-content/uploads/2022/02/DSC_1296-206x300.jpg 768w,   https://www.workrise.com/wp-content/uploads/2022/02/DSC_1296-703x1024.jpg 1024w'
-                          srcSet='https://www.workrise.com/wp-content/uploads/2022/02/DSC_1296-703x1024.jpg 320w,   https://www.workrise.com/wp-content/uploads/2022/02/DSC_1296-206x300.jpg 768w,   https://www.workrise.com/wp-content/uploads/2022/02/DSC_1296-703x1024.jpg 1024w'
-                        />
-                      </div>
-                      <div className='content'>
-                        <div className='inner'>
-                          <strong className='category'>#Worker Stories</strong>
-                          <h5 data-truncate=''>
-                            “I like new challenges, and I don’t believe in
-                            failure.” – Kendall, Senior Safety Man...
-                          </h5>
-                          <div className='more-wrap'>
-                            <span className='more'>Read More</span>
+                  {featuredpost
+                    ?.filter((x) => {
+                      if (x.slug !== props.match.params.id) {
+                        return x;
+                      }
+                    })
+                    ?.map((data, i) => (
+                      <div className='col-md-4 col'>
+                        <a href='' className='block'>
+                          <div className='img'>
+                            <img
+                              className='img-stretch lazy-opacity yall_lazy yall_loaded full-loaded'
+                              src={data?.images?.thumb}
+                            />
                           </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div className='col-md-4 col'>
-                    <a
-                      href=''
-                      className='block'>
-                      <div className='img'>
-                        <img
-                          className='img-stretch lazy-opacity yall_lazy yall_loaded full-loaded'
-                          data-srcset='https://www.workrise.com/wp-content/uploads/2021/12/20211110-L1003072-1024x681.jpg 320w,   https://www.workrise.com/wp-content/uploads/2021/12/20211110-L1003072-300x200.jpg 768w,   https://www.workrise.com/wp-content/uploads/2021/12/20211110-L1003072-1024x681.jpg 1024w'
-                          srcSet='https://www.workrise.com/wp-content/uploads/2021/12/20211110-L1003072-1024x681.jpg 320w,   https://www.workrise.com/wp-content/uploads/2021/12/20211110-L1003072-300x200.jpg 768w,   https://www.workrise.com/wp-content/uploads/2021/12/20211110-L1003072-1024x681.jpg 1024w'
-                        />
-                      </div>
-                      <div className='content'>
-                        <div className='inner'>
-                          <strong className='category'>#Worker Stories</strong>
-                          <h5 data-truncate=''>
-                            How Oil &amp; Gas Veteran David Willis Fought &amp;
-                            Won His Non-Compete Case
-                          </h5>
-                          <div className='more-wrap'>
-                            <span className='more'>Read More</span>
+                          <div className='content'>
+                            <div className='inner'>
+                              <h5 data-truncate='' className='mxheight1'>
+                                {data?.excerpt}
+                              </h5>
+                              <div className='more-wrap'>
+                                <a href={`/#/blog_details/${data.slug}`}>
+                                  <span className='more'>Read More</span>
+                                </a>
+                              </div>
+                            </div>
                           </div>
-                        </div>
+                        </a>
                       </div>
-                    </a>
-                  </div>
-                  <div className='col-md-4 col'>
-                    <a
-                      href=''
-                      className='block'>
-                      <div className='img'>
-                        <img
-                          className='img-stretch lazy-opacity yall_lazy yall_loaded full-loaded'
-                          data-srcset='https://www.workrise.com/wp-content/uploads/2021/12/DRW8860-1024x682.jpg 320w,   https://www.workrise.com/wp-content/uploads/2021/12/DRW8860-300x200.jpg 768w,   https://www.workrise.com/wp-content/uploads/2021/12/DRW8860-1024x682.jpg 1024w'
-                          srcSet='https://www.workrise.com/wp-content/uploads/2021/12/DRW8860-1024x682.jpg 320w,   https://www.workrise.com/wp-content/uploads/2021/12/DRW8860-300x200.jpg 768w,   https://www.workrise.com/wp-content/uploads/2021/12/DRW8860-1024x682.jpg 1024w'
-                        />
-                      </div>
-                      <div className='content'>
-                        <div className='inner'>
-                          <strong className='category'>#Worker Stories</strong>
-                          <h5 data-truncate=''>
-                            From Forklifts to Oil &amp; Gas to Solar: How Alan
-                            Found His Calling
-                          </h5>
-                          <div className='more-wrap'>
-                            <span className='more'>Read More</span>
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
+                    ))}
                 </div>
               </div>
             </div>
@@ -287,6 +236,6 @@ const previewBlog = () => {
       <Footer />
     </>
   );
-};
+});
 
-export default previewBlog;
+export default PreviewBlog;

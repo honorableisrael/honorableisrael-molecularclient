@@ -73,7 +73,9 @@ const Blog = () => {
           <div className='leftcolumn'>
             {state?.blogpost?.data?.map((data, i) => (
               <div className='blog_card' key={i}>
-                <h2>{data?.title}</h2>
+                <h2 title='see more'>
+                  <Link to={`/blog_details/${data.slug}`}>{data?.title}</Link>
+                </h2>
                 <small>
                   {data?.subtitle}, {formatTime(data?.created_at)}
                 </small>
@@ -85,7 +87,7 @@ const Blog = () => {
                 </div>
                 <p className='postbody1'>
                   {data?.excerpt}
-                  <Link to={`/blog_details/${data.id}`}>
+                  <Link to={`/blog_details/${data.slug}`}>
                     <span className='blog-readmoretxt'> Read More</span>
                   </Link>
                 </p>
@@ -109,15 +111,15 @@ const Blog = () => {
             </div>
             <div className='blog_card'>
               <h2>Popular Post</h2>
-              {state?.blogpost?.data?.map((data, i) => (
+              {state?.blogpost?.data?.splice(0,6)?.map((data, i) => (
                 <div key={i}>
-                  <Link to={`/blog_details/${data.id}`}>
+                  <Link to={`/blog_details/${data.slug}`}>
                     <div className='fakeimg2 '>
                       <img
                         src={data?.images?.thumb}
                         className='img-fluid blog_images'
                       />
-                      <span className="text-gray popularpost">
+                      <span className='text-gray popularpost'>
                         {data?.subtitle}, {formatTime(data?.created_at)}
                       </span>
                     </div>

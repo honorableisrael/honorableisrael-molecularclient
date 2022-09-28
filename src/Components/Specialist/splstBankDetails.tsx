@@ -63,6 +63,7 @@ const SplstBankDetails = () => {
     setState({
       ...state,
       [e.target.name]: e.target.value,
+      errorMessage: "",
     });
   };
 
@@ -202,43 +203,45 @@ const SplstBankDetails = () => {
   };
   const getBankDetails = () => {
     //add certhification to UI
-    setState({
-      ...state,
-      isloading: true,
-    });
-    //post to API
-    const availableToken = localStorage.getItem("loggedInDetails");
-    console.log(availableToken);
-    const token = availableToken ? JSON.parse(availableToken) : "";
-    console.log(token);
-    const data = {
-      account_number,
-      bank: bank_id,
-    };
-    Axios.post(`${API}/verify/bank-account`, data, {
-      headers: { Authorization: `Bearer ${token.access_token}` },
-    })
-      .then((res) => {
-        console.log(res.data);
-        setState({
-          ...state,
-          account_name: res?.data?.data?.account_name,
-          isloading: false,
-          // certificateAddModal: false,
-        });
+    if (account_number) {
+      setState({
+        ...state,
+        isloading: true,
+      });
+      //post to API
+      const availableToken = localStorage.getItem("loggedInDetails");
+      console.log(availableToken);
+      const token = availableToken ? JSON.parse(availableToken) : "";
+      console.log(token);
+      const data = {
+        account_number,
+        bank: bank_id,
+      };
+      Axios.post(`${API}/verify/bank-account`, data, {
+        headers: { Authorization: `Bearer ${token.access_token}` },
       })
-      .catch((err) => {
-        console.log(err.response);
-        if (err.response) {
-          notify("Incorrect bank details");
+        .then((res) => {
+          console.log(res.data);
           setState({
             ...state,
+            account_name: res?.data?.data?.account_name,
             isloading: false,
-            account_name: "",
-            errorMessage: err?.response?.data?.message,
+            // certificateAddModal: false,
           });
-        }
-      });
+        })
+        .catch((err) => {
+          console.log(err.response);
+          if (err.response) {
+            notify("Incorrect bank details");
+            setState({
+              ...state,
+              isloading: false,
+              account_name: "",
+              errorMessage: err?.response?.data?.message,
+            });
+          }
+        });
+    }
   };
   useEffect(() => {
     window.scrollTo(-0, -0);
@@ -332,7 +335,7 @@ const SplstBankDetails = () => {
         }
       });
   };
-
+  console.log(bank_details);
   return (
     <>
       <Modal show={deleteCredential} centered={true} onHide={closeDeleteModal}>
@@ -377,7 +380,7 @@ const SplstBankDetails = () => {
                   onChange={onchange}
                   onBlur={getBankDetails}>
                   <option value='' className='rdsltopt' selected hidden>
-                    {bank_name}
+                    {bank_name ?? ""}
                   </option>
                   {banks?.map((data, i) => (
                     <option value={data.id} className='profsettinformselect'>
@@ -391,7 +394,7 @@ const SplstBankDetails = () => {
               </Form.Group>
             </Col>
           </Row>
-          <Col md={12}>
+          {/* <Col md={12}>
             <Form.Group>
               <h6 className='userprofile userprofile12'>Bank Name</h6>
               <select
@@ -412,7 +415,7 @@ const SplstBankDetails = () => {
                 <img src={formCaret} className='drparr' />
               </div>
             </Form.Group>
-          </Col>
+          </Col> */}
           <Row>
             <Col md={6}>
               <Form.Group>
@@ -535,7 +538,7 @@ const SplstBankDetails = () => {
               className='no_work_order'
             />
             <p>You have no Bank Account Added</p>
-            <span className='profcertbtn' onClick={addCertModal}>
+            <span className='profcertbtn' onClick={() => addCertModal("")}>
               Add Bank Account
             </span>
           </div>

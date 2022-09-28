@@ -138,6 +138,7 @@ const DeployedSpecialist = withRouter((props) => {
         });
       });
   };
+
   const refresh_all = () => {
     const token = returnAdminToken();
     const work_order = localStorage.getItem("work_order_details");
@@ -167,6 +168,7 @@ const DeployedSpecialist = withRouter((props) => {
         console.log(err);
       });
   };
+
   const DeleteGroup = (x) => {
     window.scrollTo(-0, -0);
     const token = returnAdminToken();
@@ -202,6 +204,7 @@ const DeployedSpecialist = withRouter((props) => {
         });
       });
   };
+
   useEffect(() => {
     window.scrollTo(-0, -0);
     const token = returnAdminToken();
@@ -359,10 +362,6 @@ const DeployedSpecialist = withRouter((props) => {
       });
   };
   const nextPage = (a) => {
-    const availableToken: any = localStorage.getItem("loggedInDetails");
-    const token = availableToken
-      ? JSON.parse(availableToken)
-      : window.location.assign("/");
     setState({
       ...state,
       overview: a == "overview" ? true : false,
@@ -371,8 +370,10 @@ const DeployedSpecialist = withRouter((props) => {
     });
     axios
       .all([
-        axios.get(`${a}`, {
-          headers: { Authorization: `Bearer ${token.access_token}` },
+        axios.get(`${a}&paginate=1`, {
+          headers: {
+            Authorization: `Bearer ${returnAdminToken().access_token}`,
+          },
         }),
       ])
       .then(
@@ -381,6 +382,7 @@ const DeployedSpecialist = withRouter((props) => {
           window.scrollTo(-0, -0);
           setState({
             ...state,
+            allAssignedSpecialist: res.data.data.data,
             ...res.data.data.links,
             ...res.data.data.meta,
           });
@@ -500,7 +502,7 @@ const DeployedSpecialist = withRouter((props) => {
         });
       })
       .catch((err) => {
-          notify(err?.response?.data?.message);
+        notify(err?.response?.data?.message);
         notify("failed to process");
         setState({
           ...state,

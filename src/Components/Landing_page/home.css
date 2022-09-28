@@ -1648,3 +1648,7 @@ span a .text-white{
 .txtarea{
   height: 140px;
 }
+.mxheight1{
+  max-height: 100px;
+  overflow: hidden;
+}

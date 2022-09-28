@@ -7,6 +7,8 @@ import {
   Pagination,
   Table,
   Spinner,
+  Button,
+  Modal,
 } from "react-bootstrap";
 import "./contractor.css";
 import DashboardNav from "./navbar";
@@ -19,10 +21,18 @@ import arrowback from "../../images/dtls.png";
 import { Link } from "react-router-dom";
 import no_work_order from "../../images/document 1.png";
 import nextbtn from "../../images/nextbtn.png";
-import PaymentCards_1 from "./PaymentCards_1";
+import bin_icon from "../../assets/bin_icon.png";
+import viewicon from "../../assets/viewicon.jpeg";
 import axios from "axios";
-import { returnAdminToken, API, FormatAmount, formatTime } from "../../config";
+import {
+  returnAdminToken,
+  API,
+  FormatAmount,
+  formatTime,
+  reloadPage,
+} from "../../config";
 import { HashLink } from "react-router-hash-link";
+import { ToastContainer } from "react-toastify";
 
 const BlogList = (props) => {
   const [state, setState] = useState({
@@ -41,7 +51,8 @@ const BlogList = (props) => {
     isloading: false,
     start_date: "",
     search: "",
-    hour: "",
+    show2: false,
+    id: "",
     show_date: false,
     next: "",
     prev: "",
@@ -112,6 +123,7 @@ const BlogList = (props) => {
   useEffect(() => {
     getTransactions(`${API}/admin/blogs/posts`);
   }, []);
+
   const getTransactions = (endpoint) => {
     const token = returnAdminToken();
     setState({
@@ -174,13 +186,13 @@ const BlogList = (props) => {
     show_date,
     filter,
     all_blog_post,
-    search,
+    show2,
     work_order_description,
     order_title,
     end_date,
     isloading,
     start_date,
-    hour,
+    id,
     last_page,
     next,
     prev,
@@ -188,13 +200,33 @@ const BlogList = (props) => {
     last,
     current_page,
   } = state;
-  console.log(all_blog_post);
-  console.log(filter);
-  const search_filter = () => {
-    getTransactions(
-      `${API}/admin/contractors/payment-transactions?search=${search}`
-    );
+
+  const deleteBlogPost = (x) => {
+    const token = returnAdminToken();
+    axios
+      .all([
+        axios.delete(`${API}/admin/blogs/posts/${id}`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
+      ])
+      .then(
+        axios.spread((res) => {
+          console.log(res.data);
+          reloadPage();
+          setState({
+            ...state,
+            isloading: false,
+          });
+        })
+      )
+      .catch((err) => {
+        setState({
+          ...state,
+          isloading: false,
+        });
+      });
   };
+
   return (
     <>
       <Container fluid={true} className='dasbwr'>
@@ -251,7 +283,7 @@ const BlogList = (props) => {
                 </Link>
               </div>{" "}
             </div>
-            <Row>
+            <Col md={12}>
               {/* <Col md={12} className='plf'>
                 <div className='cardflex_jo'>
                   {all_blog_post?.map((data, i) => (
@@ -292,27 +324,73 @@ const BlogList = (props) => {
                     <tr>
                       <th scope='col'>Title</th>
                       <th scope='col'>Sub title</th>
-                      <th scope='col'>Description</th>
-                      {/* <th scope='col'>Slug</th>
-                      <th scope='col'>Publish</th> */}
+                      <th scope='col'>Content</th>
+                      <th scope='col'>Status</th>
+                      <th scope='col'>Date</th>
+                      <th scope='col'>Action</th>
                     </tr>
                   </thead>
                   <tbody>
                     {all_blog_post?.map((data: any, i) => (
                       <tr key={i}>
-                        <td title={data?.title}>{data?.title}</td>
-                        <td>{data?.subtitle} </td>
-                        <td className='dpslstnamecell pslstnamecell schedule_payment_first_td'>
-                          <div className='dplsplusernmeimg' title={data?.excerpt}>
+                        <td title={data?.title}>
+                          <Link to={`/editblog/${data?.id}`}>
+                            {" "}
+                            {data?.title}
+                          </Link>
+                        </td>
+                        <td>
+                          {" "}
+                          <Link to={`/editblog/${data?.id}`}>
+                            {" "}
+                            {data?.subtitle}
+                          </Link>{" "}
+                        </td>
+                        <td
+                          className='dpslstnamecell pslstnamecell schedule_payment_first_td'
+                          title={data?.excerpt}>
+                          <Link to={`/editblog/${data?.id}`}>
                             {/* <span></span> */}
                             &nbsp; &nbsp;
                             {data?.excerpt}
-                          </div>
+                          </Link>
                         </td>
-                        {/* <td className='contractorname'>
-                          
+                        <td>
+                          <span className='publishedpost'>
+                            {data.published ? "published" : "~~/~~"}
+                          </span>
                         </td>
-                        <td></td> */}
+                        <td className=''>
+                          {" "}
+                          <Link to={`/editblog/${data?.id}`}>
+                            {" "}
+                            {formatTime(data?.created_at)}
+                          </Link>
+                        </td>
+                        <td className='text-center'>
+                          <span
+                            title='Delete post'
+                            onClick={() => {
+                              setState({
+                                ...state,
+                                show2: true,
+                                id: data.id,
+                              });
+                            }}
+                            className='cursor-pointer'>
+                            <img src={bin_icon} alt='' width='15' height='15' />
+                          </span>
+                          <span title='Preview post'>
+                            <Link to={`/editblog/${data?.id}`}>
+                              <img
+                                src={viewicon}
+                                alt=''
+                                width='25'
+                                height='25'
+                              />
+                            </Link>
+                          </span>
+                        </td>
                         {/* <td>
                           <Link
                             to={`/contractor_transactions_details/${data?.id}`}>
@@ -360,10 +438,63 @@ const BlogList = (props) => {
                   </div>
                 )}
               </div>
-            </Row>
+            </Col>
           </Col>
         </Row>
       </Container>
+      <Modal
+        size='sm'
+        show={show2}
+        onHide={() =>
+          setState({
+            ...state,
+            show2: false,
+          })
+        }
+        dialogClassName='modal-90w'
+        className='mdl12c'>
+        <Modal.Header closeButton>
+          <Modal.Title id='example-custom-modal-styling-title'>
+            Confirm Action
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Row>
+            <Col md={12}>
+              <h6>
+                Please note this operation would completely erase this blog
+                record{" "}
+              </h6>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={12} className='terminate2'>
+              <Button
+                className='btn-success succinline'
+                onClick={() => {
+                  setState({
+                    ...state,
+                    show2: false,
+                  });
+                }}>
+                Cancel
+              </Button>
+              <div className='' onClick={deleteBlogPost}>
+                <Button className='btn-success primary3'>
+                  {isloading ? "Processing" : "Delete Post"}
+                </Button>
+              </div>
+            </Col>
+          </Row>
+        </Modal.Body>
+      </Modal>
+      <ToastContainer
+        enableMultiContainer
+        containerId={"B"}
+        toastClassName='bg-orange text-white'
+        hideProgressBar={true}
+        position={"top-right"}
+      />
     </>
   );
 };

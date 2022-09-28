@@ -79,7 +79,8 @@ import Specialist_Details_For_Contractor from "./Components/Contractor/Specialis
 import BlogList from "./Components/Admin/Blog";
 import NewBlogPost from "./Components/Admin/New_Blog_Post";
 import BlogDetails from "./Components/Landing_page/blogdetails";
-import previewBlog from "./Components/Landing_page/blogpreview";
+import PreviewBlog from "./Components/Landing_page/blogpreview";
+import EditBlogPost from "./Components/Admin/Edit_Blog_Post";
 
 const App: any = ({ history }) => {
   return (
@@ -114,8 +115,9 @@ const App: any = ({ history }) => {
               <Route path='/work_order' component={NewWorkOrderForm} />
               <Route path='/specialistlanding' component={SpecialistLanding} />
               <Route path='/blog' component={Blog} />
-              <Route path='/blog_details/:id' component={BlogDetails} />
-              <Route path='/testblog' component={previewBlog} />
+              {/* <Route path='/blog_details/:id' component={BlogDetails} /> */}
+              <Route path='/blog_details/:id' component={PreviewBlog} />
+              <Route path='/editblog/:id' component={EditBlogPost} />
               
               
               <Route path='/admin/blogpost' component={BlogList} />
