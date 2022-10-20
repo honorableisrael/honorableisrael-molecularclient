@@ -81,6 +81,7 @@ import NewBlogPost from "./Components/Admin/New_Blog_Post";
 import BlogDetails from "./Components/Landing_page/blogdetails";
 import PreviewBlog from "./Components/Landing_page/blogpreview";
 import EditBlogPost from "./Components/Admin/Edit_Blog_Post";
+import Blog_Revamp from "./Components/Landing_page/blog_v2";
 
 const App: any = ({ history }) => {
   return (
@@ -115,6 +116,8 @@ const App: any = ({ history }) => {
               <Route path='/work_order' component={NewWorkOrderForm} />
               <Route path='/specialistlanding' component={SpecialistLanding} />
               <Route path='/blog' component={Blog} />
+              <Route path='/blogv1' exact component={Blog_Revamp} />
+              
               {/* <Route path='/blog_details/:id' component={BlogDetails} /> */}
               <Route path='/blog_details/:id' component={PreviewBlog} />
               <Route path='/editblog/:id' component={EditBlogPost} />

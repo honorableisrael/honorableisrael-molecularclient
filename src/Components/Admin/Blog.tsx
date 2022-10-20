@@ -367,7 +367,9 @@ const BlogList = (props) => {
                             {formatTime(data?.created_at)}
                           </Link>
                         </td>
-                        <td className='text-center'>
+                        <td
+                          className='text-center'
+                          style={{ display: "flex", alignItems: "center" }}>
                           <span
                             title='Delete post'
                             onClick={() => {

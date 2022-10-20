@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.9b544004.css",
-    "main.js": "/static/js/main.ba0e9fdb.js",
+    "main.css": "/static/css/main.8cd851b9.css",
+    "main.js": "/static/js/main.c77b764b.js",
     "static/media/yellowhelmet.jpg": "/static/media/yellowhelmet.0a992cec0a2f7c2fd411.jpg",
     "static/media/drilling-workers.png": "/static/media/drilling-workers.fdb0ad474e04c63aa753.png",
     "static/media/oil-pipeline.png": "/static/media/oil-pipeline.55d5826b054b8bd73fc8.png",
@@ -33,11 +33,11 @@
     "static/media/bin_icon.png": "/static/media/bin_icon.4cf85250644be08b0e98.png",
     "index.html": "/index.html",
     "static/media/compass.svg": "/static/media/compass.42e1b1686789b565ce77a484bbc726d8.svg",
-    "main.9b544004.css.map": "/static/css/main.9b544004.css.map",
-    "main.ba0e9fdb.js.map": "/static/js/main.ba0e9fdb.js.map"
+    "main.8cd851b9.css.map": "/static/css/main.8cd851b9.css.map",
+    "main.c77b764b.js.map": "/static/js/main.c77b764b.js.map"
   },
   "entrypoints": [
-    "static/css/main.9b544004.css",
-    "static/js/main.ba0e9fdb.js"
+    "static/css/main.8cd851b9.css",
+    "static/js/main.c77b764b.js"
   ]
 }

@@ -41,10 +41,9 @@ const Blog = () => {
       .all([axios.get(`${API}/blogs/posts`)])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
           setState({
             ...state,
-            blogpost: res.data.data,
+            blogpost: res.data.data.data,
             isloading: false,
           });
         })
@@ -58,81 +57,116 @@ const Blog = () => {
         });
       });
   };
+  const { blogpost } = state;
   return (
     <div>
       <NavBar />
-      <div className='blogheader'>
+      <div className='blogheader blghh'>
         <h2 className='blog-title'>Grey Connects</h2>
         <p>
           Molecular is a technology-driven workforce management solution for
           technical specialists in Africa’s natural gas industry
         </p>
       </div>
-      <div className='blog-container'>
+      <div className='col-md-12 pt9'>
         <div className='row'>
-          <div className='leftcolumn'>
-            {state?.blogpost?.data?.map((data, i) => (
-              <div className='blog_card' key={i}>
-                <h2 title='see more'>
-                  <Link to={`/blog_details/${data.slug}`}>{data?.title}</Link>
-                </h2>
-                <small>
-                  {data?.subtitle}, {formatTime(data?.created_at)}
-                </small>
-                <div className='fakeimg' style={{ height: "300px" }}>
-                  <img
-                    src={data?.images?.thumb}
-                    className='img-fluid blog_images'
-                  />
-                </div>
-                <p className='postbody1'>
-                  {data?.excerpt}
-                  <Link to={`/blog_details/${data.slug}`}>
-                    <span className='blog-readmoretxt'> Read More</span>
+          {blogpost.map((data, i) =>
+            i === 0 ? (
+              <div className='blog-container'>
+                <article className='post-card post tag-salary tag-hr-manager tag-hr tag-manager tag-raise tag-negotiation tag-employee featured post-card-large'>
+                  <Link
+                    to={`/blog_details/${data?.slug}`}
+                    className='post-card-image-link'>
+                    <img
+                      className='post-card-image'
+                      sizes='(max-width: 1000px) 400px, 800px'
+                      src={data?.images?.thumb}
+                      loading='lazy'
+                    />
                   </Link>
-                </p>
+
+                  <div className='post-card-content'>
+                    <Link
+                      to={`/blog_details/${data?.slug}`}
+                      className='post-card-content-link'>
+                      <header className='post-card-header'>
+                        <div className='post-card-tags'>
+                          <span className='post-card-primary-tag'></span>
+                          <span className='post-card-featured'>
+                            <svg
+                              width='16'
+                              height='17'
+                              viewBox='0 0 16 17'
+                              fill='none'
+                              xmlns='http://www.w3.org/2000/svg'>
+                              <path
+                                d='M4.49365 4.58752C3.53115 6.03752 2.74365 7.70002 2.74365 9.25002C2.74365 10.6424 3.29678 11.9778 4.28134 12.9623C5.26591 13.9469 6.60127 14.5 7.99365 14.5C9.38604 14.5 10.7214 13.9469 11.706 12.9623C12.6905 11.9778 13.2437 10.6424 13.2437 9.25002C13.2437 6.00002 10.9937 3.50002 9.16865 1.68127L6.99365 6.25002L4.49365 4.58752Z'
+                                stroke='currentColor'
+                                stroke-width='2'
+                                stroke-linecap='round'
+                                stroke-linejoin='round'></path>
+                            </svg>{" "}
+                            Featured
+                          </span>
+                        </div>
+                        <h2 className='post-card-title'>{data?.title}</h2>
+                      </header>
+                      <div className='post-card-excerpt'>{data?.excerpt}</div>
+                    </Link>
+
+                    <footer className='post-card-meta'>
+                      <time className='post-card-meta-date'>
+                        {formatTime(data?.created_at)}
+                      </time>
+                      <span className='post-card-meta-length'>{data?.read_duration} min read</span>
+                    </footer>
+                  </div>
+                </article>
               </div>
-            ))}
-          </div>
-          <div className='rightcolumn'>
-            <div className='blog_card'>
-              <h2>About Us</h2>
-              <div className='fakeimg' style={{ height: "100px" }}>
-                <img
-                  src={oilengineers}
-                  className='img-fluid oilengimg'
-                  alt='pic3'
-                />
-              </div>
-              <p>
-                Molecular is a technology-driven workforce management solution
-                for technical specialists in Africa’s natural gas industry
-              </p>
-            </div>
-            <div className='blog_card'>
-              <h2>Popular Post</h2>
-              {state?.blogpost?.data?.splice(0,6)?.map((data, i) => (
-                <div key={i}>
-                  <Link to={`/blog_details/${data.slug}`}>
-                    <div className='fakeimg2 '>
+            ) : (
+              <>
+                <div className='col-md-4 pl23'>
+                  <article className='post-card post tag-startup tag-fintech tag-crypto tag-cryptocurrency dynamic'>
+                    <Link
+                      to={`/blog_details/${data?.slug}`}
+                      className='post-card-image-link'>
                       <img
+                        className='post-card-image'
+                        sizes='(max-width: 1000px) 400px, 800px'
                         src={data?.images?.thumb}
-                        className='img-fluid blog_images'
+                        loading='lazy'
                       />
-                      <span className='text-gray popularpost'>
-                        {data?.subtitle}, {formatTime(data?.created_at)}
-                      </span>
+                    </Link>
+
+                    <div className='post-card-content'>
+                      <Link
+                        to={`/blog_details/${data.slug}`}
+                        className='post-card-content-link'>
+                        <header className='post-card-header'>
+                          <div className='post-card-tags'>
+                            <span className='post-card-primary-tag'>
+                              {/* Startup */}
+                            </span>
+                          </div>
+                          <h2 className='post-card-title'>{data?.title}</h2>
+                        </header>
+                        <div className='post-card-excerpt'>{data?.excerpt}</div>
+                      </Link>
+
+                      <footer className='post-card-meta'>
+                        <time className='post-card-meta-date'>
+                          {formatTime(data?.created_at)}
+                        </time>
+                        <span className='post-card-meta-length'>
+                        {data?.read_duration} min read
+                        </span>
+                      </footer>
                     </div>
-                  </Link>
-                  <br />
+                  </article>
                 </div>
-              ))}
-            </div>
-            {/* <div className="blog_card">
-              <h3>Follow Us</h3>
-              <p>Some text..</p>
-            </div>  */}
-          </div>
+              </>
+            )
+          )}
         </div>
       </div>
       <Footer />

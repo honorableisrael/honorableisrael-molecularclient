@@ -42,7 +42,7 @@ const EditBlogPost = withRouter((props) => {
     feature: 0,
   });
   const [images, setImages] = useState([]);
-
+ 
   useEffect(() => {
     if (images.length < 1) {
       return;
@@ -51,7 +51,6 @@ const EditBlogPost = withRouter((props) => {
 
   const handleImages = (e) => {
     const objectUrl = URL.createObjectURL(e.target.files[0])
-    console.log(objectUrl)
     setState({
       ...state,
       featured_image: e.target.files[0],
@@ -126,6 +125,7 @@ const EditBlogPost = withRouter((props) => {
       });
     }
   }, [body]);
+  
   const EditPost = () => {
     const token = returnAdminToken();
     const data = new FormData();
@@ -178,7 +178,6 @@ const EditBlogPost = withRouter((props) => {
         notify("Sorry failed to update please try again later");
       });
   };
-  console.log(photo, "photo");
 
   return (
     <>
@@ -230,7 +229,7 @@ const EditBlogPost = withRouter((props) => {
                         </Form.Group>
                       </Col>
                     </Row>
-                    <Row>
+                    {/* <Row>
                       <Col md={6} className='formsection1'>
                         <Form.Group className="bold-text">
                           <h6 className='userprofile'>Sub title</h6>
@@ -255,8 +254,8 @@ const EditBlogPost = withRouter((props) => {
                           />
                         </Form.Group>
                       </Col>
-                    </Row>
-                    <Row>
+                    </Row> */}
+                    {/* <Row>
                       <Col md={6} className='formsection1'>
                         <Form.Group className="bold-text">
                           <h6 className='userprofile'>Meta Tag</h6>
@@ -282,7 +281,7 @@ const EditBlogPost = withRouter((props) => {
                           />
                         </Form.Group>
                       </Col>
-                    </Row>
+                    </Row> */}
                     <Row>
                       <Col md={12} className='formsection1'>
                         <Form.Group className="bold-text">

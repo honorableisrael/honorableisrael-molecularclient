@@ -104,7 +104,6 @@ const NewBlogPost = () => {
   }: any = state;
 
   const CreatePost = () => {
-    console.log(draftToHtml(convertToRaw(contentState.getCurrentContent())));
     const token = returnAdminToken();
     const data = new FormData();
     data.append("featured_image", featured_image);
@@ -146,8 +145,8 @@ const NewBlogPost = () => {
           ...state,
           isloading: false,
         });
-        if (err?.response?.status == 400) {
-          return notify(err?.response?.data?.message);
+        if (err?.response?.status == 406) {
+          return notify(err?.response?.data?.message,"D");
         }
         console.log(err);
       });
@@ -204,7 +203,7 @@ const NewBlogPost = () => {
                       </Col>
                     </Row>
                     <Row>
-                      <Col md={6} className='formsection1'>
+                      {/* <Col md={6} className='formsection1'>
                         <Form.Group className="bold-text">
                           <h6 className='userprofile'>Sub title</h6>
                           <textarea
@@ -215,8 +214,8 @@ const NewBlogPost = () => {
                             placeholder=''
                           />
                         </Form.Group>
-                      </Col>
-                      <Col md={6} className='formsection1'>
+                      </Col> */}
+                      {/* <Col md={6} className='formsection1'>
                         <Form.Group className="bold-text">
                           <h6 className='userprofile'>Title tag</h6>
                           <textarea
@@ -227,9 +226,9 @@ const NewBlogPost = () => {
                             placeholder=''
                           />
                         </Form.Group>
-                      </Col>
+                      </Col> */}
                     </Row>
-                    <Row>
+                    {/* <Row>
                       <Col md={6} className='formsection1'>
                         <Form.Group className="bold-text">
                           <h6 className='userprofile'>Meta Tag</h6>
@@ -255,7 +254,7 @@ const NewBlogPost = () => {
                           />
                         </Form.Group>
                       </Col>
-                    </Row>
+                    </Row> */}
                     <Row>
                       <Col md={12} className='formsection1'>
                         <Form.Group className="bold-text">
@@ -361,7 +360,7 @@ const NewBlogPost = () => {
       <ToastContainer
         enableMultiContainer
         containerId={"B"}
-        toastClassName='bg-info text-white'
+        toastClassName='bg-success text-white'
         hideProgressBar={true}
         position={"top-right"}
       />
