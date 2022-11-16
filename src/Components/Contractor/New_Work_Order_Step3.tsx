@@ -58,15 +58,14 @@ const NewWorkOrderStep3 = () => {
     window.scrollTo(-0, -0);
     const firstList: any = localStorage.getItem("first_step");
     const firstData = firstList ? JSON.parse(firstList) : "";
-    console.log(firstData);
     const secondList: any = localStorage.getItem("second_step");
     const secondData = secondList ? JSON.parse(secondList) : "";
-    console.log(secondData);
     setState({
       ...state,
       ...secondData,
       ...firstData,
     });
+
   }, []);
   return (
     <>

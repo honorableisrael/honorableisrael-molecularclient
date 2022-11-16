@@ -562,7 +562,7 @@ const Admin_Invoice_details = (props) => {
                               <thead className='theadinvoice'>
                                 <tr>
                                   <th className='tablehead'>Date</th>
-                                  <th className='tablehead'>Specialist Cost</th>
+                                  <th className='tablehead'>Cost</th>
 
                                   <th className='tablehead'>Status</th>
                                   <th className='tablehead'>Cycle</th>

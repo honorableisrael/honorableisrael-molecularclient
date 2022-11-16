@@ -818,7 +818,7 @@ text {
   font-weight: normal;
   font-size: 16px;
   line-height: 22px;
-  padding-top: 3rem;
+  padding-top: 1rem;
   padding-left: 1rem;
   padding-right: 1rem;
 }
@@ -1230,7 +1230,7 @@ text {
     padding: 1rem 0px !important;
   }
 }
-.fixedtitle a{
+.fixedtitle a {
   width: 50px !important;
 }
 .glead {
@@ -2108,9 +2108,28 @@ button:disabled {
   outline: none;
   color: #fff;
 }
-.lightcolor{
+.lightcolor {
   color: #4e4c4c;
 }
-.flex-wrap{
+.flex-wrap {
   flex-wrap: wrap;
+}
+.pt332 {
+  padding-top: 1rem;
+}
+.addmror {
+  color: var(--molecular-orange);
+  padding: 0.5rem;
+  border: 1px solid var(--molecular-orange);
+  margin-bottom: 1rem;
+  position: relative;
+  bottom: 2rem;
+  cursor: pointer;
+  font-weight: 800;
+}
+.flex-right{
+  justify-content: flex-end;
+}
+.mt331{
+  margin-top: 2rem;
 }

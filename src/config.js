@@ -133,3 +133,6 @@ export const loggedInDetails = () => {
     : window.location.assign("/");
   return token;
 }
+
+export const no_of_welders = 6
+export const no_of_fitters = 2

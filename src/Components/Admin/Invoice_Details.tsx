@@ -699,7 +699,7 @@ const Admin_Invoice_details = (props) => {
                                       )}
                                     </td> */}
                                     <td>{data?.cycle}</td>
-                                    <td>
+                                    <td className="flex1222">
                                       {data?.status == "Paid" &&
                                       !data.paid_specialists ? (
                                         <Button

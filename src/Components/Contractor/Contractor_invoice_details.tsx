@@ -394,7 +394,6 @@ const ContractorInvoiceDetails = (props) => {
                 }>
                 {"Cancel"}
               </div>
-
               <Button
                 className='greenbtn2 btn-success'
                 disabled

@@ -906,7 +906,7 @@ a:hover {
   font-weight: normal;
   font-size: 16px;
   line-height: 22px;
-  padding-top: 3rem;
+  padding-top: 1rem;
   padding-left: 1rem;
   padding-right: 1rem;
 }
@@ -2873,7 +2873,7 @@ label i {
   right: 2rem;
 }
 .fbn1 {
-  display: flex;
+  display: block;
 }
 .fbn1 div {
   margin-right: 1rem;
@@ -3519,4 +3519,9 @@ label i {
   text-align: center;
   font-size: 12px;
   margin-right: .3rem;
+}
+
+.flex1222{
+  display: flex;
+  align-items: center;
 }
