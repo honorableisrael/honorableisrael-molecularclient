@@ -68,66 +68,63 @@ const Navlist = ({ open }) => {
         <li>Our Services</li>
       </NavHashLink> */}
       <NavHashLink
-        to="/contractorlanding"
+        to='/contractorlanding'
         activeStyle={{
           color: "#222073",
           lineHeight: "29px",
           borderBottom: "4px solid #fd8c00",
         }}
-        className="homenavlnks"
-      >
+        className='homenavlnks'>
         <li>Hire Specialist</li>
       </NavHashLink>
       <NavHashLink
-        to="/specialistlanding"
+        to='/specialistlanding'
         activeStyle={{
           color: "#222073",
           lineHeight: "29px",
           borderBottom: "4px solid #fd8c00",
         }}
-        className="homenavlnks"
-      >
+        className='homenavlnks'>
         <li>Find work</li>
       </NavHashLink>
       <NavHashLink
-        to="/Industry_segments"
-        className="homenavlnks"
+        to='/Industry_segments'
+        className='homenavlnks'
         activeStyle={{
           color: "#222073",
           lineHeight: "29px",
           borderBottom: "4px solid #fd8c00",
-        }}
-      >
+        }}>
         <li>Industry Segments</li>
       </NavHashLink>
       <NavHashLink
-        to="/learnmore"
-        className="homenavlnks"
+        to='/learnmore'
+        className='homenavlnks'
         activeStyle={{
           color: "#222073",
           lineHeight: "29px",
           borderBottom: "4px solid #fd8c00",
-        }}
-      >
+        }}>
         <li>What we do</li>
       </NavHashLink>
-      <NavHashLink
-        to="/blog"
-        className="homenavlnks"
-        activeStyle={{
-          color: "#222073",
-          lineHeight: "29px",
-          borderBottom: "4px solid #fd8c00",
-        }}
+      <a
+        target='blank'
+        href='https://blog.molecularpro.co'
+        className='homenavlnks'
+        // activeStyle={{
+        //   color: "#222073",
+        //   lineHeight: "29px",
+        //   borderBottom: "4px solid #fd8c00",
+        // }}
       >
         <li>Blog</li>
-      </NavHashLink>
+      </a>
       <NavHashLink
-        className="details"
-        to="/signin"
+        className='details'
+        to='/signin'
         // activeStyle={{ background: "#fd8b003b", color: "#fd8c00" }}
       >
-        <li className="nav-login-btn">Login</li>
+        <li className='nav-login-btn'>Login</li>
       </NavHashLink>
     </Ul>
   );

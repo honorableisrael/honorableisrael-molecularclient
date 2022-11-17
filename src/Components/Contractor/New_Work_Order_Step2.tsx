@@ -519,6 +519,7 @@ const NewWorkOrderStep2 = withRouter((props) => {
                           value={pipelength}
                           className='userfield'
                           id='pipelength'
+                          min={1}
                           onChange={onchange}
                           placeholder=''
                         />
@@ -532,6 +533,7 @@ const NewWorkOrderStep2 = withRouter((props) => {
                         <Form.Control
                           type='number'
                           value={no_of_joints}
+                          min={1}
                           className='userfield'
                           id='no_of_joints'
                           onChange={onchange}
@@ -795,11 +797,24 @@ const NewWorkOrderStep2 = withRouter((props) => {
                                   className='userfield'
                                   id='no_of_specialist'
                                   onChange={onchange}
+                                  min={1}
                                   placeholder=''
                                   onBlur={() => Add_New_Config("specialist")}
                                 />
                               </Form.Group>
                             </Col>
+                            <Row>
+                            <Col md={12} className='addmro1 dmro1'>
+                              <div className='addmro'>
+                                <img
+                                  src={Addmore}
+                                  alt='Add more'
+                                  className='Add__more'
+                                  onClick={() => Add_New_Config("specialist")}
+                                />
+                              </div>
+                            </Col>
+                          </Row>
                             {specialist_config?.map((data, i) => (
                               <Col md={12} className='ttp_' key={i}>
                                 <div className='closticon'>
@@ -832,18 +847,6 @@ const NewWorkOrderStep2 = withRouter((props) => {
                                 </div>
                               </Col>
                             ))}
-                          </Row>
-                          <Row>
-                            <Col md={12} className='addmro1 dmro1'>
-                              <div className='addmro'>
-                                <img
-                                  src={Addmore}
-                                  alt='Add more'
-                                  className='Add__more'
-                                  onClick={() => Add_New_Config("specialist")}
-                                />
-                              </div>
-                            </Col>
                           </Row>
                           <Row>
                             {/* <Col md={12}>

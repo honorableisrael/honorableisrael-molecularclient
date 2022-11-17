@@ -35,9 +35,9 @@ const Footer = () => {
               <Link to="/learnmore">
                 <p className="footer-links">What we do</p>
               </Link>
-              <Link to="/blog">
+              <a href="https://blog.molecularpro.co" target="blank">
                 <p className="footer-links">Blog</p>
-              </Link>
+              </a>
               <Link to="/contactus">
                 <p className="footer-links">Contact us</p>
               </Link>
