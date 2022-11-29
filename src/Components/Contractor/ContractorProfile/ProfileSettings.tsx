@@ -547,7 +547,7 @@ const Contractor_Profile = withRouter((props) => {
                         Password
                       </div>
                     )}
-                    {fourthtab ? (
+                    {/* {fourthtab ? (
                       <div
                         className="Profile2002 Profile2002a"
                         onClick={() => switchTab("fourthtab")}
@@ -561,7 +561,7 @@ const Contractor_Profile = withRouter((props) => {
                       >
                         Deactivate Account
                       </div>
-                    )}
+                    )} */}
                   </div>
                   {firsttab && (
                     <>

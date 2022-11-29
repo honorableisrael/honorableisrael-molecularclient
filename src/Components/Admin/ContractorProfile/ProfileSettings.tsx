@@ -454,7 +454,7 @@ const AdminProfile = (props) => {
                         Password
                       </div>
                     )}
-                    {fourthtab ? (
+                    {/* {fourthtab ? (
                       <div
                         className="Profile2002 Profile2002a"
                         onClick={() => switchTab("fourthtab")}
@@ -468,7 +468,7 @@ const AdminProfile = (props) => {
                       >
                         Deactivate Account
                       </div>
-                    )}
+                    )} */}
                   </div>
                   {firsttab && (
                     <>

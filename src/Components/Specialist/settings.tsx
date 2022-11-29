@@ -767,7 +767,7 @@ const SpecialistSettings = () => {
                         Password Change
                       </div>
                     )}
-                    {fourthtab ? (
+                    {/* {fourthtab ? (
                       <div
                         className='Profile2002 Profile2002a'
                         onClick={() => switchTab("fourthtab")}>
@@ -779,7 +779,7 @@ const SpecialistSettings = () => {
                         onClick={() => switchTab("fourthtab")}>
                         Deactivate Account
                       </div>
-                    )}
+                    )} */}
                   </div>
                   {firsttab && (
                     <div>

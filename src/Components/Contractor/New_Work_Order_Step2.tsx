@@ -755,6 +755,7 @@ const NewWorkOrderStep2 = withRouter((props) => {
                               </button>
                             </span> */}
                           <Row>
+                          <hr className='mb-5 mt-2 pr-2' />
                             <Col md={12}>
                               <div>
                                 <h6 className='userprofile darkheader'>
@@ -762,6 +763,38 @@ const NewWorkOrderStep2 = withRouter((props) => {
                                 </h6>
                               </div>
                             </Col>
+                            {specialist_config?.map((data, i) => (
+                              <Col md={12} className='ttp_' key={i}>
+                                <div className='closticon'>
+                                  <span
+                                    className='tymes1'
+                                    onClick={(i) =>
+                                      deleteConfig(i, "specialist")
+                                    }
+                                    title='Delete'>
+                                    &times;
+                                  </span>
+                                </div>
+                                <div className='main_wrap_ws main_wrap_ws22 graybg'>
+                                  <div>
+                                    <h6 className='userprofile12 userprofile123'>
+                                      Specialist Skill
+                                    </h6>
+                                    <div className='Construction12'>
+                                      {data?.title_of_specialist}
+                                    </div>
+                                  </div>
+                                  <div className=''>
+                                    <h6 className='userprofile12 userprofile123'>
+                                      Number of Specialist
+                                    </h6>
+                                    <div className='Construction12'>
+                                      {data?.no_of_specialist}
+                                    </div>
+                                  </div>
+                                </div>
+                              </Col>
+                            ))}
                             <Col md={4} className='formsection1'>
                               <Form.Group>
                                 <h6 className='userprofile userprofile12'>
@@ -815,38 +848,6 @@ const NewWorkOrderStep2 = withRouter((props) => {
                               </div>
                             </Col>
                           </Row>
-                            {specialist_config?.map((data, i) => (
-                              <Col md={12} className='ttp_' key={i}>
-                                <div className='closticon'>
-                                  <span
-                                    className='tymes1'
-                                    onClick={(i) =>
-                                      deleteConfig(i, "specialist")
-                                    }
-                                    title='Delete'>
-                                    &times;
-                                  </span>
-                                </div>
-                                <div className='main_wrap_ws main_wrap_ws22 graybg'>
-                                  <div>
-                                    <h6 className='userprofile12 userprofile123'>
-                                      Specialist Skill
-                                    </h6>
-                                    <div className='Construction12'>
-                                      {data?.title_of_specialist}
-                                    </div>
-                                  </div>
-                                  <div className=''>
-                                    <h6 className='userprofile12 userprofile123'>
-                                      Number of Specialist
-                                    </h6>
-                                    <div className='Construction12'>
-                                      {data?.no_of_specialist}
-                                    </div>
-                                  </div>
-                                </div>
-                              </Col>
-                            ))}
                           </Row>
                           <Row>
                             {/* <Col md={12}>
