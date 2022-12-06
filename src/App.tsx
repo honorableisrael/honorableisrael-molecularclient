@@ -82,6 +82,7 @@ import BlogDetails from "./Components/Landing_page/blogdetails";
 import PreviewBlog from "./Components/Landing_page/blogpreview";
 import EditBlogPost from "./Components/Admin/Edit_Blog_Post";
 import Blog_Revamp from "./Components/Landing_page/blog_v2";
+import WorkSheetAdmin from "./Components/Admin/WorkSheet";
 
 const App: any = ({ history }) => {
   return (
@@ -186,6 +187,11 @@ const App: any = ({ history }) => {
                 path='/admin_evaluation_step3'
                 component={AdminWorkOrderEvaluationStep3}
               />
+              <Route
+                path='/admin_worksheet/:id'
+                component={WorkSheetAdmin}
+              />
+              
               <Route path='/admin_dashboard' component={AdminDashboard} />
               <Route path='/contractor_transactions' component={Contractor_Transactions} />
               <Route path='/specialist_transactions' component={Specialist_Transactions} />

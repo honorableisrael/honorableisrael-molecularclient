@@ -428,6 +428,47 @@ const Admin_Sub_Invoice_Details = (props) => {
       });
   };
 
+  const create_work_sheet = () => {
+    setState({
+      ...state,
+      isloading: true,
+    });
+    axios
+      .all([
+        axios.post(
+          `${API}/admin/sub-invoices/${props.match.params.id}/worksheet`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${returnAdminToken().access_token}`,
+            },
+          }
+        ),
+      ])
+      .then(
+        axios.spread((res) => {
+          notify("Successful");
+          reloadPage();
+          setState({
+            ...state,
+            isloading: false,
+          });
+        })
+      )
+      .catch((err) => {
+        setState({
+          ...state,
+          isloading: false,
+        });
+        if (err?.response?.status === 400) {
+          return notify(err?.response?.data?.message);
+        }
+        if (err?.response?.status === 500) {
+          notify("Internal server error","B");
+        }
+        console.log(err);
+      });
+  };
   const {
     show_modal_1,
     type,
@@ -447,7 +488,7 @@ const Admin_Sub_Invoice_Details = (props) => {
     selected_id,
     show,
   } = state;
-  console.log(invoice_details);
+
   return (
     <>
       <Modal
@@ -557,6 +598,21 @@ const Admin_Sub_Invoice_Details = (props) => {
                 Print
               </Button>
             </div>
+            <div className='text-right	'>
+              {invoice_details?.worksheet == null ? (
+                <Button
+                  className='payspecialist1 h36'
+                  onClick={create_work_sheet}>
+                  {isloading ? "processing" : "Create work sheet"}
+                </Button>
+              ) : (
+                <Link to={`/admin_worksheet/${invoice_details?.worksheet?.id}`}>
+                  <Button className='payspecialist1 h36'>
+                    {isloading ? "processing" : "View work sheet"}
+                  </Button>
+                </Link>
+              )}
+            </div>
             <Row className='mgtop'>
               <Col md={12} className='mgtop345'>
                 <div className='job23_1a hidden__1'>
@@ -564,13 +620,13 @@ const Admin_Sub_Invoice_Details = (props) => {
                     <div className='overview12 overviewflex-down'>
                       <Col md={12} className='plf'>
                         <div className=''>
-                          {invoice_details?.status=="Unpaid" && (
+                          {invoice_details?.status == "Unpaid" && (
                             <div className='box_inv outerpink'>
                               <span className='box_smalltick smalltickpink'></span>
                               {invoice_details?.status}
                             </div>
                           )}
-                          {invoice_details?.status=="Paid" && (
+                          {invoice_details?.status == "Paid" && (
                             <span>
                               <span className='acceptedinvoc'>Paid</span>
                             </span>
