@@ -188,7 +188,7 @@ const App: any = ({ history }) => {
                 component={AdminWorkOrderEvaluationStep3}
               />
               <Route
-                path='/admin_worksheet/:id'
+                path='/admin_worksheet/:id/:work_order_id'
                 component={WorkSheetAdmin}
               />
               

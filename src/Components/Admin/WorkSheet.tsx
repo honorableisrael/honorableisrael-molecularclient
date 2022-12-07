@@ -58,6 +58,7 @@ const WorkSheetAdmin = (props) => {
     modal_state: "",
     show_modal: false,
     show_modal_1: false,
+    work_sheet: {},
   });
 
   const handleClose = () =>
@@ -115,22 +116,6 @@ const WorkSheetAdmin = (props) => {
     }
   };
 
-  const openPaymentModal = (id) => {
-    setState({
-      ...state,
-      show: true,
-      selected_id: id,
-    });
-  };
-
-  const openPaymentModal2 = (id) => {
-    setState({
-      ...state,
-      show2: true,
-      selected_id: id,
-    });
-  };
-
   useEffect(() => {
     window.scrollTo(-0, -0);
     const invoice_: any = localStorage.getItem("invoice_id");
@@ -146,13 +131,20 @@ const WorkSheetAdmin = (props) => {
             headers: { Authorization: `Bearer ${token.access_token}` },
           }
         ),
+        axios.get(
+          `${API}/admin/work-orders/${props?.match?.params?.work_order_id}`,
+          {
+            headers: { Authorization: `Bearer ${token.access_token}` },
+          }
+        ),
       ])
       .then(
-        axios.spread((res) => {
-          console.log(res);
+        axios.spread((res, res1) => {
+          console.log(res1);
           setState({
             ...state,
-            work_order_detail: res.data.data,
+            work_order_detail: res1.data.data,
+            work_sheet: res.data.data,
           });
         })
       )
@@ -344,7 +336,7 @@ const WorkSheetAdmin = (props) => {
     show_modal,
     worksheet_details,
     work_order_detail,
-    order_title,
+    work_sheet,
     end_date,
     reason,
     isloading,
@@ -355,7 +347,8 @@ const WorkSheetAdmin = (props) => {
     selected_id,
     show,
   } = state;
-
+  console.log(work_sheet, "work_sheet");
+  console.log(work_order_detail, "work_order_detail");
   return (
     <>
       <Modal
@@ -481,23 +474,23 @@ const WorkSheetAdmin = (props) => {
                           <div className=''>
                             <h5>
                               PROJECT:{" "}
-                              <span className='text-teal'>
-                                <b> SLDZ PHASE 2D</b>
+                              <span className='text-teal text-capitalize'>
+                                <b> {work_order_detail?.title}</b>
                               </span>
                             </h5>
                             <h5>
                               PIPELINE WELDING WORK DETAILS:{" "}
-                              <span className='text-teal'>
-                                <b>
-                                  {" "}
-                                  Main line Above Ground Lay and Weld Scope
-                                </b>
+                              <span className='text-teal text-capitalize'>
+                                <b> {work_order_detail?.description}</b>
                               </span>
                             </h5>
                           </div>
                           <div>
                             {" "}
-                            FROM: <b> 07/11/2022 </b> TO: <b> 14/11/2022</b>
+                            FROM: <b>
+                              {" "}
+                              {work_order_detail?.start_date}{" "}
+                            </b> TO: <b> {work_order_detail?.end_date}</b>
                           </div>
                           <div className='ing_11'>
                             {isloading && (
@@ -507,44 +500,40 @@ const WorkSheetAdmin = (props) => {
                           </div>
                         </div>
                         <div className=''></div>
-                        <div className='deployedsplsttable'>
-                          <h6 className='text-uppercase text-teal'>
-                            {" "}
-                            <b> SPREAD 1 WORK DETAILS</b>
-                          </h6>
-                          <Table
-                            hover
-                            responsive
-                            className='schedule_payment_table'>
-                            <thead>
-                              <tr>
-                                <th scope='col'>PIPE SIZE</th>
-                                <th scope='col'>PIPE SCHEDULE</th>
-                                <th scope='col'>NO OF JOINTS</th>
-                                <th scope='col'>NO OF INCHES</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {worksheet_details?.items?.map((data: any, i) => (
-                                <tr key={i}>
-                                  <td>{formatTime(data?.date)}</td>
-                                  <td>
-                                    <Link
-                                      to={`/admin_work_details/${data.work_order?.id}?inreview=true`}>
-                                      {data?.work_order?.title}{" "}
-                                    </Link>
-                                  </td>
-                                  <td className='dpslstnamecell pslstnamecell schedule_payment_first_td'>
-                                    <div className='dplsplusernmeimg'>
-                                      {/* <span></span> */}
-                                      &nbsp; &nbsp;
-                                      <div>{data.reference}</div>
-                                    </div>
-                                  </td>
-                                  <td className='contractorname'>
-                                    {FormatAmount(data?.amount)}
-                                  </td>
-                                  {/* <td>
+                        {work_sheet?.items?.map((item: any, i) => (
+                          <div className='deployedsplsttable'>
+                            <h6 className='text-uppercase text-teal'>
+                              {" "}
+                              <b> {item?.group?.name} WORK DETAILS</b>
+                            </h6>
+                            <Table
+                              hover
+                              responsive
+                              className='schedule_payment_table'>
+                              <thead>
+                                <tr>
+                                  <th scope='col'>PIPE SIZE</th>
+                                  <th scope='col'>PIPE SCHEDULE</th>
+                                  <th scope='col'>NO OF JOINTS</th>
+                                  <th scope='col'>NO OF INCHES</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {item?.items?.map((data: any, i) => (
+                                  <tr key={i}>
+                                    <td>{data?.pipe_size?.size}</td>
+                                    <td>{data?.pipe_schedule?.value}</td>
+                                    <td className='dpslstnamecell pslstnamecell schedule_payment_first_td'>
+                                      <div className='dplsplusernmeimg'>
+                                        {/* <span></span> */}
+                                        &nbsp; &nbsp;
+                                        <div>{data?.joints}</div>
+                                      </div>
+                                    </td>
+                                    <td className='contractorname'>
+                                      {data?.inches}
+                                    </td>
+                                    {/* <td>
                               {data?.actions?.can_pay && (
                                 <Button
                                   onClick={() => openModal(data.id,data)}
@@ -554,34 +543,38 @@ const WorkSheetAdmin = (props) => {
                                 </Button>
                               )}
                             </td> */}
-                                </tr>
-                              ))}
-                            </tbody>
-                          </Table>
-                          <div className='rcomponent'>
-                            <div className='inv_title2'>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </Table>
+                            <div className=''>
                               <div className=''>
                                 <h6 className='text-uppercase text-teal'>
                                   {" "}
-                                  Total No. of Inches completed by Spread 2 :{" "}
-                                  <b className='text-dark'>4000</b>
+                                  Total No. of Inches completed by {item?.group?.name} :{" "}
+                                  <b className='text-dark'>{item?.total_inches}</b>
                                 </h6>
-                              </div>
-                              <div className=''>
                                 <h6 className='text-uppercase text-teal'>
                                   {" "}
-                                  Total No. of Inches completed by all spreads:{" "}
-                                  <b className='text-dark'>7000</b>
+                                  Total No. of Joints completed by {item?.group?.name} :{" "}
+                                  <b className='text-dark'>{item?.total_joints}</b>
                                 </h6>
                               </div>
                             </div>
                           </div>
-                          <div className='text-center'>
-                            {worksheet_details?.items?.length == 0 &&
-                              !isloading &&
-                              "No record found"}
+                        ))}
+                        <div className='rcomponent'>
+                          <div className='inv_title2'>
+                            {/* <div className=''>
+                              <h6 className='text-uppercase text-teal'>
+                                {" "}
+                                Total No. of Inches completed by all spreads:{" "}
+                                <b className='text-dark'>7000</b>
+                              </h6>
+                            </div> */}
                           </div>
                         </div>
+
                         <div className='deployedsplsttable'>
                           <h6 className='text-uppercase text-teal'>
                             {" "}
@@ -593,7 +586,9 @@ const WorkSheetAdmin = (props) => {
                             className='schedule_payment_table'>
                             <thead>
                               <tr>
-                                <th className='w-50 pl-2'>GASFLEET</th>
+                                <th className='w-50 pl-2 text-uppercase'>
+                                  {work_order_detail?.contractor}
+                                </th>
                                 <th className='w-50 pl-2'>MOLECULAR PRO</th>
                               </tr>
                             </thead>

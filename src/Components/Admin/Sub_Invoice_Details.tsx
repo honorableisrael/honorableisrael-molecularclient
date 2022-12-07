@@ -606,7 +606,7 @@ const Admin_Sub_Invoice_Details = (props) => {
                   {isloading ? "processing" : "Create work sheet"}
                 </Button>
               ) : (
-                <Link to={`/admin_worksheet/${invoice_details?.worksheet?.id}`}>
+                <Link to={`/admin_worksheet/${invoice_details?.worksheet?.id}/${invoice_details?.work_order_id}`}>
                   <Button className='payspecialist1 h36'>
                     {isloading ? "processing" : "View work sheet"}
                   </Button>
