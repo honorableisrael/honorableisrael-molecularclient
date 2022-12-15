@@ -9,6 +9,7 @@ import {
   Button,
   Spinner,
   Card,
+  Table,
 } from "react-bootstrap";
 import "./contractor.css";
 import DashboardNav from "./navbar";
@@ -130,7 +131,7 @@ const Work_Details = (props: any) => {
     </>
   );
 };
-const Work_Sheet = (props: any) => {
+const Work_Sheet = withRouter((props: any) => {
   const [state, setState] = useState<any>({
     active1: "",
     collapseHeight: "0px",
@@ -153,7 +154,7 @@ const Work_Sheet = (props: any) => {
     const work_order = localStorage.getItem("work_order_details");
     const work_order_details = work_order ? JSON.parse(work_order) : "";
     axios
-      .get(`${API}/admin/work-orders/${work_order_details?.id}/worksheets`, {
+      .get(`${API}/admin/work-orders/${props.match.params.id}/worksheets`, {
         headers: { Authorization: `Bearer ${returnAdminToken().access_token}` },
       })
       .then((res) => {
@@ -206,6 +207,7 @@ const Work_Sheet = (props: any) => {
       });
   };
   const { active1, collapseHeight, chevron, work_sheet, isloading } = state;
+  console.log(work_sheet, "work_sheet");
   return (
     <>
       <Card>
@@ -229,43 +231,42 @@ const Work_Sheet = (props: any) => {
         ref={content1}>
         <>
           <div className='worksheet_1'>
-            {work_sheet.map((data: any, i) => (
-              <div className='tabledata tablecontent tablecont1'>
-                <div className='header_12 tablecont0'>
-                  <span>Worksheet Report {data.week}</span>
-                </div>
-                <div className='tablecont1'>
-                  <div className='worksheetdw worksheetdate1'>
-                    {" "}
-                    <img src={dwnload} alt='dwnload' className='dwnload1' />
-                    <a href={data.worksheet} target={"blank"}>
-                      Download
-                    </a>
-                  </div>
-                  <div className='worksheetdate'>{formatTime(data.date)}</div>
-                  <div className='upby'>
-                    uploaded by <br /> {data.uploaded_by}
-                  </div>
-                  <div className='upby'>
-                    {" "}
-                    <div>
-                      {data.approved ? "Approved" : "Awaiting Approval"}
-                    </div>
-                  </div>
-                  <div className='upby'>
-                    {data.sent ? (
-                      ""
-                    ) : (
-                      <span
-                        className='raise_inv'
-                        onClick={() => sendToContractor(data.id)}>
-                        {isloading ? "Sending" : "Send"}
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </div>
-            ))}
+            <Table hover responsive className='schedule_payment_table'>
+              <thead>
+                <tr>
+                  <th scope='col'>Reference</th>
+                  <th scope='col'>Start/End Date</th>
+                  <th scope='col'>Description</th>
+                  <th scope='col'>Status</th>
+                  <th scope='col'>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {work_sheet.map((data: any, i) => (
+                  <tr key={i}>
+                    <td>{data?.reference}</td>
+                    <td>
+                      {formatTime(data?.start_date)}
+                      {" to "}
+                      {formatTime(data?.end_date)}
+                    </td>
+                    <td className='dpslstnamecell pslstnamecell schedule_payment_first_td'>
+                      <div className='dplsplusernmeimg'>
+                        <div>{data?.description}</div>
+                      </div>
+                    </td>
+                    <td className='contractorname'>{data?.status}</td>
+                    <td>
+                      <Link
+                        to={`/admin_worksheet/${data?.id}/${props.match.params.id}`}>
+                        {" "}
+                        <Button className='btn-secondary'>View more</Button>
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
             {work_sheet?.length == 0 && (
               <Col md={11} className='containerforemptyorder1 cust20'>
                 <div className='containerforemptyorder'>
@@ -283,7 +284,7 @@ const Work_Sheet = (props: any) => {
       </div>
     </>
   );
-};
+});
 const Upfront_payment = (props: any) => {
   const [state, setState] = useState<any>({
     active1: "",
@@ -960,8 +961,6 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
       cost_show: true,
     });
   };
-
-
 
   const sendSLA = () => {
     const work_order = localStorage.getItem("work_order_details");
@@ -1804,7 +1803,8 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                             {" "}
                             <span className='viewall_'>
                               {" "}
-                              <Link to={`/deployedspecialist/${props.match.params.id}`}>
+                              <Link
+                                to={`/deployedspecialist/${props.match.params.id}`}>
                                 View all
                               </Link>{" "}
                             </span>{" "}

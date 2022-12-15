@@ -83,6 +83,9 @@ import PreviewBlog from "./Components/Landing_page/blogpreview";
 import EditBlogPost from "./Components/Admin/Edit_Blog_Post";
 import Blog_Revamp from "./Components/Landing_page/blog_v2";
 import WorkSheetAdmin from "./Components/Admin/WorkSheet";
+import CreateWorkSheet from "./Components/Specialist/CreateWorkSheet";
+import SpecialistWorkSheetPage from "./Components/Specialist/SpecialistWorkSheetPage";
+import WorkSheetContactor from './Components/Contractor/WorkSheet';
 
 const App: any = ({ history }) => {
   return (
@@ -191,6 +194,10 @@ const App: any = ({ history }) => {
                 path='/admin_worksheet/:id/:work_order_id'
                 component={WorkSheetAdmin}
               />
+              <Route
+                path='/contractor_worksheet/:id/:work_order_id'
+                component={WorkSheetContactor}
+              />
               
               <Route path='/admin_dashboard' component={AdminDashboard} />
               <Route path='/contractor_transactions' component={Contractor_Transactions} />
@@ -295,6 +302,15 @@ const App: any = ({ history }) => {
               <Route
                 path='/specialistdashboard'
                 component={SpecialistDashboard}
+              />
+              
+              <Route
+                path='/specialist_worksheet'
+                component={SpecialistWorkSheetPage}
+              />
+              <Route
+                path='/specialist_addpipeitem/:id'
+                component={CreateWorkSheet}
               />
               <Route
                 path='/specialistWorkOrderDetails'

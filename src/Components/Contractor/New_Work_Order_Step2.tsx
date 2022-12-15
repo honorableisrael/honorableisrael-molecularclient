@@ -579,7 +579,7 @@ const NewWorkOrderStep2 = withRouter((props) => {
                             <option
                               className='pipelength1 form-control specialization'
                               value={JSON.stringify({
-                                id: data.size,
+                                id: data.id,
                                 name: data.size,
                               })}>
                               {data.size}

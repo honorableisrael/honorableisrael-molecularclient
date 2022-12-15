@@ -19,10 +19,12 @@ import logo from "../../images/Molecular.png";
 import axios from "axios";
 import {
   API,
+  contractorToken,
   current_currency,
   FormatAmount,
   formatTime,
   notify,
+  refreshpage,
   reloadPage,
   returnAdminToken,
 } from "../../config";
@@ -30,7 +32,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { HashLink } from "react-router-hash-link";
 
-const WorkSheetAdmin = (props) => {
+const WorkSheetContactor = (props) => {
   const [state, setState] = useState<any>({
     invoice_details: {},
     country: "",
@@ -61,29 +63,10 @@ const WorkSheetAdmin = (props) => {
     work_sheet: {},
   });
 
-  const handleClose = () =>
-    setState({
-      ...state,
-      show_modal: false,
-    });
-
-  const handleShow = (type) =>
-    setState({
-      ...state,
-      show_modal: true,
-      modal_state: type,
-    });
-
   const handleClose1 = () =>
     setState({
       ...state,
       show_modal_1: false,
-    });
-
-  const handleShow1 = () =>
-    setState({
-      ...state,
-      show_modal_1: true,
     });
 
   const onchange = (e) => {
@@ -94,57 +77,28 @@ const WorkSheetAdmin = (props) => {
     });
   };
 
-  const onInputChange = (e) => {
-    const letterNumber = /^[A-Za-z]+$/;
-    if (e.target.value) {
-      return setState({
-        ...state,
-        [e.target.name]: e.target.value.replace(/[^0-9]+/g, ""), //only accept numbers
-      });
-    }
-    if (e.target.value < 0) {
-      return setState({
-        ...state,
-        [e.target.name]: 0,
-      });
-    }
-    if (e.target.value === "") {
-      return setState({
-        ...state,
-        [e.target.name]: 0,
-      });
-    }
-  };
-
   useEffect(() => {
     window.scrollTo(-0, -0);
     const invoice_: any = localStorage.getItem("invoice_id");
     const invoice = invoice_ ? JSON.parse(invoice_) : "";
-    const token = returnAdminToken();
+    const token = contractorToken();
     const work_order = localStorage.getItem("work_order_details");
     const work_order_details = work_order ? JSON.parse(work_order) : "";
     axios
       .all([
         axios.get(
-          `${API}/admin/work-orders/worksheets/${props?.match?.params?.id}`,
-          {
-            headers: { Authorization: `Bearer ${token.access_token}` },
-          }
-        ),
-        axios.get(
-          `${API}/admin/work-orders/${props?.match?.params?.work_order_id}`,
+          `${API}/contractor/work-orders/worksheets/${props?.match?.params?.id}`,
           {
             headers: { Authorization: `Bearer ${token.access_token}` },
           }
         ),
       ])
       .then(
-        axios.spread((res, res1) => {
-          console.log(res1);
+        axios.spread((res1) => {
           setState({
             ...state,
-            work_order_detail: res1.data.data,
-            work_sheet: res.data.data,
+            work_order_detail: work_order_details,
+            work_sheet: res1.data.data,
           });
         })
       )
@@ -157,176 +111,6 @@ const WorkSheetAdmin = (props) => {
       });
   }, []);
 
-  const schedule_Specailist_Payment = () => {
-    const work_order = localStorage.getItem("work_order_details");
-    const work_order_details = work_order ? JSON.parse(work_order) : "";
-    setState({
-      ...state,
-      isloading: true,
-    });
-    axios
-      .all([
-        axios.post(
-          `${API}/admin/sub-invoices/${selected_id}/paid`,
-          {},
-          {
-            headers: {
-              Authorization: `Bearer ${returnAdminToken().access_token}`,
-            },
-          }
-        ),
-      ])
-      .then(
-        axios.spread((res) => {
-          setTimeout(() => {
-            window.location.reload();
-          }, 2000);
-          notify("Successful");
-          console.log(res.data.data);
-          setState({
-            ...state,
-            isloading: false,
-          });
-        })
-      )
-      .catch((err) => {
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
-        setState({
-          ...state,
-          isloading: false,
-        });
-        if (err?.response?.status == 400) {
-          return notify(err?.response?.data?.message);
-        }
-        console.log(err);
-      });
-  };
-
-  const makePaymentToSpecialist = () => {
-    const work_order = localStorage.getItem("work_order_details");
-    const work_order_details = work_order ? JSON.parse(work_order) : "";
-    setState({
-      ...state,
-      isloading: true,
-    });
-    axios
-      .all([
-        axios.post(
-          `${API}/admin/sub-invoices/${selected_id}/specialists/paid`,
-          {},
-          {
-            headers: {
-              Authorization: `Bearer ${returnAdminToken().access_token}`,
-            },
-          }
-        ),
-      ])
-      .then(
-        axios.spread((res) => {
-          notify("Successful");
-          setTimeout(() => {
-            window.location.assign("/scheduled_payments");
-          }, 2000);
-          console.log(res.data.data);
-          setState({
-            ...state,
-            isloading: false,
-          });
-        })
-      )
-      .catch((err) => {
-        setState({
-          ...state,
-          isloading: false,
-        });
-        if (err?.response?.status == 400) {
-          return notify(err?.response?.data?.message);
-        }
-        console.log(err);
-      });
-  };
-
-  const SubmitCostExclusion = () => {
-    setState({
-      ...state,
-      isloading: true,
-    });
-    const data = { cost_exclusions };
-    axios
-      .all([
-        axios.post(
-          `${API}/admin/invoices/${props.match.params.id}/cost-exclusions`,
-          data,
-          {
-            headers: {
-              Authorization: `Bearer ${returnAdminToken().access_token}`,
-            },
-          }
-        ),
-      ])
-      .then(
-        axios.spread((res) => {
-          notify("Successful");
-          reloadPage();
-          setState({
-            ...state,
-            isloading: false,
-          });
-        })
-      )
-      .catch((err) => {
-        setState({
-          ...state,
-          isloading: false,
-        });
-        if (err?.response?.status == 400) {
-          return notify(err?.response?.data?.message);
-        }
-        console.log(err);
-      });
-  };
-
-  const SubmitConditions = () => {
-    setState({
-      ...state,
-      isloading: true,
-    });
-    const data = { conditions };
-    axios
-      .all([
-        axios.post(
-          `${API}/admin/invoices/${props.match.params.id}/conditions`,
-          data,
-          {
-            headers: {
-              Authorization: `Bearer ${returnAdminToken().access_token}`,
-            },
-          }
-        ),
-      ])
-      .then(
-        axios.spread((res) => {
-          notify("Successful");
-          reloadPage();
-          setState({
-            ...state,
-            isloading: false,
-          });
-        })
-      )
-      .catch((err) => {
-        setState({
-          ...state,
-          isloading: false,
-        });
-        if (err?.response?.status == 400) {
-          return notify(err?.response?.data?.message);
-        }
-        console.log(err);
-      });
-  };
   const SendWorkSheet = () => {
     setState({
       ...state,
@@ -366,7 +150,39 @@ const WorkSheetAdmin = (props) => {
         console.log(err);
       });
   };
-
+  const ApproveWorkSheet = () => {
+    setState({
+      ...state,
+      isloading: true,
+    });
+    axios
+      .post(
+        `${API}/contractor/work-orders/worksheets/${props?.match?.params?.id}/approve`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${contractorToken().access_token}`,
+          },
+        }
+      )
+      .then((res) => {
+        notify("Successfully approved worksheet");
+        console.log(res.data.data);
+        refreshpage();
+        setState({
+          ...state,
+          isloading: false,
+        });
+      })
+      .catch((err) => {
+        notify("failed to approve worksheet");
+        setState({
+          ...state,
+          isloading: false,
+        });
+        console.log(err);
+      });
+  };
   const {
     show_modal_1,
     type,
@@ -387,7 +203,6 @@ const WorkSheetAdmin = (props) => {
     show,
   } = state;
   console.log(work_sheet, "work_sheet");
-  console.log(work_order_detail, "work_order_detail");
   return (
     <>
       <Modal
@@ -414,7 +229,7 @@ const WorkSheetAdmin = (props) => {
           </Row>
           <Row>
             <Col md={12} className='terminate2'>
-              <div className='' onClick={makePaymentToSpecialist}>
+              <div className=''>
                 <Button className='btn-success primary3'>
                   {isloading ? "Processing" : "Confirm Payment"}
                 </Button>
@@ -442,9 +257,7 @@ const WorkSheetAdmin = (props) => {
         <Modal.Body>
           <Row>
             <Col md={12}>
-              <h6>
-                Are you sure you want to send this work sheet to the contractor
-              </h6>
+              <h6>Are you sure you want to approve this work sheet</h6>
             </Col>
           </Row>
           <Row>
@@ -459,7 +272,7 @@ const WorkSheetAdmin = (props) => {
                 }}>
                 Cancel
               </Button>
-              <div className='' onClick={SendWorkSheet}>
+              <div className='' onClick={ApproveWorkSheet}>
                 <Button className='btn-success primary3'>
                   {isloading ? "Processing" : "Proceed"}
                 </Button>
@@ -471,7 +284,7 @@ const WorkSheetAdmin = (props) => {
       <Container fluid={true} className='dasbwr nopaddrt tainer3'>
         <Helmet>
           <meta charSet='utf-8' />
-          <title>Molecular - Admin Work Order</title>
+          <title>Molecular - Contractor Work Order</title>
           <link />
         </Helmet>
         <Row>
@@ -491,7 +304,7 @@ const WorkSheetAdmin = (props) => {
                 WORK SHEET
               </div>
               <div className='text-right	'>
-                {!work_sheet?.sent ? (
+                {!work_sheet?.approved ? (
                   <Button
                     className='payspecialist1 h36'
                     onClick={() => {
@@ -500,7 +313,7 @@ const WorkSheetAdmin = (props) => {
                         show2: true,
                       });
                     }}>
-                    {isloading ? "processing" : "Send Worksheet"}
+                    {isloading ? "processing" : "Approve Worksheet"}
                   </Button>
                 ) : (
                   ""
@@ -669,35 +482,6 @@ const WorkSheetAdmin = (props) => {
                             </div> */}
                           </div>
                         </div>
-
-                        <div className='deployedsplsttable'>
-                          <h6 className='text-uppercase text-teal'>
-                            {" "}
-                            <b> APPROVAL</b>
-                          </h6>
-                          <Table
-                            hover
-                            responsive
-                            className='schedule_payment_table'>
-                            <thead>
-                              <tr>
-                                <th className='w-50 pl-2 text-uppercase'>
-                                  {work_order_detail?.contractor}
-                                </th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td>
-                                  NAME: <b> {work_sheet?.approver?.name}</b>{" "}
-                                  <br />
-                                  <br />
-                                  DATE: {formatTime(work_sheet?.approved_at)}
-                                </td>
-                              </tr>
-                            </tbody>
-                          </Table>
-                        </div>
                       </Col>
                     </div>
                   </div>
@@ -707,43 +491,6 @@ const WorkSheetAdmin = (props) => {
           </Col>
         </Row>
       </Container>
-      <Modal
-        show={show_modal}
-        onHide={handleClose}
-        backdrop='static'
-        keyboard={false}
-        size={"lg"}>
-        <Modal.Header>
-          <Modal.Title>
-            {" "}
-            <span className='fl3e4'>Append Cost Exclusion</span>{" "}
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body className=''>
-          <div className='row inputlabel label_pad justify-between'>
-            <div className='col-md-12 form_waller'>
-              <span className='rdfrmlbl rdfrmlblw2'>
-                {" "}
-                Cost Exclusions <span className='text-danger'>*</span>
-              </span>
-              <textarea
-                name='cost_exclusions'
-                value={cost_exclusions}
-                onChange={onchange}
-                className='form-control forminput hu0'
-              />
-            </div>
-          </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant='secondary' onClick={handleClose}>
-            Back
-          </Button>
-          <Button variant='' className='bvnbt' onClick={SubmitCostExclusion}>
-            {state.isloading ? "Processing" : "Submit"}
-          </Button>
-        </Modal.Footer>
-      </Modal>
       <Modal
         show={show_modal_1}
         onHide={handleClose1}
@@ -776,9 +523,6 @@ const WorkSheetAdmin = (props) => {
           <Button variant='secondary' onClick={handleClose1}>
             Back
           </Button>
-          <Button variant='' className='bvnbt' onClick={SubmitConditions}>
-            {state.isloading ? "Processing" : "Submit"}
-          </Button>
         </Modal.Footer>
       </Modal>
       <ToastContainer
@@ -792,4 +536,4 @@ const WorkSheetAdmin = (props) => {
   );
 };
 
-export default WorkSheetAdmin;
+export default WorkSheetContactor;

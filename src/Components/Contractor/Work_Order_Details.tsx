@@ -9,6 +9,7 @@ import {
   Button,
   Card,
   Spinner,
+  Table,
 } from "react-bootstrap";
 import "./contractor.css";
 import DashboardNav from "./navbar";
@@ -47,6 +48,7 @@ const Work_Details = (props: any) => {
     collapseHeight: "0px",
     chevron: "",
     chevron1: "",
+    work_order_details: "",
   });
   const content1: any = useRef();
   const toggleAccordion1 = () => {
@@ -59,7 +61,7 @@ const Work_Details = (props: any) => {
     });
   };
   const {
-    work_order_detail,
+    work_order_details,
     show,
     inreview,
     active,
@@ -109,6 +111,7 @@ const Work_Sheet = (props: any) => {
     chevron: "",
     chevron1: "",
     work_sheet: [],
+    work_order_details: "",
   });
   const content1: any = useRef();
   const toggleAccordion1 = () => {
@@ -138,51 +141,26 @@ const Work_Sheet = (props: any) => {
         setState({
           ...state,
           work_sheet: res.data.data.data,
+          work_order_details,
         });
       })
       .catch((err) => {
         setState({
           ...state,
-          work_order_detail: work_order_details,
+          work_order_details: work_order_details,
         });
         console.log(err);
       });
   }, []);
 
-  const ApproveWorkSheet = (id) => {
-    setState({
-      ...state,
-      isloading: true,
-    });
-    axios
-      .post(
-        `${API}/contractor/work-orders/worksheets/${id}`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${contractorToken().access_token}`,
-          },
-        }
-      )
-      .then((res) => {
-        notify("Successfully approved worksheet");
-        console.log(res.data.data);
-        refreshpage();
-        setState({
-          ...state,
-          isloading: false,
-        });
-      })
-      .catch((err) => {
-        notify("failed to approve worksheet");
-        setState({
-          ...state,
-          isloading: false,
-        });
-        console.log(err);
-      });
-  };
-  const { active1, collapseHeight, chevron, work_sheet, isloading } = state;
+  const {
+    active1,
+    collapseHeight,
+    chevron,
+    work_sheet,
+    isloading,
+    work_order_details,
+  } = state;
   return (
     <>
       <Card>
@@ -206,39 +184,42 @@ const Work_Sheet = (props: any) => {
         ref={content1}>
         <>
           <div className='worksheet_1'>
-            {work_sheet.map((data: any, i) => (
-              <div className='tabledata tablecontent tablecont1'>
-                <div className='header_12 tablecont0'>
-                  <span>Worksheet Report {data.week}</span>
-                </div>
-                <div className='tablecont1'>
-                  <div className='worksheetdw worksheetdate1'>
-                    {" "}
-                    <img src={dwnload} alt='dwnload' className='dwnload1' />
-                    <a href={data.worksheet} target={"blank"}>
-                      Download
-                    </a>
-                  </div>
-                  <div className='worksheetdate'>{formatTime(data.date)}</div>
-                  <div className='upby'>uploaded by {data.uploaded_by}</div>
-                  <div className='upby'>
-                    {" "}
-                    <span>{data.approved}</span>
-                  </div>
-                  <div className='upby'>
-                    {data.approved ? (
-                      "Approved"
-                    ) : (
-                      <span
-                        className='raise_inv'
-                        onClick={() => ApproveWorkSheet(data.id)}>
-                        {isloading ? "loading..." : "Approve"}
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </div>
-            ))}
+            <Table hover responsive className='schedule_payment_table'>
+              <thead>
+                <tr>
+                  <th scope='col'>Reference</th>
+                  <th scope='col'>Start/End Date</th>
+                  <th scope='col'>Description</th>
+                  <th scope='col'>Status</th>
+                  <th scope='col'>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {work_sheet.map((data: any, i) => (
+                  <tr key={i}>
+                    <td>{data?.reference}</td>
+                    <td>
+                      {formatTime(data?.start_date)}
+                      {" to "}
+                      {formatTime(data?.end_date)}
+                    </td>
+                    <td className='dpslstnamecell pslstnamecell schedule_payment_first_td'>
+                      <div className='dplsplusernmeimg'>
+                        <div>{data?.description}</div>
+                      </div>
+                    </td>
+                    <td className='contractorname'>{data?.status}</td>
+                    <td>
+                      <Link
+                        to={`/contractor_worksheet/${data?.id}/${work_order_details?.id}`}>
+                        {" "}
+                        <Button className='btn-secondary'>View more</Button>
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
             {work_sheet?.length == 0 && (
               <Col md={11} className='containerforemptyorder1 cust20'>
                 <div className='containerforemptyorder'>
@@ -458,9 +439,8 @@ const SpecialistDeployed = ({ work_order_detail }) => {
                         <div className=''>
                           <span className='sendbtn'>
                             <Link
-                            to={`/contractor/review/specailist/${data.id}`}
-                            >
-                            View
+                              to={`/contractor/review/specailist/${data.id}`}>
+                              View
                             </Link>
                           </span>
                         </div>
@@ -564,7 +544,7 @@ const WorkOrderDetails = withRouter((props: any) => {
     setState({
       ...state,
       already_approved: urlkey ? true : false,
-      work_order_detail: work_order_details,
+      work_order_details: work_order_details,
     });
     let inreview = props.location.search;
     console.log(work_order_details);
