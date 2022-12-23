@@ -516,7 +516,7 @@ const WorkSheetAdmin = (props) => {
                         <div className=''>
                           <div className='boxwrapper__1'>
                             <div className='lcomponent'>
-                              <div className='inv_title'>WORKSHEET </div>
+                            <div className='inv_title'>REF : {work_sheet?.reference} </div>
                               <div className='inv_title2'></div>
                             </div>
                           </div>

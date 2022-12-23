@@ -190,7 +190,7 @@ const Accept_Reject_Work_Order = () => {
                       <div className="header_12">Status</div>
                     </div>
                     <div className="tabledata tablecontent">
-                      <div className="header_12">
+                      <div className="header_12 pt-2">
                         <img src={avatar_test} className="specialist_avatar" />
                         <div className="mobiletabledata">Fullname</div>
                         Sunday Okoro Pascal

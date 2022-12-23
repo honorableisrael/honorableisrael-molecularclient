@@ -448,7 +448,7 @@ const Invoice_details_view_only = (props) => {
     selected_id,
     show,
   } = state;
-  console.log(invoice_details);
+  console.log(invoice_details,"invoice_details");
   return (
     <>
       <Modal
@@ -748,6 +748,7 @@ const Invoice_details_view_only = (props) => {
                             <div className='text-right mgg2'></div>
                           </div>
                         </div>
+                      
                         <div className='allpayment00'>
                           <div className='allpayment1'>
                             All payments go to the account details below

@@ -234,8 +234,10 @@ const Work_Sheet = withRouter((props: any) => {
             <Table hover responsive className='schedule_payment_table'>
               <thead>
                 <tr>
-                  <th scope='col'>Reference</th>
-                  <th scope='col'>Start/End Date</th>
+                  <th scope='col pl-2'>Reference</th>
+                  <th scope='col'>Start</th>
+                  <th scope='col'>End Date</th>
+
                   <th scope='col'>Description</th>
                   <th scope='col'>Status</th>
                   <th scope='col'>Action</th>
@@ -245,11 +247,8 @@ const Work_Sheet = withRouter((props: any) => {
                 {work_sheet.map((data: any, i) => (
                   <tr key={i}>
                     <td>{data?.reference}</td>
-                    <td>
-                      {formatTime(data?.start_date)}
-                      {" to "}
-                      {formatTime(data?.end_date)}
-                    </td>
+                    <td>{formatTime(data?.start_date)}</td>
+                    <td> {formatTime(data?.end_date)}</td>
                     <td className='dpslstnamecell pslstnamecell schedule_payment_first_td'>
                       <div className='dplsplusernmeimg'>
                         <div>{data?.description}</div>

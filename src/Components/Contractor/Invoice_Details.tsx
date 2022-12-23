@@ -561,7 +561,8 @@ const Admin_Invoice_details = (props) => {
                             <Table responsive>
                               <thead className='theadinvoice'>
                                 <tr>
-                                  <th className='tablehead'>Date</th>
+                                  <th className='tablehead'>Start Date</th>
+                                  <th className='tablehead'>End date</th>
                                   <th className='tablehead'>Cost</th>
 
                                   <th className='tablehead'>Status</th>
@@ -572,7 +573,8 @@ const Admin_Invoice_details = (props) => {
                               <tbody>
                                 {invoice_details?.cycles?.map((data, i) => (
                                   <tr className='tdata' key={i}>
-                                    <td>{formatTime(data?.date)}</td>
+                                    <td>{formatTime(data?.start_date)}</td>
+                                    <td>{formatTime(data?.end_date)}</td>
                                     <td>
                                       {current_currency}
                                       {FormatAmount(data?.amount)}

@@ -25,7 +25,7 @@ import dwnload from "../../images/dwnload.png";
 import WorkDetails_Form_Preview from "./workdetailsform";
 import { NavHashLink } from "react-router-hash-link";
 import axios, { AxiosResponse } from "axios";
-import { API, formatTime, reloadPage } from "../../config";
+import { API, formatTime } from "../../config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Payments from "./payments";
@@ -104,6 +104,9 @@ const SpecialistWorkSheetPage = (props) => {
 
   useEffect(() => {
     window.scrollTo(-0, -0);
+    fetch_all()
+  }, []);
+  const fetch_all = () => {
     const availableToken: any = localStorage.getItem("loggedInDetails");
     const token = availableToken
       ? JSON.parse(availableToken)
@@ -152,7 +155,7 @@ const SpecialistWorkSheetPage = (props) => {
       .catch((err) => {
         console.log(err.response);
       });
-  }, []);
+  };
   const notify = (message: string, type = "B") => {
     toast(message, { containerId: type, position: "top-right" });
   };
@@ -228,8 +231,8 @@ const SpecialistWorkSheetPage = (props) => {
         console.log(res);
         notify("Successfully created");
         setTimeout(() => {
-          reloadPage();
-        }, 2000);
+          fetch_all()
+        }, 100);
         setState({
           ...state,
           isloading: false,
@@ -273,7 +276,7 @@ const SpecialistWorkSheetPage = (props) => {
       .then((res) => {
         notify("Successfully Updated");
         setTimeout(() => {
-          reloadPage();
+          fetch_all()
         }, 2000);
         setState({
           ...state,
@@ -313,7 +316,7 @@ const SpecialistWorkSheetPage = (props) => {
         console.log(res);
         notify("Successfully deleted");
         setTimeout(() => {
-          reloadPage();
+          fetch_all()
         }, 2000);
         setState({
           ...state,
@@ -353,7 +356,7 @@ const SpecialistWorkSheetPage = (props) => {
         console.log(res);
         notify("Successfully Submitted");
         setTimeout(() => {
-          reloadPage();
+          fetch_all()
         }, 2000);
         setState({
           ...state,
@@ -444,7 +447,7 @@ const SpecialistWorkSheetPage = (props) => {
         <Modal.Body>
           <Row>
             <Col md={12}>
-              <div className='alert alert-info' role='alert'>
+              <div className='alert' role='alert'>
                 <h6 className='alert-heading'>Confirm Action</h6>
                 <p>
                   This action would submit all information contained in this
@@ -748,6 +751,17 @@ const SpecialistWorkSheetPage = (props) => {
                                 )}
                               </button>
                             </h2>
+                            <h6 className='text-bold pl-4 pt-3'>
+                              <b> REF : {item?.reference} </b>
+                              <div className='pt-2'>
+                                {" "}
+                                from : <b>
+                                  {" "}
+                                  {formatTime(item?.start_date)}{" "}
+                                </b>{" "}
+                                to: <b> {formatTime(item?.end_date)}</b>
+                              </div>
+                            </h6>
                             <div
                               id='flush-collapseOne'
                               className='accordion-collapse collapse show'

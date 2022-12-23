@@ -8,6 +8,7 @@ import {
   Modal,
   Button,
   Spinner,
+  Alert,
 } from "react-bootstrap";
 import "./contractor.css";
 import DashboardNav from "./navbar";
@@ -38,7 +39,7 @@ const Admin_Invoice_details = (props) => {
     inprogress: true,
     pending_request: false,
     order_title: "",
-    work_order_description: "",
+    description: "",
     project_purpose: "",
     past: false,
     location_terrain: "",
@@ -56,8 +57,14 @@ const Admin_Invoice_details = (props) => {
     cost_exclusions: "",
     conditions: "",
     modal_state: "",
+    pipe_schedule: "",
     show_modal: false,
     show_modal_1: false,
+    successMessage: false,
+    closeInvoiceModal: false,
+    add_invoice_modal: false,
+    edit_invoice_modal: false,
+    invoice_id: "",
   });
 
   const handleClose = () =>
@@ -133,6 +140,9 @@ const Admin_Invoice_details = (props) => {
 
   useEffect(() => {
     window.scrollTo(-0, -0);
+    fetch_all();
+  }, []);
+  const fetch_all = () => {
     const invoice_: any = localStorage.getItem("invoice_id");
     const invoice = invoice_ ? JSON.parse(invoice_) : "";
     const token = returnAdminToken();
@@ -162,6 +172,8 @@ const Admin_Invoice_details = (props) => {
             work_order_detail: res4.data.data,
             invoice_details: res2.data.data,
             pipe_breakdown: res4.data.data.pipe_configs,
+            edit_invoice_modal: false,
+            add_invoice_modal: false,
           });
         })
       )
@@ -172,8 +184,7 @@ const Admin_Invoice_details = (props) => {
         });
         console.log(err);
       });
-  }, []);
-
+  };
   const sendInvoice = () => {
     const availableToken: any = localStorage.getItem("loggedInDetails");
     const token = availableToken
@@ -428,18 +439,112 @@ const Admin_Invoice_details = (props) => {
         console.log(err);
       });
   };
-
+  const validateForm = () => {
+    if (description == "" || !end_date || !start_date) {
+      setState({
+        ...state,
+        errorMessage: "All fields are required",
+      });
+    } else {
+      createInvoice();
+    }
+  };
+  const createInvoice = () => {
+    const availableToken: any = localStorage.getItem("loggedInDetails");
+    const token = availableToken
+      ? JSON.parse(availableToken)
+      : window.location.assign("/");
+    setState({
+      ...state,
+      isloading: true,
+    });
+    const data = {
+      description,
+      start_date,
+      end_date,
+    };
+    axios
+      .post(`${API}/admin/invoices/${props.match.params.id}`, data, {
+        headers: { Authorization: `Bearer ${token.access_token}` },
+      })
+      .then((res) => {
+        notify(res?.data?.message);
+        fetch_all();
+        setState({
+          ...state,
+          isloading: false,
+          add_invoice_modal: false,
+        });
+      })
+      .catch((err) => {
+        setState({
+          ...state,
+          isloading: false,
+          add_invoice_modal: false,
+        });
+        notify(err?.response?.data?.message);
+        if (err?.response?.status == 406) {
+          return notify(err?.response?.data?.errors?.size.join(""));
+        }
+        notify("Failed to update");
+      });
+  };
+  const EditInvoice = () => {
+    const availableToken: any = localStorage.getItem("loggedInDetails");
+    const token = availableToken
+      ? JSON.parse(availableToken)
+      : window.location.assign("/");
+    setState({
+      ...state,
+      isloading: true,
+    });
+    const data = {
+      description,
+      start_date,
+      end_date,
+    };
+    axios
+      .put(`${API}/admin/sub-invoices/${invoice_id}`, data, {
+        headers: { Authorization: `Bearer ${token.access_token}` },
+      })
+      .then((res) => {
+        fetch_all();
+        notify(res?.data?.message);
+        setState({
+          ...state,
+          isloading: false,
+          edit_invoice_modal: false,
+        });
+      })
+      .catch((err) => {
+        setState({
+          ...state,
+          isloading: false,
+          edit_invoice_modal: false,
+        });
+        console.log(err?.response);
+        if (err?.response?.status == 406) {
+          return notify(err?.response?.data?.errors?.size.join(""));
+        }
+        notify("Failed to update");
+      });
+  };
   const {
+    closeInvoiceModal,
+    invoice_id,
+    edit_invoice_modal,
     show_modal_1,
     type,
     cost_exclusions,
     conditions,
     show_modal,
-    work_order_description,
+    description,
     work_order_detail,
     order_title,
     end_date,
+    add_invoice_modal,
     reason,
+    successMessage,
     isloading,
     show2,
     pipe_breakdown,
@@ -447,6 +552,7 @@ const Admin_Invoice_details = (props) => {
     invoice_details,
     selected_id,
     show,
+    errorMessage,
   } = state;
   console.log(invoice_details);
   return (
@@ -530,6 +636,165 @@ const Admin_Invoice_details = (props) => {
           </Row>
         </Modal.Body>
       </Modal>
+      <Modal
+        centered={true}
+        onHide={closeInvoiceModal}
+        show={add_invoice_modal}>
+        <div className='add_worksheet_modalwrap p-3'>
+          <div className='add_worksheet_modaltitle text-center'>
+            Create Invoice
+          </div>
+          {successMessage && (
+            <Alert key={2} variant='success' className='alertmessg'>
+              {successMessage}
+            </Alert>
+          )}
+          {errorMessage && (
+            <Alert key={2} variant='danger' className='alertmessg'>
+              {errorMessage}
+            </Alert>
+          )}
+          <Row>
+            <Col md={12} className='formsection1'>
+              <Form.Group>
+                <h6 className='userprofile userprofile12'>Start date</h6>
+                <Form.Control
+                  type='date'
+                  value={start_date}
+                  min={formatTime()}
+                  className='userfield'
+                  name='start_date'
+                  onChange={onchange}
+                  placeholder=''
+                />
+              </Form.Group>
+            </Col>
+            <Col md={12} className='formsection1'>
+              <Form.Group>
+                <h6 className='userprofile userprofile12'>End date</h6>
+                <Form.Control
+                  type='date'
+                  value={end_date}
+                  className='userfield'
+                  name='end_date'
+                  onChange={onchange}
+                  placeholder=''
+                />
+              </Form.Group>
+            </Col>
+            <Col md={12} className='formsection1'>
+              <Form.Group>
+                <h6 className='userprofile userprofile12'>Description</h6>
+                <Form.Control
+                  type='textarea'
+                  value={description}
+                  className='userfield'
+                  name='description'
+                  onChange={onchange}
+                  placeholder=''
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+          <div className='wrkmodal-btnwrap'>
+            <span
+              className='wrkmodal-cancelbtn'
+              onClick={() => {
+                setState({
+                  ...state,
+                  add_invoice_modal: false,
+                });
+              }}>
+              Cancel
+            </span>
+            <span className='profcertbtn upfrmodalbtn' onClick={validateForm}>
+              {!isloading ? "Submit" : "Adding..."}
+            </span>
+          </div>
+        </div>
+      </Modal>
+      <Modal
+        centered={true}
+        onHide={() => {
+          setState({
+            ...state,
+            edit_invoice_modal: false,
+          });
+        }}
+        show={edit_invoice_modal}>
+        <div className='add_worksheet_modalwrap p-3'>
+          <div className='add_worksheet_modaltitle text-center'>
+            Edit Invoice
+          </div>
+          {successMessage && (
+            <Alert key={2} variant='success' className='alertmessg'>
+              {successMessage}
+            </Alert>
+          )}
+          {errorMessage && (
+            <Alert key={2} variant='danger' className='alertmessg'>
+              {errorMessage}
+            </Alert>
+          )}
+          <Row>
+            <Col md={12} className='formsection1'>
+              <Form.Group>
+                <h6 className='userprofile userprofile12'>Start date</h6>
+                <Form.Control
+                  type='date'
+                  value={start_date}
+                  min={formatTime()}
+                  className='userfield'
+                  name='start_date'
+                  onChange={onchange}
+                  placeholder=''
+                />
+              </Form.Group>
+            </Col>
+            <Col md={12} className='formsection1'>
+              <Form.Group>
+                <h6 className='userprofile userprofile12'>End date</h6>
+                <Form.Control
+                  type='date'
+                  value={end_date}
+                  className='userfield'
+                  name='end_date'
+                  onChange={onchange}
+                  placeholder=''
+                />
+              </Form.Group>
+            </Col>
+            <Col md={12} className='formsection1'>
+              <Form.Group>
+                <h6 className='userprofile userprofile12'>Description</h6>
+                <Form.Control
+                  type='textarea'
+                  value={description}
+                  className='userfield'
+                  name='description'
+                  onChange={onchange}
+                  placeholder=''
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+          <div className='wrkmodal-btnwrap'>
+            <span
+              className='wrkmodal-cancelbtn'
+              onClick={() => {
+                setState({
+                  ...state,
+                  edit_invoice_modal: false,
+                });
+              }}>
+              Cancel
+            </span>
+            <span className='profcertbtn upfrmodalbtn' onClick={EditInvoice}>
+              {!isloading ? "Submit" : "Updating..."}
+            </span>
+          </div>
+        </div>
+      </Modal>
       <Container fluid={true} className='dasbwr nopaddrt tainer3'>
         <Helmet>
           <meta charSet='utf-8' />
@@ -562,6 +827,20 @@ const Admin_Invoice_details = (props) => {
               <div className='nxtbck'>
                 <div className='gent122 gent12212' onClick={sendInvoice}>
                   {isloading ? "processing" : "Send Proforma Invoice"}
+                </div>
+              </div>
+            )}
+            {invoice_details?.sent_at && !isloading && (
+              <div className='nxtbck'>
+                <div
+                  className='gent122 gent12212'
+                  onClick={() => {
+                    setState({
+                      ...state,
+                      add_invoice_modal: true,
+                    });
+                  }}>
+                  {isloading ? "rocessing" : "Create Invoice"}
                 </div>
               </div>
             )}
@@ -665,7 +944,8 @@ const Admin_Invoice_details = (props) => {
                             <Table responsive>
                               <thead className='theadinvoice'>
                                 <tr>
-                                  <th className='tablehead'>Date</th>
+                                  <th className='tablehead'>Start Date</th>
+                                  <th className='tablehead'>End date</th>
                                   <th className='tablehead'>Amount</th>
                                   <th className='tablehead'>Status</th>
                                   {/* <th className="tablehead">
@@ -678,7 +958,20 @@ const Admin_Invoice_details = (props) => {
                               <tbody>
                                 {invoice_details?.cycles?.map((data, i) => (
                                   <tr className='tdata' key={i}>
-                                    <td>{formatTime(data?.date)}</td>
+                                    <td>
+                                      {" "}
+                                      <Link
+                                        to={`/admin_sub_invoice_details/${data.id}/${props.match.params.workorderid}`}>
+                                        {" "}
+                                        {formatTime(data?.start_date)}
+                                      </Link>
+                                    </td>
+                                    <td>
+                                      <Link
+                                        to={`/admin_sub_invoice_details/${data.id}/${props.match.params.workorderid}`}>
+                                        {formatTime(data?.end_date)}
+                                      </Link>
+                                    </td>
                                     <td>
                                       {current_currency}
                                       {FormatAmount(data?.amount)}
@@ -699,7 +992,7 @@ const Admin_Invoice_details = (props) => {
                                       )}
                                     </td> */}
                                     <td>{data?.cycle}</td>
-                                    <td className="flex1222">
+                                    <td className='flex1222'>
                                       {data?.status == "Paid" &&
                                       !data.paid_specialists ? (
                                         <Button
@@ -712,24 +1005,63 @@ const Admin_Invoice_details = (props) => {
                                       ) : (
                                         ""
                                       )}
-
-                                      {data?.status == "Unpaid" ? (
-                                        <Button
+                                      <Link
+                                        to={`/admin_sub_invoice_details/${data.id}/${props.match.params.workorderid}`}>
+                                        <img
+                                          src={viewmore}
+                                          className='viewmore mr-2 cursor-pointer'
+                                          alt=''
+                                          title='View details'
+                                        />
+                                      </Link>
+                                      {data?.status == "Unpaid" &&
+                                      !data?.sent ? (
+                                        <span
                                           onClick={() =>
                                             sendInvoiceReminder(data.id)
                                           }
-                                          className='btn-success primary3'>
-                                          {!data.sent
-                                            ? "Send Invoice"
-                                            : "Resend Invoice"}
-                                        </Button>
+                                          className='mr-2 cursor-pointer'
+                                          title={
+                                            !data.sent
+                                              ? "Send Invoice"
+                                              : "Resend Invoice"
+                                          }>
+                                          <svg
+                                            xmlns='http://www.w3.org/2000/svg'
+                                            width='16'
+                                            height='16'
+                                            fill='currentColor'
+                                            className='bi bi-send'
+                                            viewBox='0 0 16 16'>
+                                            <path d='M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z' />
+                                          </svg>
+                                        </span>
                                       ) : (
                                         ""
                                       )}
-                                      <Link
-                                        to={`/admin_sub_invoice_details/${data.id}/${props.match.params.workorderid}`}>
-                                        <img src={viewmore} className="viewmore" alt='' />
-                                      </Link>
+                                      {!data?.sent && (
+                                        <span
+                                          title='Edit Invoice'
+                                          className='mr-1 cursor-pointer'
+                                          onClick={() => {
+                                            setState({
+                                              ...state,
+                                              edit_invoice_modal: true,
+                                              invoice_id: data.id,
+                                              ...data,
+                                            });
+                                          }}>
+                                          <svg
+                                            xmlns='http://www.w3.org/2000/svg'
+                                            width='16'
+                                            height='16'
+                                            fill='currentColor'
+                                            className='bi bi-pencil'
+                                            viewBox='0 0 16 16'>
+                                            <path d='M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z' />
+                                          </svg>
+                                        </span>
+                                      )}
                                     </td>
                                   </tr>
                                 ))}
