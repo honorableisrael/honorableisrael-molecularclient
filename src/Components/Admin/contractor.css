@@ -3525,3 +3525,7 @@ label i {
   display: flex;
   align-items: center;
 }
+.not-allowed{
+  cursor: not-allowed;
+  opacity: .3;
+}

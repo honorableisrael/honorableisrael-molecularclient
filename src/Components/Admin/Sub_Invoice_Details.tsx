@@ -111,14 +111,7 @@ const Admin_Sub_Invoice_Details = (props) => {
   };
 
   const validateForm = () => {
-    if (description == "") {
-      setState({
-        ...state,
-        errorMessage: "All fields are required",
-      });
-    } else {
       createItem();
-    }
   };
   const createItem = () => {
     const availableToken: any = localStorage.getItem("loggedInDetails");
@@ -264,6 +257,7 @@ const Admin_Sub_Invoice_Details = (props) => {
             pipeSizes: response4.data.data,
             edit_worksheet_modal: false,
             add_invoice_modal: false,
+            show_delete: false,
           });
         })
       )
@@ -271,6 +265,7 @@ const Admin_Sub_Invoice_Details = (props) => {
         setState({
           ...state,
           work_order_detail: work_order_details,
+          show_delete: false,
         });
         console.log(err);
       });
@@ -613,14 +608,14 @@ const Admin_Sub_Invoice_Details = (props) => {
         setState({
           ...state,
           isloading: false,
-          show_delete:false
+          show_delete: false,
         });
       })
       .catch((err) => {
         setState({
           ...state,
           isloading: false,
-          show_delete:false
+          show_delete: false,
         });
         console.log(err?.response);
         if (err?.response?.status == 406) {
@@ -1248,6 +1243,8 @@ const Admin_Sub_Invoice_Details = (props) => {
                                 onClick={() => {
                                   setState({
                                     ...state,
+                                    description: "",
+                                    amount: "",
                                     add_invoice_modal: true,
                                   });
                                 }}>
