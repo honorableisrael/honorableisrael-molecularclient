@@ -53,10 +53,10 @@ const SpecialistWorkSheetPage = (props) => {
     errorMessage: "",
     successMessage: "",
     show1: false,
-    number_of_joints: "",
     date: "",
     work_sheet_file: "",
     spread_name: "",
+    number_of_joints: "",
     pipe_schedules: [],
     pipeSizes: [],
     pipe_size: "",
@@ -71,12 +71,12 @@ const SpecialistWorkSheetPage = (props) => {
     edit_worksheet_modal: false,
   });
   const {
-    pipe_schedule_name,
     work_group,
     spread_name,
     edit_worksheet_modal,
     date,
     worksheet_reports,
+    pipe_schedule_name,
     pipe_schedules,
     pipeSizes,
     no_of_joints,
@@ -104,7 +104,7 @@ const SpecialistWorkSheetPage = (props) => {
 
   useEffect(() => {
     window.scrollTo(-0, -0);
-    fetch_all()
+    fetch_all();
   }, []);
   const fetch_all = () => {
     const availableToken: any = localStorage.getItem("loggedInDetails");
@@ -231,7 +231,7 @@ const SpecialistWorkSheetPage = (props) => {
         console.log(res);
         notify("Successfully created");
         setTimeout(() => {
-          fetch_all()
+          fetch_all();
         }, 100);
         setState({
           ...state,
@@ -276,7 +276,7 @@ const SpecialistWorkSheetPage = (props) => {
       .then((res) => {
         notify("Successfully Updated");
         setTimeout(() => {
-          fetch_all()
+          fetch_all();
         }, 2000);
         setState({
           ...state,
@@ -316,7 +316,7 @@ const SpecialistWorkSheetPage = (props) => {
         console.log(res);
         notify("Successfully deleted");
         setTimeout(() => {
-          fetch_all()
+          fetch_all();
         }, 2000);
         setState({
           ...state,
@@ -356,7 +356,7 @@ const SpecialistWorkSheetPage = (props) => {
         console.log(res);
         notify("Successfully Submitted");
         setTimeout(() => {
-          fetch_all()
+          fetch_all();
         }, 2000);
         setState({
           ...state,
