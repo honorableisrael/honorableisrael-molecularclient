@@ -155,7 +155,7 @@ const Home = () => {
                 />
               </div>
               <h4 className="section-three-heading">
-                Molecular is a technology-driven workforce management solution
+                MolecularPro is a technology-driven workforce management solution
                 for technical specialists in Africa’s natural gas industry
               </h4>
               {/* <p className="section-three-parag1">
@@ -335,7 +335,7 @@ const Home = () => {
                 a specialised skilled worker.
               </p> */}
             {/* <p className="section-five-paragp3">
-                MolecularTech aggregates end-to-end natural gas pipeline
+                MolecularProTech aggregates end-to-end natural gas pipeline
                 operations to help Engineering, Procurement & Construction(EPC)
                 Operators in the upstream, midstream and downstream sectors of
                 the natural gas industry, on one hand, and Technical Pipeline

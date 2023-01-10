@@ -131,7 +131,7 @@ const SpecialistDashboard = (props) => {
     <div>
       <Helmet>
         <meta charSet="utf-8" />
-        <title>Molecular - Specialialist Dashboard</title>
+        <title>MolecularPro - Specialialist Dashboard</title>
         <link />
       </Helmet>
       <DashboardNav />

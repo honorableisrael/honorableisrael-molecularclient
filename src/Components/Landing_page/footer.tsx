@@ -20,7 +20,7 @@ const Footer = () => {
                 <img src={footerlogo} alt="molecularlogo" />
               </div>
               <p className="">
-                Molecular is a technology-driven workforce management solution
+                MolecularPro is a technology-driven workforce management solution
                 for technical specialists in Africa’s natural gas industry
               </p>
             </div>
@@ -71,7 +71,7 @@ const Footer = () => {
               <div className="footer-socialwrapper">
                 <a
                   target="_blank"
-                  href="https://web.facebook.com/MolecularTechHQ"
+                  href="https://web.facebook.com/MolecularProTechHQ"
                 >
                   <span>
                     <img src={facebook} alt="img" />
@@ -106,7 +106,7 @@ const Footer = () => {
           </div>
           <div className="copyrightwrap">
             <div className="reserves">
-              ©2022 Molecular copyright, All rights Reserved.
+              ©2022 MolecularPro copyright, All rights Reserved.
             </div>
             <div className="terms">Terms & Conditions</div>
             <div className="privacy">

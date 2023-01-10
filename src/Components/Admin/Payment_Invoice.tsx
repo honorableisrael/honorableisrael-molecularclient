@@ -170,7 +170,7 @@ const Admin_Payment_Invoice = () => {
       <Container fluid={true} className="dasbwr">
         <Helmet>
           <meta charSet="utf-8" />
-          <title>Molecular - Admin Invoice</title>
+          <title>MolecularPro - Admin Invoice</title>
           <link />
         </Helmet>
         <Row>

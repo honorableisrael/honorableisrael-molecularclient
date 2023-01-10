@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.6a2ae2f8.css",
-    "main.js": "/static/js/main.934032e8.js",
+    "main.js": "/static/js/main.ed654fa0.js",
     "static/media/yellowhelmet.jpg": "/static/media/yellowhelmet.0a992cec0a2f7c2fd411.jpg",
     "static/media/drilling-workers.png": "/static/media/drilling-workers.fdb0ad474e04c63aa753.png",
     "static/media/oil-pipeline.png": "/static/media/oil-pipeline.55d5826b054b8bd73fc8.png",
@@ -34,10 +34,10 @@
     "index.html": "/index.html",
     "static/media/compass.svg": "/static/media/compass.42e1b1686789b565ce77a484bbc726d8.svg",
     "main.6a2ae2f8.css.map": "/static/css/main.6a2ae2f8.css.map",
-    "main.934032e8.js.map": "/static/js/main.934032e8.js.map"
+    "main.ed654fa0.js.map": "/static/js/main.ed654fa0.js.map"
   },
   "entrypoints": [
     "static/css/main.6a2ae2f8.css",
-    "static/js/main.934032e8.js"
+    "static/js/main.ed654fa0.js"
   ]
 }

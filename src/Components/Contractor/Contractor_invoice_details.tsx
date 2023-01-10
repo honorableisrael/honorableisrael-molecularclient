@@ -409,7 +409,7 @@ const ContractorInvoiceDetails = (props) => {
       <Container fluid={true} className='dasbwr tainer3'>
         <Helmet>
           <meta charSet='utf-8' />
-          <title>Molecular - Admin view contractor invoice</title>
+          <title>MolecularPro - Admin view contractor invoice</title>
           <link />
         </Helmet>
         <Row>

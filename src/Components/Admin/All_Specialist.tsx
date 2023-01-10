@@ -279,7 +279,7 @@ const All_Specialist = () => {
       <Container fluid={true} className="dasbwr">
         <Helmet>
           <meta charSet="utf-8" />
-          <title>Molecular - Admin View Specialist</title>
+          <title>MolecularPro - Admin View Specialist</title>
           <link />
         </Helmet>
         <Row>

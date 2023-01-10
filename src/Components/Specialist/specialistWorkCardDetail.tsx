@@ -355,7 +355,7 @@ const  upLoadFile= ({target: {files}})=>{
    </Modal>
         <Helmet>
           <meta charSet="utf-8" />
-          <title>Molecular - Specialist Work Order</title>
+          <title>MolecularPro - Specialist Work Order</title>
           <link />
         </Helmet>
         <Row>

@@ -294,7 +294,7 @@ const ContractorDashboard = withRouter((props) => {
       <Container fluid={true} className="dasbwr">
         <Helmet>
           <meta charSet="utf-8" />
-          <title>Molecular - Contractor Dashboard</title>
+          <title>MolecularPro - Contractor Dashboard</title>
           <link />
         </Helmet>
         <Row>

@@ -202,7 +202,7 @@ const SignUp = withRouter((props: any) => {
                         Leave some information about you in the form below,
                         attach your resume and we’ll get in touch with you.
                         Learn what to expect when you sign up to find work with
-                        MolecularTech
+                        MolecularProTech
                       </p>
                     </div>
                   </div>
@@ -382,7 +382,7 @@ const SignUp = withRouter((props: any) => {
                     </div>
                     <Link to="/signin">
                       <p className="signuprgqt">
-                        Have Molecular account?<span> Login</span>
+                        Have MolecularPro account?<span> Login</span>
                       </p>
                     </Link>
                   </div>
@@ -390,7 +390,7 @@ const SignUp = withRouter((props: any) => {
               </Col>
             </Row>
             <div className="footer-rights">
-              ©2021 Molecular copyright All rights Reserved
+              ©2021 MolecularPro copyright All rights Reserved
             </div>
           </Container>
         </div>

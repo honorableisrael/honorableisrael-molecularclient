@@ -216,7 +216,7 @@ const Contractorsignup = withRouter((props) => {
                     <div className="form-descr-text">
                       <p>
                         Connect with a member of our team to explore how
-                        MolecularTech can support you and your business to get
+                        MolecularProTech can support you and your business to get
                         technical specialists. Leave some information about you
                         & company, and we’ll contact you within 24 hours.
                       </p>
@@ -463,7 +463,7 @@ const Contractorsignup = withRouter((props) => {
                     </div>
                     <Link to="/signin">
                       <p className="signuprgqt">
-                        Have Molecular account?<span> Login</span>
+                        Have MolecularPro account?<span> Login</span>
                       </p>
                     </Link>
                   </div>
@@ -471,7 +471,7 @@ const Contractorsignup = withRouter((props) => {
               </Col>
             </Row>
             <div className="footer-rights">
-              ©2021 Molecular copyright All rights Reserved
+              ©2021 MolecularPro copyright All rights Reserved
             </div>
           </Container>
         </div>

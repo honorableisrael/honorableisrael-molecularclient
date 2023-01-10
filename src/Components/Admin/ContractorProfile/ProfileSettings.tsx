@@ -393,7 +393,7 @@ const AdminProfile = (props) => {
       <Container fluid={true} className="dasbwr">
         <Helmet>
           <meta charSet="utf-8" />
-          <title>Molecular - Contractor Profile</title>
+          <title>MolecularPro - Contractor Profile</title>
           <link />
         </Helmet>
         <Row>
