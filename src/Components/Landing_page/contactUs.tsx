@@ -169,7 +169,7 @@ const ContacUs = () => {
                     <img src={address} />
                   </span>
                   <span>
-                    Molecular Technical Services Limited The Eagless Nest, 1st
+                    MolecularPro Technical Services Limited The Eagless Nest, 1st
                     Floor,24 Adewunmi Adebimpe Drive, 2nd round about, Marwa,
                     Lekki Phase 1, Lagos.
                   </span>

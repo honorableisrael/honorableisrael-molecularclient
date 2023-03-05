@@ -56,7 +56,7 @@ const ContractorOTP = () => {
                 </div>
               </Col>
             </Row>
-            <div className="footer-rights">©2021 Molecular copyright All rights Reserved</div>
+            <div className="footer-rights">©2021 MolecularPro copyright All rights Reserved</div>
           </Container>
         </div>
       </section>

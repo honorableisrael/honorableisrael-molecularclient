@@ -147,7 +147,7 @@ const Password_Reset = (props) => {
             </Col>
           </Row>
           <div className="signin-footer-rights">
-            ©2021 Molecular copyright All rights Reserved
+            ©2021 MolecularPro copyright All rights Reserved
           </div>
         </Container>
       </section>

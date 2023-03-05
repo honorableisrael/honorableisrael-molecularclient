@@ -409,7 +409,7 @@ const ContractorInvoiceDetails = (props) => {
       <Container fluid={true} className='dasbwr tainer3'>
         <Helmet>
           <meta charSet='utf-8' />
-          <title>Molecular - Admin view contractor invoice</title>
+          <title>MolecularPro - Admin view contractor invoice</title>
           <link />
         </Helmet>
         <Row>
@@ -708,6 +708,7 @@ const ContractorInvoiceDetails = (props) => {
                           <th>Pipe Schedule</th>
                           <th>Number of Joints</th>
                           <th>Cost Per Joint (NGN)</th>
+                          <th>Price Per Joint (NGN)</th>
                           <th>Total Amount (NGN)</th>
                         </tr>
                       </thead>
@@ -722,6 +723,9 @@ const ContractorInvoiceDetails = (props) => {
                             <td>{FormatAmount(data?.joints)}</td>
                             <td>
                               {FormatAmount(data?.cost_per_joint ?? "n/a")}
+                            </td>
+                            <td>
+                              {FormatAmount(data?.price_per_joint ?? "n/a")}
                             </td>
                             <td>
                               {FormatAmount(data?.contractor_cost) ?? "n/a"}

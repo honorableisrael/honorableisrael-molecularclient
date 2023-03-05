@@ -91,7 +91,7 @@ const Payments = () => {
       {/* <Container fluid={true}> */}
         {/* <Helmet>
           <meta charSet="utf-8" />
-          <title>Molecular - Specialist Payment</title>
+          <title>MolecularPro - Specialist Payment</title>
           <link />
         </Helmet> */}
         {/* <Row>

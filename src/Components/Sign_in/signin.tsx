@@ -164,7 +164,7 @@ const SignIn = (props) => {
                   </div>
                   <Link to="/contractor_signup">
                     <p className="signuprgqt">
-                      Dont have Molecular account?<span> Sign up</span>
+                      Dont have MolecularPro account?<span> Sign up</span>
                     </p>
                   </Link>
                 </div>
@@ -172,7 +172,7 @@ const SignIn = (props) => {
             </Col>
           </Row>
           <div className="signin-footer-rights">
-            ©2022 Molecular copyright All rights Reserved
+            ©2022 MolecularPro copyright All rights Reserved
           </div>
         </Container>
       </section>

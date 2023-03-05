@@ -370,8 +370,8 @@ const SpecialistWorkOrderDetails = (props) => {
           </div>
         </Modal>
         <Helmet>
-          <meta charSet='utf-8' />
-          <title>Molecular - Specialist Work Order</title>
+          <meta charSet="utf-8" />
+          <title>MolecularPro - Specialist Work Order</title>
           <link />
         </Helmet>
         <Row>

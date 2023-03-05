@@ -64,7 +64,7 @@ const Blog_Revamp = () => {
       <div className='blogheader'>
         <h2 className='blog-title'>Grey Connects</h2>
         <p>
-          Molecular is a technology-driven workforce management solution for
+          MolecularPro is a technology-driven workforce management solution for
           technical specialists in Africa’s natural gas industry
         </p>
       </div>

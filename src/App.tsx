@@ -86,6 +86,7 @@ import WorkSheetAdmin from "./Components/Admin/WorkSheet";
 import CreateWorkSheet from "./Components/Specialist/CreateWorkSheet";
 import SpecialistWorkSheetPage from "./Components/Specialist/SpecialistWorkSheetPage";
 import WorkSheetContactor from './Components/Contractor/WorkSheet';
+import Homev2 from "./Components/Landing_page/home_v2";
 
 const App: any = ({ history }) => {
   return (
@@ -344,7 +345,8 @@ const App: any = ({ history }) => {
                 component={Password_Reset}
               />
 
-              <Route path='/' exact={true} component={Home} />
+              {/* <Route path='/' exact={true} component={Home} /> */}
+              <Route path='/' exact={true} component={Homev2} />
             </Switch>
           </HashRouter>
         </Router>

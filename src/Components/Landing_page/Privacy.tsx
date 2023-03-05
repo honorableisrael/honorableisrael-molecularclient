@@ -15,9 +15,9 @@ const Privacy = (props) => {
             <h2 className="terms_title"> TERMS OF SERVICE AND POLICY </h2>
             <p>
               These Terms of Services (these “Terms”) are a binding contract
-              between you and Molecular Technical Services Limited (“MTSL”)
+              between you and MolecularPro Technical Services Limited (“MTSL”)
               Technical Limited (hereafter “we”, “us”, “our”, “Company”, or
-              “Molecular Technical Services Limited (“MTSL”)”). The Terms apply
+              “MolecularPro Technical Services Limited (“MTSL”)”). The Terms apply
               to your access to, and your use of our website located at
               <a href="https://www.molecularpro.co">
                 {" "}
@@ -32,7 +32,7 @@ const Privacy = (props) => {
               </p>
               <p>
                 {" "}
-                Molecular Technical Services Limited (“MTSL”)’s Services provide
+                MolecularPro Technical Services Limited (“MTSL”)’s Services provide
                 a platform through which companies (“EPC Contractors”) can
                 organize, procure, and manage relationships with existing or
                 prospective technical specialists (“Specialists”). The Services
@@ -64,7 +64,7 @@ const Privacy = (props) => {
               the express language of these Terms), you acknowledge the
               following: <br />
               <p>
-                • Molecular Technical Services Limited (“MTSL”) App is licensed,
+                • MolecularPro Technical Services Limited (“MTSL”) App is licensed,
                 not sold to you, and you may use the Services only as set forth
                 in these Terms;
               </p>{" "}
@@ -98,7 +98,7 @@ const Privacy = (props) => {
             </p>
             <h5>Notice Regarding Apple</h5>
             <p>
-              You acknowledge that these Terms are between you and Molecular
+              You acknowledge that these Terms are between you and MolecularPro
               Technical Services Limited (“MTSL”) only, not with Apple, and
               Apple is not responsible for any App or the content thereof. Apple
               has no obligation whatsoever to furnish any maintenance and
@@ -135,14 +135,14 @@ const Privacy = (props) => {
               Nigeria Government embargo, or that has been designated by the
               Nigeria Government as a “terrorist supporting” country; and (b)
               you are not listed on any Nigeria Government list of prohibited or
-              restricted parties. If Molecular Technical Services Limited
+              restricted parties. If MolecularPro Technical Services Limited
               (“MTSL”) provides a translation of the English language version of
               these Terms, the translation is provided solely for convenience,
               and the English version will prevail.
             </p>
             <h5> Notice Regarding Google</h5>
             <p>
-              You acknowledge that these Terms are between you and Molecular
+              You acknowledge that these Terms are between you and MolecularPro
               Technical Services Limited (“MTSL”) only, not with Google, and
               <br />
               Google is not responsible for any App or the content thereof.
@@ -175,7 +175,7 @@ const Privacy = (props) => {
               embargo, or that has been designated by the Nigeria Government as
               a “terrorist supporting” country; and <br /> (b) you are not
               listed on any Nigeria Government list of prohibited or restricted
-              parties. If Molecular Technical Services Limited (“MTSL”) provides
+              parties. If MolecularPro Technical Services Limited (“MTSL”) provides
               a translation of the English language version of these Terms, the
               translation is provided solely for convenience, and the English
               version will prevail.
@@ -240,13 +240,13 @@ const Privacy = (props) => {
               responsible for maintaining the confidentiality of your password.
               If you have any reason to believe that your account credentials
               have been compromised or that your Account has been accessed by a
-              third party, you shall immediately notify Molecular Technical
+              third party, you shall immediately notify MolecularPro Technical
               Services Limited (“MTSL”) via e-mail at{" "}
               <a href="mailto:aoderinde@molecularpro.co">
                 aoderinde@molecularpro.co
               </a>{" "}
               . You will be solely responsible for the losses incurred by
-              Molecular Technical Services Limited (“MTSL”) and others due to
+              MolecularPro Technical Services Limited (“MTSL”) and others due to
               any unauthorized use of your Account.
             </p>
             <h5>7. Restrictions, Ownership, and License</h5>
@@ -256,8 +256,8 @@ const Privacy = (props) => {
               protected by law, including, but not limited to Nigeria and
               international copyright, trademark, patent, trade secret and other
               intellectual property or proprietary rights laws. The Services are
-              controlled and operated by Molecular Technical Services Limited
-              (“MTSL”) from its offices within Lagos, Nigeria. Molecular
+              controlled and operated by MolecularPro Technical Services Limited
+              (“MTSL”) from its offices within Lagos, Nigeria. MolecularPro
               Technical Services Limited (“MTSL”) makes no representation that
               any of the Services or Materials are appropriate or available for
               use in other locations, and access to them from territories where
@@ -267,18 +267,18 @@ const Privacy = (props) => {
               local laws.
               <br /> All rights, title and interest (including all copyrights,
               trademarks and other intellectual property rights) in the Services
-              and the Materials belong to Molecular Technical Services Limited
+              and the Materials belong to MolecularPro Technical Services Limited
               (“MTSL”) or the original creator of the material. Further, all
               names, designs, graphics, data, images, pictures, logos and icons
               on the Services and the Materials are proprietary information or
-              proprietary marks of Molecular Technical Services Limited (“MTSL”)
+              proprietary marks of MolecularPro Technical Services Limited (“MTSL”)
               or the original creator of the material. The compilation of all
               content, including the look and feel of the Services (including
-              the Materials), is the exclusive property of Molecular Technical
+              the Materials), is the exclusive property of MolecularPro Technical
               Services Limited (“MTSL”) and is protected by copyright law, as
               applicable. Except as may be expressly provided herein, nothing
               contained in these Terms or elsewhere shall be construed as
-              Molecular Technical Services Limited (“MTSL”) conferring any
+              MolecularPro Technical Services Limited (“MTSL”) conferring any
               license or right, by implication, estoppels or otherwise, under
               copyright, trademark or other intellectual property rights, to any
               of the Materials to you.
@@ -292,54 +292,54 @@ const Privacy = (props) => {
               Services (including the Materials) and any such violation with
               respect to the Services will terminate the license(s) granted
               herein. <br /> You also may not, without the permission of
-              Molecular Technical Services Limited (“MTSL”), “mirror” any of the
+              MolecularPro Technical Services Limited (“MTSL”), “mirror” any of the
               Materials on any other server. Any unauthorized use of any of the
               Materials may violate copyright laws, trademark laws, the laws of
               privacy and publicity, and communications regulations and
               statutes, and subject you to civil and criminal prosecution.{" "}
               <br /> All submissions, suggestions, ideas, artwork, or other
               information (the “Submission”), except your personal information,
-              communicated to Molecular Technical Services Limited (“MTSL”)
+              communicated to MolecularPro Technical Services Limited (“MTSL”)
               through the Services become the sole and exclusive property of
-              Molecular Technical Services Limited (“MTSL”). Molecular Technical
+              MolecularPro Technical Services Limited (“MTSL”). MolecularPro Technical
               Services Limited (“MTSL”) is not required to treat any Submissions
               as confidential and will not incur any liability as a result of
-              any similarities that may appear in future Molecular Technical
-              Services Limited (“MTSL”) endeavors. Molecular Technical Services
+              any similarities that may appear in future MolecularPro Technical
+              Services Limited (“MTSL”) endeavors. MolecularPro Technical Services
               Limited (“MTSL”) will have exclusive ownership of all present and
               future existing rights, including all commercial rights, to the
               Submission of every kind and nature in perpetuity throughout the
               universe, without acknowledgment or compensation to you. You
               acknowledge that you are responsible for whatever material you
-              submit, and that you, not Molecular Technical Services Limited
+              submit, and that you, not MolecularPro Technical Services Limited
               (“MTSL”), have full responsibility for the Submission, including
               its legality, reliability, appropriateness, novelty, and
               copyright.
               <br />
-              Molecular Technical Services Limited (“MTSL”) has the right but
+              MolecularPro Technical Services Limited (“MTSL”) has the right but
               not the obligation to monitor and edit or remove any activity or
-              content. Molecular Technical Services Limited (“MTSL”) takes no
+              content. MolecularPro Technical Services Limited (“MTSL”) takes no
               responsibility and assumes no liability for any content posted by
               you or any third party. <br /> The trademarks, service marks, and
-              logos, including but not limited to Molecular Technical Services
+              logos, including but not limited to MolecularPro Technical Services
               Limited (“MTSL”)’s name, logo, and all related names, logos, and
               service names, service marks, designs, and slogans (the
               “Trademarks”) used and displayed on the Services (including the
-              Materials) are registered and unregistered Trademarks of Molecular
+              Materials) are registered and unregistered Trademarks of MolecularPro
               Technical Services Limited (“MTSL”) and others. Nothing on the
               Services should be construed as granting, by implication,
               estoppel, or otherwise, any license or right to use any Trademark
               displayed on the Services (including the Materials), without the
-              written permission of the Trademark owner. Molecular Technical
+              written permission of the Trademark owner. MolecularPro Technical
               Services Limited (“MTSL”)’s Trademarks may not be used in any way,
               including in advertising or publicity pertaining to distribution
               of materials on the Services, without prior, written permission of
-              Molecular Technical Services Limited (“MTSL”). Molecular Technical
-              Services Limited (“MTSL”) prohibits use of the Molecular Technical
-              Services Limited (“MTSL”) and/or Molecular Technical Services
+              MolecularPro Technical Services Limited (“MTSL”). MolecularPro Technical
+              Services Limited (“MTSL”) prohibits use of the MolecularPro Technical
+              Services Limited (“MTSL”) and/or MolecularPro Technical Services
               Limited (“MTSL”)’s logo as a “hot” link to any website, including
-              Molecular Technical Services Limited (“MTSL”) websites, unless
-              Molecular Technical Services Limited (“MTSL”) first approves the
+              MolecularPro Technical Services Limited (“MTSL”) websites, unless
+              MolecularPro Technical Services Limited (“MTSL”) first approves the
               establishment of such a link writing.
             </p>
             <h5>8. User Conduct</h5>
@@ -352,9 +352,9 @@ const Privacy = (props) => {
               using the Services; (d) use the Services in any way that could
               damage, disable, overburden, or impair any of the Services, or
               interfere with anyone else’s use of any of the Services; (e)
-              attempt to gain unauthorized access to Molecular Technical
+              attempt to gain unauthorized access to MolecularPro Technical
               Services Limited (“MTSL”)’s computer systems or networks connected
-              to Molecular Technical Services Limited (“MTSL”), through hacking,
+              to MolecularPro Technical Services Limited (“MTSL”), through hacking,
               password mining or any other means; (f) attempt to reverse
               engineer any portion of any of the Services or attempt to infringe
               the intellectual property rights of others in any way; (g) obtain
@@ -374,17 +374,17 @@ const Privacy = (props) => {
             <h5>9. Third-Party Content</h5>
             <p>
               The Services may contain links to or from third-party websites.
-              Molecular Technical Services Limited (“MTSL”) has no control over
+              MolecularPro Technical Services Limited (“MTSL”) has no control over
               the content or privacy policies of third-party websites that you
               may link to from the Services or their advertisers. If you visit a
               linked website, be aware that the third party operating any such
               website may have access to any information you submit via that
-              website. Molecular Technical Services Limited (“MTSL”) is not
+              website. MolecularPro Technical Services Limited (“MTSL”) is not
               responsible for any third party’s failure to establish or abide by
               its or our privacy policies. Check the privacy policy for each
               website that you visit prior to submitting any personal
               information. Links to third-party websites do not imply
-              endorsement of the websites by Molecular Technical Services
+              endorsement of the websites by MolecularPro Technical Services
               Limited (“MTSL”).
             </p>
             <h5>10. User Content</h5>
@@ -393,7 +393,7 @@ const Privacy = (props) => {
               on behalf of a Company, you may be able to upload, post, or
               otherwise submit (“Submit”) content, such as Work Order,
               contracts, or other information regarding the services or
-              Specialists you are looking for. Molecular Technical Services
+              Specialists you are looking for. MolecularPro Technical Services
               Limited (“MTSL”) claims no ownership of Company Content. You or
               your third-party licensor, as applicable, retain all copyright,
               patent, and trademark rights to any Company Content that you post
@@ -406,18 +406,18 @@ const Privacy = (props) => {
               Master Services Agreements), responses to requests for proposals,
               invoices, or other information regarding the services you offer
               including information you Submit in response to a request from a
-              Buyer (“Worker Content”). Molecular Technical Services Limited
+              Buyer (“Worker Content”). MolecularPro Technical Services Limited
               (“MTSL”) claims no ownership of Worker Content. You or your
               third-party licensor, as applicable, retain all copyright, patent,
               and trademark rights to any Worker Content that you Submit on or
               through the Services. <h6> c. Messages </h6> The Services may
               allow Registered Users to send messages (“Messages”) to other
-              Registered Users. Molecular Technical Services Limited (“MTSL”)
+              Registered Users. MolecularPro Technical Services Limited (“MTSL”)
               may terminate the ability of a Registered User to send Messages at
               any time and for any reason, without notice or liability to that
               Registered User. If a Registered User sends you an objectionable
               Message, please notify us by sending an e-mail to
-              aorinde@molecularpro.co . You agree that Molecular Technical
+              aorinde@molecularpro.co . You agree that MolecularPro Technical
               Services Limited (“MTSL”) may monitor Messages for compliance with
               these Terms, and therefore, Messages are not confidential or
               proprietary and you understand that any information sent using
@@ -427,10 +427,10 @@ const Privacy = (props) => {
               to as “User Content.”{" "}
               <h6>
                 {" "}
-                e. Limited License Grant to Molecular Technical Services Limited
+                e. Limited License Grant to MolecularPro Technical Services Limited
                 (“MTSL”){" "}
               </h6>{" "}
-              You grant Molecular Technical Services Limited (“MTSL”) a
+              You grant MolecularPro Technical Services Limited (“MTSL”) a
               world-wide, non-exclusive, sublicensable, royalty-free,
               transferable, limited license to use, modify, host, store, remove,
               publish, perform, reproduce, transmit, or display User Content
@@ -440,17 +440,17 @@ const Privacy = (props) => {
               of the Services you elect to utilize. For example, if you are a
               Worker and submit certificates of insurance, OSHA compliance
               information, EMR documentation, W-9s, Master Services Agreements,
-              or similar documents via the Services, Molecular Technical
+              or similar documents via the Services, MolecularPro Technical
               Services Limited (“MTSL”) may make those documents available to
               one or more Buyers via the Services, based on whether the
               documents relate to a specific Buyer, all Buyers, or a subset of
-              Buyers, as applicable, and Molecular Technical Services Limited
+              Buyers, as applicable, and MolecularPro Technical Services Limited
               (“MTSL”) may reproduce and transmit your Messages in connection
               with facilitating transmission of your Messages to the intended
-              recipient through the Services. Molecular Technical Services
+              recipient through the Services. MolecularPro Technical Services
               Limited (“MTSL”) may use Your Content in an aggregated manner or
               for analytics purposes, but not in the manner that specifically
-              identifies you. Molecular Technical Services Limited (“MTSL”) will
+              identifies you. MolecularPro Technical Services Limited (“MTSL”) will
               not intentionally display Your Content in a manner inconsistent
               with the applicable sharing settings in your Account or in a
               manner inconsistent with the published features of the applicable
@@ -466,20 +466,20 @@ const Privacy = (props) => {
               materials, and other content from Specialists and Specialist, that
               may contain errors, be offensive, indecent, or objectionable. You
               use the Services, and rely upon any Materials or Services, at your
-              sole risk. Molecular Technical Services Limited (“MTSL”) will not
+              sole risk. MolecularPro Technical Services Limited (“MTSL”) will not
               have any liability to you for any Materials that may be found to
               be offensive, indecent, or that are inaccurate, incomplete,
               untimely, invalid, illegal, indecent, of poor quality, or
               otherwise objectionable. We are under no obligation to edit or
               control User Content that you or other users post or publish, and
               will not be in any way responsible or liable for User Content.
-              Molecular Technical Services Limited (“MTSL”) may, however, at any
+              MolecularPro Technical Services Limited (“MTSL”) may, however, at any
               time and without prior notice, screen, remove, edit, or block any
               User Content that in our sole judgment violates these Terms or is
               otherwise objectionable.
               <h5> 11. Revision Date, Modifications</h5> These Terms are
               effective and were last updated as of the revision date at the
-              beginning of these Terms. At any time, Molecular Technical
+              beginning of these Terms. At any time, MolecularPro Technical
               Services Limited (“MTSL”) may revise these Terms at our sole
               discretion. If we make changes, we will post the amended Terms,
               and update the revision date above. We may, but are not required
@@ -487,7 +487,7 @@ const Privacy = (props) => {
               associated with your Account or providing notice through our
               Services. Revisions are effective and binding when posted on the
               Services. Any continued use of any of the Services following any
-              revision means you agree to the revisions. Molecular Technical
+              revision means you agree to the revisions. MolecularPro Technical
               Services Limited (“MTSL”) expressly reserves the right to
               terminate or discontinue any of the Services at any time and for
               any reason, with or without notice to you.
@@ -499,7 +499,7 @@ const Privacy = (props) => {
               appearing on the Internet infringes their rights under the Nigeria
               Copyright law. If you believe in good faith that materials posted
               on the Services infringe your copyright, you (or your agent) may
-              send Molecular Technical Services Limited (“MTSL”) a “Notification
+              send MolecularPro Technical Services Limited (“MTSL”) a “Notification
               of Claimed Infringement” requesting that the material be removed,
               or access to it blocked. The notice must include the following
               information:
@@ -520,7 +520,7 @@ const Privacy = (props) => {
                 {" "}
                 3. identification of the specific material alleged to be
                 infringing or the subject of infringing activity, and
-                information reasonably sufficient to allow Molecular Technical
+                information reasonably sufficient to allow MolecularPro Technical
                 Services Limited (“MTSL”) to locate the material on the Service;
               </p>
               <p>
@@ -542,10 +542,10 @@ const Privacy = (props) => {
                 exclusive right that is allegedly infringed. If you believe in
                 good faith that a notice of copyright infringement has been
                 wrongly filed against you, the Copyright Act permits you to send
-                Molecular Technical Services Limited (“MTSL”) a counter-notice.
+                MolecularPro Technical Services Limited (“MTSL”) a counter-notice.
                 Notices and counter-notices with respect to the Service should
-                be sent to Molecular Technical Services Limited (“MTSL”)
-                Technical Limited or copyright@Molecular Technical Services
+                be sent to MolecularPro Technical Services Limited (“MTSL”)
+                Technical Limited or copyright@MolecularPro Technical Services
                 Limited (“MTSL”).com.
               </p>
             </p>
@@ -670,7 +670,7 @@ const Privacy = (props) => {
               of the Services and these Terms are governed by and construed in
               accordance with the laws of the Federal Republic of Nigeria as
               applicable therein, without resort to conflict of law provisions.
-              Molecular Technical Services Limited (“MTSL”) makes no
+              MolecularPro Technical Services Limited (“MTSL”) makes no
               representation that the contents of any of the Services are
               appropriate or available for use outside of the Federal Republic
               of Nigeria, and those who choose to access any of the Services
@@ -682,28 +682,28 @@ const Privacy = (props) => {
               action in small claims court or seeks injunctive or other
               equitable relief for the alleged unlawful use of intellectual
               property, including, without limitation, copyrights, trademarks,
-              trade names, logos, trade secrets, or patents, you and Molecular
+              trade names, logos, trade secrets, or patents, you and MolecularPro
               Technical Services Limited (“MTSL”) agree to (a) waive your and
-              Molecular Technical Services Limited (“MTSL”)’s respective rights
+              MolecularPro Technical Services Limited (“MTSL”)’s respective rights
               to have any and all Disputes arising from or related to these
               Terms, or the Services resolved in a court, (b) waive your right
               to proceed in a class, collective, or consolidated capacity, and
-              (c) waive your and Molecular Technical Services Limited (“MTSL”)’s
-              respective rights to a jury trial. Your rights and Molecular
+              (c) waive your and MolecularPro Technical Services Limited (“MTSL”)’s
+              respective rights to a jury trial. Your rights and MolecularPro
               Technical Services Limited (“MTSL”)’s rights during the
               arbitration process may be more limited than the rights you or
-              Molecular Technical Services Limited (“MTSL”) would have in civil
+              MolecularPro Technical Services Limited (“MTSL”) would have in civil
               trial or appellate court. The Arbitration and Conciliation Act Cap
               18, Laws of the Federation of Nigeria 2004 apply to these Terms.
-              In the interest of resolving disputes between you and Molecular
-              Technical Services Limited (“MTSL”), or you and Molecular
+              In the interest of resolving disputes between you and MolecularPro
+              Technical Services Limited (“MTSL”), or you and MolecularPro
               Technical Services Limited (“MTSL”)’s customers—which are intended
               third party beneficiaries of this Dispute Resolution and Binding
               Arbitration Section—in the most expedient and cost effective
-              manner, you and Molecular Technical Services Limited (“MTSL”)
+              manner, you and MolecularPro Technical Services Limited (“MTSL”)
               agree that every claim, controversy, allegation, or dispute
               arising out of or relating in any way to these Terms or in
-              connection with any work performed for or on behalf of Molecular
+              connection with any work performed for or on behalf of MolecularPro
               Technical Services Limited (“MTSL”), both past and future,
               including without limitation before you first agreed to these
               Terms, and after termination of this agreement (“Work Dispute”),
@@ -717,9 +717,9 @@ const Privacy = (props) => {
               out of or relating to any aspect of these Terms, whether based in
               contract, tort, statute, fraud, misrepresentation, or any other
               legal theory, and regardless of whether a claim arises before,
-              during, or after the termination of these Terms. Should Molecular
+              during, or after the termination of these Terms. Should MolecularPro
               Technical Services Limited (“MTSL”) prevail in the arbitration, to
-              the extent permissible by law you agree to pay Molecular Technical
+              the extent permissible by law you agree to pay MolecularPro Technical
               Services Limited (“MTSL”) for all of its associated fees and
               costs, including its attorneys fees. YOU UNDERSTAND AND AGREE
               THAT, BY ENTERING INTO THESE TERMS, YOU AND MOLECULAR TECHNICAL
@@ -732,7 +732,7 @@ const Privacy = (props) => {
               PROCEEDING. ADDITIONALLY, YOU AGREE YOU ARE WAIVING THE RIGHT TO
               COURT TRIAL AGAINST MOLECULAR TECHNICAL SERVICES LIMITED (“MTSL”)
               AND OTHER THIRD PARTY BENEFICIARIES OF THIS AGREEMENT. Further,
-              unless both you and Molecular Technical Services Limited (“MTSL”)
+              unless both you and MolecularPro Technical Services Limited (“MTSL”)
               agree otherwise, the arbitrator may not consolidate more than one
               person’s claims, and may not otherwise preside over any form of a
               representative or class proceeding. You also agree that the
@@ -746,7 +746,7 @@ const Privacy = (props) => {
               unenforceability shall not affect any other term or provision in
               this Dispute Resolution and Binding Arbitration Section or
               invalidate or render unenforceable such term or provision in any
-              other jurisdiction. Molecular Technical Services Limited (“MTSL”)
+              other jurisdiction. MolecularPro Technical Services Limited (“MTSL”)
               shall have the right to prospectively terminate the provisions of
               this Dispute Resolution and Arbitration Section. Termination is
               not effective for claims which accrued or occurred prior to the
@@ -760,8 +760,8 @@ const Privacy = (props) => {
               available; (c) seek injunctive relief in a court of law; or (d) to
               file suit in a court of law to address an intellectual property
               infringement claim. c. Arbitrator Any arbitration between you and
-              Molecular Technical Services Limited (“MTSL”), or you and
-              Molecular Technical Services Limited (“MTSL”)’s customers, will be
+              MolecularPro Technical Services Limited (“MTSL”), or you and
+              MolecularPro Technical Services Limited (“MTSL”)’s customers, will be
               settled under the Arbitration and Conciliation Act Cap 18, Laws of
               the Federation of Nigeria 2004, as modified by these Terms, and
               the mediation proceedings shall be held in Lagos State and
@@ -772,27 +772,27 @@ const Privacy = (props) => {
               who intends to seek arbitration must first send a written notice
               of the dispute to the other party by certified NIPOST Mail or,
               only if such other party has not provided a current physical
-              address, then by electronic mail (“Notice”). Molecular Technical
-              Services Limited (“MTSL”)’s address for Notice is: Molecular
+              address, then by electronic mail (“Notice”). MolecularPro Technical
+              Services Limited (“MTSL”)’s address for Notice is: MolecularPro
               Technical Services Limited (“MTSL”), Inc., 111 Congress Ave.,
               Suite 900, Austin, TX 78701. The Notice must: (a) describe the
               nature and basis of the claim or dispute; and (b) set forth the
               specific relief sought (“Demand”). The parties will make good
               faith efforts to resolve the claim directly, but if the parties do
               not reach an agreement to do so within 30 days after the Notice is
-              received, you or Molecular Technical Services Limited (“MTSL”) may
+              received, you or MolecularPro Technical Services Limited (“MTSL”) may
               commence an arbitration proceeding. During the arbitration, the
-              amount of any settlement offer made by you or Molecular Technical
+              amount of any settlement offer made by you or MolecularPro Technical
               Services Limited (“MTSL”) must not be disclosed to the arbitrator
               until after the arbitrator makes a final decision and award, if
               any. If the dispute is finally resolved through arbitration in
-              your favor, Molecular Technical Services Limited (“MTSL”) will pay
+              your favor, MolecularPro Technical Services Limited (“MTSL”) will pay
               you the highest of the following: (i) the amount awarded by the
               arbitrator, if any; (ii) the last written settlement amount
-              offered by Molecular Technical Services Limited (“MTSL”) in
+              offered by MolecularPro Technical Services Limited (“MTSL”) in
               settlement of the dispute prior to the arbitrator’s award; or
               (iii) $1,000. e. Fees If you commence arbitration in accordance
-              with these Terms, Molecular Technical Services Limited (“MTSL”)
+              with these Terms, MolecularPro Technical Services Limited (“MTSL”)
               will follow the Arbitration and Conciliation Act (ACA), Cap 18 fee
               requirements under the applicable ACT rules, as modified by this
               Agreement, where applicable. Any arbitration hearing will take
@@ -806,52 +806,52 @@ const Privacy = (props) => {
               improper purpose (as measured by the standards set forth by Lagos
               Multi Door Courthouse Rules), then the payment of all fees will be
               governed by the ACA Rules. In that case, you agree to reimburse
-              Molecular Technical Services Limited (“MTSL”) for all monies
+              MolecularPro Technical Services Limited (“MTSL”) for all monies
               previously disbursed by it that are otherwise your obligation to
               pay under the ACA or Lagos Multi Door Courthouse Rules. Regardless
               of the manner in which the arbitration is conducted, you and
-              Molecular Technical Services Limited (“MTSL”) agree that the
+              MolecularPro Technical Services Limited (“MTSL”) agree that the
               arbitrator shall decide all discovery and procedural matters and
               issue a reasoned award, and that the place of arbitration shall be
               Lagos in Nigeria. You further agree that you will reimburse
-              Molecular Technical Services Limited (“MTSL”) and any third party
+              MolecularPro Technical Services Limited (“MTSL”) and any third party
               beneficiaries of this agreement for any costs or fees associated
               with enforcing this Dispute Resolution and Arbitration provision.
-              Unless you and Molecular Technical Services Limited (“MTSL”)
-              otherwise mutually agree in writing, you and Molecular Technical
+              Unless you and MolecularPro Technical Services Limited (“MTSL”)
+              otherwise mutually agree in writing, you and MolecularPro Technical
               Services Limited (“MTSL”) agree that discovery is limited to no
               more than five interrogatories, five requests for admission, five
               requests for production, and eight hours of depositions per side.
-              You and Molecular Technical Services Limited (“MTSL”) further
+              You and MolecularPro Technical Services Limited (“MTSL”) further
               agree that third party subpoenas may be issued only after a
               showing of good cause, upon the arbitrator’s order allowing any
-              such third party subpoena to issue. You and Molecular Technical
+              such third party subpoena to issue. You and MolecularPro Technical
               Services Limited (“MTSL”) also agree that motions for summary
               judgment may only be filed upon a showing of good cause, upon the
               arbitrator’s order allowing such dispositive motions to be filed.
               All information and documents obtained during the arbitration will
               be treated as confidential and used only for purposes of the
-              proceeding. You and Molecular Technical Services Limited (“MTSL”)
+              proceeding. You and MolecularPro Technical Services Limited (“MTSL”)
               agree to negotiate in good faith and submit an agreed protective
               order to the arbitrator before making any potentially confidential
-              disclosures. In the event that you and Molecular Technical
+              disclosures. In the event that you and MolecularPro Technical
               Services Limited (“MTSL”) cannot agree on a form of protective
-              order, you and Molecular Technical Services Limited (“MTSL”) agree
+              order, you and MolecularPro Technical Services Limited (“MTSL”) agree
               to submit separate proposed protective orders and seek an
               extension of discovery and other deadlines, if necessary, to allow
               the arbitrator to enter a protective order before disclosures are
-              made. You and Molecular Technical Services Limited (“MTSL”) shall
+              made. You and MolecularPro Technical Services Limited (“MTSL”) shall
               maintain the confidential nature of the arbitration proceeding and
               the arbitration award, including the arbitration hearing, except
               as may be necessary to prepare for or conduct the arbitration
               hearing on the merits, or unless otherwise required by law or
-              judicial decision. You and Molecular Technical Services Limited
+              judicial decision. You and MolecularPro Technical Services Limited
               (“MTSL”) agree that the arbitrator will render an interim reasoned
-              award (“Interim Award”) on which you and Molecular Technical
+              award (“Interim Award”) on which you and MolecularPro Technical
               Services Limited (“MTSL”) may comment for at least seven days
               concerning the law and reasoning of the Interim Award before an
               appealable, reasoned award (“Appealable Award”) is issued. You and
-              Molecular Technical Services Limited (“MTSL”) further agree that
+              MolecularPro Technical Services Limited (“MTSL”) further agree that
               the Appealable Award may be appealed pursuant to the ACA or Lagos
               Multi Door Courthouse Rules (“Appellate Rules”); that the Interim
               and Appealable Awards shall, at a minimum, be reasoned awards
@@ -875,7 +875,7 @@ const Privacy = (props) => {
             <p> f. Request for Early Payment.</p>
             <p>
               {" "}
-              Technical Specialists under the services of Molecular Technical
+              Technical Specialists under the services of MolecularPro Technical
               Services Limited on any project shall be entitled to Apply for
               Early Payment at a fee. Early Payment is the payment made to the
               Specialist by MTSL, in response to the Specialist early payment
@@ -887,13 +887,13 @@ const Privacy = (props) => {
             <p> g. Modifications to this Arbitration Provision. </p>
             <p>
               {" "}
-              If Molecular Technical Services Limited (“MTSL”) makes any future
+              If MolecularPro Technical Services Limited (“MTSL”) makes any future
               change to this arbitration provision, other than a change to
-              Molecular Technical Services Limited (“MTSL”)’s address for
+              MolecularPro Technical Services Limited (“MTSL”)’s address for
               Notice, such changes are deemed not material, but you may reject
               any such change by sending us written notice within 30 days of the
-              change to Molecular Technical Services Limited (“MTSL”)’s address
-              for Notice, in which case your account with Molecular Technical
+              change to MolecularPro Technical Services Limited (“MTSL”)’s address
+              for Notice, in which case your account with MolecularPro Technical
               Services Limited (“MTSL”) will be immediately terminated and this
               arbitration provision will survive, in the form that was in effect
               immediately prior to the changes you rejected..
@@ -915,7 +915,7 @@ const Privacy = (props) => {
             <p>
               {" "}
               These Terms, your access to and use of the Services, and any claim
-              or dispute you may bring against Molecular Technical Services
+              or dispute you may bring against MolecularPro Technical Services
               Limited (“MTSL”), its affiliates, subsidiaries, parent companies,
               members, shareholders, agents and assigns, shall be governed by
               and construed and enforced in accordance with the laws of the
@@ -947,11 +947,11 @@ const Privacy = (props) => {
             <h5> 20. Assignment </h5>
             <p>
               {" "}
-              If Molecular Technical Services Limited (“MTSL”) sells its assets
+              If MolecularPro Technical Services Limited (“MTSL”) sells its assets
               to or is acquired by another company, or if it merges with another
-              company, you, by using the Services, authorize Molecular Technical
+              company, you, by using the Services, authorize MolecularPro Technical
               Services Limited (“MTSL”) to assign the information you provided
-              to Molecular Technical Services Limited (“MTSL”) or that Molecular
+              to MolecularPro Technical Services Limited (“MTSL”) or that MolecularPro
               Technical Services Limited (“MTSL”) collected while you used the
               Services.{" "}
             </p>{" "}
@@ -961,7 +961,7 @@ const Privacy = (props) => {
               By using the Services, you consent to receiving electronic
               communications from us regarding your Account, or for operational
               and informational purposes. You also agree that by using the
-              Services, you affirmatively consent to Molecular Technical
+              Services, you affirmatively consent to MolecularPro Technical
               Services Limited (“MTSL”) using electronic records or your digital
               signature to satisfy any statute, regulation, or rule of law
               requiring that such information be provided in writing and that
@@ -971,13 +971,13 @@ const Privacy = (props) => {
             <p>
               {" "}
               These Terms constitute the entire agreement between you and
-              Molecular Technical Services Limited (“MTSL”) relating to your
+              MolecularPro Technical Services Limited (“MTSL”) relating to your
               access to and use of the Services. These Terms, and any rights and
               licenses granted hereunder, may not be transferred or assigned by
-              you without the prior written consent of Molecular Technical
+              you without the prior written consent of MolecularPro Technical
               Services Limited (“MTSL”). No waiver of any provision of these
               Terms will constitute a waiver of such provision in any prior,
-              concurrent or subsequent circumstance, and Molecular Technical
+              concurrent or subsequent circumstance, and MolecularPro Technical
               Services Limited (“MTSL”)’s failure to assert any right or
               provision under these Terms shall not constitute a waiver of such
               right or provision. Except as otherwise provided herein, these
@@ -990,7 +990,7 @@ const Privacy = (props) => {
               If you have any questions, comments or concerns about the Terms,
               you may contact us using the information provided below:
             </p>{" "}
-            Molecular Technical Services Limited (“MTSL”), P65B, Road 3, <br />
+            MolecularPro Technical Services Limited (“MTSL”), P65B, Road 3, <br />
             Victoria Garden City, Lekki-Ajah, Lagos Nigeria. <br />
             <b>
               {" "}

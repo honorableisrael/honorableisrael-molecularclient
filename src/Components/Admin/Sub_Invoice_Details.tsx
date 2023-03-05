@@ -1013,7 +1013,7 @@ const Admin_Sub_Invoice_Details = (props) => {
       <Container fluid={true} className='dasbwr nopaddrt tainer3'>
         <Helmet>
           <meta charSet='utf-8' />
-          <title>Molecular - Admin Work Order</title>
+          <title>MolecularPro - Admin Work Order</title>
           <link />
         </Helmet>
         <Row>
@@ -1350,6 +1350,7 @@ const Admin_Sub_Invoice_Details = (props) => {
                           <th>Pipe Schedule</th>
                           <th>Number of Joints</th>
                           <th>Cost Per Joint (NGN)</th>
+                          <th>Price Per Joint (NGN)</th>
                           <th>Total Amount (NGN)</th>
                         </tr>
                       </thead>
@@ -1364,6 +1365,9 @@ const Admin_Sub_Invoice_Details = (props) => {
                             <td>{FormatAmount(data?.joints)}</td>
                             <td>
                               {FormatAmount(data?.cost_per_joint ?? "n/a")}
+                            </td>
+                            <td>
+                              {FormatAmount(data?.price_per_joint ?? "n/a")}
                             </td>
                             <td>
                               {FormatAmount(data?.contractor_cost) ?? "n/a"}

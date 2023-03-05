@@ -412,7 +412,7 @@ const ScheduledPayments = withRouter((props) => {
     <>
       <Helmet>
         <meta charSet="utf-8" />
-        <title>Molecular - Scheduled Payments</title>
+        <title>MolecularPro - Scheduled Payments</title>
         <link />
       </Helmet>
       <Modal

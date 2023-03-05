@@ -162,7 +162,7 @@ const Contractor_Payment_Invoice = () => {
       <Container fluid={true}>
         <Helmet>
           <meta charSet="utf-8" />
-          <title>Molecular - Contractor Payment</title>
+          <title>MolecularPro - Contractor Payment</title>
           <link />
         </Helmet>
         <Row>

@@ -308,7 +308,7 @@ const Admin_Invoice_details = (props) => {
     show,
     cycle_amount,
   } = state;
-  console.log(work_order_detail, "work_order_detail");
+  console.log(pipe_breakdown, "pipe_breakdown");
   return (
     <>
       <Modal
@@ -424,7 +424,7 @@ const Admin_Invoice_details = (props) => {
       <Container fluid={true} className='dasbwr tainer3'>
         <Helmet>
           <meta charSet='utf-8' />
-          <title>Molecular - Contractor Work Order</title>
+          <title>MolecularPro - Contractor Work Order</title>
           <link />
         </Helmet>
         <Row>
@@ -722,6 +722,7 @@ const Admin_Invoice_details = (props) => {
                           <th>Pipe Schedule</th>
                           <th>Number of Joints</th>
                           <th>Cost Per Joint (NGN)</th>
+                          <th>Price Per Joint (NGN)</th>
                           <th>Total Amount (NGN)</th>
                         </tr>
                       </thead>
@@ -736,6 +737,9 @@ const Admin_Invoice_details = (props) => {
                             <td>{FormatAmount(data?.joints)}</td>
                             <td>
                               {FormatAmount(data?.cost_per_joint ?? "n/a")}
+                            </td>
+                            <td>
+                              {FormatAmount(data?.price_per_joint ?? "n/a")}
                             </td>
                             <td>
                               {FormatAmount(data?.contractor_cost) ?? "n/a"}

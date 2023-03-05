@@ -99,7 +99,7 @@ const Notification = withRouter((props) => {
       <Container fluid={true} className="dasbwr">
         <Helmet>
           <meta charSet="utf-8" />
-          <title>Molecular - Contractor Notification</title>
+          <title>MolecularPro - Contractor Notification</title>
           <link />
         </Helmet>
         <Row>

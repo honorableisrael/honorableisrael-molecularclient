@@ -579,7 +579,7 @@ const SpecialistSettings = () => {
       <Container fluid={true}>
         <Helmet>
           <meta charSet='utf-8' />
-          <title>Molecular - Specialialist Profile Settings</title>
+          <title>MolecularPro - Specialialist Profile Settings</title>
           <link />
         </Helmet>
         <Row>

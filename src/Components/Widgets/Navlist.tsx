@@ -6,11 +6,11 @@ import styled from "styled-components";
 
 const Ul = styled.ul`
      display: flex !important;
-     width: 78%;
-     color: #999999;
-     font-size: 16px;
+     width: 47%;
+     color: #333333;
+     font-size: 14px;
      font-weight: 600;
-     justify-content: space-around !important;
+     justify-content: space-between !important;
      list-style: none;
      align-items: baseline;
     li{
@@ -49,7 +49,7 @@ const Navlist = ({ open }) => {
         to="/#home"
         className="homenavlnks"
         activeStyle={{
-          color: "#222073",
+          color: "#333333",
           lineHeight: "29px",
           borderBottom: "4px solid #fd8c00",
         }}
@@ -60,7 +60,7 @@ const Navlist = ({ open }) => {
         to="/#our_services"
         className="homenavlnks"
         activeStyle={{
-          color: "#222073",
+          color: "#333333",
           lineHeight: "29px",
           borderBottom: "4px solid #fd8c00",
         }}
@@ -70,49 +70,51 @@ const Navlist = ({ open }) => {
       <NavHashLink
         to='/contractorlanding'
         activeStyle={{
-          color: "#222073",
+          color: "#333333",
           lineHeight: "29px",
+          fontSize: "14px !important" ,
           borderBottom: "4px solid #fd8c00",
         }}
-        className='homenavlnks'>
-        <li>Hire Specialist</li>
+        activeClassName='homenavlnks'>
+        <li>EPC Contractors</li>
       </NavHashLink>
       <NavHashLink
         to='/specialistlanding'
         activeStyle={{
-          color: "#222073",
           lineHeight: "29px",
           borderBottom: "4px solid #fd8c00",
         }}
         className='homenavlnks'>
-        <li>Find work</li>
+        <li>Technical Specialist</li>
       </NavHashLink>
-      <NavHashLink
+      {/* <NavHashLink
         to='/Industry_segments'
         className='homenavlnks'
         activeStyle={{
-          color: "#222073",
+          color: "#333333",
           lineHeight: "29px",
+          fontSize: "14px !important",
           borderBottom: "4px solid #fd8c00",
         }}>
         <li>Industry Segments</li>
-      </NavHashLink>
+      </NavHashLink> */}
       <NavHashLink
         to='/learnmore'
         className='homenavlnks'
         activeStyle={{
-          color: "#222073",
+          color: "#333333 !important",
           lineHeight: "29px",
+          fontSize: "14px !important",
           borderBottom: "4px solid #fd8c00",
         }}>
-        <li>What we do</li>
+        <li>About Us</li>
       </NavHashLink>
       <a
         target='blank'
         href='https://blog.molecularpro.co'
         className='homenavlnks'
         // activeStyle={{
-        //   color: "#222073",
+        //   color: "#333333",
         //   lineHeight: "29px",
         //   borderBottom: "4px solid #fd8c00",
         // }}
