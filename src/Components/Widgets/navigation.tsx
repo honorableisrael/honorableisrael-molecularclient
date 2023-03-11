@@ -1,7 +1,7 @@
 import React from 'react';
 import './navigation.css';
 import { Link } from "react-router-dom";
-import logo from '../../images/Molecular.png';
+import logo from '../../assets/molecularpro.png';
 import Burger from './burger'
 
 

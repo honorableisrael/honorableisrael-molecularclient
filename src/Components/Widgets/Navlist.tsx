@@ -68,7 +68,7 @@ const Navlist = ({ open }) => {
         <li>Our Services</li>
       </NavHashLink> */}
       <NavHashLink
-        to='/contractorlanding'
+        to='/#contractorlanding'
         activeStyle={{
           color: "#333333",
           lineHeight: "29px",
@@ -79,13 +79,13 @@ const Navlist = ({ open }) => {
         <li>EPC Contractors</li>
       </NavHashLink>
       <NavHashLink
-        to='/specialistlanding'
+        to='/#specialistlanding'
         activeStyle={{
           lineHeight: "29px",
           borderBottom: "4px solid #fd8c00",
         }}
         className='homenavlnks'>
-        <li>Technical Specialist</li>
+        <li>Technical Specialists</li>
       </NavHashLink>
       {/* <NavHashLink
         to='/Industry_segments'
@@ -99,7 +99,7 @@ const Navlist = ({ open }) => {
         <li>Industry Segments</li>
       </NavHashLink> */}
       <NavHashLink
-        to='/learnmore'
+        to='/#learnmore'
         className='homenavlnks'
         activeStyle={{
           color: "#333333 !important",

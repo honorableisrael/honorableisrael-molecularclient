@@ -92,55 +92,58 @@ const SignIn = (props) => {
       success: "",
     });
   };
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div>
       <NavBar />
-      <section className="signin-section">
-        <div className="signinImage"></div>
+      <section className='signin-section'>
+        <div className='signinImage'></div>
         <Container>
-          <Row className="signin-form-row">
+          <Row className='signin-form-row'>
             <Col md={7}>
-              <form className="form-wrapper" onSubmit={validateForm}>
-                <div className="form-header">
-                  <h6 className="siginheading">Welcome Back!</h6>
-                  <h4 className="form-title">Login to your Account</h4>
+              <form className='form-wrapper' onSubmit={validateForm}>
+                <div className='form-header'>
+                  <h6 className='siginheading'>Welcome Back!</h6>
+                  <h4 className='form-title'>Login to your Account</h4>
                   {errorMessage && (
-                    <div className="signinalertmssg">
+                    <div className='signinalertmssg'>
                       <Alert variant={"danger"}>{errorMessage}</Alert>
                     </div>
                   )}
                   {success && (
-                    <div className="signinalertmssg">
+                    <div className='signinalertmssg'>
                       <Alert variant={"info"}>{success}</Alert>
                     </div>
                   )}
                 </div>
-                <div className="padded-signin-wrapper">
-                  <label className="inputlabel">
-                    <span className="rdfrmlbl"> Email Address</span>
+                <div className='padded-signin-wrapper'>
+                  <label className='inputlabel'>
+                    <span className='rdfrmlbl'> Email Address</span>
                     <input
-                      type="text"
-                      name="email"
+                      type='text'
+                      name='email'
                       value={email}
                       onChange={onchange}
                       // placeholder="Enter your Email Address"
                       size={60}
-                      className="form-control forminput"
+                      className='form-control forminput'
                     />
                   </label>
-                  <label className="inputlabel">
-                    <span className="rdfrmlbl">Password</span>
+                  <label className='inputlabel'>
+                    <span className='rdfrmlbl'>Password</span>
                     <input
                       type={open ? "text" : "password"}
-                      name="password"
+                      name='password'
                       value={password}
                       onChange={onchange}
                       //placeholder="Enter your Password"
                       size={60}
-                      className="form-control forminput"
+                      className='form-control forminput'
                     />
                   </label>
-                  <div className="text-righ">
+                  <div className='text-righ'>
                     {" "}
                     <span
                       onClick={() => {
@@ -148,30 +151,29 @@ const SignIn = (props) => {
                           ...state,
                           open: open ? false : true,
                         });
-                      }}
-                    >
+                      }}>
                       &#128065;
                     </span>
                   </div>
-                  <Link to="/forgot_password">Forgot password?</Link>
-                  <div className="form-btn-wrapper loginbtdv">
+                  <Link to='/forgot_password'>Forgot password?</Link>
+                  <div className='form-btn-wrapper loginbtdv'>
                     <input
-                      className="signinbtn"
-                      type="submit"
+                      className='signinbtn'
+                      type='submit'
                       onSubmit={validateForm}
                       value={isloading ? "Logging in..." : "Login"}
                     />
                   </div>
-                  <Link to="/contractor_signup">
-                    <p className="signuprgqt">
-                      Dont have MolecularPro account?<span> Sign up</span>
+                  <Link to='/contractor_signup'>
+                    <p className='signuprgqt'>
+                      Don't have MolecularPro account?<span> Sign up</span>
                     </p>
                   </Link>
                 </div>
               </form>
             </Col>
           </Row>
-          <div className="signin-footer-rights">
+          <div className='signin-footer-rights'>
             ©2022 MolecularPro copyright All rights Reserved
           </div>
         </Container>

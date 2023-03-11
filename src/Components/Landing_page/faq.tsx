@@ -59,7 +59,9 @@ const Faq = () => {
               eventKey='0'>
               <div className='faq-side-header'>
                 {" "}
-                <div className={firstIsOpen && "mol_orange"}>1. How do I access MolecularPro?</div>
+                <div className={firstIsOpen && "mol_orange"}>
+                  1. How do I access MolecularPro?
+                </div>
                 <span className='sideplus'>
                   {!firstIsOpen ? (
                     <svg
@@ -194,7 +196,17 @@ const Faq = () => {
             </Accordion.Toggle>
             <Accordion.Collapse eventKey='1'>
               <Card.Body>
-                <div className='faq-answers'>Response 2</div>
+                <div className='faq-answers'>
+                  All the technical specialists on the MolecularPro platform
+                  meet standard criteria. They possess a minimum of 10 years
+                  experience, formal technical education, technical
+                  certifications and project experience.
+                </div>
+                <div className='faq-answers'>
+                  In addition, all the technical specialists deployed on
+                  projects undergo a qualifying test to ensure their on-site
+                  suitability.{" "}
+                </div>
               </Card.Body>
             </Accordion.Collapse>
           </Card>
@@ -270,7 +282,11 @@ const Faq = () => {
             </Accordion.Toggle>
             <Accordion.Collapse eventKey='3'>
               <Card.Body>
-                <p className='faq-answers'> Response 3</p>
+                <p className='faq-answers'>
+                  {" "}
+                  Deployment can be done in 24-48 hours once the documentation
+                  is completed.
+                </p>
               </Card.Body>
             </Accordion.Collapse>
           </Card>
@@ -347,7 +363,10 @@ const Faq = () => {
             </Accordion.Toggle>
             <Accordion.Collapse eventKey='4'>
               <Card.Body>
-                <p>Response 4</p>
+                <p>
+                  There are no sign-up fees or hidden charges for signing up on
+                  MolecularPro{" "}
+                </p>
               </Card.Body>
             </Accordion.Collapse>
           </Card>
@@ -362,7 +381,9 @@ const Faq = () => {
               eventKey='5'>
               <div className='faq-side-header'>
                 {" "}
-                <div className={o5 && "mol_orange"}>5. I have other questions, who do I talk to?</div>
+                <div className={o5 && "mol_orange"}>
+                  5. I have other questions, who do I talk to?
+                </div>
                 <span className='sideplus'>
                   {" "}
                   {!o5 ? (
@@ -419,7 +440,15 @@ const Faq = () => {
             </Accordion.Toggle>
             <Accordion.Collapse eventKey='5'>
               <Card.Body>
-                <p className='faq-answers'>Response5</p>
+                <p className='faq-answers'>
+                  You can send us an email at{" "}
+                  <a href='mailto:Info@molecularpro.co'>
+                    {" "}
+                    Info@molecularpro.co
+                  </a>{" "}
+                  or call <a href='tel:08051114881'> 08051114881</a>. We would
+                  love to hear from you.
+                </p>
               </Card.Body>
             </Accordion.Collapse>
           </Card>

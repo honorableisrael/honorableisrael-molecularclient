@@ -394,7 +394,54 @@
 .tech_specialist_v2 div {
   max-width: 410px;
 }
-.green_btn{
+.green_btn {
   background: #038500;
   cursor: pointer;
+}
+
+.outercircle {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #fd8c00;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 0.3rem;
+  cursor: pointer;
+}
+.innercircle {
+  background: #fd8c00;
+  width: 10px;
+  height: 10px;
+  display: flex;
+  border-radius: 50%;
+}
+.slide_controller {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.inactivecircle {
+  background: #ffffff;
+  width: 10px;
+  height: 10px;
+  display: flex;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.greenb__bg {
+  background: #038500;
+}
+.green__border {
+  border: 2px solid #038500 !important;
+}
+.textgreen{
+  color: #374B58;
+}
+.textgreen2{
+  color: #001928;
+}
+.dark__text{
+  color: #001928;
 }

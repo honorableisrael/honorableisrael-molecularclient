@@ -37,7 +37,7 @@ import homefirstimage from "../../assets/homefirstimage1.png";
 import OrangeButton from "../Shared/Button";
 import { Accordion, Card, useAccordionToggle } from "react-bootstrap";
 import Faq from "./faq";
-import GreenButton from '../Shared/Button2';
+import GreenButton from "../Shared/Button2";
 
 function CustomToggle({ children, eventKey, handleClick }) {
   const decoratedOnClick = useAccordionToggle(eventKey, () => {
@@ -55,23 +55,24 @@ const Homev2 = () => {
   const [index, setIndex] = React.useState(0);
   const [slide1, setSlider] = useState(false);
   useEffect(() => {
-    window.scrollTo(-0, -0);
     AOS.init({
       duration: 1500,
     });
     AOS.refresh();
   }, []);
-
+  const ControlSlider = () => {
+    setSlider(slide1 ? false : true);
+  };
   React.useEffect(() => {
     const Slider = setInterval(() => {
       setSlider(true);
       const BarTimeout = setTimeout(() => {
         setSlider(false);
-      }, 8000);
+      }, 25000);
       return () => {
         clearTimeout(BarTimeout);
       };
-    }, 20000);
+    }, 25000);
     return () => {
       clearInterval(Slider);
     };
@@ -93,6 +94,18 @@ const Homev2 = () => {
   //     }
   //   },4000)
   // })
+  const Controller = ({ bg = "", green__border = "" }) => {
+    return (
+      <div className='slide_controller text-center'>
+        <span
+          className={`outercircle ${green__border}`}
+          onClick={ControlSlider}>
+          <span className={`innercircle ${bg}`}></span>
+        </span>
+        <span className={`inactivecircle`} onClick={ControlSlider}></span>
+      </div>
+    );
+  };
   const Slide1 = () => {
     return (
       <div className='row general-padding section_slide_image'>
@@ -103,19 +116,23 @@ const Homev2 = () => {
                 We <b> Deploy & Manage</b> technical specialists for your
                 natural gas projects.
               </div>
-              <div className='homedesign3'>
+              <div className='homedesign3 dark__text'>
                 We deploy fully kitted and certified natural gas technical
                 specialists directly to your site and manage their activities
                 for quality assurance.
               </div>
+
               <div className='text-white'>
-                <OrangeButton title={"Get Started"} />
+                <Link to='/contractor_signup'>
+                  <OrangeButton title={"Get Started"} />
+                </Link>
               </div>
             </div>
             <div className='col-md-6 m-auto'>
               <img src={homefirstimage1} className='homefirstimage' alt='' />
             </div>
           </div>
+          <Controller />
         </div>
       </div>
     );
@@ -130,19 +147,22 @@ const Homev2 = () => {
                 Experience <b> Better pay & Better working</b> conditions with
                 MolecularPro
               </div>
-              <div className='homedesign3'>
+              <div className='homedesign3 textgreen'>
                 Working as a natural gas technical specialist is 100% better
                 with MolecularPro. Get great pay, medical insurance, advance
                 payments and so much more. 
               </div>
               <div className='text-white'>
-                <GreenButton title={"Get Started"} />
+                <Link to='/specialist_signup'>
+                  <GreenButton title={"Sign Up"} />
+                </Link>
               </div>
             </div>
             <div className='col-md-6 m-auto'>
               <img src={homefirstimage1} className='homefirstimage' alt='' />
             </div>
           </div>
+          <Controller bg='greenb__bg' green__border='green__border' />
         </div>
       </div>
     );
@@ -152,7 +172,6 @@ const Homev2 = () => {
       <div id='home'></div>
       <NavBarRedesign />
       {slide1 ? <Slide1 /> : <Slide2 />}
-
       <div className='row'>
         <div className='col-md-12 partnersv2 general-padding'>
           <div className='row'>
@@ -286,17 +305,19 @@ const Homev2 = () => {
           </div>
         </div>
       </div>
-      <div className='row'>
+      <div className='row' id='contractorlanding'>
         <div className='col-md-12 partnersv2 general-padding generalspacing'>
           <div className='row'>
-            <div className='col-md-4 m-auto'>
+            <div className='col-md-4 m-auto' >
               <div className='contractors_header_v2'>EPC Contractors</div>
               <div className='pb-5 pt-3'>
                 MolecularPro solves your technical recruitment needs so you can
                 focus on business growth.
               </div>
               <div className=''>
-                <OrangeButton title='Get Started' />
+                <Link to='/contractor_signup'>
+                  <OrangeButton title='Get Started' />
+                </Link>
               </div>
             </div>
             <div className='col-md-7'>
@@ -349,7 +370,7 @@ const Homev2 = () => {
                   </div>
                 </div>
                 <div className='col-md-5'>
-                  <h5 className='contentheader_v2'>
+                  <h5 className='contentheader_v2 '>
                     {" "}
                     <svg
                       width='45'
@@ -367,7 +388,7 @@ const Homev2 = () => {
                         fill='#FD8C00'
                       />
                     </svg>
-                    <span className='pl-2 sub_header_v2'> Speed</span>
+                    <span className='pl-2 sub_header_v2 '> Speed</span>
                   </h5>
                   <div className=''>
                     Fully kitted, certified and experienced natural gas
@@ -393,7 +414,7 @@ const Homev2 = () => {
                         fill='#FD8C00'
                       />
                     </svg>
-                    <span className='pl-2 sub_header_v2'> Access</span>
+                    <span className='pl-2 sub_header_v2 '> Access</span>
                   </h5>
                   <div className=''>
                     We are home to a constantly growing list of natural gas
@@ -439,7 +460,7 @@ const Homev2 = () => {
           </div>
         </div>
       </div>
-      <div className='row'>
+      <div className='row' id='specialistlanding'>
         <div className='col-md-12 orangebgv2 general-padding generalspacing'>
           <div className='row mb-4'>
             <div className='col-md-12 text-center mg556'>
@@ -449,7 +470,9 @@ const Homev2 = () => {
                 puts you first.
               </div>
               <div className='getstarted_v4 text-white '>
-                <OrangeButton title='Get Started' />
+                <Link to='/specialist_signup'>
+                  <OrangeButton title='Get Started' />
+                </Link>
               </div>
             </div>
             <div className='row'>
@@ -906,7 +929,7 @@ const Homev2 = () => {
             </div>
           </div>
         </div>
-        <div className='col-md-12'>
+        <div className='col-md-12' id="learnmore">
           <div className='row'>
             <div className='col-md-6 partnersv2 left_central_padding'>
               <div className='contenttitlev2 pb-4'>
@@ -948,12 +971,16 @@ const Homev2 = () => {
             specialists from MolecularPro
           </div>
           <div className='pt-5'>
-            <button className='btn-orange-custom'>
-              Sign up as EPC Contractor
-            </button>
-            <button className='btn-orange-custom_outline ml-3'>
-              Sign up as Technical Specialist
-            </button>
+            <Link to='/contractor_signup'>
+              <button className='btn-orange-custom'>
+                Sign up as EPC Contractor
+              </button>
+            </Link>
+            <Link to='/specialist_signup'>
+              <button className='btn-orange-custom_outline ml-3'>
+                Sign up as Technical Specialist
+              </button>
+            </Link>
           </div>
         </div>
       </div>
