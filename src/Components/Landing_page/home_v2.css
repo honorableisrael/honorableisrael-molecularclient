@@ -1,6 +1,8 @@
 .partnersv2 {
   color: #ffffff;
   background: #1e2833;
+  background: url("../../assets/darkbg.png");
+  background-size: cover;
 }
 .general-padding {
   padding: 4rem 6.5rem;
@@ -292,22 +294,33 @@
   background-size: contain;
   background-position-x: 50%;
   background-repeat: no-repeat;
-  background: linear-gradient(
+  /* background: linear-gradient(
     180deg,
     #fd8b0057 34.98%,
     rgba(253, 139, 0, 0) 138.43%
-  );
+  ); */
+  background-image: url("../../assets/slideorange.png");
+  background-size: cover;
   padding-top: 5rem;
 }
 .section_slide_image1 {
-  background: linear-gradient(
+  /* background: linear-gradient(
     180deg,
     #28613f44 31.77%,
     rgba(40, 97, 63, 0) 138.43%
-  );
+  ); */
+  background-image: url("../../assets/slidegreen.png");
+  background-size: cover;
 }
-
+@media (min-width: 781px) {
+  .hidden-large-devices {
+    display: none;
+  }
+}
 @media (max-width: 780px) {
+  .slide_controller_hidden {
+    display: none;
+  }
   .left_central_padding {
     padding-left: 1.5rem;
   }
@@ -330,6 +343,21 @@
   }
 }
 @media (max-width: 500px) {
+  .contentheader_v2 {
+    padding-top: 2rem;
+  }
+  .paddingbottom1 {
+    padding-bottom: 1rem !important;
+  }
+  .nav-logo img {
+    width: 150px;
+  }
+  .homedesign3 {
+    padding-bottom: 2rem;
+  }
+  .homedesign2 {
+    padding-top: 0px;
+  }
   .tech_specialist_v2 div {
     width: 100%;
   }
@@ -355,7 +383,7 @@
   }
   .mobflexreverse {
     flex-direction: column-reverse;
-    padding-top: 3rem;
+    padding-top: 2rem;
   }
   .btn-orange-custom_outline {
     margin-left: 0px !important;
@@ -370,10 +398,13 @@
   .partners_title {
     font-size: 22px;
   }
+  .reserves, .privacy, .terms {
+    padding-top: 1rem;
+  }
 }
 .homefirstimage {
   margin: auto;
-  width: 80%;
+  width: 99%;
   object-fit: contain;
   margin-top: 4rem;
 }
@@ -436,12 +467,12 @@
 .green__border {
   border: 2px solid #038500 !important;
 }
-.textgreen{
-  color: #374B58;
+.textgreen {
+  color: #374b58;
 }
-.textgreen2{
+.textgreen2 {
   color: #001928;
 }
-.dark__text{
+.dark__text {
   color: #001928;
 }

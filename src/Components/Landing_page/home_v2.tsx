@@ -27,13 +27,15 @@ import NavBarRedesign from "../Widgets/navigationv2";
 import "./home_v2.css";
 import BRENTEX from "../../assets/BRENTEX PETROLEUM SERVICES LIMITED logo.svg";
 import Jenoil from "../../assets/Jenoil Integrated logo.svg";
-import logo_dark_2x from "../../assets/logo_dark_2x-150x150-1.svg";
+import logo_dark_2x from "../../assets/1.png";
 import MELCURT from "../../assets/MELCURT logo.svg";
 import MORPOL from "../../assets/MORPOL ENGINEERING SERVICES LTD logo.svg";
-import SELLYFAK from "../../assets/SELLYFAK ENERGY LIMITED logo.svg";
+import SELLYFAK from "../../assets/3.png";
 import Mobileandweb from "../../assets/Mobileandweb.png";
-import homefirstimage1 from "../../assets/homefirstimage.png";
-import homefirstimage from "../../assets/homefirstimage1.png";
+import homefirstimage1 from "../../assets/slide1.png";
+import homefirstimage from "../../assets/slide2.png";
+import traverse from "../../assets/4.png";
+import twab from "../../assets/2.png";
 import OrangeButton from "../Shared/Button";
 import { Accordion, Card, useAccordionToggle } from "react-bootstrap";
 import Faq from "./faq";
@@ -53,7 +55,7 @@ function CustomToggle({ children, eventKey, handleClick }) {
 
 const Homev2 = () => {
   const [index, setIndex] = React.useState(0);
-  const [slide1, setSlider] = useState(false);
+  const [slide1, setSlider] = useState(true);
   useEffect(() => {
     AOS.init({
       duration: 1500,
@@ -68,11 +70,11 @@ const Homev2 = () => {
       setSlider(true);
       const BarTimeout = setTimeout(() => {
         setSlider(false);
-      }, 25000);
+      }, 5000);
       return () => {
         clearTimeout(BarTimeout);
       };
-    }, 25000);
+    }, 10000);
     return () => {
       clearInterval(Slider);
     };
@@ -96,13 +98,28 @@ const Homev2 = () => {
   // })
   const Controller = ({ bg = "", green__border = "" }) => {
     return (
-      <div className='slide_controller text-center'>
-        <span
-          className={`outercircle ${green__border}`}
-          onClick={ControlSlider}>
-          <span className={`innercircle ${bg}`}></span>
-        </span>
-        <span className={`inactivecircle`} onClick={ControlSlider}></span>
+      <div className='slide_controller  text-center'>
+        {slide1 ? (
+          <>
+            <span
+              className={`outercircle ${green__border}`}
+              onClick={ControlSlider}>
+              <span className={`innercircle ${bg}`}></span>
+            </span>
+            <span className={`inactivecircle`} onClick={ControlSlider}></span>
+          </>
+        ) : (
+          <>
+            <span
+              className={`inactivecircle mr-2`}
+              onClick={ControlSlider}></span>
+            <span
+              className={`outercircle ${green__border}`}
+              onClick={ControlSlider}>
+              <span className={`innercircle ${bg}`}></span>
+            </span>
+          </>
+        )}
       </div>
     );
   };
@@ -112,6 +129,9 @@ const Homev2 = () => {
         <div className='col-md-12'>
           <div className='row mobflexreverse'>
             <div className='col-md-6 home_v2'>
+              <div className='hidden-large-devices'>
+                <Controller />
+              </div>
               <div className='homedesign2'>
                 We <b> Deploy & Manage</b> technical specialists for your
                 natural gas projects.
@@ -132,7 +152,9 @@ const Homev2 = () => {
               <img src={homefirstimage1} className='homefirstimage' alt='' />
             </div>
           </div>
-          <Controller />
+          <div className='slide_controller_hidden'>
+            <Controller />
+          </div>
         </div>
       </div>
     );
@@ -143,6 +165,9 @@ const Homev2 = () => {
         <div className='col-md-12'>
           <div className='row mobflexreverse'>
             <div className='col-md-6 home_v2'>
+              <div className='hidden-large-devices'>
+                <Controller bg='greenb__bg' green__border='green__border' />
+              </div>
               <div className='homedesign2'>
                 Experience <b> Better pay & Better working</b> conditions with
                 MolecularPro
@@ -159,10 +184,12 @@ const Homev2 = () => {
               </div>
             </div>
             <div className='col-md-6 m-auto'>
-              <img src={homefirstimage1} className='homefirstimage' alt='' />
+              <img src={homefirstimage} className='homefirstimage' alt='' />
             </div>
           </div>
-          <Controller bg='greenb__bg' green__border='green__border' />
+          <div className='slide_controller_hidden '>
+            <Controller bg='greenb__bg' green__border='green__border' />
+          </div>
         </div>
       </div>
     );
@@ -175,7 +202,7 @@ const Homev2 = () => {
       <div className='row'>
         <div className='col-md-12 partnersv2 general-padding'>
           <div className='row'>
-            <div className='col-md-6 m-auto'>
+            <div className='col-md-5 m-auto'>
               <h6 className='partners_title'>Trusted by Industry Leaders</h6>
               <div className='partners_caption'>
                 Nigeria's leading engineering and construction firms trust
@@ -183,7 +210,7 @@ const Homev2 = () => {
                 kitted natural gas technical specialists for their projects
               </div>
             </div>
-            <div className='col-md-6'>
+            <div className='col-md-7'>
               <div className='pb-1 flexend_v2'>
                 <div className='flexitem_2'>
                   <img src={BRENTEX} className='' alt='PARTNER' />
@@ -193,6 +220,9 @@ const Homev2 = () => {
                 </div>
                 <div className='flexitem_2'>
                   <img src={logo_dark_2x} className='' alt='PARTNER' />
+                </div>
+                <div className='flexitem_2'>
+                  <img src={traverse} className='' alt='PARTNER' />
                 </div>
               </div>
               <div className='mt-4 flexend_v2'>
@@ -204,6 +234,9 @@ const Homev2 = () => {
                 </div>
                 <div className='flexitem_2'>
                   <img src={SELLYFAK} className='' alt='PARTNER' />
+                </div>
+                <div className='flexitem_2'>
+                  <img src={twab} className='' alt='PARTNER' />
                 </div>
               </div>
             </div>
@@ -308,7 +341,7 @@ const Homev2 = () => {
       <div className='row' id='contractorlanding'>
         <div className='col-md-12 partnersv2 general-padding generalspacing'>
           <div className='row'>
-            <div className='col-md-4 m-auto' >
+            <div className='col-md-4 m-auto'>
               <div className='contractors_header_v2'>EPC Contractors</div>
               <div className='pb-5 pt-3'>
                 MolecularPro solves your technical recruitment needs so you can
@@ -321,7 +354,7 @@ const Homev2 = () => {
               </div>
             </div>
             <div className='col-md-7'>
-              <div className='row pb-5 justify-between'>
+              <div className='row pb-5 paddingbottom1 justify-between'>
                 <div className='col-md-5'>
                   <h5 className='contentheader_v2'>
                     {" "}
@@ -929,7 +962,7 @@ const Homev2 = () => {
             </div>
           </div>
         </div>
-        <div className='col-md-12' id="learnmore">
+        <div className='col-md-12' id='learnmore'>
           <div className='row'>
             <div className='col-md-6 partnersv2 left_central_padding'>
               <div className='contenttitlev2 pb-4'>
