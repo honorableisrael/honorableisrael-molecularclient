@@ -334,6 +334,13 @@
   .flexend_v2 {
     width: 100%;
     margin-inline-start: initial;
+    flex-wrap: wrap;
+  }
+  .flexitem_2{
+    margin-top: 0px !important;
+  }
+  .flexitem_2 img{
+    margin-bottom: 1rem;
   }
   .flx_image {
     padding-top: 2rem;
@@ -400,6 +407,9 @@
   }
   .reserves, .privacy, .terms {
     padding-top: 1rem;
+  }
+  .flexitem_2{
+    margin-top: 1rem;
   }
 }
 .homefirstimage {

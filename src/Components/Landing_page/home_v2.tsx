@@ -202,7 +202,7 @@ const Homev2 = () => {
       <div className='row'>
         <div className='col-md-12 partnersv2 general-padding'>
           <div className='row'>
-            <div className='col-md-5 m-auto'>
+            <div className='col-md-8 m-auto'>
               <h6 className='partners_title'>Trusted by Industry Leaders</h6>
               <div className='partners_caption'>
                 Nigeria's leading engineering and construction firms trust
@@ -210,14 +210,14 @@ const Homev2 = () => {
                 kitted natural gas technical specialists for their projects
               </div>
             </div>
-            <div className='col-md-7'>
+            <div className='col-md-4'>
               <div className='pb-1 flexend_v2'>
-                <div className='flexitem_2'>
+                {/* <div className='flexitem_2'>
                   <img src={BRENTEX} className='' alt='PARTNER' />
-                </div>
-                <div className='flexitem_2'>
+                </div> */}
+                {/* <div className='flexitem_2'>
                   <img src={Jenoil} className='' alt='PARTNER' />
-                </div>
+                </div> */}
                 <div className='flexitem_2'>
                   <img src={logo_dark_2x} className='' alt='PARTNER' />
                 </div>
@@ -226,12 +226,12 @@ const Homev2 = () => {
                 </div>
               </div>
               <div className='mt-4 flexend_v2'>
-                <div className='flexitem_2'>
+                {/* <div className='flexitem_2'>
                   <img src={MELCURT} className='' alt='PARTNER' />
                 </div>
                 <div className='flexitem_2'>
                   <img src={MORPOL} className='' alt='PARTNER' />
-                </div>
+                </div> */}
                 <div className='flexitem_2'>
                   <img src={SELLYFAK} className='' alt='PARTNER' />
                 </div>
