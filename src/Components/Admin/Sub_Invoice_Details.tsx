@@ -111,7 +111,7 @@ const Admin_Sub_Invoice_Details = (props) => {
   };
 
   const validateForm = () => {
-      createItem();
+    createItem();
   };
   const createItem = () => {
     const availableToken: any = localStorage.getItem("loggedInDetails");
@@ -655,7 +655,7 @@ const Admin_Sub_Invoice_Details = (props) => {
     pipe_schedule,
     amount,
   } = state;
-
+  console.log(invoice_details);
   return (
     <>
       <Modal
@@ -1151,80 +1151,84 @@ const Admin_Sub_Invoice_Details = (props) => {
                               <thead>
                                 <tr>
                                   <th scope='col'>SN</th>
-                                  <th scope='col'>AMOUNT(NGN)</th>
                                   <th scope='col'>PIPE SIZE</th>
                                   <th scope='col'>PIPE SCHEDULE</th>
                                   <th scope='col'>NO OF JOINTS</th>
                                   <th scope='col'>DESCRIPTION</th>
-                                  <th scope='col'>ACTION</th>
+                                  <th scope='col'>AMOUNT(NGN)</th>
+                                  {invoice_details?.action?.can_edit && (
+                                    <th scope='col'>ACTION</th>
+                                  )}
                                 </tr>
                               </thead>
                               <tbody>
                                 {invoice_details?.items?.map((data, i) => (
                                   <tr key={i}>
                                     <td>{i + 1}</td>
-                                    <td>{FormatAmount(data?.amount)}</td>
                                     <td>{data?.pipe_size?.size}</td>
                                     <td>{data?.pipe_schedule?.value}</td>
                                     <td>{data?.joints}</td>
                                     <td className='contractorname'>
                                       {data?.description}
                                     </td>
-                                    <td className='contractorname'>
-                                      <span
-                                        className='mr-1 ml-2 cursor-pointer'
-                                        title='Edit'
-                                        onClick={() => {
-                                          setState({
-                                            ...state,
-                                            edit_worksheet_modal: true,
-                                            ...data,
-                                            edit_item_id: data?.id,
-                                            no_of_joints: data?.joints,
-                                            pipe_schedule:
-                                              data?.pipe_schedule?.id,
-                                            pipe_schedule_name:
-                                              data?.pipe_schedule?.value,
-                                            pipe_size: data?.pipe_size?.size,
-                                            size: data?.pipe_size?.id,
-                                            size_value: data?.pipe_size?.size,
-                                          });
-                                        }}>
-                                        <svg
-                                          xmlns='http://www.w3.org/2000/svg'
-                                          width='16'
-                                          height='16'
-                                          fill='currentColor'
-                                          className='bi bi-pencil'
-                                          viewBox='0 0 16 16'>
-                                          <path d='M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z' />
-                                        </svg>
-                                      </span>
-                                      <span
-                                        className='cursor-pointer'
-                                        onClick={() => {
-                                          setState({
-                                            ...state,
-                                            show_delete: true,
-                                            edit_item_id: data?.id,
-                                          });
-                                        }}
-                                        title='Delete'>
-                                        <svg
-                                          xmlns='http://www.w3.org/2000/svg'
-                                          width='16'
-                                          height='16'
-                                          fill='currentColor'
-                                          className='bi bi-trash'
-                                          viewBox='0 0 16 16'>
-                                          <path d='M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z' />
-                                          <path
-                                            fill-rule='evenodd'
-                                            d='M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z'
-                                          />
-                                        </svg>
-                                      </span>
-                                    </td>
+                                    <td>{FormatAmount(data?.amount)}</td>
+                                    {invoice_details?.action?.can_edit && (
+                                      <td className='contractorname'>
+                                        <span
+                                          className='mr-1 ml-2 cursor-pointer'
+                                          title='Edit'
+                                          onClick={() => {
+                                            setState({
+                                              ...state,
+                                              edit_worksheet_modal: true,
+                                              ...data,
+                                              edit_item_id: data?.id,
+                                              no_of_joints: data?.joints,
+                                              pipe_schedule:
+                                                data?.pipe_schedule?.id,
+                                              pipe_schedule_name:
+                                                data?.pipe_schedule?.value,
+                                              pipe_size: data?.pipe_size?.size,
+                                              size: data?.pipe_size?.id,
+                                              size_value: data?.pipe_size?.size,
+                                            });
+                                          }}>
+                                          <svg
+                                            xmlns='http://www.w3.org/2000/svg'
+                                            width='16'
+                                            height='16'
+                                            fill='currentColor'
+                                            className='bi bi-pencil'
+                                            viewBox='0 0 16 16'>
+                                            <path d='M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z' />
+                                          </svg>
+                                        </span>
+                                        <span
+                                          className='cursor-pointer'
+                                          onClick={() => {
+                                            setState({
+                                              ...state,
+                                              show_delete: true,
+                                              edit_item_id: data?.id,
+                                            });
+                                          }}
+                                          title='Delete'>
+                                          <svg
+                                            xmlns='http://www.w3.org/2000/svg'
+                                            width='16'
+                                            height='16'
+                                            fill='currentColor'
+                                            className='bi bi-trash'
+                                            viewBox='0 0 16 16'>
+                                            <path d='M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z' />
+                                            <path
+                                              fill-rule='evenodd'
+                                              d='M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z'
+                                            />
+                                          </svg>
+                                        </span>
+                                      </td>
+                                    )}
                                   </tr>
                                 ))}
                               </tbody>
@@ -1413,7 +1417,7 @@ const Admin_Sub_Invoice_Details = (props) => {
                   data-bs-parent='#accordionFlushExample'>
                   <div className='accordion-body'>
                     <p>
-                      <ul>
+                      <ul className="pl-0">
                         {invoice_details?.cost_exclusions
                           ?.split("\n")
                           ?.map((data, i) => (

@@ -42,10 +42,7 @@ const DashboardNav = (props) => {
   useEffect(() => {
     window.scrollTo(-0, -0);
     const availableToken = localStorage.getItem("loggedInDetails");
-    console.log(availableToken);
     const token = availableToken ? JSON.parse(availableToken) : "";
-    console.log(token);
-
     Axios.get<any, AxiosResponse<any>>(`${API}/specialist`, {
       headers: { Authorization: `Bearer ${token.access_token}` },
     })
@@ -60,8 +57,6 @@ const DashboardNav = (props) => {
         console.log(err);
       });
   }, []);
-
-  console.log(user_details);
   return (
     <div className="fixfdnav">
       <div className="navwrap">

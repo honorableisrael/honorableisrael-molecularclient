@@ -567,7 +567,7 @@ const WorkSheetAdmin = (props) => {
                           </div>
                         </div>
                         <div className=''></div>
-                        {work_sheet?.items?.map((item: any, i) => (
+                        {work_sheet?.spreads?.map((item: any, i) => (
                           <div className='deployedsplsttable'>
                             <h6 className='text-uppercase text-teal'>
                               {" "}

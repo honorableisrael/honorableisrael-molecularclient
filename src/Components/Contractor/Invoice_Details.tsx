@@ -28,7 +28,7 @@ import {
 } from "../../config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { copyFileSync } from "fs";
+import viewmore from "../../assets/view-more.png";
 
 declare global {
   interface Window {
@@ -308,7 +308,7 @@ const Admin_Invoice_details = (props) => {
     show,
     cycle_amount,
   } = state;
-  console.log(pipe_breakdown, "pipe_breakdown");
+  console.log(invoice_details, "invoice_details");
   return (
     <>
       <Modal
@@ -439,7 +439,7 @@ const Admin_Invoice_details = (props) => {
                   {" "}
                   <img src={arrowback} className='arrowback' />
                 </Link>{" "}
-                &nbsp; Invoice Details
+                &nbsp; Proforma Invoice Details
               </div>
               <Button
                 className='payspecialist1 h36'
@@ -568,6 +568,7 @@ const Admin_Invoice_details = (props) => {
                                   <th className='tablehead'>Status</th>
                                   <th className='tablehead'>Cycle</th>
                                   <th className='tablehead'>Payment</th>
+                                  <th className='tablehead'>Action</th>
                                 </tr>
                               </thead>
                               <tbody>
@@ -599,6 +600,17 @@ const Admin_Invoice_details = (props) => {
                                       ) : (
                                         ""
                                       )}
+                                    </td>
+                                    <td>
+                                      <Link
+                                        to={`/contractor_sub_invoice_details/${data?.id}`}>
+                                        <img
+                                          src={viewmore}
+                                          className='viewmore mr-2 mt-2 cursor-pointer'
+                                          alt=''
+                                          title='View details'
+                                        />
+                                      </Link>
                                     </td>
                                   </tr>
                                 ))}
@@ -778,11 +790,15 @@ const Admin_Invoice_details = (props) => {
                   data-bs-parent='#accordionFlushExample'>
                   <div className='accordion-body'>
                     <p>
-                      <ul>
+                      <ul className='pl-0'>
                         {invoice_details?.cost_exclusions
                           ?.split("\n")
                           ?.map((data, i) => (
-                            <li> {data}</li>
+                            <li
+                              className='pl-0'
+                              dangerouslySetInnerHTML={{
+                                __html: data ?? "n/a",
+                              }}></li>
                           ))}
                       </ul>
                     </p>

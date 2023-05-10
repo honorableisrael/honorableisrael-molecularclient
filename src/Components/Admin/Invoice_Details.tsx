@@ -838,9 +838,9 @@ const Admin_Invoice_details = (props) => {
                     setState({
                       ...state,
                       add_invoice_modal: true,
-                      description:"",
-                      start_date:"",
-                      end_date:""
+                      description: "",
+                      start_date: "",
+                      end_date: "",
                     });
                   }}>
                   {isloading ? "rocessing" : "Create Invoice"}
@@ -1259,11 +1259,15 @@ const Admin_Invoice_details = (props) => {
                   data-bs-parent='#accordionFlushExample'>
                   <div className='accordion-body'>
                     <p>
-                      <ul>
+                      <ul className="pl-0">
                         {invoice_details?.cost_exclusions
                           ?.split("\n")
                           ?.map((data, i) => (
-                            <li> {data}</li>
+                            <li
+                            className="pl-0"
+                              dangerouslySetInnerHTML={{
+                                __html: data ?? "n/a",
+                              }}></li>
                           ))}
                       </ul>
                     </p>
@@ -1286,7 +1290,10 @@ const Admin_Invoice_details = (props) => {
             <Row>
               <Col md={12}>
                 {invoice_details?.conditions?.split("\n")?.map((data, i) => (
-                  <p>{data}</p>
+                  <p
+                    dangerouslySetInnerHTML={{
+                      __html: data ?? "n/a",
+                    }}></p>
                 ))}
               </Col>
             </Row>

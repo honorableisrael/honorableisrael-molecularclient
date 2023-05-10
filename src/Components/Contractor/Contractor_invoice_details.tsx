@@ -764,11 +764,15 @@ const ContractorInvoiceDetails = (props) => {
                   data-bs-parent='#accordionFlushExample'>
                   <div className='accordion-body'>
                     <p>
-                      <ul>
+                      <ul className="pl-0">
                         {invoice_details?.cost_exclusions
                           ?.split("\n")
                           ?.map((data, i) => (
-                            <li> {data}</li>
+                            <li
+                            className="pl-0"
+                            dangerouslySetInnerHTML={{
+                              __html: data ?? "n/a",
+                            }}></li>
                           ))}
                       </ul>
                     </p>

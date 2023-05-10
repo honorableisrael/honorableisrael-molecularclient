@@ -1338,7 +1338,7 @@ a:hover {
   width: 100% !important;
 }
 .workorderheader {
-  width: 190px;
+  width: 290px;
 }
 .work_order2122 {
   box-shadow: 0px 4px 16px rgb(17 17 17 / 8%);
@@ -2991,6 +2991,7 @@ label i {
 }
 .tablecontent .tablecont0 {
   width: 57% !important;
+  max-width: 300px;
 }
 .tetr {
   font-size: 14px;
@@ -3014,7 +3015,9 @@ label i {
 .form_h1 {
   justify-content: space-between;
 }
-
+.containerforemptyorder1 img{
+  margin: auto;
+}
 .payspecialist1,
 .payspecialist1:hover,
 .payspecialist1:focus {

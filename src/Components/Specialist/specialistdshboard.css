@@ -1044,3 +1044,11 @@ input:checked + .slider::before {
   background: #cc7100 !important;
   font-weight: 900;
 }
+
+.splinvoitablehead tr{
+  border: 1px solid #e7e1e13f !important;
+}
+
+.workorderheader1 {
+  width: 390px !important;
+}

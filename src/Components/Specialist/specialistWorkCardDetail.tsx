@@ -228,7 +228,7 @@ const SpecialistWorkOrderDetails = (props) => {
       terminateWorkModal: false,
     });
   };
-  console.log(worksheet_reports, "workorder");
+  console.log(work_order_detail, "work_order_detail");
   return (
     <>
       <ToastContainer
@@ -370,7 +370,7 @@ const SpecialistWorkOrderDetails = (props) => {
           </div>
         </Modal>
         <Helmet>
-          <meta charSet="utf-8" />
+          <meta charSet='utf-8' />
           <title>MolecularPro - Specialist Work Order</title>
           <link />
         </Helmet>
@@ -411,10 +411,18 @@ const SpecialistWorkOrderDetails = (props) => {
                 </NavHashLink>
                 <NavHashLink
                   className='bview'
-                  to='#specialist_payments'
+                  to={`/specialist_milestone_payment/${work_order_detail?.id}`}
                   activeStyle={{ background: "#fd8b003b", color: "#fd8c00" }}>
-                  Payments
+                  Milestone Payment
                 </NavHashLink>
+                {/* {work_order_detail?.can_make_advance_payment_request && ( */}
+                  <NavHashLink
+                    className='bview'
+                    to={`/specialist_advance_payment/${work_order_detail?.id}`}
+                    activeStyle={{ background: "#fd8b003b", color: "#fd8c00" }}>
+                    Advance Payment Request
+                  </NavHashLink>
+                {/* )} */}
               </Col>
               <Col md={9} className='job23_1a_splst'>
                 <div id='specialist_details'></div>
