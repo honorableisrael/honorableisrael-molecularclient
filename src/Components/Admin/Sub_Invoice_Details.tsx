@@ -1154,7 +1154,7 @@ const Admin_Sub_Invoice_Details = (props) => {
                                   <th scope='col'>PIPE SIZE</th>
                                   <th scope='col'>PIPE SCHEDULE</th>
                                   <th scope='col'>NO OF JOINTS</th>
-                                  <th scope='col'>DESCRIPTION</th>
+                                  {/* <th scope='col'>DESCRIPTION</th> */}
                                   <th scope='col'>AMOUNT(NGN)</th>
                                   {invoice_details?.action?.can_edit && (
                                     <th scope='col'>ACTION</th>
@@ -1163,12 +1163,14 @@ const Admin_Sub_Invoice_Details = (props) => {
                               </thead>
                               <tbody>
                                 {invoice_details?.items?.map((data, i) => (
-                                  <tr key={i}>
+                                  <tr key={i} className="table-bordered">
                                     <td>{i + 1}</td>
                                     <td>{data?.pipe_size?.size}</td>
                                     <td>{data?.pipe_schedule?.value}</td>
                                     <td>{data?.joints}</td>
-                                    <td className='contractorname'>
+                                    <td
+                                      className='contractorname'
+                                      style={{ whiteSpace: "pre-wrap" }}>
                                       {data?.description}
                                     </td>
                                     <td>{FormatAmount(data?.amount)}</td>
@@ -1417,7 +1419,7 @@ const Admin_Sub_Invoice_Details = (props) => {
                   data-bs-parent='#accordionFlushExample'>
                   <div className='accordion-body'>
                     <p>
-                      <ul className="pl-0">
+                      <ul className='pl-0'>
                         {invoice_details?.cost_exclusions
                           ?.split("\n")
                           ?.map((data, i) => (

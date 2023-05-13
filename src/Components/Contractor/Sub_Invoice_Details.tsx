@@ -422,10 +422,6 @@ const Contractor_Sub_Invoice_Details = (props) => {
                           <div className='boxwrapper__1 inv9'>
                             <div className='lcomponent'>
                               <div className='inv_title2'>
-                                <div className='inv_title3'>Client</div>
-                                <div className='inv_title4 ing'>
-                                  {work_order_detail?.contractor}
-                                </div>
                                 <div className='inv_title3 inv_titlex '>
                                   {work_order_detail?.country}
                                 </div>
@@ -478,12 +474,12 @@ const Contractor_Sub_Invoice_Details = (props) => {
                               </thead>
                               <tbody>
                                 {invoice_details?.items?.map((data, i) => (
-                                  <tr key={i}>
+                                  <tr key={i} className="table-bordered">
                                     <td>{i + 1}</td>
                                     <td>{data?.pipe_size?.size}</td>
                                     <td>{data?.pipe_schedule?.value}</td>
                                     <td>{data?.joints}</td>
-                                    <td className='contractorname'>
+                                    <td className='contractorname' style={{whiteSpace:"pre-wrap"}}>
                                       {data?.description}
                                     </td>
                                     <td>{FormatAmount(data?.amount)}</td>

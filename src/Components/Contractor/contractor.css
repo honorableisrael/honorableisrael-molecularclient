@@ -613,6 +613,10 @@ text {
   font-size: 14px;
   color: #000000 !important;
 }
+.table-bordered {
+  border: 1px solid gray;
+}
+
 .userprofile {
   color: #666666;
   padding-bottom: 0.5rem;

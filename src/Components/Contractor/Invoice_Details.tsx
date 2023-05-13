@@ -518,10 +518,6 @@ const Admin_Invoice_details = (props) => {
                           <div className='boxwrapper__1 inv9'>
                             <div className='lcomponent'>
                               <div className='inv_title2'>
-                                <div className='inv_title3'>Client</div>
-                                <div className='inv_title4 ing'>
-                                  {work_order_detail?.contractor}
-                                </div>
                                 <div className='inv_title3 inv_titlex '>
                                   {work_order_detail?.country}
                                 </div>
