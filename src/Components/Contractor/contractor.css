@@ -614,7 +614,7 @@ text {
   color: #000000 !important;
 }
 .table-bordered {
-  border: 1px solid gray;
+  border: 1px solid rgb(209, 203, 203);
 }
 
 .userprofile {
