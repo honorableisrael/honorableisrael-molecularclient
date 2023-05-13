@@ -516,7 +516,9 @@ const WorkSheetAdmin = (props) => {
                         <div className=''>
                           <div className='boxwrapper__1'>
                             <div className='lcomponent'>
-                            <div className='inv_title'>REF : {work_sheet?.reference} </div>
+                              <div className='inv_title'>
+                                REF : {work_sheet?.reference}{" "}
+                              </div>
                               <div className='inv_title2'></div>
                             </div>
                           </div>
@@ -573,7 +575,8 @@ const WorkSheetAdmin = (props) => {
                               {" "}
                               <b>
                                 {" "}
-                                {item?.group?.name} WORK DETAILS{" "}
+                                {item?.group?.name}
+                                {item?.spread?.name}{" "}
                                 {item?.sent ? (
                                   <span className='badge badge-info'>
                                     Completed
@@ -585,48 +588,54 @@ const WorkSheetAdmin = (props) => {
                                 )}
                               </b>
                             </h6>
-
-                            <Table
-                              hover
-                              responsive
-                              className='schedule_payment_table'>
-                              <thead>
-                                <tr>
-                                  <th scope='col'>PIPE SIZE</th>
-                                  <th scope='col'>PIPE SCHEDULE</th>
-                                  <th scope='col'>NO OF JOINTS</th>
-                                  <th scope='col'>NO OF INCHES</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {item?.items?.map((data: any, i) => (
-                                  <tr key={i}>
-                                    <td>{data?.pipe_size?.size}</td>
-                                    <td>{data?.pipe_schedule?.value}</td>
-                                    <td className='dpslstnamecell pslstnamecell schedule_payment_first_td'>
-                                      <div className='dplsplusernmeimg'>
-                                        {/* <span></span> */}
-                                        &nbsp; &nbsp;
-                                        <div>{data?.joints}</div>
-                                      </div>
-                                    </td>
-                                    <td className='contractorname'>
-                                      {data?.inches}
-                                    </td>
-                                    {/* <td>
+                            {item?.items?.map((data: any, i) => (
+                              <div>
+                                <div>Week : {data?.week} </div>
+                                <Table
+                                  hover
+                                  responsive
+                                  className='schedule_payment_table'>
+                                  <thead>
+                                    <tr>
+                                      <th scope='col'>PIPE SIZE</th>
+                                      <th scope='col'>PIPE SCHEDULE</th>
+                                      <th scope='col'>NO OF JOINTS</th>
+                                      <th scope='col'>NO OF INCHES</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    {data?.pipes?.map((pipe_item: any, i) => (
+                                      <tr key={i}>
+                                        <td>{pipe_item?.pipe_size?.size}</td>
+                                        <td>
+                                          {pipe_item?.pipe_schedule?.value}
+                                        </td>
+                                        <td className='dpslstnamecell pslstnamecell schedule_payment_first_td'>
+                                          <div className='dplsplusernmeimg'>
+                                            {/* <span></span> */}
+                                            &nbsp; &nbsp;
+                                            <div>{pipe_item?.joints}</div>
+                                          </div>
+                                        </td>
+                                        <td className='contractorname'>
+                                          {pipe_item?.inches}
+                                        </td>
+                                        {/* <td>
                                       {data?.actions?.can_pay && (
                                         <Button
-                                          onClick={() => openModal(data.id,data)}
+                                          onClick={() => openModal(pipe_item.id,data)}
                                           className="payspecialist1"
                                         >
                                           Process
                                         </Button>
                                       )}
                                     </td> */}
-                                  </tr>
-                                ))}
-                              </tbody>
-                            </Table>
+                                      </tr>
+                                    ))}
+                                  </tbody>
+                                </Table>
+                              </div>
+                            ))}
                             <div className=''>
                               <div className=''>
                                 <h6 className='text-uppercase text-teal'>
