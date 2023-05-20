@@ -19,6 +19,9 @@ import logo from "../../images/Molecular.png";
 import axios, { AxiosResponse } from "axios";
 import {
   API,
+  calculateTotalAmount,
+  calculateTotalJoint,
+  capitalizeFirstLetter,
   current_currency,
   FormatAmount,
   formatTime,
@@ -624,6 +627,7 @@ const Admin_Sub_Invoice_Details = (props) => {
         notify("Failed to delete");
       });
   };
+
   const {
     show_modal_1,
     type,
@@ -1078,13 +1082,13 @@ const Admin_Sub_Invoice_Details = (props) => {
                                 Invoice : {invoice_details?.number ?? "~~/~~"}
                               </div>
                               <div className='inv_title2'>
-                                <div className='inv_title3'>
+                                {/* <div className='inv_title3'>
                                   <span className='acceptedinvoc'>
                                     {!invoice_details.sent_at
                                       ? "Not Sent"
                                       : "Accepted"}
                                   </span>
-                                </div>
+                                </div> */}
                               </div>
                               <div className='inv_title2'>
                                 <div className='inv_title3'>Invoice Date</div>
@@ -1154,7 +1158,7 @@ const Admin_Sub_Invoice_Details = (props) => {
                                   <th scope='col'>PIPE SIZE</th>
                                   <th scope='col'>PIPE SCHEDULE</th>
                                   <th scope='col'>NO OF JOINTS</th>
-                                  {/* <th scope='col'>DESCRIPTION</th> */}
+                                  <th scope='col'>DESCRIPTION</th>
                                   <th scope='col'>AMOUNT(NGN)</th>
                                   {invoice_details?.action?.can_edit && (
                                     <th scope='col'>ACTION</th>
@@ -1163,7 +1167,7 @@ const Admin_Sub_Invoice_Details = (props) => {
                               </thead>
                               <tbody>
                                 {invoice_details?.items?.map((data, i) => (
-                                  <tr key={i} className="table-bordered">
+                                  <tr key={i} className='table-bordered'>
                                     <td>{i + 1}</td>
                                     <td>{data?.pipe_size?.size}</td>
                                     <td>{data?.pipe_schedule?.value}</td>
@@ -1171,7 +1175,7 @@ const Admin_Sub_Invoice_Details = (props) => {
                                     <td
                                       className='contractorname'
                                       style={{ whiteSpace: "pre-wrap" }}>
-                                      {data?.description}
+                                      {capitalizeFirstLetter(data?.description)}
                                     </td>
                                     <td>{FormatAmount(data?.amount)}</td>
                                     {invoice_details?.action?.can_edit && (
@@ -1233,6 +1237,33 @@ const Admin_Sub_Invoice_Details = (props) => {
                                     )}
                                   </tr>
                                 ))}
+                                <tr className='table-bordered'>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td>
+                                    Total :{" "}
+                                    <b>
+                                      {FormatAmount(
+                                        calculateTotalJoint(
+                                          invoice_details.items
+                                        )
+                                      )}
+                                    </b>
+                                  </td>
+                                  <td></td>
+                                  <td>
+                                    Total :{" "}
+                                    <b>
+                                      N
+                                      {FormatAmount(
+                                        calculateTotalAmount(
+                                          invoice_details.items
+                                        )
+                                      )}
+                                    </b>
+                                  </td>
+                                </tr>
                               </tbody>
                             </Table>
                           </div>

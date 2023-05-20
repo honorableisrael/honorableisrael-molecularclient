@@ -137,9 +137,9 @@ const Homev2 = () => {
                 natural gas projects.
               </div>
               <div className='homedesign3 dark__text'>
-                We deploy fully kitted and certified natural gas technical
-                specialists directly to your site and manage their activities
-                for quality assurance.
+                Powered by artificial intelligence and big data, we deploy fully
+                kitted and certified natural gas technical specialists to your
+                project site and manage their activities for quality assurance.
               </div>
 
               <div className='text-white'>

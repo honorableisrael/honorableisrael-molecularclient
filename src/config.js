@@ -24,9 +24,9 @@ export const formatTime = (date) => {
 
 export const reloadPage = () => {
   setTimeout(() => {
-      window.location.reload()
-  }, 3000)
-}
+    window.location.reload();
+  }, 3000);
+};
 
 export const FormatAmount = (amount) => {
   return amount?.toString()?.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -132,7 +132,21 @@ export const loggedInDetails = () => {
     ? JSON.parse(availableToken)
     : window.location.assign("/");
   return token;
-}
+};
 
-export const no_of_welders = 6
-export const no_of_fitters = 2
+export const no_of_welders = 6;
+export const no_of_fitters = 2;
+export const capitalizeFirstLetter = (sentence) => {
+  if (typeof sentence !== "string" || sentence.length === 0) {
+    return sentence;
+  }
+
+  return sentence.charAt(0).toUpperCase() + sentence.slice(1);
+};
+
+export const calculateTotalAmount = (objects) => {
+  return objects.reduce((totalAmount, obj) => totalAmount + obj?.amount, 0);
+};
+export const calculateTotalJoint = (objects) => {
+  return objects.reduce((totalAmount, obj) => totalAmount + obj?.joints, 0);
+};

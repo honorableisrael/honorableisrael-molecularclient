@@ -19,6 +19,9 @@ import logo from "../../images/Molecular.png";
 import axios, { AxiosResponse } from "axios";
 import {
   API,
+  calculateTotalAmount,
+  calculateTotalJoint,
+  capitalizeFirstLetter,
   contractorToken,
   current_currency,
   FormatAmount,
@@ -222,9 +225,12 @@ const Contractor_Sub_Invoice_Details = (props) => {
     const token = contractorToken();
     axios
       .all([
-        axios.get(`${API}/contractor/milestone-invoices/${props?.match?.params?.id}`, {
-          headers: { Authorization: `Bearer ${token.access_token}` },
-        }),
+        axios.get(
+          `${API}/contractor/milestone-invoices/${props?.match?.params?.id}`,
+          {
+            headers: { Authorization: `Bearer ${token.access_token}` },
+          }
+        ),
         axios.get(`${API}/bank-accounts`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }),
@@ -257,7 +263,6 @@ const Contractor_Sub_Invoice_Details = (props) => {
         console.log(err);
       });
   };
-  
 
   const SubmitConditions = () => {
     setState({
@@ -299,7 +304,6 @@ const Contractor_Sub_Invoice_Details = (props) => {
       });
   };
 
-  
   const {
     show_modal_1,
     type,
@@ -331,7 +335,7 @@ const Contractor_Sub_Invoice_Details = (props) => {
     pipe_schedule,
     amount,
   } = state;
-  console.log(invoice_details,"invoice_details");
+  console.log(invoice_details, "invoice_details");
   return (
     <>
       <Container fluid={true} className='dasbwr nopaddrt tainer3'>
@@ -389,7 +393,9 @@ const Contractor_Sub_Invoice_Details = (props) => {
                           )}
                           {invoice_details?.status === "Unpaid" && (
                             <span>
-                              <span className='acceptedinvoc bg-warning'>Pending Payment</span>
+                              <span className='acceptedinvoc bg-warning'>
+                                Pending Payment
+                              </span>
                             </span>
                           )}
                           <div className='boxwrapper__1'>
@@ -398,8 +404,7 @@ const Contractor_Sub_Invoice_Details = (props) => {
                                 Invoice : {invoice_details?.number ?? "~~/~~"}
                               </div>
                               <div className='inv_title2'>
-                                <div className='inv_title3'>
-                                </div>
+                                <div className='inv_title3'></div>
                               </div>
                               <div className='inv_title2'>
                                 <div className='inv_title3'>Invoice Date</div>
@@ -474,13 +479,15 @@ const Contractor_Sub_Invoice_Details = (props) => {
                               </thead>
                               <tbody>
                                 {invoice_details?.items?.map((data, i) => (
-                                  <tr key={i} className="table-bordered">
+                                  <tr key={i} className='table-bordered'>
                                     <td>{i + 1}</td>
                                     <td>{data?.pipe_size?.size}</td>
                                     <td>{data?.pipe_schedule?.value}</td>
                                     <td>{data?.joints}</td>
-                                    <td className='contractorname' style={{whiteSpace:"pre-wrap"}}>
-                                      {data?.description}
+                                    <td
+                                      className='contractorname'
+                                      style={{ whiteSpace: "pre-wrap" }}>
+                                      {capitalizeFirstLetter(data?.description)}
                                     </td>
                                     <td>{FormatAmount(data?.amount)}</td>
                                     {invoice_details?.action?.can_edit && (
@@ -542,6 +549,33 @@ const Contractor_Sub_Invoice_Details = (props) => {
                                     )}
                                   </tr>
                                 ))}
+                                <tr className='table-bordered'>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td>
+                                    Total :{" "}
+                                    <b>
+                                      {FormatAmount(
+                                        calculateTotalJoint(
+                                          invoice_details.items
+                                        )
+                                      )}
+                                    </b>
+                                  </td>
+                                  <td></td>
+                                  <td>
+                                    Total :{" "}
+                                    <b>
+                                      N
+                                      {FormatAmount(
+                                        calculateTotalAmount(
+                                          invoice_details.items
+                                        )
+                                      )}
+                                    </b>
+                                  </td>
+                                </tr>
                               </tbody>
                             </Table>
                           </div>
