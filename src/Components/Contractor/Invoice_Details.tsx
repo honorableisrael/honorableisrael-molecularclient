@@ -42,7 +42,7 @@ declare global {
   }
 }
 
-const Admin_Invoice_details = (props) => {
+const Invoice_details = (props) => {
   const [state, setState] = useState<any>({
     invoice_details: {},
     user_details: "",
@@ -104,6 +104,7 @@ const Admin_Invoice_details = (props) => {
       show: true,
     });
   };
+  
   useEffect(() => {
     window.scrollTo(-0, -0);
     console.log(props);
@@ -120,9 +121,12 @@ const Admin_Invoice_details = (props) => {
         axios.get(`${API}/contractor`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }),
-        axios.get(`${API}/contractor/work-orders/${work_order_details?.id}`, {
-          headers: { Authorization: `Bearer ${token.access_token}` },
-        }),
+        axios.get(
+          `${API}/contractor/work-orders/${props?.match?.params?.work_order_id}`,
+          {
+            headers: { Authorization: `Bearer ${token.access_token}` },
+          }
+        ),
       ])
       .then(
         axios.spread((res2, res3, res4) => {
@@ -829,4 +833,4 @@ const Admin_Invoice_details = (props) => {
   );
 };
 
-export default Admin_Invoice_details;
+export default Invoice_details;

@@ -94,6 +94,7 @@ const Notification = withRouter((props) => {
     total,
     notification,
   }: any = state;
+  console.log(notification,"notification")
   return (
     <>
       <Container fluid={true} className="dasbwr">
@@ -170,7 +171,7 @@ const Notification = withRouter((props) => {
                           </Link>
                         ) :data?.category == "invoice" ? (
                           <Link
-                            to={`/invoice_details/${data.category_id}`}
+                            to={`/invoice_details/${data.category_id}/`}
                             >
                               <img
                                 src={nextbtn}

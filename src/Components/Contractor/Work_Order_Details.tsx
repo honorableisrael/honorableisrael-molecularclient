@@ -315,7 +315,7 @@ const Invoice_details = ({ work_order_detail }: any) => {
                 <span className='viewall_'>
                   {" "}
                   <Link
-                    to={`/invoice_details/${work_order_detail?.invoice?.id}`}
+                    to={`/invoice_details/${work_order_detail?.invoice?.id}/${work_order_detail?.id}`}
                     title='view payment cycle information'>
                     view more
                   </Link>{" "}

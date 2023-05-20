@@ -434,11 +434,17 @@ const Contractor_Sub_Invoice_Details = (props) => {
                             </div>
                             <div className='rcomponent'>
                               <div className='inv_title2'>
-                                <div className='inv_title3'>Amount</div>
-                                <div className='inv_title4 ing'>
-                                  {current_currency}
-                                  {FormatAmount(invoice_details?.amount) ??
-                                    "~~/~~"}
+                                <div className='text-teal'>
+                                  Milestone Description
+                                </div>
+                                <div className='ing'>
+                                  {capitalizeFirstLetter(
+                                    invoice_details?.description
+                                  ) ?? "~~/~~"}
+                                </div>
+                                <div className='inv_title3'>
+                                  {formatTime(invoice_details?.start_date)} -{" "}
+                                  {formatTime(invoice_details?.end_date)}
                                 </div>
                               </div>
                             </div>
@@ -550,12 +556,12 @@ const Contractor_Sub_Invoice_Details = (props) => {
                                   </tr>
                                 ))}
                                 <tr className='table-bordered'>
-                                  <td></td>
-                                  <td></td>
-                                  <td></td>
+                                  <td colSpan={3} className='text-right pr-2'>
+                                    <b> Total</b>
+                                  </td>
                                   <td>
-                                    Total :{" "}
                                     <b>
+                                      {" "}
                                       {FormatAmount(
                                         calculateTotalJoint(
                                           invoice_details.items
@@ -565,9 +571,7 @@ const Contractor_Sub_Invoice_Details = (props) => {
                                   </td>
                                   <td></td>
                                   <td>
-                                    Total :{" "}
                                     <b>
-                                      N
                                       {FormatAmount(
                                         calculateTotalAmount(
                                           invoice_details.items

@@ -420,14 +420,15 @@ const ContractorInvoiceDetails = (props) => {
           <Col md={11} className='job34'>
             <div className='title_wo title_wo12 title_wo_ tbtom ttbom'>
               <div className='workorderheader fixedtitle'>
-                <Link to={`/admin_invoice_details/${props.match.params.id}`}>
+                <span onClick={() => window.history?.back()}>
                   {" "}
                   <img src={arrowback} className='arrowback' />
-                </Link>{" "}
+                </span>{" "}
                 Contractor Invoice Preview
               </div>
               <Button
-                className='payspecialist1 h36' onClick={()=>window.print()}>
+                className='payspecialist1 h36'
+                onClick={() => window.print()}>
                 Print
               </Button>
             </div>
@@ -764,15 +765,15 @@ const ContractorInvoiceDetails = (props) => {
                   data-bs-parent='#accordionFlushExample'>
                   <div className='accordion-body'>
                     <p>
-                      <ul className="pl-0">
+                      <ul className='pl-0'>
                         {invoice_details?.cost_exclusions
                           ?.split("\n")
                           ?.map((data, i) => (
                             <li
-                            className="pl-0"
-                            dangerouslySetInnerHTML={{
-                              __html: data ?? "n/a",
-                            }}></li>
+                              className='pl-0'
+                              dangerouslySetInnerHTML={{
+                                __html: data ?? "n/a",
+                              }}></li>
                           ))}
                       </ul>
                     </p>

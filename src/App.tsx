@@ -174,7 +174,7 @@ const App: any = ({ history }) => {
                 path='/admin_invoice_details_view_only/:id/:workorderid'
                 component={Invoice_details_view_only}
               />
-              <Route path='/invoice_details/:id' component={Invoice_details} />
+              <Route path='/invoice_details/:id/:work_order_id' component={Invoice_details} />
               <Route
                 path='/raise_proforma_invoice'
                 component={AdminRaiseProformaInvoice}
