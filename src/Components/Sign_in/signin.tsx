@@ -7,16 +7,16 @@ import { API } from "../../config";
 import "./signin.css";
 import NavBar from "../Widgets/navigation";
 
-
-
-const SignIn = withRouter((props) => {
+const SignIn = (props) => {
   const [state, setState] = useState({
     email: "",
     password: "",
     isloading: false,
     errorMessage: "",
+    success: "",
+    open: false,
   });
-  const { email, password, errorMessage, isloading } = state;
+  const { email, password, open, errorMessage, isloading, success } = state;
   const validateForm = (e) => {
     e.preventDefault();
     if (!email) {
@@ -46,19 +46,20 @@ const SignIn = withRouter((props) => {
       .post(`${API}/login`, data)
       .then((res) => {
         console.log(res.data);
-        localStorage.setItem("loggedInDetails",JSON.stringify(res.data))
-        if(res?.data?.user_type=="admin"){
-          props.history.push("/admin_dashboard")
+        localStorage.setItem("loggedInDetails", JSON.stringify(res.data));
+        if (res?.data?.user_type == "admin") {
+          props.history.push("/admin_dashboard");
         }
-        if(res?.data?.user_type=="contractor"){
-          props.history.push("/contractor_dashboard")
+        if (res?.data?.user_type == "contractor") {
+          props.history.push("/contractor_dashboard");
         }
-        if(res?.data?.user_type=="specialist"){
-          props.history.push("/specialistdashboard")
+        if (res?.data?.user_type == "specialist") {
+          props.history.push("/specialistdashboard");
         }
         setState({
           ...state,
           isloading: false,
+          success: res.data.message,
         });
       })
       .catch((err) => {
@@ -88,11 +89,12 @@ const SignIn = withRouter((props) => {
       ...state,
       [e.target.name]: e.target.value,
       errorMessage: "",
+      success: "",
     });
   };
   return (
     <div>
-       <NavBar />
+      <NavBar />
       <section className="signin-section">
         <div className="signinImage"></div>
         <Container>
@@ -107,6 +109,11 @@ const SignIn = withRouter((props) => {
                       <Alert variant={"danger"}>{errorMessage}</Alert>
                     </div>
                   )}
+                  {success && (
+                    <div className="signinalertmssg">
+                      <Alert variant={"info"}>{success}</Alert>
+                    </div>
+                  )}
                 </div>
                 <div className="padded-signin-wrapper">
                   <label className="inputlabel">
@@ -116,7 +123,7 @@ const SignIn = withRouter((props) => {
                       name="email"
                       value={email}
                       onChange={onchange}
-                      placeholder="Enter your Email Address"
+                      // placeholder="Enter your Email Address"
                       size={60}
                       className="form-control forminput"
                     />
@@ -124,16 +131,29 @@ const SignIn = withRouter((props) => {
                   <label className="inputlabel">
                     <span className="rdfrmlbl">Password</span>
                     <input
-                      type="password"
+                      type={open ? "text" : "password"}
                       name="password"
                       value={password}
                       onChange={onchange}
-                      placeholder="Enter your Password"
+                      //placeholder="Enter your Password"
                       size={60}
                       className="form-control forminput"
                     />
                   </label>
-                  {/* <div className="forgotpassword"><Link to="/forgot_password">Forgot Password?</Link></div> */}
+                  <div className="text-righ">
+                    {" "}
+                    <span
+                      onClick={() => {
+                        setState({
+                          ...state,
+                          open: open ? false : true,
+                        });
+                      }}
+                    >
+                      &#128065;
+                    </span>
+                  </div>
+                  <Link to="/forgot_password">Forgot password?</Link>
                   <div className="form-btn-wrapper loginbtdv">
                     <input
                       className="signinbtn"
@@ -142,17 +162,22 @@ const SignIn = withRouter((props) => {
                       value={isloading ? "Logging in..." : "Login"}
                     />
                   </div>
-                  <Link to="/contractor_signup"><p className="signuprgqt">Dont have Molecular account?<span>Sign up</span></p></Link>
+                  <Link to="/contractor_signup">
+                    <p className="signuprgqt">
+                      Dont have Molecular account?<span> Sign up</span>
+                    </p>
+                  </Link>
                 </div>
               </form>
             </Col>
           </Row>
           <div className="signin-footer-rights">
-            ©2021 Molecular copyright All rights Reserved
+            ©2022 Molecular copyright All rights Reserved
           </div>
         </Container>
       </section>
     </div>
   );
-});
+};
+
 export default SignIn;

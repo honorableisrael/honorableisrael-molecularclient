@@ -28,6 +28,7 @@ import {
   returnAdminToken,
 } from "../../config";
 import Specialist_Awaiting_Admin from "./SubComponents/Specailist_Awaiting_Admin_Approval";
+import Contractor_Awaiting_Admin from "./SubComponents/Contractor_Awaiting_Admin_Approval";
 
 const Notification = (props) => {
   console.log(props);
@@ -40,7 +41,7 @@ const Notification = (props) => {
         {props?.all_notification?.slice(0, 3)?.map((data, i) =>
           (data.category == "work order" || data.category == "worksheet") ? (
             <Link
-              to="/admin_work_details?inreview=true"
+              to={`/admin_work_details/${data.id}?inreview=true`}
               onClick={() =>
                 localStorage.setItem(
                   "work_order_details",
@@ -61,7 +62,7 @@ const Notification = (props) => {
             </Link>
           ) : data.category == "invoice" ? (
             <>
-              <Link to={`/admin_invoice_details/${data.category_id}`}>
+              <Link to={`/admin_invoice_details/${data.category_id}/${data?.work_order?.id}`}>
                 <div className="helloworld1" title={data.message}>
                   <div className="helloworld2">
                     <img src={avatar} className="avatar1" />
@@ -99,13 +100,13 @@ const Invoice = (props) => {
       {props?.invoicelist?.slice(0, 3)?.map((data, i) => (
         <>
           <div className="helloworld1 helloworld1op" key={i}>
-            <Link to={`/admin_invoice_details/${data?.id}`}>
+            <Link to={`/admin_invoice_details/${data?.id}/${data?.work_order?.id}`}>
               <div className="helloworldx">
                 <img src={invoice} className="invoices" />
               </div>
             </Link>
             <div className="app12 app23 app23" title={data?.work_order?.title}>
-              <Link to={`/admin_invoice_details/${data?.id}`}>
+              <Link to={`/admin_invoice_details/${data?.id}/${data?.work_order?.id}`}>
                 <span className="titleinvoice">{data?.work_order?.title}</span>{" "}
               </Link>
               <div className="amount2a">{data.total_amount}</div>
@@ -392,6 +393,7 @@ const AdminDashboard = withRouter((props) => {
               </div>
             </div>
           </Col>
+          <Contractor_Awaiting_Admin />
           <Specialist_Awaiting_Admin />
           <Col className="fc12 fc14 ">
             <div className="carderw carderw_no_12  carderwax">

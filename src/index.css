@@ -66,3 +66,6 @@ html {
 a,a:hover{
   text-decoration: none;
 }
+ select ::placeholder,select{
+  color: #000000 !important;
+}

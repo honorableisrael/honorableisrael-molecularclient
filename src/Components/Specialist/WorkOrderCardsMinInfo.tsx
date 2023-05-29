@@ -21,11 +21,11 @@ const WorkOrderCardsMinInfo = (props) => {
   let { volume } = state;
   return (
     <>
-      <div className="cardwrap_jo">
+      <div className="splstcardwrap_jo">
         {/* <div className="cardwrap_cont">
           <img src={portfolio} alt="portfolio" className="portfolio2" />
         </div> */}
-        <div className="c_ard_sec2">
+        <div className="c_ard_sec2 splcardsec2">
           <div className="pipline pipline__">
             <div className="crd23"> {props?.order_detail?.title} in {props?.order_detail?.location} </div>
             <div className="inprogr">

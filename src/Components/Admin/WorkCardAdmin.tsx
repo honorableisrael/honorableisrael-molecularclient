@@ -95,7 +95,7 @@ const AdminWorkOrderCards = (props) => {
             />
           </div>
             <Link
-              to="/admin_work_details?inreview=true"
+              to={`/admin_work_details/${props.order_details.id}?inreview=true`}
               onClick={() =>
                 localStorage.setItem(
                   "work_order_details",

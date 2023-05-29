@@ -147,7 +147,7 @@ const SpecialistDashboard = (props) => {
                       <img src={checkmrk} alt="img" />
                     </div>
                   </div>
-                  <p>{current_currency}{FormatAmount(outstanding_payments + payment_received)}</p>
+                  <p>{current_currency}{FormatAmount(parseInt(outstanding_payments) + parseInt(payment_received))}</p>
                 </div>
                 <div className="spldshbdcard-small">
                   <div className="spldshbdcardheader">

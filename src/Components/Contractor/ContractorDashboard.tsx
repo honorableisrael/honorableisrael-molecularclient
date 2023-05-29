@@ -188,7 +188,7 @@ const ContractorDashboard = withRouter((props) => {
     window.scrollTo(0, 0);
     const token = contractorToken();
     if (token.user_type !== "contractor") {
-      return props.history.push("/login");
+      return props.history.push("/signin");
     }
     axios
       .all([

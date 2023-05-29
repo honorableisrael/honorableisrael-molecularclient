@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 import NavBar from "../Widgets/navigation";
 import "./home.css";
 import greenbib from "../../images/greenbib.png";
-import handshake from "../../images/handshake.png";
-import yellowhelmet from "../../images/yellowhelmet.png";
+import oilengineers from "../../images/oilengineers.jpg";
+import yellowhelmet from "../../images/yellowhelmet.jpg";
 import handset from "../../images/handset.png";
-import bullet from "../../images/shortline.png";
+import lightbulb from "../../images/lightbulb.jpg";
 import Work from "./workandbuild";
 import Footer from "./footer";
 
@@ -45,23 +45,26 @@ const ContractorLanding = () => {
           </Col>
         </Row>
       </div>
-      {/* <div className="cntrotlndg-section3">
-        <p>People You Can Count On. High-Quality Work.</p>
+       <div className="cntrotlndg-section3">
+       <p className="cntrotlndg-section3_heading">
+          FOR EPC Contractors{" "}
+        </p>
+        <p className="cntrotlndg-section3_subheading">
+         Hire Smartly
+        </p>
         <div className="cardlift">
           <div className="cntrotlndg-section3-cards">
             <div className="cntrotlndg-section3-card-content">
-              <img src={handshake} className="img-fluid" alt="img" />
+              <img src={oilengineers} className="img-fluid yellhlmetimg" alt="img" />
               <div className="cntrotlndg-section3-card-wrapp">
-                <p className="cntrotlndg-section3-card-subhead">Hire Smartly</p>
+                {/* <p className="cntrotlndg-section3-card-subhead">Hire Smartly</p> */}
                 <h4 className="cntrotlndg-section3-card-heading">
-                  Match Projects with skilled specialists
+                Get the Job Done
                 </h4>
                 <p className="cntrotlndg-section3-card-descr">
-                  We understand your needs and match you with the right worker
-                  for your unique job. We provide flexible, on-demand, and
-                  cost-effective labor when and where you need it.
+                Our technical specialists get your jobs done right the first time, and every time.
                 </p>
-                <div className="cardbulletwrap">
+                {/* <div className="cardbulletwrap">
                   <div>
                     <img src={bullet} alt="img" />
                   </div>
@@ -83,22 +86,21 @@ const ContractorLanding = () => {
                     Create a pool of back-up candidates to ensure your project
                     is always fully staffed
                   </p>
-                </div>
+                </div> */}
               </div>
             </div>
             <div className="cntrotlndg-section3-card-content">
-              <img src={yellowhelmet} className="img-fluid" alt="img" />
+              <img src={yellowhelmet} className="img-fluid yellhlmetimg" alt="img" />
               <div className="cntrotlndg-section3-card-wrapp">
-                <p className="cntrotlndg-section3-card-subhead">Hire Smartly</p>
+                {/* <p className="cntrotlndg-section3-card-subhead">Hire Smartly</p> */}
                 <h4 className="cntrotlndg-section3-card-heading">
-                  Match Projects with skilled specialists
+                Quality and Safety
                 </h4>
                 <p className="cntrotlndg-section3-card-descr">
-                  We understand your needs and match you with the right worker
-                  for your unique job. We provide flexible, on-demand, and
-                  cost-effective labor when and where you need it.
+                Our highly vetted technical specialists are certified and skilled to ensure strict adherence to international 
+                standards and great project outcomes. We take Quality and Safety very seriously.
                 </p>
-                <div className="cardbulletwrap">
+                {/* <div className="cardbulletwrap">
                   <div>
                     <img src={bullet} alt="img" />
                   </div>
@@ -120,22 +122,20 @@ const ContractorLanding = () => {
                     Create a pool of back-up candidates to ensure your project
                     is always fully staffed
                   </p>
-                </div>
+                </div> */}
               </div>
             </div>
             <div className="cntrotlndg-section3-card-content">
-              <img src={handset} className="img-fluid" alt="img" />
+              <img src={lightbulb} className="img-fluid yellhlmetimg" alt="img" />
               <div className="cntrotlndg-section3-card-wrapp">
-                <p className="cntrotlndg-section3-card-subhead">Hire Smartly</p>
+                {/* <p className="cntrotlndg-section3-card-subhead">Hire Smartly</p> */}
                 <h4 className="cntrotlndg-section3-card-heading">
-                  Match Projects with skilled specialists
+                Efficient Deployment
                 </h4>
                 <p className="cntrotlndg-section3-card-descr">
-                  We understand your needs and match you with the right worker
-                  for your unique job. We provide flexible, on-demand, and
-                  cost-effective labor when and where you need it.
+                We provide the technical specialists you need, when you need them
                 </p>
-                <div className="cardbulletwrap">
+                {/* <div className="cardbulletwrap">
                   <div>
                     <img src={bullet} alt="img" />
                   </div>
@@ -157,19 +157,54 @@ const ContractorLanding = () => {
                     Create a pool of back-up candidates to ensure your project
                     is always fully staffed
                   </p>
-                </div>
+                </div> */}
               </div>
             </div>
+            <div className="cntrotlndg-section3-card-content">
+              <img src={lightbulb} className="img-fluid yellhlmetimg" alt="img" />
+              <div className="cntrotlndg-section3-card-wrapp">
+                {/* <p className="cntrotlndg-section3-card-subhead">Hire Smartly</p> */}
+                <h4 className="cntrotlndg-section3-card-heading">
+                Convenience and Speed
+                </h4>
+                <p className="cntrotlndg-section3-card-descr">
+                </p>
+                {/* <div className="cardbulletwrap">
+                  <div>
+                    <img src={bullet} alt="img" />
+                  </div>
+                  <p>Understand your project specific requirements</p>
+                </div>
+                <div className="cardbulletwrap">
+                  <div>
+                    <img src={bullet} alt="img" />
+                  </div>
+                  <p>
+                    Identify the best candidates from our bench of 268k+ workers
+                  </p>
+                </div>
+                <div className="cardbulletwrap">
+                  <div>
+                    <img src={bullet} alt="img" />
+                  </div>
+                  <p>
+                    Create a pool of back-up candidates to ensure your project
+                    is always fully staffed
+                  </p>
+                </div> */}
+              </div>
+            </div>
+
           </div>
         </div>
-      </div> */}
-      {/* <div className="cntrotlndg-section4">
+      </div>
+       <div className="cntrotlndg-section4">
         <Link to="/contractor_signup">
           <span className="home-btn-primary contrtor-btn">
-            Sign up as a Contractor
+            Get Started
           </span>
         </Link>
-      </div> */}
+      </div> 
       <Work />
       <Footer />
     </div>

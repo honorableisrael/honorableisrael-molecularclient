@@ -29,31 +29,31 @@ const Footer = () => {
               <NavHashLink to="/#home">
                 <p className="footer-links">Home</p>
               </NavHashLink>
-              <NavHashLink to="/#our_services">
-                <p className="footer-links">Our Services</p>
-              </NavHashLink>
               <Link to="/Industry_segments">
                 <p className="footer-links">Industry Segments</p>
               </Link>
               <Link to="/learnmore">
+                <p className="footer-links">What we do</p>
+              </Link>
+              <Link to="/blog">
                 <p className="footer-links">Blog</p>
               </Link>
               <Link to="/contactus">
-                <p className="footer-links">Contact Us</p>
+                <p className="footer-links">Contact us</p>
               </Link>
             </div>
-             <div>
+            <div>
               <h4 className="footer-title">EPC Contractor</h4>
               <Link to="/contractor_signup">
                 <p className="footer-links">Hire</p>
               </Link>
               {/* <p className="footer-links">Industries</p> */}
             </div>
-           
+
             <div>
               <h4 className="footer-title">Pipeline Specialist</h4>
               <Link to="/specialist_signup">
-                <p className="footer-links">Find Work</p>
+                <p className="footer-links">Find work</p>
               </Link>
               {/* <p className="footer-links">Industries</p> */}
             </div>
@@ -69,28 +69,50 @@ const Footer = () => {
             <div className="scoialswrap">
               <h4 className="footer-title">Socials</h4>
               <div className="footer-socialwrapper">
-                <span>
-                  <img src={facebook} alt="img" />
-                </span>
-                <span>
-                  <img src={instagram} alt="img" />
-                </span>
-                <span>
+                <a
+                  target="_blank"
+                  href="https://web.facebook.com/MolecularTechHQ"
+                >
+                  <span>
+                    <img src={facebook} alt="img" />
+                  </span>
+                </a>
+                <a
+                  target="_blank"
+                  href="https://www.instagram.com/moleculartechhq/"
+                >
+                  <span>
+                    <img src={instagram} alt="img" />
+                  </span>
+                </a>
+                {/* <span>
                   <img src={twitter} alt="img" />
-                </span>
-                <span>
-                  <img src={linkedin} alt="img" />
-                </span>
+                </span> */}
+                <a
+                  target="_blank"
+                  href="https://www.linkedin.com/company/molecular-tech-services/about/"
+                >
+                  <span>
+                    <img src={linkedin} alt="img" />
+                  </span>
+                </a>
               </div>
-              <p className="footer-links"> <a href="mailto:info@dev.molecularpro.co"></a> info@molecularpro.co</p>
+              <p className="footer-links">
+                {" "}
+                <a href="mailto:info@dev.molecularpro.co"></a>{" "}
+                info@molecularpro.co
+              </p>
             </div>
           </div>
           <div className="copyrightwrap">
             <div className="reserves">
-              ©2021 Molecular copyright, All rights Reserved.
+              ©2022 Molecular copyright, All rights Reserved.
             </div>
             <div className="terms">Terms & Conditions</div>
-            <div className="privacy">Privacy Policy</div>
+            <div className="privacy">
+              {" "}
+              <Link to="/privacy"> Privacy Policy</Link>
+            </div>
           </div>
         </Container>
       </div>

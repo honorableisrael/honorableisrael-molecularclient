@@ -22,15 +22,30 @@ import {
   current_currency,
   FormatAmount,
   formatTime,
+  MID,
   notify,
   returnAdminToken,
 } from "../../config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { copyFileSync } from "fs";
+
+declare global {
+  interface Window {
+    initPayment: any;
+  }
+}
+
+declare global {
+  interface Window {
+    initPayment: any;
+  }
+}
 
 const Admin_Invoice_details = (props) => {
   const [state, setState] = useState<any>({
     invoice_details: {},
+    user_details: "",
     country: "",
     inprogress: true,
     pending_request: false,
@@ -43,13 +58,16 @@ const Admin_Invoice_details = (props) => {
     end_date: "",
     start_date: "",
     hour: "",
+    u_id: "",
     show: false,
     show2: false,
     reason: "",
     isloading: false,
     work_order_detail: {},
+    pipe_breakdown: [],
     id: "",
     cycle_amount: "",
+    MID: "GP0000001",
   });
 
   const onchange = (e) => {
@@ -99,14 +117,22 @@ const Admin_Invoice_details = (props) => {
         axios.get(`${API}/contractor/invoices/${props?.match?.params?.id}`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }),
+        axios.get(`${API}/contractor`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
+        axios.get(`${API}/contractor/work-orders/${work_order_details?.id}`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
       ])
       .then(
-        axios.spread((res2) => {
+        axios.spread((res2, res3, res4) => {
           console.log(res2.data.data);
           setState({
             ...state,
-            work_order_detail: res2.data.data.work_order,
+            work_order_detail: res4.data.data,
             invoice_details: res2.data.data,
+            user_details: res3.data.data,
+            pipe_breakdown: res4.data.data.pipe_configs,
           });
         })
       )
@@ -161,10 +187,34 @@ const Admin_Invoice_details = (props) => {
         console.log(err);
       });
   };
+
+  const initPayment = (x) => {
+    window.initPayment({
+      MID: MID,
+      email: user_details?.contractor?.email,
+      firstname: user_details?.contractor?.first_name,
+      lastname: user_details?.contractor?.last_name,
+      customer_txnref: x,
+      description: "Cycle payment",
+      title: "",
+      amount: cycle_amount,
+      country: "NG",
+      currency: "NGN",
+      onclose: function () {
+        notify("failed to complete payment");
+      },
+      callback: function (response) {
+        console.log(response);
+        notify(response.message);
+        if (response?.bank_message == "Approved") {
+          MakePayment();
+        }
+      },
+    });
+  };
+
   const MakePayment = () => {
     const token = contractorToken();
-    const work_order = localStorage.getItem("work_order_details");
-    const work_order_details = work_order ? JSON.parse(work_order) : "";
     setState({
       ...state,
       isloading: true,
@@ -198,7 +248,47 @@ const Admin_Invoice_details = (props) => {
           isloading: false,
         });
         if (err?.response?.status == 400) {
-          return notify(err?.response?.data?.message);
+          // return notify(err?.response?.data?.message);
+        }
+        console.log(err);
+      });
+  };
+  const get_payment_ref = () => {
+    return setState({
+      ...state,
+      show2: false,
+    });
+    const token = contractorToken();
+    setState({
+      ...state,
+      isloading: true,
+    });
+    axios
+      .all([
+        axios.get(`${API}/contractor/sub-invoices/${id}/pay`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
+      ])
+      .then(
+        axios.spread((res) => {
+          console.log(res.data);
+          initPayment(res?.data?.data?.reference);
+          setTimeout(() => {
+            setState({
+              ...state,
+              isloading: false,
+              show2: false,
+            });
+          }, 2000);
+        })
+      )
+      .catch((err) => {
+        setState({
+          ...state,
+          isloading: false,
+        });
+        if (err?.response?.status == 400) {
+          // return notify(err?.response?.data?.message);
         }
         console.log(err);
       });
@@ -208,9 +298,9 @@ const Admin_Invoice_details = (props) => {
     country,
     work_order_description,
     work_order_detail,
-    order_title,
-    end_date,
-    reason,
+    pipe_breakdown,
+    u_id,
+    user_details,
     isloading,
     id,
     show2,
@@ -218,10 +308,11 @@ const Admin_Invoice_details = (props) => {
     show,
     cycle_amount,
   } = state;
+  console.log(work_order_detail, "work_order_detail");
   return (
     <>
       <Modal
-        size="sm"
+        size='sm'
         show={show}
         onHide={() =>
           setState({
@@ -229,11 +320,10 @@ const Admin_Invoice_details = (props) => {
             show: false,
           })
         }
-        dialogClassName="modal-90w"
-        className="mdl12_ mdl2"
-      >
+        dialogClassName='modal-90w'
+        className='mdl12_ mdl2'>
         <Modal.Header closeButton>
-          <Modal.Title id="example-custom-modal-styling-title">
+          <Modal.Title id='example-custom-modal-styling-title'>
             Accept Proforma Invoice
           </Modal.Title>
         </Modal.Header>
@@ -247,22 +337,20 @@ const Admin_Invoice_details = (props) => {
             </Col>
           </Row>
           <Row>
-            <Col md={12} className="terminate2">
+            <Col md={12} className='terminate2'>
               <div
-                className="terminate1"
+                className='terminate1'
                 onClick={() =>
                   setState({
                     ...state,
                     show: false,
                   })
-                }
-              >
+                }>
                 {"Cancel"}
               </div>
               <Button
-                className="greenbtn2 btn-success"
-                onClick={(e) => AcceptInvoice()}
-              >
+                className='greenbtn2 btn-success'
+                onClick={(e) => AcceptInvoice()}>
                 {isloading ? "Processing" : "Ok"}
               </Button>
             </Col>
@@ -270,7 +358,7 @@ const Admin_Invoice_details = (props) => {
         </Modal.Body>
       </Modal>
       <Modal
-        size="sm"
+        size='sm'
         show={show2}
         onHide={() =>
           setState({
@@ -278,11 +366,10 @@ const Admin_Invoice_details = (props) => {
             show2: false,
           })
         }
-        dialogClassName="modal-90w"
-        className="mdl12_ mdl2"
-      >
+        dialogClassName='modal-90w'
+        className='mdl12_ mdl2'>
         <Modal.Header closeButton>
-          <Modal.Title id="example-custom-modal-styling-title">
+          <Modal.Title id='example-custom-modal-styling-title'>
             Complete Payment
           </Modal.Title>
         </Modal.Header>
@@ -290,60 +377,81 @@ const Admin_Invoice_details = (props) => {
           <Row>
             <Col md={12}>
               <div>
-                You are about to make payement of N{FormatAmount(cycle_amount)}{" "}
-                for this cycle
+                Make a payment of N{FormatAmount(cycle_amount)} to the account
+                number below
+                {
+                  <div className='fbn1'>
+                    <div className='bnclass flex-wrap'>
+                      <span className='lightcolor'> Bank name:</span>
+                      {invoice_details?.bank_account?.bank_name}
+                    </div>
+                    <div className='bnclass'>
+                      <span className='lightcolor'> Account name:</span>
+                      {invoice_details?.bank_account?.account_name}
+                    </div>
+                    <div className='bnclass'>
+                      <span className='lightcolor'> Account number:</span>
+                      {invoice_details?.bank_account?.account_number}
+                    </div>
+                  </div>
+                }
               </div>
             </Col>
           </Row>
           <Row>
-            <Col md={12} className="terminate2">
-              <div
-                className="terminate1"
+            <Col md={12} className='terminate2'>
+              {/* <div
+                className='terminate1'
                 onClick={() =>
                   setState({
                     ...state,
                     show2: false,
                   })
-                }
-              >
+                }>
                 {"Cancel"}
-              </div>
+              </div> */}
+
               <Button
-                className="greenbtn2 btn-success"
-                onClick={(e) => MakePayment()}
-              >
-                {isloading ? "Processing" : "Proceed"}
+                className='greenbtn2 btn-success'
+                // onClick={(e) => MakePayment()}
+                onClick={(e) => get_payment_ref()}>
+                {isloading ? "Processing" : "Ok"}
               </Button>
             </Col>
           </Row>
         </Modal.Body>
       </Modal>
-      <Container fluid={true} className="dasbwr">
+      <Container fluid={true} className='dasbwr tainer3'>
         <Helmet>
-          <meta charSet="utf-8" />
+          <meta charSet='utf-8' />
           <title>Molecular - Contractor Work Order</title>
           <link />
         </Helmet>
         <Row>
           <DashboardNav />
-          <div id="overview"></div>
+          <div id='overview'></div>
         </Row>
-        <Row className="rowt3 row3t2">
-          <Col md={11} className="job34">
-            <div className="title_wo title_wo12 title_wo_ tbtom ttbom">
-              <div className="workorderheader fixedtitle">
-                <Link to="/payment_invoice">
+        <Row className='rowt3 row3t2 brt00'>
+          <Col md={11} className='job34'>
+            <div className='title_wo title_wo12 title_wo_ tbtom ttbom'>
+              <div className='workorderheader fixedtitle'>
+                <Link to='/payment_invoice'>
                   {" "}
-                  <img src={arrowback} className="arrowback" />
+                  <img src={arrowback} className='arrowback' />
                 </Link>{" "}
                 &nbsp; Invoice Details
               </div>
+              <Button
+                className='payspecialist1 h36'
+                onClick={() => window.print()}>
+                Print
+              </Button>
             </div>
-            <Row className="mgtop mgzero">
-              <Col md={12} className="">
-                <div className="job23_1a hidden__1">
-                  <div className="">
-                    <div className="overview12 overviewflex-down">
+            <Row className='mgtop mgzero'>
+              <Col md={12} className='mgtop345'>
+                <div className='job23_1a hidden__1'>
+                  <div className=''>
+                    <div className='overview12 overviewflex-down'>
                       {/* <Col md={12} className="mm12">
                         <h6>Account Details</h6>
                         <select
@@ -361,72 +469,75 @@ const Admin_Invoice_details = (props) => {
                           </option>
                         </select>
                       </Col> */}
-                      <Col md={12} className="plf">
-                        <div className="">
-                          <div className="box_inv outerpink">
-                            <span className="box_smalltick smalltickpink"></span>
+                      <Col md={12} className='plf'>
+                        <div className=''>
+                          <div className='box_inv outerpink'>
+                            <span className='box_smalltick smalltickpink'></span>
                             {invoice_details?.total_amount_paid > 0
-                              ? "Paid"
+                              ? "Payment in progress"
                               : "Unpaid"}
                           </div>
-                          <div className="boxwrapper__1">
-                            <div className="lcomponent">
-                              <div className="inv_title">
+                          <div className='boxwrapper__1'>
+                            <div className='lcomponent'>
+                              <div className='inv_title'>
                                 Invoice : {invoice_details.reference}
                               </div>
-                              <div className="inv_title2">
-                                <div className="inv_title3">
+                              <div className='inv_title2'>
+                                <div className='inv_title3'>
                                   {" "}
                                   Invoice Number{" "}
-                                  <span className="acceptedinvoc">
+                                  <span className='acceptedinvoc'>
                                     {invoice_details.is_approved
                                       ? "Accepted"
                                       : "Awaiting Acceptance"}
                                   </span>
                                 </div>
-                                <div className="inv_title4">
+                                <div className='inv_title4'>
                                   {invoice_details?.number ?? "~~/~~"}
                                 </div>
                               </div>
-                              <div className="inv_title2">
-                                <div className="inv_title3">Invoice Date</div>
-                                <div className="inv_title4">
+                              <div className='inv_title2'>
+                                <div className='inv_title3'>Invoice Date</div>
+                                <div className='inv_title4'>
                                   {formatTime(invoice_details?.sent_at) ??
                                     "~~/~~"}
                                 </div>
                               </div>
                             </div>
-                            <div className="rcomponent">
-                              <img src={logo} alt="" className="Simage" />
-                              <div className="Stext2">
-                                {invoice_details?.company_address ?? "n/a"}
-                              </div>
+                            <div className='rcomponent'>
+                              <img src={logo} alt='' className='Simage' />
+                              <div
+                                className='Stext2'
+                                dangerouslySetInnerHTML={{
+                                  __html:
+                                    invoice_details?.company_address ?? "n/a",
+                                }}></div>
                             </div>
                           </div>
                           <hr />
-                          <div className="boxwrapper__1 inv9">
-                            <div className="lcomponent">
-                              <div className="inv_title2">
-                                <div className="inv_title3">Client</div>
-                                <div className="inv_title4 ing">
+                          <div className='boxwrapper__1 inv9'>
+                            <div className='lcomponent'>
+                              <div className='inv_title2'>
+                                <div className='inv_title3'>Client</div>
+                                <div className='inv_title4 ing'>
                                   {work_order_detail?.contractor}
                                 </div>
-                                <div className="inv_title3 inv_titlex ">
+                                <div className='inv_title3 inv_titlex '>
                                   {work_order_detail?.country}
                                 </div>
                               </div>
                             </div>
-                            <div className="rcomponent">
-                              <div className="inv_title2">
-                                <div className="inv_title3">Total Amount</div>
-                                <div className="inv_title4 ing">
+                            <div className='rcomponent'>
+                              <div className='inv_title2'>
+                                <div className='inv_title3'>Total Amount</div>
+                                <div className='inv_title4 ing'>
                                   {current_currency}
                                   {FormatAmount(
                                     invoice_details?.total_amount
                                   ) ?? "~~/~~"}
                                 </div>
-                                <div className="inv_title3">Amount Paid</div>
-                                <div className="inv_title4 ing">
+                                <div className='inv_title3'>Amount Paid</div>
+                                <div className='inv_title4 ing'>
                                   {current_currency}
                                   {FormatAmount(
                                     invoice_details?.total_amount_paid
@@ -434,10 +545,10 @@ const Admin_Invoice_details = (props) => {
                                 </div>
                               </div>
                             </div>
-                            <div className="rcomponent">
-                              <div className="inv_title2">
-                                <div className="inv_title3">Balance Due</div>
-                                <div className="inv_title4 ing">
+                            <div className='rcomponent'>
+                              <div className='inv_title2'>
+                                <div className='inv_title3'>Balance Due</div>
+                                <div className='inv_title4 ing'>
                                   {current_currency}
                                   {FormatAmount(
                                     invoice_details?.total_amount_unpaid
@@ -446,40 +557,41 @@ const Admin_Invoice_details = (props) => {
                               </div>
                             </div>
                           </div>
-                          <div className="ing_11">
+                          <div className='ing_11'>
                             <Table responsive>
-                              <thead className="theadinvoice">
+                              <thead className='theadinvoice'>
                                 <tr>
-                                  <th className="tablehead">Specialist Cost</th>
-                                  <th className="tablehead">Date</th>
-                                  <th className="tablehead">Status</th>
-                                  <th className="tablehead">Cycle</th>
-                                  <th className="tablehead">Payment</th>
+                                  <th className='tablehead'>Date</th>
+                                  <th className='tablehead'>Cost</th>
+
+                                  <th className='tablehead'>Status</th>
+                                  <th className='tablehead'>Cycle</th>
+                                  <th className='tablehead'>Payment</th>
                                 </tr>
                               </thead>
                               <tbody>
                                 {invoice_details?.cycles?.map((data, i) => (
-                                  <tr className="tdata" key={i}>
+                                  <tr className='tdata' key={i}>
+                                    <td>{formatTime(data?.date)}</td>
                                     <td>
                                       {current_currency}
                                       {FormatAmount(data?.amount)}
                                     </td>
-                                    <td>{formatTime(data?.date)}</td>
                                     <td>{data?.status}</td>
                                     <td>{data?.cycle}</td>
                                     <td>
                                       {data?.status == "Unpaid" ? (
                                         <Button
-                                          className="btn-success primary3"
+                                          className='btn-success primary3'
                                           onClick={() => {
                                             setState({
                                               ...state,
                                               show2: true,
                                               cycle_amount: data.amount,
                                               id: data.id,
+                                              u_id: data.number,
                                             });
-                                          }}
-                                        >
+                                          }}>
                                           Pay
                                         </Button>
                                       ) : (
@@ -490,24 +602,57 @@ const Admin_Invoice_details = (props) => {
                                 ))}
                               </tbody>
                             </Table>
-                            <div className="text-right mgg2"></div>
+                            {work_order_detail?.costing && (
+                              <div className='gtotal'>
+                                <span>Grand total</span>
+                                <span>
+                                  N
+                                  {FormatAmount(
+                                    work_order_detail?.costing?.contractor_cost
+                                  )}
+                                </span>
+                              </div>
+                            )}
+                            <div className='text-right mgg2'></div>
                           </div>
                         </div>
-                        <div className="allpayment00">
-                          <div className="allpayment1">
-                            All payments go to any of the account details below
+                        <div className='allpayment00'>
+                          <div className='allpayment1'>
+                            All payments go to the account details below
                           </div>
-                          {invoice_details?.bank_accounts?.map((data, i) => (
-                            <div className="fbn1">
-                              <div className="bnclass">{data.bank}</div>
-                              <div className="bnclass">
+                          {
+                            <div className='fbn1'>
+                              <div className='bnclass'>
+                                <span className='lightcolor'> Bank name:</span>
+                                {invoice_details?.bank_account?.bank_name}
+                              </div>
+                              <div className='bnclass'>
+                                <span className='lightcolor'>
+                                  {" "}
+                                  Account name:
+                                </span>
+                                {invoice_details?.bank_account?.account_name}
+                              </div>
+                              <div className='bnclass'>
+                                <span className='lightcolor'>
+                                  {" "}
+                                  Account number:
+                                </span>
+                                {invoice_details?.bank_account?.account_number}
+                              </div>
+                            </div>
+                          }
+                          {/* {invoice_details?.bank_accounts?.map((data, i) => (
+                            <div className='fbn1'>
+                              <div className='bnclass'>{data.bank}</div>
+                              <div className='bnclass'>
                                 {data.account_number}
                               </div>
-                              <div className="bnclass">{data.account_name}</div>
+                              <div className='bnclass'>{data.account_name}</div>
                             </div>
-                          ))}
+                          ))} */}
                         </div>
-                        <div className="proformer_Invoc">
+                        <div className='proformer_Invoc'>
                           {invoice_details.is_approved == false && (
                             <Button onClick={openModal}>
                               Accept Proforma Invoice
@@ -522,11 +667,143 @@ const Admin_Invoice_details = (props) => {
             </Row>
           </Col>
         </Row>
+        <Row className='row3456 row3t2 rowt3'>
+          <Col md={12}>
+            <div
+              className='accordion accordion-flush'
+              id='accordionFlushExample'>
+              <div className='accordion-item'>
+                <h2 className='accordion-header' id='flush-headingThree'>
+                  <button
+                    className='accordion-button collapsed'
+                    type='button'
+                    data-bs-toggle='collapse'
+                    data-bs-target='#flush-collapseThree'
+                    aria-expanded='false'
+                    aria-controls='flush-collapseThree'>
+                    <b>Project Description</b>
+                  </button>
+                </h2>
+                <div
+                  id='flush-collapseThree'
+                  className='accordion-collapse collapse show'
+                  aria-labelledby='flush-headingThree'
+                  data-bs-parent='#accordionFlushExample'>
+                  <div className='accordion-body'>
+                    <p>{work_order_detail?.description}</p>
+                  </div>
+                </div>
+              </div>
+              <div className='accordion-item'>
+                <h2 className='accordion-header' id='flush-headingOne'>
+                  <button
+                    className='accordion-button collapsed'
+                    type='button'
+                    data-bs-toggle='collapse'
+                    data-bs-target='#flush-collapseOne'
+                    aria-expanded='true'
+                    aria-controls='flush-collapseOne'>
+                    <b> PIPELINE WELDING BREAKDOWN</b>
+                  </button>
+                </h2>
+                <div
+                  id='flush-collapseOne'
+                  className='accordion-collapse collapse show'
+                  aria-labelledby='flush-headingOne'
+                  data-bs-parent='#accordionFlushExample'>
+                  <div className='accordion-body'>
+                    <Table hover responsive>
+                      <thead>
+                        <tr>
+                          <th>Pipe Size</th>
+                          <th>Length</th>
+                          <th>Pipe Schedule</th>
+                          <th>Number of Joints</th>
+                          <th>Cost Per Joint (NGN)</th>
+                          <th>Total Amount (NGN)</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {pipe_breakdown?.map((data: any, i) => (
+                          <tr key={i}>
+                            <td>{data?.size}</td>
+                            <td>{FormatAmount(data?.length)}</td>
+                            <td>
+                              {FormatAmount(data?.pipe_schedule) ?? "n/a"}
+                            </td>
+                            <td>{FormatAmount(data?.joints)}</td>
+                            <td>
+                              {FormatAmount(data?.cost_per_joint ?? "n/a")}
+                            </td>
+                            <td>
+                              {FormatAmount(data?.contractor_cost) ?? "n/a"}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </Table>
+                    <div className='gtotal'>
+                      <span>Grand total</span>
+                      <span>
+                        {FormatAmount(
+                          work_order_detail?.costing?.contractor_cost
+                        )}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className='accordion-item'>
+                <h2 className='accordion-header' id='flush-headingTwo'>
+                  <button
+                    className='accordion-button collapsed'
+                    type='button'
+                    data-bs-toggle='collapse'
+                    data-bs-target='#flush-collapseTwo'
+                    aria-expanded='false'
+                    aria-controls='flush-collapseTwo'>
+                    <b> LIST OF COST EXCLUSIONS</b>
+                  </button>
+                </h2>
+                <div
+                  id='flush-collapseTwo'
+                  className='accordion-collapse collapse show'
+                  aria-labelledby='flush-headingTwo'
+                  data-bs-parent='#accordionFlushExample'>
+                  <div className='accordion-body'>
+                    <p>
+                      <ul>
+                        {invoice_details?.cost_exclusions
+                          ?.split("\n")
+                          ?.map((data, i) => (
+                            <li> {data}</li>
+                          ))}
+                      </ul>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Col>
+        </Row>
+        <Row className='invoicefooter'>
+          <Col md={12}>
+            <h5>Conditions</h5>
+            <p>The Profoma Invoice is based on COST PER JOINT and covers:</p>
+            <Row>
+              <Col md={12}>
+                {invoice_details?.conditions?.split("\n")?.map((data, i) => (
+                  <p>{data}</p>
+                ))}
+              </Col>
+            </Row>
+          </Col>
+        </Row>
       </Container>
       <ToastContainer
         enableMultiContainer
         containerId={"B"}
-        toastClassName="bg-orange text-white"
+        toastClassName='bg-orange text-white'
         hideProgressBar={true}
         position={"top-right"}
       />

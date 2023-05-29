@@ -305,6 +305,13 @@ text {
     padding-left: 18px;
     padding-right: 18px;
   }
+  .fixedtitle {
+    line-height: initial !important;
+    margin-left: 0px;
+  }
+  .fixedtitle #text {
+    display: flex;
+  }
   .rowta {
     padding-left: 1rem;
     padding-right: 1rem;
@@ -315,8 +322,8 @@ text {
   .otherwrap23 {
     min-width: 181px;
   }
-  .job34{
-    padding-left: .8rem !important;
+  .job34 {
+    padding-left: 0.8rem !important;
   }
 }
 .job31 {
@@ -811,7 +818,7 @@ text {
   font-weight: normal;
   font-size: 16px;
   line-height: 22px;
-  padding-top: 3rem;
+  padding-top: 1rem;
   padding-left: 1rem;
   padding-right: 1rem;
 }
@@ -1172,7 +1179,7 @@ text {
     flex-wrap: wrap;
     line-height: 25px;
   }
-  .intab{
+  .intab {
     padding-left: 1rem !important;
   }
 }
@@ -1206,6 +1213,25 @@ text {
   .carderw {
     margin-right: 0rem;
   }
+  .title_wo div {
+    line-height: initial !important;
+    text-align: left;
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  .title_wo div {
+    margin-left: -0.3rem !important;
+    white-space: pre-line;
+  }
+  .row3456 div {
+    margin: auto;
+    padding: 1rem 0px !important;
+  }
+}
+.fixedtitle a {
+  width: 50px !important;
 }
 .glead {
   width: fit-content;
@@ -1534,7 +1560,7 @@ text {
   padding: 1rem;
   padding-left: 0px;
   font-size: 15px;
-  padding-left: 2.5rem !important;
+  /* padding-left: 2.5rem !important; */
   padding-right: 2.5rem !important;
 }
 .inactivebordr {
@@ -1557,9 +1583,6 @@ text {
   text-align: initial;
 }
 @media (max-width: 698px) {
-  .profile__001 {
-    overflow-x: scroll;
-  }
   .namestyle11 {
     flex-wrap: wrap;
   }
@@ -1567,6 +1590,17 @@ text {
     width: 100%;
     padding-left: 0px;
     padding-top: 1.5rem;
+  }
+}
+@media (max-width: 1024px) {
+  .profile__001 {
+    overflow-x: scroll;
+  }
+  .profile__001::-webkit-scrollbar {
+    display: none;
+  }
+  .profile__001 {
+    -webkit-overflow-scrolling: touch;
   }
 }
 .workorder_header {
@@ -1927,6 +1961,7 @@ a:active {
 .pesonainforow3-content {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 .pdbulleticon {
   position: relative;
@@ -1939,7 +1974,7 @@ a:active {
   margin: 0px 23px;
 }
 .pesonainforow4 {
-  padding: 52px 52px 62px;
+  padding: 27px 52px 16px;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
 }
@@ -2025,6 +2060,9 @@ a:active {
 }
 .header_x {
   padding-left: 3rem !important;
+  min-width: 320px !important;
+  max-width: 320px !important;
+  overflow: hidden;
 }
 .plzeft {
   padding-left: 3rem !important;
@@ -2044,4 +2082,54 @@ a:active {
   padding-bottom: 2rem;
   position: relative;
   right: 2.8rem;
+}
+.portfolio2 {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.brt00 {
+  padding-bottom: 0px !important;
+}
+
+.gtotal {
+  padding-top: 2rem;
+  padding: 1rem;
+  padding-left: 0px;
+  display: flex;
+  justify-content: space-between;
+  width: 88%;
+  font-weight: 600;
+}
+button:disabled {
+  background: #fd8c00 !important;
+  border: none;
+  outline: none;
+  color: #fff;
+}
+.lightcolor {
+  color: #4e4c4c;
+}
+.flex-wrap {
+  flex-wrap: wrap;
+}
+.pt332 {
+  padding-top: 1rem;
+}
+.addmror {
+  color: var(--molecular-orange);
+  padding: 0.5rem;
+  border: 1px solid var(--molecular-orange);
+  margin-bottom: 1rem;
+  position: relative;
+  bottom: 2rem;
+  cursor: pointer;
+  font-weight: 800;
+}
+.flex-right{
+  justify-content: flex-end;
+}
+.mt331{
+  margin-top: 2rem;
 }

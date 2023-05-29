@@ -33,7 +33,7 @@ const Admin_Notification = withRouter((props) => {
       ? JSON.parse(availableToken)
       : window.location.assign("/");
     if (token.user_type !== "admin") {
-      return props.history.push("/login");
+      return props.history.push("/signin");
     }
     axios
       .all([
@@ -154,7 +154,7 @@ const Admin_Notification = withRouter((props) => {
                       <div className="nextbtn nextbtn_2">
                         {data?.category == "work order" ? (
                           <Link
-                          to="/admin_work_details?inreview=true"
+                          to={`/admin_work_details${data.category_id}?inreview=true`}
                           onClick={() =>
                             localStorage.setItem(
                               "work_order_details",
@@ -176,7 +176,7 @@ const Admin_Notification = withRouter((props) => {
                           </Link>
                         ) :data?.category == "worksheet" ? (
                           <Link
-                          to="/deployedspecialist?worksheet"
+                          to={`/deployedspecialist/${data.category_id}/?worksheet`}
                           onClick={() =>
                             localStorage.setItem(
                               "work_order_details",

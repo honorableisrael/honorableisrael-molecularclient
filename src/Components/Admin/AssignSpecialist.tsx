@@ -14,8 +14,8 @@ import checkcircle from "../../images/check-circle.png";
 import searchicon from "../../images/search.png";
 import no_work_order from "../../images/document 1.png";
 import axios from "axios";
-import { API, notify } from "../../config";
-import { capitalize } from "@material-ui/core";
+import { API, notify, returnAdminToken } from "../../config";
+import { capitalize } from "../../config";
 import { ToastContainer } from "react-toastify";
 
 const SpecialistContext: any = React.createContext({
@@ -23,6 +23,7 @@ const SpecialistContext: any = React.createContext({
   setState: () => {},
   assignToWorkOrder: () => {},
 });
+
 const AssignOneSpecialist = (x) => {
   const workOrder = localStorage.getItem("work_order_details");
   const workorder = workOrder ? JSON.parse(workOrder) : "";
@@ -33,6 +34,7 @@ const AssignOneSpecialist = (x) => {
   const data = {
     specialists: [x],
   };
+
   console.log("here now");
   axios
     .post(`${API}/admin/work-orders/${workorder.id}/specialists`, data, {
@@ -42,7 +44,7 @@ const AssignOneSpecialist = (x) => {
       console.log(res);
       notify("Successfully assigned specialist");
       setTimeout(() => {
-        window.location.assign("/#admin_work_details?inreview=true");
+        window.location.assign(`/#admin_work_details/${workorder.id}?inreview=true`);
       }, 2000);
     })
     .catch((err) => {
@@ -53,6 +55,7 @@ const AssignOneSpecialist = (x) => {
       notify("Failed to assign specialist", "D");
     });
 };
+
 const Specialist_card = (props) => {
   const { state, setState, assignToWorkOrder }: any =
     useContext(SpecialistContext);
@@ -110,11 +113,12 @@ const Specialist_card = (props) => {
             ))}
           </div>
           <div className="prim_skills">
-            <span className="leveltitle"> Expert Level:</span>{" "}
+            <span className="leveltitle"> Rating:</span>{" "}
             <StarRatingComponent
               name="specialist_rating"
               className="specialist_rating"
               starCount={5}
+              value={props?.specialist_data?.rating}
               emptyStarColor={"#444"}
             />
           </div>
@@ -207,9 +211,12 @@ const AssignSpecialist = () => {
     const token = availableToken
       ? JSON.parse(availableToken)
       : window.location.assign("/");
+      const workOrder = localStorage.getItem("work_order_details");
+      const workorder = workOrder ? JSON.parse(workOrder) : "";
+      console.log(workorder);
     axios
       .all([
-        axios.get(`${API}/admin/specialists?paginate=1`, {
+        axios.get(`${API}/admin/work-orders/${workorder.id}/recommend-specialists`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }),
       ])
@@ -316,7 +323,7 @@ const AssignSpecialist = () => {
         });
         notify("Successfully assigned specialist");
         setTimeout(() => {
-          window.location.assign("/#admin_work_details?inreview=true");
+          window.location.assign(`/#admin_work_details/${workorder.id}?inreview=true`);
         }, 2000);
       })
       .catch((err) => {
@@ -328,7 +335,44 @@ const AssignSpecialist = () => {
         notify("Failed to assign specialist", "D");
       });
   };
-
+  const search_filter = () => {
+    const token = returnAdminToken();
+    setState({
+      ...state,
+      isloading: true,
+    });
+    axios
+      .all([
+        axios.get(`${API}/admin/specialists?paginate=1&search=${search}`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
+      ])
+      .then(
+        axios.spread((res) => {
+          console.log(res.data.data);
+          setState({
+            ...state,
+            all_specialist: res.data.data.data,
+            ...res.data.data.links,
+            ...res.data.data.meta,
+            isloading: false,
+          });
+        })
+      )
+      .catch((err) => {
+        setState({
+          ...state,
+          isloading: false,
+        });
+        console.log(err);
+      });
+  };
+  const onchange = (e) => {
+    setState({
+      ...state,
+      [e.target.name]: e.target.value,
+    });
+  };
   const {
     selectedspecialist,
     country,
@@ -379,7 +423,13 @@ const AssignSpecialist = () => {
                     type="text"
                     className="form-control search_field"
                     value={search}
-                    id="search"
+                    name="search"
+                    onKeyPress={(e) => {
+                      if (e.key == "Enter") {
+                        search_filter();
+                      }
+                    }}
+                    onChange={onchange}
                     placeholder="Search"
                   />
                 </div>

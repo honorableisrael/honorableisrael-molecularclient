@@ -136,7 +136,7 @@ const Accordions = (props) => {
           ref={content}
         >
           <div className="deployedsplsttable">
-            <Table hover>
+            <Table hover responsive>
               <thead>
                 <tr>
                   <th>Full Name</th>
@@ -214,7 +214,7 @@ const Accordions = (props) => {
                           {formatTime(data.date)}
                         </div>
                         <div className="upby">
-                        uploaded by {data.uploaded_by}
+                        uploaded by <br /> {data.uploaded_by}
                         </div>
                       </div>
                     </div>

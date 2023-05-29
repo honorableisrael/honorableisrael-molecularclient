@@ -60,7 +60,7 @@ const New_Work_Order_Card = withRouter((props:any) => {
             JSON.stringify(props.order_details)
           )
           setTimeout(() => {
-            props.history.push("/admin_work_details?inreview=true");
+            props.history.push(`/admin_work_details/${props?.order_details?.id}?inreview=true`);
           }, 2000);
           console.log(res.data);
           setState({
@@ -159,7 +159,7 @@ const New_Work_Order_Card = withRouter((props:any) => {
                     JSON.stringify(props.order_details)
                   )
                 }
-                to="/admin_work_details"
+                to={`/admin_work_details/${props?.order_details?.id}`}
               >
                 {props?.order_details?.title}
               </Link>

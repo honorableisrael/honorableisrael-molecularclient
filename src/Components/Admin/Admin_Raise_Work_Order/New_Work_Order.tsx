@@ -423,6 +423,7 @@ const Admin_NewWorkOrderForm = withRouter((props) => {
                           <Form.Control
                             type="text"
                             value={hour}
+                            max={24}
                             className="userfield"
                             name="hour"
                             onChange={onInputChange}

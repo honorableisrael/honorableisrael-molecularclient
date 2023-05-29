@@ -2,17 +2,19 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Col, Row, Container, Alert, Button } from "react-bootstrap";
 import { withRouter } from "react-router";
+import { Link } from "react-router-dom";
 import { API } from "../../config";
 import "./signin.css";
 
-const ForgotPassword = withRouter((props) => {
+const ForgotPassword = (props) => {
   const [state, setState] = useState({
     email: "",
     password: "",
     isloading: false,
+    success: "",
     errorMessage: "",
   });
-  const { email, password, errorMessage, isloading } = state;
+  const { email, success, errorMessage, isloading } = state;
   const validateForm = (e) => {
     e.preventDefault();
     if (!email) {
@@ -23,6 +25,7 @@ const ForgotPassword = withRouter((props) => {
     }
     submitForm();
   };
+
   const submitForm = () => {
     setState({
       ...state,
@@ -30,17 +33,16 @@ const ForgotPassword = withRouter((props) => {
     });
     const data = {
       email,
-      password,
     };
     axios
-      .post(`${API}/login`, data)
+      .post(`${API}/password/email`, data)
       .then((res) => {
         console.log(res.data);
         localStorage.setItem("loggedInDetails", JSON.stringify(res.data));
-
         setState({
           ...state,
           isloading: false,
+          success: "A token has been sent to the provided email address",
         });
       })
       .catch((err) => {
@@ -59,7 +61,7 @@ const ForgotPassword = withRouter((props) => {
         }
         setState({
           ...state,
-          errorMessage: "Login Failed",
+          errorMessage: "Failed to process, please try again later",
           isloading: false,
         });
       });
@@ -70,6 +72,8 @@ const ForgotPassword = withRouter((props) => {
       ...state,
       [e.target.name]: e.target.value,
       errorMessage: "",
+      success: "",
+      isloading: false,
     });
   };
   return (
@@ -88,6 +92,11 @@ const ForgotPassword = withRouter((props) => {
                       <Alert variant={"danger"}>{errorMessage}</Alert>
                     </div>
                   )}
+                  {success && (
+                    <div className="text-center">
+                      <Alert variant={"success"}>{success}</Alert>
+                    </div>
+                  )}
                 </div>
                 <div className="padded-signin-wrapper">
                   <label className="inputlabel">
@@ -102,6 +111,7 @@ const ForgotPassword = withRouter((props) => {
                       className="form-control forminput"
                     />
                   </label>
+                  <Link to="/signin"> Sign in</Link>
                   <div className="form-btn-wrapper loginbtdv">
                     <input
                       className="signinbtn"
@@ -121,5 +131,5 @@ const ForgotPassword = withRouter((props) => {
       </section>
     </div>
   );
-});
+};
 export default ForgotPassword;

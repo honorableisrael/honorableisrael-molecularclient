@@ -24,15 +24,23 @@ import {
   API,
   current_currency,
   FormatAmount,
+  MID,
   notify,
   returnAdminToken,
 } from "../../config";
 import { ToastContainer } from "react-toastify";
 
+declare global {
+  interface Window {
+    initPayment: any;
+  }
+}
+
 const ScheduledPayments = withRouter((props) => {
   const [state, setState] = useState<any>({
     overview: true,
     deployedspecialist: false,
+    user_details: "",
     active: false,
     thirdtab: false,
     chevron: "",
@@ -45,7 +53,7 @@ const ScheduledPayments = withRouter((props) => {
     ungrouped: false,
     grouped: false,
     allUngrouped: [],
-    allAssignedSpecialist: [],
+    ScheduledList: [],
     AllgroupedSpecialist: [],
     show: false,
     group_name: "",
@@ -56,6 +64,7 @@ const ScheduledPayments = withRouter((props) => {
     current: "",
     next: "",
     prev: "",
+    type: "",
     first: "",
     last: "",
     current_page: "",
@@ -69,16 +78,16 @@ const ScheduledPayments = withRouter((props) => {
     selectedspecialist,
     AllgroupedSpecialist,
     group_id,
-    allAssignedSpecialist,
+    ScheduledList,
     work_order_detail,
     allUngrouped,
     isloading,
-    group_name,
+    type,
     id,
     show,
     show2,
     ungrouped,
-    grouped,
+    user_details,
     total_amount,
     last_page,
     next,
@@ -95,7 +104,6 @@ const ScheduledPayments = withRouter((props) => {
       [e.target.id]: e.target.value,
     });
   };
-
   const refresh_all = () => {
     const token = returnAdminToken();
     const work_order = localStorage.getItem("work_order_details");
@@ -136,25 +144,22 @@ const ScheduledPayments = withRouter((props) => {
       ...state,
       isloading: true,
     });
-    const work_order = localStorage.getItem("work_order_details");
-    const work_order_details = work_order ? JSON.parse(work_order) : "";
     axios
       .all([
-        axios.get(`${API}/admin/scheduled-payments?paginate=1`, {
+        axios.get(`${API}/admin/payment-schedules?paginate=1`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }),
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          console.log(res.data, "Scheduled payments");
           setState({
             ...state,
             ...res.data.data.links,
             ...res.data.data.meta,
-            allAssignedSpecialist: res.data.data.data,
+            ScheduledList: res.data.data?.data,
             isloading: false,
           });
-          console.log(work_order_detail);
         })
       )
       .catch((err) => {
@@ -176,7 +181,7 @@ const ScheduledPayments = withRouter((props) => {
     const work_order_details = work_order ? JSON.parse(work_order) : "";
     axios
       .all([
-        axios.get(`${API}/admin/scheduled-payments?paginate=1&filter=paid`, {
+        axios.get(`${API}/admin/payment-schedules`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }),
       ])
@@ -187,10 +192,9 @@ const ScheduledPayments = withRouter((props) => {
             ...state,
             ...res.data.data.links,
             ...res.data.data.meta,
-            allAssignedSpecialist: res.data.data.data,
+            ScheduledList: res.data.data.data,
             isloading: false,
           });
-          console.log(work_order_detail);
         })
       )
       .catch((err) => {
@@ -223,7 +227,7 @@ const ScheduledPayments = withRouter((props) => {
             ...state,
             ...res.data.data.links,
             ...res.data.data.meta,
-            allAssignedSpecialist: res.data.data.data,
+            ScheduledList: res.data.data.data,
             isloading: false,
           });
           console.log(work_order_detail);
@@ -263,7 +267,7 @@ const ScheduledPayments = withRouter((props) => {
             ...state,
             ...res.data.data.links,
             ...res.data.data.meta,
-            allAssignedSpecialist: res.data.data.data,
+            ScheduledList: res.data.data.data,
           });
         })
       )
@@ -271,11 +275,14 @@ const ScheduledPayments = withRouter((props) => {
         console.log(err);
       });
   };
-  const openModal = (id) => {
+  const openModal = (id, user_data, type) => {
+    console.log(user_data);
     setState({
       ...state,
       show: true,
       id: id,
+      user_details: user_data,
+      type,
     });
   };
   const openModal2 = () => {
@@ -284,23 +291,21 @@ const ScheduledPayments = withRouter((props) => {
       show2: true,
     });
   };
-  const initialize_payment_gatewate = () => {
+  const initialize_payment = () => {
     setState({
       ...state,
       isloading: true,
     });
     const availableToken: any = localStorage.getItem("loggedInDetails");
-    const token = availableToken
-      ? JSON.parse(availableToken)
-      : window.location.assign("/");
-    const data = {
-      payments: [id],
-    };
-    console.log(data);
+    const token = returnAdminToken();
     axios
-      .post(`${API}/admin/scheduled-payments/pay`, data, {
-        headers: { Authorization: `Bearer ${token.access_token}` },
-      })
+      .post(
+        `${API}/admin/payment-schedules/${id}/pay`,
+        {},
+        {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }
+      )
       .then((res) => {
         console.log(res);
         setState({
@@ -318,9 +323,47 @@ const ScheduledPayments = withRouter((props) => {
           isloading: false,
         });
         console.log(err);
-        notify("Failed to make payment", "D");
+        notify(err?.response?.data?.message, "D");
       });
   };
+
+  const process_payment = (id) => {
+    setState({
+      ...state,
+      isloading: true,
+    });
+    const availableToken: any = localStorage.getItem("loggedInDetails");
+    const token = returnAdminToken();
+    axios
+      .post(
+        `${API}/admin/payment-schedules/${id}/process`,
+        {},
+        {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        setState({
+          ...state,
+          isloading: false,
+        });
+        notify(" Successfully");
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      })
+      .catch((err) => {
+        setState({
+          ...state,
+          isloading: false,
+        });
+        console.log(err);
+        notify(err?.response?.data?.message, "D");
+      });
+  };
+
+
   const make_batch_payment = () => {
     setState({
       ...state,
@@ -358,6 +401,43 @@ const ScheduledPayments = withRouter((props) => {
         notify("Failed to make payment", "D");
       });
   };
+  const query_payment = (id) => {
+    setState({
+      ...state,
+      isloading: true,
+    });
+    const availableToken: any = localStorage.getItem("loggedInDetails");
+    const token = availableToken
+      ? JSON.parse(availableToken)
+      : window.location.assign("/");
+    axios
+      .post(
+        `${API}/admin/payment-schedules/${id}/process`,
+        {},
+        {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        setState({
+          ...state,
+          isloading: false,
+        });
+        notify("Successful");
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      })
+      .catch((err) => {
+        setState({
+          ...state,
+          isloading: false,
+        });
+        console.log(err);
+        notify("Failed to make payment", "D");
+      });
+  };
   const sendSpecialistId = (id: any, cost) => {
     const add_new: any = [id];
     const old_array = state.selectedspecialist;
@@ -379,12 +459,12 @@ const ScheduledPayments = withRouter((props) => {
   return (
     <>
       <Helmet>
-        <meta charSet="utf-8" />
+        <meta charSet='utf-8' />
         <title>Molecular - Scheduled Payments</title>
         <link />
       </Helmet>
       <Modal
-        size="sm"
+        size='sm'
         show={show}
         onHide={() =>
           setState({
@@ -392,44 +472,45 @@ const ScheduledPayments = withRouter((props) => {
             show: false,
           })
         }
-        dialogClassName="modal-90w"
-        className="mdl12c"
-      >
+        dialogClassName='modal-90w'
+        className='mdl12c'>
         <Modal.Header closeButton>
-          <Modal.Title id="example-custom-modal-styling-title">
-            Confirm Payment
+          <Modal.Title id='example-custom-modal-styling-title'>
+            {type == "makepayment" && "Confirm Payment"}
+            {type == "processpayment" && "Confirm Payment"}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Row>
             <Col md={12}>
-              <h6>Please confirm payment</h6>
+              <h6>Please confirm </h6>
             </Col>
           </Row>
           <Row>
-            <Col md={12} className="terminate2">
+            <Col md={12} className='terminate2'>
               <Button
-                className="btn-success succinline"
+                className='btn-success succinline'
                 onClick={() => {
                   setState({
                     ...state,
                     show2: false,
                   });
-                }}
-              >
+                }}>
                 Cancel
               </Button>
-              <div className="" onClick={initialize_payment_gatewate}>
-                <Button className="btn-success primary3">
-                  {isloading ? "Processing" : "Make Payment"}
-                </Button>
-              </div>
+              {type == "makepayment" && (
+                <div className='' onClick={initialize_payment}>
+                  <Button className='btn-success primary3'>
+                    {isloading ? "Processing" : "Confirm"}
+                  </Button>
+                </div>
+              )}
             </Col>
           </Row>
         </Modal.Body>
       </Modal>
       <Modal
-        size="sm"
+        size='sm'
         show={show2}
         onHide={() =>
           setState({
@@ -437,38 +518,36 @@ const ScheduledPayments = withRouter((props) => {
             show2: false,
           })
         }
-        dialogClassName="modal-90w"
-        className="mdl12c"
-      >
+        dialogClassName='modal-90w'
+        className='mdl12c'>
         <Modal.Header closeButton>
-          <Modal.Title id="example-custom-modal-styling-title">
+          <Modal.Title id='example-custom-modal-styling-title'>
             Batch Payment
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Row>
             <Col md={12}>
-              <h6>
+              <h6 className='text-center'>
                 Please confirm payment of {selectedspecialist?.length} selected
                 specialists
               </h6>
             </Col>
           </Row>
           <Row>
-            <Col md={12} className="terminate2">
+            <Col md={12} className='terminate2'>
               <Button
-                className="btn-success succinline"
+                className='btn-success succinline'
                 onClick={() => {
                   setState({
                     ...state,
                     show2: false,
                   });
-                }}
-              >
+                }}>
                 Cancel
               </Button>
-              <div className="" onClick={make_batch_payment}>
-                <Button className="btn-success primary3">
+              <div className='' onClick={make_batch_payment}>
+                <Button className='btn-success primary3'>
                   {isloading ? "Processing" : "Make Payment"}
                 </Button>
               </div>
@@ -478,9 +557,9 @@ const ScheduledPayments = withRouter((props) => {
       </Modal>
       <DashboardNav />
       <Container fluid>
-        <Row className="depsplstrow">
-          <Col md={11}>
-            <div className="dpsplsttabs">
+        <Row className='depsplstrow'>
+          <Col md={12}>
+            <div className='dpsplsttabs'>
               {/* <div
                 onClick={() => get_all("overview")}
                 className={overview ? "inprogress tab_active" : "inprogress"}
@@ -501,21 +580,21 @@ const ScheduledPayments = withRouter((props) => {
               </div> */}
             </div>
             {isloading && <Spinner animation={"grow"} />}
-            <div className="ddeplsmni1">
+            <div className='ddeplsmni1'>
               {overview && (
                 <div>
-                  <div className="deploysplstheader deployflex">
-                    <div className="flxf1">
-                      <div className="depsplstimg">
-                        <img src={blueavatar} alt="img" />
+                  <div className='deploysplstheader deployflex'>
+                    <div className='flxf1'>
+                      <div className='depsplstimg'>
+                        <img src={blueavatar} alt='img' />
                       </div>
                       <p>Scheduled Payments</p>
                     </div>
                     <div>
-                      <div className="Filter">
+                      {/* <div className='Filter'>
                         <select
-                          name=""
-                          id=""
+                          name=''
+                          id=''
                           onChange={(e) => {
                             if (e.target.value == "paid") {
                               get_paid();
@@ -526,119 +605,112 @@ const ScheduledPayments = withRouter((props) => {
                             if (e.target.value == "all") {
                               get_all();
                             }
-                          }}
-                        >
-                          <option onChange={get_all} value="all">
+                          }}>
+                          <option onChange={get_all} value='all'>
                             All
                           </option>
-                          <option onChange={get_paid} value="paid">
+                          <option onChange={get_paid} value='paid'>
                             Paid
                           </option>
-                          <option onChange={get_un_paid} value="unpaid">
+                          <option onChange={get_un_paid} value='unpaid'>
                             Unpaid
                           </option>
                         </select>
-                      </div>
-                      {selectedspecialist.length !== 0 && (
-                        <>
-                          <span>
-                            Total amount:{" "}
-                            <b>
-                              {" "}
-                              {current_currency}
-                              {FormatAmount(total_amount)}
-                            </b>
-                          </span>{" "}
-                          &nbsp; &nbsp;
-                          <Button
-                            onClick={() => openModal2()}
-                            className="payspecialist1"
-                          >
-                            Make Batch Payment
-                          </Button>
-                        </>
-                      )}
+                      </div> */}
                     </div>
                   </div>
-                  <div className="deployedsplsttable">
-                    <Table hover>
+                  <div className='deployedsplsttable'>
+                    <Table hover responsive className='schedule_payment_table'>
                       <thead>
                         <tr>
-                          <th>Full Name</th>
-                          <th>Contractor</th>
-                          <th>Type</th>
-                          <th>Account Num.</th>
-                          <th>Amount({current_currency})</th>
-                          <th>Reference</th>
-                          <th>Status</th>
+                          <th scope='col'>Title</th>
+                          <th scope='col'>Amount({current_currency})</th>
+                          <th scope='col'>No of Specialist</th>
+                          <th scope='col'>Status</th>
+                          <th scope='col'>Description</th>
+
+                          <th scope='col'>Category</th>
                           <th>Action</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {allAssignedSpecialist?.map((data: any, i) => (
+                        {ScheduledList?.map((data: any, i) => (
                           <tr key={i}>
-                            <td className="dpslstnamecell pslstnamecell">
-                              <div className="dplsplusernmeimg">
+                            <td className='dpslstnamecell pslstnamecell schedule_payment_first_td'>
+                              <div className='dplsplusernmeimg'>
                                 {/* <span></span> */}
-                                {data?.status == "Pending" ? (
-                                  <input
-                                    type="checkbox"
-                                    name="radio"
-                                    checked={selectedspecialist.includes(
-                                      data.id
-                                    )}
-                                    onClick={() =>
-                                      sendSpecialistId(data.id, data.amount)
-                                    }
-                                  />
-                                ) : (
-                                  ""
-                                )}
                                 &nbsp; &nbsp;
-                                <div>{data.specialist}</div>
+                                <div>
+                                  <Link to={`/scheduled_payments_details/${data.id}`}>
+                                    {data.title}
+                                  </Link>
+                                </div>
                               </div>
                             </td>
-                            <td
-                              className="contractorname"
-                              title={data?.contractor}
-                            >
-                              {data?.contractor}
-                            </td>
-                            <td>{data?.description}</td>
-                            <td>{data?.account_number}</td>
-                            <td>{FormatAmount(data?.amount)}</td>
-                            <td>
-                              <Link
-                                to="/admin_work_details?inreview=true"
-                                onClick={() =>
-                                  localStorage.setItem(
-                                    "work_order_details",
-                                    JSON.stringify({ id: data.work_order_id })
-                                  )
-                                }
-                              >
-                                {data?.reference}
+                            <td className='contractorname'>
+                              <Link to={`/scheduled_payments/${data.id}`}>
+                                {FormatAmount(data?.total_amount)}
                               </Link>
                             </td>
-                            <td>{data?.status}</td>{" "}
+                            <td>{data?.transaction_count}</td>
                             <td>
-                              {data?.status == "Pending" ? (
-                                <Button
-                                  onClick={() => openModal(data.id)}
-                                  className="payspecialist1"
-                                >
-                                  Pay
-                                </Button>
+                              {data?.status == "unprocessed" ? (
+                                <span className='redbg'>
+                                  <Link to={`/scheduled_payments/${data.id}`}>
+                                    Unprocessed
+                                  </Link>
+                                </span>
                               ) : (
-                                ""
+                                <span className='greenbgbatch'>
+                                  {data.status}
+                                </span>
+                              )}
+                            </td>{" "}
+                            <td>{data?.category}</td>
+                            <td>{data?.description}</td>
+                            <td>
+                              {data?.actions?.can_pay && (
+                                <Button
+                                  onClick={() =>
+                                    openModal(data.id, data, "makepayment")
+                                  }
+                                  className='payspecialist1'>
+                                  Make Payment
+                                </Button>
+                              )}
+                              {data?.actions?.can_process && (
+                                <Button
+                                  onClick={() =>
+                                    process_payment(data?.id)
+                                  }
+                                  className='payspecialist1'>
+                                  Process
+                                </Button>
+                              )}
+                              {data?.actions?.can_query && (
+                                <Button
+                                  onClick={() => query_payment(data.id)}
+                                  className='payspecialist1'>
+                                  View
+                                </Button>
                               )}
                             </td>
+                            {/* <td>
+                              {data?.actions?.can_pay && (
+                                <Button
+                                  onClick={() => openModal(data.id,data)}
+                                  className="payspecialist1"
+                                >
+                                  Process
+                                </Button>
+                              )}
+                            </td> */}
                           </tr>
                         ))}
                       </tbody>
                     </Table>
                     {overview && (
-                      <div className="active_member2">
+                      <div className='active_member2'>
                         <div>
                           Displaying <b>{current_page}</b> of <b>{last_page}</b>
                         </div>
@@ -669,14 +741,14 @@ const ScheduledPayments = withRouter((props) => {
       <ToastContainer
         enableMultiContainer
         containerId={"D"}
-        toastClassName="bg-danger text-white"
+        toastClassName='bg-danger text-white'
         hideProgressBar={true}
         position={"top-right"}
       />
       <ToastContainer
         enableMultiContainer
         containerId={"B"}
-        toastClassName="bg-info text-white"
+        toastClassName='bg-info text-white'
         hideProgressBar={true}
         position={"top-right"}
       />

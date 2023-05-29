@@ -34,6 +34,7 @@ const WorkDetails_Form_Preview = (props) => {
     state_: "",
     specialist_config: [],
     pipe_config: [],
+    spreads:[],
   });
   const {
     pipe_wieght,
@@ -59,20 +60,22 @@ const WorkDetails_Form_Preview = (props) => {
     order_title,
     project_location,
     project_location_name,
+    spreads
   } = state;
 
   useEffect(() => {
     window.scrollTo(-0, -0);
     const firstList: any = localStorage.getItem("first_step");
     const firstData = firstList ? JSON.parse(firstList) : "";
-    console.log(firstData);
     const secondList: any = localStorage.getItem("second_step");
     const secondData = secondList ? JSON.parse(secondList) : "";
-    console.log(secondData);
+    const third_data = localStorage.getItem("spreads")
+    const spreads = third_data?JSON.parse(third_data):""
     setState({
       ...state,
       ...secondData,
       ...firstData,
+      ...spreads
     });
   }, []);
   const submitForm = () => {
@@ -119,6 +122,7 @@ const WorkDetails_Form_Preview = (props) => {
       pipe_configs: pipe_keys,
       skills: config_keys,
       project_location,
+      spreads,
     };
     console.log(work_order_data);
     axios
@@ -152,7 +156,7 @@ const WorkDetails_Form_Preview = (props) => {
   };
   const notify = (message: string, type = "B") =>
     toast(message, { containerId: type, position: "top-right" });
-
+console.log(spreads,"spreads")
   return (
     <>
       <div className="formcontent">
@@ -273,6 +277,32 @@ const WorkDetails_Form_Preview = (props) => {
                       </h6>
                       <div className="Construction12">
                         {data?.pipe_schedule_name ?? "n/a"}
+                      </div>
+                    </div>
+                  </div>
+                </Col>
+              ))}
+              <h6 className="userprofile12 userprofile123 userprofile1231">
+                Spread
+              </h6>
+              {spreads?.map((data, i) => (
+                <Col md={12} className="ttp_" key={i}>
+                  <div className="closticon"></div>
+                  <div className="main_wrap_ws main_wrap_ws22 graybg">
+                    <div>
+                      <h6 className="userprofile12 userprofile123">
+                       Number of Welders
+                      </h6>
+                      <div className="Construction12">
+                        {data?.welders}
+                      </div>
+                    </div>
+                    <div className="">
+                      <h6 className="userprofile12 userprofile123">
+                        Number of Fitters
+                      </h6>
+                      <div className="Construction12">
+                        {data?.fitters}
                       </div>
                     </div>
                   </div>

@@ -7,7 +7,7 @@ import { Link, withRouter } from "react-router-dom";
 // import arrowhead from "../../assets/arrowhead.png";
 // import settings from "../../assets/settings.png";
 import bell from "../../images/bell.png";
-import { API, capitalize } from "../../config";
+import { API, capitalize } from "../../config"; 
 import axios from "axios";
 import Axios, { AxiosResponse } from "axios";
 import SideNav from "react-simple-sidenav";
@@ -30,7 +30,7 @@ const DashboardNav = withRouter((props) => {
       ? JSON.parse(availableToken)
       : window.location.assign("/");
     if (token.user_type !== "admin") {
-      return props.history.push("/login");
+      return props.history.push("/signin");
     }
     Axios.all([
       Axios.get<any, AxiosResponse<any>>(`${API}/admin`, {
@@ -168,15 +168,54 @@ const DashboardNav = withRouter((props) => {
                   </Dropdown.Item>
                   {/* <Dropdown.Item href="#/action-1"><Link to="/user-profile">Settings</Link></Dropdown.Item> */}
                   <Dropdown.Item
-                    href="#/action-2"
                     className="animated fadeInLeft"
                   >
                     <Link to={"/scheduled_payments"} className="flex-custom12">
                       Payment to Specialists
                     </Link>
                   </Dropdown.Item>
+                  <Dropdown.Item
+                    className="animated fadeInLeft"
+                  >
+                    <Link to={"/contractor_transactions"} className="flex-custom12">
+                      Contractor Transactions
+                    </Link>
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    className="animated fadeInLeft"
+                  >
+                    <Link to={"/specialist_transactions"} className="flex-custom12">
+                      Specialists Transactions
+                    </Link>
+                  </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
+              <Dropdown className="uddrpdwndiv">
+                <Dropdown.Toggle id="dropdown-basic1" className="usernavdrpdwn">
+                  <div className="eff">Manage</div>
+                </Dropdown.Toggle>
+                <Dropdown.Menu className="animated payment_nav fadeIn">
+                  {/* <Dropdown.Item
+                  href="#/action-1"
+                  className="animated fadeInLeft"
+                >
+                  <Link to="/user-profile">Profile</Link>
+                </Dropdown.Item> */}
+                  <Dropdown.Item className="animated fadeInLeft">
+                    {/* <img src={settings} className="exit" />{" "} */}
+                    <span>
+                      <Link
+                        to={"/admin/blogpost"}
+                        className="flex-custom12"
+                      >
+                        Manage Blog
+                      </Link>
+                    </span>
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+
+              
               {/* <Link to={"/admin/settings"} className="flex-12a">
                 {" "}
                 <span
@@ -206,14 +245,12 @@ const DashboardNav = withRouter((props) => {
               </span>
               <Dropdown.Toggle id="dropdown-basic" className="usernavdrpdwn" />
               <Dropdown.Menu className="animated fadeIn">
-                {/* <Dropdown.Item
-                  href="#/action-1"
+                <Dropdown.Item
                   className="animated fadeInLeft"
                 >
-                  <Link to="/user-profile">Profile</Link>
-                </Dropdown.Item> */}
+                  <Link to="/pipe_schedule_management">Settings</Link>
+                </Dropdown.Item>
                 <Dropdown.Item className="animated fadeInLeft">
-                  {/* <img src={settings} className="exit" />{" "} */}
                   <span
                     onClick={() => {
                       props.history.push("/");
@@ -249,7 +286,6 @@ const DashboardNav = withRouter((props) => {
                 </Dropdown.Item>
                 {/* <Dropdown.Item href="#/action-1"><Link to="/user-profile">Settings</Link></Dropdown.Item> */}
                 <Dropdown.Item
-                  href="#/action-2"
                   className="animated fadeInLeft"
                 >
                   {/* <img src={exit} className="exit" /> Log out */}

@@ -26,7 +26,7 @@ const DashboardNav = withRouter((props) => {
       ? JSON.parse(availableToken)
       : window.location.assign("/");
     if (token.user_type !== "contractor") {
-      return props.history.push("/login");
+      return props.history.push("/signin");
     }
     Axios.all([
       Axios.get<any, AxiosResponse<any>>(`${API}/contractor`, {
@@ -35,7 +35,7 @@ const DashboardNav = withRouter((props) => {
     ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          // console.log(res.data.data);
           setState({
             ...state,
             theUserIsLoggedIn: true,
@@ -129,15 +129,16 @@ const DashboardNav = withRouter((props) => {
                 </Link>
               </div>
               <span className="lfff">
-                {capitalize(user_details?.first_name?.split("")[0])}
-                {capitalize(user_details?.last_name?.split("")[0])}
+                { <img src={user_details?.industry_icon } className="udetails" alt="" /> ?? (
+                  <>
+                    {capitalize(user_details?.first_name?.split("")[0])}
+                    {capitalize(user_details?.last_name?.split("")[0])}
+                  </>
+                )}
               </span>
               <Dropdown.Toggle id="dropdown-basic" className="usernavdrpdwn" />
               <Dropdown.Menu className="animated fadeIn">
-                <Dropdown.Item
-                  href="#/action-1"
-                  className="animated fadeInLeft"
-                >
+                <Dropdown.Item className="animated fadeInLeft">
                   <Link to="/contractor_profile">Profile</Link>
                 </Dropdown.Item>
                 <Dropdown.Item className="animated fadeInLeft">
@@ -295,10 +296,7 @@ const DashboardNav = withRouter((props) => {
                   {isloading && <Spinner animation="grow" />}
                 </Dropdown.Item>
                 {/* <Dropdown.Item href="#/action-1"><Link to="/user-profile">Settings</Link></Dropdown.Item> */}
-                <Dropdown.Item
-                  href="#/action-2"
-                  className="animated fadeInLeft"
-                >
+                <Dropdown.Item className="animated fadeInLeft">
                   {/* <img src={exit} className="exit" /> Log out */}
                 </Dropdown.Item>
               </Dropdown.Menu>

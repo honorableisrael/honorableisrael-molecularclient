@@ -4,78 +4,92 @@ import { Link, withRouter } from "react-router-dom";
 import "./signup.css";
 import formCaret from "../../images/caret.png";
 import axios from "axios";
-import { API } from "../../config";
+import { API, reloadPage } from "../../config";
 import eye from "../../images/eye.png";
 import eyeclose from "../../images/eye-off.png";
 import NavBar from "../Widgets/navigation";
 
-const SignUp = withRouter( (props:any) => {
- 
-const [state, setState] = useState({
-  firstName: "",
-  lastName: "",
-  email: "",
-  phone: "",
-  password: "",
-  skill:"",
-  isLoading: false,
-  errorMessage: "",
-  successMessage: "",
-  btnState: false,
-  jobs: [],
-  passwordIsOpen: true
-});
-const{
-  firstName,
-  lastName,
-  email,
-  phone,
-  password,
-  skill,
-  isLoading,
-  errorMessage,
-  successMessage,
-  btnState,
-  jobs,
-  passwordIsOpen
-} = state;
-const onSubmit = () => {
-  setState({ ...state, isLoading: true });
-  const data = {
-    first_name: firstName,
-    last_name: lastName,
-    email: email,
-    phone: phone,
-    password: password,
-    skill: skill
-  };
-  console.log(data);
-  //posting data to the api
-  axios
-    .post(`${API}/register/specialist`, data)
-    .then((response) => {
-      console.log(response);
-      if (response.status === 200) {
-        //store name and email to local storage
-        const userdata: any = [];
-        userdata.push(email,firstName);
-        localStorage.setItem("userdata", JSON.stringify(userdata));
-        //store user token to to local storage 
-        localStorage.setItem("loggedInDetails", JSON.stringify(response.data));
-        //push to otp page
-        setTimeout(() => {
-          props?.history?.push("/molecular_otp");
-          console.log(props);
-        }, 3000);
+const SignUp = withRouter((props: any) => {
+  const [state, setState] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    password: "",
+    skill: "",
+    isLoading: false,
+    errorMessage: "",
+    successMessage: "",
+    btnState: false,
+    jobs: [],
+    passwordIsOpen: true,
+    agree: false,
+  });
+  const {
+    firstName,
+    lastName,
+    email,
+    phone,
+    password,
+    isLoading,
+    skill,
+    agree,
+    errorMessage,
+    successMessage,
+    btnState,
+    jobs,
+    passwordIsOpen,
+  } = state;
+  const onSubmit = () => {
+    setState({ ...state, isLoading: true });
+    const data = {
+      first_name: firstName,
+      last_name: lastName,
+      email: email,
+      phone: phone,
+      skill: skill,
+    };
+    console.log(data);
+    //posting data to the api
+    axios
+      .post(`${API}/register/specialist`, data)
+      .then((response) => {
+        console.log(response);
+        if (response.status === 200) {
+          //store name and email to local storage
+          const userdata: any = [];
+          userdata.push(email, firstName);
+          localStorage.setItem("userdata", JSON.stringify(userdata));
+          //store user token to to local storage
+          localStorage.setItem(
+            "loggedInDetails",
+            JSON.stringify(response.data)
+          );
+          reloadPage();
+          window.scrollTo(0, 0);
+          setState({
+            ...state,
+            successMessage:
+              "Thanks for signing up on molecular platform! We are currently reviewing your application and will get back to you shortly.",
+            isLoading: false,
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err?.response);
+        window.scrollTo(-0, -0);
+        if (err?.response?.status == 406) {
+          return setState({
+            ...state,
+            errorMessage: err?.response?.data?.errors?.email?.join(""),
+          });
+        }
         setState({
           ...state,
-          errorMessage: "signup failed, check your internet connection",
-          isLoading: false,
+          errorMessage: "Registration failed",
         });
-      }
       });
-  }
-  
+  };
 
   const onChangeHandler = (e) => {
     setState({
@@ -107,14 +121,12 @@ const onSubmit = () => {
   const fieldRef: any = useRef();
   useEffect(() => {
     if (errorMessage || (successMessage && fieldRef)) {
-      fieldRef.current.scrollIntoView({
-        behavior: "smooth",
-      });
+      window.scrollTo(0, 0);
     }
   }, [errorMessage, successMessage]);
   const validateForm = (e) => {
     e.preventDefault();
-    if (firstName == "" && lastName == "" && email == "" && password == "") {
+    if (firstName == "" && lastName == "" && email == "") {
       return setState({
         ...state,
         errorMessage: "please enter your details",
@@ -144,14 +156,13 @@ const onSubmit = () => {
         errorMessage: "Please enter your skill",
       });
     }
-    if (password == "") {
+    if (!agree) {
       return setState({
         ...state,
-        errorMessage: "Please enter your password",
+        errorMessage: "Please agree to terms and condition",
       });
-    } else {
-      onSubmit();
     }
+    onSubmit();
   };
   useEffect(() => {
     window.scrollTo(-0, -0);
@@ -170,7 +181,7 @@ const onSubmit = () => {
   }, []);
   return (
     <div>
-       <NavBar />
+      <NavBar />
       <section className="forms-section">
         <div className="specialistforms-section-image"></div>
         <div className="formwrplift">
@@ -188,8 +199,10 @@ const onSubmit = () => {
                     </div>
                     <div className="form-descr-text">
                       <p>
-                      Leave some information about you in the form below, attach your resume and we’ll get in touch with you.
-                      Learn what to expect when you sign up to find work with MolecularTech
+                        Leave some information about you in the form below,
+                        attach your resume and we’ll get in touch with you.
+                        Learn what to expect when you sign up to find work with
+                        MolecularTech
                       </p>
                     </div>
                   </div>
@@ -205,6 +218,7 @@ const onSubmit = () => {
                           {errorMessage}
                         </Alert>
                       )}
+                      <br />
                       <Col md={6}>
                         <label className="inputlabel">
                           <span className="rdfrmlbl">
@@ -216,7 +230,7 @@ const onSubmit = () => {
                             name="firstName"
                             value={firstName}
                             onChange={onChangeHandler}
-                            placeholder="Enter your first name"
+                            // placeholder="Enter your first name"
                             size={75}
                             className="form-control forminput"
                           />
@@ -233,7 +247,7 @@ const onSubmit = () => {
                             name="lastName"
                             value={lastName}
                             onChange={onChangeHandler}
-                            placeholder="Enter your Last name"
+                            // placeholder="Enter your Last name"
                             size={75}
                             className="form-control forminput"
                           />
@@ -250,7 +264,7 @@ const onSubmit = () => {
                         name="email"
                         value={email}
                         onChange={onChangeHandler}
-                        placeholder="Enter your Email Address"
+                        // placeholder="Enter your Email Address"
                         size={96}
                         className="form-control forminput"
                       />
@@ -265,7 +279,7 @@ const onSubmit = () => {
                         name="phone"
                         value={phone}
                         onChange={onChangeHandler}
-                        placeholder="Enter your Phone Number"
+                        // placeholder="Enter your Phone Number"
                         size={96}
                         className="form-control forminput"
                       />
@@ -299,7 +313,7 @@ const onSubmit = () => {
                         </div>
                       </Col>
                     </Row>
-                    <label className="inputlabel">
+                    {/* <label className="inputlabel">
                       <span className="rdfrmlbl">
                         Password<span className="asteric">*</span>
                       </span>
@@ -307,13 +321,13 @@ const onSubmit = () => {
                         type={passwordIsOpen ? "password" : "text"}
                         name="password"
                         value={password}
-                        placeholder="******"
-                        onChange={onChangepassword}
+                        // placeholder="******"
+                        // onChange={onChangepassword}
                         size={96}
                         className="form-control forminput"
                       />
-                    </label>
-                    <div className="text-right">
+                    </label> */}
+                    {/* <div className="text-right">
                       {passwordIsOpen ? (
                         <img
                           src={eye}
@@ -329,25 +343,37 @@ const onSubmit = () => {
                           alt="hideeye"
                         />
                       )}
-                    </div>
+                    </div> */}
                     <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        value=""
+                        checked={agree ? true : false}
+                        onChange={() => {
+                          setState({
+                            ...state,
+                            agree: !agree ? true : false,
+                          });
+                        }}
+                        id="flexCheckDefault"
+                      />
+                      Creating an account means you agree with our{" "}
                       <label className="form-check-label">
-                        <input
-                          className="form-check-input"
-                          type="checkbox"
-                          value=""
-                          id="flexCheckDefault"
-                        />
-                        Creating an account means you’re okay with our Terms of
-                        Service, Privacy Policy, and our
-                        <br />
-                        default Notification Settings.
+                        <Link to="/privacy" target="_blank">
+                          Terms of Service , Privacy Policy
+                        </Link>
                       </label>
+                      , and our
+                      <br />
+                      default Notification Settings.
                     </div>
                     <div className="form-btn-wrapper">
                       <span
                         className={
-                          btnState === true ? "form-btnactive" : "form-btn"
+                          btnState === true
+                            ? "form-btnactive"
+                            : "form-btn form-btnactive"
                         }
                         onClick={validateForm}
                       >
@@ -356,7 +382,7 @@ const onSubmit = () => {
                     </div>
                     <Link to="/signin">
                       <p className="signuprgqt">
-                        Have Molecular account?<span>Login</span>
+                        Have Molecular account?<span> Login</span>
                       </p>
                     </Link>
                   </div>

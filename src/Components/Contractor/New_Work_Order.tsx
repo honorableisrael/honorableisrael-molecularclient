@@ -391,6 +391,7 @@ const NewWorkOrderForm = withRouter((props) => {
                             value={hour}
                             className="userfield"
                             name="hour"
+                            max={24}
                             onChange={onInputChange}
                             placeholder="Hours"
                           />
