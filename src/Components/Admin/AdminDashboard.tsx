@@ -302,7 +302,7 @@ const AdminDashboard = withRouter((props) => {
       <Container fluid={true} className="dasbwr">
         <Helmet>
           <meta charSet="utf-8" />
-          <title>Molecular - Admin Dashboard</title>
+          <title>MolecularPro - Admin Dashboard</title>
           <link />
         </Helmet>
         <Row>

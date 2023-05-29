@@ -82,6 +82,16 @@ import BlogDetails from "./Components/Landing_page/blogdetails";
 import PreviewBlog from "./Components/Landing_page/blogpreview";
 import EditBlogPost from "./Components/Admin/Edit_Blog_Post";
 import Blog_Revamp from "./Components/Landing_page/blog_v2";
+import WorkSheetAdmin from "./Components/Admin/WorkSheet";
+import CreateWorkSheet from "./Components/Specialist/CreateWorkSheet";
+import SpecialistWorkSheetPage from "./Components/Specialist/SpecialistWorkSheetPage";
+import WorkSheetContactor from "./Components/Contractor/WorkSheet";
+import Homev2 from "./Components/Landing_page/home_v2";
+import MileStonePayment from "./Components/Specialist/MileStonePayment";
+import AdvancePayment from "./Components/Specialist/AdvancePayment";
+import AdminAdvancePayment from "./Components/Admin/AdvancePayment";
+import EarlyMilestonePayment from "./Components/Admin/EarlyMilestonePayment";
+import Contractor_Sub_Invoice_Details from "./Components/Contractor/Sub_Invoice_Details";
 
 const App: any = ({ history }) => {
   return (
@@ -97,7 +107,6 @@ const App: any = ({ history }) => {
                 path='/contractor_dashboard'
                 component={ContractorDashboard}
               />
-              
               <Route path='/work_order' component={NewWorkOrderForm} />
               <Route
                 exact={true}
@@ -117,15 +126,11 @@ const App: any = ({ history }) => {
               <Route path='/specialistlanding' component={SpecialistLanding} />
               <Route path='/blog' component={Blog} />
               <Route path='/blogv1' exact component={Blog_Revamp} />
-              
               {/* <Route path='/blog_details/:id' component={BlogDetails} /> */}
               <Route path='/blog_details/:id' component={PreviewBlog} />
               <Route path='/editblog/:id' component={EditBlogPost} />
-              
-              
               <Route path='/admin/blogpost' component={BlogList} />
               <Route path='/admin/new/blogpost' exact component={NewBlogPost} />
-              
               <Route path='/projects' component={Projects} />
               <Route path='/contactus' component={ContactUs} />
               <Route path='/contractorlanding' component={ContractorLanding} />
@@ -160,12 +165,16 @@ const App: any = ({ history }) => {
                 path='/admin_sub_invoice_details/:id/:workorderid'
                 component={Admin_Sub_Invoice_Details}
               />
+               <Route
+                path='/contractor_sub_invoice_details/:id'
+                component={Contractor_Sub_Invoice_Details}
+              />
+              
               <Route
                 path='/admin_invoice_details_view_only/:id/:workorderid'
                 component={Invoice_details_view_only}
               />
-
-              <Route path='/invoice_details/:id' component={Invoice_details} />
+              <Route path='/invoice_details/:id/:work_order_id' component={Invoice_details} />
               <Route
                 path='/raise_proforma_invoice'
                 component={AdminRaiseProformaInvoice}
@@ -186,19 +195,33 @@ const App: any = ({ history }) => {
                 path='/admin_evaluation_step3'
                 component={AdminWorkOrderEvaluationStep3}
               />
+              <Route
+                path='/admin_worksheet/:id/:work_order_id'
+                component={WorkSheetAdmin}
+              />
+              <Route
+                path='/contractor_worksheet/:id/:work_order_id'
+                component={WorkSheetContactor}
+              />
               <Route path='/admin_dashboard' component={AdminDashboard} />
-              <Route path='/contractor_transactions' component={Contractor_Transactions} />
-              <Route path='/specialist_transactions' component={Specialist_Transactions} />
-              <Route path='/contractor_transactions_details/:id' component={Contractor_Transactions_details} />
-              
+              <Route
+                path='/contractor_transactions'
+                component={Contractor_Transactions}
+              />
+              <Route
+                path='/specialist_transactions'
+                component={Specialist_Transactions}
+              />
+              <Route
+                path='/contractor_transactions_details/:id'
+                component={Contractor_Transactions_details}
+              />
               <Route path='/scheduled_payments' component={ScheduledPayments} />
               <Route
                 path='/scheduled_payments_details/:id'
                 component={ScheduledPaymentDetails}
               />
-
               <Route path='/admin/settings' component={AdminProfile} />
-
               <Route
                 path='/contractor_onboarding'
                 component={ContractorOnboarding}
@@ -225,7 +248,7 @@ const App: any = ({ history }) => {
                 path='/admin_payment_invoice'
                 component={Admin_Payment_Invoice}
               />
-               <Route
+              <Route
                 path='/contractor/review/specailist/:id'
                 component={Specialist_Details_For_Contractor}
               />
@@ -233,19 +256,16 @@ const App: any = ({ history }) => {
                 path='/contractor_invoices/:id'
                 component={Contractor_Invoices}
               />
-
               <Route
                 path='/admin_view/:contractorid/contractor_invoice/:id'
                 component={ContractorInvoiceDetails}
               />
-
               <Route path='/contractor_list' component={ListOfContractor} />
               {/* <Route path="/contractor/:id" component={ListOfContractor} /> */}
               <Route
                 path='/pipe_schedule_management'
                 component={AdminSettingManagment}
               />
-
               <Route
                 path='/admin_evaluation_step4'
                 component={AdminWorkOrderEvaluationStep4}
@@ -291,6 +311,14 @@ const App: any = ({ history }) => {
                 component={SpecialistDashboard}
               />
               <Route
+                path='/specialist_worksheet'
+                component={SpecialistWorkSheetPage}
+              />
+              <Route
+                path='/specialist_addpipeitem/:id'
+                component={CreateWorkSheet}
+              />
+              <Route
                 path='/specialistWorkOrderDetails'
                 component={SpecialistWorkOrderDetails}
               />
@@ -309,6 +337,28 @@ const App: any = ({ history }) => {
                 path='/Specialist_Payment_Invoice/:id'
                 component={Specialist_Payment_Invoice}
               />
+              <Route
+                exact={true}
+                path='/specialist_milestone_payment/:id'
+                component={MileStonePayment}
+              />
+              <Route
+                exact={true}
+                path='/admin_specialist_payment_request/:id'
+                component={AdminAdvancePayment}
+              />
+                            <Route
+                exact={true}
+                path='/admin_specialist_milestone_payment_request/:id'
+                component={EarlyMilestonePayment}
+              />
+
+              <Route
+                exact={true}
+                path='/specialist_advance_payment/:id'
+                component={AdvancePayment}
+              />
+
               <Route exact={true} path='/privacy' component={Privacy} />
               <Route path='/signin' exact={true} component={SignIn} />
               <Route
@@ -321,8 +371,8 @@ const App: any = ({ history }) => {
                 exact={true}
                 component={Password_Reset}
               />
-
-              <Route path='/' exact={true} component={Home} />
+              {/* <Route path='/' exact={true} component={Home} /> */}
+              <Route path='/' exact={true} component={Homev2} />
             </Switch>
           </HashRouter>
         </Router>

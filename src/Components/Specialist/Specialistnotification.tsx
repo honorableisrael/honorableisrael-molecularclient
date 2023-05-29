@@ -96,7 +96,7 @@ const SpecialistNotification = withRouter((props) => {
       <Container fluid={true} className="dasbwr">
         <Helmet>
           <meta charSet="utf-8" />
-          <title>Molecular - Specialist Notification</title>
+          <title>MolecularPro - Specialist Notification</title>
           <link />
         </Helmet>
         <Row>

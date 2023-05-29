@@ -24,7 +24,7 @@ const SpecialistLanding = () => {
           <Col md={6} className="cntrotlndg-section1-contnt">
             <h4>Get More Work Opportunities with Better Pay</h4>
             <p>
-              MolecularTech is committed to enabling our technical specialists
+              MolecularProTech is committed to enabling our technical specialists
               to get a better work experience. Which means you get more work
               opportunities while ensuring you get paid well and on time. We’re
               dedicated to making it easier for you to get hard work done.

@@ -28,7 +28,7 @@ import {
 } from "../../config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { copyFileSync } from "fs";
+import viewmore from "../../assets/view-more.png";
 
 declare global {
   interface Window {
@@ -42,7 +42,7 @@ declare global {
   }
 }
 
-const Admin_Invoice_details = (props) => {
+const Invoice_details = (props) => {
   const [state, setState] = useState<any>({
     invoice_details: {},
     user_details: "",
@@ -104,6 +104,7 @@ const Admin_Invoice_details = (props) => {
       show: true,
     });
   };
+  
   useEffect(() => {
     window.scrollTo(-0, -0);
     console.log(props);
@@ -120,9 +121,12 @@ const Admin_Invoice_details = (props) => {
         axios.get(`${API}/contractor`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }),
-        axios.get(`${API}/contractor/work-orders/${work_order_details?.id}`, {
-          headers: { Authorization: `Bearer ${token.access_token}` },
-        }),
+        axios.get(
+          `${API}/contractor/work-orders/${props?.match?.params?.work_order_id}`,
+          {
+            headers: { Authorization: `Bearer ${token.access_token}` },
+          }
+        ),
       ])
       .then(
         axios.spread((res2, res3, res4) => {
@@ -308,7 +312,7 @@ const Admin_Invoice_details = (props) => {
     show,
     cycle_amount,
   } = state;
-  console.log(work_order_detail, "work_order_detail");
+  console.log(invoice_details, "invoice_details");
   return (
     <>
       <Modal
@@ -424,7 +428,7 @@ const Admin_Invoice_details = (props) => {
       <Container fluid={true} className='dasbwr tainer3'>
         <Helmet>
           <meta charSet='utf-8' />
-          <title>Molecular - Contractor Work Order</title>
+          <title>MolecularPro - Contractor Work Order</title>
           <link />
         </Helmet>
         <Row>
@@ -439,7 +443,7 @@ const Admin_Invoice_details = (props) => {
                   {" "}
                   <img src={arrowback} className='arrowback' />
                 </Link>{" "}
-                &nbsp; Invoice Details
+                &nbsp; Proforma Invoice Details
               </div>
               <Button
                 className='payspecialist1 h36'
@@ -518,10 +522,6 @@ const Admin_Invoice_details = (props) => {
                           <div className='boxwrapper__1 inv9'>
                             <div className='lcomponent'>
                               <div className='inv_title2'>
-                                <div className='inv_title3'>Client</div>
-                                <div className='inv_title4 ing'>
-                                  {work_order_detail?.contractor}
-                                </div>
                                 <div className='inv_title3 inv_titlex '>
                                   {work_order_detail?.country}
                                 </div>
@@ -561,18 +561,21 @@ const Admin_Invoice_details = (props) => {
                             <Table responsive>
                               <thead className='theadinvoice'>
                                 <tr>
-                                  <th className='tablehead'>Date</th>
+                                  <th className='tablehead'>Start Date</th>
+                                  <th className='tablehead'>End date</th>
                                   <th className='tablehead'>Cost</th>
 
                                   <th className='tablehead'>Status</th>
                                   <th className='tablehead'>Cycle</th>
                                   <th className='tablehead'>Payment</th>
+                                  <th className='tablehead'>Action</th>
                                 </tr>
                               </thead>
                               <tbody>
                                 {invoice_details?.cycles?.map((data, i) => (
                                   <tr className='tdata' key={i}>
-                                    <td>{formatTime(data?.date)}</td>
+                                    <td>{formatTime(data?.start_date)}</td>
+                                    <td>{formatTime(data?.end_date)}</td>
                                     <td>
                                       {current_currency}
                                       {FormatAmount(data?.amount)}
@@ -597,6 +600,17 @@ const Admin_Invoice_details = (props) => {
                                       ) : (
                                         ""
                                       )}
+                                    </td>
+                                    <td>
+                                      <Link
+                                        to={`/contractor_sub_invoice_details/${data?.id}`}>
+                                        <img
+                                          src={viewmore}
+                                          className='viewmore mr-2 mt-2 cursor-pointer'
+                                          alt=''
+                                          title='View details'
+                                        />
+                                      </Link>
                                     </td>
                                   </tr>
                                 ))}
@@ -720,6 +734,7 @@ const Admin_Invoice_details = (props) => {
                           <th>Pipe Schedule</th>
                           <th>Number of Joints</th>
                           <th>Cost Per Joint (NGN)</th>
+                          <th>Price Per Joint (NGN)</th>
                           <th>Total Amount (NGN)</th>
                         </tr>
                       </thead>
@@ -734,6 +749,9 @@ const Admin_Invoice_details = (props) => {
                             <td>{FormatAmount(data?.joints)}</td>
                             <td>
                               {FormatAmount(data?.cost_per_joint ?? "n/a")}
+                            </td>
+                            <td>
+                              {FormatAmount(data?.price_per_joint ?? "n/a")}
                             </td>
                             <td>
                               {FormatAmount(data?.contractor_cost) ?? "n/a"}
@@ -772,11 +790,15 @@ const Admin_Invoice_details = (props) => {
                   data-bs-parent='#accordionFlushExample'>
                   <div className='accordion-body'>
                     <p>
-                      <ul>
+                      <ul className='pl-0'>
                         {invoice_details?.cost_exclusions
                           ?.split("\n")
                           ?.map((data, i) => (
-                            <li> {data}</li>
+                            <li
+                              className='pl-0'
+                              dangerouslySetInnerHTML={{
+                                __html: data ?? "n/a",
+                              }}></li>
                           ))}
                       </ul>
                     </p>
@@ -811,4 +833,4 @@ const Admin_Invoice_details = (props) => {
   );
 };
 
-export default Admin_Invoice_details;
+export default Invoice_details;

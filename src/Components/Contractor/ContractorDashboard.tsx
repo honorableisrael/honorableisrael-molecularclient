@@ -95,13 +95,13 @@ const Invoice = (props) => {
       {props?.invoicelist?.slice(0, 3)?.map((data, i) => (
         <>
           <div className="helloworld1 helloworld1op" key={i}>
-            <Link to={`/invoice_details/${data?.id}`}>
+            <Link to={`/invoice_details/${data?.id}/${data?.work_order?.id}`}>
               <div className="helloworldx">
                 <img src={invoices} className="invoices" />
               </div>
             </Link>
             <div className="app12 app23 app23" title={data?.work_order?.title}>
-              <Link to={`/invoice_details/${data?.id}`}>
+              <Link to={`/invoice_details/${data?.id}/${data?.work_order?.id}`}>
                 <span className="titleinvoice">{data?.work_order?.title}</span>{" "}
               </Link>
               <div className="amount2a">{data.total_amount}</div>
@@ -294,7 +294,7 @@ const ContractorDashboard = withRouter((props) => {
       <Container fluid={true} className="dasbwr">
         <Helmet>
           <meta charSet="utf-8" />
-          <title>Molecular - Contractor Dashboard</title>
+          <title>MolecularPro - Contractor Dashboard</title>
           <link />
         </Helmet>
         <Row>

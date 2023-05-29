@@ -448,7 +448,7 @@ const Invoice_details_view_only = (props) => {
     selected_id,
     show,
   } = state;
-  console.log(invoice_details);
+  console.log(invoice_details,"invoice_details");
   return (
     <>
       <Modal
@@ -533,7 +533,7 @@ const Invoice_details_view_only = (props) => {
       <Container fluid={true} className='dasbwr nopaddrt tainer3'>
         <Helmet>
           <meta charSet='utf-8' />
-          <title>Molecular - Admin Work Order</title>
+          <title>MolecularPro - Admin Work Order</title>
           <link />
         </Helmet>
         <Row>
@@ -748,6 +748,7 @@ const Invoice_details_view_only = (props) => {
                             <div className='text-right mgg2'></div>
                           </div>
                         </div>
+                      
                         <div className='allpayment00'>
                           <div className='allpayment1'>
                             All payments go to the account details below
@@ -845,6 +846,7 @@ const Invoice_details_view_only = (props) => {
                           <th>Pipe Schedule</th>
                           <th>Number of Joints</th>
                           <th>Cost Per Joint (NGN)</th>
+                          <th>Price Per Joint (NGN)</th>
                           <th>Total Amount (NGN)</th>
                         </tr>
                       </thead>
@@ -859,6 +861,9 @@ const Invoice_details_view_only = (props) => {
                             <td>{FormatAmount(data?.joints)}</td>
                             <td>
                               {FormatAmount(data?.cost_per_joint ?? "n/a")}
+                            </td>
+                            <td>
+                              {FormatAmount(data?.price_per_joint ?? "n/a")}
                             </td>
                             <td>
                               {FormatAmount(data?.contractor_cost) ?? "n/a"}

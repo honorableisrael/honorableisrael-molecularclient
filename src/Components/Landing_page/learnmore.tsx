@@ -36,7 +36,7 @@ const Learnmore = () => {
           <Col md={6} className="learnmrlndg-section1-contnt">
             <h4 data-aos="fade-up">What we do</h4>
             <p className="learnmsctn1-mpargh1">
-              MolecularTech aggregates end-to-end natural gas pipeline
+              MolecularProTech aggregates end-to-end natural gas pipeline
               operations to help Engineering, Procurement & Construction(EPC)
               contractors in the upstream, midstream and downstream sectors of
               the natural gas industry, on one hand, and Technical Pipeline
@@ -55,9 +55,9 @@ const Learnmore = () => {
             <br />
             <h4 data-aos="fade-up">How we do it</h4>
             <p className="learnmsctn1-pargh3">
-              Molecular uses big data and artificial intelligence to efficiently
+              MolecularPro uses big data and artificial intelligence to efficiently
               match the contractors requirements to the work preferences of our
-              Technical Specialists. Molecular enables rapid, efficient and cost
+              Technical Specialists. MolecularPro enables rapid, efficient and cost
               effective deployment of Pipeline Specialists, while ensuring that
               the latter get more jobs and get paid promptly.
             </p>
@@ -65,9 +65,9 @@ const Learnmore = () => {
             <div>
               <h4 data-aos="fade-up">How we do it</h4>
               <p className="learnmsctn1-pargh3">
-                Molecular uses big data and artificial intelligence to
+                MolecularPro uses big data and artificial intelligence to
                 efficiently match the contractors requirements to the work
-                preferences of our Technical Specialists. Molecular enables
+                preferences of our Technical Specialists. MolecularPro enables
                 rapid, efficient and cost effective deployment of Pipeline
                 Specialists, while ensuring that the latter get more jobs and
                 get paid promptly.

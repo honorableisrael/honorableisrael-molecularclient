@@ -157,7 +157,7 @@ const NewBlogPost = () => {
       <Container fluid={true} className='dasbwr'>
         <Helmet>
           <meta charSet='utf-8' />
-          <title>Molecular - Admin Blog Post</title>
+          <title>MolecularPro - Admin Blog Post</title>
           <link />
         </Helmet>
         <Row>

@@ -486,7 +486,7 @@ const AdminSettingManagment = withRouter((props) => {
     <>
       <Helmet>
         <meta charSet="utf-8" />
-        <title>Molecular - Invited Specialists</title>
+        <title>MolecularPro - Invited Specialists</title>
         <link />
       </Helmet>
       <Modal
@@ -916,7 +916,7 @@ const AdminSettingManagment = withRouter((props) => {
                       <img src={blueavatar} alt="img" />
                     </div>
                     <div className="add_fel">
-                      <div>Molecular bank accounts</div>
+                      <div>MolecularPro bank accounts</div>
                       {selectedspecialist.length !== 0 && (
                         <Button
                           className="add_to_group manage_"

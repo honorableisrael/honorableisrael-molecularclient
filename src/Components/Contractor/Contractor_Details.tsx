@@ -138,7 +138,7 @@ const Contractor_Details = () => {
       <Container fluid={true} className="dasbwr">
         <Helmet>
           <meta charSet="utf-8" />
-          <title>Molecular - Contractor Details</title>
+          <title>MolecularPro - Contractor Details</title>
           <link />
         </Helmet>
         <Row >

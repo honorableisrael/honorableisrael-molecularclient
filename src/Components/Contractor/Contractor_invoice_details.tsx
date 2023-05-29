@@ -409,7 +409,7 @@ const ContractorInvoiceDetails = (props) => {
       <Container fluid={true} className='dasbwr tainer3'>
         <Helmet>
           <meta charSet='utf-8' />
-          <title>Molecular - Admin view contractor invoice</title>
+          <title>MolecularPro - Admin view contractor invoice</title>
           <link />
         </Helmet>
         <Row>
@@ -420,14 +420,15 @@ const ContractorInvoiceDetails = (props) => {
           <Col md={11} className='job34'>
             <div className='title_wo title_wo12 title_wo_ tbtom ttbom'>
               <div className='workorderheader fixedtitle'>
-                <Link to={`/admin_invoice_details/${props.match.params.id}`}>
+                <span onClick={() => window.history?.back()}>
                   {" "}
                   <img src={arrowback} className='arrowback' />
-                </Link>{" "}
+                </span>{" "}
                 Contractor Invoice Preview
               </div>
               <Button
-                className='payspecialist1 h36' onClick={()=>window.print()}>
+                className='payspecialist1 h36'
+                onClick={() => window.print()}>
                 Print
               </Button>
             </div>
@@ -708,6 +709,7 @@ const ContractorInvoiceDetails = (props) => {
                           <th>Pipe Schedule</th>
                           <th>Number of Joints</th>
                           <th>Cost Per Joint (NGN)</th>
+                          <th>Price Per Joint (NGN)</th>
                           <th>Total Amount (NGN)</th>
                         </tr>
                       </thead>
@@ -722,6 +724,9 @@ const ContractorInvoiceDetails = (props) => {
                             <td>{FormatAmount(data?.joints)}</td>
                             <td>
                               {FormatAmount(data?.cost_per_joint ?? "n/a")}
+                            </td>
+                            <td>
+                              {FormatAmount(data?.price_per_joint ?? "n/a")}
                             </td>
                             <td>
                               {FormatAmount(data?.contractor_cost) ?? "n/a"}
@@ -760,11 +765,15 @@ const ContractorInvoiceDetails = (props) => {
                   data-bs-parent='#accordionFlushExample'>
                   <div className='accordion-body'>
                     <p>
-                      <ul>
+                      <ul className='pl-0'>
                         {invoice_details?.cost_exclusions
                           ?.split("\n")
                           ?.map((data, i) => (
-                            <li> {data}</li>
+                            <li
+                              className='pl-0'
+                              dangerouslySetInnerHTML={{
+                                __html: data ?? "n/a",
+                              }}></li>
                           ))}
                       </ul>
                     </p>

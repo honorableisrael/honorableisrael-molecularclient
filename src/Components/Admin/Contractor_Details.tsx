@@ -101,7 +101,7 @@ const Contractor_Details = (props) => {
     <>
       <Helmet>
         <meta charSet='utf-8' />
-        <title>Molecular - Contractor Details</title>
+        <title>MolecularPro - Contractor Details</title>
         <link />
       </Helmet>
       <DashboardNav />

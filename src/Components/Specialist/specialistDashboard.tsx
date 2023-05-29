@@ -41,7 +41,7 @@ const Notification = (props) => {
         {props?.all_notification?.slice(0, 3)?.map((data, index) => (
           <>
             <Link to={"/specialistnotifications"} key={index}>
-              <div className="splstdshbdnotifctnsectns" title={data.message}>
+              <div className="splstdshbdnotifctnsectns mt-2" title={data.message}>
                 <div>
                   <span className="spclsuserimgspn lemonbacgrd">
                     <img src={avatar} alt="img" />
@@ -131,7 +131,7 @@ const SpecialistDashboard = (props) => {
     <div>
       <Helmet>
         <meta charSet="utf-8" />
-        <title>Molecular - Specialialist Dashboard</title>
+        <title>MolecularPro - Specialialist Dashboard</title>
         <link />
       </Helmet>
       <DashboardNav />

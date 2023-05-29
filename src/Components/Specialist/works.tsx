@@ -109,7 +109,7 @@ const Works = () => {
     <div>
       <Helmet>
         <meta charSet="utf-8" />
-        <title>Molecular - Specialist Works </title>
+        <title>MolecularPro - Specialist Works </title>
         <link />
       </Helmet>
       <DashboardNav />

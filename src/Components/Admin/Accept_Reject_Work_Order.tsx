@@ -136,7 +136,7 @@ const Accept_Reject_Work_Order = () => {
       <Container fluid={true} className="dasbwr">
         <Helmet>
           <meta charSet="utf-8" />
-          <title>Molecular - Contractor Work Order</title>
+          <title>MolecularPro - Contractor Work Order</title>
           <link />
         </Helmet>
         <Row >
@@ -190,7 +190,7 @@ const Accept_Reject_Work_Order = () => {
                       <div className="header_12">Status</div>
                     </div>
                     <div className="tabledata tablecontent">
-                      <div className="header_12">
+                      <div className="header_12 pt-2">
                         <img src={avatar_test} className="specialist_avatar" />
                         <div className="mobiletabledata">Fullname</div>
                         Sunday Okoro Pascal

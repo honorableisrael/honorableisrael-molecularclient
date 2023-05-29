@@ -698,7 +698,7 @@
 }
 .footer-section {
   background-color: #1e2833;
-  background-image: url(../../images/skybluequater.png);
+  background-image: url("../../images/footerbg.png");
   background-repeat: no-repeat;
   background-position-x: right;
   background-position-y: bottom;
@@ -708,6 +708,7 @@
   justify-content: space-between;
   padding: 71px 0px;
   padding-left: 59px;
+  padding-bottom: 0px !important;
 }
 .lightbulb-img {
   padding: 82px 15px 0px;
@@ -806,7 +807,7 @@
   width: 30%;
 }
 .footer-title {
-  color: #fd8c00;
+  color: #dddddd;
   font-family: "Noto Sans JP", sans-serif;
   font-size: 20px;
   line-height: 29px;
@@ -828,19 +829,17 @@
 .copyrightwrap {
   display: flex;
   color: #999999;
-  justify-content: space-around;
+  justify-content: space-between;
   padding-bottom: 60px;
+  padding-left: 59px;
 }
 
-.reserves {
-  width: 40%;
+.reserves ,.privacy,.terms{
+  padding-top: 7rem;
+  /* width: 30%; */
+  color: #999999;
 }
-.terms {
-  width: 14%;
-}
-.privacy {
-  width: 18%;
-}
+
 .fluid8 {
   width: -webkit-fill-available;
   width: 100% !important;
@@ -867,6 +866,7 @@
   .nav-logo {
     position: relative;
     right: 1rem;
+    bottom: 0.3rem;
   }
 }
 /* contractor landing page styling */
@@ -2390,7 +2390,7 @@ body:not(.gh-head-open) .gh-burger:hover .gh-burger-inner:after {
   gap: 3px;
   padding-left: 18px;
   position: relative;
-  font-size: .9rem;
+  font-size: 0.9rem;
 }
 .post-card-featured svg {
   left: 0;
@@ -2443,7 +2443,7 @@ body:not(.gh-head-open) .gh-burger:hover .gh-burger-inner:after {
 }
 .post-card-meta {
   color: var(--color-secondary-text);
-  font-size: .9rem;
+  font-size: 0.9rem;
   margin-top: 12px;
   padding: 0;
 }
@@ -2616,13 +2616,13 @@ body:not(.gh-head-open) .gh-burger:hover .gh-burger-inner:after {
 }
 .gh-canvas {
   display: grid;
-  grid-template-columns: [full-start] minmax(max(4vmin, 20px), auto) [wide-start] minmax(
+  grid-template-columns:
+    [full-start] minmax(max(4vmin, 20px), auto) [wide-start] minmax(auto, 240px)
+    [main-start] min(720px, calc(100% - max(8vmin, 40px))) [main-end] minmax(
       auto,
       240px
-    ) [main-start] min(720px, calc(100% - max(8vmin, 40px))) [main-end] minmax(
-      auto,
-      240px
-    ) [wide-end] minmax(max(4vmin, 20px), auto) [full-end];
+    )
+    [wide-end] minmax(max(4vmin, 20px), auto) [full-end];
 }
 .gh-canvas > * {
   grid-column: main-start/main-end;
@@ -3509,14 +3509,23 @@ html.dark-mode .kg-header-card h3.kg-header-card-subheader {
   }
 }
 /*# sourceMappingURL=screen.css.map */
-.pt9{
+.pt9 {
   padding-top: 0rem;
   padding-bottom: 6rem;
 }
-.pl23{
+.pl23 {
   padding-left: 2rem;
   padding-top: 5rem;
 }
-.blghh{
+.blghh {
   padding: 135px 13px 58px 54px;
+}
+.fftclas{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: white;
+}
+.darkcolor{
+  color: #999999;
 }

@@ -200,41 +200,41 @@ const Contractorsignup = withRouter((props) => {
   return (
     <div>
       <NavBar />
-      <section className="forms-section">
-        <div className="forms-section-image"></div>
-        <div className="formwrplift">
+      <section className='forms-section'>
+        <div className='forms-section-image'></div>
+        <div className='formwrplift'>
           <Container>
-            <Row className="form-row">
+            <Row className='form-row'>
               <Col md={8}>
-                <form className="form-wrapper ml__">
-                  <div className="padded-form-wrapper">
-                    <div className="form-header">
-                      <h4 className="form-title">
-                        Sign up to get Technical Specialist
+                <form className='form-wrapper ml__'>
+                  <div className='padded-form-wrapper'>
+                    <div className='form-header'>
+                      <h4 className='form-title'>
+                        Get access to qualified & fully kitted natural gas
+                        specialists in minutes 
                       </h4>
                     </div>
-                    <div className="form-descr-text">
+                    <div className='form-descr-text'>
                       <p>
                         Connect with a member of our team to explore how
-                        MolecularTech can support you and your business to get
-                        technical specialists. Leave some information about you
-                        & company, and we’ll contact you within 24 hours.
+                        MolecularPro can deploy and manage the natural gas
+                        technical specialists you need for your project.
                       </p>
                     </div>
                   </div>
-                  <div className="padded-input-wrapper" ref={fieldRef}>
+                  <div className='padded-input-wrapper' ref={fieldRef}>
                     <Row>
-                      <Col md={12} className="col_space">
+                      <Col md={12} className='col_space'>
                         {errorMessage && (
-                          <div className="text-center">
-                            <Alert variant="danger" className="cntralertmessg">
+                          <div className='text-center'>
+                            <Alert variant='danger' className='cntralertmessg'>
                               {errorMessage}
                             </Alert>
                           </div>
                         )}
                         {successMessage && (
-                          <div className="text-center ">
-                            <Alert variant="success" className="cntralertmessg">
+                          <div className='text-center '>
+                            <Alert variant='success' className='cntralertmessg'>
                               {successMessage}
                             </Alert>
                           </div>
@@ -243,54 +243,54 @@ const Contractorsignup = withRouter((props) => {
                     </Row>
                     <Row>
                       <Col md={6}>
-                        <label className="inputlabel">
-                          <span className="rdfrmlbl">
+                        <label className='inputlabel'>
+                          <span className='rdfrmlbl'>
                             {" "}
                             First Name
-                            <span className="asteric">*</span>
+                            <span className='asteric'>*</span>
                           </span>
                           <input
-                            type="text"
-                            name="first_name"
+                            type='text'
+                            name='first_name'
                             value={first_name}
                             onChange={onchange}
                             // placeholder="Enter your first name"
                             size={75}
-                            className="form-control forminput"
+                            className='form-control forminput'
                           />
                         </label>
                       </Col>
                       <Col md={6}>
-                        <label className="inputlabel">
-                          <span className="rdfrmlbl">
+                        <label className='inputlabel'>
+                          <span className='rdfrmlbl'>
                             {" "}
-                            Last Name <span className="asteric">*</span>
+                            Last Name <span className='asteric'>*</span>
                           </span>
                           <input
-                            type="text"
-                            name="last_name"
+                            type='text'
+                            name='last_name'
                             value={last_name}
                             onChange={onchange}
                             // placeholder="Enter your Last name"
                             size={75}
-                            className="form-control forminput"
+                            className='form-control forminput'
                           />
                         </label>
                       </Col>
                       <Col md={12}>
-                        <label className="inputlabel">
-                          <span className="rdfrmlbl">
+                        <label className='inputlabel'>
+                          <span className='rdfrmlbl'>
                             {" "}
-                            Email <span className="asteric">*</span>
+                            Email <span className='asteric'>*</span>
                           </span>
                           <input
-                            type="text"
-                            name="email"
+                            type='text'
+                            name='email'
                             value={email}
                             onChange={onchange}
                             // placeholder="Enter your email"
                             // size={75}
-                            className="form-control forminput"
+                            className='form-control forminput'
                           />
                         </label>
                       </Col>
@@ -333,57 +333,56 @@ const Contractorsignup = withRouter((props) => {
                     </Row> */}
                     <Row>
                       <Col md={12}>
-                        <label className="inputlabel">
-                          <span className="rdfrmlbl">
+                        <label className='inputlabel'>
+                          <span className='rdfrmlbl'>
                             {" "}
-                            Company Name <span className="asteric">*</span>
+                            Company Name <span className='asteric'>*</span>
                           </span>
                           <input
-                            type="text"
-                            name="company_name"
+                            type='text'
+                            name='company_name'
                             value={company_name}
                             onChange={onchange}
                             // placeholder="Enter your Company Name"
                             size={75}
-                            className="form-control forminput"
+                            className='form-control forminput'
                           />
                         </label>
                       </Col>
                     </Row>
                     <Row>
                       <Col md={12}>
-                        <label className="inputlabel">
-                          <span className="rdfrmlbl">
+                        <label className='inputlabel'>
+                          <span className='rdfrmlbl'>
                             {" "}
                             Contact Phone Number
-                            <span className="asteric">*</span>
+                            <span className='asteric'>*</span>
                           </span>
                           <input
-                            type="text"
-                            name="phone"
+                            type='text'
+                            name='phone'
                             value={phone}
                             onChange={onchange}
                             // placeholder="Enter your Phone Number"
                             size={96}
-                            className="form-control forminput"
+                            className='form-control forminput'
                           />
                         </label>
                       </Col>
                     </Row>
                     <Row>
                       <Col md={12}>
-                        <label className="inputlabel">
-                          <span className="rdfrmlbl">
+                        <label className='inputlabel'>
+                          <span className='rdfrmlbl'>
                             {" "}
                             How do we help you
-                            <span className="asteric">*</span>
+                            <span className='asteric'>*</span>
                           </span>
                           <select
                             onChange={onchange}
-                            className="forminput formselect form-control"
+                            className='forminput formselect form-control'
                             required
-                            name="help"
-                          >
+                            name='help'>
                             <option></option>
                             {contractor_needs.map((data: any) => (
                               <option value={data.id}>{data.need}</option>
@@ -392,19 +391,19 @@ const Contractorsignup = withRouter((props) => {
                         </label>
                       </Col>
                     </Row>
-                    <label className="inputlabel">
-                      <span className="rdfrmlbl">
+                    <label className='inputlabel'>
+                      <span className='rdfrmlbl'>
                         {" "}
-                        Company URL<span className="asteric">*</span>
+                        Company URL<span className='asteric'>*</span>
                       </span>
                       <input
-                        type="text"
-                        name="website_url"
+                        type='text'
+                        name='website_url'
                         value={website_url}
                         onChange={onchange}
                         // placeholder="E.g http://www.example.com"
                         size={96}
-                        className="form-control forminput"
+                        className='form-control forminput'
                       />
                     </label>
                     {/* <span className="rdfrmlbl">
@@ -429,11 +428,11 @@ const Contractorsignup = withRouter((props) => {
                       ))} 
                     </select> */}
                     <br></br>
-                    <div className="form-check">
+                    <div className='form-check'>
                       <input
-                        className="form-check-input"
-                        type="checkbox"
-                        value=""
+                        className='form-check-input'
+                        type='checkbox'
+                        value=''
                         checked={agree ? true : false}
                         onChange={() => {
                           setState({
@@ -441,11 +440,11 @@ const Contractorsignup = withRouter((props) => {
                             agree: !agree ? true : false,
                           });
                         }}
-                        id="flexCheckDefault"
+                        id='flexCheckDefault'
                       />
                       Creating an account means you agree with our{" "}
-                      <label className="form-check-label">
-                        <Link to="/privacy" target="_blank">
+                      <label className='form-check-label'>
+                        <Link to='/privacy' target='_blank'>
                           Terms of Service , Privacy Policy
                         </Link>
                       </label>
@@ -453,25 +452,24 @@ const Contractorsignup = withRouter((props) => {
                       <br />
                       default Notification Settings.
                     </div>
-                    <div className="form-btn-wrapper">
+                    <div className='form-btn-wrapper'>
                       <span
-                        className="form-btn form-btnactive"
-                        onClick={validateForm}
-                      >
+                        className='form-btn form-btnactive'
+                        onClick={validateForm}>
                         {!isloading ? "Create Account" : "Processing..."}
                       </span>
                     </div>
-                    <Link to="/signin">
-                      <p className="signuprgqt">
-                        Have Molecular account?<span> Login</span>
+                    <Link to='/signin'>
+                      <p className='signuprgqt'>
+                        Have a MolecularPro account?<span> Login</span>
                       </p>
                     </Link>
                   </div>
                 </form>
               </Col>
             </Row>
-            <div className="footer-rights">
-              ©2021 Molecular copyright All rights Reserved
+            <div className='footer-rights'>
+              ©2021 MolecularPro copyright All rights Reserved
             </div>
           </Container>
         </div>

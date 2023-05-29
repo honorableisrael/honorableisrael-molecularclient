@@ -663,7 +663,7 @@ const AdminRaiseProformaInvoice = (props) => {
       <Container fluid={true} className="dasbwr">
         <Helmet>
           <meta charSet="utf-8" />
-          <title>Molecular - Proforma Invoice</title>
+          <title>MolecularPro - Proforma Invoice</title>
           <link />
         </Helmet>
         <Modal

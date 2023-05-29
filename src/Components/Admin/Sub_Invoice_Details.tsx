@@ -16,9 +16,12 @@ import { Helmet } from "react-helmet";
 import arrowback from "../../images/dtls.png";
 import { Link } from "react-router-dom";
 import logo from "../../images/Molecular.png";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import {
   API,
+  calculateTotalAmount,
+  calculateTotalJoint,
+  capitalizeFirstLetter,
   current_currency,
   FormatAmount,
   formatTime,
@@ -57,8 +60,26 @@ const Admin_Sub_Invoice_Details = (props) => {
     modal_state: "",
     show_modal: false,
     show_modal_1: false,
+    add_invoice_modal: false,
+    description: "",
+    number_of_joints: "",
+    pipe_schedules: [],
+    pipeSizes: [],
+    pipe_size: "",
+    size: "",
+    no_of_joints: "",
+    pipe_schedule: "",
+    id: "",
+    edit_item_id: "",
+    joints: "",
+    size_value: "",
+    pipe_schedule_name: "",
+    show_delete: false,
+    amount: 1,
+    edit_worksheet_modal: false,
   });
-
+  const inputEl1: any = React.useRef("");
+  const inputEl2: any = React.useRef("");
   const handleClose = () =>
     setState({
       ...state,
@@ -92,34 +113,97 @@ const Admin_Sub_Invoice_Details = (props) => {
     });
   };
 
-  const onInputChange = (e) => {
-    const letterNumber = /^[A-Za-z]+$/;
-    if (e.target.value) {
-      return setState({
-        ...state,
-        [e.target.name]: e.target.value.replace(/[^0-9]+/g, ""), //only accept numbers
-      });
-    }
-    if (e.target.value < 0) {
-      return setState({
-        ...state,
-        [e.target.name]: 0,
-      });
-    }
-    if (e.target.value === "") {
-      return setState({
-        ...state,
-        [e.target.name]: 0,
-      });
-    }
+  const validateForm = () => {
+    createItem();
   };
-
-  const openPaymentModal = (id) => {
+  const createItem = () => {
+    const availableToken: any = localStorage.getItem("loggedInDetails");
+    const token = availableToken
+      ? JSON.parse(availableToken)
+      : window.location.assign("/");
     setState({
       ...state,
-      show: true,
-      selected_id: id,
+      isloading: true,
     });
+    const data = {
+      pipe_size: size,
+      joints: no_of_joints,
+      pipe_schedule,
+      amount,
+      description,
+    };
+
+    axios
+      .post(`${API}/admin/sub-invoices/${props.match.params.id}/items/`, data, {
+        headers: { Authorization: `Bearer ${token.access_token}` },
+      })
+      .then((res) => {
+        fetch_all();
+        notify(res?.data?.message);
+        setState({
+          ...state,
+          isloading: false,
+          add_invoice_modal: false,
+        });
+      })
+      .catch((err) => {
+        setState({
+          ...state,
+          isloading: false,
+          add_invoice_modal: false,
+        });
+        console.log(err?.response);
+        notify(err?.response?.data?.message);
+        if (err?.response?.status == 406) {
+          return notify(err?.response?.data?.errors?.size.join(""));
+        }
+        notify("Failed to update");
+      });
+  };
+
+  const editPipeItem = () => {
+    const availableToken: any = localStorage.getItem("loggedInDetails");
+    const token = availableToken
+      ? JSON.parse(availableToken)
+      : window.location.assign("/");
+    setState({
+      ...state,
+      isloading: true,
+    });
+    const data = {
+      pipe_size: size,
+      joints: no_of_joints,
+      pipe_schedule,
+      amount,
+      description,
+    };
+
+    axios
+      .put(`${API}/admin/sub-invoices/items/${edit_item_id}`, data, {
+        headers: { Authorization: `Bearer ${token.access_token}` },
+      })
+      .then((res) => {
+        fetch_all();
+        notify(res?.data?.message);
+        setState({
+          ...state,
+          isloading: false,
+          edit_worksheet_modal: false,
+        });
+      })
+      .catch((err) => {
+        setState({
+          ...state,
+          isloading: false,
+          edit_worksheet_modal: false,
+        });
+        console.log(err?.response);
+        notify(err?.response?.data?.message);
+        if (err?.response?.status == 406) {
+          return notify(err?.response?.data?.errors?.size.join(""));
+        }
+        notify("Failed to update");
+      });
   };
 
   const openPaymentModal2 = (id) => {
@@ -131,6 +215,9 @@ const Admin_Sub_Invoice_Details = (props) => {
   };
 
   useEffect(() => {
+    fetch_all();
+  }, []);
+  const fetch_all = () => {
     window.scrollTo(-0, -0);
     const invoice_: any = localStorage.getItem("invoice_id");
     const invoice = invoice_ ? JSON.parse(invoice_) : "";
@@ -151,9 +238,16 @@ const Admin_Sub_Invoice_Details = (props) => {
             headers: { Authorization: `Bearer ${token.access_token}` },
           }
         ),
+        axios.get<any, AxiosResponse<any>>(`${API}/pipes`),
+        axios.get<any, AxiosResponse<any>>(`${API}/pipe-schedules`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
+        axios.get<any, AxiosResponse<any>>(`${API}/pipe-sizes`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
       ])
       .then(
-        axios.spread((res2, res3, res4) => {
+        axios.spread((res2, res3, res4, response2, response3, response4) => {
           console.log(res2.data.data);
           setState({
             ...state,
@@ -161,6 +255,12 @@ const Admin_Sub_Invoice_Details = (props) => {
             work_order_detail: res4.data.data,
             invoice_details: res2.data.data,
             pipe_breakdown: res4.data.data.pipe_configs,
+            pipeList: response2.data.data,
+            pipe_schedules: response3.data.data,
+            pipeSizes: response4.data.data,
+            edit_worksheet_modal: false,
+            add_invoice_modal: false,
+            show_delete: false,
           });
         })
       )
@@ -168,10 +268,11 @@ const Admin_Sub_Invoice_Details = (props) => {
         setState({
           ...state,
           work_order_detail: work_order_details,
+          show_delete: false,
         });
         console.log(err);
       });
-  }, []);
+  };
 
   const sendInvoice = () => {
     const availableToken: any = localStorage.getItem("loggedInDetails");
@@ -262,7 +363,28 @@ const Admin_Sub_Invoice_Details = (props) => {
         console.log(err);
       });
   };
-
+  const onchange_pipeschedule = (e) => {
+    // if (e.target.name == "pipe_type") {
+    const new_obj = JSON.parse(e.target.value);
+    console.log(new_obj);
+    setState({
+      ...state,
+      pipe_schedule_name: new_obj.name,
+      pipe_schedule: new_obj.id,
+      errorMessage: "",
+    });
+  };
+  const onchange_pipesize = (e) => {
+    // if (e.target.name == "pipe_type") {
+    const new_obj = JSON.parse(e.target.value);
+    console.log(new_obj, "pipesize");
+    setState({
+      ...state,
+      size_value: new_obj.name,
+      size: new_obj.id,
+      errorMessage: "",
+    });
+  };
   const makePaymentToSpecialist = () => {
     const work_order = localStorage.getItem("work_order_details");
     const work_order_details = work_order ? JSON.parse(work_order) : "";
@@ -428,6 +550,84 @@ const Admin_Sub_Invoice_Details = (props) => {
       });
   };
 
+  const create_work_sheet = () => {
+    setState({
+      ...state,
+      isloading: true,
+    });
+    axios
+      .all([
+        axios.post(
+          `${API}/admin/sub-invoices/${props.match.params.id}/worksheet`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${returnAdminToken().access_token}`,
+            },
+          }
+        ),
+      ])
+      .then(
+        axios.spread((res) => {
+          notify("Successful");
+          reloadPage();
+          setState({
+            ...state,
+            isloading: false,
+          });
+        })
+      )
+      .catch((err) => {
+        setState({
+          ...state,
+          isloading: false,
+        });
+        if (err?.response?.status === 400) {
+          return notify(err?.response?.data?.message);
+        }
+        if (err?.response?.status === 500) {
+          notify("Internal server error", "B");
+        }
+        console.log(err);
+      });
+  };
+  const deletePipeItem = () => {
+    const availableToken: any = localStorage.getItem("loggedInDetails");
+    const token = availableToken
+      ? JSON.parse(availableToken)
+      : window.location.assign("/");
+    setState({
+      ...state,
+      isloading: true,
+    });
+    axios
+      .delete(`${API}/admin/sub-invoices/items/${edit_item_id}`, {
+        headers: { Authorization: `Bearer ${token.access_token}` },
+      })
+      .then((res) => {
+        console.log(res);
+        notify("Successfully deleted");
+        fetch_all();
+        setState({
+          ...state,
+          isloading: false,
+          show_delete: false,
+        });
+      })
+      .catch((err) => {
+        setState({
+          ...state,
+          isloading: false,
+          show_delete: false,
+        });
+        console.log(err?.response);
+        if (err?.response?.status == 406) {
+          return notify(err?.response?.data?.errors?.size.join(""));
+        }
+        notify("Failed to delete");
+      });
+  };
+
   const {
     show_modal_1,
     type,
@@ -438,14 +638,26 @@ const Admin_Sub_Invoice_Details = (props) => {
     work_order_detail,
     order_title,
     end_date,
-    reason,
+    edit_item_id,
     isloading,
     show2,
     pipe_breakdown,
-    start_date,
+    edit_worksheet_modal,
+    no_of_joints,
     invoice_details,
     selected_id,
+    add_invoice_modal,
+    description,
+    show_delete,
     show,
+    size,
+    size_value,
+    pipe_schedule_name,
+    pipe_schedules,
+    pipeSizes,
+    pipe_size,
+    pipe_schedule,
+    amount,
   } = state;
   console.log(invoice_details);
   return (
@@ -529,10 +741,283 @@ const Admin_Sub_Invoice_Details = (props) => {
           </Row>
         </Modal.Body>
       </Modal>
+
+      <Modal centered={true} show={add_invoice_modal}>
+        <div className='add_worksheet_modalwrap p-3'>
+          <div className='add_worksheet_modaltitle text-center'>
+            Add Invoice Item
+          </div>
+          <Row>
+            <Col md={12} className='formsection1'>
+              <Form.Group>
+                <h6 className='userprofile userprofile12'>Amount</h6>
+                <Form.Control
+                  type='number'
+                  value={amount}
+                  min={"1"}
+                  className='userfield'
+                  name='amount'
+                  onChange={onchange}
+                  placeholder=''
+                />
+              </Form.Group>
+            </Col>
+            <Col md={12} className='formsection1'>
+              <Form.Group>
+                <h6 className='userprofile userprofile12'>No of Joints</h6>
+                <Form.Control
+                  type='number'
+                  value={no_of_joints}
+                  min={1}
+                  className='userfield'
+                  name='no_of_joints'
+                  onChange={onchange}
+                  placeholder=''
+                />
+              </Form.Group>
+            </Col>
+            <Col md={12} className='formsection1'>
+              <Form.Group>
+                <h6 className='userprofile userprofile12'>Pipe Schedule</h6>
+                <select
+                  id='pipe_schedule'
+                  onChange={onchange_pipeschedule}
+                  className='userfield form-control'
+                  ref={inputEl1}>
+                  <option value=''>{pipe_size}</option>
+                  {pipe_schedules.map((data, i) => (
+                    <option
+                      className='specialization'
+                      value={JSON.stringify({
+                        id: data.id,
+                        name: data.name,
+                      })}>
+                      {data.name}
+                    </option>
+                  ))}
+                </select>
+              </Form.Group>
+            </Col>
+            <Col md={12} className='formsection1'>
+              <Form.Group>
+                <h6 className='userprofile userprofile12'>Pipe Size</h6>
+                <select
+                  id='pipe_size'
+                  name='pipe_size'
+                  onChange={onchange_pipesize}
+                  className='userfield form-control'
+                  ref={inputEl2}>
+                  <option>{size_value ? size_value : ""}</option>
+                  {pipeSizes.map((data, i) => (
+                    <option
+                      className='pipelength1 form-control specialization'
+                      value={JSON.stringify({
+                        id: data.id,
+                        name: data.size,
+                      })}>
+                      {data.size}
+                    </option>
+                  ))}
+                </select>
+              </Form.Group>
+            </Col>
+            <Col md={12} className='formsection1'>
+              <Form.Group>
+                <h6 className='userprofile userprofile12'>Description</h6>
+                <Form.Control
+                  type='textarea'
+                  value={description}
+                  className='userfield'
+                  name='description'
+                  onChange={onchange}
+                  placeholder=''
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+          <div className='wrkmodal-btnwrap'>
+            <span
+              className='wrkmodal-cancelbtn'
+              onClick={() => {
+                setState({
+                  ...state,
+                  add_invoice_modal: false,
+                });
+              }}>
+              Cancel
+            </span>
+            <span className='profcertbtn upfrmodalbtn' onClick={validateForm}>
+              {!isloading ? "Submit" : "Adding..."}
+            </span>
+          </div>
+        </div>
+      </Modal>
+      <Modal
+        centered={true}
+        onHide={() => {
+          setState({
+            ...state,
+            edit_worksheet_modal: false,
+          });
+        }}
+        show={edit_worksheet_modal}>
+        <div className='add_worksheet_modalwrap p-3'>
+          <div className='add_worksheet_modaltitle text-center'>
+            Edit Invoice Data
+          </div>
+          <Row>
+            <Col md={12} className='formsection1'>
+              <Form.Group>
+                <h6 className='userprofile userprofile12'>Amount</h6>
+                <Form.Control
+                  type='number'
+                  value={amount}
+                  min={"1"}
+                  className='userfield'
+                  name='amount'
+                  onChange={onchange}
+                  placeholder=''
+                />
+              </Form.Group>
+            </Col>
+            <Col md={12} className='formsection1'>
+              <Form.Group>
+                <h6 className='userprofile userprofile12'>No of Joints</h6>
+                <Form.Control
+                  type='number'
+                  value={no_of_joints}
+                  min={1}
+                  className='userfield'
+                  name='no_of_joints'
+                  onChange={onchange}
+                  placeholder=''
+                />
+              </Form.Group>
+            </Col>
+            <Col md={12} className='formsection1'>
+              <Form.Group>
+                <h6 className='userprofile userprofile12'>Pipe Schedule</h6>
+                <select
+                  id='pipe_schedule'
+                  onChange={onchange_pipeschedule}
+                  className='userfield form-control'
+                  ref={inputEl1}>
+                  <option value=''>{pipe_schedule_name}</option>
+                  {pipe_schedules.map((data, i) => (
+                    <option
+                      className='specialization'
+                      value={JSON.stringify({
+                        id: data.id,
+                        name: data.name,
+                      })}>
+                      {data.name}
+                    </option>
+                  ))}
+                </select>
+              </Form.Group>
+            </Col>
+            <Col md={12} className='formsection1'>
+              <Form.Group>
+                <h6 className='userprofile userprofile12'>Pipe Size</h6>
+                <select
+                  id='pipe_size'
+                  name='pipe_size'
+                  onChange={onchange_pipesize}
+                  className='userfield form-control'
+                  ref={inputEl2}>
+                  <option>{size_value ? size_value : ""}</option>
+                  {pipeSizes.map((data, i) => (
+                    <option
+                      className='pipelength1 form-control specialization'
+                      value={JSON.stringify({
+                        id: data.id,
+                        name: data.size,
+                      })}>
+                      {data.size}
+                    </option>
+                  ))}
+                </select>
+              </Form.Group>
+            </Col>
+            <Col md={12} className='formsection1'>
+              <Form.Group>
+                <h6 className='userprofile userprofile12'>Description</h6>
+                <Form.Control
+                  type='textarea'
+                  value={description}
+                  className='userfield'
+                  name='description'
+                  onChange={onchange}
+                  placeholder=''
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+          <div className='wrkmodal-btnwrap'>
+            <span
+              className='wrkmodal-cancelbtn'
+              onClick={() => {
+                setState({
+                  ...state,
+                  edit_worksheet_modal: false,
+                });
+              }}>
+              Cancel
+            </span>
+            <span className='profcertbtn upfrmodalbtn' onClick={editPipeItem}>
+              {!isloading ? "Update" : "Updating..."}
+            </span>
+          </div>
+        </div>
+      </Modal>
+      <Modal
+        size='sm'
+        show={show_delete}
+        onHide={() =>
+          setState({
+            ...state,
+            show_delete: false,
+          })
+        }>
+        <Modal.Header closeButton>
+          <Modal.Title id='example-custom-modal-styling-title'>
+            Delete Invoice Item
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Row>
+            <Col md={12}>
+              <div className='alert alert-warning' role='alert'>
+                <h6 className='alert-heading'>Confirm Action</h6>
+                <p>This action would permanently erase this record</p>
+                <hr />
+                <p className='mb-0'>Click 'Delete' to proceed</p>
+              </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={12} className='terminate2'>
+              <div
+                className='btn btn-outline-secondary mr-2'
+                onClick={() =>
+                  setState({
+                    ...state,
+                    show_delete: false,
+                  })
+                }>
+                Cancel
+              </div>
+              <div className='terminate1' onClick={() => deletePipeItem()}>
+                {isloading ? "Deleting" : "Delete"}
+              </div>
+            </Col>
+          </Row>
+        </Modal.Body>
+      </Modal>
       <Container fluid={true} className='dasbwr nopaddrt tainer3'>
         <Helmet>
           <meta charSet='utf-8' />
-          <title>Molecular - Admin Work Order</title>
+          <title>MolecularPro - Admin Work Order</title>
           <link />
         </Helmet>
         <Row>
@@ -557,6 +1042,22 @@ const Admin_Sub_Invoice_Details = (props) => {
                 Print
               </Button>
             </div>
+            <div className='text-right	'>
+              {invoice_details?.worksheet == null ? (
+                <Button
+                  className='payspecialist1 h36'
+                  onClick={create_work_sheet}>
+                  {isloading ? "processing" : "Create work sheet"}
+                </Button>
+              ) : (
+                <Link
+                  to={`/admin_worksheet/${invoice_details?.worksheet?.id}/${invoice_details?.work_order_id}`}>
+                  <Button className='payspecialist1 h36'>
+                    {isloading ? "processing" : "View work sheet"}
+                  </Button>
+                </Link>
+              )}
+            </div>
             <Row className='mgtop'>
               <Col md={12} className='mgtop345'>
                 <div className='job23_1a hidden__1'>
@@ -564,13 +1065,13 @@ const Admin_Sub_Invoice_Details = (props) => {
                     <div className='overview12 overviewflex-down'>
                       <Col md={12} className='plf'>
                         <div className=''>
-                          {invoice_details?.status=="Unpaid" && (
+                          {invoice_details?.status == "Unpaid" && (
                             <div className='box_inv outerpink'>
                               <span className='box_smalltick smalltickpink'></span>
                               {invoice_details?.status}
                             </div>
                           )}
-                          {invoice_details?.status=="Paid" && (
+                          {invoice_details?.status == "Paid" && (
                             <span>
                               <span className='acceptedinvoc'>Paid</span>
                             </span>
@@ -581,13 +1082,13 @@ const Admin_Sub_Invoice_Details = (props) => {
                                 Invoice : {invoice_details?.number ?? "~~/~~"}
                               </div>
                               <div className='inv_title2'>
-                                <div className='inv_title3'>
+                                {/* <div className='inv_title3'>
                                   <span className='acceptedinvoc'>
                                     {!invoice_details.sent_at
                                       ? "Not Sent"
                                       : "Accepted"}
                                   </span>
-                                </div>
+                                </div> */}
                               </div>
                               <div className='inv_title2'>
                                 <div className='inv_title3'>Invoice Date</div>
@@ -621,12 +1122,12 @@ const Admin_Sub_Invoice_Details = (props) => {
                             </div>
                             <div className='rcomponent'>
                               <div className='inv_title2'>
-                                <div className='inv_title3'>Amount</div>
-                                <div className='inv_title4 ing'>
-                                  {current_currency}
-                                  {FormatAmount(invoice_details?.amount) ??
+                              <div className="text-teal">Milestone Description</div>
+                              <div className='ing'>
+                                  {capitalizeFirstLetter(invoice_details?.description) ??
                                     "~~/~~"}
                                 </div>
+                                <div className='inv_title3'>{formatTime(invoice_details?.start_date)} - {formatTime(invoice_details?.end_date)}</div>
                               </div>
                             </div>
                             {/* <div className='rcomponent'>
@@ -647,6 +1148,145 @@ const Admin_Sub_Invoice_Details = (props) => {
                             )}
                             <div className='text-right mgg2'></div>
                           </div>
+                        </div>
+                        {invoice_details?.items?.length > 0 && (
+                          <div className='accordion-body'>
+                            <Table hover responsive>
+                              <thead>
+                                <tr>
+                                  <th scope='col'>SN</th>
+                                  <th scope='col'>PIPE SIZE</th>
+                                  <th scope='col'>PIPE SCHEDULE</th>
+                                  <th scope='col'>NO OF JOINTS</th>
+                                  <th scope='col'>DESCRIPTION</th>
+                                  <th scope='col'>AMOUNT(NGN)</th>
+                                  {invoice_details?.action?.can_edit && (
+                                    <th scope='col'>ACTION</th>
+                                  )}
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {invoice_details?.items?.map((data, i) => (
+                                  <tr key={i} className='table-bordered'>
+                                    <td>{i + 1}</td>
+                                    <td>{data?.pipe_size?.size}</td>
+                                    <td>{data?.pipe_schedule?.value}</td>
+                                    <td>{data?.joints}</td>
+                                    <td
+                                      className='contractorname'
+                                      style={{ whiteSpace: "pre-wrap" }}>
+                                      {capitalizeFirstLetter(data?.description)}
+                                    </td>
+                                    <td>{FormatAmount(data?.amount)}</td>
+                                    {invoice_details?.action?.can_edit && (
+                                      <td className='contractorname'>
+                                        <span
+                                          className='mr-1 ml-2 cursor-pointer'
+                                          title='Edit'
+                                          onClick={() => {
+                                            setState({
+                                              ...state,
+                                              edit_worksheet_modal: true,
+                                              ...data,
+                                              edit_item_id: data?.id,
+                                              no_of_joints: data?.joints,
+                                              pipe_schedule:
+                                                data?.pipe_schedule?.id,
+                                              pipe_schedule_name:
+                                                data?.pipe_schedule?.value,
+                                              pipe_size: data?.pipe_size?.size,
+                                              size: data?.pipe_size?.id,
+                                              size_value: data?.pipe_size?.size,
+                                            });
+                                          }}>
+                                          <svg
+                                            xmlns='http://www.w3.org/2000/svg'
+                                            width='16'
+                                            height='16'
+                                            fill='currentColor'
+                                            className='bi bi-pencil'
+                                            viewBox='0 0 16 16'>
+                                            <path d='M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z' />
+                                          </svg>
+                                        </span>
+                                        <span
+                                          className='cursor-pointer'
+                                          onClick={() => {
+                                            setState({
+                                              ...state,
+                                              show_delete: true,
+                                              edit_item_id: data?.id,
+                                            });
+                                          }}
+                                          title='Delete'>
+                                          <svg
+                                            xmlns='http://www.w3.org/2000/svg'
+                                            width='16'
+                                            height='16'
+                                            fill='currentColor'
+                                            className='bi bi-trash'
+                                            viewBox='0 0 16 16'>
+                                            <path d='M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z' />
+                                            <path
+                                              fill-rule='evenodd'
+                                              d='M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z'
+                                            />
+                                          </svg>
+                                        </span>
+                                      </td>
+                                    )}
+                                  </tr>
+                                ))}
+                                <tr className='table-bordered'>
+                                  <td colSpan={3} className='text-right pr-2'>
+                                    <b> Total</b>
+                                  </td>
+                                  <td>
+                                    <b>
+                                      {" "}
+                                      {FormatAmount(
+                                        calculateTotalJoint(
+                                          invoice_details.items
+                                        )
+                                      )}
+                                    </b>
+                                  </td>
+                                  <td></td>
+                                  <td>
+                                    <b>
+                                      {FormatAmount(
+                                        calculateTotalAmount(
+                                          invoice_details.items
+                                        )
+                                      )}
+                                    </b>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </Table>
+                          </div>
+                        )}
+                        <div className='text-center'>
+                          {invoice_details?.items?.length === 0 && (
+                            <p>No item record available</p>
+                          )}
+                          {!invoice_details?.sent && (
+                            <p>
+                              {" "}
+                              <Button
+                                className='payspecialist1 h36'
+                                onClick={() => {
+                                  setState({
+                                    ...state,
+                                    description: "",
+                                    amount: "",
+                                    add_invoice_modal: true,
+                                  });
+                                }}>
+                                Add items
+                              </Button>
+                            </p>
+                          )}
                         </div>
                         <div className='allpayment00'>
                           <div className='allpayment1'>
@@ -745,6 +1385,7 @@ const Admin_Sub_Invoice_Details = (props) => {
                           <th>Pipe Schedule</th>
                           <th>Number of Joints</th>
                           <th>Cost Per Joint (NGN)</th>
+                          <th>Price Per Joint (NGN)</th>
                           <th>Total Amount (NGN)</th>
                         </tr>
                       </thead>
@@ -759,6 +1400,9 @@ const Admin_Sub_Invoice_Details = (props) => {
                             <td>{FormatAmount(data?.joints)}</td>
                             <td>
                               {FormatAmount(data?.cost_per_joint ?? "n/a")}
+                            </td>
+                            <td>
+                              {FormatAmount(data?.price_per_joint ?? "n/a")}
                             </td>
                             <td>
                               {FormatAmount(data?.contractor_cost) ?? "n/a"}
@@ -804,7 +1448,7 @@ const Admin_Sub_Invoice_Details = (props) => {
                   data-bs-parent='#accordionFlushExample'>
                   <div className='accordion-body'>
                     <p>
-                      <ul>
+                      <ul className='pl-0'>
                         {invoice_details?.cost_exclusions
                           ?.split("\n")
                           ?.map((data, i) => (

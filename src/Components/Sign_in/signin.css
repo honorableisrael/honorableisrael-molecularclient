@@ -1,6 +1,6 @@
 .signin-section{
     padding: 159px 0px 1px 0px;
-   background-image: linear-gradient(to right, rgba(44, 44, 112, 0.5) , rgba(44, 44, 112, 0.5)),url(../../images/drilling-workers.png);
+   background-image: linear-gradient(to right, rgba(44, 44, 112, 0.5) , rgba(44, 44, 112, 0.5)),url(../../assets/bg-box.png);
    background-repeat: no-repeat;
    background-size: cover;
 }

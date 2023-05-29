@@ -66,6 +66,7 @@
   background: rgba(32, 197, 169, 0.1);
 }
 .spclsuserimgspn > img {
+  margin: auto;
   margin-top: 14px;
 }
 .splstprogressbarwrapper {
@@ -1039,7 +1040,15 @@ input:checked + .slider::before {
   justify-content: space-between;
   margin-top: 2rem;
 }
-.chip{
+.chip {
   background: #cc7100 !important;
   font-weight: 900;
+}
+
+.splinvoitablehead tr{
+  border: 1px solid #e7e1e13f !important;
+}
+
+.workorderheader1 {
+  width: 390px !important;
 }

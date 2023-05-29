@@ -30,7 +30,7 @@ const ProformaInvoiceAccepted = () => {
       <Container fluid={true} className="dasbwr">
         <Helmet>
           <meta charSet="utf-8" />
-          <title>Molecular - Contractor Work Order</title>
+          <title>MolecularPro - Contractor Work Order</title>
           <link />
         </Helmet>
         <Row>

@@ -22,14 +22,16 @@ const PaymentCards_1 = (props) => {
   let { volume } = state;
   return (
     <>
-    <div className="cardwrap_jo minheight_">
-        <div className="cardwrap_cont">
-          <img src={portfolio} alt="portfolio" className="portfolio2" />
+      <div className='cardwrap_jo minheight_'>
+        <div className='cardwrap_cont'>
+          <img src={portfolio} alt='portfolio' className='portfolio2' />
         </div>
-        <div className="card_sec2">
-          <div className="pipline">
-            <div className="crd23">{props?.payment_details?.work_order?.title}</div>
-            <div className="inprogr">
+        <div className='card_sec2'>
+          <div className='pipline'>
+            <div className='crd23'>
+              {props?.payment_details?.work_order?.title}
+            </div>
+            <div className='inprogr'>
               {/* <div
                 className={
                   props?.payment_details?.total_amount_paid < 0
@@ -53,19 +55,22 @@ const PaymentCards_1 = (props) => {
               </div> */}
             </div>
           </div>
-          <div className="slidd2z">
-            <Link to={`/invoice_details/${props?.payment_details?.id}`}>
-              <div className="nextbtn">
-                <img src={nextbtn} alt="nxtbtn" className="nxtbtn3 nxtt4" />
+          <div className='slidd2z'>
+            <Link
+              to={`/invoice_details/${props?.payment_details?.id}/${props?.payment_details?.work_order?.id}`}>
+              <div className='nextbtn'>
+                <img src={nextbtn} alt='nxtbtn' className='nxtbtn3 nxtt4' />
               </div>
             </Link>
           </div>
-          <div className="nwraper">
-            <div className="ppp1 ppp0">
-              <div className="mnversion">INVOICE NUMBER</div>
-              <p className="mnversion2"> {props?.payment_details?.number} </p>
+          <div className='nwraper'>
+            <div className='ppp1 ppp0'>
+              <div className='mnversion'>INVOICE NUMBER</div>
+              <p className='mnversion2'> {props?.payment_details?.number} </p>
             </div>
-            <div className="nnw12">{formatTime(props?.payment_details?.sent_at)}</div>
+            <div className='nnw12'>
+              {formatTime(props?.payment_details?.sent_at)}
+            </div>
           </div>
         </div>
       </div>

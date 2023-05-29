@@ -54,7 +54,7 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
     type_of_specialist: "",
     title_of_specialist: "",
     pipe_config: [],
-    spreads:[],
+    spreads: [],
   });
 
   const inputHandler = (e) => {
@@ -400,7 +400,7 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
       <Container fluid={true} className='dasbwr'>
         <Helmet>
           <meta charSet='utf-8' />
-          <title>Molecular - Contractor Work Order</title>
+          <title>MolecularPro - Contractor Work Order</title>
           <link />
         </Helmet>
         <Row>
@@ -427,421 +427,420 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
                   <b> Workforce Details</b>
                 </div>
                 <div className='formcontent form_tomp'>
-                    <Row>
-                      {pipe_config?.map((data, i) => (
-                        <Col md={12} className='ttp_' key={i}>
-                          <div className='closticon'>
-                            <span
-                              className='tymes1'
-                              onClick={() => deleteConfig(i, "pipe")}
-                              title='Delete'>
-                              &times;
-                            </span>
-                          </div>
-                          <div className='main_wrap_ws main_wrap_ws22 graybg'>
-                            <div>
-                              <h6 className='userprofile12 userprofile123'>
-                                Type of Pipe
-                              </h6>
-                              <div className='Construction12'>
-                                {data.pipe_name}
-                              </div>
-                            </div>
-                            <div className=''>
-                              <h6 className='userprofile12 userprofile123'>
-                                Pipeline Length
-                              </h6>
-                              <div className='Construction12'>
-                                {" "}
-                                {data?.pipelength}
-                              </div>
-                            </div>
-                            <div className=''>
-                              <h6 className='userprofile12 userprofile123'>
-                                Pipe Size
-                              </h6>
-                              <div className='Construction12'>
-                                {" "}
-                                {data?.pipe_size}
-                              </div>
-                            </div>
-                            <div className=''>
-                              <h6 className='userprofile12 userprofile123'>
-                                No of Joint
-                              </h6>
-                              <div className='Construction12'>
-                                {data?.no_of_joints}
-                              </div>
-                            </div>
-                            <div className=''>
-                              <h6 className='userprofile12 userprofile123'>
-                                Pipe Schedule
-                              </h6>
-                              <div className='Construction12'>
-                                {data?.pipe_schedule_name}
-                              </div>
+                  <Row>
+                    {pipe_config?.map((data, i) => (
+                      <Col md={12} className='ttp_' key={i}>
+                        <div className='closticon'>
+                          <span
+                            className='tymes1'
+                            onClick={() => deleteConfig(i, "pipe")}
+                            title='Delete'>
+                            &times;
+                          </span>
+                        </div>
+                        <div className='main_wrap_ws main_wrap_ws22 graybg'>
+                          <div>
+                            <h6 className='userprofile12 userprofile123'>
+                              Type of Pipe
+                            </h6>
+                            <div className='Construction12'>
+                              {data.pipe_name}
                             </div>
                           </div>
-                        </Col>
-                      ))}
-                      <Col md={12}>
-                        <div>
-                          <h6 className='userprofile darkheader'>
-                            Pipe Configuration
-                          </h6>
+                          <div className=''>
+                            <h6 className='userprofile12 userprofile123'>
+                              Pipeline Length
+                            </h6>
+                            <div className='Construction12'>
+                              {" "}
+                              {data?.pipelength}
+                            </div>
+                          </div>
+                          <div className=''>
+                            <h6 className='userprofile12 userprofile123'>
+                              Pipe Size
+                            </h6>
+                            <div className='Construction12'>
+                              {" "}
+                              {data?.pipe_size}
+                            </div>
+                          </div>
+                          <div className=''>
+                            <h6 className='userprofile12 userprofile123'>
+                              No of Joint
+                            </h6>
+                            <div className='Construction12'>
+                              {data?.no_of_joints}
+                            </div>
+                          </div>
+                          <div className=''>
+                            <h6 className='userprofile12 userprofile123'>
+                              Pipe Schedule
+                            </h6>
+                            <div className='Construction12'>
+                              {data?.pipe_schedule_name}
+                            </div>
+                          </div>
                         </div>
                       </Col>
-                      <Col md={3} className='formsection1'>
-                        <Form.Group>
-                          <h6 className='userprofile'> Type of Pipe </h6>
-                          <select
-                            className='userfield form-control'
-                            id={"pipe_type"}
-                            onChange={inputHandler}
-                            ref={inputEl1}>
-                            <option></option>
-                            <option value={""}></option>
-                            {pipeList.map((data, i) => (
+                    ))}
+                    <Col md={12}>
+                      <div>
+                        <h6 className='userprofile darkheader'>
+                          Pipe Configuration
+                        </h6>
+                      </div>
+                    </Col>
+                    <Col md={3} className='formsection1'>
+                      <Form.Group>
+                        <h6 className='userprofile'> Type of Pipe </h6>
+                        <select
+                          className='userfield form-control'
+                          id={"pipe_type"}
+                          onChange={inputHandler}
+                          ref={inputEl1}>
+                          <option></option>
+                          <option value={""}></option>
+                          {pipeList.map((data, i) => (
+                            <option
+                              value={JSON.stringify({
+                                id: data.id,
+                                name: data.name,
+                              })}>
+                              {data.name}
+                            </option>
+                          ))}
+                        </select>
+                      </Form.Group>
+                    </Col>
+                    <Col md={3} className='formsection1'>
+                      <Form.Group>
+                        <h6 className='userprofile userprofile12'>
+                          Pipeline Length (Meters)
+                        </h6>
+                        <Form.Control
+                          type='number'
+                          value={pipelength}
+                          min={1}
+                          className='userfield'
+                          id='pipelength'
+                          onChange={onchange}
+                          placeholder=''
+                        />
+                      </Form.Group>
+                    </Col>
+                    <Col md={3} className='formsection1'>
+                      <Form.Group>
+                        <h6 className='userprofile userprofile12'>
+                          No of Joints
+                        </h6>
+                        <Form.Control
+                          type='number'
+                          min={1}
+                          value={no_of_joints}
+                          className='userfield'
+                          id='no_of_joints'
+                          onChange={onchange}
+                          placeholder=''
+                        />
+                      </Form.Group>
+                    </Col>
+                    <Col md={3} className='formsection1'>
+                      <Form.Group>
+                        <h6 className='userprofile userprofile12'>
+                          Pipe Schedule
+                        </h6>
+                        <select
+                          id='pipe_schedule'
+                          onChange={onchange_pipeschedule}
+                          className='userfield form-control'
+                          ref={inputEl2}>
+                          <option value=''></option>
+                          {pipe_schedules.map((data, i) => (
+                            <option
+                              className='specialization'
+                              value={JSON.stringify({
+                                id: data.id,
+                                name: data.name,
+                              })}>
+                              {data.name}
+                            </option>
+                          ))}
+                        </select>
+                      </Form.Group>
+                    </Col>
+                    <Col md={3} className='formsection1'>
+                      <Form.Group>
+                        <h6 className='userprofile userprofile12'>Pipe Size</h6>
+                        <select
+                          name='pipe_size'
+                          id='pipe_size'
+                          className='form-control'
+                          onChange={onchange_pipesize}
+                          ref={inputEl3}>
+                          <option>{size_value}</option>
+                          {pipeSizes.map((data, i) => (
+                            <>
                               <option
+                                className='pipelength1 form-control specialization'
                                 value={JSON.stringify({
                                   id: data.id,
-                                  name: data.name,
+                                  name: data.size,
                                 })}>
-                                {data.name}
+                                {data.size}
                               </option>
-                            ))}
-                          </select>
-                        </Form.Group>
-                      </Col>
-                      <Col md={3} className='formsection1'>
-                        <Form.Group>
-                          <h6 className='userprofile userprofile12'>
-                            Pipeline Length (Meters)
-                          </h6>
-                          <Form.Control
-                            type='number'
-                            value={pipelength}
-                            className='userfield'
-                            id='pipelength'
-                            onChange={onchange}
-                            placeholder=''
-                          />
-                        </Form.Group>
-                      </Col>
-                      <Col md={3} className='formsection1'>
-                        <Form.Group>
-                          <h6 className='userprofile userprofile12'>
-                            No of Joints
-                          </h6>
-                          <Form.Control
-                            type='number'
-                            value={no_of_joints}
-                            className='userfield'
-                            id='no_of_joints'
-                            onChange={onchange}
-                            placeholder=''
-                          />
-                        </Form.Group>
-                      </Col>
-                      <Col md={3} className='formsection1'>
-                        <Form.Group>
-                          <h6 className='userprofile userprofile12'>
-                            Pipe Schedule
-                          </h6>
-                          <select
-                            id='pipe_schedule'
-                            onChange={onchange_pipeschedule}
-                            className='userfield form-control'
-                            ref={inputEl2}>
-                            <option value=''></option>
-                            {pipe_schedules.map((data, i) => (
-                              <option
-                                className='specialization'
-                                value={JSON.stringify({
-                                  id: data.id,
-                                  name: data.name,
-                                })}>
-                                {data.name}
-                              </option>
-                            ))}
-                          </select>
-                        </Form.Group>
-                      </Col>
-                      <Col md={3} className='formsection1'>
-                        <Form.Group>
-                          <h6 className='userprofile userprofile12'>
-                            Pipe Size
-                          </h6>
-                          <select
-                            name='pipe_size'
-                            id='pipe_size'
-                            className='form-control'
-                            onChange={onchange_pipesize}
-                            ref={inputEl3}>
-                            <option>{size_value}</option>
-                            {pipeSizes.map((data, i) => (
-                              <>
-                                <option
-                                  className='pipelength1 form-control specialization'
-                                  value={JSON.stringify({
-                                    id: data.id,
-                                    name: data.size,
-                                  })}>
-                                  {data.size}
-                                </option>
-                              </>
-                            ))}
-                          </select>
-                        </Form.Group>
-                      </Col>
-                      <Col md={12} className='addmro1 dmro1'>
-                        <div className='addmro'>
-                          <img
-                            src={Addmore}
-                            alt='Add more'
-                            className='Add__more'
-                            onClick={() => Add_New_Config("pipe")}
-                          />
-                        </div>
-                      </Col>
-                    </Row>
-                    <hr className='mb-5 mt-2' />
-                    <Row>
-                      <Col md={12}>
-                        <div>
-                          <h6 className='userprofile darkheader'>
-                            Spread Selection{" "}
-                          </h6>
-                        </div>
-                      </Col>
-                      <FinalForm
-                        onSubmit={(data) => {
-                          // setState({
-                          //   ...state,
-                          //   spreads: data,
-                          // });
-                          console.log(data, "data1");
-                          multipleEntryController(data);
-                        }}
-                        mutators={{
-                          // potentially other mutators could be merged here
-                          ...arrayMutators,
-                        }}
-                        // validate={validate}
-                        render={({ handleSubmit, pristine, invalid }) => (
-                          <form onSubmit={handleSubmit} className='iu5'>
-                            <form onSubmit={validateForm}></form>
-                            <FieldArray initialValue={spreads} name='spreads'>
-                              {({ fields }) => (
-                                <div className='padt12 mt331'>
-                                  {fields.map((name, index) => (
-                                    <div
-                                      className='row inputlabel label_pad justify-between mg0_'
-                                      key={name}>
-                                      <div className='row mb-3'>
-                                        <div className='col-md-12'>
-                                          <span className='rdfrmlbl MuiTypography-root MuiTypography-caption css-uy1c4l-MuiTypography-root'>
-                                            <span className='bold-text'>
-                                              {index + 1}.
-                                            </span>{" "}
-                                            Spread composition
-                                            <span className='text-danger'>
-                                              *
-                                            </span>
-                                          </span>
-                                          <Field
-                                            name={`${name}.type`}
-                                            component='select'
-                                            onClick={() =>
-                                              fields.update(index, {
-                                                type: "",
-                                                welders: 6,
-                                                fitters: 2,
-                                              })
-                                            }
-                                            className='form-control forminput'>
-                                            <option>
-                                              Please select spread composition
-                                            </option>
-                                            <option value={"custom"}>
-                                              Custom
-                                            </option>
-                                            <option value='standard'>
-                                              Standard
-                                            </option>
-                                          </Field>
-                                        </div>
-                                      </div>
-                                      {fields?.value[index]?.type !== "" && (
-                                        <>
-                                          <h6 className='userprofile darkheader pt332'>
-                                            Please select the number of welders
-                                            and fitters{" "}
-                                          </h6>
-                                          <div className='row'>
-                                            <div className='col-md-6 rdfrmlbl2right'>
-                                              <span className='rdfrmlbl MuiTypography-root MuiTypography-caption css-uy1c4l-MuiTypography-root'>
-                                                Welders
-                                                <span className='text-danger'>
-                                                  *
-                                                </span>
-                                              </span>
-                                              <Field
-                                                type={"number"}
-                                                defaultValue={no_of_welders}
-                                                disabled={
-                                                  fields?.value[index]?.type ==
-                                                  "standard"
-                                                    ? true
-                                                    : false
-                                                }
-                                                name={`${name}.welders`}
-                                                min={1}
-                                                component='input'
-                                                className='form-control forminput'
-                                              />
-                                            </div>
-                                            <div className='col-md-6'>
-                                              <span className='rdfrmlbl MuiTypography-root MuiTypography-caption css-uy1c4l-MuiTypography-root'>
-                                                Fitters
-                                                <span className='text-danger'>
-                                                  *
-                                                </span>
-                                              </span>
-                                              <Field
-                                                type={"number"}
-                                                defaultValue={no_of_fitters}
-                                                name={`${name}.fitters`}
-                                                disabled={
-                                                  fields?.value[index]?.type ==
-                                                  "standard"
-                                                    ? true
-                                                    : false
-                                                }
-                                                min={1}
-                                                component='input'
-                                                className='form-control forminput'
-                                                // placeholder={fields?.value[index]?.id}
-                                              />
-                                            </div>
-                                          </div>
-                                        </>
-                                      )}
-                                      <div className='row flex-right'>
-                                        <div className='col-md-2'>
-                                          <button
-                                            type='button'
-                                            onClick={() => fields.remove(index)}
-                                            className='btn btn-danger Deletebtn'>
-                                            Delete entry {index + 1}
-                                          </button>
-                                        </div>
+                            </>
+                          ))}
+                        </select>
+                      </Form.Group>
+                    </Col>
+                    <Col md={12} className='addmro1 dmro1'>
+                      <div className='addmro'>
+                        <img
+                          src={Addmore}
+                          alt='Add more'
+                          className='Add__more'
+                          onClick={() => Add_New_Config("pipe")}
+                        />
+                      </div>
+                    </Col>
+                  </Row>
+                  <hr className='mb-5 mt-2' />
+                  <Row>
+                    <Col md={12}>
+                      <div>
+                        <h6 className='userprofile darkheader'>
+                          Spread Selection{" "}
+                        </h6>
+                      </div>
+                    </Col>
+                    <FinalForm
+                      onSubmit={(data) => {
+                        // setState({
+                        //   ...state,
+                        //   spreads: data,
+                        // });
+                        console.log(data, "data1");
+                        multipleEntryController(data);
+                      }}
+                      mutators={{
+                        // potentially other mutators could be merged here
+                        ...arrayMutators,
+                      }}
+                      // validate={validate}
+                      render={({ handleSubmit, pristine, invalid }) => (
+                        <form onSubmit={handleSubmit} className='iu5'>
+                          <form onSubmit={validateForm}></form>
+                          <FieldArray initialValue={spreads} name='spreads'>
+                            {({ fields }) => (
+                              <div className='padt12 mt331'>
+                                {fields.map((name, index) => (
+                                  <div
+                                    className='row inputlabel label_pad justify-between mg0_'
+                                    key={name}>
+                                    <div className='row mb-3'>
+                                      <div className='col-md-12'>
+                                        <span className='rdfrmlbl MuiTypography-root MuiTypography-caption css-uy1c4l-MuiTypography-root'>
+                                          <span className='bold-text'>
+                                            {index + 1}.
+                                          </span>{" "}
+                                          Spread composition
+                                          <span className='text-danger'>*</span>
+                                        </span>
+                                        <Field
+                                          name={`${name}.type`}
+                                          component='select'
+                                          onClick={() =>
+                                            fields.update(index, {
+                                              type: "",
+                                              welders: 6,
+                                              fitters: 2,
+                                            })
+                                          }
+                                          className='form-control forminput'>
+                                          <option>
+                                            Please select spread composition
+                                          </option>
+                                          <option value={"custom"}>
+                                            Custom
+                                          </option>
+                                          <option value='standard'>
+                                            Standard
+                                          </option>
+                                        </Field>
                                       </div>
                                     </div>
-                                  ))}
-                                  <span
-                                    className='addmror'
-                                    onClick={() =>
-                                      fields.push({
-                                        type: "",
-                                        welders: 6,
-                                        fitters: 2,
-                                      })
-                                    }>
-                                    {!fields?.value ||
-                                    fields?.value?.[0]?.type == ""
-                                      ? "Add new spread +"
-                                      : "Add more spread +"}
-                                  </span>
-                                </div>
-                              )}
-                            </FieldArray>
-                            {/* <span className='loginbtdv'>
+                                    {fields?.value[index]?.type !== "" && (
+                                      <>
+                                        <h6 className='userprofile darkheader pt332'>
+                                          Please select the number of welders
+                                          and fitters{" "}
+                                        </h6>
+                                        <div className='row'>
+                                          <div className='col-md-6 rdfrmlbl2right'>
+                                            <span className='rdfrmlbl MuiTypography-root MuiTypography-caption css-uy1c4l-MuiTypography-root'>
+                                              Welders
+                                              <span className='text-danger'>
+                                                *
+                                              </span>
+                                            </span>
+                                            <Field
+                                              type={"number"}
+                                              defaultValue={no_of_welders}
+                                              disabled={
+                                                fields?.value[index]?.type ==
+                                                "standard"
+                                                  ? true
+                                                  : false
+                                              }
+                                              name={`${name}.welders`}
+                                              min={1}
+                                              component='input'
+                                              className='form-control forminput'
+                                            />
+                                          </div>
+                                          <div className='col-md-6'>
+                                            <span className='rdfrmlbl MuiTypography-root MuiTypography-caption css-uy1c4l-MuiTypography-root'>
+                                              Fitters
+                                              <span className='text-danger'>
+                                                *
+                                              </span>
+                                            </span>
+                                            <Field
+                                              type={"number"}
+                                              defaultValue={no_of_fitters}
+                                              name={`${name}.fitters`}
+                                              disabled={
+                                                fields?.value[index]?.type ==
+                                                "standard"
+                                                  ? true
+                                                  : false
+                                              }
+                                              min={1}
+                                              component='input'
+                                              className='form-control forminput'
+                                              // placeholder={fields?.value[index]?.id}
+                                            />
+                                          </div>
+                                        </div>
+                                      </>
+                                    )}
+                                    <div className='row flex-right'>
+                                      <div className='col-md-2'>
+                                        <button
+                                          type='button'
+                                          onClick={() => fields.remove(index)}
+                                          className='btn btn-danger Deletebtn'>
+                                          Delete entry {index + 1}
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                ))}
+                                <span
+                                  className='addmror'
+                                  onClick={() =>
+                                    fields.push({
+                                      type: "",
+                                      welders: 6,
+                                      fitters: 2,
+                                    })
+                                  }>
+                                  {!fields?.value ||
+                                  fields?.value?.[0]?.type == ""
+                                    ? "Add new spread +"
+                                    : "Add more spread +"}
+                                </span>
+                              </div>
+                            )}
+                          </FieldArray>
+                          {/* <span className='loginbtdv'>
                               <button color='dark' type={"submit"}>
                                 {"Submit"}
                               </button>
                             </span> */}
-                            <Row>
-                              <Col md={12}>
-                                <div>
-                                  <h6 className='userprofile darkheader'>
-                                    Types of Specialist Required and Number{" "}
-                                  </h6>
+                                              <hr className='mb-5 mt-2' />
+                          <Row>
+                            <Col md={12}>
+                              <div>
+                                <h6 className='userprofile darkheader'>
+                                  Types of Specialist Required and Number{" "}
+                                </h6>
+                              </div>
+                            </Col>
+                            {specialist_config?.map((data, i) => (
+                              <Col md={12} className='ttp_' key={i}>
+                                <div className='closticon'>
+                                  <span
+                                    className='tymes1'
+                                    onClick={(i) =>
+                                      deleteConfig(i, "specialist")
+                                    }
+                                    title='Delete'>
+                                    &times;
+                                  </span>
+                                </div>
+                                <div className='main_wrap_ws main_wrap_ws22 graybg'>
+                                  <div>
+                                    <h6 className='userprofile12 userprofile123'>
+                                      Specialist Skill
+                                    </h6>
+                                    <div className='Construction12'>
+                                      {data?.title_of_specialist}
+                                    </div>
+                                  </div>
+                                  <div className=''>
+                                    <h6 className='userprofile12 userprofile123'>
+                                      Number of Specialist
+                                    </h6>
+                                    <div className='Construction12'>
+                                      {data?.no_of_specialist}
+                                    </div>
+                                  </div>
                                 </div>
                               </Col>
-                              <Col md={4} className='formsection1'>
-                                <Form.Group>
-                                  <h6 className='userprofile userprofile12'>
-                                    Area of specialization
-                                  </h6>
-                                  <select
-                                    id='type_of_specialist'
-                                    onChange={onchange_Area_Of_Specialization}
-                                    className='userfield form-control'
-                                    ref={inputEl4}>
-                                    <option value=''></option>
-                                    {types_of_Specialist.map((data, i) => (
-                                      <option
-                                        className='specialization'
-                                        value={JSON.stringify({
-                                          id: data.id,
-                                          name: data.name,
-                                        })}>
-                                        {data.name}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </Form.Group>
-                              </Col>
-                              <Col md={4} className='formsection1'>
-                                <Form.Group>
-                                  <h6 className='userprofile userprofile12'>
-                                    Number of Specialist
-                                  </h6>
-                                  <Form.Control
-                                    type='number'
-                                    value={no_of_specialist}
-                                    className='userfield'
-                                    id='no_of_specialist'
-                                    onChange={onchange}
-                                    onBlur={() => Add_New_Config("specialist")}
-                                    placeholder=''
-                                  />
-                                </Form.Group>
-                              </Col>
-                              {specialist_config?.map((data, i) => (
-                                <Col md={12} className='ttp_' key={i}>
-                                  <div className='closticon'>
-                                    <span
-                                      className='tymes1'
-                                      onClick={(i) =>
-                                        deleteConfig(i, "specialist")
-                                      }
-                                      title='Delete'>
-                                      &times;
-                                    </span>
-                                  </div>
-                                  <div className='main_wrap_ws main_wrap_ws22 graybg'>
-                                    <div>
-                                      <h6 className='userprofile12 userprofile123'>
-                                        Specialist Skill
-                                      </h6>
-                                      <div className='Construction12'>
-                                        {data?.title_of_specialist}
-                                      </div>
-                                    </div>
-                                    <div className=''>
-                                      <h6 className='userprofile12 userprofile123'>
-                                        Number of Specialist
-                                      </h6>
-                                      <div className='Construction12'>
-                                        {data?.no_of_specialist}
-                                      </div>
-                                    </div>
-                                  </div>
-                                </Col>
-                              ))}
-                            </Row>
+                            ))}
+                            <Col md={4} className='formsection1'>
+                              <Form.Group>
+                                <h6 className='userprofile userprofile12'>
+                                  Area of specialization
+                                </h6>
+                                <select
+                                  id='type_of_specialist'
+                                  onChange={onchange_Area_Of_Specialization}
+                                  className='userfield form-control'
+                                  ref={inputEl4}>
+                                  <option value=''></option>
+                                  {types_of_Specialist.map((data, i) => (
+                                    <option
+                                      className='specialization'
+                                      value={JSON.stringify({
+                                        id: data.id,
+                                        name: data.name,
+                                      })}>
+                                      {data.name}
+                                    </option>
+                                  ))}
+                                </select>
+                              </Form.Group>
+                            </Col>
+                            <Col md={4} className='formsection1'>
+                              <Form.Group>
+                                <h6 className='userprofile userprofile12'>
+                                  Number of Specialist
+                                </h6>
+                                <Form.Control
+                                  type='number'
+                                  value={no_of_specialist}
+                                  min={1}
+                                  className='userfield'
+                                  id='no_of_specialist'
+                                  onChange={onchange}
+                                  onBlur={() => Add_New_Config("specialist")}
+                                  placeholder=''
+                                />
+                              </Form.Group>
+                            </Col>
                             <Row>
                               <Col md={12} className='addmro1 dmro1'>
                                 <div className='addmro'>
@@ -854,8 +853,9 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
                                 </div>
                               </Col>
                             </Row>
-                            <Row>
-                              {/* <Col md={12}>
+                          </Row>
+                          <Row>
+                            {/* <Col md={12}>
                         <div>
                           <h6 className="userprofile">Payment Cycle </h6>
                         </div>
@@ -895,25 +895,25 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
                           </label>
                         </span>
                       </Col> */}
-                            </Row>
-                            <br></br>
-                            <Row>
-                              <Col md={12} className='flex_btns'>
-                                <Link to='/admin_new_work_order'>
-                                  <div className='job3 btn_outline'>Back</div>
-                                </Link>
-                                <input
-                                  className='job31'
-                                  type='submit'
-                                  value='Next'
-                                />
-                              </Col>
-                            </Row>
-                          </form>
-                        )}
-                      />
-                    </Row>
-                    <br></br>
+                          </Row>
+                          <br></br>
+                          <Row>
+                            <Col md={12} className='flex_btns'>
+                              <Link to='/admin_new_work_order'>
+                                <div className='job3 btn_outline'>Back</div>
+                              </Link>
+                              <input
+                                className='job31'
+                                type='submit'
+                                value='Next'
+                              />
+                            </Col>
+                          </Row>
+                        </form>
+                      )}
+                    />
+                  </Row>
+                  <br></br>
                 </div>
               </Col>
             </Row>

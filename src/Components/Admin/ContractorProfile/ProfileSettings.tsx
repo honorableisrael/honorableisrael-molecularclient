@@ -393,7 +393,7 @@ const AdminProfile = (props) => {
       <Container fluid={true} className="dasbwr">
         <Helmet>
           <meta charSet="utf-8" />
-          <title>Molecular - Contractor Profile</title>
+          <title>MolecularPro - Contractor Profile</title>
           <link />
         </Helmet>
         <Row>
@@ -454,7 +454,7 @@ const AdminProfile = (props) => {
                         Password
                       </div>
                     )}
-                    {fourthtab ? (
+                    {/* {fourthtab ? (
                       <div
                         className="Profile2002 Profile2002a"
                         onClick={() => switchTab("fourthtab")}
@@ -468,7 +468,7 @@ const AdminProfile = (props) => {
                       >
                         Deactivate Account
                       </div>
-                    )}
+                    )} */}
                   </div>
                   {firsttab && (
                     <>

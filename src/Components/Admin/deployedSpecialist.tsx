@@ -515,7 +515,7 @@ const DeployedSpecialist = withRouter((props) => {
     <>
       <Helmet>
         <meta charSet='utf-8' />
-        <title>Molecular - Invited Specialists</title>
+        <title>MolecularPro - Invited Specialists</title>
         <link />
       </Helmet>
       <Modal

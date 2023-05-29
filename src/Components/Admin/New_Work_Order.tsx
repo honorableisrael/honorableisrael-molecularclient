@@ -69,7 +69,7 @@ const NewWorkOrderForm = () => {
       <Container fluid={true} className="dasbwr">
         <Helmet>
           <meta charSet="utf-8" />
-          <title>Molecular - Admin Work Order</title>
+          <title>MolecularPro - Admin Work Order</title>
           <link />
         </Helmet>
         <Row>

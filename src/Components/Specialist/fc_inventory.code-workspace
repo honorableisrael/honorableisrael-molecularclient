@@ -1,0 +1,19 @@
+{
+	"folders": [
+		{
+			"path": "../../../../../fc_inventory"
+		},
+		{
+			"path": "../../../.."
+		},
+		{
+			"path": "../../../../../Toptutors/toptutors_mongodb"
+		},
+		{
+			"path": "../../../../../Portfolio"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "Portfolio"
+	}
+}

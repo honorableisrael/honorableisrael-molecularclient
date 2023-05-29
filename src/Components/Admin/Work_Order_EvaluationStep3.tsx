@@ -126,16 +126,16 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
       isloading: true,
     });
     const data = {
-      bank,
+      // bank,
     }
-    if(bank==""){
-      window.scrollTo(0,0)
-      setState({
-        ...state,
-        isloading: false,
-      });
-      return notify("Please select a bank account for this proforma invoice")
-    }
+    // if(bank==""){
+    //   window.scrollTo(0,0)
+    //   setState({
+    //     ...state,
+    //     isloading: false,
+    //   });
+    //   // return notify("Please select a bank account for this proforma invoice")
+    // }
     axios
       .all([
         axios.post(
@@ -283,7 +283,7 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
       <Container fluid={true} className="dasbwr">
         <Helmet>
           <meta charSet="utf-8" />
-          <title>Molecular - Contractor Work Order</title>
+          <title>MolecularPro - Contractor Work Order</title>
           <link />
         </Helmet>
         <Row>
@@ -320,7 +320,7 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
                           3 of 4 | <b>Invoice</b>{" "}
                         </div>
                       </div>
-                      <Col md={12} className="mm12">
+                      {/* <Col md={12} className="mm12">
                         <h6>Bank Account Details</h6>
                         <select
                           className="forminput formselect form-control"
@@ -337,7 +337,7 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
                          ))
                          }
                         </select>
-                      </Col>
+                      </Col> */}
                       <Col md={12} className="plf">
                         <div className="">
                           {/* <div className="box_inv outerpink">

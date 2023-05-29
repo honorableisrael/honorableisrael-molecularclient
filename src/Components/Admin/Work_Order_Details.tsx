@@ -9,6 +9,7 @@ import {
   Button,
   Spinner,
   Card,
+  Table,
 } from "react-bootstrap";
 import "./contractor.css";
 import DashboardNav from "./navbar";
@@ -38,6 +39,8 @@ import {
   notify,
   returnAdminToken,
   refreshpage,
+  formatTime2,
+  reloadPage,
 } from "../../config";
 import { NavHashLink } from "react-router-hash-link";
 import Accordion_Work_order from "./Accordion_workorder_details";
@@ -130,7 +133,7 @@ const Work_Details = (props: any) => {
     </>
   );
 };
-const Work_Sheet = (props: any) => {
+const Work_Sheet = withRouter((props: any) => {
   const [state, setState] = useState<any>({
     active1: "",
     collapseHeight: "0px",
@@ -153,7 +156,7 @@ const Work_Sheet = (props: any) => {
     const work_order = localStorage.getItem("work_order_details");
     const work_order_details = work_order ? JSON.parse(work_order) : "";
     axios
-      .get(`${API}/admin/work-orders/${work_order_details?.id}/worksheets`, {
+      .get(`${API}/admin/work-orders/${props.match.params.id}/worksheets`, {
         headers: { Authorization: `Bearer ${returnAdminToken().access_token}` },
       })
       .then((res) => {
@@ -206,6 +209,7 @@ const Work_Sheet = (props: any) => {
       });
   };
   const { active1, collapseHeight, chevron, work_sheet, isloading } = state;
+  console.log(work_sheet, "work_sheet");
   return (
     <>
       <Card>
@@ -229,43 +233,41 @@ const Work_Sheet = (props: any) => {
         ref={content1}>
         <>
           <div className='worksheet_1'>
-            {work_sheet.map((data: any, i) => (
-              <div className='tabledata tablecontent tablecont1'>
-                <div className='header_12 tablecont0'>
-                  <span>Worksheet Report {data.week}</span>
-                </div>
-                <div className='tablecont1'>
-                  <div className='worksheetdw worksheetdate1'>
-                    {" "}
-                    <img src={dwnload} alt='dwnload' className='dwnload1' />
-                    <a href={data.worksheet} target={"blank"}>
-                      Download
-                    </a>
-                  </div>
-                  <div className='worksheetdate'>{formatTime(data.date)}</div>
-                  <div className='upby'>
-                    uploaded by <br /> {data.uploaded_by}
-                  </div>
-                  <div className='upby'>
-                    {" "}
-                    <div>
-                      {data.approved ? "Approved" : "Awaiting Approval"}
-                    </div>
-                  </div>
-                  <div className='upby'>
-                    {data.sent ? (
-                      ""
-                    ) : (
-                      <span
-                        className='raise_inv'
-                        onClick={() => sendToContractor(data.id)}>
-                        {isloading ? "Sending" : "Send"}
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </div>
-            ))}
+            <Table hover responsive className='schedule_payment_table'>
+              <thead>
+                <tr>
+                  <th scope='col pl-2'>Reference</th>
+                  <th scope='col'>Start</th>
+                  <th scope='col'>End Date</th>
+
+                  <th scope='col'>Description</th>
+                  <th scope='col'>Status</th>
+                  <th scope='col'>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {work_sheet.map((data: any, i) => (
+                  <tr key={i}>
+                    <td>{data?.reference}</td>
+                    <td>{formatTime(data?.start_date)}</td>
+                    <td> {formatTime(data?.end_date)}</td>
+                    <td className='dpslstnamecell pslstnamecell schedule_payment_first_td'>
+                      <div className='dplsplusernmeimg'>
+                        <div>{data?.description}</div>
+                      </div>
+                    </td>
+                    <td className='contractorname'>{data?.status}</td>
+                    <td>
+                      <Link
+                        to={`/admin_worksheet/${data?.id}/${props.match.params.id}`}>
+                        {" "}
+                        <Button className='btn-secondary'>View more</Button>
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
             {work_sheet?.length == 0 && (
               <Col md={11} className='containerforemptyorder1 cust20'>
                 <div className='containerforemptyorder'>
@@ -283,18 +285,347 @@ const Work_Sheet = (props: any) => {
       </div>
     </>
   );
-};
-const Upfront_payment = (props: any) => {
+});
+
+const Advance_payment_request = ({work_order_detail}: any) => {
   const [state, setState] = useState<any>({
     active1: "",
     collapseHeight: "0px",
     chevron: "",
     chevron1: "",
-    upfront: [],
+    advance_payment_request: [],
+    work_id: "",
+    reason: "",
+    show: false,
+    requested_amount: "",
+    cycle_id: "",
+    id: "",
+  });
+  const content1: any = useRef();
+  const toggleAccordion1 = () => {
+    setState({
+      ...state,
+      active1: active1 === "" ? "active" : "",
+      collapseHeight:
+        active1 === "active" ? "0px" : `${content1.current.scrollHeight}px`,
+      chevron1: active1 === "active" ? "" : "arrowflip1",
+    });
+  };
+
+  useEffect(() => {
+    window.scrollTo(-0, -0);
+    const work_order = localStorage.getItem("work_order_details");
+    const work_order_details = work_order ? JSON.parse(work_order) : "";
+    axios
+      .get(
+        `${API}/admin/work-orders/${work_order_details?.id}/specialist-advance-payments?filter=pending`,
+        {
+          headers: {
+            Authorization: `Bearer ${returnAdminToken().access_token}`,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        setState({
+          ...state,
+          advance_payment_request: res.data.data.data,
+          work_id: work_order_details.id,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+  const onchange = (e) => {
+    setState({
+      ...state,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const ApprovePayment = (cycle_id) => {
+    setState({
+      ...state,
+      isloading: true,
+    });
+    console.log(cycle_id);
+    const availableToken = localStorage.getItem("loggedInDetails");
+    console.log(availableToken);
+    const token = availableToken ? JSON.parse(availableToken) : "";
+    console.log(token);
+    const data = {
+      amount: requested_amount,
+    };
+    axios
+      .post(
+        `${API}/admin/work-orders/specialist-early-payments/${cycle_id}/approve`,
+        data,
+        {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }
+      )
+      .then((res) => {
+        console.log(res.data);
+        notify("payment requested successfully");
+        reloadPage();
+        setState({
+          ...state,
+          isloading: false,
+          terminateWorkModal: false,
+        });
+      })
+      .catch((err) => {
+        console.log(err.response);
+        notify("Request failed");
+        setState({
+          ...state,
+          isloading: false,
+          errorMessage: err?.response?.data?.message,
+        });
+      });
+  };
+  const declinePayment = (_id) => {
+    setState({
+      ...state,
+      isloading: true,
+    });
+    console.log(cycle_id);
+    const availableToken = localStorage.getItem("loggedInDetails");
+    console.log(availableToken);
+    const token = availableToken ? JSON.parse(availableToken) : "";
+    console.log(token);
+    const data = {
+      amount: requested_amount,
+    };
+    axios
+      .post(
+        `${API}/admin/work-orders/specialist-early-payments/${_id}/decline`,
+        data,
+        {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }
+      )
+      .then((res) => {
+        console.log(res.data);
+        notify("Payment request has been declined");
+        reloadPage();
+        setState({
+          ...state,
+          isloading: false,
+          terminateWorkModal: false,
+        });
+      })
+      .catch((err) => {
+        console.log(err.response);
+        notify(" failed please try again later");
+        setState({
+          ...state,
+          isloading: false,
+          errorMessage: err?.response?.data?.message,
+        });
+      });
+  };
+  const openModal = (id) => {
+    setState({
+      ...state,
+      show: true,
+      id,
+    });
+  };
+
+  const showApprovalModal = (id, amount) => {
+    console.log(id);
+    setState({
+      ...state,
+      show: true,
+      cycle_id: id,
+      requested_amount: amount,
+      terminateWorkModal: true,
+    });
+  };
+
+  const {
+    cycle_id,
+    requested_amount,
+    active1,
+    collapseHeight,
+    chevron,
+    advance_payment_request,
+    isloading,
+    work_id,
+    reason,
+    show,
+    id,
+  } = state;
+  console.log(advance_payment_request, "advance_payment_request");
+  return (
+    <>
+      <Modal
+        show={show}
+        onHide={() =>
+          setState({
+            ...state,
+            show: false,
+          })
+        }>
+        <Modal.Header closeButton></Modal.Header>
+        <Modal.Body>
+          <Row>
+            <Col md={12}>
+              <div className='terminateworkmodaltitle'>
+                {" "}
+                Payment Approval Confirmation{" "}
+              </div>
+              <div className='splinvoicemodalmssgwrap'>
+                <i
+                  className='fa fa-exclamation fa-rotate-180 invoiceexclm'
+                  aria-hidden='true'></i>
+                <p>Please confirm action</p>
+              </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={12} className=''>
+              <div className='text-right'>
+                <button
+                  className='profcertbtn upfrmodalbtn'
+                  onClick={(e) => ApprovePayment(cycle_id)}>
+                  {isloading ? "Loading..." : "Approve"}
+                </button>
+              </div>
+            </Col>
+          </Row>
+        </Modal.Body>
+      </Modal>
+
+      <Card>
+        <div onClick={toggleAccordion1}>
+          <div className='deploydsplstwrapp'>
+            <div>
+              <span className='deplyeaggrgt'>Advance Payment Request</span>
+              <span className='badge badge-warning ml-3'>
+                {work_order_detail?.pending_advance_payments_count}
+                {work_order_detail?.pending_advance_payments_count && " new"}
+              </span>
+            </div>
+            <div className='accimgwrap'>
+              <span>
+                <img src={chevrondown} className={`arrow-down1 ${chevron}`} />
+              </span>
+            </div>
+          </div>
+        </div>
+      </Card>
+      {isloading && <Spinner animation={"grow"} variant='info' />}
+      <div
+        style={{ maxHeight: `${collapseHeight}` }}
+        className='acccollapsediv1'
+        ref={content1}>
+        <>
+          <div className='worksheet_1'>
+            <div className='tabledata tablecontent tablecont1'>
+              <div className='header_12 tablecont0 pl-5'>
+                <div className=''>Name</div>
+              </div>
+              <div className='tablecont1'>
+                <div className='upby awaiting9'>Date </div>
+                <div className='upby awaiting9'>Amount</div>
+                <div className='upby awaiting9'>
+                  {" "}
+                  <div>Status</div>
+                </div>
+                <div className='upby accrjct mr-4'>Action</div>
+              </div>
+            </div>
+            {advance_payment_request.map((data: any, i) => (
+              <div className='tabledata tablecontent tablecont1'>
+                <div className='header_12 tablecont0 pl-5'>
+                  <div>
+                    {data.specialist?.first_name} {data?.specialist?.last_name}
+                  </div>
+                </div>
+                <div className='tablecont1'>
+                  <div className=' mr-2'>{formatTime(data?.created_at)}</div>
+                  <div className='upby awaiting9 ml-5'>
+                    {current_currency}
+                    {FormatAmount(data.amount)}
+                  </div>
+                  <div className='upby awaiting9 '>
+                    {" "}
+                    <div>{data.status}</div>
+                  </div>
+                  <div className='upby accrjct'>
+                    {data.status == "Paid" ? (
+                      "Paid"
+                    ) : data.status == "declined" ? (
+                      "Declined"
+                    ) : (
+                      <>
+                        <span
+                          className='raise_inv'
+                          onClick={() =>
+                            showApprovalModal(data.id, data?.amount)
+                          }>
+                          {isloading ? "Approving" : "Approve"}
+                        </span>
+                        <span
+                          className='raise_inv reje4 ml-1'
+                          onClick={() => declinePayment(data.id)}>
+                          {"Decline"}
+                        </span>
+                      </>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+            {advance_payment_request?.length !== 0 && (
+              <div className='text-center'>
+                {" "}
+                <span className='viewall_'>
+                  {" "}
+                  <Link
+                    to={`/admin_specialist_payment_request/${work_order_detail?.id}`}
+                    title='view payment cycle information'>
+                    View all
+                  </Link>{" "}
+                </span>{" "}
+              </div>
+            )}
+
+            {advance_payment_request?.length == 0 && (
+              <Col md={11} className='containerforemptyorder1 cust20'>
+                <div className='containerforemptyorder'>
+                  <img
+                    src={no_work_order}
+                    alt={"no_work_order"}
+                    className='no_work_order'
+                  />
+                </div>
+                <div className='no_work1'>data is empty</div>
+              </Col>
+            )}
+          </div>
+        </>
+      </div>
+    </>
+  );
+};
+
+const Early_MileStone_Payment_Request = ({ work_order_detail }: any) => {
+  const [state, setState] = useState<any>({
+    active1: "",
+    collapseHeight: "0px",
+    chevron: "",
+    chevron1: "",
+    milstone_payment_request: [],
     work_id: "",
     reason: "",
     show: false,
     id: "",
+    cycle_id: "",
+    requested_amount: "",
   });
   const content1: any = useRef();
   const toggleAccordion1 = () => {
@@ -312,7 +643,7 @@ const Upfront_payment = (props: any) => {
     const work_order_details = work_order ? JSON.parse(work_order) : "";
     axios
       .get(
-        `${API}/admin/work-orders/${work_order_details?.id}/upfront-requests`,
+        `${API}/admin/work-orders/${work_order_details?.id}/specialist-early-payments?filter=pending`,
         {
           headers: {
             Authorization: `Bearer ${returnAdminToken().access_token}`,
@@ -323,7 +654,7 @@ const Upfront_payment = (props: any) => {
         console.log(res);
         setState({
           ...state,
-          upfront: res.data.data.data,
+          milstone_payment_request: res.data.data,
           work_id: work_order_details.id,
         });
       })
@@ -337,37 +668,86 @@ const Upfront_payment = (props: any) => {
       [e.target.name]: e.target.value,
     });
   };
-  const approveUpfrontRequest = (id) => {
+  const ApprovePayment = (cycle_id) => {
     setState({
       ...state,
       isloading: true,
     });
+    console.log(cycle_id);
+    const availableToken = localStorage.getItem("loggedInDetails");
+    console.log(availableToken);
+    const token = availableToken ? JSON.parse(availableToken) : "";
+    console.log(token);
+    const data = {
+      amount: requested_amount,
+    };
     axios
       .post(
-        `${API}/admin/work-orders/${work_id}/upfront-requests/${id}/accept`,
-        {},
+        `${API}/admin/work-orders/specialist-early-payments/${cycle_id}/approve`,
+        data,
         {
-          headers: {
-            Authorization: `Bearer ${returnAdminToken().access_token}`,
-          },
+          headers: { Authorization: `Bearer ${token.access_token}` },
         }
       )
       .then((res) => {
-        notify("Successfully approved early payment request");
-        console.log(res.data.data);
-        refreshpage();
+        console.log(res.data);
+        notify("payment requested successfully");
+        reloadPage();
         setState({
           ...state,
           isloading: false,
+          terminateWorkModal: false,
         });
       })
       .catch((err) => {
-        notify("failed");
+        console.log(err.response);
+        notify("Request failed");
         setState({
           ...state,
           isloading: false,
+          errorMessage: err?.response?.data?.message,
         });
-        console.log(err);
+      });
+  };
+  const declinePayment = (_id) => {
+    setState({
+      ...state,
+      isloading: true,
+    });
+    console.log(cycle_id);
+    const availableToken = localStorage.getItem("loggedInDetails");
+    console.log(availableToken);
+    const token = availableToken ? JSON.parse(availableToken) : "";
+    console.log(token);
+    const data = {
+      amount: requested_amount,
+    };
+    axios
+      .post(
+        `${API}/admin/work-orders/specialist-early-payments/${_id}/decline`,
+        data,
+        {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }
+      )
+      .then((res) => {
+        console.log(res.data);
+        notify("Payment request has been declined");
+        reloadPage();
+        setState({
+          ...state,
+          isloading: false,
+          terminateWorkModal: false,
+        });
+      })
+      .catch((err) => {
+        console.log(err.response);
+        notify(" failed please try again later");
+        setState({
+          ...state,
+          isloading: false,
+          errorMessage: err?.response?.data?.message,
+        });
       });
   };
   const openModal = (id) => {
@@ -378,90 +758,64 @@ const Upfront_payment = (props: any) => {
     });
   };
 
-  const declineUpfrontRequest = () => {
-    setState({
-      ...state,
-      isloading: true,
-    });
-    const data = {
-      reason,
-    };
-    axios
-      .post(
-        `${API}/admin/work-orders/${work_id}/upfront-requests/${id}/decline`,
-        data,
-        {
-          headers: {
-            Authorization: `Bearer ${returnAdminToken().access_token}`,
-          },
-        }
-      )
-      .then((res) => {
-        notify("Successfully declined early payment request");
-        console.log(res.data.data);
-        refreshpage();
-        setState({
-          ...state,
-          isloading: false,
-        });
-      })
-      .catch((err) => {
-        notify("failed to decline early payment request");
-        setState({
-          ...state,
-          isloading: false,
-        });
-        console.log(err);
-      });
-  };
   const {
+    cycle_id,
+    requested_amount,
     active1,
     collapseHeight,
     chevron,
-    upfront,
+    milstone_payment_request,
     isloading,
     work_id,
     reason,
     show,
     id,
   } = state;
+  const showApprovalModal = (id, amount) => {
+    console.log(id);
+    setState({
+      ...state,
+      show: true,
+      cycle_id: id,
+      requested_amount: amount,
+      terminateWorkModal: true,
+    });
+  };
+  console.log(milstone_payment_request?.data, "milstone_payment_request");
   return (
     <>
       <Modal
-        size='lg'
         show={show}
         onHide={() =>
           setState({
             ...state,
             show: false,
           })
-        }
-        dialogClassName='modal-90w'
-        className='mdl12'>
-        <Modal.Header closeButton>
-          <Modal.Title id='example-custom-modal-styling-title'>
-            Reject
-          </Modal.Title>
-        </Modal.Header>
+        }>
+        <Modal.Header closeButton></Modal.Header>
         <Modal.Body>
           <Row>
             <Col md={12}>
-              <Form>
-                <textarea
-                  value={reason}
-                  name={"reason"}
-                  onChange={onchange}
-                  className='form-control reason12 reason122'
-                  placeholder='Please leave a message'></textarea>
-              </Form>
+              <div className='terminateworkmodaltitle'>
+                {" "}
+                Payment Approval Confirmation{" "}
+              </div>
+              <div className='splinvoicemodalmssgwrap'>
+                <i
+                  className='fa fa-exclamation fa-rotate-180 invoiceexclm'
+                  aria-hidden='true'></i>
+                <p>Please confirm action</p>
+              </div>
             </Col>
           </Row>
           <Row>
-            <Col md={12} className='terminate2'>
-              <div
-                className='terminate1'
-                onClick={(e) => declineUpfrontRequest()}>
-                {isloading ? "Rejecting" : "Reject"}
+            <Col md={12} className=''>
+              <div className='text-right'>
+                <button
+                  className='profcertbtn upfrmodalbtn'
+                  onClick={(e) => ApprovePayment(cycle_id)}>
+                  {isloading ? "Loading..." : "Approve"}
+                </button>
               </div>
             </Col>
           </Row>
@@ -472,7 +826,13 @@ const Upfront_payment = (props: any) => {
         <div onClick={toggleAccordion1}>
           <div className='deploydsplstwrapp'>
             <div>
-              <span className='deplyeaggrgt'>Early Payment Request</span>
+              <span className='deplyeaggrgt'>
+                Early MileStone Payment Request{" "}
+                <span className='badge badge-warning ml-3'>
+                  {work_order_detail?.pending_milestone_payments_count}
+                  {work_order_detail?.pending_milestone_payments_count && " new"}
+                </span>
+              </span>
             </div>
             <div className='accimgwrap'>
               <span>
@@ -489,37 +849,57 @@ const Upfront_payment = (props: any) => {
         ref={content1}>
         <>
           <div className='worksheet_1'>
-            {upfront.map((data: any, i) => (
+            <div className='tabledata tablecontent tablecont1'>
+              <div className='header_12 tablecont0 pl-5'>
+                <div className=''>Name</div>
+              </div>
+              <div className='tablecont1'>
+                <div className='upby awaiting9'>Date</div>
+                <div className='upby awaiting9'>Amount</div>
+                <div className='upby awaiting9'>
+                  {" "}
+                  <div>Status</div>
+                </div>
+                <div className='upby accrjct mr-4'>Action</div>
+              </div>
+            </div>
+            {milstone_payment_request?.data?.map((data: any, i) => (
               <div className='tabledata tablecontent tablecont1'>
-                <div className='header_12 tablecont0'>
-                  <span>{data.specialist}</span>
-                  <div className='lightgray'>{data.created}</div>
+                <div className='header_12 tablecont0 pl-5'>
+                  <span>
+                    {data?.specialist?.first_name} {data?.specialist?.last_name}
+                  </span>
                 </div>
                 <div className='tablecont1'>
-                  <div className='worksheetdw worksheetdate1'> </div>
-                  <div className='upby awaiting9'>
-                    {current_currency}
-                    {FormatAmount(data.amount)}
-                  </div>
-                  <div className='upby awaiting9'>
+                  <div className='worksheetdw worksheetdate1'>
                     {" "}
-                    <div>{data.approved ? "Approved" : ""}</div>
+                    <div className=' ml-1'>{formatTime(data?.created_at)}</div>
+                  </div>
+                  <div className='upby awaiting9 mr-4'>
+                    {current_currency}
+                    {FormatAmount(data?.amount)}
+                  </div>
+                  <div className='upby awaiting9 '>
+                    {" "}
+                    <div>{data?.status}</div>
                   </div>
                   <div className='upby accrjct'>
-                    {data.status == "Paid" ? (
-                      "Paid"
-                    ) : data.status == "Declined" ? (
-                      "Declined"
+                    {data?.status == "Approved" ? (
+                      <div></div>
+                    ) : data?.status == "Declined" ? (
+                      <div></div>
                     ) : (
                       <>
                         <span
                           className='raise_inv'
-                          onClick={() => approveUpfrontRequest(data.id)}>
+                          onClick={() =>
+                            showApprovalModal(data.id, data?.amount)
+                          }>
                           {isloading ? "Approving" : "Approve"}
                         </span>
                         <span
-                          className='raise_inv reje4'
-                          onClick={() => openModal(data.id)}>
+                          className='raise_inv reje4 ml-1'
+                          onClick={() => declinePayment(data.id)}>
                           {"Decline"}
                         </span>
                       </>
@@ -528,7 +908,19 @@ const Upfront_payment = (props: any) => {
                 </div>
               </div>
             ))}
-            {upfront?.length == 0 && (
+            <div className='text-center'>
+              {" "}
+              <span className='viewall_'>
+                {" "}
+                <Link
+                  to={`/admin_specialist_milestone_payment_request/${work_id}`}
+                  title='view payment cycle information'>
+                  View all
+                </Link>{" "}
+              </span>{" "}
+            </div>
+
+            {milstone_payment_request?.data?.length == 0 && (
               <Col md={11} className='containerforemptyorder1 cust20'>
                 <div className='containerforemptyorder'>
                   <img
@@ -960,8 +1352,6 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
       cost_show: true,
     });
   };
-
-
 
   const sendSLA = () => {
     const work_order = localStorage.getItem("work_order_details");
@@ -1474,7 +1864,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
       <Container fluid={true} className='dasbwr'>
         <Helmet>
           <meta charSet='utf-8' />
-          <title>Molecular - Admin Work Order</title>
+          <title>MolecularPro - Admin Work Order</title>
           <link />
         </Helmet>
         <Row>
@@ -1804,7 +2194,8 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                             {" "}
                             <span className='viewall_'>
                               {" "}
-                              <Link to={`/deployedspecialist/${props.match.params.id}`}>
+                              <Link
+                                to={`/deployedspecialist/${props.match.params.id}`}>
                                 View all
                               </Link>{" "}
                             </span>{" "}
@@ -1831,7 +2222,12 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                   )}
                 </div>
                 <br />
-                <Upfront_payment />
+                <Advance_payment_request
+                  work_order_detail={work_order_detail}
+                />
+                <Early_MileStone_Payment_Request
+                  work_order_detail={work_order_detail}
+                />
               </Col>
             </Row>
           </Col>

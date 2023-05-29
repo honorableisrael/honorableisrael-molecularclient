@@ -579,7 +579,7 @@ const SpecialistSettings = () => {
       <Container fluid={true}>
         <Helmet>
           <meta charSet='utf-8' />
-          <title>Molecular - Specialialist Profile Settings</title>
+          <title>MolecularPro - Specialialist Profile Settings</title>
           <link />
         </Helmet>
         <Row>
@@ -767,7 +767,7 @@ const SpecialistSettings = () => {
                         Password Change
                       </div>
                     )}
-                    {fourthtab ? (
+                    {/* {fourthtab ? (
                       <div
                         className='Profile2002 Profile2002a'
                         onClick={() => switchTab("fourthtab")}>
@@ -779,7 +779,7 @@ const SpecialistSettings = () => {
                         onClick={() => switchTab("fourthtab")}>
                         Deactivate Account
                       </div>
-                    )}
+                    )} */}
                   </div>
                   {firsttab && (
                     <div>

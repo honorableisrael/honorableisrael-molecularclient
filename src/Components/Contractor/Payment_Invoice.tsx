@@ -157,12 +157,13 @@ const Contractor_Payment_Invoice = () => {
     start_date,
     hour,
   } = state;
+  console.log(all_invoices,"all_invoices")
   return (
     <>
       <Container fluid={true}>
         <Helmet>
           <meta charSet="utf-8" />
-          <title>Molecular - Contractor Payment</title>
+          <title>MolecularPro - Contractor Payment</title>
           <link />
         </Helmet>
         <Row>
@@ -223,7 +224,7 @@ const Contractor_Payment_Invoice = () => {
               <Col md={12} className="plf">
                 <div className="cardflex_jo">
                   <PaymentCards_1
-                    title="Pipeline construction from Lagos to Ogun State"
+                    title=""
                     payment_details={data}
                     status={true}
                   />
