@@ -59,7 +59,7 @@ const MSpreadSpecialistManagement = (props) => {
     work_order: {},
     list_of_specialist: [],
     selected_specialist: [],
-    all_specialist2:[],
+    all_specialist2: [],
     id: "",
     cycle_id: "",
     PaymentErrorMessage: false,
@@ -138,8 +138,9 @@ const MSpreadSpecialistManagement = (props) => {
         ),
       ])
       .then(
-        axios.spread((res1,res2) => {
-          console.log(res2.data);
+        axios.spread((res1, res2) => {
+          console.log(res2, "work orders specialist");
+          console.log(res1.data, "milestone specialist");
           setState({
             ...state,
             list_of_specialist: res1?.data?.data,
@@ -167,7 +168,6 @@ const MSpreadSpecialistManagement = (props) => {
     }
   }, [PaymentErrorMessage]);
 
-  console.log(spread_record, "spread_record");
   const showModal = () => {
     setModalState({
       ...modalState,
@@ -296,9 +296,13 @@ const MSpreadSpecialistManagement = (props) => {
       ...state,
       isloading: true,
     });
+    const data = {
+      specialists: [id],
+    };
     axios
-      .delete(
+      .post(
         `${API}/admin/work-orders/milestones/${props.match.params.id}/unassign-specialists`,
+        data,
         {
           headers: {
             Authorization: `Bearer ${returnAdminToken().access_token}`,
@@ -323,7 +327,6 @@ const MSpreadSpecialistManagement = (props) => {
         });
       });
   };
-  console.log(all_specialist2, "all_specialist2");
   return (
     <>
       <Modal centered={true} onHide={closeDeleteModal} show={showDelete}>
@@ -373,7 +376,7 @@ const MSpreadSpecialistManagement = (props) => {
           <DashboardNav />
         </Row>
         <Row className='dshworksectnrow1' ref={fieldRef}>
-          <Col md={11} className='job34'>
+          <Col md={12} className='job34'>
             <div className='title_wo'>
               <div className='workorderheader workorderheader1'>
                 {" "}
@@ -469,7 +472,7 @@ const MSpreadSpecialistManagement = (props) => {
                           ) : (
                             ""
                           )}
-                          { (
+                          {
                             <span
                               title='Remove Specialist'
                               className='ml-1 cursor-pointer'
@@ -478,7 +481,7 @@ const MSpreadSpecialistManagement = (props) => {
                               }}>
                               <BinIcon />
                             </span>
-                          )}
+                          }
                         </td>
                       </tr>
                     ))}
