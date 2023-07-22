@@ -124,14 +124,14 @@ const Contractorsignup = withRouter((props) => {
       .catch((err) => {
         console.log(err?.response);
         window.scrollTo(0, 0);
-        if (err?.response?.status == 406) {
+        if (err?.response?.status == 406 || err?.response?.status == 422) {
           return setState({
             ...state,
             errorMessage:
+              err?.response?.data?.message ||
               err?.response?.data?.errors?.password?.join("") ||
               err?.response?.data?.errors?.email?.join("") ||
-              err?.response?.data?.errors?.industry?.join("") ||
-              err?.response?.data?.errors?.website_url.join(""),
+              err?.response?.data?.errors?.industry?.join(""),
             successMessage: "",
           });
         }

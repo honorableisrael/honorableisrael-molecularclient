@@ -588,39 +588,40 @@ const WorkSheetAdmin = (props) => {
                                 )}
                               </b>
                             </h6>
-                            {item?.items?.map((data: any, i) => (
-                              <div>
-                                <div>Week : {data?.week} </div>
-                                <Table
-                                  hover
-                                  responsive
-                                  className='schedule_payment_table'>
-                                  <thead>
-                                    <tr>
-                                      <th scope='col'>PIPE SIZE</th>
-                                      <th scope='col'>PIPE SCHEDULE</th>
-                                      <th scope='col'>NO OF JOINTS</th>
-                                      <th scope='col'>NO OF INCHES</th>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                    {data?.pipes?.map((pipe_item: any, i) => (
-                                      <tr key={i}>
-                                        <td>{pipe_item?.pipe_size?.size}</td>
-                                        <td>
-                                          {pipe_item?.pipe_schedule?.value}
-                                        </td>
-                                        <td className='dpslstnamecell pslstnamecell schedule_payment_first_td'>
-                                          <div className='dplsplusernmeimg'>
-                                            {/* <span></span> */}
-                                            &nbsp; &nbsp;
-                                            <div>{pipe_item?.joints}</div>
-                                          </div>
-                                        </td>
-                                        <td className='contractorname'>
-                                          {pipe_item?.inches}
-                                        </td>
-                                        {/* <td>
+                            {item?.items?.length > 0 &&
+                              item?.items?.map((data: any, i) => (
+                                <div>
+                                  <div>Week : {data?.week} </div>
+                                  <Table
+                                    hover
+                                    responsive
+                                    className='schedule_payment_table'>
+                                    <thead>
+                                      <tr>
+                                        <th scope='col'>PIPE SIZE</th>
+                                        <th scope='col'>PIPE SCHEDULE</th>
+                                        <th scope='col'>NO OF JOINTS</th>
+                                        <th scope='col'>NO OF INCHES</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      {data?.pipes?.map((pipe_item: any, i) => (
+                                        <tr key={i}>
+                                          <td>{pipe_item?.pipe_size?.size}</td>
+                                          <td>
+                                            {pipe_item?.pipe_schedule?.value}
+                                          </td>
+                                          <td className='dpslstnamecell pslstnamecell schedule_payment_first_td'>
+                                            <div className='dplsplusernmeimg'>
+                                              {/* <span></span> */}
+                                              &nbsp; &nbsp;
+                                              <div>{pipe_item?.joints}</div>
+                                            </div>
+                                          </td>
+                                          <td className='contractorname'>
+                                            {pipe_item?.inches}
+                                          </td>
+                                          {/* <td>
                                       {data?.actions?.can_pay && (
                                         <Button
                                           onClick={() => openModal(pipe_item.id,data)}
@@ -630,12 +631,49 @@ const WorkSheetAdmin = (props) => {
                                         </Button>
                                       )}
                                     </td> */}
+                                        </tr>
+                                      ))}
+                                    </tbody>
+                                  </Table>
+                                </div>
+                              ))}
+                            <div>
+                              <h5 className='fw-thin text-muted'>
+                                 Summary
+                              </h5>
+                              <table className='table table-bordered'>
+                                <thead className='table-light'>
+                                  <tr>
+                                    <th>S/NO</th>
+                                    <th>Pipe Size</th>
+                                    <th>Pipe Schedule</th>
+                                    <th>Joints</th>
+                                    <th>Inches</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {item?.pipe_summary?.length > 0 &&
+                                    item?.pipe_summary?.map((pipe_item, i) => (
+                                      <tr key={i}>
+                                        <div className=''>{i++}</div>
+                                        <td>{pipe_item?.pipe_size?.size}</td>
+                                        <td>
+                                          {pipe_item?.pipe_schedule?.value}
+                                        </td>
+                                        <td className='dpslstnamecell pslstnamecell schedule_payment_first_td'>
+                                          <div className='dplsplusernmeimg'>
+                                            &nbsp; &nbsp;
+                                            <div>{pipe_item?.joints}</div>
+                                          </div>
+                                        </td>
+                                        <td className='contractorname'>
+                                          {pipe_item?.inches}
+                                        </td>
                                       </tr>
                                     ))}
-                                  </tbody>
-                                </Table>
-                              </div>
-                            ))}
+                                </tbody>
+                              </table>
+                            </div>
                             <div className=''>
                               <div className=''>
                                 <h6 className='text-uppercase text-teal'>
@@ -659,8 +697,8 @@ const WorkSheetAdmin = (props) => {
                                   Team Captain (
                                   {item?.captain?.skills?.[0]?.name}):{" "}
                                   <b className='text-dark'>
-                                    {item?.captain.first_name}{" "}
-                                    {item?.captain.last_name}
+                                    {item?.captain?.first_name}{" "}
+                                    {item?.captain?.last_name}
                                   </b>
                                 </h6>
                               </div>

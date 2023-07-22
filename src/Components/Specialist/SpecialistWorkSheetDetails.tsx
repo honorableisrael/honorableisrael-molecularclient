@@ -25,13 +25,18 @@ import dwnload from "../../images/dwnload.png";
 import WorkDetails_Form_Preview from "./workdetailsform";
 import { NavHashLink } from "react-router-hash-link";
 import axios, { AxiosResponse } from "axios";
-import { API, formatTime } from "../../config";
+import {
+  API,
+  calculateTotalAmount,
+  calculateTotalJoint,
+  formatTime,
+} from "../../config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Payments from "./payments";
 import closeimg from "../../images/closeimg.png";
 
-const SpecialistWorkSheetPage = (props) => {
+const SpecialistWorkSheetDetailsPage = (props) => {
   const [state, setState]: any = useState({
     work_order_detail: {},
     work_orders: [],
@@ -68,11 +73,12 @@ const SpecialistWorkSheetPage = (props) => {
     joints: "",
     size_value: "",
     pipe_schedule_name: "",
+    worksheet_details: {},
     edit_worksheet_modal: false,
   });
   const {
     work_group,
-    spread_name,
+    worksheet_details,
     edit_worksheet_modal,
     date,
     worksheet_reports,
@@ -134,23 +140,31 @@ const SpecialistWorkSheetPage = (props) => {
         axios.get<any, AxiosResponse<any>>(`${API}/pipe-sizes`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }),
+        axios.get<any, AxiosResponse<any>>(
+          `${API}/specialist/work-orders/worksheets/${props.match.params.id}`,
+          {
+            headers: { Authorization: `Bearer ${token.access_token}` },
+          }
+        ),
       ])
-
       .then(
-        axios.spread((res, res2, response, response2, response3, response4) => {
-          console.log(res.data.data);
-          setState({
-            ...state,
-            ...res.data.data,
-            work_order_detail: res.data.data,
-            work_group: res.data.data.work_group,
-            worksheet_reports: res2.data.data.data,
-            types_of_Specialist: response.data.data,
-            pipeList: response2.data.data,
-            pipe_schedules: response3.data.data,
-            pipeSizes: response4.data.data,
-          });
-        })
+        axios.spread(
+          (res, res2, response, response2, response3, response4, res5) => {
+            console.log(res5.data.data, "res5 worksheetdata");
+            setState({
+              ...state,
+              ...res.data.data,
+              work_order_detail: res.data.data,
+              work_group: res.data.data.work_group,
+              worksheet_reports: res2.data.data.data,
+              types_of_Specialist: response.data.data,
+              pipeList: response2.data.data,
+              pipe_schedules: response3.data.data,
+              pipeSizes: response4.data.data,
+              worksheet_details: res5.data.data,
+            });
+          }
+        )
       )
       .catch((err) => {
         console.log(err.response);
@@ -689,11 +703,11 @@ const SpecialistWorkSheetPage = (props) => {
                   {" "}
                   <img src={arrowback} className='arrowback' />
                 </span>{" "}
-                Work Details
+                WorkSheet Details
               </div>
             </div>
             <Row className='splstdetcardmgtop'>
-              <Col md={2} className='splwkcddetalnav'>
+              {/* <Col md={2} className='splwkcddetalnav'>
                 <p className='exp23'>
                   <img src={portfolio} alt='portfolio' className='portfolioq' />
                 </p>
@@ -718,191 +732,204 @@ const SpecialistWorkSheetPage = (props) => {
                   activeStyle={{ background: "#fd8b003b", color: "#fd8c00" }}>
                   Payments
                 </NavHashLink>
-              </Col>
-              <Col md={9} className='job23_1a_splst'>
+              </Col> */}
+              <Col md={12} className=''>
                 <div className='job23_1a'>
                   <div className='job23_1a wrap_z'>
                     <div className='active_member23'>
-                      <h5 className='ml-4'> WORKS SHEETS</h5>
-                      {worksheet_reports?.map((item, i) => (
-                        <div
-                          className='accordion accordion-flush'
-                          id={`accordionFlushExample+${i}`}>
+                      <div className='container my-4'>
+                        <br className='mt-5' />
+                        <h3 className='fs-3 my-3'>
+                          Worksheet - {worksheet_details?.reference}{" "}
+                        </h3>
+                        <div className='accordion' id='accordionParent'>
                           <div className='accordion-item'>
-                            <h2
-                              className='accordion-header'
-                              id='flush-headingOne'>
+                            <h2 className='accordion-header' id='headingOne'>
                               <button
-                                className='accordion-button collapsed'
+                                className='accordion-button bg-success text-white'
                                 type='button'
                                 data-bs-toggle='collapse'
-                                data-bs-target='#flush-collapseOne'
-                                aria-expanded='true'
-                                aria-controls='flush-collapseOne'>
-                                <b>{item?.group?.name}</b>{" "}
-                                {item?.sent ? (
-                                  <span className='badge badge-success ml-2'>
-                                    Sent
-                                  </span>
-                                ) : (
-                                  <span className='badge badge-warning  ml-2'>
-                                    Not Sent
-                                  </span>
-                                )}
+                                data-bs-target='#collapseOne'>
+                                Week {worksheet_details?.week}
                               </button>
                             </h2>
-                            <h6 className='text-bold pl-4 pt-3'>
-                              <b> REF : {item?.reference} </b>
-                              <div className='pt-2'>
-                                {" "}
-                                from : <b>
-                                  {" "}
-                                  {formatTime(item?.start_date)}{" "}
-                                </b>{" "}
-                                to: <b> {formatTime(item?.end_date)}</b>
-                              </div>
-                            </h6>
                             <div
-                              id='flush-collapseOne'
+                              id='collapseOne'
                               className='accordion-collapse collapse show'
-                              aria-labelledby='flush-headingOne'
-                              data-bs-parent={`#accordionFlushExample+${i}`}>
+                              data-bs-parent='#accordionParent'>
                               <div className='accordion-body'>
-                                <Table hover responsive>
-                                  <thead>
-                                    <tr>
-                                      <th scope='col'>SN</th>
-                                      <th scope='col'>PIPE SIZE</th>
-                                      <th scope='col'>PIPE SCHEDULE</th>
-                                      <th scope='col'>NO OF JOINTS</th>
-                                      <th scope='col'>NO OF INCHES</th>
-                                      <th scope='col'>ACTION</th>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                    {item?.items?.map((data, i) => (
-                                      <tr key={i}>
-                                        <td>{i + 1}</td>
-                                        <td>{data?.pipe_size?.size}</td>
-                                        <td>{data?.pipe_schedule?.value}</td>
-                                        <td className='dpslstnamecell pslstnamecell schedule_payment_first_td'>
-                                          <div className='dplsplusernmeimg'>
-                                            {/* <span></span> */}
-                                            &nbsp; &nbsp;
-                                            <div>{data?.joints}</div>
-                                          </div>
-                                        </td>
-                                        <td className='contractorname'>
-                                          {data?.inches}
-                                        </td>
-                                        <td className='contractorname'>
-                                          <span
-                                            className='mr-1 ml-2 cursor-pointer'
-                                            title='Edit'
-                                            onClick={() => {
-                                              setState({
-                                                ...state,
-                                                edit_worksheet_modal: true,
-                                                edit_item_id: data?.id,
-                                                no_of_joints: data?.joints,
-                                                pipe_schedule:
-                                                  data?.pipe_schedule?.id,
-                                                pipe_schedule_name:
-                                                  data?.pipe_schedule?.value,
-                                                pipe_size:
-                                                  data?.pipe_size?.size,
-                                                size: data?.pipe_size?.id,
-                                                size_value:
-                                                  data?.pipe_size?.size,
-                                              });
-                                            }}>
-                                            <svg
-                                              xmlns='http://www.w3.org/2000/svg'
-                                              width='16'
-                                              height='16'
-                                              fill='currentColor'
-                                              className='bi bi-pencil'
-                                              viewBox='0 0 16 16'>
-                                              <path d='M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z' />
-                                            </svg>
-                                          </span>
-                                          <span
-                                            className='cursor-pointer'
-                                            onClick={() => {
-                                              setState({
-                                                ...state,
-                                                show: true,
-                                                edit_item_id: data?.id,
-                                              });
-                                            }}
-                                            title='Delete'>
-                                            <svg
-                                              xmlns='http://www.w3.org/2000/svg'
-                                              width='16'
-                                              height='16'
-                                              fill='currentColor'
-                                              className='bi bi-trash'
-                                              viewBox='0 0 16 16'>
-                                              <path d='M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z' />
-                                              <path
-                                                fill-rule='evenodd'
-                                                d='M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z'
-                                              />
-                                            </svg>
-                                          </span>
-                                        </td>
-                                      </tr>
-                                    ))}
-                                  </tbody>
-                                </Table>
-                                <h6 className='text-uppercase text-right text-teal mr-3'>
-                                  {" "}
-                                  Total No. of Joints :{" "}
-                                  <b className='text-dark'>
-                                    {item?.total_joints}
-                                  </b>
-                                </h6>
-                                <h6 className='text-uppercase text-right text-teal mr-3'>
-                                  {" "}
-                                  Total No. of Inches :{" "}
-                                  <b className='text-dark'>
-                                    {item?.total_inches}
-                                  </b>
-                                </h6>
-                                {!item?.sent && (
-                                  <div className=' text-center mt-2'>
-                                    <Button
-                                      className='payspecialist1'
-                                      onClick={() => {
-                                        setState({
-                                          ...state,
-                                          add_worksheet_modal: true,
-                                          id: item?.id,
-                                        });
-                                      }}>
-                                      Add worksheet data
-                                    </Button>
-                                    <Button
-                                      className='payspecialist1 ml-1'
-                                      onClick={() => {
-                                        setState({
-                                          ...state,
-                                          show1: true,
-                                          id: item?.id,
-                                        });
-                                      }}>
-                                      Submit Spread
-                                    </Button>
+                                <div className='my-3 p-1'>
+                                  <div className='row'>
+                                    <div className='col-md-3'>
+                                      <h6 className='fw-normal'>Start Date</h6>
+                                      <h5 className='fw-bold'>
+                                        {formatTime(
+                                          worksheet_details?.start_date
+                                        )}
+                                      </h5>
+                                    </div>
+                                    <div className='col-md-3'>
+                                      <h6 className='fw-normal'>End Date</h6>
+                                      <h5 className='fw-bold'>
+                                        {formatTime(
+                                          worksheet_details?.end_date
+                                        )}
+                                      </h5>
+                                    </div>
+                                    <div className='col-md-3'>
+                                      <h6 className='fw-normal'>Status</h6>
+                                      <h5 className='fw-bold text-info'>
+                                        {worksheet_details?.status}
+                                      </h5>
+                                    </div>
                                   </div>
-                                )}
+                                </div>
+                                <div className='table-responsive'>
+                                  <table className='table table-bordered w-100 nowrap'>
+                                    <thead className='table-light'>
+                                      <tr>
+                                        <th>S/N</th>
+                                        <th>Pipe Size</th>
+                                        <th>Pipe Schedule</th>
+                                        <th>No. of Joints</th>
+                                        <th>No. of Inches</th>
+                                        <th>Action</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      {worksheet_details?.pipes?.map(
+                                        (pipe, i) => (
+                                          <tr>
+                                            <div className=''>{i++}</div>
+                                            <td>{pipe?.pipe_size?.size}</td>
+                                            <td>
+                                              {pipe?.pipe_schedule?.value}
+                                            </td>
+                                            <td className='dpslstnamecell pslstnamecell schedule_payment_first_td'>
+                                              <div className='dplsplusernmeimg'>
+                                                &nbsp; &nbsp;
+                                                <div>{pipe?.joints}</div>
+                                              </div>
+                                            </td>
+                                            <td className='contractorname'>
+                                              {pipe?.inches}
+                                            </td>
+                                            <td className='contractorname'>
+                                              <span
+                                                className='mr-1 ml-2 cursor-pointer'
+                                                title='Edit'
+                                                onClick={() => {
+                                                  setState({
+                                                    ...state,
+                                                    edit_worksheet_modal: true,
+                                                    edit_item_id: pipe?.id,
+                                                    no_of_joints: pipe?.joints,
+                                                    pipe_schedule:
+                                                    pipe?.pipe_schedule?.id,
+                                                    pipe_schedule_name:
+                                                    pipe?.pipe_schedule
+                                                        ?.value,
+                                                    pipe_size:
+                                                    pipe?.pipe_size?.size,
+                                                    size: pipe?.pipe_size?.id,
+                                                    size_value:
+                                                    pipe?.pipe_size?.size,
+                                                  });
+                                                }}>
+                                                <svg
+                                                  xmlns='http://www.w3.org/2000/svg'
+                                                  width='16'
+                                                  height='16'
+                                                  fill='currentColor'
+                                                  className='bi bi-pencil'
+                                                  viewBox='0 0 16 16'>
+                                                  <path d='M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z' />
+                                                </svg>
+                                              </span>
+                                              <span
+                                                className='cursor-pointer'
+                                                onClick={() => {
+                                                  setState({
+                                                    ...state,
+                                                    show: true,
+                                                    edit_item_id: pipe?.id,
+                                                  });
+                                                }}
+                                                title='Delete'>
+                                                <svg
+                                                  xmlns='http://www.w3.org/2000/svg'
+                                                  width='16'
+                                                  height='16'
+                                                  fill='currentColor'
+                                                  className='bi bi-trash'
+                                                  viewBox='0 0 16 16'>
+                                                  <path d='M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z' />
+                                                  <path
+                                                    fill-rule='evenodd'
+                                                    d='M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z'
+                                                  />
+                                                </svg>
+                                              </span>
+                                            </td>
+                                          </tr>
+                                        )
+                                      )}
+                                      <tr>
+                                        <td
+                                          colSpan={3}
+                                          className='text-end fw-bold'>
+                                          Total
+                                        </td>
+                                        <td colSpan={1} className='fw-bold'>
+                                          {calculateTotalJoint(
+                                            worksheet_details?.pipes,
+                                            "joints"
+                                          )}
+                                        </td>
+                                        <td colSpan={1} className='fw-bold'>
+                                          {calculateTotalAmount(
+                                            worksheet_details?.pipes,
+                                            "inches"
+                                          )}
+                                        </td>
+                                        <td></td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                  {!worksheet_details?.sent && (
+                                    <div className=' text-right mt-2'>
+                                      <Button
+                                        className='payspecialist1'
+                                        onClick={() => {
+                                          setState({
+                                            ...state,
+                                            add_worksheet_modal: true,
+                                            id: worksheet_details?.id,
+                                          });
+                                        }}>
+                                        Add worksheet data
+                                      </Button>
+                                      <Button
+                                        className='payspecialist1 ml-1'
+                                        onClick={() => {
+                                          setState({
+                                            ...state,
+                                            show1: true,
+                                            id: worksheet_details?.id,
+                                          });
+                                        }}>
+                                        Submit Spread
+                                      </Button>
+                                    </div>
+                                  )}
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
-                      ))}
+                      </div>
                     </div>
-                  </div>
-                  {/* <h6 className="title22 title22r2" id="actions">
+                    {/* <h6 className="title22 title22r2" id="actions">
                     Actions
                   </h6>
                   <div className="job23_1a wrap_z">
@@ -924,6 +951,7 @@ const SpecialistWorkSheetPage = (props) => {
                       </div>
                     </div>
                   </div> */}
+                  </div>
                 </div>
               </Col>
             </Row>
@@ -934,4 +962,4 @@ const SpecialistWorkSheetPage = (props) => {
   );
 };
 
-export default SpecialistWorkSheetPage;
+export default SpecialistWorkSheetDetailsPage;

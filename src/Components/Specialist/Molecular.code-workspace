@@ -1,0 +1,23 @@
+{
+	"folders": [
+		{
+			"path": "../../../.."
+		},
+		{
+			"path": "../../../../../Simple UI"
+		},
+		{
+			"path": "../../../../../Portfolio"
+		},
+		{
+			"path": "../../../../../Javascript Features"
+		},
+		{
+			"path": "../../../../../JS"
+		},
+		{
+			"path": "../../../../../ToptutorsFrontend"
+		}
+	],
+	"settings": {}
+}

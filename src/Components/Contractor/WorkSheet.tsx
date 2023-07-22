@@ -329,7 +329,9 @@ const WorkSheetContactor = (props) => {
                         <div className=''>
                           <div className='boxwrapper__1'>
                             <div className='lcomponent'>
-                              <div className='inv_title'>REF : {work_sheet?.reference} </div>
+                              <div className='inv_title'>
+                                REF : {work_sheet?.reference}{" "}
+                              </div>
                               <div className='inv_title2'></div>
                             </div>
                           </div>
@@ -380,13 +382,14 @@ const WorkSheetContactor = (props) => {
                           </div>
                         </div>
                         <div className=''></div>
-                        {work_sheet?.items?.map((item: any, i) => (
+                        {work_sheet?.spreads?.map((item: any, i) => (
                           <div className='deployedsplsttable'>
                             <h6 className='text-uppercase text-teal'>
                               {" "}
                               <b>
                                 {" "}
-                                {item?.group?.name} WORK DETAILS{" "}
+                                {item?.group?.name}
+                                {item?.spread?.name}{" "}
                                 {item?.sent ? (
                                   <span className='badge badge-info'>
                                     Completed
@@ -398,48 +401,83 @@ const WorkSheetContactor = (props) => {
                                 )}
                               </b>
                             </h6>
-
-                            <Table
-                              hover
-                              responsive
-                              className='schedule_payment_table'>
-                              <thead>
-                                <tr>
-                                  <th scope='col'>PIPE SIZE</th>
-                                  <th scope='col'>PIPE SCHEDULE</th>
-                                  <th scope='col'>NO OF JOINTS</th>
-                                  <th scope='col'>NO OF INCHES</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {item?.items?.map((data: any, i) => (
-                                  <tr key={i}>
-                                    <td>{data?.pipe_size?.size}</td>
-                                    <td>{data?.pipe_schedule?.value}</td>
-                                    <td className='dpslstnamecell pslstnamecell schedule_payment_first_td'>
-                                      <div className='dplsplusernmeimg'>
-                                        {/* <span></span> */}
-                                        &nbsp; &nbsp;
-                                        <div>{data?.joints}</div>
-                                      </div>
-                                    </td>
-                                    <td className='contractorname'>
-                                      {data?.inches}
-                                    </td>
-                                    {/* <td>
-                                      {data?.actions?.can_pay && (
-                                        <Button
-                                          onClick={() => openModal(data.id,data)}
-                                          className="payspecialist1"
-                                        >
-                                          Process
-                                        </Button>
-                                      )}
-                                    </td> */}
+                            {/* {item?.items?.length > 0 &&
+                              item?.items?.map((data: any, i) => (
+                                <div>
+                                  <div>Week : {data?.week} </div>
+                                  <Table
+                                    hover
+                                    responsive
+                                    className='schedule_payment_table'>
+                                    <thead>
+                                      <tr>
+                                        <th scope='col'>PIPE SIZE</th>
+                                        <th scope='col'>PIPE SCHEDULE</th>
+                                        <th scope='col'>NO OF JOINTS</th>
+                                        <th scope='col'>NO OF INCHES</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      {data?.pipes?.map((pipe_item: any, i) => (
+                                        <tr key={i}>
+                                          <td>{pipe_item?.pipe_size?.size}</td>
+                                          <td>
+                                            {pipe_item?.pipe_schedule?.value}
+                                          </td>
+                                          <td className='dpslstnamecell pslstnamecell schedule_payment_first_td'>
+                                            <div className='dplsplusernmeimg'>
+                                              &nbsp; &nbsp;
+                                              <div>{pipe_item?.joints}</div>
+                                            </div>
+                                          </td>
+                                          <td className='contractorname'>
+                                            {pipe_item?.inches}
+                                          </td>
+                                        </tr>
+                                      ))}
+                                    </tbody>
+                                  </Table>
+                                </div>
+                              ))} */}
+                            <div>
+                              <h5 className='fw-thin text-muted'>
+                                Summary
+                              </h5>
+                              <table className='table table-bordered'>
+                                <thead className='table-light'>
+                                  <tr>
+                                    <th>S/NO</th>
+                                    <th>Pipe Size</th>
+                                    <th>Pipe Schedule</th>
+                                    <th>Joints</th>
+                                    <th>Inches</th>
                                   </tr>
-                                ))}
-                              </tbody>
-                            </Table>
+                                </thead>
+                                <tbody>
+                                  {item?.pipe_summary?.length > 0 &&
+                                    item?.pipe_summary?.map((pipe_item, i) => (
+                                      <tr key={i}>
+                                        <div className="">
+                                          {i=i+1}
+                                        </div>
+                                        <td>{pipe_item?.pipe_size?.size}</td>
+                                        <td>
+                                          {pipe_item?.pipe_schedule?.value}
+                                        </td>
+                                        <td className='dpslstnamecell pslstnamecell schedule_payment_first_td'>
+                                          <div className='dplsplusernmeimg'>
+                                            &nbsp; &nbsp;
+                                            <div>{pipe_item?.joints}</div>
+                                          </div>
+                                        </td>
+                                        <td className='contractorname'>
+                                          {pipe_item?.inches}
+                                        </td>
+                                      </tr>
+                                    ))}
+                                </tbody>
+                              </table>
+                            </div>
                             <div className=''>
                               <div className=''>
                                 <h6 className='text-uppercase text-teal'>
@@ -481,6 +519,35 @@ const WorkSheetContactor = (props) => {
                               </h6>
                             </div> */}
                           </div>
+                        </div>
+
+                        <div className='deployedsplsttable'>
+                          <h6 className='text-uppercase text-teal'>
+                            {" "}
+                            <b> APPROVAL</b>
+                          </h6>
+                          <Table
+                            hover
+                            responsive
+                            className='schedule_payment_table'>
+                            <thead>
+                              <tr>
+                                <th className='w-50 pl-2 text-uppercase'>
+                                  {work_order_detail?.contractor}
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>
+                                  NAME: <b> {work_sheet?.approver?.name}</b>{" "}
+                                  <br />
+                                  <br />
+                                  DATE: {formatTime(work_sheet?.approved_at)}
+                                </td>
+                              </tr>
+                            </tbody>
+                          </Table>
                         </div>
                       </Col>
                     </div>

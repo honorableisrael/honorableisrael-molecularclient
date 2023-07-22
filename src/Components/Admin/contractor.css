@@ -3532,3 +3532,14 @@ label i {
   cursor: not-allowed;
   opacity: .3;
 }
+
+.top12{
+  top:12rem
+}
+
+.viewinfo{
+  display: inline-block;
+  margin: auto;
+  position: relative;
+  top: .3rem;
+}

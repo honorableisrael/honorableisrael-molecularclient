@@ -70,7 +70,7 @@ const SignUp = withRouter((props: any) => {
           setState({
             ...state,
             successMessage:
-              "Thanks for signing up on molecular platform! We are currently reviewing your application and will get back to you shortly.",
+              "Thanks for signing up on MolecularPro website! We are currently reviewing your application and will get back to you shortly.",
             isLoading: false,
           });
         }
@@ -78,7 +78,7 @@ const SignUp = withRouter((props: any) => {
       .catch((err) => {
         console.log(err?.response);
         window.scrollTo(-0, -0);
-        if (err?.response?.status == 406) {
+        if (err?.response?.status == 406 || err?.response?.status == 422) {
           return setState({
             ...state,
             errorMessage: err?.response?.data?.errors?.email?.join(""),
