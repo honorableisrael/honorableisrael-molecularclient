@@ -693,82 +693,47 @@ const SpecialistWorkSheetPage = (props) => {
               </div>
             </div>
             <Row className='splstdetcardmgtop'>
-              <Col md={2} className='splwkcddetalnav'>
-                <p className='exp23'>
-                  <img src={portfolio} alt='portfolio' className='portfolioq' />
-                </p>
-                <NavHashLink
-                  className='bview'
-                  to='/specialistWorkOrderDetails'
-                  activeStyle={{
-                    backgroundColor: "#fd8b003b",
-                    color: "#fd8c00",
-                  }}>
-                  Over View
-                </NavHashLink>
-                <NavHashLink
-                  className='bview'
-                  to='#specialist_details'
-                  activeStyle={{ background: "#fd8b003b", color: "#fd8c00" }}>
-                  Work Sheets
-                </NavHashLink>
-                <NavHashLink
-                  className='bview'
-                  to='/specialistWorkOrderDetails'
-                  activeStyle={{ background: "#fd8b003b", color: "#fd8c00" }}>
-                  Payments
-                </NavHashLink>
-              </Col>
-              <Col md={9} className='job23_1a_splst'>
+              <Col md={12} className=''>
                 <div className='job23_1a'>
-                  <div className='job23_1a wrap_z'>
+                  <div className='job23_1a wrap_z p-5'>
                     <div className='active_member23'>
-                      <h5 className='ml-4'> WORKS SHEETS</h5>
+                      <h3 className="fs-3 mb-4">Invoice Worksheets</h3>
+                      <div className="table-responsive">
+                        <table className="table table-bordered w-100 nowrap">
+                          <thead className="table-light">
+                            <tr>
+                              <th>Start Date</th>
+                              <th>End Date</th>
+                              <th>Status</th>
+                              <th>Reference</th>
+                              <th>Action</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                          {worksheet_reports?.map((item, i) => (
+                            <tr>
+                              <td>{formatTime(item?.start_date)}</td>
+                              <td>{formatTime(item?.end_date)}</td>
+                              <td>{item?.status=="Pending"?<span className="badge bg-warning">Pending</span>:<span className="badge bg-success">Completed</span>}</td>
+                              <td>{item?.reference}</td>
+                              <td><Link to={`/specialist_worksheet_details/${item.id}`}>view</Link></td>
+                            </tr>
+                          ))}
+                          </tbody>
+                        </table>
+                      </div>
                       {worksheet_reports?.map((item, i) => (
                         <div
                           className='accordion accordion-flush'
                           id={`accordionFlushExample+${i}`}>
                           <div className='accordion-item'>
-                            <h2
-                              className='accordion-header'
-                              id='flush-headingOne'>
-                              <button
-                                className='accordion-button collapsed'
-                                type='button'
-                                data-bs-toggle='collapse'
-                                data-bs-target='#flush-collapseOne'
-                                aria-expanded='true'
-                                aria-controls='flush-collapseOne'>
-                                <b>{item?.group?.name}</b>{" "}
-                                {item?.sent ? (
-                                  <span className='badge badge-success ml-2'>
-                                    Sent
-                                  </span>
-                                ) : (
-                                  <span className='badge badge-warning  ml-2'>
-                                    Not Sent
-                                  </span>
-                                )}
-                              </button>
-                            </h2>
-                            <h6 className='text-bold pl-4 pt-3'>
-                              <b> REF : {item?.reference} </b>
-                              <div className='pt-2'>
-                                {" "}
-                                from : <b>
-                                  {" "}
-                                  {formatTime(item?.start_date)}{" "}
-                                </b>{" "}
-                                to: <b> {formatTime(item?.end_date)}</b>
-                              </div>
-                            </h6>
                             <div
                               id='flush-collapseOne'
                               className='accordion-collapse collapse show'
                               aria-labelledby='flush-headingOne'
                               data-bs-parent={`#accordionFlushExample+${i}`}>
                               <div className='accordion-body'>
-                                <Table hover responsive>
+                                {/* <Table hover responsive>
                                   <thead>
                                     <tr>
                                       <th scope='col'>SN</th>
@@ -787,7 +752,6 @@ const SpecialistWorkSheetPage = (props) => {
                                         <td>{data?.pipe_schedule?.value}</td>
                                         <td className='dpslstnamecell pslstnamecell schedule_payment_first_td'>
                                           <div className='dplsplusernmeimg'>
-                                            {/* <span></span> */}
                                             &nbsp; &nbsp;
                                             <div>{data?.joints}</div>
                                           </div>
@@ -854,47 +818,7 @@ const SpecialistWorkSheetPage = (props) => {
                                       </tr>
                                     ))}
                                   </tbody>
-                                </Table>
-                                <h6 className='text-uppercase text-right text-teal mr-3'>
-                                  {" "}
-                                  Total No. of Joints :{" "}
-                                  <b className='text-dark'>
-                                    {item?.total_joints}
-                                  </b>
-                                </h6>
-                                <h6 className='text-uppercase text-right text-teal mr-3'>
-                                  {" "}
-                                  Total No. of Inches :{" "}
-                                  <b className='text-dark'>
-                                    {item?.total_inches}
-                                  </b>
-                                </h6>
-                                {!item?.sent && (
-                                  <div className=' text-center mt-2'>
-                                    <Button
-                                      className='payspecialist1'
-                                      onClick={() => {
-                                        setState({
-                                          ...state,
-                                          add_worksheet_modal: true,
-                                          id: item?.id,
-                                        });
-                                      }}>
-                                      Add worksheet data
-                                    </Button>
-                                    <Button
-                                      className='payspecialist1 ml-1'
-                                      onClick={() => {
-                                        setState({
-                                          ...state,
-                                          show1: true,
-                                          id: item?.id,
-                                        });
-                                      }}>
-                                      Submit Spread
-                                    </Button>
-                                  </div>
-                                )}
+                                </Table> */}
                               </div>
                             </div>
                           </div>

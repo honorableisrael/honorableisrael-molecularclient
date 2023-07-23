@@ -3461,8 +3461,17 @@ label i {
   border-bottom: 1px solid #9c9898b7 !important;
   padding-left: 0.3rem !important;
   max-width: 180px;
-  overflow: hidden;
+  overflow-x: hidden !important;
   text-overflow: ellipsis;
+}
+.dropdown-toggle::after{
+  content: initial !important;
+  cursor: pointer;
+}
+
+.schedule_payment_table .table_data {
+  overflow:initial !important;
+  width: 250px;
 }
 
 .schedule_payment_table .schedule_payment_first_td {
@@ -3531,4 +3540,26 @@ label i {
 .not-allowed{
   cursor: not-allowed;
   opacity: .3;
+}
+
+.top12{
+  top:12rem
+}
+
+.viewinfo{
+  display: inline-block;
+  margin: auto;
+  position: relative;
+  top: .3rem;
+}
+.table-responsive{
+  padding-bottom: 8rem;
+}
+.dropdown-item{
+  padding: 10px 1rem !important;
+  width: fit-content;
+  width: 96% !important;
+}
+.css-13cymwt-control{
+  height: 52px;
 }

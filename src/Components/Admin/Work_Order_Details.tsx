@@ -829,7 +829,7 @@ const Early_MileStone_Payment_Request = ({ work_order_detail }: any) => {
               <span className='deplyeaggrgt'>
                 Early MileStone Payment Request{" "}
                 <span className='badge badge-warning ml-3'>
-                  {work_order_detail?.pending_milestone_payments_count}
+                  {work_order_detail?.pending_milestone_payments_count??""}
                   {work_order_detail?.pending_milestone_payments_count && " new"}
                 </span>
               </span>
@@ -1969,9 +1969,9 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
             </div>
 
             <Row className='mgtop'>
-              <Col md={2} className='job23_ mheight_'>
-                <p className='exp23'>
-                  <img src={portfolio} alt='portfolio' className='portfolioq' />
+              <Col md={2} className='job23_ mheight_ top12 '>
+                <p className=''>
+                  <img src={portfolio} alt='portfolio' width={30} className='portfolioq m-auto' />
                 </p>
 
                 <p className='bview'>
@@ -1995,7 +1995,9 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                 <p className='bview inactive_bv'>
                   <NavHashLink to='#actioninvoice'>Invoice</NavHashLink>
                 </p>
-
+                <p className='bview inactive_bv'>
+                  <NavHashLink to={`/admin_milestone_management/${props.match.params.id}`}>Milestone</NavHashLink>
+                </p>
                 {/* <p className="bview inactive_bv">
                   <a href="#actions">Actions</a>
                 </p> */}

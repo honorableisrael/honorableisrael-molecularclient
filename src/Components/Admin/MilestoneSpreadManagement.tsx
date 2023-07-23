@@ -412,7 +412,7 @@ const MilestoneSpreadManagement = (props) => {
                         <td>{data?.name}</td>
                         <td>{data?.description}</td>
 
-                        <td>
+                        <td className="table_data">
                           {data?.actions.can_edit ? (
                             <span
                               title='Edit Invoice'
@@ -437,14 +437,14 @@ const MilestoneSpreadManagement = (props) => {
                           ) : (
                             ""
                           )}
-                          <span
+                          {/* <span
                             className='viewinfo'
                             title='View Spread Information'>
                             <Link
                               to={`/admin_milestone_manage_specialist/${data?.milestone_id}`}>
                               <ViewIcon />
                             </Link>
-                          </span>
+                          </span> */}
                         </td>
                       </tr>
                     ))}

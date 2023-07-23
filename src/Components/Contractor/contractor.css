@@ -325,6 +325,10 @@ text {
   .job34 {
     padding-left: 0.8rem !important;
   }
+  .namestyle{
+    min-width: 80px;
+    margin-bottom: 2.1rem;
+  }
 }
 .job31 {
   border: 1px solid #fd8c00;
@@ -1188,6 +1192,15 @@ text {
   }
   .intab {
     padding-left: 1rem !important;
+  }
+  .title_wo div{
+    min-width: 200px;
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+  }
+  .portfolio2{
+    height: initial !important;
+    object-fit: contain;
   }
 }
 @media (max-width: 498px) {

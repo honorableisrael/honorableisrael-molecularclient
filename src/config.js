@@ -144,9 +144,9 @@ export const capitalizeFirstLetter = (sentence) => {
   return sentence.charAt(0).toUpperCase() + sentence.slice(1);
 };
 
-export const calculateTotalAmount = (objects) => {
-  return objects.reduce((totalAmount, obj) => totalAmount + obj?.amount, 0);
+export const calculateTotalAmount = (arr,item="amount") => {
+  return arr?.reduce((totalAmount, obj) => totalAmount + obj?.[item] || 0, 0);
 };
-export const calculateTotalJoint = (objects) => {
-  return objects.reduce((totalAmount, obj) => totalAmount + obj?.joints, 0);
+export const calculateTotalJoint = (arr,item="joints") => {
+  return arr?.reduce((totalAmount, obj) => totalAmount + obj?.[item] || 0, 0);
 };

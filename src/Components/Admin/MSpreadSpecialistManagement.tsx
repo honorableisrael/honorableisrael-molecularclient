@@ -37,6 +37,7 @@ import { BinIcon } from "./Shared/BinIcon";
 import makeAnimated from "react-select/animated";
 import Select from "react-select";
 import SuiSelect from "./Shared/SuiSelect";
+import { Toggler } from "./Shared/Toggler";
 const animatedComponents = makeAnimated();
 
 const MSpreadSpecialistManagement = (props) => {
@@ -59,18 +60,21 @@ const MSpreadSpecialistManagement = (props) => {
     work_order: {},
     list_of_specialist: [],
     selected_specialist: [],
+    specialist: '',
+    all_specialist2: [],
     id: "",
-    cycle_id: "",
+    specialist_work_rate: "",
     PaymentErrorMessage: false,
     max_requested_amount: "",
-    rate: 0.7,
+    replacement: "",
   });
   const [modalState, setModalState] = useState({
     show: false,
     show2: false,
     showDelete: false,
+    substitute_show: false,
   });
-  const { show, show2, showDelete } = modalState;
+  const { show, show2, showDelete, substitute_show } = modalState;
   const {
     work_order,
     work_order_detail,
@@ -79,33 +83,22 @@ const MSpreadSpecialistManagement = (props) => {
     PaymentErrorMessage,
     list_of_specialist,
     selected_specialist,
-    invoice_details,
-    requested_amount,
-    terminateWorkModal,
+    all_specialist2,
+    specialist,
     max_requested_amount,
     successMessage,
     isloading,
-    cycle_id,
-    description,
+    specialist_work_rate,
+    replacement,
     name,
     id,
   }: any = state;
-  const workModal = (id, amount) => {
-    console.log(id);
-    setState({
-      ...state,
-      cycle_id: id,
-      max_requested_amount: amount,
-      requested_amount: amount,
-      // requested_amount: (rate * amount)?.toFixed(2),
-      terminateWorkModal: true,
-    });
-  };
   const onchange = (e) => {
     console.log(e.target.value);
     setState({
       ...state,
       [e.target.name]: e.target.value,
+      errorMessage: ""
     });
   };
   const closeDeleteModal = () => {
@@ -127,13 +120,21 @@ const MSpreadSpecialistManagement = (props) => {
             },
           }
         ),
+        axios.get(
+          `${API}/admin/work-orders/${props?.match?.params?.work_order_id}/specialists?paginate=0`,
+          {
+            headers: {
+              Authorization: `Bearer ${returnAdminToken().access_token}`,
+            },
+          }
+        ),
       ])
       .then(
-        axios.spread((res1) => {
-          console.log(res1.data);
+        axios.spread((res1, res2) => {
           setState({
             ...state,
             list_of_specialist: res1?.data?.data,
+            all_specialist2: res2?.data?.data,
           });
         })
       )
@@ -157,7 +158,6 @@ const MSpreadSpecialistManagement = (props) => {
     }
   }, [PaymentErrorMessage]);
 
-  console.log(spread_record, "spread_record");
   const showModal = () => {
     setModalState({
       ...modalState,
@@ -180,6 +180,14 @@ const MSpreadSpecialistManagement = (props) => {
       show2: false,
     });
   };
+  const hideModalSub = () => {
+    setModalState({
+      ...modalState,
+      show: false,
+      substitute_show: false,
+    });
+  };
+
   const showModal2 = (selectedMilestone) => {
     setModalState({
       ...modalState,
@@ -203,7 +211,17 @@ const MSpreadSpecialistManagement = (props) => {
       ...selectedMilestone,
     });
   };
-
+  const showModalSub = (selectedMilestone) => {
+    setModalState({
+      ...modalState,
+      show: false,
+      substitute_show: true,
+    });
+    setState({
+      ...state,
+      ...selectedMilestone,
+    });
+  };
   // const hideModal2 = (selectedMilestone) => {
   //   setModalState({
   //     ...modalState,
@@ -248,17 +266,18 @@ const MSpreadSpecialistManagement = (props) => {
         });
       });
   };
-  const UpdateSpread = () => {
+  const SubstituteSpecialist = () => {
     setState({
       ...state,
       isloading: true,
     });
     const data = {
-      name,
-      description,
+      specialist: specialist?.id,
+      specialist_work_rate,
+      replacement
     };
     axios
-      .put(`${API}/admin/work-orders/milestones/spreads/${id}`, data, {
+      .post(`${API}/admin/work-orders/milestones/${id}/substitute-specialist`, data, {
         headers: {
           Authorization: `Bearer ${returnAdminToken().access_token}`,
         },
@@ -286,9 +305,13 @@ const MSpreadSpecialistManagement = (props) => {
       ...state,
       isloading: true,
     });
+    const data = {
+      specialists: [id],
+    };
     axios
-      .delete(
+      .post(
         `${API}/admin/work-orders/milestones/${props.match.params.id}/unassign-specialists`,
+        data,
         {
           headers: {
             Authorization: `Bearer ${returnAdminToken().access_token}`,
@@ -296,7 +319,7 @@ const MSpreadSpecialistManagement = (props) => {
         }
       )
       .then((res) => {
-        notify("Spread record deleted");
+        notify("Specialist has been removed from milestone");
         reloadPage();
         setState({
           ...state,
@@ -313,7 +336,15 @@ const MSpreadSpecialistManagement = (props) => {
         });
       });
   };
-  console.log(list_of_specialist, "list_of_specialist");
+  const FilteredList = ():Array<any> => {
+    let result = list_of_specialist?.data?.filter(item => {
+      return (
+        all_specialist2?.data?.some(specialist => specialist?.id === item?.id) &&
+        list_of_specialist?.data?.some(specialist => specialist?.id === item?.id)
+      );
+    });
+    return result;
+  };  
   return (
     <>
       <Modal centered={true} onHide={closeDeleteModal} show={showDelete}>
@@ -363,7 +394,7 @@ const MSpreadSpecialistManagement = (props) => {
           <DashboardNav />
         </Row>
         <Row className='dshworksectnrow1' ref={fieldRef}>
-          <Col md={11} className='job34'>
+          <Col md={12} className='job34'>
             <div className='title_wo'>
               <div className='workorderheader workorderheader1'>
                 {" "}
@@ -410,10 +441,9 @@ const MSpreadSpecialistManagement = (props) => {
                   <thead className='splinvoitablehead'>
                     <tr>
                       <th>S/N</th>
-                      <th style={{ minWidth: "9rem" }}>Firstname</th>
-                      <th style={{ minWidth: "9rem" }}>Lastname</th>
-                      <th style={{ minWidth: "8rem" }}>Phone</th>
-                      <th style={{ minWidth: "8rem" }}>Work Rate</th>
+                      <th style={{ minWidth: "9rem" }}>Full Name</th>
+                      <th style={{ minWidth: "8rem" }}>Email</th>
+                      <th style={{ minWidth: "8rem" }}>Work Completion</th>
                       <th style={{ minWidth: "10rem" }}>Rating</th>
                       <th style={{ minWidth: "10rem" }}>Status</th>
                       <th>Action</th>
@@ -423,9 +453,8 @@ const MSpreadSpecialistManagement = (props) => {
                     {list_of_specialist?.data?.map((data, i) => (
                       <tr>
                         <td>{i + 1}</td>
-                        <td>{data?.specialist?.first_name}</td>
-                        <td>{data?.specialist?.last_name}</td>
-                        <td>{data?.phone}</td>
+                        <td>{data?.specialist?.first_name}{" "} {data?.specialist?.last_name}</td>
+                        <td> <a href={`mailto:${data?.specialist?.email}`}> {data?.specialist?.email}</a></td>
                         <td>{data?.work_rate}</td>
                         <td>{data?.rating}</td>
                         <td>
@@ -446,7 +475,7 @@ const MSpreadSpecialistManagement = (props) => {
                             </div>
                           )}
                         </td>
-                        <td>
+                        <td className="table_data">
                           {data?.actions.can_edit ? (
                             <span
                               title='Edit Invoice'
@@ -459,16 +488,7 @@ const MSpreadSpecialistManagement = (props) => {
                           ) : (
                             ""
                           )}
-                          { (
-                            <span
-                              title='Remove Specialist'
-                              className='ml-1 cursor-pointer'
-                              onClick={() => {
-                                showModal3(data);
-                              }}>
-                              <BinIcon />
-                            </span>
-                          )}
+                          <Toggler showModal3={() => showModal3(data)} showModalSub={() => showModalSub(data)} />
                         </td>
                       </tr>
                     ))}
@@ -573,10 +593,7 @@ const MSpreadSpecialistManagement = (props) => {
                         placeholder=''
                       /> */}
                       <SuiSelect
-                        defaultValue={[
-                          { value: "in stock", label: "In Stock" },
-                          { value: "out of stock", label: "Out of Stock" },
-                        ]}
+                        defaultValue={[]}
                         onChange={(e) => {
                           setState({
                             ...state,
@@ -636,6 +653,111 @@ const MSpreadSpecialistManagement = (props) => {
                     <CustomButton
                       name={"Save Details"}
                       onClick={AssignSpecialist}
+                      disabled={false}
+                      customeStyle={"assign_specailist"}
+                      isBusy={isloading}
+                    />
+                  )}
+                </div>
+              </div>
+            </Col>
+          </Row>
+        </Modal.Body>
+      </Modal>
+      <Modal
+        size='sm'
+        show={substitute_show}
+        onHide={() => hideModalSub()}
+        dialogClassName='modal-90w'
+        className='mdl12'>
+        <Modal.Header closeButton>
+          <Modal.Title id='example-custom-modal-styling-title'>
+            {substitute_show ? "Substitute Specialist" : "Substitute Specialist"}
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Row>
+            <Col md={12}>
+              <Form>
+                <Row>
+                  <Col
+                    md={12}
+                    className='formsection1 formsection_padding_zero'>
+                    <Form.Group>
+                      <h6 className='userprofile'> Specialist</h6>
+                      <Form.Control
+                        type='text'
+                        value={specialist?.first_name + " " + specialist?.last_name}
+                        className='userfield'
+                        onChange={onchange}
+                        placeholder=''
+                        disabled
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col md={12} className='formsection1'>
+                    <Form.Group>
+                      <h6 className='userprofile mt-8'>Specialist Replacement</h6>
+                      <SuiSelect
+                        defaultValue={[]}
+                        onChange={(e) => {
+                          setState({
+                            ...state,
+                            replacement: e.value,
+                          });
+                        }}
+                        options={
+                          FilteredList ?
+                          FilteredList()?.map((data, i) => {
+                            return {
+                              value: data?.id,
+                              label:
+                                data?.specialist?.first_name +
+                                " " +
+                                data?.specialist?.last_name,
+                            };
+                          }): []
+                        }
+                        size='large'
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col md={12} className='formsection1'>
+                    <Form.Group>
+                      <h6 className='userprofile'>Estimated Work Completion (% work to be done)</h6>
+                      <Form.Control
+                        type='number'
+                        value={specialist_work_rate}
+                        className='userfield'
+                        name='specialist_work_rate'
+                        onChange={onchange}
+                        placeholder=''
+                      />
+                    </Form.Group>
+                  </Col>
+                </Row>
+              </Form>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={12} className='terminate2 back11a'>
+              <div className='terminate1 back11' onClick={() => hideModalSub()}>
+                Back
+              </div>
+              <div className='job2'>
+                <div className=' back11app'>
+                  {!show2 ? (
+                    <CustomButton
+                      name={"Save Details"}
+                      onClick={SubstituteSpecialist}
+                      disabled={false}
+                      customeStyle={"assign_specailist"}
+                      isBusy={isloading}
+                    />
+                  ) : (
+                    <CustomButton
+                      name={"Save Details"}
+                      onClick={SubstituteSpecialist}
                       disabled={false}
                       customeStyle={"assign_specailist"}
                       isBusy={isloading}

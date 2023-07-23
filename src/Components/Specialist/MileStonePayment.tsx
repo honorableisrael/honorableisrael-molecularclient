@@ -294,7 +294,7 @@ const MileStonePayment = (props) => {
                   {" "}
                   <img src={arrowback} className='arrowback' />
                 </Link>
-                <div className='pl-2'>Milestone Payment</div>
+                <div className='pl-2'>Invoice Payment</div>
               </div>
             </div>
             {PaymentErrorMessage && (

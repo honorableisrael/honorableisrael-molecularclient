@@ -59,7 +59,8 @@ const MilestoneManagement = (props) => {
     milestone_record: [],
     work_order: {},
     id: "",
-    cycle_id: "",
+    specialist_cost_per_inch: "",
+    association_cost: "",
     PaymentErrorMessage: false,
     max_requested_amount: "",
     rate: 0.7,
@@ -88,6 +89,8 @@ const MilestoneManagement = (props) => {
     fitter_ratio,
     welder_ratio,
     description,
+    specialist_cost_per_inch,
+    association_cost,
     rate,
     id,
   }: any = state;
@@ -272,6 +275,8 @@ const MilestoneManagement = (props) => {
       fitter_ratio,
       welder_ratio,
       description,
+      specialist_cost_per_inch,
+      association_cost
     };
     axios
       .post(
@@ -313,6 +318,8 @@ const MilestoneManagement = (props) => {
       fitter_ratio,
       welder_ratio,
       description,
+      specialist_cost_per_inch,
+      association_cost
     };
     axios
       .put(`${API}/admin/work-orders/milestones/${id}`, data, {
@@ -414,7 +421,7 @@ const MilestoneManagement = (props) => {
           <DashboardNav />
         </Row>
         <Row className='dshworksectnrow1' ref={fieldRef}>
-          <Col md={11} className='job34'>
+          <Col md={12} className='job34'>
             <div className='title_wo'>
               <div className='workorderheader workorderheader1'>
                 {" "}
@@ -465,8 +472,8 @@ const MilestoneManagement = (props) => {
                       <th style={{ minWidth: "10rem" }}>Start Date</th>
                       <th style={{ minWidth: "10rem" }}>End Date</th>
                       <th style={{ minWidth: "8rem" }}>Description</th>
-                      <th style={{ minWidth: "9rem" }}>Status</th>
                       <th style={{ minWidth: "9rem" }}>Weeks</th>
+                      <th style={{ minWidth: "9rem" }}></th>
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -478,7 +485,8 @@ const MilestoneManagement = (props) => {
                         <td>{formatTime(data?.start_date)} </td>
                         <td>{formatTime(data?.end_date)}</td>
                         <td>{data?.description}</td>
-                        <td>
+                        <td>{data?.weeks}</td>
+                        {/* <td>
                           {data?.status == "active" && (
                             <div className='invpaystatwrap po912'>
                               <span className='paystatindcator po912'></span>
@@ -495,12 +503,17 @@ const MilestoneManagement = (props) => {
                               </span>
                             </div>
                           )}
-                        </td>
-                        <td>{data?.weeks}</td>
+                        </td> */}
                         <td>
+                          <Link
+                            to={`/admin_milestone_manage_specialist/${data?.id}/${data?.work_order_id}`}>
+                            <CustomButton name='Assign Specialist' />
+                          </Link>
+                        </td>
+                        <td className="table_data">
                           {data?.actions.can_edit ? (
                             <span
-                              title='Edit Invoice'
+                              title='Edit Milestone'
                               className='mr-1 cursor-pointer'
                               onClick={() => {
                                 showModal2(data);
@@ -522,7 +535,9 @@ const MilestoneManagement = (props) => {
                           ) : (
                             ""
                           )}
-                          <span className='viewinfo' title='View Spread Information'>
+                          <span
+                            className='viewinfo'
+                            title='View Spread Information'>
                             <Link to={`/admin_spread_management/${data.id}`}>
                               <ViewIcon />
                             </Link>
@@ -679,6 +694,35 @@ const MilestoneManagement = (props) => {
                         value={welder_ratio}
                         className='userfield'
                         name='welder_ratio'
+                        onChange={onchange}
+                        placeholder=''
+                      />
+                    </Form.Group>
+                  </Col>
+                </Row>
+                <Row>
+
+                  <Col md={6} className='formsection1'>
+                    <Form.Group>
+                      <h6 className='userprofile'>Association Cost</h6>
+                      <Form.Control
+                        type='number'
+                        value={association_cost}
+                        className='userfield'
+                        name='association_cost'
+                        onChange={onchange}
+                        placeholder=''
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col md={6} className='formsection1'>
+                    <Form.Group>
+                      <h6 className='userprofile'>Specialist Cost Per Inch</h6>
+                      <Form.Control
+                        type='number'
+                        value={specialist_cost_per_inch}
+                        className='userfield'
+                        name='specialist_cost_per_inch'
                         onChange={onchange}
                         placeholder=''
                       />

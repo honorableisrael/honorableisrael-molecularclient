@@ -92,6 +92,10 @@ import AdvancePayment from "./Components/Specialist/AdvancePayment";
 import AdminAdvancePayment from "./Components/Admin/AdvancePayment";
 import EarlyMilestonePayment from "./Components/Admin/EarlyMilestonePayment";
 import Contractor_Sub_Invoice_Details from "./Components/Contractor/Sub_Invoice_Details";
+import SpecialistWorkSheetDetailsPage from "./Components/Specialist/SpecialistWorkSheetDetails";
+import MilestoneManagement from "./Components/Admin/MilestoneManagement";
+import MilestoneSpreadManagement from "./Components/Admin/MilestoneSpreadManagement";
+import MSpreadSpecialistManagement from "./Components/Admin/MSpreadSpecialistManagement";
 
 const App: any = ({ history }) => {
   return (
@@ -165,16 +169,18 @@ const App: any = ({ history }) => {
                 path='/admin_sub_invoice_details/:id/:workorderid'
                 component={Admin_Sub_Invoice_Details}
               />
-               <Route
+              <Route
                 path='/contractor_sub_invoice_details/:id'
                 component={Contractor_Sub_Invoice_Details}
               />
-              
               <Route
                 path='/admin_invoice_details_view_only/:id/:workorderid'
                 component={Invoice_details_view_only}
               />
-              <Route path='/invoice_details/:id/:work_order_id' component={Invoice_details} />
+              <Route
+                path='/invoice_details/:id/:work_order_id'
+                component={Invoice_details}
+              />
               <Route
                 path='/raise_proforma_invoice'
                 component={AdminRaiseProformaInvoice}
@@ -315,6 +321,10 @@ const App: any = ({ history }) => {
                 component={SpecialistWorkSheetPage}
               />
               <Route
+                path='/specialist_worksheet_details/:id'
+                component={SpecialistWorkSheetDetailsPage}
+              />{" "}
+              <Route
                 path='/specialist_addpipeitem/:id'
                 component={CreateWorkSheet}
               />
@@ -347,10 +357,25 @@ const App: any = ({ history }) => {
                 path='/admin_specialist_payment_request/:id'
                 component={AdminAdvancePayment}
               />
-                            <Route
+              <Route
                 exact={true}
                 path='/admin_specialist_milestone_payment_request/:id'
                 component={EarlyMilestonePayment}
+              />
+              <Route
+                exact={true}
+                path='/admin_milestone_management/:id'
+                component={MilestoneManagement}
+              />
+              <Route
+                exact={true}
+                path='/admin_spread_management/:id'
+                component={MilestoneSpreadManagement}
+              />
+              <Route
+                exact={true}
+                path='/admin_milestone_manage_specialist/:id/:work_order_id'
+                component={MSpreadSpecialistManagement}
               />
 
               <Route
@@ -358,7 +383,6 @@ const App: any = ({ history }) => {
                 path='/specialist_advance_payment/:id'
                 component={AdvancePayment}
               />
-
               <Route exact={true} path='/privacy' component={Privacy} />
               <Route path='/signin' exact={true} component={SignIn} />
               <Route
