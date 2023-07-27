@@ -550,47 +550,7 @@ const Admin_Sub_Invoice_Details = (props) => {
       });
   };
 
-  const create_work_sheet = () => {
-    setState({
-      ...state,
-      isloading: true,
-    });
-    axios
-      .all([
-        axios.post(
-          `${API}/admin/sub-invoices/${props.match.params.id}/worksheet`,
-          {},
-          {
-            headers: {
-              Authorization: `Bearer ${returnAdminToken().access_token}`,
-            },
-          }
-        ),
-      ])
-      .then(
-        axios.spread((res) => {
-          notify("Successful");
-          reloadPage();
-          setState({
-            ...state,
-            isloading: false,
-          });
-        })
-      )
-      .catch((err) => {
-        setState({
-          ...state,
-          isloading: false,
-        });
-        if (err?.response?.status === 400) {
-          return notify(err?.response?.data?.message);
-        }
-        if (err?.response?.status === 500) {
-          notify("Internal server error", "B");
-        }
-        console.log(err);
-      });
-  };
+  
   const deletePipeItem = () => {
     const availableToken: any = localStorage.getItem("loggedInDetails");
     const token = availableToken
@@ -1042,7 +1002,7 @@ const Admin_Sub_Invoice_Details = (props) => {
                 Print
               </Button>
             </div>
-            <div className='text-right	'>
+            {/* <div className='text-right	'>
               {invoice_details?.worksheet == null ? (
                 <Button
                   className='payspecialist1 h36'
@@ -1057,7 +1017,7 @@ const Admin_Sub_Invoice_Details = (props) => {
                   </Button>
                 </Link>
               )}
-            </div>
+            </div> */}
             <Row className='mgtop'>
               <Col md={12} className='mgtop345'>
                 <div className='job23_1a hidden__1'>

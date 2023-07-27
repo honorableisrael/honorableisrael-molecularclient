@@ -85,7 +85,7 @@ const MilestoneSpreadManagement = (props) => {
   }: any = state;
 
   const workModal = (id, amount) => {
-    console.log(id);
+    //console.log(id);
     setState({
       ...state,
       cycle_id: id,
@@ -96,7 +96,7 @@ const MilestoneSpreadManagement = (props) => {
     });
   };
   const onchange = (e) => {
-    console.log(e.target.value);
+    //console.log(e.target.value);
     setState({
       ...state,
       [e.target.name]: e.target.value,
@@ -110,7 +110,7 @@ const MilestoneSpreadManagement = (props) => {
   };
   useEffect(() => {
     window.scrollTo(-0, -0);
-    console.log(props?.match?.params?.id);
+    //console.log(props?.match?.params?.id);
     axios
       .all([
         axios.get(
@@ -124,7 +124,7 @@ const MilestoneSpreadManagement = (props) => {
       ])
       .then(
         axios.spread((res4) => {
-          console.log(res4.data);
+          //console.log(res4.data);
           setState({
             ...state,
             ...res4.data.data,
@@ -134,7 +134,7 @@ const MilestoneSpreadManagement = (props) => {
         })
       )
       .catch((err) => {
-        console.log(err.response);
+        //console.log(err.response);
       });
   }, []);
 
@@ -153,7 +153,7 @@ const MilestoneSpreadManagement = (props) => {
     }
   }, [PaymentErrorMessage]);
 
-  console.log(spread_record, "spread_record");
+  //console.log(spread_record, "spread_record");
   const showModal = () => {
     setModalState({
       ...modalState,
@@ -226,7 +226,7 @@ const MilestoneSpreadManagement = (props) => {
         }
       )
       .then((res) => {
-        console.log(res.data);
+        //console.log(res.data);
         notify("Spread record added");
         reloadPage();
         setState({
@@ -235,7 +235,7 @@ const MilestoneSpreadManagement = (props) => {
         });
       })
       .catch((err) => {
-        console.log(err.response);
+        //console.log(err.response);
         notify("Operation failed, please try again later");
         setState({
           ...state,
@@ -268,7 +268,7 @@ const MilestoneSpreadManagement = (props) => {
         });
       })
       .catch((err) => {
-        console.log(err.response);
+        //console.log(err.response);
         notify("Updated failed, please try again later");
         setState({
           ...state,
@@ -297,7 +297,7 @@ const MilestoneSpreadManagement = (props) => {
         });
       })
       .catch((err) => {
-        console.log(err.response);
+        //console.log(err.response);
         notify("Updated failed, please try again later");
         setState({
           ...state,
@@ -306,7 +306,7 @@ const MilestoneSpreadManagement = (props) => {
         });
       });
   };
-
+  console.log(spread_record,"spread_record")
   return (
     <>
       <Modal centered={true} onHide={closeDeleteModal} show={showDelete}>
@@ -437,14 +437,14 @@ const MilestoneSpreadManagement = (props) => {
                           ) : (
                             ""
                           )}
-                          {/* <span
+                          <span
                             className='viewinfo'
-                            title='View Spread Information'>
+                            title='View Specialist Information'>
                             <Link
-                              to={`/admin_milestone_manage_specialist/${data?.milestone_id}`}>
+                              to={`/admin_manage_specialist/${data?.id}/${data?.milestone_id}`}>
                               <ViewIcon />
                             </Link>
-                          </span> */}
+                          </span>
                         </td>
                       </tr>
                     ))}
@@ -568,7 +568,7 @@ const MilestoneSpreadManagement = (props) => {
           <Row>
             <Col md={12} className='terminate2 back11a'>
               <div className='terminate1 back11' onClick={() => hideModal()}>
-                Back
+                Cancel
               </div>
               <div className='job2'>
                 <div className=' back11app'>

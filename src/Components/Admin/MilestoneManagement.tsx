@@ -35,9 +35,10 @@ import { CustomButton } from "./Shared/Button";
 import { EditIcon } from "./Shared/EditIcon";
 import { BinIcon } from "./Shared/BinIcon";
 import { ViewIcon } from "./Shared/ViewMore";
+import { Toggler } from "./Shared/Toggler";
 
 const MilestoneManagement = (props) => {
-  const [state, setState] = useState<any>({
+  const [state, setState] = useState < any > ({
     work_orders: [],
     invoice_details: {},
     country: "",
@@ -96,7 +97,7 @@ const MilestoneManagement = (props) => {
   }: any = state;
 
   const workModal = (id, amount) => {
-    console.log(id);
+    //console.log(id);
     setState({
       ...state,
       cycle_id: id,
@@ -107,7 +108,7 @@ const MilestoneManagement = (props) => {
     });
   };
   const onchange = (e) => {
-    console.log(e.target.value);
+    //console.log(e.target.value);
     setState({
       ...state,
       [e.target.name]: e.target.value,
@@ -121,7 +122,7 @@ const MilestoneManagement = (props) => {
   };
   useEffect(() => {
     window.scrollTo(-0, -0);
-    console.log(props?.match?.params?.id);
+    //console.log(props?.match?.params?.id);
     axios
       .all([
         axios.get(
@@ -135,7 +136,7 @@ const MilestoneManagement = (props) => {
       ])
       .then(
         axios.spread((res4) => {
-          console.log(res4.data);
+          //console.log(res4.data);
           setState({
             ...state,
             ...res4.data.data,
@@ -145,7 +146,7 @@ const MilestoneManagement = (props) => {
         })
       )
       .catch((err) => {
-        console.log(err.response);
+        //console.log(err.response);
       });
   }, []);
 
@@ -154,11 +155,11 @@ const MilestoneManagement = (props) => {
       ...state,
       isloading: true,
     });
-    console.log(cycle_id);
+    //console.log(cycle_id);
     const availableToken = localStorage.getItem("loggedInDetails");
-    console.log(availableToken);
+    //console.log(availableToken);
     const token = availableToken ? JSON.parse(availableToken) : "";
-    console.log(token);
+    //console.log(token);
     const data = {
       amount: requested_amount,
     };
@@ -171,7 +172,7 @@ const MilestoneManagement = (props) => {
         }
       )
       .then((res) => {
-        console.log(res.data);
+        //console.log(res.data);
         notify("payment requested successfully");
         reloadPage();
         setState({
@@ -181,7 +182,7 @@ const MilestoneManagement = (props) => {
         });
       })
       .catch((err) => {
-        console.log(err.response);
+        //console.log(err.response);
         notify("Request failed");
         setState({
           ...state,
@@ -211,7 +212,7 @@ const MilestoneManagement = (props) => {
     }
   }, [PaymentErrorMessage]);
 
-  console.log(milestone_record, "milestone_record");
+  //console.log(milestone_record, "milestone_record");
   const showModal = () => {
     setModalState({
       ...modalState,
@@ -234,6 +235,7 @@ const MilestoneManagement = (props) => {
     });
   };
   const showModal2 = (selectedMilestone) => {
+    console.log(selectedMilestone, "selectedMilestone")
     setModalState({
       ...modalState,
       show: true,
@@ -289,7 +291,7 @@ const MilestoneManagement = (props) => {
         }
       )
       .then((res) => {
-        console.log(res.data);
+        //console.log(res.data);
         notify("Milestone record added");
         reloadPage();
         setState({
@@ -298,7 +300,7 @@ const MilestoneManagement = (props) => {
         });
       })
       .catch((err) => {
-        console.log(err.response);
+        //console.log(err.response);
         notify("Operation failed, please try again later");
         setState({
           ...state,
@@ -336,7 +338,7 @@ const MilestoneManagement = (props) => {
         });
       })
       .catch((err) => {
-        console.log(err.response);
+        //console.log(err.response);
         notify("Updated failed, please try again later");
         setState({
           ...state,
@@ -365,7 +367,7 @@ const MilestoneManagement = (props) => {
         });
       })
       .catch((err) => {
-        console.log(err.response);
+        // console.log(err.response);
         notify("Updated failed, please try again later");
         setState({
           ...state,
@@ -473,7 +475,6 @@ const MilestoneManagement = (props) => {
                       <th style={{ minWidth: "10rem" }}>End Date</th>
                       <th style={{ minWidth: "8rem" }}>Description</th>
                       <th style={{ minWidth: "9rem" }}>Weeks</th>
-                      <th style={{ minWidth: "9rem" }}></th>
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -486,44 +487,9 @@ const MilestoneManagement = (props) => {
                         <td>{formatTime(data?.end_date)}</td>
                         <td>{data?.description}</td>
                         <td>{data?.weeks}</td>
-                        {/* <td>
-                          {data?.status == "active" && (
-                            <div className='invpaystatwrap po912'>
-                              <span className='paystatindcator po912'></span>
-                              <span className='paystattext text-success'>
-                                Active
-                              </span>
-                            </div>
-                          )}
-                          {data?.status == "Completed" && (
-                            <div className='invpaystatwrap pendinwrap po912'>
-                              <span className='paystatindcator pendininvoice po912'></span>
-                              <span className='paystattext pendininvtext po912'>
-                                Completed
-                              </span>
-                            </div>
-                          )}
-                        </td> */}
-                        <td>
-                          <Link
-                            to={`/admin_milestone_manage_specialist/${data?.id}/${data?.work_order_id}`}>
-                            <CustomButton name='Assign Specialist' />
-                          </Link>
-                        </td>
-                        <td className="table_data">
-                          {data?.actions.can_edit ? (
-                            <span
-                              title='Edit Milestone'
-                              className='mr-1 cursor-pointer'
-                              onClick={() => {
-                                showModal2(data);
-                              }}>
-                              <EditIcon />
-                            </span>
-                          ) : (
-                            ""
-                          )}
-                          {data?.actions.can_delete ? (
+                        <td className="table_data flex align-center">
+                          <Toggler showModal2={() => showModal2(data)} linkTitle1="Manage Specialist" LinkProps1={`/admin_milestone_manage_specialist/${data?.id}/${data?.work_order_id}`} linkTitle2="View Details" LinkProps2={`/admin_milestone_details/${data?.id}`} />
+                          {/* {data?.actions.can_delete ? (
                             <span
                               title='Delete Item'
                               className='ml-1 cursor-pointer'
@@ -534,14 +500,7 @@ const MilestoneManagement = (props) => {
                             </span>
                           ) : (
                             ""
-                          )}
-                          <span
-                            className='viewinfo'
-                            title='View Spread Information'>
-                            <Link to={`/admin_spread_management/${data.id}`}>
-                              <ViewIcon />
-                            </Link>
-                          </span>
+                          )} */}
                         </td>
                       </tr>
                     ))}
@@ -617,10 +576,10 @@ const MilestoneManagement = (props) => {
         position={"top-right"}
       />
       <Modal
-        size='lg'
+        size='sm'
         show={show}
         onHide={() => hideModal()}
-        dialogClassName='modal-90w'
+        dialogClassName=''
         className='mdl12'>
         <Modal.Header closeButton>
           <Modal.Title id='example-custom-modal-styling-title'>
@@ -660,7 +619,7 @@ const MilestoneManagement = (props) => {
                   </Col>
                 </Row>
                 <Row>
-                  <Col md={6} className='formsection1 formsection_padding_zero'>
+                  <Col md={12} className='formsection1 formsection_padding_zero'>
                     <Form.Group>
                       <h6 className='userprofile'>Description</h6>
                       <Form.Control
@@ -675,12 +634,12 @@ const MilestoneManagement = (props) => {
                   </Col>
                   <Col md={6} className='formsection1'>
                     <Form.Group>
-                      <h6 className='userprofile'>Fitter Ratio</h6>
+                      <h6 className='userprofile'>Welder Ratio</h6>
                       <Form.Control
                         type='number'
-                        value={fitter_ratio}
+                        value={welder_ratio}
                         className='userfield'
-                        name='fitter_ratio'
+                        name='welder_ratio'
                         onChange={onchange}
                         placeholder=''
                       />
@@ -688,12 +647,12 @@ const MilestoneManagement = (props) => {
                   </Col>
                   <Col md={6} className='formsection1'>
                     <Form.Group>
-                      <h6 className='userprofile'>Welder Ratio</h6>
+                      <h6 className='userprofile'>Fitter Ratio</h6>
                       <Form.Control
                         type='number'
-                        value={welder_ratio}
+                        value={fitter_ratio}
                         className='userfield'
-                        name='welder_ratio'
+                        name='fitter_ratio'
                         onChange={onchange}
                         placeholder=''
                       />
@@ -735,7 +694,7 @@ const MilestoneManagement = (props) => {
           <Row>
             <Col md={12} className='terminate2 back11a'>
               <div className='terminate1 back11' onClick={() => hideModal()}>
-                Back
+                Cancel
               </div>
               <div className='job2'>
                 <div className=' back11app'>

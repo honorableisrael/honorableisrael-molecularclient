@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 interface TogglerProps {
     onClick1?: () => void;
@@ -6,11 +7,20 @@ interface TogglerProps {
     onClick3?: () => void;
     showModal3?: (selectedMilestone: any) => void;
     showModalSub?: (selectedMilestone: any) => void;
+    showModal1?: (selectedMilestone: any) => void;
+    showModal2?: (selectedMilestone: any) => void;
+    makeSpreadCaptain?: (selectedMilestone: any) => void;
+    LinkProps?: String;
+    linkTitle?: String;
+    LinkProps1?: String;
+    linkTitle1?: String;
+    LinkProps2?: String;
+    linkTitle2?: String;
 }
 
-export const Toggler: React.FC<TogglerProps> = ({ onClick1, onClick2, onClick3, showModal3, showModalSub }) => {
+export const Toggler: React.FC<TogglerProps> = ({ makeSpreadCaptain, onClick1, onClick2, onClick3, showModal3, showModal2, showModal1, showModalSub, LinkProps, linkTitle, LinkProps1, linkTitle1, LinkProps2, linkTitle2 }) => {
     const [isDropdownVisible, setDropdownVisible] = useState(false);
-    const dropdownRef = useRef<any>(null);
+    const dropdownRef = useRef < any > (null);
 
     // Function to handle outside click
     const handleOutsideClick = (event: MouseEvent) => {
@@ -68,16 +78,43 @@ export const Toggler: React.FC<TogglerProps> = ({ onClick1, onClick2, onClick3, 
                     }}
                 >
                     <div className="">
-                        {onClick1 && (
-                            <span className="dropdown-item" onClick={onClick1}>
+                        {showModal1 && (
+                            <span className="dropdown-item" onClick={(data) => showModal1(data)}>
                                 Remove
                             </span>
                         )}
-                        {onClick2 && (
-                            <span className="dropdown-item" onClick={onClick2}>
+                        {showModal2 && ( // Check if showModal3 prop is provided
+                            <span
+                                title='Edit Milestone'
+                                className='ml-1 cursor-pointer dropdown-item'
+                                onClick={(data) => {
+                                    showModal2(data);
+                                }}
+                            >
                                 Edit
                             </span>
                         )}
+                        {
+                            LinkProps && (
+                                <Link className="dropdown-item" to={`${LinkProps}`}>
+                                    {linkTitle}
+                                </Link>
+                            )
+                        }
+                        {
+                            LinkProps1 && (
+                                <Link className="dropdown-item" to={`${LinkProps1}`}>
+                                    {linkTitle1}
+                                </Link>
+                            )
+                        }
+                        {
+                            LinkProps2 && (
+                                <Link className="dropdown-item" to={`${LinkProps2}`}>
+                                    {linkTitle2}
+                                </Link>
+                            )
+                        }
                         {onClick3 && (
                             <span className="dropdown-item" onClick={onClick3}>
                                 Substitute
@@ -94,6 +131,18 @@ export const Toggler: React.FC<TogglerProps> = ({ onClick1, onClick2, onClick3, 
                                 Remove Specialist
                             </span>
                         )}
+                        {makeSpreadCaptain && ( // Check if showModal3 prop is provided
+                            <span
+                                title='Remove Specialist'
+                                className='ml-1 cursor-pointer dropdown-item'
+                                onClick={(data) => {
+                                    makeSpreadCaptain(data);
+                                }}
+                            >
+                                Make Captain
+                            </span>
+                        )}
+
                         {showModalSub && ( // Check if showModal3 prop is provided
                             <span
                                 title='Remove Specialist'
@@ -102,7 +151,7 @@ export const Toggler: React.FC<TogglerProps> = ({ onClick1, onClick2, onClick3, 
                                     showModalSub(data);
                                 }}
                             >
-                                Substitute Specialist
+                                Replace Specialist
                             </span>
                         )}
                     </div>

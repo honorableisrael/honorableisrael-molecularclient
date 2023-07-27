@@ -96,6 +96,9 @@ import SpecialistWorkSheetDetailsPage from "./Components/Specialist/SpecialistWo
 import MilestoneManagement from "./Components/Admin/MilestoneManagement";
 import MilestoneSpreadManagement from "./Components/Admin/MilestoneSpreadManagement";
 import MSpreadSpecialistManagement from "./Components/Admin/MSpreadSpecialistManagement";
+import MilestoneDetails from "./Components/Admin/MilestoneDetails";
+import MilestoneSpecialistDetails from "./Components/Admin/MilestoneSpecialistDetails";
+import MSpreadSpecialists from "./Components/Admin/MSpreadSpecialists";
 
 const App: any = ({ history }) => {
   return (
@@ -369,13 +372,30 @@ const App: any = ({ history }) => {
               />
               <Route
                 exact={true}
-                path='/admin_spread_management/:id'
+                path='/admin_milestone_specialists/:id'
+                component={MilestoneSpecialistDetails}
+              />
+
+              <Route
+                exact={true}
+                path='/admin_milestone_details/:id'
+                component={MilestoneDetails}
+              />
+
+              <Route
+                exact={true}
+                path='/admin_spread_management/:id/:work_order_id'
                 component={MilestoneSpreadManagement}
               />
               <Route
                 exact={true}
                 path='/admin_milestone_manage_specialist/:id/:work_order_id'
                 component={MSpreadSpecialistManagement}
+              />
+              <Route
+                exact={true}
+                path='/admin_manage_specialist/:id/:milestone_id'
+                component={MSpreadSpecialists}
               />
 
               <Route

@@ -41,7 +41,7 @@ import { Toggler } from "./Shared/Toggler";
 const animatedComponents = makeAnimated();
 
 const MSpreadSpecialistManagement = (props) => {
-  const [state, setState] = useState<any>({
+  const [state, setState] = useState < any > ({
     work_orders: [],
     invoice_details: {},
     country: "",
@@ -235,7 +235,9 @@ const MSpreadSpecialistManagement = (props) => {
       isloading: true,
     });
     const data = {
-      specialists: selected_specialist,
+      specialists: selected_specialist?.map((item) => {
+        return item.value
+      }),
     };
     axios
       .post(
@@ -249,7 +251,7 @@ const MSpreadSpecialistManagement = (props) => {
       )
       .then((res) => {
         console.log(res.data);
-        notify("Spread record added");
+        notify("Successfully added record");
         reloadPage();
         setState({
           ...state,
@@ -306,7 +308,7 @@ const MSpreadSpecialistManagement = (props) => {
       isloading: true,
     });
     const data = {
-      specialists: [id],
+      specialists: [specialist?.id],
     };
     axios
       .post(
@@ -336,15 +338,19 @@ const MSpreadSpecialistManagement = (props) => {
         });
       });
   };
-  const FilteredList = ():Array<any> => {
-    let result = list_of_specialist?.data?.filter(item => {
-      return (
-        all_specialist2?.data?.some(specialist => specialist?.id === item?.id) &&
-        list_of_specialist?.data?.some(specialist => specialist?.id === item?.id)
-      );
+  const FilteredList = () => {
+    if (!list_of_specialist?.data) {
+      return [];
+    }
+
+    let result = all_specialist2.data.filter((item) => {
+      return !list_of_specialist.data.some((specialist) => specialist?.specialist?.id === item?.id);
     });
+
     return result;
-  };  
+  };
+  console.log(selected_specialist,"selected_specialist")
+  console.log(all_specialist2,"all_specialist2")
   return (
     <>
       <Modal centered={true} onHide={closeDeleteModal} show={showDelete}>
@@ -488,7 +494,7 @@ const MSpreadSpecialistManagement = (props) => {
                           ) : (
                             ""
                           )}
-                          <Toggler showModal3={() => showModal3(data)} showModalSub={() => showModalSub(data)} />
+                          <Toggler linkTitle1="View Details" LinkProps1={`/admin_milestone_specialists/${data?.id}`} showModal3={() => showModal3(data)} showModalSub={() => showModalSub(data)} />
                         </td>
                       </tr>
                     ))}
@@ -595,22 +601,23 @@ const MSpreadSpecialistManagement = (props) => {
                       <SuiSelect
                         defaultValue={[]}
                         onChange={(e) => {
+                          console.log(e)
                           setState({
                             ...state,
-                            selected_specialist: e.value,
+                            selected_specialist: e,
                           });
                         }}
                         options={
-                          list_of_specialist?.data?.length > 0 &&
-                          list_of_specialist?.data?.map((data, i) => {
-                            return {
-                              value: data?.id,
-                              label:
-                                data?.specialist?.first_name +
-                                " " +
-                                data?.specialist?.last_name,
-                            };
-                          })
+                          FilteredList().length > 0 ?
+                            FilteredList()?.map((data, i) => {
+                              return {
+                                value: data?.id,
+                                label:
+                                  data?.first_name +
+                                  " " +
+                                  data?.last_name,
+                              };
+                            }) : []
                         }
                         size='large'
                         isMulti
@@ -708,15 +715,15 @@ const MSpreadSpecialistManagement = (props) => {
                         }}
                         options={
                           FilteredList ?
-                          FilteredList()?.map((data, i) => {
-                            return {
-                              value: data?.id,
-                              label:
-                                data?.specialist?.first_name +
-                                " " +
-                                data?.specialist?.last_name,
-                            };
-                          }): []
+                            FilteredList()?.map((data, i) => {
+                              return {
+                                value: data?.specialist?.id,
+                                label:
+                                  data?.specialist?.first_name +
+                                  " " +
+                                  data?.specialist?.last_name,
+                              };
+                            }) : []
                         }
                         size='large'
                       />
@@ -742,7 +749,7 @@ const MSpreadSpecialistManagement = (props) => {
           <Row>
             <Col md={12} className='terminate2 back11a'>
               <div className='terminate1 back11' onClick={() => hideModalSub()}>
-                Back
+                Cancel
               </div>
               <div className='job2'>
                 <div className=' back11app'>
