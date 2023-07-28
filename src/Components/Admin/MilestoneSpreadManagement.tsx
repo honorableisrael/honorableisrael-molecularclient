@@ -520,10 +520,10 @@ const MilestoneSpreadManagement = (props) => {
         position={"top-right"}
       />
       <Modal
-        size='lg'
+        size='sm'
         show={show}
         onHide={() => hideModal()}
-        dialogClassName='modal-90w'
+        dialogClassName=''
         className='mdl12'>
         <Modal.Header closeButton>
           <Modal.Title id='example-custom-modal-styling-title'>
@@ -535,6 +535,19 @@ const MilestoneSpreadManagement = (props) => {
             <Col md={12}>
               <Form>
                 <Row>
+                <Col md={6} className='formsection1'>
+                    <Form.Group>
+                      <h6 className='userprofile'>Name</h6>
+                      <Form.Control
+                        type='text'
+                        value={name}
+                        className='userfield'
+                        name='name'
+                        onChange={onchange}
+                        placeholder=''
+                      />
+                    </Form.Group>
+                  </Col>
                   <Col md={6} className='formsection1 formsection_padding_zero'>
                     <Form.Group>
                       <h6 className='userprofile'>Description</h6>
@@ -548,20 +561,7 @@ const MilestoneSpreadManagement = (props) => {
                       />
                     </Form.Group>
                   </Col>
-                  <Col md={6} className='formsection1'>
-                    <Form.Group>
-                      <h6 className='userprofile'>Name</h6>
-                      <Form.Control
-                        type='text'
-                        value={name}
-                        className='userfield'
-                        name='name'
-                        onChange={onchange}
-                        placeholder=''
-                      />
-                    </Form.Group>
-                  </Col>
-                </Row>
+                 </Row>
               </Form>
             </Col>
           </Row>

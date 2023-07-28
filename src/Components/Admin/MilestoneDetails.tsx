@@ -295,7 +295,7 @@ const MilestoneDetails = (props) => {
       })
       .then((res) => {
         notify("Milestone record updated");
-        reloadPage();
+        // reloadPage();
         setState({
           ...state,
           isloading: false,
@@ -306,6 +306,7 @@ const MilestoneDetails = (props) => {
         setState({
           ...state,
           isloading: false,
+          show:false,
           errorMessage: err?.response?.data?.message,
         });
       });
@@ -344,7 +345,7 @@ const MilestoneDetails = (props) => {
       isloading: true,
     });
     const data = {
-      milestone:milestone?.id
+      milestone_id:milestone?.id
     }
     axios
       .all([
@@ -442,7 +443,7 @@ const MilestoneDetails = (props) => {
                 />
                 <div className='pl-2'>Milestone Details</div>
               </div>
-              {!milestone?.work_sheet ? <Button
+              {milestone?.worksheet ==null ? <Button
                 className='payspecialist1 h36'
                 onClick={create_work_sheet}>
                 {isloading ? "processing" : "Create work sheet"}
@@ -467,7 +468,7 @@ const MilestoneDetails = (props) => {
                 <div className="col-md-3">
                   <div className="w-100">
                     <Link to={`/admin_sub_invoice_details/${milestone?.invoice?.id}/${milestone?.work_order_id}`} className="btn btn-light btn-block">Invoice</Link>
-                    {milestone?.worksheet?.id ? <Link to={`/admin_worksheet/milestone?.worksheet?.id/milestone?.work_order_id`} className="btn btn-light btn-block">Worksheet</Link> : ""}
+                    {milestone?.worksheet?.id ? <Link to={`/admin_worksheet/${milestone?.worksheet?.id}/${milestone?.work_order_id}`} className="btn btn-light btn-block">Worksheet</Link> : ""}
                     <Link to={`/admin_spread_management/${milestone?.id}/${milestone?.work_order_id}`} className="btn btn-light btn-block">Spreads</Link>
                     <Link to={`/admin_milestone_manage_specialist/${milestone?.id}/${milestone?.work_order_id}`} className="btn btn-light btn-block">Specialists</Link>
                   </div>
@@ -475,7 +476,7 @@ const MilestoneDetails = (props) => {
                 <div className="col-md-9">
                   <div className="card-details-wrap">
                     <div className="card-header">
-                      <h5 className="card-title">MILESTONE REF <span className="text-uppercase ">:{(milestone?.reference)}</span></h5>
+                      <h5 className="card-title">Milestone Reference <span className="text-uppercase ">:  {(milestone?.reference)}</span></h5>
                     </div>
                     <div className="card-body">
                       <div className="row">
@@ -486,7 +487,7 @@ const MilestoneDetails = (props) => {
                               <td className="border-top-0">{formatTime(milestone?.start_date)}</td>
                             </tr>
                             <tr>
-                              <td>End Date</td>
+                              <td className="col-sm-2">End Date</td>
                               <td>{formatTime(milestone?.end_date)}</td>
                             </tr>
                             <tr>

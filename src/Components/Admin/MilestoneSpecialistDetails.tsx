@@ -488,44 +488,44 @@ const MilestoneSpecialistDetails = (props) => {
                         <table className="table table-sm">
                           <tbody className="border-visible">
                             <tr>
-                              <td> First Name</td>
+                              <td  className="col-sm-2"> First Name</td>
                               <td>{milestone?.specialist?.first_name}</td>
                             </tr>
                             <tr>
-                              <td> Last Name</td>
+                              <td  className="col-sm-2"> Last Name</td>
                               <td>{milestone?.specialist?.last_name}</td>
                             </tr>
                             <tr>
                               <td> Email</td>
-                              <td>{milestone?.specialist?.email}</td>
+                              <td>{milestone?.specialist?.email??"n/a"}</td>
                             </tr>
                             <tr>
                               <td> Phone</td>
-                              <td>{milestone?.specialist?.phone}</td>
+                              <td>{milestone?.specialist?.phone??"n/a"}</td>
                             </tr>
                             <tr>
                               <td> Status</td>
-                              <td>{milestone?.specialist?.status}</td>
+                              <td>{milestone?.specialist?.status??"n/a"}</td>
                             </tr>
                             <tr>
                               <td> Rating</td>
-                              <td>{milestone?.specialist?.rating}</td>
+                              <td>{milestone?.specialist?.rating??"n/a"}</td>
                             </tr>
                             <tr>
                               <td>Amount</td>
-                              <td>{milestone?.amount}</td>
+                              <td>{milestone?.amount??"n/a"}</td>
                             </tr>
                             <tr>
                               <td>Amount Paid</td>
-                              <td>{milestone?.amount_paid}</td>
+                              <td>{milestone?.amount_paid??"n/a"}</td>
                             </tr>
                             <tr>
                               <td>Amount Outstanding</td>
-                              <td>{milestone?.amount_outstanding}</td>
+                              <td>{milestone?.amount_outstanding??"n/a"}</td>
                             </tr>
                             <tr>
                               <td>Early milestone Percentage</td>
-                              <td>{milestone?.early_milestone_percentage}</td>
+                              <td>{milestone?.early_milestone_percentage??"n/a"}</td>
                             </tr>
                             <tr>
                               <td>Status</td>

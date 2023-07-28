@@ -38,7 +38,7 @@ import { ViewIcon } from "./Shared/ViewMore";
 import { Toggler } from "./Shared/Toggler";
 
 const MilestoneManagement = (props) => {
-  const [state, setState] = useState < any > ({
+  const [state, setState] = useState<any>({
     work_orders: [],
     invoice_details: {},
     country: "",
@@ -60,11 +60,13 @@ const MilestoneManagement = (props) => {
     milestone_record: [],
     work_order: {},
     id: "",
-    specialist_cost_per_inch: "",
+    specialist_per_inch: "",
     association_cost: "",
     PaymentErrorMessage: false,
     max_requested_amount: "",
     rate: 0.7,
+    welder_ratio:"",
+    fitter_ratio:"",
   });
   const [modalState, setModalState] = useState({
     show: false,
@@ -90,7 +92,7 @@ const MilestoneManagement = (props) => {
     fitter_ratio,
     welder_ratio,
     description,
-    specialist_cost_per_inch,
+    specialist_per_inch,
     association_cost,
     rate,
     id,
@@ -235,7 +237,6 @@ const MilestoneManagement = (props) => {
     });
   };
   const showModal2 = (selectedMilestone) => {
-    console.log(selectedMilestone, "selectedMilestone")
     setModalState({
       ...modalState,
       show: true,
@@ -244,6 +245,8 @@ const MilestoneManagement = (props) => {
     setState({
       ...state,
       ...selectedMilestone,
+      welder_ratio:selectedMilestone?.specialist_earning_ratio?.welder,
+      fitter_ratio:selectedMilestone?.specialist_earning_ratio?.fitter
     });
   };
   const showModal3 = (selectedMilestone) => {
@@ -277,8 +280,8 @@ const MilestoneManagement = (props) => {
       fitter_ratio,
       welder_ratio,
       description,
-      specialist_cost_per_inch,
-      association_cost
+      specialist_per_inch,
+      association_cost,
     };
     axios
       .post(
@@ -320,8 +323,8 @@ const MilestoneManagement = (props) => {
       fitter_ratio,
       welder_ratio,
       description,
-      specialist_cost_per_inch,
-      association_cost
+      specialist_per_inch,
+      association_cost,
     };
     axios
       .put(`${API}/admin/work-orders/milestones/${id}`, data, {
@@ -331,11 +334,15 @@ const MilestoneManagement = (props) => {
       })
       .then((res) => {
         notify("Milestone record updated");
-        reloadPage();
+        // reloadPage();
         setState({
           ...state,
           isloading: false,
         });
+        setModalState({
+          ...modalState,
+          show:false
+        })
       })
       .catch((err) => {
         //console.log(err.response);
@@ -487,8 +494,14 @@ const MilestoneManagement = (props) => {
                         <td>{formatTime(data?.end_date)}</td>
                         <td>{data?.description}</td>
                         <td>{data?.weeks}</td>
-                        <td className="table_data flex align-center">
-                          <Toggler showModal2={() => showModal2(data)} linkTitle1="Manage Specialist" LinkProps1={`/admin_milestone_manage_specialist/${data?.id}/${data?.work_order_id}`} linkTitle2="View Details" LinkProps2={`/admin_milestone_details/${data?.id}`} />
+                        <td className='table_data flex align-center'>
+                          <Toggler
+                            showModal2={() => showModal2(data)}
+                            linkTitle1='Manage Specialist'
+                            LinkProps1={`/admin_milestone_manage_specialist/${data?.id}/${data?.work_order_id}`}
+                            linkTitle2='View Details'
+                            LinkProps2={`/admin_milestone_details/${data?.id}`}
+                          />
                           {/* {data?.actions.can_delete ? (
                             <span
                               title='Delete Item'
@@ -619,7 +632,9 @@ const MilestoneManagement = (props) => {
                   </Col>
                 </Row>
                 <Row>
-                  <Col md={12} className='formsection1 formsection_padding_zero'>
+                  <Col
+                    md={12}
+                    className='formsection1 formsection_padding_zero'>
                     <Form.Group>
                       <h6 className='userprofile'>Description</h6>
                       <Form.Control
@@ -660,7 +675,6 @@ const MilestoneManagement = (props) => {
                   </Col>
                 </Row>
                 <Row>
-
                   <Col md={6} className='formsection1'>
                     <Form.Group>
                       <h6 className='userprofile'>Association Cost</h6>
@@ -679,9 +693,9 @@ const MilestoneManagement = (props) => {
                       <h6 className='userprofile'>Specialist Cost Per Inch</h6>
                       <Form.Control
                         type='number'
-                        value={specialist_cost_per_inch}
+                        value={specialist_per_inch}
                         className='userfield'
-                        name='specialist_cost_per_inch'
+                        name='specialist_per_inch'
                         onChange={onchange}
                         placeholder=''
                       />
