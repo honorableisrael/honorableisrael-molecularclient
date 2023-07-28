@@ -334,7 +334,7 @@ const MilestoneManagement = (props) => {
       })
       .then((res) => {
         notify("Milestone record updated");
-        // reloadPage();
+        reloadPage();
         setState({
           ...state,
           isloading: false,
@@ -346,7 +346,7 @@ const MilestoneManagement = (props) => {
       })
       .catch((err) => {
         //console.log(err.response);
-        notify("Updated failed, please try again later");
+        notify("Updated failed, please try again later",err?.response?.data?.message);
         setState({
           ...state,
           isloading: false,

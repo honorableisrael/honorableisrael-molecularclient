@@ -84,8 +84,8 @@ const Accordions = (props) => {
           console.log(res.data.data);
           setState({
             ...state,
-            allAssignedSpecialist: res.data.data.members,
-            work_sheet: res.data.data.worksheet_reports,
+            allAssignedSpecialist: res?.data?.data?.members,
+            // work_sheet: res.data.data.worksheet_reports,
             isloading: false,
             active: active === "" ? "active" : "",
             collapseHeight: active === "active" ? "0px" : `fit-content`,
@@ -105,7 +105,7 @@ const Accordions = (props) => {
         console.log(err);
       });
   };
-  console.log(work_sheet);
+  console.log(props?.group_data,"props?.group_data?");
   return (
     <>
       <div className="dplsplsacc">
@@ -173,8 +173,8 @@ const Accordions = (props) => {
                 ))}
               </tbody>
             </Table>
-            <div className="active_worksheet">WORKS SHEETS</div>
-            {true && (
+            {/* <div className="active_worksheet">WORKS SHEETS</div> */}
+            {/* {true && (
               <>
                 <Col md={11} className="containerforemptyorder1 cust20">
                   {work_sheet.length == 0 && (
@@ -221,7 +221,7 @@ const Accordions = (props) => {
                   ))}
                 </div>
               </>
-            )}
+            )} */}
           </div>
         </div>
       </div>

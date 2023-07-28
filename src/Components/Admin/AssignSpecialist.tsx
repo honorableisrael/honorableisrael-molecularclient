@@ -391,7 +391,7 @@ const AssignSpecialist = () => {
     current_page,
     search,
   } = state;
-  console.log(selectedspecialist);
+  console.log(all_specialist,"all_specialist");
   return (
     <>
       <Container fluid={true} className="dasbwr">
