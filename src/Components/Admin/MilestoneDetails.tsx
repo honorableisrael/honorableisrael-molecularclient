@@ -487,7 +487,11 @@ const MilestoneDetails = (props) => {
                               <td className="border-top-0">{formatTime(milestone?.start_date)}</td>
                             </tr>
                             <tr>
-                              <td className="col-sm-2">End Date</td>
+                              <td>Weeks</td>
+                              <td>{milestone?.weeks}</td>
+                            </tr>
+                            <tr>
+                              <td className="col-sm-4">End Date</td>
                               <td>{formatTime(milestone?.end_date)}</td>
                             </tr>
                             <tr>
@@ -516,13 +520,22 @@ const MilestoneDetails = (props) => {
                               <td>{milestone?.assigned_specialists}</td>
                             </tr>
                             <tr>
-                              <td>Weeks</td>
-                              <td>{milestone?.weeks}</td>
-                            </tr>
-                            <tr>
                               <td>Invoice Sum</td>
                               <td>{milestone?.invoice_sum}</td>
                             </tr>
+                            <tr>
+                              <td>Specialist Cost</td>
+                              <td>{milestone?.specialist_cost}</td>
+                            </tr>
+                            <tr>
+                              <td>Association Cost</td>
+                              <td>{milestone?.association_cost}</td>
+                            </tr>
+                            <tr>
+                              <td>Profit</td>
+                              <td>{milestone?.profit}</td>
+                            </tr>
+                            
                           </tbody>
                         </table>
                       </div>
