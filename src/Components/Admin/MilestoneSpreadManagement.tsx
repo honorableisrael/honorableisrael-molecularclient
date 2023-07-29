@@ -390,7 +390,6 @@ const MilestoneSpreadManagement = (props) => {
             )}
             <div className='spltpaybreakdwnwrapper'>
               <p className='spltpaybreakdwn-title'>{work_order_detail.title}</p>
-              <div className='spltpaybreakdwn-details'></div>
               <div>
                 <Table
                   hover
@@ -400,7 +399,8 @@ const MilestoneSpreadManagement = (props) => {
                   <thead className='splinvoitablehead'>
                     <tr>
                       <th>S/N</th>
-                      <th style={{ minWidth: "9rem" }}>Name</th>
+                      <th style={{ minWidth: "3rem" }}>Name</th>
+                      <th style={{ minWidth: "1rem" }}>Specialists</th>
                       <th style={{ minWidth: "8rem" }}>Description</th>
                       <th>Action</th>
                     </tr>
@@ -410,6 +410,7 @@ const MilestoneSpreadManagement = (props) => {
                       <tr>
                         <td>{i + 1}</td>
                         <td>{data?.name}</td>
+                        <td>{data?.total_specialists}</td>
                         <td>{data?.description}</td>
 
                         <td className="table_data">

@@ -434,7 +434,7 @@ const MSpreadSpecialists = (props) => {
             )}
             <div className='spltpaybreakdwnwrapper'>
               <p className='spltpaybreakdwn-title'>{work_order_detail.title}</p>
-              <div className='spltpaybreakdwn-details'></div>
+              <h4 className='spltpaybreakdwn-details'>{list_of_specialist?.data?.[0]?.spread?.name}</h4>
               <div>
                 <Table
                   hover
@@ -446,7 +446,7 @@ const MSpreadSpecialists = (props) => {
                       <th>S/N</th>
                       <th style={{ minWidth: "9rem" }}>Full Name</th>
                       <th style={{ minWidth: "8rem" }}>Email</th>
-                      <th style={{ minWidth: "8rem" }}>Work Completion</th>
+                      <th style={{ minWidth: "8rem" }}>Work Completion (%)</th>
                       <th style={{ minWidth: "10rem" }}>Rating</th>
                       <th style={{ minWidth: "10rem" }}>Status</th>
                       <th>Action</th>

@@ -295,7 +295,7 @@ const MSpreadSpecialistManagement = (props) => {
       })
       .catch((err) => {
 
-        notify("Updated failed, please try again later");
+        notify(`Updated failed, please try again later ${err?.response?.data?.message}`);
         setState({
           ...state,
           isloading: false,
@@ -450,7 +450,7 @@ const MSpreadSpecialistManagement = (props) => {
                       <th>S/N</th>
                       <th style={{ minWidth: "9rem" }}>Full Name</th>
                       <th style={{ minWidth: "8rem" }}>Email</th>
-                      <th style={{ minWidth: "8rem" }}>Work Completion</th>
+                      <th style={{ minWidth: "8rem" }}>Work Completion (%)</th>
                       <th style={{ minWidth: "10rem" }}>Rating</th>
                       <th style={{ minWidth: "10rem" }}>Status</th>
                       <th>Action</th>
@@ -745,6 +745,7 @@ const MSpreadSpecialistManagement = (props) => {
                         name='specialist_work_rate'
                         onChange={onchange}
                         placeholder=''
+                        max={"100"}
                       />
                     </Form.Group>
                   </Col>
