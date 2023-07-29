@@ -5,12 +5,13 @@ import logo from "../../images/Molecular.png";
 import { Link, withRouter } from "react-router-dom";
 // import userimg from "../../assets/avatar.svg";
 // import arrowhead from "../../assets/arrowhead.png";
-// import settings from "../../assets/settings.png";
+import powerbutton from "../../assets/powerbutton.png";
 import bell from "../../images/bell.png";
-import { API, capitalize } from "../../config"; 
+import { API, capitalize } from "../../config";
 import axios from "axios";
 import Axios, { AxiosResponse } from "axios";
 import SideNav from "react-simple-sidenav";
+
 
 const DashboardNav = withRouter((props) => {
   const [state, setState] = React.useState({
@@ -33,13 +34,13 @@ const DashboardNav = withRouter((props) => {
       return props.history.push("/signin");
     }
     Axios.all([
-      Axios.get<any, AxiosResponse<any>>(`${API}/admin`, {
+      Axios.get < any, AxiosResponse < any >> (`${API}/admin`, {
         headers: { Authorization: `Bearer ${token.access_token}` },
       }),
     ])
       .then(
         axios.spread((res) => {
-          
+
           setState({
             ...state,
             theUserIsLoggedIn: true,
@@ -48,7 +49,7 @@ const DashboardNav = withRouter((props) => {
         })
       )
       .catch((err) => {
-        
+
       });
   }, []);
 
@@ -102,7 +103,7 @@ const DashboardNav = withRouter((props) => {
                 <span
                   className={
                     window.location.pathname == "/contractor_list" ||
-                    window.location.pathname == "/contractor_list"
+                      window.location.pathname == "/contractor_list"
                       ? "navlink_is_active lightorange"
                       : "navlink_is_active1"
                   }
@@ -215,7 +216,7 @@ const DashboardNav = withRouter((props) => {
                 </Dropdown.Menu>
               </Dropdown>
 
-              
+
               {/* <Link to={"/admin/settings"} className="flex-12a">
                 {" "}
                 <span
@@ -232,18 +233,19 @@ const DashboardNav = withRouter((props) => {
                 )}
               </Link> */}
             </div>
-            <Dropdown className="uddrpdwndiv">
+            <Dropdown className="uddrpdwndiv" style={{ marginRight: "2.2rem", alignItems: "center" }}>
               <div className="bell2">
                 <Link to={"/admin_notification"}>
                   {" "}
                   <img src={bell} className="bell" alt="bell" />
                 </Link>
               </div>
-              <span className="lfff">
-                {capitalize(user_details?.first_name?.split("")[0])}
-                {capitalize(user_details?.last_name?.split("")[0])}
-              </span>
-              <Dropdown.Toggle id="dropdown-basic" className="usernavdrpdwn" />
+              <Dropdown.Toggle id="dropdown-basic2" className="">
+                <span className="lfff">
+                  {capitalize(user_details?.first_name?.split("")[0])}
+                  {capitalize(user_details?.last_name?.split("")[0])}
+                </span>
+              </Dropdown.Toggle>
               <Dropdown.Menu className="animated fadeIn">
                 <Dropdown.Item
                   className="animated fadeInLeft"
@@ -382,7 +384,7 @@ const DashboardNav = withRouter((props) => {
                 <span
                   className={
                     window.location.pathname == "/contractor_list" ||
-                    window.location.pathname == "/contractor_list"
+                      window.location.pathname == "/contractor_list"
                       ? "navlink_is_active lightorange"
                       : "navlink_is_active1"
                   }
@@ -426,16 +428,16 @@ const DashboardNav = withRouter((props) => {
                 </span>
               </a>
               <Link to={"/scheduled_payments"} className={"navlink_is_active1"}>
-              Payment to Specialist 
+                Payment to Specialist
               </Link>
-                <span>
-                  <Link
-                    to={"/admin_payment_invoice"}
-                    className={"navlink_is_active1"}
-                  >
-                    Payment by Contractors
-                  </Link>
-                </span>
+              <span>
+                <Link
+                  to={"/admin_payment_invoice"}
+                  className={"navlink_is_active1"}
+                >
+                  Payment by Contractors
+                </Link>
+              </span>
               {/* <Link to={"/admin_payment_invoice"} className="flex-12a">
                 {" "}
                 <span
@@ -484,43 +486,45 @@ const DashboardNav = withRouter((props) => {
         ]}
       />
       {/* mobile nav ends here */}
-      {NavisOpen ? (
-        <div className="ismobile animated slideInDown">
-          <div className="siggnup1 animated slideInRight">
-            {" "}
-            <Link to="/">
-              <span className="navsignup2">Dashboard</span>
-            </Link>
-          </div>
-          <div className="siggnup1 animated slideInRight">
-            {" "}
-            <Link to="/properties">
-              <span className="navsignup2">Work Offers</span>
-            </Link>
-          </div>
-          <div className="siggnup1 animated slideInRight">
-            {" "}
-            <Link to="/mortgage">
-              <span className="navsignup2">Profile</span>
-            </Link>
-          </div>
-          {/* <div className="siggnup1 animated slideInRight">
+      {
+        NavisOpen ? (
+          <div className="ismobile animated slideInDown">
+            <div className="siggnup1 animated slideInRight">
+              {" "}
+              <Link to="/">
+                <span className="navsignup2">Dashboard</span>
+              </Link>
+            </div>
+            <div className="siggnup1 animated slideInRight">
+              {" "}
+              <Link to="/properties">
+                <span className="navsignup2">Work Offers</span>
+              </Link>
+            </div>
+            <div className="siggnup1 animated slideInRight">
+              {" "}
+              <Link to="/mortgage">
+                <span className="navsignup2">Profile</span>
+              </Link>
+            </div>
+            {/* <div className="siggnup1 animated slideInRight">
             {" "}
             <Link to="/contact">
               <span className="navsignup2">Settings</span>
             </Link>
           </div> */}
-          <div className="siggnup animated slideInRight">
-            {" "}
-            <Link to="/signup">
-              <Button className="navsignup navsignup1">Sign Up</Button>
-            </Link>
+            <div className="siggnup animated slideInRight">
+              {" "}
+              <Link to="/signup">
+                <Button className="navsignup navsignup1">Sign Up</Button>
+              </Link>
+            </div>
           </div>
-        </div>
-      ) : (
-        ""
-      )}
-    </div>
+        ) : (
+          ""
+        )
+      }
+    </div >
   );
 });
 

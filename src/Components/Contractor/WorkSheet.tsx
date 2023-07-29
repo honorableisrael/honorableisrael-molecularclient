@@ -202,7 +202,7 @@ const WorkSheetContactor = (props) => {
     selected_id,
     show,
   } = state;
-  
+  console.log(work_sheet,"work_sheet")
   return (
     <>
       <Modal
@@ -501,8 +501,8 @@ const WorkSheetContactor = (props) => {
                                   Team Captain (
                                   {item?.captain?.skills?.[0]?.name}):{" "}
                                   <b className='text-dark'>
-                                    {item?.captain.first_name}{" "}
-                                    {item?.captain.last_name}
+                                    {item?.captain?.first_name}{" "}
+                                    {item?.captain?.last_name}
                                   </b>
                                 </h6>
                               </div>

@@ -149,6 +149,7 @@ const SpecialistWorkSheetPage = (props) => {
             pipeList: response2.data.data,
             pipe_schedules: response3.data.data,
             pipeSizes: response4.data.data,
+            add_worksheet_modal: false,
           });
         })
       )
@@ -224,7 +225,7 @@ const SpecialistWorkSheetPage = (props) => {
     };
     
     axios
-      .post(`${API}/specialist/work-orders/worksheets/${id}/items`, data, {
+      .post(`${API}/specialist/work-orders/worksheets/${id}/pipes`, data, {
         headers: { Authorization: `Bearer ${token.access_token}` },
       })
       .then((res) => {
@@ -267,7 +268,7 @@ const SpecialistWorkSheetPage = (props) => {
     };
     axios
       .put(
-        `${API}/specialist/work-orders/worksheets/items/${edit_item_id}`,
+        `${API}/specialist/work-orders/worksheets/pipes/${edit_item_id}`,
         data,
         {
           headers: { Authorization: `Bearer ${token.access_token}` },
@@ -288,6 +289,7 @@ const SpecialistWorkSheetPage = (props) => {
         setState({
           ...state,
           isloading: false,
+          add_worksheet_modal: false,
         });
         
         if (err?.response?.status == 406) {
@@ -307,7 +309,7 @@ const SpecialistWorkSheetPage = (props) => {
     });
     axios
       .delete(
-        `${API}/specialist/work-orders/worksheets/items/${edit_item_id}`,
+        `${API}/specialist/work-orders/worksheets/pipes/${edit_item_id}`,
         {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }

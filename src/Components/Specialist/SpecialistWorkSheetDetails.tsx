@@ -162,6 +162,7 @@ const SpecialistWorkSheetDetailsPage = (props) => {
               pipe_schedules: response3.data.data,
               pipeSizes: response4.data.data,
               worksheet_details: res5.data.data,
+              add_worksheet_modal: false,
             });
           }
         )
@@ -238,7 +239,7 @@ const SpecialistWorkSheetDetailsPage = (props) => {
     };
     
     axios
-      .post(`${API}/specialist/work-orders/worksheets/${id}/items`, data, {
+      .post(`${API}/specialist/work-orders/worksheets/${id}/pipes`, data, {
         headers: { Authorization: `Bearer ${token.access_token}` },
       })
       .then((res) => {
@@ -281,7 +282,7 @@ const SpecialistWorkSheetDetailsPage = (props) => {
     };
     axios
       .put(
-        `${API}/specialist/work-orders/worksheets/items/${edit_item_id}`,
+        `${API}/specialist/work-orders/worksheets/pipes/${edit_item_id}`,
         data,
         {
           headers: { Authorization: `Bearer ${token.access_token}` },
@@ -321,7 +322,7 @@ const SpecialistWorkSheetDetailsPage = (props) => {
     });
     axios
       .delete(
-        `${API}/specialist/work-orders/worksheets/items/${edit_item_id}`,
+        `${API}/specialist/work-orders/worksheets/pipes/${edit_item_id}`,
         {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }
@@ -800,7 +801,7 @@ const SpecialistWorkSheetDetailsPage = (props) => {
                                       {worksheet_details?.pipes?.map(
                                         (pipe, i) => (
                                           <tr>
-                                            <div className=''>{i++}</div>
+                                            <div className=''>{i=i+1}</div>
                                             <td>{pipe?.pipe_size?.size}</td>
                                             <td>
                                               {pipe?.pipe_schedule?.value}
