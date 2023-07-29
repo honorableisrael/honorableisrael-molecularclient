@@ -137,7 +137,7 @@ const Work_Sheet = (props: any) => {
         }
       )
       .then((res) => {
-        console.log(res.data.data);
+        
         setState({
           ...state,
           work_sheet: res.data.data.data,
@@ -149,7 +149,7 @@ const Work_Sheet = (props: any) => {
           ...state,
           work_order_details: work_order_details,
         });
-        console.log(err);
+        
       });
   }, []);
 
@@ -337,7 +337,7 @@ const SpecialistDeployed = ({ work_order_detail }) => {
     work_sheet: [],
     new_work: false,
   });
-  console.log(work_order_detail);
+  
   // new_work: res.data.data.status == "New" ? true : false,
   const content: any = useRef();
   const toggleAccordion = () => {
@@ -480,7 +480,7 @@ const WorkOrderDetails = withRouter((props: any) => {
     inreview: false,
   });
   const onchange = (e) => {
-    console.log(e.target.value);
+    
     setState({
       ...state,
       [e.target.name]: e.target.value,
@@ -545,7 +545,7 @@ const WorkOrderDetails = withRouter((props: any) => {
       work_order_details: work_order_details,
     });
     let inreview = props.location.search;
-    console.log(work_order_details);
+    
     const availableToken: any = localStorage.getItem("loggedInDetails");
     const token = availableToken
       ? JSON.parse(availableToken)
@@ -562,7 +562,7 @@ const WorkOrderDetails = withRouter((props: any) => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           setState({
             ...state,
             workDetails: res.data.data,
@@ -575,10 +575,10 @@ const WorkOrderDetails = withRouter((props: any) => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   }, []);
-  console.log(workDetails);
+  
 
   return (
     <>

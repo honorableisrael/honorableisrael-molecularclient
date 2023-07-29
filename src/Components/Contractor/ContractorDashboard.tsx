@@ -19,7 +19,7 @@ import axios, { AxiosResponse } from "axios";
 import { API, contractorToken } from "../../config";
 
 const Notification = (props) => {
-  console.log(props);
+  
   return (
     <>
       <div className="carderw carderwxc carder_notification">
@@ -89,7 +89,7 @@ const Notification = (props) => {
   );
 };
 const Invoice = (props) => {
-  console.log(props);
+  
   return (
     <>
       {props?.invoicelist?.slice(0, 3)?.map((data, i) => (
@@ -210,11 +210,11 @@ const ContractorDashboard = withRouter((props) => {
       ])
       .then(
         axios.spread((res, res2, res3, res4,res5) => {
-          console.log(res5.data);
+          
           const WorkForceMonths:any = Object.values(res5?.data?.data?.work_force["6_months"])
           const WorkForceKeys:any = Object.keys(res5?.data?.data?.work_force["6_months"])
           const cost_of_deployment:any = Object.values(res5?.data?.data?.cost_of_deployment["6_months"])
-          console.log(cost_of_deployment)
+          
           const cost_of_deploymentkeys:any = Object.keys(res5?.data?.data?.cost_of_deployment["6_months"])
           setState({
             ...state,
@@ -284,11 +284,11 @@ const ContractorDashboard = withRouter((props) => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   }, []);
   const { contractor, invoices, work_orders }: any = state;
-  console.log(invoices);
+  
   return (
     <>
       <Container fluid={true} className="dasbwr">

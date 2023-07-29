@@ -32,7 +32,7 @@ const Password_Reset = (props) => {
     });
     const query = new URLSearchParams(props.location.search);
     const Token = query.get("token");
-    console.log(Token);
+    
     const data = {
       password_confirmation: confirm_password,
       password,
@@ -42,7 +42,7 @@ const Password_Reset = (props) => {
     axios
       .post(`${API}/password/reset`, data)
       .then((res) => {
-        console.log(res.data);
+        
         setTimeout(() => {
           return window.location.assign("/#/signin");
         }, 3000);
@@ -52,7 +52,7 @@ const Password_Reset = (props) => {
         });
       })
       .catch((err) => {
-        console.log(err?.response);
+        
         if (err?.response?.status == 406) {
           return setState({
             ...state,
@@ -75,7 +75,7 @@ const Password_Reset = (props) => {
       });
   };
   const onchange = (e) => {
-    console.log(e.target.value);
+    
     setState({
       ...state,
       [e.target.name]: e.target.value,

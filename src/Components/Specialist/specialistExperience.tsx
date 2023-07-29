@@ -43,7 +43,7 @@ const Experience = () => {
   }: any = state;
 
   const onchange = e => {
-    console.log(e.target.value);
+    
     setState({
       ...state,
       [e.target.name]: e.target.value
@@ -53,7 +53,7 @@ const Experience = () => {
   useEffect(() => {
     window.scrollTo(-0, -0);
     const availableToken = localStorage.getItem("loggedInDetails");
-    console.log(availableToken);
+    
     setState({
       ...state,
       noExperienceAdded: experiences.length == 1 ? true : false,
@@ -63,7 +63,7 @@ const Experience = () => {
         experiences.length == 1 ? "noprofcerbtnwrapper" : "profcerbtnwrapper"
     });
     const token = availableToken ? JSON.parse(availableToken) : "";
-    console.log(token);
+    
     Axios.all([
       Axios.get(`${API}/specialist`, {
         headers: { Authorization: `Bearer ${token.access_token}` }
@@ -71,7 +71,7 @@ const Experience = () => {
     ])
       .then(
         Axios.spread(res => {
-          console.log(res.data);
+          
 
           const user = res.data.data;
           setState({
@@ -91,12 +91,12 @@ const Experience = () => {
         })
       )
       .catch(err => {
-        console.log(err.response);
+        
       });
   }, []);
 
   const editExperience = (id, index, title, description) => {
-    console.log(id);
+    
     setState({
       ...state,
       title: title,
@@ -124,21 +124,21 @@ setState({
        });
          //post to API
     const availableToken = localStorage.getItem("loggedInDetails");
-    console.log(availableToken);
+    
     const token = availableToken ? JSON.parse(availableToken) : "";
-    console.log(token);
+    
 
     Axios.delete(`${API}/specialist/experiences/${credential_id}`, {
       headers: { Authorization: `Bearer ${token.access_token}` }
     })
       .then(res => {
-        console.log(res.data);
+        
         if (res.status == 200) {
           notify("Experience successfully deleted");
         }
       })
       .catch(err => {
-        console.log(err.response);
+        
         if (err.response) {
           notify("failed to Delete");
         }
@@ -157,9 +157,9 @@ setState({
     });
     //post to API
     const availableToken = localStorage.getItem("loggedInDetails");
-    console.log(availableToken);
+    
     const token = availableToken ? JSON.parse(availableToken) : "";
-    console.log(token);
+    
     const data = {
       title,
       description
@@ -168,13 +168,13 @@ setState({
       headers: { Authorization: `Bearer ${token.access_token}` }
     })
       .then(res => {
-        console.log(res.data);
+        
         if (res.status == 200) {
           notify("experience updated successfully ");
         }
       })
       .catch(err => {
-        console.log(err.response);
+        
         if (err.response) {
           notify("failed to Update");
         }
@@ -191,9 +191,9 @@ setState({
       })
     //post data to API
     const availableToken = localStorage.getItem("loggedInDetails");
-    console.log(availableToken);
+    
     const token = availableToken ? JSON.parse(availableToken) : "";
-    console.log(token);
+    
     const data = {
       title,
       description
@@ -202,7 +202,7 @@ setState({
       headers: { Authorization: `Bearer ${token.access_token}` }
     })
       .then(res => {
-        console.log(res.data);
+        
         if (res.status == 201) {
           //display experience to UI
           setState({
@@ -217,7 +217,7 @@ setState({
         }
       })
       .catch(err => {
-        console.log(err.response);
+        
         if (err.response) {
           notify("failed to add experience");
           setState({

@@ -83,7 +83,7 @@ const Specialist_Work_details = props => {
     });
   };
   const onchange = (e) => {
-    console.log(e.target.value);
+    
     setState({
       ...state,
       [e.target.name]: e.target.value,
@@ -96,10 +96,10 @@ const Specialist_Work_details = props => {
 
     window.scrollTo(-0, -0);
     const availableToken = localStorage.getItem("loggedInDetails");
-    console.log(availableToken);
+    
 
     const token = availableToken ? JSON.parse(availableToken) : "";
-    console.log(token);
+    
 
     Axios.get<any, AxiosResponse<any>>(
       `${API}/specialist/work-orders/pending`,
@@ -108,7 +108,7 @@ const Specialist_Work_details = props => {
       }
     )
     .then(res => {
-      console.log(res.data);
+      
       setState({
         ...state,
         ...res.data.data,
@@ -145,7 +145,7 @@ const Specialist_Work_details = props => {
           setTimeout(()=>{
             window.location.reload()
           },3000)
-          console.log(res.data);
+          
           setState({
             ...state,
             isloading: false,
@@ -154,7 +154,7 @@ const Specialist_Work_details = props => {
         })
       )
       .catch((err) => {
-        console.log(err.response);
+        
         setState({
           ...state,
           isloading: false,
@@ -192,7 +192,7 @@ const Specialist_Work_details = props => {
       .then(
         Axios.spread((res) => {
             notify("New work order rejected")
-          console.log(res.data);
+          
           setState({
             ...state,
             isloading: false,
@@ -201,7 +201,7 @@ const Specialist_Work_details = props => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
         if(err.response ){ 
           notify("failed to reject work order")
         }

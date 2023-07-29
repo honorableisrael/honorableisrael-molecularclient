@@ -41,14 +41,14 @@ const Contractor_Details = (props) => {
         },
       })
       .then((res) => {
-        console.log(res);
+        
         setState({
           ...state,
           user: res.data.data,
         });
       })
       .catch((err) => {
-        console.log(err);
+        
       });
   }, []);
 
@@ -91,12 +91,12 @@ const Contractor_Details = (props) => {
           ...state,
           isloading: false,
         });
-        console.log(err);
+        
       });
   };
 
   const { admin, show_date, isloading, reason, show, user }: any = state;
-  console.log(user);
+  
   return (
     <>
       <Helmet>

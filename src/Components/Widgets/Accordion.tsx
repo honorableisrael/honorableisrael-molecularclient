@@ -54,7 +54,7 @@ const Accordions = (props) => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           notify("Successfully assigned captain");
           setTimeout(()=>{
             window.location.reload()
@@ -63,7 +63,7 @@ const Accordions = (props) => {
       )
       .catch((err) => {
         notify("Failed to assign captain", "D");
-        console.log(err);
+        
       });
   };
   
@@ -81,7 +81,7 @@ const Accordions = (props) => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           setState({
             ...state,
             allAssignedSpecialist: res?.data?.data?.members,
@@ -102,10 +102,10 @@ const Accordions = (props) => {
             active === "active" ? "0px" : `${content.current.scrollHeight}px`,
           chevron: active === "active" ? "" : "arrowflip",
         });
-        console.log(err);
+        
       });
   };
-  console.log(props?.group_data,"props?.group_data?");
+  
   return (
     <>
       <div className="dplsplsacc">

@@ -42,7 +42,7 @@ const Contractor_Transactions_details = (props) => {
     total: "",
   });
   const onchange = (e) => {
-    console.log(e.target.value);
+    
     setState({
       ...state,
       [e.target.id]: e.target.value,
@@ -110,7 +110,7 @@ const Contractor_Transactions_details = (props) => {
       ])
       .then(
         axios.spread((res) => {
-          // console.log(res.data);
+          // 
           setState({
             ...state,
             all_invoices: res.data.data.data,
@@ -121,7 +121,7 @@ const Contractor_Transactions_details = (props) => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   };
   const nextPage = (x) => {
@@ -134,7 +134,7 @@ const Contractor_Transactions_details = (props) => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data);
+          
           window.scrollTo(-0, -0);
           setState({
             ...state,
@@ -145,7 +145,7 @@ const Contractor_Transactions_details = (props) => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   };
   const {
@@ -167,8 +167,8 @@ const Contractor_Transactions_details = (props) => {
     last,
     current_page,
   } = state;
-  console.log(all_invoices);
-  console.log(filter);
+  
+  
   return (
     <>
       <Container fluid={true} className='dasbwr'>

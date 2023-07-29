@@ -71,7 +71,7 @@ const Invoice_details = (props) => {
   });
 
   const onchange = (e) => {
-    console.log(e.target.value);
+    
     setState({
       ...state,
       [e.target.name]: e.target.value,
@@ -107,7 +107,7 @@ const Invoice_details = (props) => {
   
   useEffect(() => {
     window.scrollTo(-0, -0);
-    console.log(props);
+    
     const invoice_: any = localStorage.getItem("invoice_id");
     const invoice = invoice_ ? JSON.parse(invoice_) : "";
     const token = contractorToken();
@@ -130,7 +130,7 @@ const Invoice_details = (props) => {
       ])
       .then(
         axios.spread((res2, res3, res4) => {
-          console.log(res2.data.data);
+          
           setState({
             ...state,
             work_order_detail: res4.data.data,
@@ -145,7 +145,7 @@ const Invoice_details = (props) => {
           ...state,
           work_order_detail: work_order_details,
         });
-        console.log(err);
+        
       });
   }, []);
 
@@ -173,7 +173,7 @@ const Invoice_details = (props) => {
           setTimeout(() => {
             props.history.push("/proforma_invoice_accepted");
           }, 2000);
-          console.log(res.data.data);
+          
           setState({
             ...state,
             isloading: false,
@@ -188,7 +188,7 @@ const Invoice_details = (props) => {
         if (err?.response?.status == 400) {
           return notify(err?.response?.data?.message);
         }
-        console.log(err);
+        
       });
   };
 
@@ -208,7 +208,7 @@ const Invoice_details = (props) => {
         notify("failed to complete payment");
       },
       callback: function (response) {
-        console.log(response);
+        
         notify(response.message);
         if (response?.bank_message == "Approved") {
           MakePayment();
@@ -254,7 +254,7 @@ const Invoice_details = (props) => {
         if (err?.response?.status == 400) {
           // return notify(err?.response?.data?.message);
         }
-        console.log(err);
+        
       });
   };
   const get_payment_ref = () => {
@@ -275,7 +275,7 @@ const Invoice_details = (props) => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data);
+          
           initPayment(res?.data?.data?.reference);
           setTimeout(() => {
             setState({
@@ -294,7 +294,7 @@ const Invoice_details = (props) => {
         if (err?.response?.status == 400) {
           // return notify(err?.response?.data?.message);
         }
-        console.log(err);
+        
       });
   };
   const {
@@ -312,7 +312,7 @@ const Invoice_details = (props) => {
     show,
     cycle_amount,
   } = state;
-  console.log(invoice_details, "invoice_details");
+  
   return (
     <>
       <Modal

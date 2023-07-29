@@ -88,7 +88,7 @@ const SpecialistWorkOrderDetails = (props) => {
     hour,
   }: any = state;
   const onchange = (e) => {
-    console.log(e.target.value);
+    
     setState({
       ...state,
       [e.target.name]: e.target.value,
@@ -111,7 +111,7 @@ const SpecialistWorkOrderDetails = (props) => {
     let urlkey = props.location.search;
     const work_order = localStorage.getItem("work_order_details");
     const work_order_details = work_order ? JSON.parse(work_order) : "";
-    console.log(work_order_details.id);
+    
     axios
       .all([
         axios.get(`${API}/specialist/work-orders/${work_order_details?.id}`, {
@@ -127,7 +127,7 @@ const SpecialistWorkOrderDetails = (props) => {
 
       .then(
         axios.spread((res, res2) => {
-          console.log(res.data.data);
+          
           setState({
             ...state,
             ...res.data.data,
@@ -138,7 +138,7 @@ const SpecialistWorkOrderDetails = (props) => {
         })
       )
       .catch((err) => {
-        console.log(err.response);
+        
       });
   }, []);
   const notify = (message: string, type = "B") => {
@@ -149,7 +149,7 @@ const SpecialistWorkOrderDetails = (props) => {
     hiddenFileInput.current.click();
   };
   const upLoadFile = ({ target: { files } }) => {
-    console.log(files[0]);
+    
     setState({
       ...state,
       filename: files[0].name,
@@ -166,7 +166,7 @@ const SpecialistWorkOrderDetails = (props) => {
 
     const availableToken: any = localStorage.getItem("loggedInDetails");
     const token = availableToken ? JSON.parse(availableToken) : "";
-    console.log(token);
+    
     const work_order = localStorage.getItem("work_order_details");
     const work_order_details = work_order ? JSON.parse(work_order) : "";
 
@@ -183,7 +183,7 @@ const SpecialistWorkOrderDetails = (props) => {
         }
       )
       .then((res) => {
-        console.log(res.data);
+        
         if (res.data.success == true) {
           setState({
             ...state,
@@ -197,7 +197,7 @@ const SpecialistWorkOrderDetails = (props) => {
         }
       })
       .catch((err) => {
-        console.log(err.response);
+        
         setState({
           ...state,
           isloading: false,
@@ -228,7 +228,7 @@ const SpecialistWorkOrderDetails = (props) => {
       terminateWorkModal: false,
     });
   };
-  console.log(work_order_detail, "work_order_detail");
+  
   return (
     <>
       <ToastContainer

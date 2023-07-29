@@ -35,20 +35,20 @@ const AssignOneSpecialist = (x) => {
     specialists: [x],
   };
 
-  console.log("here now");
+  
   axios
     .post(`${API}/admin/work-orders/${workorder.id}/specialists`, data, {
       headers: { Authorization: `Bearer ${token.access_token}` },
     })
     .then((res) => {
-      console.log(res);
+      
       notify("Successfully assigned specialist");
       setTimeout(() => {
         window.location.assign(`/#admin_work_details/${workorder.id}?inreview=true`);
       }, 2000);
     })
     .catch((err) => {
-      console.log(err);
+      
       if (err?.response?.status == "400") {
         return err?.response?.data?.message;
       }
@@ -179,7 +179,7 @@ const AssignSpecialist = () => {
       : window.location.assign("/");
     const workOrder = localStorage.getItem("work_order_details");
     const workorder = workOrder ? JSON.parse(workOrder) : "";
-    console.log(workorder);
+    
     axios
       .all([
         axios.get(
@@ -191,7 +191,7 @@ const AssignSpecialist = () => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           setState({
             ...state,
             all_specialist: res.data.data.data,
@@ -202,7 +202,7 @@ const AssignSpecialist = () => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   }, []);
 
@@ -213,7 +213,7 @@ const AssignSpecialist = () => {
       : window.location.assign("/");
       const workOrder = localStorage.getItem("work_order_details");
       const workorder = workOrder ? JSON.parse(workOrder) : "";
-      console.log(workorder);
+      
     axios
       .all([
         axios.get(`${API}/admin/work-orders/${workorder.id}/recommend-specialists`, {
@@ -222,7 +222,7 @@ const AssignSpecialist = () => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           setState({
             ...state,
             all_specialist: res.data.data.data,
@@ -235,7 +235,7 @@ const AssignSpecialist = () => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   };
   const filter_by_new = (fun) => {
@@ -251,7 +251,7 @@ const AssignSpecialist = () => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           setState({
             ...state,
             all_specialist: res.data.data.data,
@@ -261,7 +261,7 @@ const AssignSpecialist = () => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   };
   const onStarClick = (nextValue, prevValue, name) => {
@@ -283,7 +283,7 @@ const AssignSpecialist = () => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           window.scrollTo(-0, -0);
           setState({
             ...state,
@@ -294,7 +294,7 @@ const AssignSpecialist = () => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   };
   const assignToWorkOrder = (e) => {
@@ -310,13 +310,13 @@ const AssignSpecialist = () => {
     const data = {
       specialists: selectedspecialist,
     };
-    console.log("here now");
+    
     axios
       .post(`${API}/admin/work-orders/${state.order_id}/specialists`, data, {
         headers: { Authorization: `Bearer ${token.access_token}` },
       })
       .then((res) => {
-        console.log(res);
+        
         setState({
           ...state,
           isloading: false,
@@ -331,7 +331,7 @@ const AssignSpecialist = () => {
           ...state,
           isloading: false,
         });
-        console.log(err);
+        
         notify("Failed to assign specialist", "D");
       });
   };
@@ -349,7 +349,7 @@ const AssignSpecialist = () => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           setState({
             ...state,
             all_specialist: res.data.data.data,
@@ -364,7 +364,7 @@ const AssignSpecialist = () => {
           ...state,
           isloading: false,
         });
-        console.log(err);
+        
       });
   };
   const onchange = (e) => {
@@ -391,7 +391,7 @@ const AssignSpecialist = () => {
     current_page,
     search,
   } = state;
-  console.log(all_specialist,"all_specialist");
+  
   return (
     <>
       <Container fluid={true} className="dasbwr">

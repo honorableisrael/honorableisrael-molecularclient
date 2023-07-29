@@ -139,16 +139,16 @@ const AdminSpecialistSettings = (props) => {
       }
     };
     reader.readAsDataURL(e.target.files[0]);
-    console.log(photo);
-    console.log(e.target.files[0]);
+    
+    
     // upload image to server;
     const availableToken = localStorage.getItem("loggedInDetails");
-    console.log(availableToken);
+    
     const token = availableToken ? JSON.parse(availableToken) : "";
-    console.log(token);
+    
     const imageData = new FormData();
     imageData.append("image", e.target.files[0]);
-    console.log(imageData);
+    
     axios
       .post(`${API}/admin/users/${props.match.params.id}/image`, imageData, {
         headers: {
@@ -158,13 +158,13 @@ const AdminSpecialistSettings = (props) => {
         },
       })
       .then((res) => {
-        console.log(res.data);
+        
         setTimeout(() => {
           notify("image uploaded Successfully");
         }, 1000);
       })
       .catch((err) => {
-        console.log(err.response);
+        
         notify("failed to Upload Image");
       });
   };
@@ -223,9 +223,9 @@ const AdminSpecialistSettings = (props) => {
   };
   const submitProfile = () => {
     const availableToken = localStorage.getItem("loggedInDetails");
-    console.log(availableToken);
+    
     const token = availableToken ? JSON.parse(availableToken) : "";
-    console.log(token);
+    
     const data = {
       phone,
       dob,
@@ -237,7 +237,7 @@ const AdminSpecialistSettings = (props) => {
       last_name,
       coverall_size
     };
-    console.log(data);
+    
     axios
       .put(`${API}/admin/specialists/${props.match.params.id}`, data, {
         headers: {
@@ -258,7 +258,7 @@ const AdminSpecialistSettings = (props) => {
             successMessage: res.data.message,
           });
         }, 2000);
-        console.log(res);
+        
       })
       .catch((err) => {
         setState({
@@ -267,7 +267,7 @@ const AdminSpecialistSettings = (props) => {
           errorMessage: err?.response?.data?.message,
         });
         notify("Failed to save", "D");
-        console.log(err.response);
+        
       });
   };
   const closeMessageModal = () => {
@@ -288,9 +288,9 @@ const AdminSpecialistSettings = (props) => {
   useEffect(() => {
     window.scrollTo(-0, -0);
     const availableToken = localStorage.getItem("loggedInDetails");
-    console.log(availableToken);
+    
     const token = availableToken ? JSON.parse(availableToken) : "";
-    console.log(token);
+    
     Axios.all([
       Axios.get(`${API}/admin/specialists/${props.match.params.id}`, {
         headers: { Authorization: `Bearer ${token.access_token}` },
@@ -302,8 +302,8 @@ const AdminSpecialistSettings = (props) => {
     ])
       .then(
         axios.spread((res, res2,res3) => {
-          console.log(res.data);
-          console.log(res2.data);
+          
+          
           const user = res.data.data;
           setState({
             ...state,
@@ -319,19 +319,19 @@ const AdminSpecialistSettings = (props) => {
         })
       )
       .catch((err) => {
-        console.log(err.response);
+        
       });
   }, []);
 
   const third_tab = () => {
     // const availableToken = localStorage.getItem("loggedInDetails");
-    // console.log(availableToken);
+    // 
     // const token = availableToken ? JSON.parse(availableToken) : "";
-    // console.log(token);
+    // 
     // const data1 = {
     //   skill_id
     // };
-    // console.log(skill_id)
+    // 
 
     // Axios.all([
     //   Axios.post(`${API}/specialist/skills`, data1, {
@@ -352,16 +352,16 @@ const AdminSpecialistSettings = (props) => {
     //   })
     // )
     // .catch((err) => {
-    //   console.log(err.response);
+    //   
     //   notify("Failed to save", "D");
     // });
   };
 
   const deactivateAccount = () => {
     const availableToken = localStorage.getItem("loggedInDetails");
-    console.log(availableToken);
+    
     const token = availableToken ? JSON.parse(availableToken) : "";
-    console.log(token);
+    
     setState({
       ...state,
       isloading: true,
@@ -374,11 +374,11 @@ const AdminSpecialistSettings = (props) => {
         reason,
       },
     };
-    console.log(reason);
+    
 
     Axios.delete(`${API}/specialist/deactivate`, config)
       .then((response) => {
-        console.log(response.data);
+        
         notify("specialist account was successfully deactivated ");
         setState({
           ...state,
@@ -386,7 +386,7 @@ const AdminSpecialistSettings = (props) => {
         });
       })
       .catch((err) => {
-        console.log(err.response);
+        
         setState({
           ...state,
           isloading: false,
@@ -399,12 +399,12 @@ const AdminSpecialistSettings = (props) => {
       ...state,
       available: !available,
     });
-    console.log(available);
+    
     //post to API
     const availableToken = localStorage.getItem("loggedInDetails");
-    console.log(availableToken);
+    
     const token = availableToken ? JSON.parse(availableToken) : "";
-    console.log(token);
+    
     const data = {
       status: !available,
     };
@@ -412,7 +412,7 @@ const AdminSpecialistSettings = (props) => {
       headers: { Authorization: `Bearer ${token.access_token}` },
     })
       .then((response) => {
-        console.log(response.data);
+        
         notify(" availability status changed successfully ");
         setState({
           ...state,
@@ -422,7 +422,7 @@ const AdminSpecialistSettings = (props) => {
         });
       })
       .catch((err) => {
-        console.log(err.response);
+        
         setState({
           ...state,
           isloading: false,
@@ -446,7 +446,7 @@ const AdminSpecialistSettings = (props) => {
       });
     }
   }, [errorMessage, successMessage]);
-  console.log(coverall_sizes);
+  
   return (
     <>
       <Container fluid={true}>

@@ -97,7 +97,7 @@ const ContractorWorkOrder = () => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           setState({
             ...state,
             work_orders: res.data.data.data,
@@ -114,7 +114,7 @@ const ContractorWorkOrder = () => {
           ...state,
           isloading: false,
         });
-        console.log(err);
+        
       });
   };
   const get_active = () => {
@@ -132,7 +132,7 @@ const ContractorWorkOrder = () => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           setState({
             ...state,
             work_orders: res.data.data.data,
@@ -149,7 +149,7 @@ const ContractorWorkOrder = () => {
           ...state,
           isloading: false,
         });
-        console.log(err);
+        
       });
   };
   const get_previous = () => {
@@ -167,7 +167,7 @@ const ContractorWorkOrder = () => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           setState({
             ...state,
             work_orders: res.data.data.data,
@@ -184,7 +184,7 @@ const ContractorWorkOrder = () => {
           ...state,
           isloading: false,
         });
-        console.log(err);
+        
       });
   };
   const {
@@ -202,7 +202,7 @@ const ContractorWorkOrder = () => {
     isloading,
     new_order,
   } = state;
-  console.log(work_orders);
+  
   return (
     <>
       <Container fluid={true} className="dasbwr">

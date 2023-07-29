@@ -12,7 +12,7 @@ import { formatTime } from "../../config";
 import nextbtn from "../../images/nextbtn.png";
 
 const WorkOrderCards = props => {
-  console.log(props);
+  
   const [state, setState] = useState({
     volume: props.status == "Awaiting Approval" ? 0 : 100
   });

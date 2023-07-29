@@ -87,7 +87,7 @@ const WorkSheetAdmin = (props) => {
     });
 
   const onchange = (e) => {
-    console.log(e.target.value);
+    
     setState({
       ...state,
       [e.target.name]: e.target.value,
@@ -140,7 +140,7 @@ const WorkSheetAdmin = (props) => {
       ])
       .then(
         axios.spread((res, res1) => {
-          console.log(res1);
+          
           setState({
             ...state,
             work_order_detail: res1.data.data,
@@ -153,7 +153,7 @@ const WorkSheetAdmin = (props) => {
           ...state,
           work_order_detail: work_order_details,
         });
-        console.log(err);
+        
       });
   }, []);
 
@@ -182,7 +182,7 @@ const WorkSheetAdmin = (props) => {
             window.location.reload();
           }, 2000);
           notify("Successful");
-          console.log(res.data.data);
+          
           setState({
             ...state,
             isloading: false,
@@ -200,7 +200,7 @@ const WorkSheetAdmin = (props) => {
         if (err?.response?.status == 400) {
           return notify(err?.response?.data?.message);
         }
-        console.log(err);
+        
       });
   };
 
@@ -229,7 +229,7 @@ const WorkSheetAdmin = (props) => {
           setTimeout(() => {
             window.location.assign("/scheduled_payments");
           }, 2000);
-          console.log(res.data.data);
+          
           setState({
             ...state,
             isloading: false,
@@ -244,7 +244,7 @@ const WorkSheetAdmin = (props) => {
         if (err?.response?.status == 400) {
           return notify(err?.response?.data?.message);
         }
-        console.log(err);
+        
       });
   };
 
@@ -284,7 +284,7 @@ const WorkSheetAdmin = (props) => {
         if (err?.response?.status == 400) {
           return notify(err?.response?.data?.message);
         }
-        console.log(err);
+        
       });
   };
 
@@ -324,7 +324,7 @@ const WorkSheetAdmin = (props) => {
         if (err?.response?.status == 400) {
           return notify(err?.response?.data?.message);
         }
-        console.log(err);
+        
       });
   };
   const SendWorkSheet = () => {
@@ -363,7 +363,7 @@ const WorkSheetAdmin = (props) => {
         if (err?.response?.status == 400) {
           return notify(err?.response?.data?.message);
         }
-        console.log(err);
+        
       });
   };
 
@@ -386,8 +386,8 @@ const WorkSheetAdmin = (props) => {
     selected_id,
     show,
   } = state;
-  console.log(work_sheet, "work_sheet");
-  console.log(work_order_detail, "work_order_detail");
+  
+  
   return (
     <>
       <Modal

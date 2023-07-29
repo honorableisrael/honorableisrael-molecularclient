@@ -100,7 +100,7 @@ const ScheduledPayments = withRouter((props) => {
   }: any = state;
 
   const onchange = (e) => {
-    console.log(e.target.value);
+    
     setState({
       ...state,
       [e.target.id]: e.target.value,
@@ -138,13 +138,13 @@ const ScheduledPayments = withRouter((props) => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           setState({
             ...state,
             work_order_detail: res.data.data,
             isloading: false,
           });
-          console.log(work_order_detail);
+          
         })
       )
       .catch((err) => {
@@ -152,7 +152,7 @@ const ScheduledPayments = withRouter((props) => {
           ...state,
           isloading: false,
         });
-        console.log(err);
+        
       });
   };
   useEffect(() => {
@@ -176,7 +176,7 @@ const ScheduledPayments = withRouter((props) => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           setState({
             ...state,
             ...res.data.data.links,
@@ -184,11 +184,11 @@ const ScheduledPayments = withRouter((props) => {
             allAssignedSpecialist: res.data.data.data,
             isloading: false,
           });
-          console.log(work_order_detail);
+          
         })
       )
       .catch((err) => {
-        console.log(err);
+        
         setState({
           ...state,
           isloading: false,
@@ -196,7 +196,7 @@ const ScheduledPayments = withRouter((props) => {
       });
   };
   const get_paid = () => {
-    console.log("paid");
+    
     const token = returnAdminToken();
     setState({
       ...state,
@@ -212,7 +212,7 @@ const ScheduledPayments = withRouter((props) => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           setState({
             ...state,
             ...res.data.data.links,
@@ -220,11 +220,11 @@ const ScheduledPayments = withRouter((props) => {
             allAssignedSpecialist: res.data.data.data,
             isloading: false,
           });
-          console.log(work_order_detail);
+          
         })
       )
       .catch((err) => {
-        console.log(err);
+        
         setState({
           ...state,
           isloading: false,
@@ -248,7 +248,7 @@ const ScheduledPayments = withRouter((props) => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           setState({
             ...state,
             ...res.data.data.links,
@@ -256,11 +256,11 @@ const ScheduledPayments = withRouter((props) => {
             allAssignedSpecialist: res.data.data.data,
             isloading: false,
           });
-          console.log(work_order_detail);
+          
         })
       )
       .catch((err) => {
-        console.log(err);
+        
         setState({
           ...state,
           isloading: false,
@@ -287,7 +287,7 @@ const ScheduledPayments = withRouter((props) => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           window.scrollTo(-0, -0);
           setState({
             ...state,
@@ -298,11 +298,11 @@ const ScheduledPayments = withRouter((props) => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   };
   const openModal = (id,user_data) => {
-    console.log(user_data)
+    
     setState({
       ...state,
       show: true,
@@ -328,13 +328,13 @@ const ScheduledPayments = withRouter((props) => {
     const data = {
       payments: [id],
     };
-    console.log(data);
+    
     axios
       .post(`${API}/admin/scheduled-payments/pay`, data, {
         headers: { Authorization: `Bearer ${token.access_token}` },
       })
       .then((res) => {
-        console.log(res);
+        
         setState({
           ...state,
           isloading: false,
@@ -349,7 +349,7 @@ const ScheduledPayments = withRouter((props) => {
           ...state,
           isloading: false,
         });
-        console.log(err);
+        
         notify("Failed to make payment", "D");
       });
   };
@@ -365,13 +365,13 @@ const ScheduledPayments = withRouter((props) => {
     const data = {
       payments: selectedspecialist,
     };
-    console.log(data);
+    
     axios
       .post(`${API}/admin/scheduled-payments/pay`, data, {
         headers: { Authorization: `Bearer ${token.access_token}` },
       })
       .then((res) => {
-        console.log(res);
+        
         setState({
           ...state,
           isloading: false,
@@ -386,7 +386,7 @@ const ScheduledPayments = withRouter((props) => {
           ...state,
           isloading: false,
         });
-        console.log(err);
+        
         notify("Failed to make payment", "D");
       });
   };

@@ -37,7 +37,7 @@ const NewWorkOrderForm = withRouter((props) => {
     hour: "",
   });
   const onchange = (e) => {
-    console.log(e.target.value);
+    
     setState({
       ...state,
       [e.target.id]: e.target.value,
@@ -46,7 +46,7 @@ const NewWorkOrderForm = withRouter((props) => {
   const inputHandler_Project_location = (e) => {
     // if (e.target.name == "pipe_type") {
     const new_obj = JSON.parse(e.target.value);
-    console.log(new_obj);
+    
     setState({
       ...state,
       project_location: new_obj.id,
@@ -95,7 +95,7 @@ const NewWorkOrderForm = withRouter((props) => {
   const inputHandler = (e) => {
     // if (e.target.name == "pipe_type") {
     const new_obj = JSON.parse(e.target.value);
-    console.log(new_obj);
+    
     setState({
       ...state,
       location_terrain: new_obj.id,
@@ -117,7 +117,7 @@ const NewWorkOrderForm = withRouter((props) => {
       start_date,
       hour,
     };
-    console.log(first_data);
+    
     localStorage.setItem("first_step", JSON.stringify(first_data));
     props.history.push("/contractor_work_order_step2");
   };
@@ -129,7 +129,7 @@ const NewWorkOrderForm = withRouter((props) => {
       ? JSON.parse(availableToken)
       : window.location.assign("/");
 
-    console.log(stored1);
+    
     setState({
       ...state,
       ...stored1,
@@ -145,7 +145,7 @@ const NewWorkOrderForm = withRouter((props) => {
     )
       .then(
         axios.spread((res,res2) => {
-          console.log(res.data.data);
+          
           setState({
             ...state,
             terrains: res.data.data,
@@ -155,7 +155,7 @@ const NewWorkOrderForm = withRouter((props) => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   }, []);
   const {

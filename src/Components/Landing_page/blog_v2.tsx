@@ -49,7 +49,7 @@ const Blog_Revamp = () => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
         notify("Failed to fetch data", "D");
         setState({
           ...state,

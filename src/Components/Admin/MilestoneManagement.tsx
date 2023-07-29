@@ -65,8 +65,8 @@ const MilestoneManagement = (props) => {
     PaymentErrorMessage: false,
     max_requested_amount: "",
     rate: 0.7,
-    welder_ratio:"",
-    fitter_ratio:"",
+    welder_ratio:"0.782",
+    fitter_ratio:"0.218",
   });
   const [modalState, setModalState] = useState({
     show: false,
@@ -99,7 +99,7 @@ const MilestoneManagement = (props) => {
   }: any = state;
 
   const workModal = (id, amount) => {
-    //console.log(id);
+    //
     setState({
       ...state,
       cycle_id: id,
@@ -110,7 +110,7 @@ const MilestoneManagement = (props) => {
     });
   };
   const onchange = (e) => {
-    //console.log(e.target.value);
+    //
     setState({
       ...state,
       [e.target.name]: e.target.value,
@@ -124,7 +124,7 @@ const MilestoneManagement = (props) => {
   };
   useEffect(() => {
     window.scrollTo(-0, -0);
-    //console.log(props?.match?.params?.id);
+    //
     axios
       .all([
         axios.get(
@@ -138,7 +138,7 @@ const MilestoneManagement = (props) => {
       ])
       .then(
         axios.spread((res4) => {
-          //console.log(res4.data);
+          //
           setState({
             ...state,
             ...res4.data.data,
@@ -148,7 +148,7 @@ const MilestoneManagement = (props) => {
         })
       )
       .catch((err) => {
-        //console.log(err.response);
+        //
       });
   }, []);
 
@@ -157,11 +157,11 @@ const MilestoneManagement = (props) => {
       ...state,
       isloading: true,
     });
-    //console.log(cycle_id);
+    //
     const availableToken = localStorage.getItem("loggedInDetails");
-    //console.log(availableToken);
+    //
     const token = availableToken ? JSON.parse(availableToken) : "";
-    //console.log(token);
+    //
     const data = {
       amount: requested_amount,
     };
@@ -174,7 +174,7 @@ const MilestoneManagement = (props) => {
         }
       )
       .then((res) => {
-        //console.log(res.data);
+        //
         notify("payment requested successfully");
         reloadPage();
         setState({
@@ -184,7 +184,7 @@ const MilestoneManagement = (props) => {
         });
       })
       .catch((err) => {
-        //console.log(err.response);
+        //
         notify("Request failed");
         setState({
           ...state,
@@ -214,7 +214,7 @@ const MilestoneManagement = (props) => {
     }
   }, [PaymentErrorMessage]);
 
-  //console.log(milestone_record, "milestone_record");
+  //
   const showModal = () => {
     setModalState({
       ...modalState,
@@ -224,8 +224,8 @@ const MilestoneManagement = (props) => {
       ...state,
       start_date: "",
       end_date: "",
-      fitter_ratio: "",
-      welder_ratio: "",
+      welder_ratio:"0.782",
+      fitter_ratio:"0.218",
       description: "",
     });
   };
@@ -294,7 +294,7 @@ const MilestoneManagement = (props) => {
         }
       )
       .then((res) => {
-        //console.log(res.data);
+        //
         notify("Milestone record added");
         reloadPage();
         setState({
@@ -303,8 +303,8 @@ const MilestoneManagement = (props) => {
         });
       })
       .catch((err) => {
-        //console.log(err.response);
-        notify("Operation failed, please try again later");
+        //
+        notify(`Updated failed, please try again later ${err?.response?.data?.message}`);
         setState({
           ...state,
           isloading: false,
@@ -345,8 +345,8 @@ const MilestoneManagement = (props) => {
         })
       })
       .catch((err) => {
-        //console.log(err.response);
-        notify("Updated failed, please try again later",err?.response?.data?.message);
+        //
+        notify(`Updated failed, please try again later ${err?.response?.data?.message}`);
         setState({
           ...state,
           isloading: false,
@@ -374,7 +374,7 @@ const MilestoneManagement = (props) => {
         });
       })
       .catch((err) => {
-        // console.log(err.response);
+        // 
         notify("Updated failed, please try again later");
         setState({
           ...state,

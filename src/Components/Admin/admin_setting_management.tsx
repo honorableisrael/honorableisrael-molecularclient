@@ -112,7 +112,7 @@ const AdminSettingManagment = withRouter((props) => {
   }: any = state;
 
   const onchange = (e) => {
-    console.log(e.target.value);
+    
     setState({
       ...state,
       [e.target.id]: e.target.value,
@@ -138,7 +138,7 @@ const AdminSettingManagment = withRouter((props) => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           notify("Successfully created pipe");
           refreshpage();
           setState({
@@ -148,7 +148,7 @@ const AdminSettingManagment = withRouter((props) => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
         notify("Failed to create work group", "D");
         setState({
           ...state,
@@ -176,7 +176,7 @@ const AdminSettingManagment = withRouter((props) => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           notify("Successfully created bank");
           refreshpage();
           setState({
@@ -186,7 +186,7 @@ const AdminSettingManagment = withRouter((props) => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
         notify("Failed to create work group", "D");
         setState({
           ...state,
@@ -223,7 +223,7 @@ const AdminSettingManagment = withRouter((props) => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
         notify("Failed to create rate", "D");
         setState({
           ...state,
@@ -244,7 +244,7 @@ const AdminSettingManagment = withRouter((props) => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           setState({
             ...state,
             work_order_detail: res.data.data,
@@ -257,14 +257,14 @@ const AdminSettingManagment = withRouter((props) => {
           ...state,
           isloading: false,
         });
-        console.log(err);
+        
       });
   };
 
   useEffect(() => {
     window.scrollTo(-0, -0);
     const token = returnAdminToken();
-    console.log(props.location.search === "?worksheet");
+    
     const work_order = localStorage.getItem("work_order_details");
     const work_order_details = work_order ? JSON.parse(work_order) : "";
     axios
@@ -278,7 +278,7 @@ const AdminSettingManagment = withRouter((props) => {
       ])
       .then(
         axios.spread((res, res2) => {
-          console.log(res.data);
+          
           setState({
             ...state,
             ...res.data.data.links,
@@ -292,7 +292,7 @@ const AdminSettingManagment = withRouter((props) => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   }, []);
 
@@ -320,7 +320,7 @@ const AdminSettingManagment = withRouter((props) => {
       ])
       .then(
         axios.spread((res, res2) => {
-          console.log(res.data.data);
+          
           setState({
             ...state,
             ...res.data.data.links,
@@ -332,7 +332,7 @@ const AdminSettingManagment = withRouter((props) => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   };
 
@@ -372,7 +372,7 @@ const AdminSettingManagment = withRouter((props) => {
           ...state,
           create_bank_account: false,
         });
-        console.log(err);
+        
       });
   };
 
@@ -394,7 +394,7 @@ const AdminSettingManagment = withRouter((props) => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           setState({
             ...state,
             ...res.data.data.links,
@@ -415,7 +415,7 @@ const AdminSettingManagment = withRouter((props) => {
           bank_accounts: true,
           create_pipe: false,
         });
-        console.log(err);
+        
       });
   };
   const nextPage = (a) => {
@@ -437,7 +437,7 @@ const AdminSettingManagment = withRouter((props) => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           window.scrollTo(-0, -0);
           setState({
             ...state,
@@ -447,7 +447,7 @@ const AdminSettingManagment = withRouter((props) => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   };
   const openModal = (modal_type) => {

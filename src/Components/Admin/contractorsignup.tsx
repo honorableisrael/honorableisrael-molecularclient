@@ -94,14 +94,14 @@ const ContractorOnboarding = withRouter((props) => {
       website_url,
       industry,
     };
-    console.log(data);
+    
     const token = returnAdminToken();
     axios
       .post(`${API}/admin/contractors`, data, {
         headers: { Authorization: `Bearer ${token.access_token}` },
       })
       .then((res) => {
-        console.log(res.data);
+        
         notify("Successfully created");
         setState({
           ...state,
@@ -113,7 +113,7 @@ const ContractorOnboarding = withRouter((props) => {
         },3000)
       })
       .catch((err) => {
-        console.log(err?.response);
+        
         window.scrollTo(0, 0);
         if (err?.response?.status == 406) {
           return setState({
@@ -142,7 +142,7 @@ const ContractorOnboarding = withRouter((props) => {
       });
   };
   const onchange = (e) => {
-    console.log(e.target.value);
+    
     setState({
       ...state,
       [e.target.name]: e.target.value,
@@ -178,8 +178,8 @@ const ContractorOnboarding = withRouter((props) => {
     ])
       .then(
         axios.spread((res, res2) => {
-          console.log(res.data);
-          console.log(res2.data);
+          
+          
           setState({
             ...state,
             listOfIndustries: res.data.data,
@@ -188,10 +188,10 @@ const ContractorOnboarding = withRouter((props) => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   }, []);
-  console.log(listOfIndustries);
+  
   return (
     <div>
       <section className="forms-section">

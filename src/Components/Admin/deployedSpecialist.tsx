@@ -87,7 +87,7 @@ const DeployedSpecialist = withRouter((props) => {
   }: any = state;
 
   const onchange = (e) => {
-    console.log(e.target.value);
+    
     setState({
       ...state,
       [e.target.id]: e.target.value,
@@ -118,7 +118,7 @@ const DeployedSpecialist = withRouter((props) => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           notify(
             "Successfully created group, add ungrouped specialist to group"
           );
@@ -130,7 +130,7 @@ const DeployedSpecialist = withRouter((props) => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
         notify("Failed to create work group", "D");
         setState({
           ...state,
@@ -151,13 +151,13 @@ const DeployedSpecialist = withRouter((props) => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           setState({
             ...state,
             work_order_detail: res.data.data,
             isloading: false,
           });
-          console.log(work_order_detail);
+          
         })
       )
       .catch((err) => {
@@ -165,7 +165,7 @@ const DeployedSpecialist = withRouter((props) => {
           ...state,
           isloading: false,
         });
-        console.log(err);
+        
       });
   };
 
@@ -186,7 +186,7 @@ const DeployedSpecialist = withRouter((props) => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           notify("Successful");
           refresh_all();
           setState({
@@ -197,7 +197,7 @@ const DeployedSpecialist = withRouter((props) => {
       )
       .catch((err) => {
         notify("Failed to delete work group", "D");
-        console.log(err);
+        
         setState({
           ...state,
           isloading: false,
@@ -208,7 +208,7 @@ const DeployedSpecialist = withRouter((props) => {
   useEffect(() => {
     window.scrollTo(-0, -0);
     const token = returnAdminToken();
-    console.log(props.location.search === "?worksheet");
+    
     const work_order = localStorage.getItem("work_order_details");
     const work_order_details = work_order ? JSON.parse(work_order) : "";
     axios
@@ -225,7 +225,7 @@ const DeployedSpecialist = withRouter((props) => {
       ])
       .then(
         axios.spread((res, res2) => {
-          console.log(res.data);
+          
           setState({
             ...state,
             ...res.data.data.links,
@@ -238,7 +238,7 @@ const DeployedSpecialist = withRouter((props) => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   }, []);
 
@@ -266,7 +266,7 @@ const DeployedSpecialist = withRouter((props) => {
       ])
       .then(
         axios.spread((res, res2) => {
-          console.log(res.data.data);
+          
           setState({
             ...state,
             ...res.data.data.links,
@@ -277,11 +277,11 @@ const DeployedSpecialist = withRouter((props) => {
             grouped: a == "grouped" ? true : false,
             ungrouped: a == "ungrouped" ? true : false,
           });
-          console.log(work_order_detail);
+          
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   };
 
@@ -306,7 +306,7 @@ const DeployedSpecialist = withRouter((props) => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           setState({
             ...state,
             ...res.data.data.links,
@@ -319,7 +319,7 @@ const DeployedSpecialist = withRouter((props) => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   };
 
@@ -345,7 +345,7 @@ const DeployedSpecialist = withRouter((props) => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           setState({
             ...state,
             ...res.data.data.links,
@@ -358,7 +358,7 @@ const DeployedSpecialist = withRouter((props) => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   };
   const nextPage = (a) => {
@@ -378,7 +378,7 @@ const DeployedSpecialist = withRouter((props) => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           window.scrollTo(-0, -0);
           setState({
             ...state,
@@ -389,7 +389,7 @@ const DeployedSpecialist = withRouter((props) => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   };
   const openModal = () => {
@@ -437,7 +437,7 @@ const DeployedSpecialist = withRouter((props) => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           setState({
             ...state,
             isloading: false,
@@ -454,7 +454,7 @@ const DeployedSpecialist = withRouter((props) => {
           isloading: false,
         });
         notify("Failed to assign to group", "D");
-        console.log(err);
+        
       });
   };
   const openModal2 = () => {
@@ -491,7 +491,7 @@ const DeployedSpecialist = withRouter((props) => {
         }
       )
       .then((res) => {
-        console.log(res.data);
+        
         notify("successfully  removed specialist");
         setTimeout(() => {
           window.location.reload();
@@ -508,7 +508,7 @@ const DeployedSpecialist = withRouter((props) => {
           ...state,
           isloading: false,
         });
-        console.log(err);
+        
       });
   };
   return (

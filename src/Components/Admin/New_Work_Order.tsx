@@ -27,7 +27,7 @@ const NewWorkOrderForm = () => {
     hour: "",
   });
   const onchange = (e) => {
-    console.log(e.target.value);
+    
     setState({
       ...state,
       [e.target.id]: e.target.value,

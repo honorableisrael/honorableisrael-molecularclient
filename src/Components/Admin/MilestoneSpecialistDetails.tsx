@@ -33,6 +33,7 @@ import axios from "axios";
 import closeimg from "../../images/closeimg.png";
 import exclam from "../../images/exclammark.png";
 import { CustomButton } from "./Shared/Button";
+import { capitalize } from "@mui/material";
 
 
 
@@ -398,10 +399,10 @@ const MilestoneSpecialistDetails = (props) => {
         if (err?.response?.status === 500) {
           notify("Internal server error", "B");
         }
-        console.log(err);
+        
       });
   };
-  console.log(milestone)
+  
   return (
     <>
       <Modal centered={true} onHide={closeDeleteModal} show={showDelete}>
@@ -479,7 +480,7 @@ const MilestoneSpecialistDetails = (props) => {
               <div className='spltpaybreakdwn-details'></div>
               <div className="row">
                 <div className="col-md-12">
-                  <div className="card-details-wrap1">
+                  <div className="card-details-wrap1 position_shift">
                     <div className="card-header">
                       <h5 className="card-title">Specailist Details</h5>
                     </div>
@@ -503,10 +504,10 @@ const MilestoneSpecialistDetails = (props) => {
                               <td> Phone</td>
                               <td>{milestone?.specialist?.phone??"n/a"}</td>
                             </tr>
-                            <tr>
+                            {/* <tr>
                               <td> Status</td>
                               <td>{milestone?.specialist?.status??"n/a"}</td>
-                            </tr>
+                            </tr> */}
                             <tr>
                               <td> Rating</td>
                               <td>{milestone?.specialist?.rating??"n/a"}</td>
@@ -529,7 +530,7 @@ const MilestoneSpecialistDetails = (props) => {
                             </tr>
                             <tr>
                               <td>Status</td>
-                              <td>{milestone?.status}</td>
+                              <td>{capitalize(milestone?.status??"")}</td>
                             </tr>
 
                           </tbody>

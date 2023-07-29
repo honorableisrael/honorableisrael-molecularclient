@@ -98,7 +98,7 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
       ])
       .then(
         axios.spread((res, res2,res3) => {
-          console.log(res2.data.data);
+          
           setState({
             ...state,
             ...res.data.data,
@@ -113,7 +113,7 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
           ...state,
           work_order_detail: work_order_details,
         });
-        console.log(err);
+        
       });
   }, []);
 
@@ -157,7 +157,7 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
         axios.spread((res) => {
           notify("Successful");
           props.history.push("/admin_evaluation_step4");
-          console.log(res.data.data);
+          
           setState({
             ...state,
             isloading: false,
@@ -172,7 +172,7 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
         if (err?.response?.status == 400) {
           return notify(err?.response?.data?.message);
         }
-        console.log(err);
+        
       });
   };
 
@@ -200,7 +200,7 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
       .then(
         axios.spread((res) => {
           notify("bank added to work order");
-          console.log(res.data.data);
+          
           setState({
             ...state,
             isloading: false,
@@ -216,7 +216,7 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
         if (err?.response?.status == 400) {
           return notify(err?.response?.data?.message);
         }
-        console.log(err);
+        
       });
   };
 

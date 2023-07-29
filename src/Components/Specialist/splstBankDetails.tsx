@@ -59,7 +59,7 @@ const SplstBankDetails = () => {
   }: any = state;
 
   const onchange = (e) => {
-    console.log(e.target.value);
+    
     setState({
       ...state,
       [e.target.name]: e.target.value,
@@ -86,9 +86,9 @@ const SplstBankDetails = () => {
     });
     //post to API
     const availableToken = localStorage.getItem("loggedInDetails");
-    console.log(availableToken);
+    
     const token = availableToken ? JSON.parse(availableToken) : "";
-    console.log(token);
+    
     const data = {
       account_name,
       account_number,
@@ -98,7 +98,7 @@ const SplstBankDetails = () => {
       headers: { Authorization: `Bearer ${token.access_token}` },
     })
       .then((res) => {
-        console.log(res.data);
+        
         if (res.status == 200) {
           setState({
             ...state,
@@ -113,7 +113,7 @@ const SplstBankDetails = () => {
         }
       })
       .catch((err) => {
-        console.log(err.response);
+        
         if (err.response) {
           setState({
             ...state,
@@ -162,9 +162,9 @@ const SplstBankDetails = () => {
     });
     //post to API
     const availableToken = localStorage.getItem("loggedInDetails");
-    console.log(availableToken);
+    
     const token = availableToken ? JSON.parse(availableToken) : "";
-    console.log(token);
+    
     const data = {
       account_name,
       account_number,
@@ -174,7 +174,7 @@ const SplstBankDetails = () => {
       headers: { Authorization: `Bearer ${token.access_token}` },
     })
       .then((res) => {
-        console.log(res.data);
+        
         if (res.status == 201) {
           setState({
             ...state,
@@ -190,7 +190,7 @@ const SplstBankDetails = () => {
         }
       })
       .catch((err) => {
-        console.log(err.response);
+        
         if (err.response) {
           notify("failed to add Bank account");
           setState({
@@ -210,9 +210,9 @@ const SplstBankDetails = () => {
       });
       //post to API
       const availableToken = localStorage.getItem("loggedInDetails");
-      console.log(availableToken);
+      
       const token = availableToken ? JSON.parse(availableToken) : "";
-      console.log(token);
+      
       const data = {
         account_number,
         bank: bank_id,
@@ -221,7 +221,7 @@ const SplstBankDetails = () => {
         headers: { Authorization: `Bearer ${token.access_token}` },
       })
         .then((res) => {
-          console.log(res.data);
+          
           setState({
             ...state,
             account_name: res?.data?.data?.account_name,
@@ -230,7 +230,7 @@ const SplstBankDetails = () => {
           });
         })
         .catch((err) => {
-          console.log(err.response);
+          
           if (err.response) {
             notify("Incorrect bank details");
             setState({
@@ -246,14 +246,14 @@ const SplstBankDetails = () => {
   useEffect(() => {
     window.scrollTo(-0, -0);
     const availableToken = localStorage.getItem("loggedInDetails");
-    console.log(availableToken);
+    
     setState({
       ...state,
       bank_details: {},
     });
-    console.log(bank_details);
+    
     const token = availableToken ? JSON.parse(availableToken) : "";
-    console.log(token);
+    
     Axios.all([
       Axios.get(`${API}/specialist/banks`, {
         headers: { Authorization: `Bearer ${token.access_token}` },
@@ -264,9 +264,9 @@ const SplstBankDetails = () => {
     ])
       .then(
         Axios.spread((res, res2) => {
-          console.log(res.data);
-          console.log(res2.data);
-          console.log(res.data.data);
+          
+          
+          
           const user = res.data.data;
           setState({
             ...state,
@@ -279,7 +279,7 @@ const SplstBankDetails = () => {
         })
       )
       .catch((err) => {
-        console.log(err.response);
+        
       });
   }, []);
 
@@ -304,15 +304,15 @@ const SplstBankDetails = () => {
       isloading: true,
     });
     const availableToken = localStorage.getItem("loggedInDetails");
-    console.log(availableToken);
+    
     const token = availableToken ? JSON.parse(availableToken) : "";
-    console.log(token);
+    
 
     Axios.delete(`${API}/specialist/banks/${bank_detal_id}`, {
       headers: { Authorization: `Bearer ${token.access_token}` },
     })
       .then((res) => {
-        console.log(res.data);
+        
         if (res.status == 200) {
           setState({
             ...state,
@@ -325,7 +325,7 @@ const SplstBankDetails = () => {
         }
       })
       .catch((err) => {
-        console.log(err.response);
+        
         if (err.response) {
           setState({
             ...state,
@@ -335,7 +335,7 @@ const SplstBankDetails = () => {
         }
       });
   };
-  console.log(bank_details);
+  
   return (
     <>
       <Modal show={deleteCredential} centered={true} onHide={closeDeleteModal}>

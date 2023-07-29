@@ -60,7 +60,7 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
   const inputHandler = (e) => {
     // if (e.target.name == "pipe_type") {
     const new_obj = JSON.parse(e.target.value);
-    console.log(new_obj);
+    
     setState({
       ...state,
       pipe_type: new_obj.id,
@@ -70,7 +70,7 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
   const onchange_pipesize = (e) => {
     // if (e.target.name == "pipe_type") {
     const new_obj = JSON.parse(e.target.value);
-    console.log(new_obj);
+    
     setState({
       ...state,
       size_value: new_obj.name,
@@ -80,7 +80,7 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
   const onchange_Area_Of_Specialization = (e) => {
     // if (e.target.name == "pipe_type") {
     const new_obj = JSON.parse(e.target.value);
-    console.log(new_obj);
+    
     setState({
       ...state,
       type_of_specialist: new_obj.id,
@@ -91,7 +91,7 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
   const onchange_pipeschedule = (e) => {
     // if (e.target.name == "pipe_type") {
     const new_obj = JSON.parse(e.target.value);
-    console.log(new_obj);
+    
     setState({
       ...state,
       pipe_schedule_name: new_obj.name,
@@ -173,7 +173,7 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
     ])
       .then(
         axios.spread((res, res2, res3, res4) => {
-          console.log(res3.data.data);
+          
           setState({
             ...state,
             types_of_Specialist: res.data.data,
@@ -185,11 +185,11 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   }, []);
   const Add_New_Config = (t) => {
-    console.log(t);
+    
     if (t === "specialist") {
       const Specialist: any = [
         {
@@ -221,7 +221,7 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
           pipe_name,
         },
       ];
-      console.log(Pipe_Config);
+      
       if (
         !no_of_joints ||
         !pipelength ||
@@ -270,7 +270,7 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
 
   const multipleEntryController = (spread_data) => {
     try {
-      console.log("1");
+      
       if (
         no_of_specialist &&
         type_of_specialist &&
@@ -314,7 +314,7 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
         pipe_config &&
         Object.keys(pipe_config[0]).length === 0
       ) {
-        console.log("spec");
+        
         const Specialist: any = [
           {
             no_of_specialist,
@@ -339,7 +339,7 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
         specialist_config &&
         Object.keys(specialist_config[0]).length > 0
       ) {
-        console.log("pipe");
+        
         const Pipe_Config: any = [
           {
             no_of_joints,
@@ -350,7 +350,7 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
             pipe_name,
           },
         ];
-        console.log(Pipe_Config);
+        
         const second_data = {
           pipe_config: [...pipe_config, ...Pipe_Config],
           specialist_config: [...specialist_config],
@@ -363,7 +363,7 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
         Object.keys(specialist_config[0]).length > 0 &&
         Object.keys(pipe_config[0]).length > 0
       ) {
-        console.log("3");
+        
         if (
           Object.keys(pipe_config[0]).length > 0 ||
           Object.keys(specialist_config[0]).length > 0
@@ -384,7 +384,7 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
         Object.keys(pipe_config === null) ||
         Object.keys(specialist_config === null)
       ) {
-        console.log("4");
+        
         return notify("Pipe config and specialist config cannot be empty");
       }
     } catch (error) {
@@ -620,7 +620,7 @@ const Admin_NewWorkOrderStep2 = withRouter((props) => {
                         //   ...state,
                         //   spreads: data,
                         // });
-                        console.log(data, "data1");
+                        
                         multipleEntryController(data);
                       }}
                       mutators={{

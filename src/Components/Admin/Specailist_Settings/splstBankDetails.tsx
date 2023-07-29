@@ -60,7 +60,7 @@ const SplstBankDetails = withRouter((props) => {
   }: any = state;
 
   const onchange = (e) => {
-    console.log(e.target.value);
+    
     setState({
       ...state,
       [e.target.name]: e.target.value,
@@ -86,9 +86,9 @@ const SplstBankDetails = withRouter((props) => {
     });
     //post to API
     const availableToken = localStorage.getItem("loggedInDetails");
-    console.log(availableToken);
+    
     const token = availableToken ? JSON.parse(availableToken) : "";
-    console.log(token);
+    
     const data = {
       account_name,
       account_number,
@@ -98,7 +98,7 @@ const SplstBankDetails = withRouter((props) => {
       headers: { Authorization: `Bearer ${token.access_token}` },
     })
       .then((res) => {
-        console.log(res.data);
+        
         if (res.status == 200) {
           setState({
             ...state,
@@ -113,7 +113,7 @@ const SplstBankDetails = withRouter((props) => {
         }
       })
       .catch((err) => {
-        console.log(err.response);
+        
         if (err.response) {
           setState({
             ...state,
@@ -165,9 +165,9 @@ const SplstBankDetails = withRouter((props) => {
     });
     //post to API
     const availableToken = localStorage.getItem("loggedInDetails");
-    console.log(availableToken);
+    
     const token = availableToken ? JSON.parse(availableToken) : "";
-    console.log(token);
+    
     const data = {
       account_name,
       account_number,
@@ -181,7 +181,7 @@ const SplstBankDetails = withRouter((props) => {
       }
     )
       .then((res) => {
-        console.log(res.data);
+        
         setState({
           ...state,
           noCertificateAdded: false,
@@ -195,7 +195,7 @@ const SplstBankDetails = withRouter((props) => {
         }, 2000);
       })
       .catch((err) => {
-        console.log(err.response);
+        
         if (err.response) {
           notify("failed to add Bank account");
           setState({
@@ -211,14 +211,14 @@ const SplstBankDetails = withRouter((props) => {
   useEffect(() => {
     window.scrollTo(-0, -0);
     const availableToken = localStorage.getItem("loggedInDetails");
-    console.log(availableToken);
+    
     setState({
       ...state,
       bank_account: {},
     });
-    console.log(bank_account);
+    
     const token = availableToken ? JSON.parse(availableToken) : "";
-    console.log(token);
+    
     Axios.all([
       Axios.get(`${API}/admin/specialists/${props.match.params.id}`, {
         headers: { Authorization: `Bearer ${token.access_token}` },
@@ -237,7 +237,7 @@ const SplstBankDetails = withRouter((props) => {
         })
       )
       .catch((err) => {
-        console.log(err.response);
+        
       });
   }, []);
 
@@ -262,15 +262,15 @@ const SplstBankDetails = withRouter((props) => {
       isloading: true,
     });
     const availableToken = localStorage.getItem("loggedInDetails");
-    console.log(availableToken);
+    
     const token = availableToken ? JSON.parse(availableToken) : "";
-    console.log(token);
+    
 
     Axios.delete(`${API}/admin/specialists/banks/${bank_detal_id}`, {
       headers: { Authorization: `Bearer ${token.access_token}` },
     })
       .then((res) => {
-        console.log(res.data);
+        
         if (res.status == 200) {
           setState({
             ...state,
@@ -283,7 +283,7 @@ const SplstBankDetails = withRouter((props) => {
         }
       })
       .catch((err) => {
-        console.log(err.response);
+        
         if (err.response) {
           setState({
             ...state,
@@ -296,7 +296,7 @@ const SplstBankDetails = withRouter((props) => {
         }
       });
   };
-  console.log(!bank_account);
+  
   const getBankDetails = () => {
     //add certhification to UI
     setState({
@@ -305,7 +305,7 @@ const SplstBankDetails = withRouter((props) => {
     });
     //post to API
     const token = returnAdminToken()
-    console.log(token);
+    
     const data = {
       account_number,
       bank: bank_id,
@@ -314,7 +314,7 @@ const SplstBankDetails = withRouter((props) => {
       headers: { Authorization: `Bearer ${token.access_token}` },
     })
       .then((res) => {
-        console.log(res.data);
+        
         setState({
           ...state,
           account_name: res?.data?.data?.account_name,
@@ -323,7 +323,7 @@ const SplstBankDetails = withRouter((props) => {
         });
       })
       .catch((err) => {
-        console.log(err.response);
+        
         if (err.response) {
           notify("Incorrect bank details");
           setState({
@@ -335,7 +335,7 @@ const SplstBankDetails = withRouter((props) => {
         }
       });
   };
-  console.log(banks)
+  
   return (
     <>
       <Modal show={deleteCredential} centered={true} onHide={closeDeleteModal}>

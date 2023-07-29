@@ -39,14 +39,14 @@ const Specialistdetais = (props) => {
         },
       })
       .then((res) => {
-        console.log(res);
+        
         setState({
           ...state,
           user: res.data.data,
         });
       })
       .catch((err) => {
-        console.log(err);
+        
       });
   }, []);
 
@@ -83,7 +83,7 @@ const Specialistdetais = (props) => {
       .then(
         axios.spread((res) => {
           notify("Specialist successfully verified");
-          console.log(res.data.data);
+          
           setState({
             ...state,
             isloading: false,
@@ -99,11 +99,11 @@ const Specialistdetais = (props) => {
           ...state,
           isloading: false,
         });
-        console.log(err);
+        
       });
   };
   const onchange = (e) => {
-    console.log(e.target.value);
+    
     setState({
       ...state,
       [e.target.name]: e.target.value,
@@ -141,7 +141,7 @@ const Specialistdetais = (props) => {
       .then(
         axios.spread((res) => {
           notify("Specialist application rejected");
-          console.log(res.data.data);
+          
           setState({
             ...state,
             isloading: false,
@@ -158,11 +158,11 @@ const Specialistdetais = (props) => {
           isloading: false,
           show: false,
         });
-        console.log(err);
+        
       });
   };
   const { admin, all_specialist, isloading, reason, show, user }: any = state;
-  console.log(user);
+  
   return (
     <>
       <Helmet>

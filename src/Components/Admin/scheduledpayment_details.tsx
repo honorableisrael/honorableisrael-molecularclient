@@ -98,7 +98,7 @@ const ScheduledPaymentDetails = withRouter((props) => {
   }: any = state;
 
   const onchange = (e) => {
-    console.log(e.target.value);
+    
     setState({
       ...state,
       [e.target.id]: e.target.value,
@@ -121,7 +121,7 @@ const ScheduledPaymentDetails = withRouter((props) => {
         }
       )
       .then((res) => {
-        console.log(res);
+        
         setState({
           ...state,
           isloading: false,
@@ -136,7 +136,7 @@ const ScheduledPaymentDetails = withRouter((props) => {
           ...state,
           isloading: false,
         });
-        console.log(err);
+        
         notify(err?.response?.data?.message, "D");
       });
   };
@@ -177,7 +177,7 @@ const ScheduledPaymentDetails = withRouter((props) => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
         setState({
           ...state,
           isloading: false,
@@ -204,7 +204,7 @@ const ScheduledPaymentDetails = withRouter((props) => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           window.scrollTo(-0, -0);
           setState({
             ...state,
@@ -215,11 +215,11 @@ const ScheduledPaymentDetails = withRouter((props) => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   };
   const openModal = (id, user_data, type) => {
-    console.log(user_data);
+    
     setState({
       ...state,
       show: true,
@@ -250,7 +250,7 @@ const ScheduledPaymentDetails = withRouter((props) => {
         }
       )
       .then((res) => {
-        console.log(res);
+        
         setState({
           ...state,
           isloading: false,
@@ -265,7 +265,7 @@ const ScheduledPaymentDetails = withRouter((props) => {
           ...state,
           isloading: false,
         });
-        console.log(err);
+        
         notify("Failed to make payment", "D");
       });
   };
@@ -282,13 +282,13 @@ const ScheduledPaymentDetails = withRouter((props) => {
     const data = {
       payments: selectedspecialist,
     };
-    console.log(data);
+    
     axios
       .post(`${API}/admin/scheduled-payments/pay`, data, {
         headers: { Authorization: `Bearer ${token.access_token}` },
       })
       .then((res) => {
-        console.log(res);
+        
         setState({
           ...state,
           isloading: false,
@@ -303,7 +303,7 @@ const ScheduledPaymentDetails = withRouter((props) => {
           ...state,
           isloading: false,
         });
-        console.log(err);
+        
         notify("Failed to make payment", "D");
       });
   };
@@ -326,7 +326,7 @@ const ScheduledPaymentDetails = withRouter((props) => {
         }
       )
       .then((res) => {
-        console.log(res);
+        
         setState({
           ...state,
           isloading: false,
@@ -341,7 +341,7 @@ const ScheduledPaymentDetails = withRouter((props) => {
           ...state,
           isloading: false,
         });
-        console.log(err);
+        
         notify("Failed to query payment", "D");
       });
   };
@@ -363,7 +363,7 @@ const ScheduledPaymentDetails = withRouter((props) => {
       total_amount: (Number(total_amount) + Number(cost)).toFixed(2),
     });
   };
-  console.log(ScheduledList);
+  
   return (
     <>
       <Helmet>

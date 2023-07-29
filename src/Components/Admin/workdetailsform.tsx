@@ -7,7 +7,7 @@ import no_work_order from "../../images/document 1.png";
 const WorkDetails_Form_Preview = withRouter((props: any) => {
   useEffect(() => {}, []);
 
-  console.log(props?.order_detail);
+  
   return (
     <>
       <div className='formcontent'>

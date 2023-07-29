@@ -109,7 +109,7 @@ const MSpreadSpecialists = (props) => {
   };
   useEffect(() => {
     window.scrollTo(-0, -0);
-    console.log(props?.match?.params?.id);
+    
     axios
       .all([
         axios.get(
@@ -199,7 +199,7 @@ const MSpreadSpecialists = (props) => {
     });
   };
   const showModal3 = (selectedMilestone) => {
-    console.log(selectedMilestone,"selectedMilestone")
+    
     setModalState({
       ...modalState,
       show: false,
@@ -268,7 +268,7 @@ const MSpreadSpecialists = (props) => {
   };
 
   const makeSpreadCaptain = (item) => {
-    console.log(item)
+    
     setState({
       ...state,
       isloading: true,
@@ -291,7 +291,7 @@ const MSpreadSpecialists = (props) => {
         });
       })
       .catch((err) => {
-        console.log(err.response);
+        
         notify("Updated failed, please try again later");
         setState({
           ...state,
@@ -327,7 +327,7 @@ const MSpreadSpecialists = (props) => {
         });
       })
       .catch((err) => {
-        console.log(err.response);
+        
         notify("Updated failed, please try again later");
         setState({
           ...state,
@@ -347,7 +347,7 @@ const MSpreadSpecialists = (props) => {
 
     return result;
   };
-  console.log(list_of_specialist)
+  
   return (
     <>
       <Modal centered={true} onHide={closeDeleteModal} show={showDelete}>
@@ -598,7 +598,7 @@ const MSpreadSpecialists = (props) => {
                       <SuiSelect
                         defaultValue={[]}
                         onChange={(e) => {
-                          console.log(e)
+                          
                           setState({
                             ...state,
                             selected_specialist: e,

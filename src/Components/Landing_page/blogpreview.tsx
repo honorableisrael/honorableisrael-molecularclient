@@ -48,7 +48,7 @@ const PreviewBlog = withRouter((props) => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
         notify("Failed to fetch data", "D");
         setState({
           ...state,
@@ -57,7 +57,7 @@ const PreviewBlog = withRouter((props) => {
       });
   };
   const { blogpost, featuredpost } = state;
-  console.log(featuredpost, "featured");
+  
   return (
     <>
       <div id='home'></div>

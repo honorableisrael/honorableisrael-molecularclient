@@ -71,7 +71,7 @@ const AdminProfile = (props) => {
         industry: e.target.value,
       });
     }
-    console.log(e.target.value);
+    
     setState({
       ...state,
       [e.target.id]: e.target.value,
@@ -145,7 +145,7 @@ const AdminProfile = (props) => {
       state: state_,
       address,
     };
-    console.log(data);
+    
     setState({
       ...state,
       isloading: true,
@@ -155,7 +155,7 @@ const AdminProfile = (props) => {
         headers: { Authorization: `Bearer ${returnAdminToken().access_token}` },
       })
       .then((res) => {
-        console.log(res);
+        
         notify("Update successful");
         setState({
           ...state,
@@ -176,7 +176,7 @@ const AdminProfile = (props) => {
       password: new_password,
       password_confirmation: confirm_password,
     };
-    console.log(data);
+    
     setState({
       ...state,
       isloading: true,
@@ -186,7 +186,7 @@ const AdminProfile = (props) => {
         headers: { Authorization: `Bearer ${returnAdminToken().access_token}` },
       })
       .then((res) => {
-        console.log(res);
+        
         notify("Update successful");
         setState({
           ...state,
@@ -218,7 +218,7 @@ const AdminProfile = (props) => {
       ])
       .then(
         axios.spread((res, res2, res3) => {
-          console.log(res.data);
+          
           setState({
             ...state,
             ...res.data.data,
@@ -249,7 +249,7 @@ const AdminProfile = (props) => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   }, []);
   const hiddenFileInput: any = useRef();
@@ -267,16 +267,16 @@ const AdminProfile = (props) => {
       }
     };
     reader.readAsDataURL(e.target.files[0]);
-    console.log(logo);
-    console.log(e.target.files[0]);
+    
+    
     // upload image to server;
     const availableToken = localStorage.getItem("loggedInDetails");
-    console.log(availableToken);
+    
     const token = availableToken ? JSON.parse(availableToken) : "";
-    console.log(token);
+    
     const imageData = new FormData();
     imageData.append("logo", e.target.files[0]);
-    console.log(imageData);
+    
     axios
       .post(`${API}/contractor/logo`, imageData, {
         headers: {
@@ -286,13 +286,13 @@ const AdminProfile = (props) => {
         },
       })
       .then((res) => {
-        console.log(res.data);
+        
         setTimeout(() => {
           notify("image uploaded Successfully");
         }, 1000);
       })
       .catch((err) => {
-        console.log(err.response);
+        
         notify("failed to Upload Image");
       });
   };
@@ -311,7 +311,7 @@ const AdminProfile = (props) => {
       phone,
       role,
     };
-    console.log(data);
+    
     setState({
       ...state,
       isloading: true,
@@ -321,7 +321,7 @@ const AdminProfile = (props) => {
         headers: { Authorization: `Bearer ${returnAdminToken().access_token}` },
       })
       .then((res) => {
-        console.log(res);
+        
         notify("Updated successfully");
         setState({
           ...state,
@@ -387,7 +387,7 @@ const AdminProfile = (props) => {
     role_id2,
     role_id3,
   }: any = state;
-  console.log(contacts);
+  
   return (
     <>
       <Container fluid={true} className="dasbwr">

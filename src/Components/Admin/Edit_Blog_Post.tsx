@@ -59,7 +59,7 @@ const EditBlogPost = withRouter((props) => {
   };
 
   const onchange = (e) => {
-    console.log(e.target.value);
+    
     setState({
       ...state,
       [e.target.id]: e.target.value,
@@ -76,7 +76,7 @@ const EditBlogPost = withRouter((props) => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           setState({
             ...state,
             ...res.data.data,
@@ -89,7 +89,7 @@ const EditBlogPost = withRouter((props) => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   }, []);
 
@@ -174,7 +174,7 @@ const EditBlogPost = withRouter((props) => {
         if (err?.response?.status == 406) {
           return notify(err?.response?.data?.message);
         }
-        console.log(err);
+        
         notify("Sorry failed to update please try again later");
       });
   };

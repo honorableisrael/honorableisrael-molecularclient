@@ -38,6 +38,7 @@ import makeAnimated from "react-select/animated";
 import Select from "react-select";
 import SuiSelect from "./Shared/SuiSelect";
 import { Toggler } from "./Shared/Toggler";
+import { capitalize } from "@mui/material";
 const animatedComponents = makeAnimated();
 
 const MSpreadSpecialistManagement = (props) => {
@@ -94,7 +95,7 @@ const MSpreadSpecialistManagement = (props) => {
     id,
   }: any = state;
   const onchange = (e) => {
-    console.log(e.target.value);
+
     setState({
       ...state,
       [e.target.name]: e.target.value,
@@ -109,7 +110,7 @@ const MSpreadSpecialistManagement = (props) => {
   };
   useEffect(() => {
     window.scrollTo(-0, -0);
-    console.log(props?.match?.params?.id);
+
     axios
       .all([
         axios.get(
@@ -121,7 +122,7 @@ const MSpreadSpecialistManagement = (props) => {
           }
         ),
         axios.get(
-          `${API}/admin/work-orders/${props?.match?.params?.work_order_id}/specialists?paginate=0`,
+          `${API}/admin/work-orders/${props?.match?.params?.work_order_id}/specialists?paginate=0&status=active`,
           {
             headers: {
               Authorization: `Bearer ${returnAdminToken().access_token}`,
@@ -139,7 +140,7 @@ const MSpreadSpecialistManagement = (props) => {
         })
       )
       .catch((err) => {
-        console.log(err.response);
+
       });
   }, []);
 
@@ -250,7 +251,7 @@ const MSpreadSpecialistManagement = (props) => {
         }
       )
       .then((res) => {
-        console.log(res.data);
+
         notify("Successfully added record");
         reloadPage();
         setState({
@@ -259,7 +260,7 @@ const MSpreadSpecialistManagement = (props) => {
         });
       })
       .catch((err) => {
-        console.log(err.response);
+
         notify("Operation failed, please try again later");
         setState({
           ...state,
@@ -276,10 +277,10 @@ const MSpreadSpecialistManagement = (props) => {
     const data = {
       specialist: specialist?.id,
       specialist_work_rate,
-      replacement
+      replacement,
     };
     axios
-      .post(`${API}/admin/work-orders/milestones/${id}/substitute-specialist`, data, {
+      .post(`${API}/admin/work-orders/milestones/${props?.match?.params?.id}/substitute-specialist`, data, {
         headers: {
           Authorization: `Bearer ${returnAdminToken().access_token}`,
         },
@@ -293,7 +294,7 @@ const MSpreadSpecialistManagement = (props) => {
         });
       })
       .catch((err) => {
-        console.log(err.response);
+
         notify("Updated failed, please try again later");
         setState({
           ...state,
@@ -329,7 +330,7 @@ const MSpreadSpecialistManagement = (props) => {
         });
       })
       .catch((err) => {
-        console.log(err.response);
+
         notify("Updated failed, please try again later");
         setState({
           ...state,
@@ -349,8 +350,8 @@ const MSpreadSpecialistManagement = (props) => {
 
     return result;
   };
-  console.log(selected_specialist,"selected_specialist")
-  console.log(all_specialist2,"all_specialist2")
+
+
   return (
     <>
       <Modal centered={true} onHide={closeDeleteModal} show={showDelete}>
@@ -464,22 +465,22 @@ const MSpreadSpecialistManagement = (props) => {
                         <td>{data?.work_rate}</td>
                         <td>{data?.rating}</td>
                         <td>
-                          {data?.status == "active" && (
+                          {data?.status == "active" ? (
                             <div className='invpaystatwrap po912'>
                               <span className='paystatindcator po912'></span>
                               <span className='paystattext text-success'>
                                 Active
                               </span>
                             </div>
-                          )}
-                          {data?.status == "Completed" && (
-                            <div className='invpaystatwrap pendinwrap po912'>
+                          ):""}
+                          {data?.status !== "active" ? (
+                            <div className='invpaystatwrap pendinwrap po912 ml-2'>
                               <span className='paystatindcator pendininvoice po912'></span>
-                              <span className='paystattext pendininvtext po912'>
-                                Completed
+                              <span className='paystattext pendininvtext po912 capitalize'>
+                               { capitalize(data?.status)}
                               </span>
                             </div>
-                          )}
+                          ):""}
                         </td>
                         <td className="table_data">
                           {data?.actions.can_edit ? (
@@ -494,7 +495,12 @@ const MSpreadSpecialistManagement = (props) => {
                           ) : (
                             ""
                           )}
-                          <Toggler linkTitle1="View Details" LinkProps1={`/admin_milestone_specialists/${data?.id}`} showModal3={() => showModal3(data)} showModalSub={() => showModalSub(data)} />
+                          {
+                            data?.status==="active"?
+                            <Toggler linkTitle1="View Details" LinkProps1={`/admin_milestone_specialists/${data?.id}`} showModal3={() => showModal3(data)} showModalSub={() => showModalSub(data)} />
+                            :
+                            <Toggler linkTitle1="View Details" LinkProps1={`/admin_milestone_specialists/${data?.id}`}/>
+                          }
                         </td>
                       </tr>
                     ))}
@@ -601,7 +607,7 @@ const MSpreadSpecialistManagement = (props) => {
                       <SuiSelect
                         defaultValue={[]}
                         onChange={(e) => {
-                          console.log(e)
+
                           setState({
                             ...state,
                             selected_specialist: e,
@@ -710,18 +716,18 @@ const MSpreadSpecialistManagement = (props) => {
                         onChange={(e) => {
                           setState({
                             ...state,
-                            replacement: e.value,
+                            replacement: e.value
                           });
                         }}
                         options={
-                          FilteredList ?
+                          FilteredList().length > 0 ?
                             FilteredList()?.map((data, i) => {
                               return {
-                                value: data?.specialist?.id,
+                                value: data?.id,
                                 label:
-                                  data?.specialist?.first_name +
+                                  data?.first_name +
                                   " " +
-                                  data?.specialist?.last_name,
+                                  data?.last_name,
                               };
                             }) : []
                         }

@@ -34,7 +34,7 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           setState({
             ...state,
             all_specialist: res.data.data.data,
@@ -44,7 +44,7 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   }, []);
   const openModal = (id) => {
@@ -95,7 +95,7 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
       .then(
         axios.spread((res) => {
           notify("Specialist successfully verified");
-          console.log(res.data.data);
+          
           setState({
             ...state,
             isloading: false,
@@ -111,11 +111,11 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
           ...state,
           isloading: false,
         });
-        console.log(err);
+        
       });
   };
   const onchange = (e) => {
-    console.log(e.target.value);
+    
     setState({
       ...state,
       [e.target.name]: e.target.value,
@@ -153,7 +153,7 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
       .then(
         axios.spread((res) => {
           notify("Specialist application rejected");
-          console.log(res.data.data);
+          
           setState({
             ...state,
             isloading: false,
@@ -170,7 +170,7 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
           isloading: false,
           show: false,
         });
-        console.log(err);
+        
       });
   };
   const nextPage = (x) => {
@@ -186,7 +186,7 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           window.scrollTo(0,500);
           setState({
             ...state,
@@ -197,7 +197,7 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   };
   const {
@@ -214,7 +214,7 @@ const Specialist_Awaiting_Admin = withRouter((props) => {
     current_page,
     to,
   }: any = state;
-  console.log(all_specialist);
+  
   return (
     <>
       <Col className="fc12" md={12}>

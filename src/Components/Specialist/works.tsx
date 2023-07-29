@@ -74,10 +74,10 @@ const Works = () => {
   useEffect(() => {
     window.scrollTo(-0, -0);
     const availableToken = localStorage.getItem("loggedInDetails");
-    console.log(availableToken);
+    
 
     const token = availableToken ? JSON.parse(availableToken) : "";
-    console.log(token);
+    
     Axios.all([
       Axios.get<any, AxiosResponse<any>>(
         `${API}/specialist/work-orders/active`,
@@ -93,9 +93,9 @@ const Works = () => {
       )
     ]).then(
       Axios.spread((res, res1) => {
-        console.log(res.data);
-        console.log(res1.data);
-        console.log(res.data.data);
+        
+        
+        
         setState({
           ...state,
           works_inprog: res.data.data.data ,

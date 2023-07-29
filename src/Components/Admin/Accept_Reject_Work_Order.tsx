@@ -41,7 +41,7 @@ const Accept_Reject_Work_Order = () => {
     reason: "",
   });
   const onchange = (e) => {
-    console.log(e.target.value);
+    
     setState({
       ...state,
       [e.target.name]: e.target.value,

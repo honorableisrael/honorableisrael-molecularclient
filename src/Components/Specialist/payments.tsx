@@ -24,9 +24,9 @@ const Payments = () => {
 
   useEffect(() => {
     const availableToken = localStorage.getItem("loggedInDetails");
-    console.log(availableToken);
+    
     const token = availableToken ? JSON.parse(availableToken) : "";
-    console.log(token);
+    
     axios
       .all([
         axios.get(`${API}/specialist/invoices?paginate=1`, {
@@ -35,7 +35,7 @@ const Payments = () => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data);
+          
           setState({
             ...state,
             all_invoices: res.data.data.data,
@@ -45,15 +45,15 @@ const Payments = () => {
         })
       )
       .catch((err) => {
-        console.log(err.response);
+        
       });
   }, []);
 
   const nextPage = (x) => {
     const availableToken = localStorage.getItem("loggedInDetails");
-    console.log(availableToken);
+    
     const token = availableToken ? JSON.parse(availableToken) : "";
-    console.log(token);
+    
     axios
       .all([
         axios.get(`${x}`, {
@@ -62,7 +62,7 @@ const Payments = () => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           window.scrollTo(-0, -0);
           setState({
             ...state,
@@ -73,7 +73,7 @@ const Payments = () => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   };
   const {

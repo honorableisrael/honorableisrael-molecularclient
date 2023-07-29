@@ -70,7 +70,7 @@ const WorkDetails_Form_Preview = (props) => {
     window.scrollTo(-0, -0);
     const firstList: any = localStorage.getItem("admin_first_step");
     const firstData = firstList ? JSON.parse(firstList) : "";
-    console.log(firstData);
+    
     const secondList: any = localStorage.getItem("admin_second_step");
     const secondData = secondList ? JSON.parse(secondList) : "";
     const third_data = localStorage.getItem("spreads")
@@ -108,11 +108,11 @@ const WorkDetails_Form_Preview = (props) => {
         number: no_of_specialist,
       })
     );
-    console.log(config_keys);
+    
     // no_of_specialist,
     // type_of_specialist,
     // title_of_specialist,
-    console.log(pipe_keys);
+    
     const work_order_data = {
       contractor: company_id,
       title: order_title,
@@ -129,7 +129,7 @@ const WorkDetails_Form_Preview = (props) => {
       project_location,
       spreads,
     };
-    console.log(work_order_data);
+    
     axios
       .post(`${API}/admin/work-orders`,work_order_data,{
         headers: {
@@ -143,7 +143,7 @@ const WorkDetails_Form_Preview = (props) => {
         },2000)
         localStorage.removeItem("")
         localStorage.removeItem("admin_first_step")
-        console.log(res);
+        
         setState({
           ...state,
           isloading: false,
@@ -156,7 +156,7 @@ const WorkDetails_Form_Preview = (props) => {
           isloading: false,
         });
         notify("Sorry failed to process, try again later", "D");
-        console.log(err.response);
+        
       });
   };
   const notify = (message: string, type = "B") =>

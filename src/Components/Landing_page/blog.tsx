@@ -49,7 +49,7 @@ const Blog = () => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
         notify("Failed to fetch data", "D");
         setState({
           ...state,

@@ -49,12 +49,12 @@ const SignUp = withRouter((props: any) => {
       phone: phone,
       skill: skill,
     };
-    console.log(data);
+    
     //posting data to the api
     axios
       .post(`${API}/register/specialist`, data)
       .then((response) => {
-        console.log(response);
+        
         if (response.status === 200) {
           //store name and email to local storage
           const userdata: any = [];
@@ -76,7 +76,7 @@ const SignUp = withRouter((props: any) => {
         }
       })
       .catch((err) => {
-        console.log(err?.response);
+        
         window.scrollTo(-0, -0);
         if (err?.response?.status == 406 || err?.response?.status == 422) {
           return setState({
@@ -169,14 +169,14 @@ const SignUp = withRouter((props: any) => {
     axios
       .get(`${API}/skills`)
       .then((res) => {
-        console.log(res.data);
+        
         setState({
           ...state,
           jobs: res.data.data,
         });
       })
       .catch((err) => {
-        console.log(err);
+        
       });
   }, []);
   return (

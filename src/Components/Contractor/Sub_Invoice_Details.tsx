@@ -107,7 +107,7 @@ const Contractor_Sub_Invoice_Details = (props) => {
     });
 
   const onchange = (e) => {
-    console.log(e.target.value);
+    
     setState({
       ...state,
       [e.target.name]: e.target.value,
@@ -153,7 +153,7 @@ const Contractor_Sub_Invoice_Details = (props) => {
           isloading: false,
           add_invoice_modal: false,
         });
-        console.log(err?.response);
+        
         notify(err?.response?.data?.message);
         if (err?.response?.status == 406) {
           return notify(err?.response?.data?.errors?.size.join(""));
@@ -198,7 +198,7 @@ const Contractor_Sub_Invoice_Details = (props) => {
           isloading: false,
           edit_worksheet_modal: false,
         });
-        console.log(err?.response);
+        
         notify(err?.response?.data?.message);
         if (err?.response?.status == 406) {
           return notify(err?.response?.data?.errors?.size.join(""));
@@ -243,7 +243,7 @@ const Contractor_Sub_Invoice_Details = (props) => {
       ])
       .then(
         axios.spread((res2, res3, res4) => {
-          console.log(res2.data.data);
+          
           setState({
             ...state,
             ...res2.data.data,
@@ -260,7 +260,7 @@ const Contractor_Sub_Invoice_Details = (props) => {
           ...state,
           show_delete: false,
         });
-        console.log(err);
+        
       });
   };
 
@@ -300,7 +300,7 @@ const Contractor_Sub_Invoice_Details = (props) => {
         if (err?.response?.status == 400) {
           return notify(err?.response?.data?.message);
         }
-        console.log(err);
+        
       });
   };
 
@@ -335,7 +335,7 @@ const Contractor_Sub_Invoice_Details = (props) => {
     pipe_schedule,
     amount,
   } = state;
-  console.log(invoice_details, "invoice_details");
+  
   return (
     <>
       <Container fluid={true} className='dasbwr nopaddrt tainer3'>

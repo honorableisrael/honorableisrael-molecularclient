@@ -119,7 +119,7 @@ export const current_currency = "₦";
 export const formatTime2 = (date) => {
   if (date) {
     const dateTime = moment(date).format("YYYY-MM-DD");
-    console.log(dateTime.currentTime);
+    
     return dateTime;
   } else {
     return "";

@@ -37,7 +37,7 @@ const ForgotPassword = (props) => {
     axios
       .post(`${API}/password/email`, data)
       .then((res) => {
-        console.log(res.data);
+        
         localStorage.setItem("loggedInDetails", JSON.stringify(res.data));
         setState({
           ...state,
@@ -46,7 +46,7 @@ const ForgotPassword = (props) => {
         });
       })
       .catch((err) => {
-        console.log(err?.response);
+        
         if (err?.response?.status == 406) {
           return setState({
             ...state,
@@ -67,7 +67,7 @@ const ForgotPassword = (props) => {
       });
   };
   const onchange = (e) => {
-    console.log(e.target.value);
+    
     setState({
       ...state,
       [e.target.name]: e.target.value,

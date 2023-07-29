@@ -52,7 +52,7 @@ const Specialist_Transactions = (props) => {
     total: "",
   });
   const onchange = (e) => {
-    console.log(e.target.value);
+    
     setState({
       ...state,
       [e.target.id]: e.target.value,
@@ -124,7 +124,7 @@ const Specialist_Transactions = (props) => {
       ])
       .then(
         axios.spread((res) => {
-          // console.log(res.data);
+          // 
           setState({
             ...state,
             all_invoices: res.data.data.data,
@@ -136,7 +136,7 @@ const Specialist_Transactions = (props) => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
         setState({
           ...state,
           isloading: false,
@@ -153,7 +153,7 @@ const Specialist_Transactions = (props) => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data);
+          
           window.scrollTo(-0, -0);
           setState({
             ...state,
@@ -164,7 +164,7 @@ const Specialist_Transactions = (props) => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   };
   const search_filter = () => {
@@ -192,8 +192,8 @@ const Specialist_Transactions = (props) => {
     last,
     current_page,
   } = state;
-  console.log(all_invoices);
-  console.log(filter);
+  
+  
   return (
     <>
       <Container fluid={true} className='dasbwr'>

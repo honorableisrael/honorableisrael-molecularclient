@@ -40,14 +40,14 @@ const Specialist_Details_For_Contractor = (props) => {
         },
       })
       .then((res) => {
-        console.log(res);
+        
         setState({
           ...state,
           user: res.data.data,
         });
       })
       .catch((err) => {
-        console.log(err);
+        
       });
   }, []);
 
@@ -60,7 +60,7 @@ const Specialist_Details_For_Contractor = (props) => {
   };
 
   const onchange = (e) => {
-    console.log(e.target.value);
+    
     setState({
       ...state,
       [e.target.name]: e.target.value,
@@ -68,7 +68,7 @@ const Specialist_Details_For_Contractor = (props) => {
   };
 
   const { admin, all_specialist, isloading, reason, show, user }: any = state;
-  console.log(user);
+  
   return (
     <>
       <Helmet>

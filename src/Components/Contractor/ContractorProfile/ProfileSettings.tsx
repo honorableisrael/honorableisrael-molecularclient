@@ -79,7 +79,7 @@ const Contractor_Profile = withRouter((props) => {
         industry: e.target.value,
       });
     }
-    console.log(e.target.value);
+    
     setState({
       ...state,
       [e.target.id]: e.target.value,
@@ -153,7 +153,7 @@ const Contractor_Profile = withRouter((props) => {
       state: state_,
       address,
     };
-    console.log(data);
+    
     setState({
       ...state,
       isloading: true,
@@ -163,7 +163,7 @@ const Contractor_Profile = withRouter((props) => {
         headers: { Authorization: `Bearer ${contractorToken().access_token}` },
       })
       .then((res) => {
-        console.log(res);
+        
         notify("Update successful");
         setState({
           ...state,
@@ -186,7 +186,7 @@ const Contractor_Profile = withRouter((props) => {
       phone: phone_number,
       role,
     };
-    console.log(data);
+    
     setState({
       ...state,
       isloading: true,
@@ -196,7 +196,7 @@ const Contractor_Profile = withRouter((props) => {
         headers: { Authorization: `Bearer ${contractorToken().access_token}` },
       })
       .then((res) => {
-        console.log(res);
+        
         notify("Created successfully");
         setState({
           ...state,
@@ -221,7 +221,7 @@ const Contractor_Profile = withRouter((props) => {
       password: new_password,
       password_confirmation: confirm_password,
     };
-    console.log(data);
+    
     setState({
       ...state,
       isloading: true,
@@ -231,7 +231,7 @@ const Contractor_Profile = withRouter((props) => {
         headers: { Authorization: `Bearer ${contractorToken().access_token}` },
       })
       .then((res) => {
-        console.log(res);
+        
         notify("Update successful");
         setState({
           ...state,
@@ -266,7 +266,7 @@ const Contractor_Profile = withRouter((props) => {
       ])
       .then(
         axios.spread((res, res2, res3) => {
-          console.log(res.data);
+          
           setState({
             ...state,
             ...res.data.data,
@@ -297,7 +297,7 @@ const Contractor_Profile = withRouter((props) => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   }, []);
   const hiddenFileInput: any = useRef();
@@ -315,16 +315,16 @@ const Contractor_Profile = withRouter((props) => {
       }
     };
     reader.readAsDataURL(e.target.files[0]);
-    console.log(logo);
-    console.log(e.target.files[0]);
+    
+    
     // upload image to server;
     const availableToken = localStorage.getItem("loggedInDetails");
-    console.log(availableToken);
+    
     const token = availableToken ? JSON.parse(availableToken) : "";
-    console.log(token);
+    
     const imageData = new FormData();
     imageData.append("logo", e.target.files[0]);
-    console.log(imageData);
+    
     axios
       .post(`${API}/contractor/logo`, imageData, {
         headers: {
@@ -334,13 +334,13 @@ const Contractor_Profile = withRouter((props) => {
         },
       })
       .then((res) => {
-        console.log(res.data);
+        
         setTimeout(() => {
           notify("image uploaded Successfully");
         }, 1000);
       })
       .catch((err) => {
-        console.log(err.response);
+        
         notify("failed to Upload Image");
       });
   };
@@ -359,7 +359,7 @@ const Contractor_Profile = withRouter((props) => {
       phone,
       role,
     };
-    console.log(data);
+    
     setState({
       ...state,
       isloading: true,
@@ -369,7 +369,7 @@ const Contractor_Profile = withRouter((props) => {
         headers: { Authorization: `Bearer ${contractorToken().access_token}` },
       })
       .then((res) => {
-        console.log(res);
+        
         notify("Updated successfully");
         setState({
           ...state,
@@ -435,7 +435,7 @@ const Contractor_Profile = withRouter((props) => {
     role_id2,
     role_id3,
   }: any = state;
-  console.log(contacts);
+  
   return (
     <>
       <Container fluid={true} className="dasbwr">

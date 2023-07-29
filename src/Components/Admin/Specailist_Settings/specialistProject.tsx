@@ -49,7 +49,7 @@ const Projects = withRouter((props) => {
    }: any = state;
 
   const onchange = (e) => {
-    console.log(e.target.value);
+    
     setState({
       ...state,
       [e.target.name]: e.target.value,
@@ -81,7 +81,7 @@ const Projects = withRouter((props) => {
     });
 }
   const editProject = (id, index,data) => {
-    console.log(data)
+    
     setState({
       ...state,
       ...data,
@@ -101,12 +101,12 @@ const Projects = withRouter((props) => {
       projects: tempProjectDetails,
       projectModal: false,
     });
-    console.log(credential_id)
+    
         //post to API
         const availableToken = localStorage.getItem("loggedInDetails");
-        console.log(availableToken);
+        
         const token = availableToken ? JSON.parse(availableToken) : "";
-        console.log(token);
+        
         const data={
           title,
           description,
@@ -117,13 +117,13 @@ const Projects = withRouter((props) => {
           headers: { Authorization: `Bearer ${token.access_token}` }
         })
         .then((res)=>{
-         console.log(res.data)
+         
            if(res.status==200 ){ 
              notify("project updated successfully ")
            }
         })
         .catch((err)=>{
-          console.log(err.response)
+          
           if(err.response ){ 
             notify("failed to Update")
           }
@@ -141,9 +141,9 @@ const Projects = withRouter((props) => {
     })
     //post data to API
     const availableToken = localStorage.getItem("loggedInDetails");
-    console.log(availableToken);
+    
     const token = availableToken ? JSON.parse(availableToken) : "";
-    console.log(token);
+    
     const data = {
       title,
       description,
@@ -154,7 +154,7 @@ const Projects = withRouter((props) => {
       headers: { Authorization: `Bearer ${token.access_token}` },
     })
     .then((res)=>{
-       console.log(res.data);
+       
        if(res.status==200 ){ 
         setState({
           ...state,
@@ -168,7 +168,7 @@ const Projects = withRouter((props) => {
       }
     })
     .catch((err)=>{
-      console.log(err.response)
+      
       if(err.response ){ 
         notify("failed to add project")
         setState({
@@ -182,7 +182,7 @@ const Projects = withRouter((props) => {
   useEffect(() => {
     window.scrollTo(-0, -0);
     const availableToken = localStorage.getItem("loggedInDetails");
-    console.log(availableToken);
+    
     setState({
       ...state,
       noProjectsAdded: projects.length == 1? true:false,
@@ -190,7 +190,7 @@ const Projects = withRouter((props) => {
       projectbtn: projects.length == 1? "noprofcerbtnwrapper":"profcerbtnwrapper",
     });
     const token = availableToken ? JSON.parse(availableToken) : "";
-    console.log(token);
+    
     Axios.all([
       Axios.get(`${API}/admin/specialists/${props.match.params.id}`, {
         headers: { Authorization: `Bearer ${token.access_token}` },
@@ -198,7 +198,7 @@ const Projects = withRouter((props) => {
     ])
       .then(
         Axios.spread((res) => {
-          console.log(res.data);
+          
           const userProject= res.data.data
           setState({
             ...state,
@@ -210,13 +210,13 @@ const Projects = withRouter((props) => {
         })
       )
       .catch((err) => {
-        console.log(err.response);
+        
       });
     
   }, []);
 
   const deleteProject=(id, index)=>{
-    console.log(id)
+    
     setState({
       ...state,
       credential_id: id,
@@ -232,7 +232,7 @@ const Projects = withRouter((props) => {
     };
    
     const deleteModalChange= (state, credential_id)=>{
-      console.log(credential_id)
+      
       let tempExperienceDetails = state.projects;
     tempExperienceDetails.splice(project_id, 1);
       setState({
@@ -242,26 +242,26 @@ const Projects = withRouter((props) => {
       });
         //post to API
    const availableToken = localStorage.getItem("loggedInDetails");
-   console.log(availableToken);
+   
    const token = availableToken ? JSON.parse(availableToken) : "";
-   console.log(token);
+   
    Axios.delete(`${API}/admin/specialists/projects/${credential_id}`, {
      headers: { Authorization: `Bearer ${token.access_token}` }
    })
      .then(res => {
-       console.log(res.data);
+       
        if (res.status == 200) {
          notify("Project successfully deleted ");
        }
      })
      .catch(err => {
-       console.log(err.response);
+       
        if (err.response) {
          notify("failed to Delete");
        }
      });
  } 
- console.log(projects)
+ 
   return (
     <>
        <Modal show={deleteCredential} centered={true} onHide={closeDeleteModal}>

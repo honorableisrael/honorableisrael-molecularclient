@@ -106,7 +106,7 @@ const Admin_Sub_Invoice_Details = (props) => {
     });
 
   const onchange = (e) => {
-    console.log(e.target.value);
+    
     setState({
       ...state,
       [e.target.name]: e.target.value,
@@ -152,7 +152,7 @@ const Admin_Sub_Invoice_Details = (props) => {
           isloading: false,
           add_invoice_modal: false,
         });
-        console.log(err?.response);
+        
         notify(err?.response?.data?.message);
         if (err?.response?.status == 406) {
           return notify(err?.response?.data?.errors?.size.join(""));
@@ -197,7 +197,7 @@ const Admin_Sub_Invoice_Details = (props) => {
           isloading: false,
           edit_worksheet_modal: false,
         });
-        console.log(err?.response);
+        
         notify(err?.response?.data?.message);
         if (err?.response?.status == 406) {
           return notify(err?.response?.data?.errors?.size.join(""));
@@ -248,7 +248,7 @@ const Admin_Sub_Invoice_Details = (props) => {
       ])
       .then(
         axios.spread((res2, res3, res4, response2, response3, response4) => {
-          console.log(res2.data.data);
+          
           setState({
             ...state,
             ...res2.data.data,
@@ -270,7 +270,7 @@ const Admin_Sub_Invoice_Details = (props) => {
           work_order_detail: work_order_details,
           show_delete: false,
         });
-        console.log(err);
+        
       });
   };
 
@@ -298,7 +298,7 @@ const Admin_Sub_Invoice_Details = (props) => {
       .then(
         axios.spread((res) => {
           notify("Successful");
-          console.log(res.data.data);
+          
           setState({
             ...state,
             isloading: false,
@@ -313,7 +313,7 @@ const Admin_Sub_Invoice_Details = (props) => {
         if (err?.response?.status == 400) {
           return notify(err?.response?.data?.message);
         }
-        console.log(err);
+        
       });
   };
 
@@ -342,7 +342,7 @@ const Admin_Sub_Invoice_Details = (props) => {
             window.location.reload();
           }, 2000);
           notify("Successful");
-          console.log(res.data.data);
+          
           setState({
             ...state,
             isloading: false,
@@ -360,13 +360,13 @@ const Admin_Sub_Invoice_Details = (props) => {
         if (err?.response?.status == 400) {
           return notify(err?.response?.data?.message);
         }
-        console.log(err);
+        
       });
   };
   const onchange_pipeschedule = (e) => {
     // if (e.target.name == "pipe_type") {
     const new_obj = JSON.parse(e.target.value);
-    console.log(new_obj);
+    
     setState({
       ...state,
       pipe_schedule_name: new_obj.name,
@@ -377,7 +377,7 @@ const Admin_Sub_Invoice_Details = (props) => {
   const onchange_pipesize = (e) => {
     // if (e.target.name == "pipe_type") {
     const new_obj = JSON.parse(e.target.value);
-    console.log(new_obj, "pipesize");
+    
     setState({
       ...state,
       size_value: new_obj.name,
@@ -410,7 +410,7 @@ const Admin_Sub_Invoice_Details = (props) => {
           setTimeout(() => {
             window.location.assign("/scheduled_payments");
           }, 2000);
-          console.log(res.data.data);
+          
           setState({
             ...state,
             isloading: false,
@@ -425,7 +425,7 @@ const Admin_Sub_Invoice_Details = (props) => {
         if (err?.response?.status == 400) {
           return notify(err?.response?.data?.message);
         }
-        console.log(err);
+        
       });
   };
 
@@ -466,7 +466,7 @@ const Admin_Sub_Invoice_Details = (props) => {
         if (err?.response?.status == 400) {
           return notify(err?.response?.data?.message);
         }
-        console.log(err);
+        
       });
   };
 
@@ -506,7 +506,7 @@ const Admin_Sub_Invoice_Details = (props) => {
         if (err?.response?.status == 400) {
           return notify(err?.response?.data?.message);
         }
-        console.log(err);
+        
       });
   };
 
@@ -546,7 +546,7 @@ const Admin_Sub_Invoice_Details = (props) => {
         if (err?.response?.status == 400) {
           return notify(err?.response?.data?.message);
         }
-        console.log(err);
+        
       });
   };
 
@@ -565,7 +565,7 @@ const Admin_Sub_Invoice_Details = (props) => {
         headers: { Authorization: `Bearer ${token.access_token}` },
       })
       .then((res) => {
-        console.log(res);
+        
         notify("Successfully deleted");
         fetch_all();
         setState({
@@ -580,7 +580,7 @@ const Admin_Sub_Invoice_Details = (props) => {
           isloading: false,
           show_delete: false,
         });
-        console.log(err?.response);
+        
         if (err?.response?.status == 406) {
           return notify(err?.response?.data?.errors?.size.join(""));
         }
@@ -619,7 +619,7 @@ const Admin_Sub_Invoice_Details = (props) => {
     pipe_schedule,
     amount,
   } = state;
-  console.log(invoice_details);
+  
   return (
     <>
       <Modal

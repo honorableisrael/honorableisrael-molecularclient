@@ -31,7 +31,7 @@ import Specialist_Awaiting_Admin from "./SubComponents/Specailist_Awaiting_Admin
 import Contractor_Awaiting_Admin from "./SubComponents/Contractor_Awaiting_Admin_Approval";
 
 const Notification = (props) => {
-  console.log(props);
+  
   return (
     <>
       <div className="carderw carderwxc carder_notification">
@@ -94,7 +94,7 @@ const Notification = (props) => {
 };
 
 const Invoice = (props) => {
-  console.log(props);
+  
   return (
     <>
       {props?.invoicelist?.slice(0, 3)?.map((data, i) => (
@@ -216,12 +216,12 @@ const AdminDashboard = withRouter((props) => {
       ])
       .then(
         axios.spread((res, res2, res3, res4, res5, res6) => {
-          console.log(res6.data);
+          
           const WorkForceMonths:any = Object.values(res6?.data?.data?.workforce["6_months"])
           const WorkForceKeys:any = Object.keys(res6?.data?.data?.workforce["6_months"])
 
           const cost_of_deployment:any = Object.values(res6?.data?.data?.cost_of_deployment["6_months"])
-          console.log(cost_of_deployment)
+          
           const cost_of_deploymentkeys:any = Object.keys(res6?.data?.data?.cost_of_deployment["6_months"])
           setState({
             ...state,
@@ -293,7 +293,7 @@ const AdminDashboard = withRouter((props) => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   }, []);
   const { admin, work_orders, invoices }: any = state;

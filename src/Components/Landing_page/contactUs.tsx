@@ -57,7 +57,7 @@ const ContacUs = () => {
         axios.spread((res) => {
           notify("Successful");
           // reloadPage();
-          console.log(res.data.data);
+          
           setState({
             ...state,
             isloading: false,
@@ -72,7 +72,7 @@ const ContacUs = () => {
         if (err?.response?.status == 406) {
           return notify(err?.response?.data?.errors);
         }
-        console.log(err);
+        
       });
   };
   return (

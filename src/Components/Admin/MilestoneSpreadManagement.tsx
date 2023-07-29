@@ -85,7 +85,7 @@ const MilestoneSpreadManagement = (props) => {
   }: any = state;
 
   const workModal = (id, amount) => {
-    //console.log(id);
+    //
     setState({
       ...state,
       cycle_id: id,
@@ -96,7 +96,7 @@ const MilestoneSpreadManagement = (props) => {
     });
   };
   const onchange = (e) => {
-    //console.log(e.target.value);
+    //
     setState({
       ...state,
       [e.target.name]: e.target.value,
@@ -110,7 +110,7 @@ const MilestoneSpreadManagement = (props) => {
   };
   useEffect(() => {
     window.scrollTo(-0, -0);
-    //console.log(props?.match?.params?.id);
+    //
     axios
       .all([
         axios.get(
@@ -124,7 +124,7 @@ const MilestoneSpreadManagement = (props) => {
       ])
       .then(
         axios.spread((res4) => {
-          //console.log(res4.data);
+          //
           setState({
             ...state,
             ...res4.data.data,
@@ -134,7 +134,7 @@ const MilestoneSpreadManagement = (props) => {
         })
       )
       .catch((err) => {
-        //console.log(err.response);
+        //
       });
   }, []);
 
@@ -153,7 +153,7 @@ const MilestoneSpreadManagement = (props) => {
     }
   }, [PaymentErrorMessage]);
 
-  //console.log(spread_record, "spread_record");
+  //
   const showModal = () => {
     setModalState({
       ...modalState,
@@ -226,7 +226,7 @@ const MilestoneSpreadManagement = (props) => {
         }
       )
       .then((res) => {
-        //console.log(res.data);
+        //
         notify("Spread record added");
         reloadPage();
         setState({
@@ -235,7 +235,7 @@ const MilestoneSpreadManagement = (props) => {
         });
       })
       .catch((err) => {
-        //console.log(err.response);
+        //
         notify("Operation failed, please try again later");
         setState({
           ...state,
@@ -268,7 +268,7 @@ const MilestoneSpreadManagement = (props) => {
         });
       })
       .catch((err) => {
-        //console.log(err.response);
+        //
         notify("Updated failed, please try again later");
         setState({
           ...state,
@@ -297,7 +297,7 @@ const MilestoneSpreadManagement = (props) => {
         });
       })
       .catch((err) => {
-        //console.log(err.response);
+        //
         notify("Updated failed, please try again later");
         setState({
           ...state,
@@ -306,7 +306,7 @@ const MilestoneSpreadManagement = (props) => {
         });
       });
   };
-  console.log(spread_record,"spread_record")
+  
   return (
     <>
       <Modal centered={true} onHide={closeDeleteModal} show={showDelete}>
@@ -535,7 +535,7 @@ const MilestoneSpreadManagement = (props) => {
             <Col md={12}>
               <Form>
                 <Row>
-                <Col md={6} className='formsection1'>
+                <Col md={12} className='formsection1'>
                     <Form.Group>
                       <h6 className='userprofile'>Name</h6>
                       <Form.Control
@@ -548,7 +548,7 @@ const MilestoneSpreadManagement = (props) => {
                       />
                     </Form.Group>
                   </Col>
-                  <Col md={6} className='formsection1 formsection_padding_zero'>
+                  <Col md={12} className='formsection1 formsection_padding_zero'>
                     <Form.Group>
                       <h6 className='userprofile'>Description</h6>
                       <Form.Control

@@ -45,7 +45,7 @@ const SignIn = (props) => {
     axios
       .post(`${API}/login`, data)
       .then((res) => {
-        console.log(res.data);
+        
         localStorage.setItem("loggedInDetails", JSON.stringify(res.data));
         if (res?.data?.user_type == "admin") {
           props.history.push("/admin_dashboard");
@@ -63,7 +63,7 @@ const SignIn = (props) => {
         });
       })
       .catch((err) => {
-        console.log(err?.response);
+        
         if (err?.response?.status == 406) {
           return setState({
             ...state,
@@ -84,7 +84,7 @@ const SignIn = (props) => {
       });
   };
   const onchange = (e) => {
-    console.log(e.target.value);
+    
     setState({
       ...state,
       [e.target.name]: e.target.value,

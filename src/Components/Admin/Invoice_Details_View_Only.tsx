@@ -86,7 +86,7 @@ const Invoice_details_view_only = (props) => {
     });
 
   const onchange = (e) => {
-    console.log(e.target.value);
+    
     setState({
       ...state,
       [e.target.name]: e.target.value,
@@ -155,7 +155,7 @@ const Invoice_details_view_only = (props) => {
       ])
       .then(
         axios.spread((res2, res3, res4) => {
-          console.log(res4.data.data);
+          
           setState({
             ...state,
             ...res2.data.data,
@@ -170,7 +170,7 @@ const Invoice_details_view_only = (props) => {
           ...state,
           // work_order_detail: work_order_details,
         });
-        console.log(err);
+        
       });
   }, []);
 
@@ -198,7 +198,7 @@ const Invoice_details_view_only = (props) => {
       .then(
         axios.spread((res) => {
           notify("Successful");
-          console.log(res.data.data);
+          
           setState({
             ...state,
             isloading: false,
@@ -213,7 +213,7 @@ const Invoice_details_view_only = (props) => {
         if (err?.response?.status == 400) {
           return notify(err?.response?.data?.message);
         }
-        console.log(err);
+        
       });
   };
 
@@ -242,7 +242,7 @@ const Invoice_details_view_only = (props) => {
             window.location.reload();
           }, 2000);
           notify("Successful");
-          console.log(res.data.data);
+          
           setState({
             ...state,
             isloading: false,
@@ -260,7 +260,7 @@ const Invoice_details_view_only = (props) => {
         if (err?.response?.status == 400) {
           return notify(err?.response?.data?.message);
         }
-        console.log(err);
+        
       });
   };
 
@@ -289,7 +289,7 @@ const Invoice_details_view_only = (props) => {
           setTimeout(() => {
             window.location.assign("/scheduled_payments");
           }, 2000);
-          console.log(res.data.data);
+          
           setState({
             ...state,
             isloading: false,
@@ -304,7 +304,7 @@ const Invoice_details_view_only = (props) => {
         if (err?.response?.status == 400) {
           return notify(err?.response?.data?.message);
         }
-        console.log(err);
+        
       });
   };
 
@@ -345,7 +345,7 @@ const Invoice_details_view_only = (props) => {
         if (err?.response?.status == 400) {
           return notify(err?.response?.data?.message);
         }
-        console.log(err);
+        
       });
   };
 
@@ -385,7 +385,7 @@ const Invoice_details_view_only = (props) => {
         if (err?.response?.status == 400) {
           return notify(err?.response?.data?.message);
         }
-        console.log(err);
+        
       });
   };
 
@@ -425,7 +425,7 @@ const Invoice_details_view_only = (props) => {
         if (err?.response?.status == 400) {
           return notify(err?.response?.data?.message);
         }
-        console.log(err);
+        
       });
   };
 
@@ -448,7 +448,7 @@ const Invoice_details_view_only = (props) => {
     selected_id,
     show,
   } = state;
-  console.log(invoice_details,"invoice_details");
+  
   return (
     <>
       <Modal

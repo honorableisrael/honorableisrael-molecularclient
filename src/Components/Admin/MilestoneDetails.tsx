@@ -380,10 +380,10 @@ const MilestoneDetails = (props) => {
         if (err?.response?.status === 500) {
           notify("Internal server error", "B");
         }
-        console.log(err);
+        
       });
   };
-  console.log(milestone)
+  
   return (
     <>
       <Modal centered={true} onHide={closeDeleteModal} show={showDelete}>

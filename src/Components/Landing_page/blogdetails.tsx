@@ -41,7 +41,7 @@ const BlogDetails = (props) => {
       .all([axios.get(`${API}/blogs/posts/${props.match.params.id}`)])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           setState({
             ...state,
             blogpost: res.data.data,
@@ -50,7 +50,7 @@ const BlogDetails = (props) => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
         notify("Failed to fetch data", "D");
         setState({
           ...state,

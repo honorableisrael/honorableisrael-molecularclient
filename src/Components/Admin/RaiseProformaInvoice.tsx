@@ -67,7 +67,7 @@ const AdminRaiseProformaInvoice = (props) => {
   });
 
   const onchange = (e) => {
-    console.log(e.target.value);
+    
     setState({
       ...state,
       [e.target.name]: e.target.value,
@@ -126,7 +126,7 @@ const AdminRaiseProformaInvoice = (props) => {
   const onchange_pipeschedule = (e) => {
     // if (e.target.name == "pipe_type") {
     const new_obj = JSON.parse(e.target.value);
-    console.log(new_obj);
+    
     setState({
       ...state,
       pipe_schedule_name: new_obj.name,
@@ -136,7 +136,7 @@ const AdminRaiseProformaInvoice = (props) => {
   const onchange_pipesize = (e) => {
     // if (e.target.name == "pipe_type") {
     const new_obj = JSON.parse(e.target.value);
-    console.log(new_obj);
+    
     setState({
       ...state,
       size_value: new_obj.name,
@@ -168,7 +168,7 @@ const AdminRaiseProformaInvoice = (props) => {
       ])
       .then(
         axios.spread((res, res2, res3, res4) => {
-          console.log(res.data.data);
+          
           setState({
             ...state,
             ...res.data.data,
@@ -184,14 +184,14 @@ const AdminRaiseProformaInvoice = (props) => {
           ...state,
           work_order_detail: work_order_details,
         });
-        console.log(err);
+        
       });
   }, []);
 
   const onchange_Area_Of_Specialization = (e) => {
     // if (e.target.name == "pipe_type") {
     const new_obj = JSON.parse(e.target.value);
-    console.log(new_obj);
+    
     setState({
       ...state,
       type_of_specialist: new_obj.id,
@@ -216,7 +216,7 @@ const AdminRaiseProformaInvoice = (props) => {
         headers: { Authorization: `Bearer ${token.access_token}` },
       })
       .then((res) => {
-        console.log(res);
+        
         notify("Successfully updated");
         setTimeout(() => {
           window.location.reload();
@@ -231,7 +231,7 @@ const AdminRaiseProformaInvoice = (props) => {
           ...state,
           isloading: false,
         });
-        console.log(err?.response);
+        
         notify("Failed to update", "D");
       });
   };
@@ -261,7 +261,7 @@ const AdminRaiseProformaInvoice = (props) => {
         }
       )
       .then((res) => {
-        console.log(res);
+        
         notify("Successfully updated");
         setTimeout(() => {
           window.location.reload();
@@ -276,7 +276,7 @@ const AdminRaiseProformaInvoice = (props) => {
           ...state,
           isloading: false,
         });
-        console.log(err?.response);
+        
         notify("Failed to update");
       });
   };
@@ -305,7 +305,7 @@ const AdminRaiseProformaInvoice = (props) => {
         axios.spread((res) => {
           notify("Successful");
           window.scrollTo(2000, 2000);
-          console.log(res.data.data);
+          
           setState({
             ...state,
             isloading: false,
@@ -324,7 +324,7 @@ const AdminRaiseProformaInvoice = (props) => {
         return notify(err?.response?.data?.message) 
          }
         notify("Failed to generate cost")
-        console.log(err);
+        
       });
   };
   const RaiseInvoice = () => {
@@ -354,7 +354,7 @@ const AdminRaiseProformaInvoice = (props) => {
           notify("Successful");
           localStorage.setItem("invoice_id",JSON.stringify(res.data.data))
           props.history.push("/admin_evaluation_step3");
-          console.log(res.data.data);
+          
           setState({
             ...state,
             isloading: false,
@@ -370,7 +370,7 @@ const AdminRaiseProformaInvoice = (props) => {
         if(err?.response?.status==400){
           return notify(err?.response?.data?.message) 
            }
-        console.log(err);
+        
       });
   };
 
@@ -392,7 +392,7 @@ const AdminRaiseProformaInvoice = (props) => {
     const data = {
       payment_cycle:x
     }
-    console.log(payment_cycle)
+    
     axios
       .all([
         axios.put(
@@ -405,7 +405,7 @@ const AdminRaiseProformaInvoice = (props) => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res);
+          
           setState({
             ...state,
             isloading: false,
@@ -421,7 +421,7 @@ const AdminRaiseProformaInvoice = (props) => {
           ...state,
           isloading: false,
         });
-        console.log(err);
+        
       });
   }
   const {
@@ -449,7 +449,7 @@ const AdminRaiseProformaInvoice = (props) => {
     pipeList,
     specialist_requests,
   } = state;
-  console.log(work_order_detail);
+  
   return (
     <>
       <Modal

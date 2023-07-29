@@ -34,7 +34,7 @@ const Contractor_Awaiting_Admin = withRouter((props) => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           setState({
             ...state,
             all_contractors: res.data.data.data,
@@ -44,7 +44,7 @@ const Contractor_Awaiting_Admin = withRouter((props) => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   }, []);
   const openModal = (id) => {
@@ -95,7 +95,7 @@ const Contractor_Awaiting_Admin = withRouter((props) => {
       .then(
         axios.spread((res) => {
           notify("Contractor accepted");
-          console.log(res.data.data);
+          
           setState({
             ...state,
             isloading: false,
@@ -111,11 +111,11 @@ const Contractor_Awaiting_Admin = withRouter((props) => {
           ...state,
           isloading: false,
         });
-        console.log(err);
+        
       });
   };
   const onchange = (e) => {
-    console.log(e.target.value);
+    
     setState({
       ...state,
       [e.target.name]: e.target.value,
@@ -153,7 +153,7 @@ const Contractor_Awaiting_Admin = withRouter((props) => {
       .then(
         axios.spread((res) => {
           notify("Contractor application approved");
-          console.log(res.data.data);
+          
           setState({
             ...state,
             isloading: false,
@@ -170,7 +170,7 @@ const Contractor_Awaiting_Admin = withRouter((props) => {
           isloading: false,
           show: false,
         });
-        console.log(err);
+        
       });
   };
 
@@ -187,7 +187,7 @@ const Contractor_Awaiting_Admin = withRouter((props) => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           window.scrollTo(0, 500);
           setState({
             ...state,
@@ -198,7 +198,7 @@ const Contractor_Awaiting_Admin = withRouter((props) => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   };
   const {
@@ -215,7 +215,7 @@ const Contractor_Awaiting_Admin = withRouter((props) => {
     current_page,
     to,
   }: any = state;
-  console.log(all_contractors);
+  
   return (
     <>
       <Col className="fc12" md={12}>

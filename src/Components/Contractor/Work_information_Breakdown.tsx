@@ -76,14 +76,14 @@ const WorkInformationBreakdown = (props) => {
     window.scrollTo(-0, -0);
     const firstList: any = localStorage.getItem("first_step");
     const firstData = firstList ? JSON.parse(firstList) : "";
-    console.log(firstData);
+    
     const secondList: any = localStorage.getItem("second_step");
     const secondData = secondList ? JSON.parse(secondList) : "";
     const availableToken: any = localStorage.getItem("loggedInDetails");
     const token = availableToken
       ? JSON.parse(availableToken)
       : window.location.assign("/#login");
-    console.log(props);
+    
     window.scrollTo(-0, -0);
     const work_order = localStorage.getItem("work_order_details");
     const work_order_details = work_order ? JSON.parse(work_order) : "";
@@ -102,7 +102,7 @@ const WorkInformationBreakdown = (props) => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           setState({
             ...state,
             ...res.data.data,
@@ -112,13 +112,13 @@ const WorkInformationBreakdown = (props) => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   }, []);
 
   const notify = (message: string, type = "B") =>
     toast(message, { containerId: type, position: "top-right" });
-  console.log(workDetails);
+  
   return (
     <>
       <div className='formcontent'>

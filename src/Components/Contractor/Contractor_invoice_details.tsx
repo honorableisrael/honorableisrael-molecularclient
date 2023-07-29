@@ -70,7 +70,7 @@ const ContractorInvoiceDetails = (props) => {
   });
 
   const onchange = (e) => {
-    console.log(e.target.value);
+    
     setState({
       ...state,
       [e.target.name]: e.target.value,
@@ -105,7 +105,7 @@ const ContractorInvoiceDetails = (props) => {
   };
   useEffect(() => {
     window.scrollTo(-0, -0);
-    console.log(props);
+    
     const invoice_: any = localStorage.getItem("invoice_id");
     const invoice = invoice_ ? JSON.parse(invoice_) : "";
     const token = returnAdminToken();
@@ -128,7 +128,7 @@ const ContractorInvoiceDetails = (props) => {
       ])
       .then(
         axios.spread((res2, res4) => {
-          console.log(res2.data.data);
+          
           setState({
             ...state,
             work_order_detail: res4.data.data,
@@ -143,7 +143,7 @@ const ContractorInvoiceDetails = (props) => {
           ...state,
           work_order_detail: work_order_details,
         });
-        console.log(err);
+        
       });
   }, []);
 
@@ -171,7 +171,7 @@ const ContractorInvoiceDetails = (props) => {
           setTimeout(() => {
             props.history.push("/proforma_invoice_accepted");
           }, 2000);
-          console.log(res.data.data);
+          
           setState({
             ...state,
             isloading: false,
@@ -186,7 +186,7 @@ const ContractorInvoiceDetails = (props) => {
         if (err?.response?.status == 400) {
           return notify(err?.response?.data?.message);
         }
-        console.log(err);
+        
       });
   };
 
@@ -206,7 +206,7 @@ const ContractorInvoiceDetails = (props) => {
         notify("failed to complete payment");
       },
       callback: function (response) {
-        console.log(response);
+        
         notify(response.message);
         if (response?.bank_message == "Approved") {
           MakePayment();
@@ -252,7 +252,7 @@ const ContractorInvoiceDetails = (props) => {
         if (err?.response?.status == 400) {
           // return notify(err?.response?.data?.message);
         }
-        console.log(err);
+        
       });
   };
   const get_payment_ref = () => {
@@ -269,7 +269,7 @@ const ContractorInvoiceDetails = (props) => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data);
+          
           initPayment(res?.data?.data?.reference);
           setTimeout(() => {
             setState({
@@ -288,7 +288,7 @@ const ContractorInvoiceDetails = (props) => {
         if (err?.response?.status == 400) {
           // return notify(err?.response?.data?.message);
         }
-        console.log(err);
+        
       });
   };
   const {
@@ -306,7 +306,7 @@ const ContractorInvoiceDetails = (props) => {
     show,
     cycle_amount,
   } = state;
-  console.log(work_order_detail, "work_order_detail");
+  
   return (
     <>
       <Modal

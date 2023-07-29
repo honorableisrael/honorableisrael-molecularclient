@@ -94,7 +94,7 @@ const SpecialistWorkSheetPage = (props) => {
     id,
   }: any = state;
   const onchange = (e) => {
-    console.log(e.target.value);
+    
     setState({
       ...state,
       [e.target.name]: e.target.value,
@@ -138,7 +138,7 @@ const SpecialistWorkSheetPage = (props) => {
 
       .then(
         axios.spread((res, res2, response, response2, response3, response4) => {
-          console.log(res.data.data);
+          
           setState({
             ...state,
             ...res.data.data,
@@ -153,7 +153,7 @@ const SpecialistWorkSheetPage = (props) => {
         })
       )
       .catch((err) => {
-        console.log(err.response);
+        
       });
   };
   const notify = (message: string, type = "B") => {
@@ -189,7 +189,7 @@ const SpecialistWorkSheetPage = (props) => {
   const onchange_pipeschedule = (e) => {
     // if (e.target.name == "pipe_type") {
     const new_obj = JSON.parse(e.target.value);
-    console.log(new_obj);
+    
     setState({
       ...state,
       pipe_schedule_name: new_obj.name,
@@ -200,7 +200,7 @@ const SpecialistWorkSheetPage = (props) => {
   const onchange_pipesize = (e) => {
     // if (e.target.name == "pipe_type") {
     const new_obj = JSON.parse(e.target.value);
-    console.log(new_obj, "pipesize");
+    
     setState({
       ...state,
       size_value: new_obj.name,
@@ -222,13 +222,13 @@ const SpecialistWorkSheetPage = (props) => {
       joints: no_of_joints,
       pipe_schedule,
     };
-    console.log(data, "payload");
+    
     axios
       .post(`${API}/specialist/work-orders/worksheets/${id}/items`, data, {
         headers: { Authorization: `Bearer ${token.access_token}` },
       })
       .then((res) => {
-        console.log(res);
+        
         notify("Successfully created");
         setTimeout(() => {
           fetch_all();
@@ -244,7 +244,7 @@ const SpecialistWorkSheetPage = (props) => {
           ...state,
           isloading: false,
         });
-        console.log(err?.response);
+        
         if (err?.response?.status == 406) {
           return notify(err?.response?.data?.errors?.size.join(""));
         }
@@ -289,7 +289,7 @@ const SpecialistWorkSheetPage = (props) => {
           ...state,
           isloading: false,
         });
-        console.log(err?.response);
+        
         if (err?.response?.status == 406) {
           return notify(err?.response?.data?.errors?.size.join(""));
         }
@@ -313,7 +313,7 @@ const SpecialistWorkSheetPage = (props) => {
         }
       )
       .then((res) => {
-        console.log(res);
+        
         notify("Successfully deleted");
         setTimeout(() => {
           fetch_all();
@@ -328,7 +328,7 @@ const SpecialistWorkSheetPage = (props) => {
           ...state,
           isloading: false,
         });
-        console.log(err?.response);
+        
         if (err?.response?.status == 406) {
           return notify(err?.response?.data?.errors?.size.join(""));
         }
@@ -353,7 +353,7 @@ const SpecialistWorkSheetPage = (props) => {
         }
       )
       .then((res) => {
-        console.log(res);
+        
         notify("Successfully Submitted");
         setTimeout(() => {
           fetch_all();
@@ -369,14 +369,14 @@ const SpecialistWorkSheetPage = (props) => {
           ...state,
           isloading: false,
         });
-        console.log(err?.response);
+        
         if (err?.response?.status == 406) {
           return notify(err?.response?.data?.errors?.size.join(""));
         }
         notify("Failed to Send");
       });
   };
-  console.log(worksheet_reports, "worksheet_reports");
+  
   return (
     <>
       <ToastContainer

@@ -52,7 +52,7 @@ const Qualification = withRouter((props) => {
   }: any = state;
 
   const onchange = e => {
-    console.log(e.target.value);
+    
     setState({
       ...state,
       [e.target.name]: e.target.value
@@ -60,7 +60,7 @@ const Qualification = withRouter((props) => {
   };
 
   const editCertificate = (id, index,item) => {
-    console.log(id)
+    
     setState({
       ...state,
       ...item,
@@ -82,9 +82,9 @@ const Qualification = withRouter((props) => {
     });
        //post to API
        const availableToken = localStorage.getItem("loggedInDetails");
-       console.log(availableToken);
+       
        const token = availableToken ? JSON.parse(availableToken) : "";
-       console.log(token);
+       
        const data={
         qualification,
         institution,
@@ -96,11 +96,11 @@ const Qualification = withRouter((props) => {
          headers: { Authorization: `Bearer ${token.access_token}` }
        })
        .then((res)=>{
-        console.log(res.data)
+        
             notify("qualification updated successfully ")
        })
        .catch((err)=>{
-         console.log(err.response)
+         
          if(err.response ){ 
            notify("failed to Update")
          }
@@ -144,9 +144,9 @@ const Qualification = withRouter((props) => {
     })
     //post to API
     const availableToken = localStorage.getItem("loggedInDetails");
-    console.log(availableToken);
+    
     const token = availableToken ? JSON.parse(availableToken) : "";
-    console.log(token);
+    
     const data ={
       qualification,
       institution,
@@ -158,7 +158,7 @@ const Qualification = withRouter((props) => {
       headers: { Authorization: `Bearer ${token.access_token}` },
     })
     .then((res)=>{
-      console.log(res.data)
+      
         setState({
           ...state,
           noCertificateAdded: false,
@@ -175,7 +175,7 @@ const Qualification = withRouter((props) => {
         notify("New Qualification added")
     })
     .catch((err)=>{
-      console.log(err.response)
+      
       if(err.response ){ 
         notify("failed to add qualification")
         setState({
@@ -190,7 +190,7 @@ const Qualification = withRouter((props) => {
   useEffect(() => {
     window.scrollTo(-0, -0);
     const availableToken = localStorage.getItem("loggedInDetails");
-    console.log(availableToken);
+    
     setState({
       ...state,
       noCertificateAdded: qualifications.length == 1? true:false,
@@ -198,7 +198,7 @@ const Qualification = withRouter((props) => {
       certificationbtn: qualifications.length == 1? "nowrapdemacator":"profcerbtnwrapper",
     });
     const token = availableToken ? JSON.parse(availableToken) : "";
-    console.log(token);
+    
     Axios.all([
       Axios.get(`${API}/admin/specialists/${props.match.params.id}`, {
         headers: { Authorization: `Bearer ${token.access_token}` },
@@ -206,7 +206,7 @@ const Qualification = withRouter((props) => {
     ])
       .then(
         Axios.spread((res) => {
-          console.log(res.data);
+          
           const user= res.data.data;
           setState({
             ...state,
@@ -220,7 +220,7 @@ const Qualification = withRouter((props) => {
         })
       )
       .catch((err) => {
-        console.log(err.response);
+        
       });
     
   }, []);
@@ -251,21 +251,21 @@ const Qualification = withRouter((props) => {
       });
         //post to API
    const availableToken = localStorage.getItem("loggedInDetails");
-   console.log(availableToken);
+   
    const token = availableToken ? JSON.parse(availableToken) : "";
-   console.log(token);
+   
 
    Axios.delete(`${API}/admin/specialists/qualifications/${credential_id}`, {
      headers: { Authorization: `Bearer ${token.access_token}` }
    })
      .then(res => {
-       console.log(res.data);
+       
        if (res.status == 200) {
          notify("Qualification successfully deleted");
        }
      })
      .catch(err => {
-       console.log(err.response);
+       
        if (err.response) {
          notify("failed to Delete");
        }

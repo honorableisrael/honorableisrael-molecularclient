@@ -156,16 +156,16 @@ const SpecialistSettings = () => {
       }
     };
     reader.readAsDataURL(e.target.files[0]);
-    console.log(photo);
-    console.log(e.target.files[0]);
+    
+    
     // upload image to server;
     const availableToken = localStorage.getItem("loggedInDetails");
-    console.log(availableToken);
+    
     const token = availableToken ? JSON.parse(availableToken) : "";
-    console.log(token);
+    
     const imageData = new FormData();
     imageData.append("image", e.target.files[0]);
-    console.log(imageData);
+    
     axios
       .post(`${API}/photo`, imageData, {
         headers: {
@@ -175,13 +175,13 @@ const SpecialistSettings = () => {
         },
       })
       .then((res) => {
-        console.log(res.data);
+        
         setTimeout(() => {
           notify("image uploaded Successfully");
         }, 1000);
       })
       .catch((err) => {
-        console.log(err.response);
+        
         notify("failed to Upload Image");
       });
   };
@@ -256,9 +256,9 @@ const SpecialistSettings = () => {
   };
   const submitProfile = () => {
     const availableToken = localStorage.getItem("loggedInDetails");
-    console.log(availableToken);
+    
     const token = availableToken ? JSON.parse(availableToken) : "";
-    console.log(token);
+    
     const data = {
       phone,
       dob,
@@ -270,7 +270,7 @@ const SpecialistSettings = () => {
       last_name,
       coverall_size,
     };
-    console.log(data);
+    
     axios
       .put(`${API}/specialist/update`, data, {
         headers: {
@@ -291,7 +291,7 @@ const SpecialistSettings = () => {
             successMessage: res.data.message,
           });
         }, 2000);
-        console.log(res);
+        
       })
       .catch((err) => {
         setState({
@@ -300,18 +300,18 @@ const SpecialistSettings = () => {
           errorMessage: err?.response?.data?.message,
         });
         notify("Failed to save", "D");
-        console.log(err.response);
+        
       });
   };
   const submitRelatedSkills = () => {
     const availableToken = localStorage.getItem("loggedInDetails");
-    console.log(availableToken);
+    
     const token = availableToken ? JSON.parse(availableToken) : "";
-    console.log(token);
+    
     const data = {
       skills: selected_skill_payload,
     };
-    console.log(data);
+    
     axios
       .post(`${API}/specialist/related-skills`, data, {
         headers: {
@@ -328,7 +328,7 @@ const SpecialistSettings = () => {
             successMessage: res.data.message,
           });
         }, 2000);
-        console.log(res);
+        
       })
       .catch((err) => {
         setState({
@@ -337,11 +337,11 @@ const SpecialistSettings = () => {
           errorMessage: err?.response?.data?.message,
         });
         notify("Failed to save", "D");
-        console.log(err.response);
+        
       });
   };
   const onSelect = (selectedList, selectedItem) => {
-    console.log(selectedList, "selectedList");
+    
     const result = selectedList.map((item) => {
       return item.id;
     });
@@ -352,8 +352,8 @@ const SpecialistSettings = () => {
   };
 
   const onRemove = (selectedList, removedItem) => {
-    console.log(removedItem, "removedItem");
-    console.log(selectedList, "selectedList");
+    
+    
   };
   const closeMessageModal = () => {
     setState({
@@ -373,10 +373,10 @@ const SpecialistSettings = () => {
   useEffect(() => {
     window.scrollTo(-0, -0);
     const availableToken = localStorage.getItem("loggedInDetails");
-    console.log(availableToken);
+    
 
     const token = availableToken ? JSON.parse(availableToken) : "";
-    console.log(token);
+    
     Axios.all([
       Axios.get(`${API}/specialist`, {
         headers: { Authorization: `Bearer ${token.access_token}` },
@@ -391,8 +391,8 @@ const SpecialistSettings = () => {
     ])
       .then(
         axios.spread((res, res2, res3, res4) => {
-          console.log(res.data);
-          console.log(res2.data.data, "skills");
+          
+          
           const user = res.data.data;
           setState({
             ...state,
@@ -411,19 +411,19 @@ const SpecialistSettings = () => {
         })
       )
       .catch((err) => {
-        console.log(err.response);
+        
       });
   }, []);
 
   const third_tab = () => {
     // const availableToken = localStorage.getItem("loggedInDetails");
-    // console.log(availableToken);
+    // 
     // const token = availableToken ? JSON.parse(availableToken) : "";
-    // console.log(token);
+    // 
     // const data1 = {
     //   skill_id
     // };
-    // console.log(skill_id)
+    // 
 
     // Axios.all([
     //   Axios.post(`${API}/specialist/skills`, data1, {
@@ -444,16 +444,16 @@ const SpecialistSettings = () => {
     //   })
     // )
     // .catch((err) => {
-    //   console.log(err.response);
+    //   
     //   notify("Failed to save", "D");
     // });
   };
 
   const deactivateAccount = () => {
     const availableToken = localStorage.getItem("loggedInDetails");
-    console.log(availableToken);
+    
     const token = availableToken ? JSON.parse(availableToken) : "";
-    console.log(token);
+    
     setState({
       ...state,
       isloading: true,
@@ -466,11 +466,11 @@ const SpecialistSettings = () => {
         reason,
       },
     };
-    console.log(reason);
+    
 
     Axios.delete(`${API}/specialist/deactivate`, config)
       .then((response) => {
-        console.log(response.data);
+        
         notify("specialist account was successfully deactivated ");
         setState({
           ...state,
@@ -478,7 +478,7 @@ const SpecialistSettings = () => {
         });
       })
       .catch((err) => {
-        console.log(err.response);
+        
         setState({
           ...state,
           isloading: false,
@@ -492,12 +492,12 @@ const SpecialistSettings = () => {
       ...state,
       available: !available,
     });
-    console.log(available);
+    
     //post to API
     const availableToken = localStorage.getItem("loggedInDetails");
-    console.log(availableToken);
+    
     const token = availableToken ? JSON.parse(availableToken) : "";
-    console.log(token);
+    
     const data = {
       status: !available,
     };
@@ -505,7 +505,7 @@ const SpecialistSettings = () => {
       headers: { Authorization: `Bearer ${token.access_token}` },
     })
       .then((response) => {
-        console.log(response.data);
+        
         notify(" availability status changed successfully ");
         setState({
           ...state,
@@ -515,7 +515,7 @@ const SpecialistSettings = () => {
         });
       })
       .catch((err) => {
-        console.log(err.response);
+        
         setState({
           ...state,
           isloading: false,
@@ -539,7 +539,7 @@ const SpecialistSettings = () => {
       password_confirmation: confirm_password,
     };
     const availableToken = localStorage.getItem("loggedInDetails");
-    console.log(availableToken);
+    
 
     const token = availableToken ? JSON.parse(availableToken) : "";
     setState({
@@ -551,7 +551,7 @@ const SpecialistSettings = () => {
         headers: { Authorization: `Bearer ${token.access_token}` },
       })
       .then((res) => {
-        console.log(res);
+        
         notify("Update successful");
         setState({
           ...state,

@@ -17,7 +17,7 @@ import exclam from "../../images/exclammark.png";
 
 
 const Specialist_Payment_Invoice = (props) => {
-  console.log(props);
+  
   const [state, setState] = useState <any>({
     work_orders: [],
     invoice_details: {},
@@ -60,7 +60,7 @@ const Specialist_Payment_Invoice = (props) => {
   }: any= state;
 
   const onchange = (e) => {
-    console.log(e.target.value);
+    
     if (e.target.name == "requested_amount" ){
        if(e.target.value < calculateLoanableAmount()){
         return setState({
@@ -81,7 +81,7 @@ const Specialist_Payment_Invoice = (props) => {
     return loanableamount
   }
   const workModal = (id, index, amount) => {
-    console.log(id)
+    
     setState({
       ...state,
       cycle_id: id,
@@ -104,8 +104,8 @@ const Specialist_Payment_Invoice = (props) => {
     const token = specialistToken()
     const work_order = localStorage.getItem("Invoice_payment_details");
     const Invoice_payment_details = work_order ? JSON.parse(work_order) : "";
-    console.log(props?.match?.params?.id)
-    console.log(Invoice_payment_details.work_order.id)
+    
+    
     axios
       .all([
         axios.get(`${API}/specialist/invoices/${props?.match?.params?.id}`, {
@@ -117,8 +117,8 @@ const Specialist_Payment_Invoice = (props) => {
       ])
       .then(
         axios.spread((res2,res3) => {
-          console.log(res2.data.data);
-           console.log(res3.data.data);
+          
+           
           setState({
             ...state,
             ...res2.data.data,
@@ -130,7 +130,7 @@ const Specialist_Payment_Invoice = (props) => {
         })
       )
       .catch((err) => {
-        console.log(err.response);
+        
         
       });
   }, []);
@@ -140,11 +140,11 @@ const Specialist_Payment_Invoice = (props) => {
       ...state,
       isloading: true,
     })
-    console.log(cycle_id)
+    
     const availableToken = localStorage.getItem("loggedInDetails");
-    console.log(availableToken);
+    
     const token = availableToken ? JSON.parse(availableToken) : "";
-    console.log(token);
+    
     const data={
       amount: requested_amount
     }
@@ -152,7 +152,7 @@ const Specialist_Payment_Invoice = (props) => {
       headers: { Authorization: `Bearer ${token.access_token}` }
     })
     .then((res)=>{
-      console.log(res.data)
+      
       notify("payment requested successfully");
       setState({
         ...state,
@@ -161,7 +161,7 @@ const Specialist_Payment_Invoice = (props) => {
       })
     })
     .catch((err)=>{
-      console.log(err.response)
+      
       notify("Request failed");
       setState({
         ...state,

@@ -4215,3 +4215,8 @@ label i {
   padding-top: 1rem;
   padding-bottom: 1rem;
 }
+
+.position_shift{
+  position: relative;
+  bottom: 4rem;
+}

@@ -19,7 +19,7 @@ import Specialist_Work_details from "./specialist_work_detail";
 
 
 const Notification = (props) => {
-  console.log(props);
+  
   return (
     <>
       <div className="spcdshbdnotificndv">
@@ -110,9 +110,9 @@ const SpecialistDashboard = (props) => {
       ])
       .then(
         axios.spread((res,res1,res2,res3) => {
-          console.log(res.data);
-          console.log(res1.data);
-          console.log(res2.data)
+          
+          
+          
           setState({
             ...state,
             ...res1.data.data,
@@ -123,7 +123,7 @@ const SpecialistDashboard = (props) => {
         })
       )
       .catch((err) => {
-        console.log(err.response);
+        
       });
      
   }, []);

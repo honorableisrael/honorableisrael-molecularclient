@@ -130,7 +130,7 @@ const ListOfContractor = () => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           window.scrollTo(-0, -0);
           setState({
             ...state,
@@ -141,7 +141,7 @@ const ListOfContractor = () => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   };
   useEffect(() => {
@@ -185,7 +185,7 @@ const ListOfContractor = () => {
       .then(
         axios.spread((res) => {
           window.scrollTo(0, 0);
-          console.log(res.data.data);
+          
           setState({
             ...state,
             contractor_list: res.data.data.data,
@@ -198,7 +198,7 @@ const ListOfContractor = () => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   };
 
@@ -230,11 +230,11 @@ const ListOfContractor = () => {
         headers: { Authorization: `Bearer ${loggedInDetails().access_token}` },
       })
       .then((res) => {
-        console.log(res);
+        
         getAllContractors();
       })
       .catch((err) => {
-        console.log(err);
+        
       });
   };
 
@@ -244,11 +244,11 @@ const ListOfContractor = () => {
         headers: { Authorization: `Bearer ${loggedInDetails().access_token}` },
       })
       .then((res) => {
-        console.log(res);
+        
         getAllContractors();
       })
       .catch((err) => {
-        console.log(err);
+        
       });
   };
 
@@ -272,7 +272,7 @@ const ListOfContractor = () => {
       }
     });
   };
-  console.log(contractor_id);
+  
   return (
     <>
       <Container fluid={true} className="dasbwr">

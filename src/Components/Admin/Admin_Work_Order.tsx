@@ -172,7 +172,7 @@ const AdminWorkOrder = () => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           setState({
             ...state,
             work_orders: res.data.data.data,
@@ -195,7 +195,7 @@ const AdminWorkOrder = () => {
           ...state,
           isloading:false
         })
-        console.log(err);
+        
       });
   };
   const search_filter = () => {
@@ -212,7 +212,7 @@ const AdminWorkOrder = () => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           setState({
             ...state,
             work_orders: res.data.data.data,
@@ -231,7 +231,7 @@ const AdminWorkOrder = () => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
         setState({
           ...state,
           isloading:false
@@ -251,7 +251,7 @@ const AdminWorkOrder = () => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           setState({
             ...state,
             ...res.data.data.links,
@@ -269,7 +269,7 @@ const AdminWorkOrder = () => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   };
   const filter_by_active = (fun) => {
@@ -285,7 +285,7 @@ const AdminWorkOrder = () => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           setState({
             ...state,
             ...res.data.data.links,
@@ -303,7 +303,7 @@ const AdminWorkOrder = () => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   };
   const filter_by_onhold = (fun) => {
@@ -319,7 +319,7 @@ const AdminWorkOrder = () => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           setState({
             ...state,
             ...res.data.data.links,
@@ -337,7 +337,7 @@ const AdminWorkOrder = () => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   };
 
@@ -354,7 +354,7 @@ const AdminWorkOrder = () => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           window.scrollTo(-0, -0);
           setState({
             ...state,
@@ -373,7 +373,7 @@ const AdminWorkOrder = () => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   };
   const {

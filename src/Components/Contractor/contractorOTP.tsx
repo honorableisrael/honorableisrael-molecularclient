@@ -32,7 +32,7 @@ const ContractorOTP = withRouter((props:any) => {
     window.scrollTo(-0, -0);
     const userdetails: any = localStorage.getItem("userdata"); 
     const userdata = JSON.parse(userdetails);
-    console.log(userdata);
+    
     setState({
       ...state,
       userName: userdata[1],
@@ -42,9 +42,9 @@ const ContractorOTP = withRouter((props:any) => {
   // post otp
   const onSubmit=()=>{
     const availableToken: any= localStorage.getItem("loggedInDetails");
-    console.log(availableToken);
+    
     const token = availableToken ? JSON.parse(availableToken) : "";
-    console.log(token);
+    
     setState( {
       ...state, 
       isLoading:true
@@ -52,11 +52,11 @@ const ContractorOTP = withRouter((props:any) => {
     const data={
       otp: parseInt(otpNumber.join(""))
     };
-    console.log(data)
+    
     axios.post(`${API}/verify`,data,{
       headers: { Authorization: `Bearer ${token.access_token}` }})
     .then(( response )=>{
-      console.log(response)
+      
       if (response.status === 200){
         setTimeout(()=>{
           props?.history?.push("/settings")
@@ -69,7 +69,7 @@ const ContractorOTP = withRouter((props:any) => {
       
     })
     .catch((error)=>{
-      console.log(error.response)
+      
       if(error && error.response && error.response.data){
         return setState({
           ...state,

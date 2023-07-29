@@ -39,7 +39,7 @@ const DashboardNav = withRouter((props) => {
     ])
       .then(
         axios.spread((res) => {
-          console.log(res.data);
+          
           setState({
             ...state,
             theUserIsLoggedIn: true,
@@ -48,7 +48,7 @@ const DashboardNav = withRouter((props) => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   }, []);
 

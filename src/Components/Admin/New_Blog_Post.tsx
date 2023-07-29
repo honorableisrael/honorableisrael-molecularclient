@@ -50,7 +50,7 @@ const NewBlogPost = () => {
 
   const handleImages = (e) => {
     const objectUrl = URL.createObjectURL(e.target.files[0]);
-    console.log(objectUrl);
+    
     setState({
       ...state,
       featured_image: e.target.files[0],
@@ -59,7 +59,7 @@ const NewBlogPost = () => {
   };
 
   const onchange = (e) => {
-    console.log(e.target.value);
+    
     setState({
       ...state,
       [e.target.id]: e.target.value,
@@ -133,7 +133,7 @@ const NewBlogPost = () => {
         axios.spread((res) => {
           notify("Successful");
           reloadPage();
-          console.log(res.data.data);
+          
           setState({
             ...state,
             isloading: false,
@@ -148,7 +148,7 @@ const NewBlogPost = () => {
         if (err?.response?.status == 406) {
           return notify(err?.response?.data?.message,"D");
         }
-        console.log(err);
+        
       });
   };
 

@@ -85,7 +85,7 @@ const AdminAdvancePayment = (props) => {
         });
       }
       if (e.target.value > calculateLoanableAmount()) {
-        console.log(calculateLoanableAmount());
+        
         return setState({
           ...state,
           [e.target.name]: calculateLoanableAmount().toFixed(2),
@@ -98,7 +98,7 @@ const AdminAdvancePayment = (props) => {
     return loanableamount;
   };
   const workModal = (id, amount) => {
-    console.log(id);
+    
     setState({
       ...state,
       cycle_id: id,
@@ -116,7 +116,7 @@ const AdminAdvancePayment = (props) => {
   };
   useEffect(() => {
     window.scrollTo(-0, -0);
-    console.log(props?.match?.params?.id);
+    
     axios
       .all([
         axios.get(
@@ -130,7 +130,7 @@ const AdminAdvancePayment = (props) => {
       ])
       .then(
         axios.spread((res4) => {
-          console.log(res4.data);
+          
           setState({
             ...state,
             payment_record: res4.data.data,
@@ -139,7 +139,7 @@ const AdminAdvancePayment = (props) => {
         })
       )
       .catch((err) => {
-        console.log(err.response);
+        
       });
   }, []);
 
@@ -169,11 +169,11 @@ const AdminAdvancePayment = (props) => {
       ...state,
       isloading: true,
     });
-    console.log(cycle_id);
+    
     const availableToken = localStorage.getItem("loggedInDetails");
-    console.log(availableToken);
+    
     const token = availableToken ? JSON.parse(availableToken) : "";
-    console.log(token);
+    
     const data = {
       amount: requested_amount,
     };
@@ -186,7 +186,7 @@ const AdminAdvancePayment = (props) => {
         }
       )
       .then((res) => {
-        console.log(res.data);
+        
         notify("payment requested successfully");
         reloadPage();
         setState({
@@ -196,7 +196,7 @@ const AdminAdvancePayment = (props) => {
         });
       })
       .catch((err) => {
-        console.log(err.response);
+        
         notify("Request failed");
         setState({
           ...state,
@@ -205,7 +205,7 @@ const AdminAdvancePayment = (props) => {
         });
       });
   };
-  console.log(work_order, "work_order");
+  
   return (
     <>
       <Modal centered={true} onHide={closeworkModal} show={terminateWorkModal}>

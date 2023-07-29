@@ -44,7 +44,7 @@ const AdminWorkOrderEvaluation = withRouter((props) => {
     reason: "",
   });
   const onchange = (e) => {
-    console.log(e.target.value);
+    
     setState({
       ...state,
       [e.target.name]: e.target.value,
@@ -73,7 +73,7 @@ const AdminWorkOrderEvaluation = withRouter((props) => {
         headers: { Authorization: `Bearer ${token.access_token}` },
       })
       .then((res) => {
-        console.log(res.data.data);
+        
         setState({
           ...state,
           ...res.data.data,
@@ -85,10 +85,10 @@ const AdminWorkOrderEvaluation = withRouter((props) => {
           ...state,
           work_order_detail: work_order_details,
         });
-        console.log(err);
+        
       });
     let inreview = props.location.search;
-    console.log(inreview);
+    
   }, []);
 
   const {

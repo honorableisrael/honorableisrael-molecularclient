@@ -62,7 +62,7 @@ const New_Work_Order_Card = withRouter((props:any) => {
           setTimeout(() => {
             props.history.push(`/admin_work_details/${props?.order_details?.id}?inreview=true`);
           }, 2000);
-          console.log(res.data);
+          
           setState({
             ...state,
             isloading: false,
@@ -70,7 +70,7 @@ const New_Work_Order_Card = withRouter((props:any) => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
         setState({
           ...state,
           isloading: false,
@@ -105,7 +105,7 @@ const New_Work_Order_Card = withRouter((props:any) => {
       .then(
         axios.spread((res) => {
           notify("Successfull");
-          console.log(res.data);
+          
           setTimeout(() => {
             window.location.reload();
           }, 2000);
@@ -117,7 +117,7 @@ const New_Work_Order_Card = withRouter((props:any) => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
         notify("Failed to process", "D");
         setState({
           ...state,

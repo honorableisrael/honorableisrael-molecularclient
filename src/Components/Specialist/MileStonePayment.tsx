@@ -32,7 +32,7 @@ import closeimg from "../../images/closeimg.png";
 import exclam from "../../images/exclammark.png";
 
 const MileStonePayment = (props) => {
-  console.log(props);
+  
   const [state, setState] = useState<any>({
     work_orders: [],
     invoice_details: {},
@@ -97,7 +97,7 @@ const MileStonePayment = (props) => {
     return loanableamount;
   };
   const workModal = (id, index, amount) => {
-    console.log(id);
+    
     setState({
       ...state,
       cycle_id: id,
@@ -119,7 +119,7 @@ const MileStonePayment = (props) => {
     const invoice = invoice_ ? JSON.parse(invoice_) : "";
     const token = specialistToken();
     const work_order = localStorage.getItem("Invoice_payment_details");
-    console.log(props?.match?.params?.id);
+    
     axios
       .all([
         // axios.get(`${API}/specialist/work-orders/${Invoice_payment_details?.work_order?.id}/upfront-requests`, {
@@ -131,7 +131,7 @@ const MileStonePayment = (props) => {
       ])
       .then(
         axios.spread((res4) => {
-          console.log(res4.data);
+          
           setState({
             ...state,
             // ...res3.data.data,
@@ -141,7 +141,7 @@ const MileStonePayment = (props) => {
         })
       )
       .catch((err) => {
-        console.log(err.response);
+        
       });
   };
   useEffect(() => {
@@ -155,11 +155,11 @@ const MileStonePayment = (props) => {
       ...state,
       isloading: true,
     });
-    console.log(cycle_id);
+    
     const availableToken = localStorage.getItem("loggedInDetails");
-    console.log(availableToken);
+    
     const token = availableToken ? JSON.parse(availableToken) : "";
-    console.log(token);
+    
     const data = {
       amount: requested_amount,
     };
@@ -172,7 +172,7 @@ const MileStonePayment = (props) => {
         }
       )
       .then((res) => {
-        console.log(res.data);
+        
         notify("payment requested successfully");
         reloadPage();
         setState({
@@ -182,7 +182,7 @@ const MileStonePayment = (props) => {
         });
       })
       .catch((err) => {
-        console.log(err.response);
+        
         notify("Request failed");
         setState({
           ...state,
@@ -212,7 +212,7 @@ const MileStonePayment = (props) => {
     }
   }, [PaymentErrorMessage]);
 
-  console.log(milestone_record, "milestone_record");
+  
   return (
     <>
       <Modal centered={true} onHide={closeworkModal} show={terminateWorkModal}>

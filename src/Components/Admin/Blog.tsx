@@ -64,7 +64,7 @@ const BlogList = (props) => {
     total: "",
   });
   const onchange = (e) => {
-    console.log(e.target.value);
+    
     setState({
       ...state,
       [e.target.id]: e.target.value,
@@ -138,7 +138,7 @@ const BlogList = (props) => {
       ])
       .then(
         axios.spread((res) => {
-          // console.log(res.data);
+          // 
           setState({
             ...state,
             all_blog_post: res.data.data.data,
@@ -150,7 +150,7 @@ const BlogList = (props) => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
         setState({
           ...state,
           isloading: false,
@@ -167,7 +167,7 @@ const BlogList = (props) => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data);
+          
           window.scrollTo(-0, -0);
           setState({
             ...state,
@@ -178,7 +178,7 @@ const BlogList = (props) => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   };
   const {
@@ -211,7 +211,7 @@ const BlogList = (props) => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data);
+          
           reloadPage();
           setState({
             ...state,

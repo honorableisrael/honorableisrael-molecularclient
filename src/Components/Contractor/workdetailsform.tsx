@@ -104,11 +104,11 @@ const WorkDetails_Form_Preview = (props) => {
         number: no_of_specialist,
       })
     );
-    console.log(config_keys);
+    
     // no_of_specialist,
     // type_of_specialist,
     // title_of_specialist,
-    console.log(pipe_keys);
+    
     const work_order_data = {
       title: order_title,
       description: work_order_description,
@@ -124,7 +124,7 @@ const WorkDetails_Form_Preview = (props) => {
       project_location,
       spreads,
     };
-    console.log(work_order_data);
+    
     axios
       .post(`${API}/contractor/work-orders`,work_order_data,{
         headers: {
@@ -138,7 +138,7 @@ const WorkDetails_Form_Preview = (props) => {
         },2000)
         localStorage.removeItem("second_step")
         localStorage.removeItem("first_step")
-        console.log(res);
+        
         setState({
           ...state,
           isloading: false,
@@ -151,12 +151,12 @@ const WorkDetails_Form_Preview = (props) => {
           isloading: false,
         });
         notify("Sorry failed to process, try again later", "D");
-        console.log(err.response);
+        
       });
   };
   const notify = (message: string, type = "B") =>
     toast(message, { containerId: type, position: "top-right" });
-console.log(spreads,"spreads")
+
   return (
     <>
       <div className="formcontent">

@@ -61,7 +61,7 @@ const CreateWorkSheet = (props) => {
   });
 
   const onchange = (e) => {
-    console.log(e.target.value);
+    
     setState({
       ...state,
       [e.target.name]: e.target.value,
@@ -82,7 +82,7 @@ const CreateWorkSheet = (props) => {
   const onchange_pipeschedule = (e) => {
     // if (e.target.name == "pipe_type") {
     const new_obj = JSON.parse(e.target.value);
-    console.log(new_obj);
+    
     setState({
       ...state,
       pipe_schedule_name: new_obj.name,
@@ -92,7 +92,7 @@ const CreateWorkSheet = (props) => {
   const onchange_pipesize = (e) => {
     // if (e.target.name == "pipe_type") {
     const new_obj = JSON.parse(e.target.value);
-    console.log(new_obj);
+    
     setState({
       ...state,
       size_value: new_obj.name,
@@ -139,13 +139,13 @@ const CreateWorkSheet = (props) => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   }, []);
   const onchange_Area_Of_Specialization = (e) => {
     // if (e.target.name == "pipe_type") {
     const new_obj = JSON.parse(e.target.value);
-    console.log(new_obj);
+    
     setState({
       ...state,
       type_of_specialist: new_obj.id,
@@ -167,13 +167,13 @@ const CreateWorkSheet = (props) => {
       joints,
       pipe_schedule,
     };
-    console.log(data,"payload")
+    
     axios
       .post(`${API}/specialist/work-orders/worksheets/${id}/items`, data, {
         headers: { Authorization: `Bearer ${token.access_token}` },
       })
       .then((res) => {
-        console.log(res);
+        
         notify("Successfully create");
         setTimeout(() => {
           window.history.back();
@@ -188,7 +188,7 @@ const CreateWorkSheet = (props) => {
           ...state,
           isloading: false,
         });
-        console.log(err?.response);
+        
         if (err?.response?.status == 406) {
           return notify(err?.response?.data?.errors?.size.join(""));
         }
@@ -221,7 +221,7 @@ const CreateWorkSheet = (props) => {
     joints,
     size_value,
   } = state;
-  console.log(work_order_detail);
+  
   return (
     <>
       <Container fluid={true} className='dasbwr'>

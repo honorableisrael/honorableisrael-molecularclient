@@ -108,7 +108,7 @@ const All_Specialist = () => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           setState({
             ...state,
             all_specialist: res.data.data.data,
@@ -119,7 +119,7 @@ const All_Specialist = () => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
         setState({
           ...state,
           isloading:false
@@ -146,7 +146,7 @@ const All_Specialist = () => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           setState({
             ...state,
             all_specialist: res.data.data.data,
@@ -160,7 +160,7 @@ const All_Specialist = () => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
         setState({
           ...state,
           isloading: false,
@@ -181,7 +181,7 @@ const All_Specialist = () => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           setState({
             ...state,
             all_specialist: res.data.data.data,
@@ -196,7 +196,7 @@ const All_Specialist = () => {
           ...state,
           isloading:false
         })
-        console.log(err);
+        
       });
   };
   const filter_by_new = (fun) => {
@@ -212,7 +212,7 @@ const All_Specialist = () => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           setState({
             ...state,
             all_specialist: res.data.data.data,
@@ -222,7 +222,7 @@ const All_Specialist = () => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   };
   const onStarClick = (nextValue, prevValue, name) => {
@@ -244,7 +244,7 @@ const All_Specialist = () => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           window.scrollTo(-0, -0);
           setState({
             ...state,
@@ -255,7 +255,7 @@ const All_Specialist = () => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   };
   const {

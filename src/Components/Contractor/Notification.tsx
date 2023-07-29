@@ -43,7 +43,7 @@ const Notification = withRouter((props) => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data);
+          
           setState({
             ...state,
             notification: res.data.data.data,
@@ -53,7 +53,7 @@ const Notification = withRouter((props) => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   }, []);
   const nextPage = (x) => {
@@ -69,7 +69,7 @@ const Notification = withRouter((props) => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           window.scrollTo(-0, -0);
           setState({
             ...state,
@@ -80,7 +80,7 @@ const Notification = withRouter((props) => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   };
   const {
@@ -94,7 +94,7 @@ const Notification = withRouter((props) => {
     total,
     notification,
   }: any = state;
-  console.log(notification,"notification")
+  
   return (
     <>
       <Container fluid={true} className="dasbwr">

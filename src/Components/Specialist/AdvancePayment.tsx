@@ -95,7 +95,7 @@ const AdvancePayment = (props) => {
     return loanableamount;
   };
   const workModal = (id, amount) => {
-    console.log(id);
+    
     setState({
       ...state,
       cycle_id: id,
@@ -117,7 +117,7 @@ const AdvancePayment = (props) => {
     const invoice = invoice_ ? JSON.parse(invoice_) : "";
     const token = specialistToken();
     const work_order = localStorage.getItem("Invoice_payment_details");
-    console.log(props?.match?.params?.id);
+    
     axios
       .all([
         axios.get(`${API}/specialist/work-orders/${props?.match?.params?.id}`, {
@@ -126,7 +126,7 @@ const AdvancePayment = (props) => {
       ])
       .then(
         axios.spread((res4) => {
-          console.log(res4.data);
+          
           setState({
             ...state,
             // ...res3.data.data,
@@ -136,7 +136,7 @@ const AdvancePayment = (props) => {
         })
       )
       .catch((err) => {
-        console.log(err.response);
+        
       });
   }, []);
 
@@ -145,11 +145,11 @@ const AdvancePayment = (props) => {
       ...state,
       isloading: true,
     });
-    console.log(cycle_id);
+    
     const availableToken = localStorage.getItem("loggedInDetails");
-    console.log(availableToken);
+    
     const token = availableToken ? JSON.parse(availableToken) : "";
-    console.log(token);
+    
     const data = {
       amount: requested_amount,
     };
@@ -158,7 +158,7 @@ const AdvancePayment = (props) => {
         headers: { Authorization: `Bearer ${token.access_token}` },
       })
       .then((res) => {
-        console.log(res.data);
+        
         notify("payment requested successfully");
         reloadPage();
         setState({
@@ -168,7 +168,7 @@ const AdvancePayment = (props) => {
         });
       })
       .catch((err) => {
-        console.log(err.response);
+        
         notify("Request failed");
         setState({
           ...state,
@@ -198,7 +198,7 @@ const AdvancePayment = (props) => {
     }
   }, [PaymentErrorMessage]);
 
-  console.log(work_order, "work_order");
+  
   return (
     <>
       <Modal centered={true} onHide={closeworkModal} show={terminateWorkModal}>

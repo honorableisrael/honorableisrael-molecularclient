@@ -40,7 +40,7 @@ const TableDropdownExchangeRate = (props) => {
         }
       })
       .catch((err) => {
-        console.log(err);
+        
         if (err) {
           Swal.fire("Failed to delete!", "error");
         }
@@ -58,14 +58,14 @@ const TableDropdownExchangeRate = (props) => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           notify("Successful");
           reloadPage();
         })
       )
       .catch((err) => {
         notify("Failed to delete pipe", "D");
-        console.log(err);
+        
       });
   };
   // one_organisation

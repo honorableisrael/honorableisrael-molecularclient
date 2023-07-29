@@ -20,7 +20,7 @@ const PaymentCards_1 = (props) => {
   };
   
   let { volume } = state;
-  console.log(props?.payment_details)
+  
   return (
     <>
       <div className="cardwrap_jo minheight_">

@@ -45,7 +45,7 @@ const Certification = () => {
   }: any = state;
 
   const onchange = (e) => {
-    console.log(e.target.value);
+    
     setState({
       ...state,
       [e.target.name]: e.target.value,
@@ -74,9 +74,9 @@ const Certification = () => {
     });
     //post to API
     const availableToken = localStorage.getItem("loggedInDetails");
-    console.log(availableToken);
+    
     const token = availableToken ? JSON.parse(availableToken) : "";
-    console.log(token);
+    
     const data = {
       certification: title,
       year,
@@ -86,13 +86,13 @@ const Certification = () => {
       headers: { Authorization: `Bearer ${token.access_token}` },
     })
       .then((res) => {
-        console.log(res.data);
+        
         if (res.status == 200) {
           notify("Certificate updated successfully ");
         }
       })
       .catch((err) => {
-        console.log(err.response);
+        
         if (err.response) {
           notify(err?.response?.data?.errors?.year?.join(""))
           notify("failed to Update");
@@ -135,9 +135,9 @@ const Certification = () => {
       isloading: true,
     });
     const availableToken = localStorage.getItem("loggedInDetails");
-    console.log(availableToken);
+    
     const token = availableToken ? JSON.parse(availableToken) : "";
-    console.log(token);
+    
     const data = {
       certification: title,
       year,
@@ -147,7 +147,7 @@ const Certification = () => {
       headers: { Authorization: `Bearer ${token.access_token}` },
     })
       .then((res) => {
-        console.log(res.data);
+        
         if (res.status == 201) {
           setState({
             ...state,
@@ -167,7 +167,7 @@ const Certification = () => {
         }
       })
       .catch((err) => {
-        console.log(err.response);
+        
         if (err.response) {
           notify("failed to add Certification");
           setState({
@@ -182,7 +182,7 @@ const Certification = () => {
   useEffect(() => {
     window.scrollTo(-0, -0);
     const availableToken = localStorage.getItem("loggedInDetails");
-    console.log(availableToken);
+    
     setState({
       ...state,
       noCertificateAdded: certifications.length == 1 ? true : false,
@@ -192,7 +192,7 @@ const Certification = () => {
         certifications.length == 1 ? "nowrapdemacator" : "profcerbtnwrapper",
     });
     const token = availableToken ? JSON.parse(availableToken) : "";
-    console.log(token);
+    
     Axios.all([
       Axios.get(`${API}/specialist`, {
         headers: { Authorization: `Bearer ${token.access_token}` },
@@ -200,7 +200,7 @@ const Certification = () => {
     ])
       .then(
         Axios.spread((res) => {
-          console.log(res.data);
+          
           const user = res.data.data;
           setState({
             ...state,
@@ -219,7 +219,7 @@ const Certification = () => {
         })
       )
       .catch((err) => {
-        console.log(err.response);
+        
       });
   }, []);
 
@@ -248,21 +248,21 @@ const Certification = () => {
     });
     //post to API
     const availableToken = localStorage.getItem("loggedInDetails");
-    console.log(availableToken);
+    
     const token = availableToken ? JSON.parse(availableToken) : "";
-    console.log(token);
+    
 
     Axios.delete(`${API}/specialist/certifications/${credential_id}`, {
       headers: { Authorization: `Bearer ${token.access_token}` },
     })
       .then((res) => {
-        console.log(res.data);
+        
         if (res.status == 200) {
           notify("Certificate successfully deleted ");
         }
       })
       .catch((err) => {
-        console.log(err.response);
+        
         if (err.response) {
           notify("failed to Delete");
         }

@@ -54,7 +54,7 @@ const DashboardNav = (props) => {
         });
       })
       .catch((err) => {
-        console.log(err);
+        
       });
   }, []);
   return (

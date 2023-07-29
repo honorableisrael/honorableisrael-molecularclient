@@ -40,7 +40,7 @@ const SpecialistNotification = withRouter((props) => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data);
+          
           setState({
             ...state,
             notification: res.data.data.data,
@@ -50,7 +50,7 @@ const SpecialistNotification = withRouter((props) => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   }, []);
   const nextPage = (x) => {
@@ -66,7 +66,7 @@ const SpecialistNotification = withRouter((props) => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           window.scrollTo(-0, -0);
           setState({
             ...state,
@@ -77,7 +77,7 @@ const SpecialistNotification = withRouter((props) => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   };
   const {

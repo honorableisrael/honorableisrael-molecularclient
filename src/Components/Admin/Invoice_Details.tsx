@@ -94,7 +94,7 @@ const Admin_Invoice_details = (props) => {
     });
 
   const onchange = (e) => {
-    console.log(e.target.value);
+    
     setState({
       ...state,
       [e.target.name]: e.target.value,
@@ -166,7 +166,7 @@ const Admin_Invoice_details = (props) => {
       ])
       .then(
         axios.spread((res2, res3, res4) => {
-          console.log(res4.data.data);
+          
           setState({
             ...state,
             ...res2.data.data,
@@ -183,7 +183,7 @@ const Admin_Invoice_details = (props) => {
           ...state,
           work_order_detail: work_order_details,
         });
-        console.log(err);
+        
       });
   };
   const sendInvoice = () => {
@@ -210,7 +210,7 @@ const Admin_Invoice_details = (props) => {
       .then(
         axios.spread((res) => {
           notify("Successful");
-          console.log(res.data.data);
+          
           setState({
             ...state,
             isloading: false,
@@ -225,7 +225,7 @@ const Admin_Invoice_details = (props) => {
         if (err?.response?.status == 400) {
           return notify(err?.response?.data?.message);
         }
-        console.log(err);
+        
       });
   };
 
@@ -254,7 +254,7 @@ const Admin_Invoice_details = (props) => {
             window.location.reload();
           }, 2000);
           notify("Successful");
-          console.log(res.data.data);
+          
           setState({
             ...state,
             isloading: false,
@@ -272,7 +272,7 @@ const Admin_Invoice_details = (props) => {
         if (err?.response?.status == 400) {
           return notify(err?.response?.data?.message);
         }
-        console.log(err);
+        
       });
   };
 
@@ -301,7 +301,7 @@ const Admin_Invoice_details = (props) => {
           setTimeout(() => {
             window.location.assign("/scheduled_payments");
           }, 2000);
-          console.log(res.data.data);
+          
           setState({
             ...state,
             isloading: false,
@@ -316,7 +316,7 @@ const Admin_Invoice_details = (props) => {
         if (err?.response?.status == 400) {
           return notify(err?.response?.data?.message);
         }
-        console.log(err);
+        
       });
   };
 
@@ -357,7 +357,7 @@ const Admin_Invoice_details = (props) => {
         if (err?.response?.status == 400) {
           return notify(err?.response?.data?.message);
         }
-        console.log(err);
+        
       });
   };
 
@@ -397,7 +397,7 @@ const Admin_Invoice_details = (props) => {
         if (err?.response?.status == 400) {
           return notify(err?.response?.data?.message);
         }
-        console.log(err);
+        
       });
   };
 
@@ -437,7 +437,7 @@ const Admin_Invoice_details = (props) => {
         if (err?.response?.status == 400) {
           return notify(err?.response?.data?.message);
         }
-        console.log(err);
+        
       });
   };
   const validateForm = () => {
@@ -523,7 +523,7 @@ const Admin_Invoice_details = (props) => {
           isloading: false,
           edit_invoice_modal: false,
         });
-        console.log(err?.response);
+        
         if (err?.response?.status == 406) {
           return notify(err?.response?.data?.errors?.size.join(""));
         }
@@ -555,7 +555,7 @@ const Admin_Invoice_details = (props) => {
     show,
     errorMessage,
   } = state;
-  console.log(pipe_breakdown);
+  
   return (
     <>
       <Modal

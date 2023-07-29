@@ -43,7 +43,7 @@ const Admin_Notification = withRouter((props) => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data);
+          
           setState({
             ...state,
             notification: res.data.data.data,
@@ -53,7 +53,7 @@ const Admin_Notification = withRouter((props) => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   }, []);
   const nextPage = (x) => {
@@ -69,7 +69,7 @@ const Admin_Notification = withRouter((props) => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data.data);
+          
           window.scrollTo(-0, -0);
           setState({
             ...state,
@@ -80,7 +80,7 @@ const Admin_Notification = withRouter((props) => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   };
   const {

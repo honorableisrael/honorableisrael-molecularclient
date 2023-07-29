@@ -43,7 +43,7 @@ const Admin_Payment_Invoice = () => {
     total: "",
   });
   const onchange = (e) => {
-    console.log(e.target.value);
+    
     setState({
       ...state,
       [e.target.id]: e.target.value,
@@ -108,7 +108,7 @@ const Admin_Payment_Invoice = () => {
       ])
       .then(
         axios.spread((res) => {
-          // console.log(res.data);
+          // 
           setState({
             ...state,
             all_invoices: res.data.data.data,
@@ -118,7 +118,7 @@ const Admin_Payment_Invoice = () => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   }, []);
 
@@ -132,7 +132,7 @@ const Admin_Payment_Invoice = () => {
       ])
       .then(
         axios.spread((res) => {
-          console.log(res.data);
+          
           window.scrollTo(-0, -0);
           setState({
             ...state,
@@ -143,7 +143,7 @@ const Admin_Payment_Invoice = () => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   };
   const {

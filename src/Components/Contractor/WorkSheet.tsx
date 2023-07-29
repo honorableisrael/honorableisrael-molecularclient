@@ -70,7 +70,7 @@ const WorkSheetContactor = (props) => {
     });
 
   const onchange = (e) => {
-    console.log(e.target.value);
+    
     setState({
       ...state,
       [e.target.name]: e.target.value,
@@ -107,7 +107,7 @@ const WorkSheetContactor = (props) => {
           ...state,
           work_order_detail: work_order_details,
         });
-        console.log(err);
+        
       });
   }, []);
 
@@ -147,7 +147,7 @@ const WorkSheetContactor = (props) => {
         if (err?.response?.status == 400) {
           return notify(err?.response?.data?.message);
         }
-        console.log(err);
+        
       });
   };
   const ApproveWorkSheet = () => {
@@ -167,7 +167,7 @@ const WorkSheetContactor = (props) => {
       )
       .then((res) => {
         notify("Successfully approved worksheet");
-        console.log(res.data.data);
+        
         refreshpage();
         setState({
           ...state,
@@ -180,7 +180,7 @@ const WorkSheetContactor = (props) => {
           ...state,
           isloading: false,
         });
-        console.log(err);
+        
       });
   };
   const {
@@ -202,7 +202,7 @@ const WorkSheetContactor = (props) => {
     selected_id,
     show,
   } = state;
-  console.log(work_sheet, "work_sheet");
+  
   return (
     <>
       <Modal

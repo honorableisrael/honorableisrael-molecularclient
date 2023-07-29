@@ -12,7 +12,7 @@ const SplPaymentCards = props => {
     volume: props.status == "Awaiting Approval" ? 0 : 100
   });
 
-  console.log(props?.payment_details)
+  
   return (
     <>
     <Link 

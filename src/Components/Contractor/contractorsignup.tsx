@@ -103,11 +103,11 @@ const Contractorsignup = withRouter((props) => {
       website_url,
       industry,
     };
-    console.log(data);
+    
     axios
       .post(`${API}/register/contractor`, data)
       .then((res) => {
-        console.log(res.data);
+        
         localStorage.setItem("loggedInDetails", JSON.stringify(res.data));
         // if (res?.data?.user_type == "contractor") {
         //   return props.history.push("/contractor_dashboard");
@@ -122,7 +122,7 @@ const Contractorsignup = withRouter((props) => {
         window.scrollTo(0, 0);
       })
       .catch((err) => {
-        console.log(err?.response);
+        
         window.scrollTo(0, 0);
         if (err?.response?.status == 406 || err?.response?.status == 422) {
           return setState({
@@ -149,7 +149,7 @@ const Contractorsignup = withRouter((props) => {
       });
   };
   const onchange = (e) => {
-    console.log(e.target.value);
+    
     setState({
       ...state,
       [e.target.name]: e.target.value,
@@ -183,8 +183,8 @@ const Contractorsignup = withRouter((props) => {
     ])
       .then(
         axios.spread((res, res2) => {
-          console.log(res.data);
-          console.log(res2.data);
+          
+          
           setState({
             ...state,
             listOfIndustries: res.data.data,
@@ -193,10 +193,10 @@ const Contractorsignup = withRouter((props) => {
         })
       )
       .catch((err) => {
-        console.log(err);
+        
       });
   }, []);
-  console.log(agree);
+  
   return (
     <div>
       <NavBar />
