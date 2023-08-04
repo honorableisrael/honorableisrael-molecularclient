@@ -4202,21 +4202,28 @@ label i {
   padding: 2rem;
   border-radius: 1rem;
 }
+
 .card-details-wrap1 {
   padding: 2rem;
   border-radius: 1rem;
 }
+
 .border-visible {
   border: 1px solid #4444;
   padding: 1rem !important;
 }
-.border-visible td{
+
+.border-visible td {
   padding-left: 2rem;
   padding-top: 1rem;
   padding-bottom: 1rem;
 }
 
-.position_shift{
+.position_shift {
   position: relative;
   bottom: 4rem;
+}
+
+.padding_zero {
+  padding: 0px !important;
 }

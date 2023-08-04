@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   Col,
   Row,
@@ -8,6 +8,7 @@ import {
   Modal,
   Button,
   Spinner,
+  Card,
 } from "react-bootstrap";
 import "./contractor.css";
 import DashboardNav from "./navbar";
@@ -17,6 +18,7 @@ import arrowback from "../../images/dtls.png";
 import { Link } from "react-router-dom";
 import logo from "../../images/Molecular.png";
 import axios from "axios";
+import chevrondown from "../../images/chevrondown.png";
 import {
   API,
   current_currency,
@@ -31,7 +33,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { HashLink } from "react-router-hash-link";
 
 const WorkSheetAdmin = (props) => {
-  const [state, setState] = useState<any>({
+  const [state, setState] = useState < any > ({
     invoice_details: {},
     country: "",
     inprogress: true,
@@ -58,9 +60,28 @@ const WorkSheetAdmin = (props) => {
     modal_state: "",
     show_modal: false,
     show_modal_1: false,
+    active1: "",
+    collapseHeight: "0px",
+    chevron: "",
+    chevron1: "",
     work_sheet: {},
+    activeItemIndex: null,
   });
-
+  const contentsRef = useRef < (HTMLDivElement | null)[] > ([]);
+  const toggleAccordion1 = (i = 1) => {
+    const activeKey = `active${i}`;
+    const contentRef: any = contentsRef.current[i];
+    console.log(contentRef)
+    setState(prevState => ({
+      ...prevState,
+      activeItemIndex: prevState.activeItemIndex === i ? null : i,
+      active1: active1 === "" ? "active" : "",
+      collapseHeight:
+        active1 === "active" ? "0px" : `${contentRef.scrollHeight}px`,
+      chevron: active1 === "active" ? "" : "arrowflip",
+    }))
+  };
+  const { active1, collapseHeight, chevron } = state;
   const handleClose = () =>
     setState({
       ...state,
@@ -87,7 +108,7 @@ const WorkSheetAdmin = (props) => {
     });
 
   const onchange = (e) => {
-    
+
     setState({
       ...state,
       [e.target.name]: e.target.value,
@@ -140,7 +161,7 @@ const WorkSheetAdmin = (props) => {
       ])
       .then(
         axios.spread((res, res1) => {
-          
+
           setState({
             ...state,
             work_order_detail: res1.data.data,
@@ -153,7 +174,7 @@ const WorkSheetAdmin = (props) => {
           ...state,
           work_order_detail: work_order_details,
         });
-        
+
       });
   }, []);
 
@@ -182,7 +203,7 @@ const WorkSheetAdmin = (props) => {
             window.location.reload();
           }, 2000);
           notify("Successful");
-          
+
           setState({
             ...state,
             isloading: false,
@@ -200,7 +221,7 @@ const WorkSheetAdmin = (props) => {
         if (err?.response?.status == 400) {
           return notify(err?.response?.data?.message);
         }
-        
+
       });
   };
 
@@ -229,7 +250,7 @@ const WorkSheetAdmin = (props) => {
           setTimeout(() => {
             window.location.assign("/scheduled_payments");
           }, 2000);
-          
+
           setState({
             ...state,
             isloading: false,
@@ -244,7 +265,7 @@ const WorkSheetAdmin = (props) => {
         if (err?.response?.status == 400) {
           return notify(err?.response?.data?.message);
         }
-        
+
       });
   };
 
@@ -284,7 +305,7 @@ const WorkSheetAdmin = (props) => {
         if (err?.response?.status == 400) {
           return notify(err?.response?.data?.message);
         }
-        
+
       });
   };
 
@@ -324,7 +345,7 @@ const WorkSheetAdmin = (props) => {
         if (err?.response?.status == 400) {
           return notify(err?.response?.data?.message);
         }
-        
+
       });
   };
   const SendWorkSheet = () => {
@@ -363,7 +384,7 @@ const WorkSheetAdmin = (props) => {
         if (err?.response?.status == 400) {
           return notify(err?.response?.data?.message);
         }
-        
+
       });
   };
 
@@ -386,8 +407,8 @@ const WorkSheetAdmin = (props) => {
     selected_id,
     show,
   } = state;
-  
-  
+
+
   return (
     <>
       <Modal
@@ -570,58 +591,81 @@ const WorkSheetAdmin = (props) => {
                         </div>
                         <div className=''></div>
                         {work_sheet?.spreads?.map((item: any, i) => (
-                          <div className='deployedsplsttable'>
-                            <h6 className='text-uppercase text-teal'>
-                              {" "}
-                              <b>
+                          <div key={i}>
+                            <Card className="padding_zero">
+                              <div onClick={() => toggleAccordion1(i)}>
+                                <div className='deploydsplstwrapp padding_zero'>
+                                  <div>
+                                    <span className='deplyeaggrgt'> {item?.spread?.name}{" "}</span>
+                                  </div>
+                                  <div className='accimgwrap'>
+                                    <span>
+                                      <img src={chevrondown} className={`arrow-down1 ${state.activeItemIndex === i ? 'arrowflip' : ''}`} />
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                            </Card>
+                            <div className='deployedsplsttable acccollapsediv1' ref={contentRef => (contentsRef.current[i] = contentRef)}
+                              style={{
+                                maxHeight: state.activeItemIndex === i ? (contentsRef.current[i]?.scrollHeight || 'auto') : '0px',
+                                overflow: 'hidden',
+                                transition: 'max-height 0.3s ease-out',
+                              }}
+                            >
+                              <h6 className='text-uppercase text-teal' style={{
+                                position: "relative",
+                                top: "2.1px"
+                              }}>
                                 {" "}
-                                {item?.group?.name}
-                                {item?.spread?.name}{" "}
-                                {item?.sent ? (
-                                  <span className='badge badge-info'>
-                                    Completed
-                                  </span>
-                                ) : (
-                                  <span className='badge badge-warning'>
-                                    Pending
-                                  </span>
-                                )}
-                              </b>
-                            </h6>
-                            {item?.items?.length > 0 &&
-                              item?.items?.map((data: any, i) => (
-                                <div>
-                                  <div>Week : {data?.week} </div>
-                                  <Table
-                                    hover
-                                    responsive
-                                    className='schedule_payment_table'>
-                                    <thead>
-                                      <tr>
-                                        <th scope='col'>PIPE SIZE</th>
-                                        <th scope='col'>PIPE SCHEDULE</th>
-                                        <th scope='col'>NO OF JOINTS</th>
-                                        <th scope='col'>NO OF INCHES</th>
-                                      </tr>
-                                    </thead>
-                                    <tbody>
-                                      {data?.pipes?.map((pipe_item: any, i) => (
-                                        <tr key={i}>
-                                          <td>{pipe_item?.pipe_size?.size}</td>
-                                          <td>
-                                            {pipe_item?.pipe_schedule?.value}
-                                          </td>
-                                          <td className='dpslstnamecell pslstnamecell schedule_payment_first_td'>
-                                            <div className='dplsplusernmeimg'>
-                                              {/* <span></span> */}
-                                              &nbsp; &nbsp;
-                                              <div>{pipe_item?.joints}</div>
-                                            </div>
-                                          </td>
-                                          <td className='contractorname'>
-                                            {pipe_item?.inches}
-                                          </td>
-                                          {/* <td>
+                                <b>
+                                  {" "}
+                                  {item?.group?.name}
+                                  {item?.sent ? (
+                                    <span className='badge badge-info'>
+                                      Completed
+                                    </span>
+                                  ) : (
+                                    <span className='badge badge-warning'>
+                                      Pending
+                                    </span>
+                                  )}
+                                </b>
+                              </h6>
+                              {item?.items?.length > 0 &&
+                                item?.items?.map((data: any, i) => (
+                                  <div>
+                                    <div>Week : {data?.week} </div>
+                                    <Table
+                                      hover
+                                      responsive
+                                      className='schedule_payment_table'>
+                                      <thead>
+                                        <tr>
+                                          <th scope='col'>PIPE SIZE</th>
+                                          <th scope='col'>PIPE SCHEDULE</th>
+                                          <th scope='col'>NO OF JOINTS</th>
+                                          <th scope='col'>NO OF INCHES</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        {data?.pipes?.map((pipe_item: any, i) => (
+                                          <tr key={i}>
+                                            <td>{pipe_item?.pipe_size?.size}</td>
+                                            <td>
+                                              {pipe_item?.pipe_schedule?.value}
+                                            </td>
+                                            <td className='dpslstnamecell pslstnamecell schedule_payment_first_td'>
+                                              <div className='dplsplusernmeimg'>
+                                                {/* <span></span> */}
+                                                &nbsp; &nbsp;
+                                                <div>{pipe_item?.joints}</div>
+                                              </div>
+                                            </td>
+                                            <td className='contractorname'>
+                                              {pipe_item?.inches}
+                                            </td>
+                                            {/* <td>
                                       {data?.actions?.can_pay && (
                                         <Button
                                           onClick={() => openModal(pipe_item.id,data)}
@@ -631,76 +675,77 @@ const WorkSheetAdmin = (props) => {
                                         </Button>
                                       )}
                                     </td> */}
+                                          </tr>
+                                        ))}
+                                      </tbody>
+                                    </Table>
+                                  </div>
+                                ))}
+                              <div>
+                                <h5 className='fw-thin text-muted'>
+                                  Summary
+                                </h5>
+                                <table className='table table-bordered'>
+                                  <thead className='table-light'>
+                                    <tr>
+                                      <th>S/NO</th>
+                                      <th>Pipe Size</th>
+                                      <th>Pipe Schedule</th>
+                                      <th>Joints</th>
+                                      <th>Inches</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    {item?.pipe_summary?.length > 0 &&
+                                      item?.pipe_summary?.map((pipe_item, i) => (
+                                        <tr key={i}>
+                                          <div className=''>{i++}</div>
+                                          <td>{pipe_item?.pipe_size?.size}</td>
+                                          <td>
+                                            {pipe_item?.pipe_schedule?.value}
+                                          </td>
+                                          <td className='dpslstnamecell pslstnamecell schedule_payment_first_td'>
+                                            <div className='dplsplusernmeimg'>
+                                              &nbsp; &nbsp;
+                                              <div>{pipe_item?.joints}</div>
+                                            </div>
+                                          </td>
+                                          <td className='contractorname'>
+                                            {pipe_item?.inches}
+                                          </td>
                                         </tr>
                                       ))}
-                                    </tbody>
-                                  </Table>
-                                </div>
-                              ))}
-                            <div>
-                              <h5 className='fw-thin text-muted'>
-                                 Summary
-                              </h5>
-                              <table className='table table-bordered'>
-                                <thead className='table-light'>
-                                  <tr>
-                                    <th>S/NO</th>
-                                    <th>Pipe Size</th>
-                                    <th>Pipe Schedule</th>
-                                    <th>Joints</th>
-                                    <th>Inches</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  {item?.pipe_summary?.length > 0 &&
-                                    item?.pipe_summary?.map((pipe_item, i) => (
-                                      <tr key={i}>
-                                        <div className=''>{i++}</div>
-                                        <td>{pipe_item?.pipe_size?.size}</td>
-                                        <td>
-                                          {pipe_item?.pipe_schedule?.value}
-                                        </td>
-                                        <td className='dpslstnamecell pslstnamecell schedule_payment_first_td'>
-                                          <div className='dplsplusernmeimg'>
-                                            &nbsp; &nbsp;
-                                            <div>{pipe_item?.joints}</div>
-                                          </div>
-                                        </td>
-                                        <td className='contractorname'>
-                                          {pipe_item?.inches}
-                                        </td>
-                                      </tr>
-                                    ))}
-                                </tbody>
-                              </table>
-                            </div>
-                            <div className=''>
+                                  </tbody>
+                                </table>
+                              </div>
                               <div className=''>
-                                <h6 className='text-uppercase text-teal'>
-                                  {" "}
-                                  Total No. of Inches completed by{" "}
-                                  {item?.group?.name} :{" "}
-                                  <b className='text-dark'>
-                                    {item?.total_inches}
-                                  </b>
-                                </h6>
-                                <h6 className='text-uppercase text-teal'>
-                                  {" "}
-                                  Total No. of Joints completed by{" "}
-                                  {item?.group?.name} :{" "}
-                                  <b className='text-dark'>
-                                    {item?.total_joints}
-                                  </b>
-                                </h6>
-                                <h6 className='text-uppercase text-teal'>
-                                  {" "}
-                                  Team Captain (
-                                  {item?.captain?.skills?.[0]?.name}):{" "}
-                                  <b className='text-dark'>
-                                    {item?.captain?.first_name}{" "}
-                                    {item?.captain?.last_name}
-                                  </b>
-                                </h6>
+                                <div className=''>
+                                  <h6 className='text-uppercase text-teal'>
+                                    {" "}
+                                    Total No. of Inches completed by{" "}
+                                    {item?.group?.name} :{" "}
+                                    <b className='text-dark'>
+                                      {item?.total_inches}
+                                    </b>
+                                  </h6>
+                                  <h6 className='text-uppercase text-teal'>
+                                    {" "}
+                                    Total No. of Joints completed by{" "}
+                                    {item?.group?.name} :{" "}
+                                    <b className='text-dark'>
+                                      {item?.total_joints}
+                                    </b>
+                                  </h6>
+                                  <h6 className='text-uppercase text-teal'>
+                                    {" "}
+                                    Team Captain (
+                                    {item?.captain?.skills?.[0]?.name}):{" "}
+                                    <b className='text-dark'>
+                                      {item?.captain?.first_name}{" "}
+                                      {item?.captain?.last_name}
+                                    </b>
+                                  </h6>
+                                </div>
                               </div>
                             </div>
                           </div>

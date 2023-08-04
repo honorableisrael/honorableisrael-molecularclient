@@ -399,10 +399,10 @@ const MilestoneSpecialistDetails = (props) => {
         if (err?.response?.status === 500) {
           notify("Internal server error", "B");
         }
-        
+
       });
   };
-  
+
   return (
     <>
       <Modal centered={true} onHide={closeDeleteModal} show={showDelete}>
@@ -489,20 +489,20 @@ const MilestoneSpecialistDetails = (props) => {
                         <table className="table table-sm">
                           <tbody className="border-visible">
                             <tr>
-                              <td  className="col-sm-2"> First Name</td>
+                              <td className="col-sm-2"> First Name</td>
                               <td>{milestone?.specialist?.first_name}</td>
                             </tr>
                             <tr>
-                              <td  className="col-sm-2"> Last Name</td>
+                              <td className="col-sm-2"> Last Name</td>
                               <td>{milestone?.specialist?.last_name}</td>
                             </tr>
                             <tr>
                               <td> Email</td>
-                              <td>{milestone?.specialist?.email??"n/a"}</td>
+                              <td>{milestone?.specialist?.email ?? "n/a"}</td>
                             </tr>
                             <tr>
                               <td> Phone</td>
-                              <td>{milestone?.specialist?.phone??"n/a"}</td>
+                              <td>{milestone?.specialist?.phone ?? "n/a"}</td>
                             </tr>
                             {/* <tr>
                               <td> Status</td>
@@ -510,28 +510,34 @@ const MilestoneSpecialistDetails = (props) => {
                             </tr> */}
                             <tr>
                               <td> Rating</td>
-                              <td>{milestone?.specialist?.rating??"n/a"}</td>
+                              <td>{milestone?.specialist?.rating ?? "n/a"}</td>
                             </tr>
                             <tr>
                               <td>Amount</td>
-                              <td>{milestone?.amount??"n/a"}</td>
+                              <td>{milestone?.payment?.amount ?? "n/a"}</td>
                             </tr>
                             <tr>
                               <td>Amount Paid</td>
-                              <td>{milestone?.amount_paid??"n/a"}</td>
+                              <td>{milestone?.payment?.amount_paid ?? "n/a"}</td>
                             </tr>
                             <tr>
                               <td>Amount Outstanding</td>
-                              <td>{milestone?.amount_outstanding??"n/a"}</td>
+                              <td>{milestone?.payment?.amount_outstanding ?? "n/a"}</td>
                             </tr>
                             <tr>
                               <td>Early milestone Percentage</td>
-                              <td>{milestone?.early_milestone_percentage??"n/a"}</td>
+                              <td>{milestone?.payment?.early_payment_percentage ?? "n/a"}</td>
                             </tr>
                             <tr>
                               <td>Status</td>
-                              <td>{capitalize(milestone?.status??"")}</td>
+                              <td>{capitalize(milestone?.status ?? "")}</td>
                             </tr>
+                            {
+                              milestone?.substituted_by && <tr>
+                                <td>Substituted by</td>
+                                <td>{capitalize(milestone?.substituted_by ?? "")}</td>
+                              </tr>
+                            }
 
                           </tbody>
                         </table>

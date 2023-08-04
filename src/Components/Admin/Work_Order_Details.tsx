@@ -73,7 +73,7 @@ const Stop = () => {
   );
 };
 const Work_Details = (props: any) => {
-  const [state, setState] = useState<any>({
+  const [state, setState] = useState < any > ({
     active1: "",
     collapseHeight: "0px",
     chevron: "",
@@ -134,7 +134,7 @@ const Work_Details = (props: any) => {
   );
 };
 const Work_Sheet = withRouter((props: any) => {
-  const [state, setState] = useState<any>({
+  const [state, setState] = useState < any > ({
     active1: "",
     collapseHeight: "0px",
     chevron: "",
@@ -160,7 +160,7 @@ const Work_Sheet = withRouter((props: any) => {
         headers: { Authorization: `Bearer ${returnAdminToken().access_token}` },
       })
       .then((res) => {
-        
+
         setState({
           ...state,
           work_sheet: res.data.data.data,
@@ -171,7 +171,7 @@ const Work_Sheet = withRouter((props: any) => {
           ...state,
           work_order_detail: work_order_details,
         });
-        
+
       });
   }, []);
 
@@ -192,7 +192,7 @@ const Work_Sheet = withRouter((props: any) => {
       )
       .then((res) => {
         notify("Successfully sent worksheet to contractor");
-        
+
         refreshpage();
         setState({
           ...state,
@@ -205,11 +205,11 @@ const Work_Sheet = withRouter((props: any) => {
           ...state,
           isloading: false,
         });
-        
+
       });
   };
   const { active1, collapseHeight, chevron, work_sheet, isloading } = state;
-  
+
   return (
     <>
       <Card>
@@ -287,8 +287,8 @@ const Work_Sheet = withRouter((props: any) => {
   );
 });
 
-const Advance_payment_request = ({work_order_detail}: any) => {
-  const [state, setState] = useState<any>({
+const Advance_payment_request = ({ work_order_detail }: any) => {
+  const [state, setState] = useState < any > ({
     active1: "",
     collapseHeight: "0px",
     chevron: "",
@@ -326,7 +326,7 @@ const Advance_payment_request = ({work_order_detail}: any) => {
         }
       )
       .then((res) => {
-        
+
         setState({
           ...state,
           advance_payment_request: res.data.data.data,
@@ -334,7 +334,7 @@ const Advance_payment_request = ({work_order_detail}: any) => {
         });
       })
       .catch((err) => {
-        
+
       });
   }, []);
   const onchange = (e) => {
@@ -349,11 +349,11 @@ const Advance_payment_request = ({work_order_detail}: any) => {
       ...state,
       isloading: true,
     });
-    
+
     const availableToken = localStorage.getItem("loggedInDetails");
-    
+
     const token = availableToken ? JSON.parse(availableToken) : "";
-    
+
     const data = {
       amount: requested_amount,
     };
@@ -366,7 +366,7 @@ const Advance_payment_request = ({work_order_detail}: any) => {
         }
       )
       .then((res) => {
-        
+
         notify("payment requested successfully");
         reloadPage();
         setState({
@@ -376,7 +376,7 @@ const Advance_payment_request = ({work_order_detail}: any) => {
         });
       })
       .catch((err) => {
-        
+
         notify("Request failed");
         setState({
           ...state,
@@ -390,11 +390,11 @@ const Advance_payment_request = ({work_order_detail}: any) => {
       ...state,
       isloading: true,
     });
-    
+
     const availableToken = localStorage.getItem("loggedInDetails");
-    
+
     const token = availableToken ? JSON.parse(availableToken) : "";
-    
+
     const data = {
       amount: requested_amount,
     };
@@ -407,7 +407,7 @@ const Advance_payment_request = ({work_order_detail}: any) => {
         }
       )
       .then((res) => {
-        
+
         notify("Payment request has been declined");
         reloadPage();
         setState({
@@ -417,7 +417,7 @@ const Advance_payment_request = ({work_order_detail}: any) => {
         });
       })
       .catch((err) => {
-        
+
         notify(" failed please try again later");
         setState({
           ...state,
@@ -435,7 +435,7 @@ const Advance_payment_request = ({work_order_detail}: any) => {
   };
 
   const showApprovalModal = (id, amount) => {
-    
+
     setState({
       ...state,
       show: true,
@@ -458,7 +458,7 @@ const Advance_payment_request = ({work_order_detail}: any) => {
     show,
     id,
   } = state;
-  
+
   return (
     <>
       <Modal
@@ -505,8 +505,8 @@ const Advance_payment_request = ({work_order_detail}: any) => {
             <div>
               <span className='deplyeaggrgt'>Advance Payment Request</span>
               <span className='badge badge-warning ml-3'>
-                {work_order_detail?.pending_advance_payments_count}
-                {work_order_detail?.pending_advance_payments_count && " new"}
+                {work_order_detail?.pending_advance_payments_count > 0 ? work_order_detail?.pending_advance_payments_count : ""}
+                {work_order_detail?.pending_advance_payments_count > 0 ? ` ${work_order_detail?.pending_advance_payments_count} new` : ""}
               </span>
             </div>
             <div className='accimgwrap'>
@@ -614,7 +614,7 @@ const Advance_payment_request = ({work_order_detail}: any) => {
 };
 
 const Early_MileStone_Payment_Request = ({ work_order_detail }: any) => {
-  const [state, setState] = useState<any>({
+  const [state, setState] = useState < any > ({
     active1: "",
     collapseHeight: "0px",
     chevron: "",
@@ -651,7 +651,7 @@ const Early_MileStone_Payment_Request = ({ work_order_detail }: any) => {
         }
       )
       .then((res) => {
-        
+
         setState({
           ...state,
           milstone_payment_request: res.data.data,
@@ -659,7 +659,7 @@ const Early_MileStone_Payment_Request = ({ work_order_detail }: any) => {
         });
       })
       .catch((err) => {
-        
+
       });
   }, []);
   const onchange = (e) => {
@@ -673,11 +673,11 @@ const Early_MileStone_Payment_Request = ({ work_order_detail }: any) => {
       ...state,
       isloading: true,
     });
-    
+
     const availableToken = localStorage.getItem("loggedInDetails");
-    
+
     const token = availableToken ? JSON.parse(availableToken) : "";
-    
+
     const data = {
       amount: requested_amount,
     };
@@ -690,7 +690,7 @@ const Early_MileStone_Payment_Request = ({ work_order_detail }: any) => {
         }
       )
       .then((res) => {
-        
+
         notify("payment requested successfully");
         reloadPage();
         setState({
@@ -700,7 +700,7 @@ const Early_MileStone_Payment_Request = ({ work_order_detail }: any) => {
         });
       })
       .catch((err) => {
-        
+
         notify("Request failed");
         setState({
           ...state,
@@ -714,11 +714,11 @@ const Early_MileStone_Payment_Request = ({ work_order_detail }: any) => {
       ...state,
       isloading: true,
     });
-    
+
     const availableToken = localStorage.getItem("loggedInDetails");
-    
+
     const token = availableToken ? JSON.parse(availableToken) : "";
-    
+
     const data = {
       amount: requested_amount,
     };
@@ -731,7 +731,7 @@ const Early_MileStone_Payment_Request = ({ work_order_detail }: any) => {
         }
       )
       .then((res) => {
-        
+
         notify("Payment request has been declined");
         reloadPage();
         setState({
@@ -741,7 +741,7 @@ const Early_MileStone_Payment_Request = ({ work_order_detail }: any) => {
         });
       })
       .catch((err) => {
-        
+
         notify(" failed please try again later");
         setState({
           ...state,
@@ -772,7 +772,7 @@ const Early_MileStone_Payment_Request = ({ work_order_detail }: any) => {
     id,
   } = state;
   const showApprovalModal = (id, amount) => {
-    
+
     setState({
       ...state,
       show: true,
@@ -781,7 +781,7 @@ const Early_MileStone_Payment_Request = ({ work_order_detail }: any) => {
       terminateWorkModal: true,
     });
   };
-  
+
   return (
     <>
       <Modal
@@ -821,7 +821,6 @@ const Early_MileStone_Payment_Request = ({ work_order_detail }: any) => {
           </Row>
         </Modal.Body>
       </Modal>
-
       <Card>
         <div onClick={toggleAccordion1}>
           <div className='deploydsplstwrapp'>
@@ -829,7 +828,7 @@ const Early_MileStone_Payment_Request = ({ work_order_detail }: any) => {
               <span className='deplyeaggrgt'>
                 Early MileStone Payment Request{" "}
                 <span className='badge badge-warning ml-3'>
-                  {work_order_detail?.pending_milestone_payments_count??""}
+                  {work_order_detail?.pending_milestone_payments_count > 0 ? work_order_detail?.pending_milestone_payments_count : ""}
                   {/* {work_order_detail?.pending_milestone_payments_count?? " new"} */}
                 </span>
               </span>
@@ -940,7 +939,7 @@ const Early_MileStone_Payment_Request = ({ work_order_detail }: any) => {
 };
 
 const Invoice_details = ({ work_order_detail }: any) => {
-  const [state, setState] = useState<any>({
+  const [state, setState] = useState < any > ({
     active1: "",
     collapseHeight: "0px",
     chevron: "",
@@ -1031,7 +1030,7 @@ const Invoice_details = ({ work_order_detail }: any) => {
   );
 };
 const AdminViewWorkOrderDetails = withRouter((props: any) => {
-  const [state, setState] = useState<any>({
+  const [state, setState] = useState < any > ({
     work_order_detail: {},
     workDetails: {},
     country: "",
@@ -1185,7 +1184,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
               `/admin_work_details${props.order_details.id}?inreview=true`
             );
           }, 2000);
-          
+
           setState({
             ...state,
             isloading: false,
@@ -1196,7 +1195,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
         if (err?.response?.status == 400) {
           notify(err?.response?.data?.message, "D");
         }
-        
+
         setState({
           ...state,
           isloading: false,
@@ -1218,7 +1217,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
         headers: { Authorization: `Bearer ${token.access_token}` },
       })
       .then((res) => {
-        
+
         setState({
           ...state,
           ...res.data.data,
@@ -1229,10 +1228,10 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
           per_diem: res?.data?.data?.costing?.per_diem_per_specialist,
           cost_per_inch_dollar:
             res?.data?.data?.costing?.cost_per_inch /
-              res?.data?.data?.costing?.fx_rate ?? 0,
+            res?.data?.data?.costing?.fx_rate ?? 0,
           per_diem_dollar:
             res?.data?.data?.costing?.per_diem_per_specialist /
-              res?.data?.data?.costing?.fx_rate ?? 0,
+            res?.data?.data?.costing?.fx_rate ?? 0,
           project_duration: res?.data?.data?.costing?.duration_in_days,
           already_approved: urlkey ? true : false,
           work_order_detail: res.data.data,
@@ -1246,10 +1245,10 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
           already_approved: urlkey ? true : false,
           work_order_detail: work_order_details,
         });
-        
+
       });
     let inreview = props.location.search;
-    
+
   }, []);
 
   const StartProject = () => {
@@ -1272,7 +1271,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
         }
       )
       .then((res) => {
-        
+
         notify("successfully started workorder");
         setTimeout(() => {
           window.location.reload();
@@ -1288,7 +1287,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
           ...state,
           isloading: false,
         });
-        
+
       });
   };
   const StopProject = () => {
@@ -1311,7 +1310,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
         }
       )
       .then((res) => {
-        
+
         notify("successfully stopped project");
         setTimeout(() => {
           window.location.reload();
@@ -1331,10 +1330,10 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
           ...state,
           isloading: false,
         });
-        
+
       });
   };
-  
+
   const content: any = useRef();
   const toggleAccordion = () => {
     setState({
@@ -1371,7 +1370,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
         }
       )
       .then((res) => {
-        
+
         notify("successfully  sent contract");
         setTimeout(() => {
           // window.location.reload();
@@ -1390,7 +1389,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
           ...state,
           isloading: false,
         });
-        
+
       });
   };
   const modalShow2 = (id) => {
@@ -1421,7 +1420,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
         }
       )
       .then((res) => {
-        
+
         notify("successfully  removed specialist");
         setTimeout(() => {
           window.location.reload();
@@ -1440,7 +1439,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
           ...state,
           isloading: false,
         });
-        
+
       });
   };
   const SendCost = () => {
@@ -1469,7 +1468,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
         },
       })
       .then((res) => {
-        
+
         notify("successfully computed work order cost");
         setTimeout(() => {
           window.location.reload();
@@ -1489,7 +1488,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
           ...state,
           isloading: false,
         });
-        
+
       });
   };
 
@@ -1981,7 +1980,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                   <NavHashLink
                     className='details'
                     to='#details'
-                    // activeStyle={{ background: "#fd8b003b", color: "#fd8c00" }}
+                  // activeStyle={{ background: "#fd8b003b", color: "#fd8c00" }}
                   >
                     Specialist Details
                   </NavHashLink>
