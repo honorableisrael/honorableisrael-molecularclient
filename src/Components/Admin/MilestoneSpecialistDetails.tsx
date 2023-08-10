@@ -402,7 +402,6 @@ const MilestoneSpecialistDetails = (props) => {
 
       });
   };
-
   return (
     <>
       <Modal centered={true} onHide={closeDeleteModal} show={showDelete}>
@@ -513,6 +512,12 @@ const MilestoneSpecialistDetails = (props) => {
                               <td>{milestone?.specialist?.rating ?? "n/a"}</td>
                             </tr>
                             <tr>
+                              <td> Skill (s)</td>
+                              <td>{milestone?.specialist?.skills?.map((item,i) => (
+                                <div key={i}>{item?.name}</div>
+                              ))}</td>
+                            </tr>
+                            <tr>
                               <td>Amount</td>
                               <td>{milestone?.payment?.amount ?? "n/a"}</td>
                             </tr>
@@ -535,7 +540,7 @@ const MilestoneSpecialistDetails = (props) => {
                             {
                               milestone?.substituted_by && <tr>
                                 <td>Substituted by</td>
-                                <td>{capitalize(milestone?.substituted_by ?? "")}</td>
+                                <td>{capitalize(milestone?.substituted_by?.first_name ?? "")} {capitalize(milestone?.substituted_by?.last_name ?? "")}</td>
                               </tr>
                             }
 

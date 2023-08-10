@@ -1361,6 +1361,14 @@ a:hover {
   display: none;
 }
 
+.flexbetween {
+  display: flex;
+  justify-content: space-between;
+}
+.aligncenter{
+  display: flex;
+  justify-content: center;
+}
 @media (max-width: 778px) {
   .job23_1a_ {
     flex: 0 0 99.666667%;

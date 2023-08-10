@@ -1215,9 +1215,7 @@ const Admin_Sub_Invoice_Details = (props) => {
                                   <td>
                                     <b>
                                       {FormatAmount(
-                                        calculateTotalAmount(
-                                          invoice_details.items
-                                        )
+                                          invoice_details.amount
                                       )}
                                     </b>
                                   </td>

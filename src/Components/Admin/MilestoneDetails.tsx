@@ -306,7 +306,7 @@ const MilestoneDetails = (props) => {
         setState({
           ...state,
           isloading: false,
-          show:false,
+          show: false,
           errorMessage: err?.response?.data?.message,
         });
       });
@@ -345,7 +345,7 @@ const MilestoneDetails = (props) => {
       isloading: true,
     });
     const data = {
-      milestone_id:milestone?.id
+      milestone_id: milestone?.id
     }
     axios
       .all([
@@ -380,10 +380,10 @@ const MilestoneDetails = (props) => {
         if (err?.response?.status === 500) {
           notify("Internal server error", "B");
         }
-        
+
       });
   };
-  
+
   return (
     <>
       <Modal centered={true} onHide={closeDeleteModal} show={showDelete}>
@@ -443,7 +443,7 @@ const MilestoneDetails = (props) => {
                 />
                 <div className='pl-2'>Milestone Details</div>
               </div>
-              {milestone?.worksheet ==null ? <Button
+              {milestone?.worksheet == null ? <Button
                 className='payspecialist1 h36'
                 onClick={create_work_sheet}>
                 {isloading ? "processing" : "Create work sheet"}
@@ -487,16 +487,16 @@ const MilestoneDetails = (props) => {
                               <td className="border-top-0">{formatTime(milestone?.start_date)}</td>
                             </tr>
                             <tr>
-                              <td>Weeks</td>
-                              <td>{milestone?.weeks}</td>
-                            </tr>
-                            <tr>
                               <td className="col-sm-4">End Date</td>
                               <td>{formatTime(milestone?.end_date)}</td>
                             </tr>
                             <tr>
+                              <td>Weeks</td>
+                              <td>{milestone?.weeks}</td>
+                            </tr>
+                            <tr>
                               <td>Description</td>
-                              <td>{milestone?.description}</td>
+                              <td style={{whiteSpace:"pre-wrap"}}>{milestone?.description}</td>
                             </tr>
                             <tr>
                               <td>Status</td>
@@ -535,7 +535,7 @@ const MilestoneDetails = (props) => {
                               <td>Profit</td>
                               <td>{milestone?.profit}</td>
                             </tr>
-                            
+
                           </tbody>
                         </table>
                       </div>

@@ -49,6 +49,7 @@ const WorkSheetAdmin = (props) => {
     hour: "",
     show: false,
     show2: false,
+    id: "",
     reason: "",
     isloading: false,
     work_order_detail: {},
@@ -139,6 +140,9 @@ const WorkSheetAdmin = (props) => {
 
   useEffect(() => {
     window.scrollTo(-0, -0);
+    fetchAll()
+  }, []);
+  const fetchAll = () => {
     const invoice_: any = localStorage.getItem("invoice_id");
     const invoice = invoice_ ? JSON.parse(invoice_) : "";
     const token = returnAdminToken();
@@ -176,8 +180,7 @@ const WorkSheetAdmin = (props) => {
         });
 
       });
-  }, []);
-
+  }
   const schedule_Specailist_Payment = () => {
     const work_order = localStorage.getItem("work_order_details");
     const work_order_details = work_order ? JSON.parse(work_order) : "";
@@ -225,49 +228,7 @@ const WorkSheetAdmin = (props) => {
       });
   };
 
-  const makePaymentToSpecialist = () => {
-    const work_order = localStorage.getItem("work_order_details");
-    const work_order_details = work_order ? JSON.parse(work_order) : "";
-    setState({
-      ...state,
-      isloading: true,
-    });
-    axios
-      .all([
-        axios.post(
-          `${API}/admin/sub-invoices/${selected_id}/specialists/paid`,
-          {},
-          {
-            headers: {
-              Authorization: `Bearer ${returnAdminToken().access_token}`,
-            },
-          }
-        ),
-      ])
-      .then(
-        axios.spread((res) => {
-          notify("Successful");
-          setTimeout(() => {
-            window.location.assign("/scheduled_payments");
-          }, 2000);
 
-          setState({
-            ...state,
-            isloading: false,
-          });
-        })
-      )
-      .catch((err) => {
-        setState({
-          ...state,
-          isloading: false,
-        });
-        if (err?.response?.status == 400) {
-          return notify(err?.response?.data?.message);
-        }
-
-      });
-  };
 
   const SubmitCostExclusion = () => {
     setState({
@@ -381,7 +342,7 @@ const WorkSheetAdmin = (props) => {
           ...state,
           isloading: false,
         });
-        if (err?.response?.status == 400) {
+        if (err?.response?.status === 400) {
           return notify(err?.response?.data?.message);
         }
 
@@ -390,7 +351,7 @@ const WorkSheetAdmin = (props) => {
 
   const {
     show_modal_1,
-    type,
+    id,
     cost_exclusions,
     conditions,
     show_modal,
@@ -408,6 +369,84 @@ const WorkSheetAdmin = (props) => {
     show,
   } = state;
 
+  const ApproveItem = (id) => {
+    setState({
+      ...state,
+      isloading: true,
+    });
+    axios
+      .all([
+        axios.post(
+          `${API}/admin/work-orders/worksheets/weekly-worksheets/${id}/approve`, {},
+          {
+            headers: {
+              Authorization: `Bearer ${returnAdminToken().access_token}`,
+            },
+          }
+        ),
+      ])
+      .then(
+        axios.spread((res) => {
+          notify("Successful");
+          fetchAll()
+          setState({
+            ...state,
+            isloading: false,
+          });
+        })
+      )
+      .catch((err) => {
+        setState({
+          ...state,
+          isloading: false,
+        });
+        if (err?.response?.status === 400) {
+          return notify(err?.response?.data?.message);
+        }
+
+      });
+  }
+  const DeclineItem = () => {
+    setState({
+      ...state,
+      isloading: true,
+    });
+    const data = { reason };
+    axios
+      .all([
+        axios.post(
+          `${API}/admin/work-orders/worksheets/weekly-worksheets/${id}/decline`,
+          data,
+          {
+            headers: {
+              Authorization: `Bearer ${returnAdminToken().access_token}`,
+            },
+          }
+        ),
+      ])
+      .then(
+        axios.spread((res) => {
+          notify("Successful");
+          fetchAll()
+          setState({
+            ...state,
+            isloading: false,
+            show:false
+          });
+        })
+      )
+      .catch((err) => {
+        setState({
+          ...state,
+          isloading: false,
+          show:false,
+        });
+        if (err?.response?.status === 400) {
+          return notify(err?.response?.data?.message);
+        }
+
+      });
+  }
 
   return (
     <>
@@ -424,20 +463,30 @@ const WorkSheetAdmin = (props) => {
         className='mdl12c'>
         <Modal.Header closeButton>
           <Modal.Title id='example-custom-modal-styling-title'>
-            Confirm Payment
+            Confirm Action
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Row>
             <Col md={12}>
-              <h6>Are you sure you want to make payment</h6>
+              <h6>Are you sure you want to decline this worksheet item?</h6>
+            </Col>
+            <Col md={12} className="mb-4 mt-3">
+              <label className="mb-2">Reason</label>
+              <input
+                type='textarea'
+                value={reason}
+                onChange={onchange}
+                name='reason'
+                className='filter form-control'
+              />{" "}
             </Col>
           </Row>
           <Row>
-            <Col md={12} className='terminate2'>
-              <div className='' onClick={makePaymentToSpecialist}>
-                <Button className='btn-success primary3'>
-                  {isloading ? "Processing" : "Confirm Payment"}
+            <Col md={12} className=''>
+              <div className='text-center ' onClick={DeclineItem}>
+                <Button className='btn-danger payspecialist1 mr-2 h36 '>
+                  {isloading ? "Processing" : "Decline"}
                 </Button>
               </div>
             </Col>
@@ -621,20 +670,46 @@ const WorkSheetAdmin = (props) => {
                                 <b>
                                   {" "}
                                   {item?.group?.name}
-                                  {item?.sent ? (
-                                    <span className='badge badge-info'>
-                                      Completed
-                                    </span>
-                                  ) : (
-                                    <span className='badge badge-warning'>
-                                      Pending
-                                    </span>
-                                  )}
                                 </b>
                               </h6>
                               {item?.items?.length > 0 &&
                                 item?.items?.map((data: any, i) => (
                                   <div>
+                                    <div className="flexbetween">
+                                      <div> {data?.status === "approved" ? (
+                                        <span className='badge badge-success'>
+                                          Approved
+                                        </span>
+                                      ) : (
+                                        <span className='badge badge-warning'>
+                                          {data.status}
+                                        </span>
+                                      )}</div>
+                                      <div className="flexbetween ">
+                                        {data?.status === "pending" ? (
+                                          <Button
+                                            className='payspecialist1 mr-2 h36'
+                                            onClick={() => ApproveItem(data.id)}
+                                          >
+                                            {isloading ? "processing" : "Approve"}
+                                          </Button>
+                                        ) : ""
+                                        }
+                                        {data?.status === "pending" ? (
+                                          <Button
+                                            className='payspecialist1 ml h36'
+                                            onClick={() => setState({
+                                              ...state,
+                                              show: true,
+                                              id: data.id
+                                            })}
+                                          >
+                                            {isloading ? "processing" : "Decline"}
+                                          </Button>
+                                        ) : ""
+                                        }
+                                      </div>
+                                    </div>
                                     <div>Week : {data?.week} </div>
                                     <Table
                                       hover

@@ -472,15 +472,15 @@ const MSpreadSpecialistManagement = (props) => {
                                 Active
                               </span>
                             </div>
-                          ):""}
+                          ) : ""}
                           {data?.status !== "active" ? (
                             <div className='invpaystatwrap pendinwrap po912 ml-2'>
                               <span className='paystatindcator pendininvoice po912'></span>
                               <span className='paystattext pendininvtext po912 capitalize'>
-                               { capitalize(data?.status)}
+                                {capitalize(data?.status)}
                               </span>
                             </div>
-                          ):""}
+                          ) : ""}
                         </td>
                         <td className="table_data">
                           {data?.actions.can_edit ? (
@@ -496,10 +496,10 @@ const MSpreadSpecialistManagement = (props) => {
                             ""
                           )}
                           {
-                            data?.status==="active"?
-                            <Toggler linkTitle1="View Details" LinkProps1={`/admin_milestone_specialists/${data?.id}`} showModal3={() => showModal3(data)} showModalSub={() => showModalSub(data)} />
-                            :
-                            <Toggler linkTitle1="View Details" LinkProps1={`/admin_milestone_specialists/${data?.id}`}/>
+                            data?.status === "active" ?
+                              <Toggler linkTitle1="View Details" LinkProps1={`/admin_milestone_specialists/${data?.id}`} showModal3={() => showModal3(data)} showModalSub={() => showModalSub(data)} />
+                              :
+                              <Toggler linkTitle1="View Details" LinkProps1={`/admin_milestone_specialists/${data?.id}`} />
                           }
                         </td>
                       </tr>
@@ -710,6 +710,20 @@ const MSpreadSpecialistManagement = (props) => {
                   </Col>
                   <Col md={12} className='formsection1'>
                     <Form.Group>
+                      <h6 className='userprofile'>Estimated Work Completed by <b> {specialist?.first_name + " " + specialist?.last_name} </b> (% work to be done)</h6>
+                      <Form.Control
+                        type='number'
+                        value={specialist_work_rate}
+                        className='userfield'
+                        name='specialist_work_rate'
+                        onChange={onchange}
+                        placeholder=''
+                        max={"100"}
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col md={12} className='formsection1'>
+                    <Form.Group>
                       <h6 className='userprofile mt-8'>Specialist Replacement</h6>
                       <SuiSelect
                         defaultValue={[]}
@@ -732,20 +746,6 @@ const MSpreadSpecialistManagement = (props) => {
                             }) : []
                         }
                         size='large'
-                      />
-                    </Form.Group>
-                  </Col>
-                  <Col md={12} className='formsection1'>
-                    <Form.Group>
-                      <h6 className='userprofile'>Estimated Work Completion (% work to be done)</h6>
-                      <Form.Control
-                        type='number'
-                        value={specialist_work_rate}
-                        className='userfield'
-                        name='specialist_work_rate'
-                        onChange={onchange}
-                        placeholder=''
-                        max={"100"}
                       />
                     </Form.Group>
                   </Col>
