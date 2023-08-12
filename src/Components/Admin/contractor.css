@@ -1365,10 +1365,12 @@ a:hover {
   display: flex;
   justify-content: space-between;
 }
-.aligncenter{
+
+.aligncenter {
   display: flex;
   justify-content: center;
 }
+
 @media (max-width: 778px) {
   .job23_1a_ {
     flex: 0 0 99.666667%;
@@ -4234,4 +4236,27 @@ label i {
 
 .padding_zero {
   padding: 0px !important;
+}
+
+.fitdata {
+  padding: 1rem;
+  padding-left: 3.5rem;
+}
+
+.flex__ {
+  display: flex;
+  justify-content: space-between;
+  width: 94%;
+  min-width: 350px;
+}
+
+.customItem .dropdown-menu {
+  width: 240px;
+}
+.custombutton12{
+  background-color: #fd8c00;
+  color: #ffffff !important;
+}
+.mb-2{
+  margin-bottom: 1rem !important;
 }

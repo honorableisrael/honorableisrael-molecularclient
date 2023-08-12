@@ -10,6 +10,8 @@ import {
   Spinner,
   Card,
   Table,
+  Dropdown,
+  DropdownButton,
 } from "react-bootstrap";
 import "./contractor.css";
 import DashboardNav from "./navbar";
@@ -1871,18 +1873,89 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
           <div id='overview'></div>
         </Row>
         <Row className='rowt3 row3t2'>
-          <Col md={12} className='job34'>
-            <div className='title_wo title_wo12 title_wo_'>
-              <div className='workorderheader fixedtitle'>
-                <span
-                  onClick={() => window.history.back()}
-                  className='curspointer'>
-                  {" "}
-                  <img src={arrowback} className='arrowback' />
-                </span>
-                Work Details
+          <Col md={12} className='job34 customItem'>
+            <div className="flex__">
+              <div className='title_wo title_wo12 title_wo_'>
+                <div className='workorderheader fixedtitle'>
+                  <span
+                    onClick={() => window.history.back()}
+                    className='curspointer'>
+                    {" "}
+                    <img src={arrowback} className='arrowback' />
+                  </span>
+                  Work Details
+                </div>
               </div>
+              <DropdownButton id="dropdown-variants-warning" variant="#fd8c00" className="custombutton12" title="Actions">
+                {/* <div className='fllx2'> */}
+                {inreview &&
+                  work_order_detail?.actions?.canAssignSpecialist == false && (
+                    <div className=''>
+                      <Dropdown.Item>
+                        <Link to='/work_order_evaluation'>
+                          {"Edit"}
+                        </Link>
+                      </Dropdown.Item>
+                    </div>
+                  )}
+                {inreview && work_order_detail?.actions?.canCost == true && (
+                  <div className=''>
+                    <Dropdown.Item onClick={modalShow1}>
+                      {"Cost Settings"}
+                    </Dropdown.Item>
+                  </div>
+                )}
+                {work_order_detail?.costing?.pipe_schedule_cost_factor?.length ? (
+                  <Link to={`/admin/work_order_cost/${work_order_detail.id}`} className=''>
+                    <Dropdown.Item href={`/admin/work_order_cost/${work_order_detail.id}`}>
+                      {"Pipe Schedule Cost"}
+                    </Dropdown.Item>
+                  </Link>
+                ) : ""}
+                {inreview &&
+                  work_order_detail?.assigned_specialists.length !== 0 && (
+                    <div className=''>
+                      <Dropdown.Item>
+                        <span onClick={StartProject}>
+                          {!isloading ? "Commence Work" : "Processing"} <Play />
+                        </span>
+                      </Dropdown.Item>
+                    </div>
+                  )}
+                {work_order_detail?.status == "Active" &&
+                  work_order_detail?.assigned_specialists?.length !== 0 && (
+                    <div className=''>
+                      <Dropdown.Item>
+                        <span onClick={StopProject}>
+                          {!isloading ? "End Work" : "Processing"} <Stop />
+                        </span>
+                      </Dropdown.Item>
+                    </div>
+                  )}
+                {work_order_detail?.actions?.canSendSla && (
+                  <div className=''>
+                    <div className=''>
+                      {!work_order_detail?.sla_sent && (
+                        <Dropdown.Item
+                          onClick={sendSLA}>
+                          {!isloading ? "Send SLA" : "Processing"}
+                        </Dropdown.Item>
+                      )}
+                      {work_order_detail?.sla_sent && (
+                        <Dropdown.Item
+                          className=''
+                          onClick={sendSLA}>
+                          {!isloading ? "Resend SLA" : "Processing"}
+                        </Dropdown.Item>
+                      )}
+                    </div>
+                  </div>
+                )}
+                {/* </div> */}
+              </DropdownButton>
             </div>
+
+
             {new_work && (
               <div className='rjwrapper mrgin__right'>
                 {/* <Button
@@ -1901,71 +1974,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                 </Button> */}
               </div>
             )}
-            <div className='fllx2'>
-              {inreview &&
-                work_order_detail?.actions?.canAssignSpecialist == false && (
-                  <div className='raise1'>
-                    <div className='rjwrapper mrgin__right'>
-                      <Link to='/work_order_evaluation'>
-                        <Button className=' raise_inv'>{"Edit"}</Button>
-                      </Link>
-                    </div>
-                  </div>
-                )}
-              {inreview && work_order_detail?.actions?.canCost == true && (
-                <div className='raise1'>
-                  <div className='rjwrapper mrgin__right'>
-                    <Button className=' raise_inv' onClick={modalShow1}>
-                      {"Cost Settings"}
-                    </Button>
-                  </div>
-                </div>
-              )}
-              {inreview &&
-                work_order_detail?.assigned_specialists.length !== 0 && (
-                  <div className='raise1'>
-                    <div className='rjwrapper mrgin__right'>
-                      <Button
-                        className=' raise_inv startproject'
-                        onClick={StartProject}>
-                        {!isloading ? "Commence Work" : "Processing"} <Play />
-                      </Button>
-                    </div>
-                  </div>
-                )}
-              {work_order_detail?.status == "Active" &&
-                work_order_detail?.assigned_specialists?.length !== 0 && (
-                  <div className='raise1'>
-                    <div className='rjwrapper mrgin__right'>
-                      <Button
-                        className=' raise_inv startproject'
-                        onClick={StopProject}>
-                        {!isloading ? "End Work" : "Processing"} <Stop />
-                      </Button>
-                    </div>
-                  </div>
-                )}
-              {work_order_detail?.actions?.canSendSla && (
-                <div className='raise1'>
-                  <div className='rjwrapper mrgin__right'>
-                    {!work_order_detail?.sla_sent && (
-                      <Button
-                        className=' raise_inv startproject'
-                        onClick={sendSLA}>
-                        {!isloading ? "Send SLA" : "Processing"}
-                      </Button>
-                    )}
-                    {work_order_detail?.sla_sent && (
-                      <Button
-                        className=' raise_inv startproject'
-                        onClick={sendSLA}>
-                        {!isloading ? "Resend SLA" : "Processing"}
-                      </Button>
-                    )}
-                  </div>
-                </div>
-              )}
-            </div>
+
 
             <Row className='mgtop'>
               <Col md={2} className='job23_ mheight_ top12 '>
@@ -2135,8 +2144,8 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                                   <div
                                     className={
                                       checkIfIsOdd(i)
-                                        ? "tabledata"
-                                        : "tabledata tablecontent"
+                                        ? "tabledata fitdata"
+                                        : "tabledata tablecontent fitdata"
                                     }>
                                     <div className='header_12'>
                                       <img
@@ -2146,7 +2155,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                                       <div className='mobiletabledata'>
                                         Fullname
                                       </div>
-                                      {data.first_name}
+                                      {data.first_name}{"  "}
                                       {data.last_name}
                                     </div>
                                     <div className='header_12 typ22'>
@@ -2232,8 +2241,8 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
               </Col>
             </Row>
           </Col>
-        </Row>
-      </Container>
+        </Row >
+      </Container >
       <ToastContainer
         enableMultiContainer
         containerId={"D"}

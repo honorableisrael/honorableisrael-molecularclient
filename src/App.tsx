@@ -99,6 +99,7 @@ import MSpreadSpecialistManagement from "./Components/Admin/MSpreadSpecialistMan
 import MilestoneDetails from "./Components/Admin/MilestoneDetails";
 import MilestoneSpecialistDetails from "./Components/Admin/MilestoneSpecialistDetails";
 import MSpreadSpecialists from "./Components/Admin/MSpreadSpecialists";
+import Work_Order_Cost_Evaluation from "./Components/Admin/Work_Order_Cost_Evaluation";
 
 const App: any = ({ history }) => {
   return (
@@ -313,6 +314,11 @@ const App: any = ({ history }) => {
                 path='/admin/contractors/:id'
                 component={Contractor_Details}
               />
+              <Route
+                path='/admin/work_order_cost/:id'
+                component={Work_Order_Cost_Evaluation}
+              />
+
               {/* Admin Dashboard ends */}
               {/* specialist Dashboard */}
               <Route
