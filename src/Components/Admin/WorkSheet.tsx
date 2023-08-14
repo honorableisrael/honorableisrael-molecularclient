@@ -431,7 +431,7 @@ const WorkSheetAdmin = (props) => {
           setState({
             ...state,
             isloading: false,
-            show:false
+            show: false
           });
         })
       )
@@ -439,7 +439,7 @@ const WorkSheetAdmin = (props) => {
         setState({
           ...state,
           isloading: false,
-          show:false,
+          show: false,
         });
         if (err?.response?.status === 400) {
           return notify(err?.response?.data?.message);
@@ -473,13 +473,11 @@ const WorkSheetAdmin = (props) => {
             </Col>
             <Col md={12} className="mb-4 mt-3">
               <label className="mb-2">Reason</label>
-              <input
-                type='textarea'
-                value={reason}
+              <textarea
                 onChange={onchange}
                 name='reason'
                 className='filter form-control'
-              />{" "}
+              ></textarea>
             </Col>
           </Row>
           <Row>
@@ -642,9 +640,9 @@ const WorkSheetAdmin = (props) => {
                         {work_sheet?.spreads?.map((item: any, i) => (
                           <div key={i}>
                             <Card className="padding_zero">
-                              <div onClick={() => toggleAccordion1(i)}>
+                              <div onClick={() => toggleAccordion1(i)} className="bglight bg-light">
                                 <div className='deploydsplstwrapp padding_zero'>
-                                  <div>
+                                  <div className="">
                                     <span className='deplyeaggrgt'> {item?.spread?.name}{" "}</span>
                                   </div>
                                   <div className='accimgwrap'>
@@ -674,7 +672,7 @@ const WorkSheetAdmin = (props) => {
                               </h6>
                               {item?.items?.length > 0 &&
                                 item?.items?.map((data: any, i) => (
-                                  <div>
+                                  <div className="padding_red">
                                     <div className="flexbetween">
                                       <div> {data?.status === "approved" ? (
                                         <span className='badge badge-success'>
@@ -686,7 +684,7 @@ const WorkSheetAdmin = (props) => {
                                         </span>
                                       )}</div>
                                       <div className="flexbetween ">
-                                        {data?.status === "pending" ? (
+                                        {data?.actions?.can_approve ? (
                                           <Button
                                             className='payspecialist1 mr-2 h36'
                                             onClick={() => ApproveItem(data.id)}
@@ -695,7 +693,7 @@ const WorkSheetAdmin = (props) => {
                                           </Button>
                                         ) : ""
                                         }
-                                        {data?.status === "pending" ? (
+                                        {data?.actions?.can_decline ? (
                                           <Button
                                             className='payspecialist1 ml h36'
                                             onClick={() => setState({
@@ -717,10 +715,10 @@ const WorkSheetAdmin = (props) => {
                                       className='schedule_payment_table'>
                                       <thead>
                                         <tr>
-                                          <th scope='col'>PIPE SIZE</th>
-                                          <th scope='col'>PIPE SCHEDULE</th>
-                                          <th scope='col'>NO OF JOINTS</th>
-                                          <th scope='col'>NO OF INCHES</th>
+                                          <th scope='col' className='equal-width'>Pipe Size</th>
+                                          <th scope='col' className='equal-width'>Pipe Schedule</th>
+                                          <th scope='col' className='equal-width'>No of Joints</th>
+                                          <th scope='col' className='equal-width'>No Of Inches</th>
                                         </tr>
                                       </thead>
                                       <tbody>
@@ -763,18 +761,18 @@ const WorkSheetAdmin = (props) => {
                                 <table className='table table-bordered'>
                                   <thead className='table-light'>
                                     <tr>
-                                      <th>S/NO</th>
-                                      <th>Pipe Size</th>
-                                      <th>Pipe Schedule</th>
-                                      <th>Joints</th>
-                                      <th>Inches</th>
+                                      <th style={{ minWidth: "8rem" }}>S/NO</th>
+                                      <th style={{ minWidth: "8rem" }}>Pipe Size</th>
+                                      <th style={{ minWidth: "8rem" }}>Pipe Schedule</th>
+                                      <th style={{ minWidth: "8rem" }}>Joints</th>
+                                      <th style={{ minWidth: "8rem" }}>Inches</th>
                                     </tr>
                                   </thead>
                                   <tbody>
                                     {item?.pipe_summary?.length > 0 &&
                                       item?.pipe_summary?.map((pipe_item, i) => (
                                         <tr key={i}>
-                                          <div className=''>{i++}</div>
+                                          <td>{i++}</td>
                                           <td>{pipe_item?.pipe_size?.size}</td>
                                           <td>
                                             {pipe_item?.pipe_schedule?.value}
@@ -837,7 +835,7 @@ const WorkSheetAdmin = (props) => {
                           </div>
                         </div>
 
-                        <div className='deployedsplsttable'>
+                        <div className='deployedsplsttable' >
                           <h6 className='text-uppercase text-teal'>
                             {" "}
                             <b> APPROVAL</b>

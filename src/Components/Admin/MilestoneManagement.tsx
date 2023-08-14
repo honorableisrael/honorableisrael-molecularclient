@@ -476,7 +476,7 @@ const MilestoneManagement = (props) => {
                   className='schedule_payment_table'>
                   <thead className='splinvoitablehead'>
                     <tr>
-                      <th>S/N</th>
+                      <th>Milestone</th>
                       <th style={{ minWidth: "8rem" }}>Reference</th>
                       <th style={{ minWidth: "10rem" }}>Start Date</th>
                       <th style={{ minWidth: "10rem" }}>End Date</th>
@@ -488,7 +488,7 @@ const MilestoneManagement = (props) => {
                   <tbody>
                     {milestone_record?.data?.map((data, i) => (
                       <tr>
-                        <td>{i + 1}</td>
+                        <td>{data?.index}</td>
                         <td>{data?.reference}</td>
                         <td>{formatTime(data?.start_date)} </td>
                         <td>{formatTime(data?.end_date)}</td>

@@ -4045,7 +4045,7 @@ label i {
 }
 
 .redbg {
-  background: darkred;
+  background: rgb(211, 149, 149);
   color: white;
   border-radius: 2rem;
   padding: 0.2rem 0.5rem;
@@ -4259,4 +4259,13 @@ label i {
 }
 .mb-2{
   margin-bottom: 1rem !important;
+}
+.bglight{
+  padding: 2rem;
+}
+.padding_red .table-responsive{
+  padding-bottom: 2rem !important;
+}
+.equal-width {
+  width: 25%; /* Divide the width equally for four columns */
 }

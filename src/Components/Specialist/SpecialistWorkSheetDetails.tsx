@@ -30,6 +30,7 @@ import {
   calculateTotalAmount,
   calculateTotalJoint,
   formatTime,
+  reloadPage,
 } from "../../config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -100,7 +101,7 @@ const SpecialistWorkSheetDetailsPage = (props) => {
     id,
   }: any = state;
   const onchange = (e) => {
-    
+
     setState({
       ...state,
       [e.target.name]: e.target.value,
@@ -132,15 +133,15 @@ const SpecialistWorkSheetDetailsPage = (props) => {
             headers: { Authorization: `Bearer ${token.access_token}` },
           }
         ),
-        axios.get<any, AxiosResponse<any>>(`${API}/skills?spreadable=0`),
-        axios.get<any, AxiosResponse<any>>(`${API}/pipes`),
-        axios.get<any, AxiosResponse<any>>(`${API}/pipe-schedules`, {
+        axios.get < any, AxiosResponse < any >> (`${API}/skills?spreadable=0`),
+        axios.get < any, AxiosResponse < any >> (`${API}/pipes`),
+        axios.get < any, AxiosResponse < any >> (`${API}/pipe-schedules`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }),
-        axios.get<any, AxiosResponse<any>>(`${API}/pipe-sizes`, {
+        axios.get < any, AxiosResponse < any >> (`${API}/pipe-sizes`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }),
-        axios.get<any, AxiosResponse<any>>(
+        axios.get < any, AxiosResponse < any >> (
           `${API}/specialist/work-orders/worksheets/${props.match.params.id}`,
           {
             headers: { Authorization: `Bearer ${token.access_token}` },
@@ -150,7 +151,7 @@ const SpecialistWorkSheetDetailsPage = (props) => {
       .then(
         axios.spread(
           (res, res2, response, response2, response3, response4, res5) => {
-            
+
             setState({
               ...state,
               ...res.data.data,
@@ -168,7 +169,7 @@ const SpecialistWorkSheetDetailsPage = (props) => {
         )
       )
       .catch((err) => {
-        
+
       });
   };
   const notify = (message: string, type = "B") => {
@@ -204,7 +205,7 @@ const SpecialistWorkSheetDetailsPage = (props) => {
   const onchange_pipeschedule = (e) => {
     // if (e.target.name == "pipe_type") {
     const new_obj = JSON.parse(e.target.value);
-    
+
     setState({
       ...state,
       pipe_schedule_name: new_obj.name,
@@ -215,7 +216,7 @@ const SpecialistWorkSheetDetailsPage = (props) => {
   const onchange_pipesize = (e) => {
     // if (e.target.name == "pipe_type") {
     const new_obj = JSON.parse(e.target.value);
-    
+
     setState({
       ...state,
       size_value: new_obj.name,
@@ -237,17 +238,15 @@ const SpecialistWorkSheetDetailsPage = (props) => {
       joints: no_of_joints,
       pipe_schedule,
     };
-    
+
     axios
       .post(`${API}/specialist/work-orders/worksheets/${id}/pipes`, data, {
         headers: { Authorization: `Bearer ${token.access_token}` },
       })
       .then((res) => {
-        
+
         notify("Successfully created");
-        setTimeout(() => {
-          fetch_all();
-        }, 100);
+        reloadPage()
         setState({
           ...state,
           isloading: false,
@@ -259,7 +258,7 @@ const SpecialistWorkSheetDetailsPage = (props) => {
           ...state,
           isloading: false,
         });
-        
+
         if (err?.response?.status == 406) {
           return notify(err?.response?.data?.errors?.size.join(""));
         }
@@ -304,7 +303,7 @@ const SpecialistWorkSheetDetailsPage = (props) => {
           ...state,
           isloading: false,
         });
-        
+
         if (err?.response?.status == 406) {
           return notify(err?.response?.data?.errors?.size.join(""));
         }
@@ -328,7 +327,7 @@ const SpecialistWorkSheetDetailsPage = (props) => {
         }
       )
       .then((res) => {
-        
+
         notify("Successfully deleted");
         setTimeout(() => {
           fetch_all();
@@ -343,7 +342,7 @@ const SpecialistWorkSheetDetailsPage = (props) => {
           ...state,
           isloading: false,
         });
-        
+
         if (err?.response?.status == 406) {
           return notify(err?.response?.data?.errors?.size.join(""));
         }
@@ -368,7 +367,7 @@ const SpecialistWorkSheetDetailsPage = (props) => {
         }
       )
       .then((res) => {
-        
+
         notify("Successfully Submitted");
         setTimeout(() => {
           fetch_all();
@@ -384,14 +383,14 @@ const SpecialistWorkSheetDetailsPage = (props) => {
           ...state,
           isloading: false,
         });
-        
+
         if (err?.response?.status == 406) {
           return notify(err?.response?.data?.errors?.size.join(""));
         }
         notify("Failed to Send");
       });
   };
-  
+
   return (
     <>
       <ToastContainer
@@ -465,8 +464,7 @@ const SpecialistWorkSheetDetailsPage = (props) => {
               <div className='alert' role='alert'>
                 <h6 className='alert-heading'>Confirm Action</h6>
                 <p>
-                  This action would submit all information contained in this
-                  spread and this cannot be undone
+                  This action would submit the spread weekly worksheet and this cannot be undone
                 </p>
                 <hr />
                 <p className='mb-0'>Click 'Proceed' to continue</p>
@@ -801,7 +799,7 @@ const SpecialistWorkSheetDetailsPage = (props) => {
                                       {worksheet_details?.pipes?.map(
                                         (pipe, i) => (
                                           <tr>
-                                            <div className=''>{i=i+1}</div>
+                                            <div className=''>{i = i + 1}</div>
                                             <td>{pipe?.pipe_size?.size}</td>
                                             <td>
                                               {pipe?.pipe_schedule?.value}
@@ -817,7 +815,7 @@ const SpecialistWorkSheetDetailsPage = (props) => {
                                             </td>
                                             <td className='contractorname'>
                                               <span
-                                                className='mr-1 ml-2 cursor-pointer'
+                                                className={`mr-1 ml-2 cursor-pointer ${worksheet_details?.sent && "hidden"}`}
                                                 title='Edit'
                                                 onClick={() => {
                                                   setState({
@@ -826,15 +824,15 @@ const SpecialistWorkSheetDetailsPage = (props) => {
                                                     edit_item_id: pipe?.id,
                                                     no_of_joints: pipe?.joints,
                                                     pipe_schedule:
-                                                    pipe?.pipe_schedule?.id,
+                                                      pipe?.pipe_schedule?.id,
                                                     pipe_schedule_name:
-                                                    pipe?.pipe_schedule
+                                                      pipe?.pipe_schedule
                                                         ?.value,
                                                     pipe_size:
-                                                    pipe?.pipe_size?.size,
+                                                      pipe?.pipe_size?.size,
                                                     size: pipe?.pipe_size?.id,
                                                     size_value:
-                                                    pipe?.pipe_size?.size,
+                                                      pipe?.pipe_size?.size,
                                                   });
                                                 }}>
                                                 <svg
@@ -848,7 +846,7 @@ const SpecialistWorkSheetDetailsPage = (props) => {
                                                 </svg>
                                               </span>
                                               <span
-                                                className='cursor-pointer'
+                                                className={` cursor-pointer ${worksheet_details?.sent && "hidden"}`}
                                                 onClick={() => {
                                                   setState({
                                                     ...state,

@@ -25,7 +25,7 @@ import dwnload from "../../images/dwnload.png";
 import WorkDetails_Form_Preview from "./workdetailsform";
 import { NavHashLink } from "react-router-hash-link";
 import axios, { AxiosResponse } from "axios";
-import { API, formatTime } from "../../config";
+import { API, formatTime, reloadPage } from "../../config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Payments from "./payments";
@@ -317,9 +317,7 @@ const SpecialistWorkSheetPage = (props) => {
       .then((res) => {
         
         notify("Successfully deleted");
-        setTimeout(() => {
-          fetch_all();
-        }, 2000);
+       reloadPage()
         setState({
           ...state,
           isloading: false,
@@ -452,8 +450,7 @@ const SpecialistWorkSheetPage = (props) => {
               <div className='alert' role='alert'>
                 <h6 className='alert-heading'>Confirm Action</h6>
                 <p>
-                  This action would submit all information contained in this
-                  spread and this cannot be undone
+                This action would submit the spread weekly worksheet and this cannot be undone
                 </p>
                 <hr />
                 <p className='mb-0'>Click 'Proceed' to continue</p>
@@ -716,7 +713,7 @@ const SpecialistWorkSheetPage = (props) => {
                             <tr>
                               <td>{formatTime(item?.start_date)}</td>
                               <td>{formatTime(item?.end_date)}</td>
-                              <td>{item?.status=="Pending"?<span className="badge bg-warning">Pending</span>:<span className="badge bg-success">Completed</span>}</td>
+                              <td>{item?.status=="submitted"?<span className="badge bg-success">{item?.status}</span>:item?.status=="approved"?<span className="badge bg-info">{item?.status}</span>:<span className="badge bg-warning">{item?.status}</span>}</td>
                               <td>{item?.reference}</td>
                               <td><Link to={`/specialist_worksheet_details/${item.id}`}>view</Link></td>
                             </tr>

@@ -507,7 +507,6 @@ const Advance_payment_request = ({ work_order_detail }: any) => {
             <div>
               <span className='deplyeaggrgt'>Advance Payment Request</span>
               <span className='badge badge-warning ml-3'>
-                {work_order_detail?.pending_advance_payments_count > 0 ? work_order_detail?.pending_advance_payments_count : ""}
                 {work_order_detail?.pending_advance_payments_count > 0 ? ` ${work_order_detail?.pending_advance_payments_count} new` : ""}
               </span>
             </div>

@@ -374,7 +374,7 @@ const MilestoneDetails = (props) => {
           ...state,
           isloading: false,
         });
-        if (err?.response?.status === 400) {
+        if (err?.response?.status === 400 || err?.response?.status === 422) {
           return notify(err?.response?.data?.message);
         }
         if (err?.response?.status === 500) {

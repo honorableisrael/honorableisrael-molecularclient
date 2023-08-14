@@ -631,7 +631,7 @@ const Work_Order_Cost_Evaluation = (props) => {
                   <div className="">
                     <div className="bgwhitecontainer">
                       <div className="overview__2">
-                        <div className="pricing_cal">
+                        <div className="">
                           <Col md={12}>
                             <Table
                               hover

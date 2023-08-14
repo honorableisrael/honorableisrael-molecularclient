@@ -493,7 +493,7 @@ const ScheduledPaymentDetails = withRouter((props) => {
                 <div>
                   <div className='deploysplstheader deployflex'>
                     <div className='flxf1'>
-                      <p>
+                      <p className="flex">
                         {" "}
                         <span
                           onClick={() => window.history.back()}
@@ -501,7 +501,8 @@ const ScheduledPaymentDetails = withRouter((props) => {
                           {" "}
                           <img src={arrowback} className='arrowback' />
                         </span>{" "}
-                        Scheduled Payments Details
+
+                       <h6> Scheduled Payments Details </h6>
                       </p>
                     </div>
                     <div>
@@ -577,12 +578,12 @@ const ScheduledPaymentDetails = withRouter((props) => {
                       <tbody>
                         {ScheduledList?.map((data: any, i) => (
                           <tr key={i}>
-                            <td>{data?.specialist}</td>{" "}
+                            <td>{data?.specialist?.first_name}{" "}{data?.specialist?.last_name}</td>{" "}
                             <td className='dpslstnamecell pslstnamecell schedule_payment_first_td'>
                               <div className='dplsplusernmeimg'>
                                 {/* <span></span> */}
                                 &nbsp; &nbsp;
-                                <div>{data.account_name}</div>
+                                <div>{data?.account_name}</div>
                               </div>
                             </td>
                             <td className='contractorname'>

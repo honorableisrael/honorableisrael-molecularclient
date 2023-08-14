@@ -449,9 +449,9 @@ const MSpreadSpecialistManagement = (props) => {
                     <tr>
                       <th>S/N</th>
                       <th style={{ minWidth: "9rem" }}>Full Name</th>
+                      <th style={{ minWidth: "10rem" }}>Skills</th>
                       <th style={{ minWidth: "8rem" }}>Email</th>
                       <th style={{ minWidth: "8rem" }}>Work Completion (%)</th>
-                      <th style={{ minWidth: "10rem" }}>Rating</th>
                       <th style={{ minWidth: "10rem" }}>Status</th>
                       <th>Action</th>
                     </tr>
@@ -461,9 +461,12 @@ const MSpreadSpecialistManagement = (props) => {
                       <tr>
                         <td>{i + 1}</td>
                         <td>{data?.specialist?.first_name}{" "} {data?.specialist?.last_name}</td>
+                        <td>{data?.specialist?.skills?.map((item, i) => (
+                          <div key={i}>{item?.name}</div>
+                        ))}
+                        </td>
                         <td> <a href={`mailto:${data?.specialist?.email}`}> {data?.specialist?.email}</a></td>
                         <td>{data?.work_rate}</td>
-                        <td>{data?.rating}</td>
                         <td>
                           {data?.status == "active" ? (
                             <div className='invpaystatwrap po912'>
@@ -710,7 +713,7 @@ const MSpreadSpecialistManagement = (props) => {
                   </Col>
                   <Col md={12} className='formsection1'>
                     <Form.Group>
-                      <h6 className='userprofile'>Estimated Work Completed by <b> {specialist?.first_name + " " + specialist?.last_name} </b> (% work to be done)</h6>
+                      <h6 className='userprofile'>Estimated Work Completed by <b> {specialist?.first_name + " " + specialist?.last_name} </b></h6>
                       <Form.Control
                         type='number'
                         value={specialist_work_rate}

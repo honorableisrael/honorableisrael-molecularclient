@@ -1052,3 +1052,6 @@ input:checked + .slider::before {
 .workorderheader1 {
   width: 390px !important;
 }
+.hidden{
+  display: none;
+}
