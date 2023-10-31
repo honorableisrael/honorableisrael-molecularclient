@@ -569,6 +569,7 @@ const ScheduledPaymentDetails = withRouter((props) => {
                           <th scope='col'>Account name</th>
                           <th scope='col'>Account number</th>
                           <th scope='col'>Bank name</th>
+                          <th scope='col'>Amount(NGN)</th>
                           <th scope='col'>Naration</th>
 
                           <th scope='col'>Status</th>
@@ -590,6 +591,7 @@ const ScheduledPaymentDetails = withRouter((props) => {
                               {data?.account_number}
                             </td>
                             <td>{data?.bank?.name}</td>
+                            <td>{FormatAmount(data?.amount)}</td>
                             <td>{data?.narration}</td>
                             <td>
                               {data?.transaction_status == "unpaid" && (

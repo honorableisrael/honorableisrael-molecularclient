@@ -427,7 +427,7 @@ const WorkSheetAdmin = (props) => {
       .then(
         axios.spread((res) => {
           notify("Successful");
-          fetchAll()
+          reloadPage()
           setState({
             ...state,
             isloading: false,

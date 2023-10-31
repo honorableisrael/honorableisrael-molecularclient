@@ -94,7 +94,7 @@ const SpecialistWorkSheetPage = (props) => {
     id,
   }: any = state;
   const onchange = (e) => {
-    
+
     setState({
       ...state,
       [e.target.name]: e.target.value,
@@ -126,19 +126,19 @@ const SpecialistWorkSheetPage = (props) => {
             headers: { Authorization: `Bearer ${token.access_token}` },
           }
         ),
-        axios.get<any, AxiosResponse<any>>(`${API}/skills?spreadable=0`),
-        axios.get<any, AxiosResponse<any>>(`${API}/pipes`),
-        axios.get<any, AxiosResponse<any>>(`${API}/pipe-schedules`, {
+        axios.get < any, AxiosResponse < any >> (`${API}/skills?spreadable=0`),
+        axios.get < any, AxiosResponse < any >> (`${API}/pipes`),
+        axios.get < any, AxiosResponse < any >> (`${API}/pipe-schedules`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }),
-        axios.get<any, AxiosResponse<any>>(`${API}/pipe-sizes`, {
+        axios.get < any, AxiosResponse < any >> (`${API}/pipe-sizes`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }),
       ])
 
       .then(
         axios.spread((res, res2, response, response2, response3, response4) => {
-          
+
           setState({
             ...state,
             ...res.data.data,
@@ -154,7 +154,7 @@ const SpecialistWorkSheetPage = (props) => {
         })
       )
       .catch((err) => {
-        
+
       });
   };
   const notify = (message: string, type = "B") => {
@@ -190,7 +190,7 @@ const SpecialistWorkSheetPage = (props) => {
   const onchange_pipeschedule = (e) => {
     // if (e.target.name == "pipe_type") {
     const new_obj = JSON.parse(e.target.value);
-    
+
     setState({
       ...state,
       pipe_schedule_name: new_obj.name,
@@ -201,7 +201,7 @@ const SpecialistWorkSheetPage = (props) => {
   const onchange_pipesize = (e) => {
     // if (e.target.name == "pipe_type") {
     const new_obj = JSON.parse(e.target.value);
-    
+
     setState({
       ...state,
       size_value: new_obj.name,
@@ -223,13 +223,13 @@ const SpecialistWorkSheetPage = (props) => {
       joints: no_of_joints,
       pipe_schedule,
     };
-    
+
     axios
       .post(`${API}/specialist/work-orders/worksheets/${id}/pipes`, data, {
         headers: { Authorization: `Bearer ${token.access_token}` },
       })
       .then((res) => {
-        
+
         notify("Successfully created");
         setTimeout(() => {
           fetch_all();
@@ -245,7 +245,7 @@ const SpecialistWorkSheetPage = (props) => {
           ...state,
           isloading: false,
         });
-        
+
         if (err?.response?.status == 406) {
           return notify(err?.response?.data?.errors?.size.join(""));
         }
@@ -291,7 +291,7 @@ const SpecialistWorkSheetPage = (props) => {
           isloading: false,
           add_worksheet_modal: false,
         });
-        
+
         if (err?.response?.status == 406) {
           return notify(err?.response?.data?.errors?.size.join(""));
         }
@@ -315,9 +315,9 @@ const SpecialistWorkSheetPage = (props) => {
         }
       )
       .then((res) => {
-        
+
         notify("Successfully deleted");
-       reloadPage()
+        reloadPage()
         setState({
           ...state,
           isloading: false,
@@ -328,7 +328,7 @@ const SpecialistWorkSheetPage = (props) => {
           ...state,
           isloading: false,
         });
-        
+
         if (err?.response?.status == 406) {
           return notify(err?.response?.data?.errors?.size.join(""));
         }
@@ -353,7 +353,7 @@ const SpecialistWorkSheetPage = (props) => {
         }
       )
       .then((res) => {
-        
+
         notify("Successfully Submitted");
         setTimeout(() => {
           fetch_all();
@@ -369,14 +369,14 @@ const SpecialistWorkSheetPage = (props) => {
           ...state,
           isloading: false,
         });
-        
+
         if (err?.response?.status == 406) {
           return notify(err?.response?.data?.errors?.size.join(""));
         }
         notify("Failed to Send");
       });
   };
-  
+
   return (
     <>
       <ToastContainer
@@ -441,7 +441,7 @@ const SpecialistWorkSheetPage = (props) => {
         }>
         <Modal.Header closeButton>
           <Modal.Title id='example-custom-modal-styling-title'>
-          Submit Worksheet
+            Submit Worksheet
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -450,7 +450,7 @@ const SpecialistWorkSheetPage = (props) => {
               <div className='alert' role='alert'>
                 <h6 className='alert-heading'>Confirm Action</h6>
                 <p>
-                This action would submit the spread weekly worksheet and this cannot be undone
+                  This action would submit the spread weekly worksheet and this cannot be undone
                 </p>
                 <hr />
                 <p className='mb-0'>Click 'Proceed' to continue</p>
@@ -696,7 +696,7 @@ const SpecialistWorkSheetPage = (props) => {
                 <div className='job23_1a'>
                   <div className='job23_1a wrap_z p-5'>
                     <div className='active_member23'>
-                      <h3 className="fs-3 mb-4">Invoice Worksheets</h3>
+                      <h3 className="fs-3 mb-4">Worksheets</h3>
                       <div className="table-responsive">
                         <table className="table table-bordered w-100 nowrap">
                           <thead className="table-light">
@@ -709,15 +709,15 @@ const SpecialistWorkSheetPage = (props) => {
                             </tr>
                           </thead>
                           <tbody>
-                          {worksheet_reports?.map((item, i) => (
-                            <tr>
-                              <td>{formatTime(item?.start_date)}</td>
-                              <td>{formatTime(item?.end_date)}</td>
-                              <td>{item?.status=="submitted"?<span className="badge bg-success">{item?.status}</span>:item?.status=="approved"?<span className="badge bg-info">{item?.status}</span>:<span className="badge bg-warning">{item?.status}</span>}</td>
-                              <td>{item?.reference}</td>
-                              <td><Link to={`/specialist_worksheet_details/${item.id}`}>view</Link></td>
-                            </tr>
-                          ))}
+                            {worksheet_reports?.map((item, i) => (
+                              <tr>
+                                <td>{formatTime(item?.start_date)}</td>
+                                <td>{formatTime(item?.end_date)}</td>
+                                <td>{item?.status == "submitted" ? <span className="badge bg-success">{item?.status}</span> : item?.status == "approved" ? <span className="badge bg-info">{item?.status}</span> : <span className="badge bg-warning">{item?.status}</span>}</td>
+                                <td>{item?.reference}</td>
+                                <td><Link to={`/specialist_worksheet_details/${item.id}`}>view</Link></td>
+                              </tr>
+                            ))}
                           </tbody>
                         </table>
                       </div>

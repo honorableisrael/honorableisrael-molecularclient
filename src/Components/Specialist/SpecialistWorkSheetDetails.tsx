@@ -289,9 +289,7 @@ const SpecialistWorkSheetDetailsPage = (props) => {
       )
       .then((res) => {
         notify("Successfully Updated");
-        setTimeout(() => {
-          fetch_all();
-        }, 2000);
+        reloadPage()
         setState({
           ...state,
           isloading: false,
@@ -370,7 +368,7 @@ const SpecialistWorkSheetDetailsPage = (props) => {
 
         notify("Successfully Submitted");
         setTimeout(() => {
-          fetch_all();
+         reloadPage()
         }, 2000);
         setState({
           ...state,

@@ -449,7 +449,7 @@ const MSpreadSpecialistManagement = (props) => {
                     <tr>
                       <th>S/N</th>
                       <th style={{ minWidth: "9rem" }}>Full Name</th>
-                      <th style={{ minWidth: "10rem" }}>Skills</th>
+                      <th style={{ minWidth: "10rem" }}>Skill</th>
                       <th style={{ minWidth: "8rem" }}>Email</th>
                       <th style={{ minWidth: "8rem" }}>Work Completion (%)</th>
                       <th style={{ minWidth: "10rem" }}>Status</th>

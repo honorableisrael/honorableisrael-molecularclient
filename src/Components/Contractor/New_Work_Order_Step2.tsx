@@ -277,6 +277,8 @@ const NewWorkOrderStep2 = withRouter((props) => {
             pipe_size,
             pipe_type,
             pipe_name,
+            size_value,
+            pipe_schedule_name,
           },
         ];
         const Specialist: any = [
@@ -300,10 +302,10 @@ const NewWorkOrderStep2 = withRouter((props) => {
         no_of_specialist &&
         type_of_specialist &&
         title_of_specialist &&
-        pipe_config &&
-        Object.keys(pipe_config[0]).length === 0
+        pipe_config
+        // && Object.keys(pipe_config[0]).length === 0
       ) {
-        //console.log("spec");
+        console.log("2 here");
         const Specialist: any = [
           {
             no_of_specialist,
@@ -329,7 +331,7 @@ const NewWorkOrderStep2 = withRouter((props) => {
         specialist_config &&
         Object.keys(specialist_config[0]).length > 0
       ) {
-        //console.log("pipe");
+        console.log(specialist_config, "specialist_config");
         const Pipe_Config: any = [
           {
             no_of_joints,
@@ -338,6 +340,8 @@ const NewWorkOrderStep2 = withRouter((props) => {
             pipe_size,
             pipe_type,
             pipe_name,
+            size_value,
+            pipe_schedule_name,
           },
         ];
         //console.log(Pipe_Config);
@@ -350,13 +354,30 @@ const NewWorkOrderStep2 = withRouter((props) => {
         localStorage.setItem("spreads", JSON.stringify({ ...data }));
         return props.history.push("/contractor_work_order_step3");
       }
-      if (specialist_config && pipe_config) {
-        if (
-          Object.keys(pipe_config[0]).length > 0 ||
-          Object.keys(specialist_config[0]).length > 0
-        ) {
+      if (
+        specialist_config &&
+        no_of_joints &&
+        pipelength &&
+        pipe_schedule &&
+        pipe_size &&
+        pipe_type
+      ) {
+        console.log(specialist_config, "specialist_config");
+        console.log("4 here");
+        if (Object.keys(specialist_config[0]).length > 0) {
           const second_data = {
-            pipe_config,
+            pipe_config: [
+              {
+                no_of_joints,
+                pipelength,
+                pipe_schedule,
+                pipe_size,
+                pipe_type,
+                pipe_name,
+                size_value,
+                pipe_schedule_name,
+              },
+            ],
             specialist_config,
             ...data,
           };
@@ -365,14 +386,105 @@ const NewWorkOrderStep2 = withRouter((props) => {
           return props.history.push("/contractor_work_order_step3");
         }
       }
+      if (pipe_config === null || specialist_config === null) {
+        if (
+          Object.keys(pipe_config === null) ||
+          Object.keys(specialist_config === null)
+        ) {
+          console.log(pipe_config);
+          console.log("5 here");
+          return notify("Pipe config inputs are all be required");
+        }
+      }
       if (
-        Object.keys(pipe_config === null) ||
-        Object.keys(specialist_config === null)
+       ( pipe_config.length > 0 &&
+        specialist_config.length > 0) ||
+       ( data?.spreads?.length > 0 &&  pipe_config.length > 0)
       ) {
-        return notify("Pipe config and specialist config cannot be empty");
+        localStorage.setItem("spreads", JSON.stringify({ ...data }));
+        return props.history.push("/contractor_work_order_step3");
+      }
+      if (
+        (pipe_config.length === 0 && specialist_config.length === 0) ||
+        (pipe_config.length === 0 && data?.spreads?.length === 0)
+      ) {
+        return notify("All inputs are required");
+      }
+      if (pipe_config.length === 0) {
+        if (
+          !no_of_joints ||
+          !pipelength ||
+          !pipe_schedule ||
+          !pipe_size ||
+          !pipe_type ||
+          !pipe_name ||
+          !size_value
+        ) {
+          return notify(
+            "Pipe config inputs are all required before it can be added"
+          );
+        }
+      }
+      if (pipe_config.length > 0) {
+        if (
+          no_of_joints &&
+          !pipelength &&
+          !pipe_schedule &&
+          !pipe_size &&
+          !pipe_type &&
+          !pipe_name &&
+          !size_value
+        ) {
+          return notify("Pipe config inputs are required");
+        }
+        if (
+          no_of_joints &&
+          pipelength &&
+          !pipe_schedule &&
+          !pipe_size &&
+          !pipe_type &&
+          !pipe_name &&
+          !size_value
+        ) {
+          return notify("Pipe config inputs are required");
+        }
+        if (
+          no_of_joints &&
+          pipelength &&
+          pipe_schedule &&
+          !pipe_size &&
+          !pipe_type &&
+          !pipe_name &&
+          !size_value
+        ) {
+          return notify("Pipe config inputs are required");
+        }
+        if (
+          no_of_joints &&
+          pipelength &&
+          pipe_schedule &&
+          pipe_size &&
+          !pipe_type &&
+          !pipe_name &&
+          !size_value
+        ) {
+          return notify("Pipe config inputs are required");
+        }
+        if (
+          no_of_joints &&
+          pipelength &&
+          pipe_schedule &&
+          pipe_size &&
+          pipe_type &&
+          !pipe_name &&
+          !size_value
+        ) {
+          return notify("Pipe config inputs are required");
+        }
       }
     } catch (error) {
-      return notify("Pipe config or specialist config cannot be empty");
+      console.log(error);
+      return notify("specialist config inputs are all required");
     }
   };
   const validateForm = (e) => {
@@ -390,110 +502,112 @@ const NewWorkOrderStep2 = withRouter((props) => {
   };
   return (
     <>
-      <Container fluid={true} className='dasbwr'>
+      <Container fluid={true} className="dasbwr">
         <Helmet>
-          <meta charSet='utf-8' />
+          <meta charSet="utf-8" />
           <title>MolecularPro - Contractor Work Order</title>
           <link />
         </Helmet>
         <Row>
           <DashboardNav />
         </Row>
-        <Row className='rowt3'>
-          <Col md={12} className='job34'>
-            <div className='title_wo'>
-              <div className='workorderheader workorder_header'>
-                <Link to='/work_order'>
+        <Row className="rowt3">
+          <Col md={12} className="job34">
+            <div className="title_wo">
+              <div className="workorderheader workorder_header">
+                <Link to="/work_order">
                   {" "}
-                  <img src={arrowback} className='arrowback' />
+                  <img src={arrowback} className="arrowback" />
                 </Link>
                 New Work Order
               </div>
             </div>
             <Row>
-              <Col md={12} className='job23'>
-                <div className='form_header'>
-                  <span className='form_header1'>
+              <Col md={12} className="job23">
+                <div className="form_header">
+                  <span className="form_header1">
                     {" "}
                     <b>2</b> of 3{" "}
                   </span>{" "}
                   <b> Workforce Details</b>
                 </div>
-                <div className='formcontent form_tomp'>
-                  <Col md={12} className='my-4 ml-0 pl-0'>
+                <div className="formcontent form_tomp">
+                  <Col md={12} className="my-4 ml-0 pl-0">
                     <div>
-                      <h6 className='userprofile darkheader userprofile12'>
+                      <h6 className="userprofile darkheader userprofile12">
                         Pipe Configuration
                       </h6>
                     </div>
                   </Col>
                   <Row>
                     {pipe_config?.map((data, i) => (
-                      <Col md={12} className='ttp_' key={i}>
-                        <div className='closticon'>
+                      <Col md={12} className="ttp_" key={i}>
+                        <div className="closticon">
                           <span
-                            className='tymes1'
+                            className="tymes1"
                             onClick={() => deleteConfig(i, "pipe")}
-                            title='Delete'>
+                            title="Delete"
+                          >
                             &times;
                           </span>
                         </div>
-                        <div className='main_wrap_ws main_wrap_ws22 graybg'>
+                        <div className="main_wrap_ws main_wrap_ws22 graybg">
                           <div>
-                            <h6 className='userprofile12 userprofile123'>
+                            <h6 className="userprofile12 userprofile123">
                               Type of Pipe
                             </h6>
-                            <div className='Construction12'>
+                            <div className="Construction12">
                               {data.pipe_name}
                             </div>
                           </div>
-                          <div className=''>
-                            <h6 className='userprofile12 userprofile123'>
+                          <div className="">
+                            <h6 className="userprofile12 userprofile123">
                               Pipeline Length
                             </h6>
-                            <div className='Construction12'>
+                            <div className="Construction12">
                               {" "}
                               {data?.pipelength}
                             </div>
                           </div>
-                          <div className=''>
-                            <h6 className='userprofile12 userprofile123'>
+                          <div className="">
+                            <h6 className="userprofile12 userprofile123">
                               Pipe Size
                             </h6>
-                            <div className='Construction12'>
+                            <div className="Construction12">
                               {" "}
                               {data?.size_value}
                             </div>
                           </div>
-                          <div className=''>
-                            <h6 className='userprofile12 userprofile123'>
+                          <div className="">
+                            <h6 className="userprofile12 userprofile123">
                               No of Joint
                             </h6>
-                            <div className='Construction12'>
+                            <div className="Construction12">
                               {data?.no_of_joints}
                             </div>
                           </div>
-                          <div className=''>
-                            <h6 className='userprofile12 userprofile123'>
+                          <div className="">
+                            <h6 className="userprofile12 userprofile123">
                               Pipe Schedule
                             </h6>
-                            <div className='Construction12'>
+                            <div className="Construction12">
                               {data?.pipe_schedule_name}
                             </div>
                           </div>
                         </div>
                       </Col>
                     ))}
-                    <Col md={3} className='formsection1'>
+                    <Col md={3} className="formsection1">
                       <Form.Group>
-                        <h6 className='userprofile userprofile12'>
+                        <h6 className="userprofile userprofile12">
                           Type of Pipe
                         </h6>
                         <select
-                          className='userfield form-control'
+                          className="userfield form-control"
                           id={"pipe_type"}
                           onChange={inputHandler}
-                          ref={inputEl3}>
+                          ref={inputEl3}
+                        >
                           <option></option>
                           <option value={""}></option>
                           {pipeList.map((data, i) => (
@@ -501,108 +615,113 @@ const NewWorkOrderStep2 = withRouter((props) => {
                               value={JSON.stringify({
                                 id: data.id,
                                 name: data.name,
-                              })}>
+                              })}
+                            >
                               {data.name}
                             </option>
                           ))}
                         </select>
                       </Form.Group>
                     </Col>
-                    <Col md={3} className='formsection1'>
+                    <Col md={3} className="formsection1">
                       <Form.Group>
-                        <h6 className='userprofile userprofile12'>
+                        <h6 className="userprofile userprofile12">
                           Pipeline Length (Meters)
                         </h6>
                         <Form.Control
-                          type='number'
+                          type="number"
                           value={pipelength}
-                          className='userfield'
-                          id='pipelength'
+                          className="userfield"
+                          id="pipelength"
                           min={1}
                           onChange={onchange}
-                          placeholder=''
+                          placeholder=""
                         />
                       </Form.Group>
                     </Col>
-                    <Col md={3} className='formsection1'>
+                    <Col md={3} className="formsection1">
                       <Form.Group>
-                        <h6 className='userprofile userprofile12'>
+                        <h6 className="userprofile userprofile12">
                           No of Joints
                         </h6>
                         <Form.Control
-                          type='number'
+                          type="number"
                           value={no_of_joints}
                           min={1}
-                          className='userfield'
-                          id='no_of_joints'
+                          className="userfield"
+                          id="no_of_joints"
                           onChange={onchange}
-                          placeholder=''
+                          placeholder=""
                         />
                       </Form.Group>
                     </Col>
-                    <Col md={3} className='formsection1'>
+                    <Col md={3} className="formsection1">
                       <Form.Group>
-                        <h6 className='userprofile userprofile12'>
+                        <h6 className="userprofile userprofile12">
                           Pipe Schedule
                         </h6>
                         <select
-                          id='pipe_schedule'
+                          id="pipe_schedule"
                           onChange={onchange_pipeschedule}
-                          className='userfield form-control'
-                          ref={inputEl1}>
-                          <option value=''></option>
+                          className="userfield form-control"
+                          ref={inputEl1}
+                        >
+                          <option value=""></option>
                           {pipe_schedules.map((data, i) => (
                             <option
-                              className='specialization'
+                              className="specialization"
                               value={JSON.stringify({
                                 id: data.id,
                                 name: data.name,
-                              })}>
+                              })}
+                            >
                               {data.name}
                             </option>
                           ))}
                         </select>
                       </Form.Group>
                     </Col>
-                    <Col md={3} className='formsection1'>
+                    <Col md={3} className="formsection1">
                       <Form.Group>
-                        <h6 className='userprofile userprofile12'>Pipe Size</h6>
+                        <h6 className="userprofile userprofile12">Pipe Size</h6>
                         <select
-                          id='pipe_size'
-                          name='pipe_size'
+                          id="pipe_size"
+                          name="pipe_size"
                           onChange={onchange_pipesize}
-                          className='userfield form-control'
-                          ref={inputEl2}>
+                          className="userfield form-control"
+                          ref={inputEl2}
+                        >
                           <option>{size_value ? size_value : ""}</option>
                           {pipeSizes.map((data, i) => (
                             <option
-                              className='pipelength1 form-control specialization'
+                              className="pipelength1 form-control specialization"
                               value={JSON.stringify({
                                 id: data.id,
                                 name: data.size,
-                              })}>
+                              })}
+                            >
                               {data.size}
                             </option>
                           ))}
                         </select>
                       </Form.Group>
                     </Col>
-                    <Col md={12} className='addmro1 dmro1'>
-                      <div className='addmro'>
+                    <Col md={12} className="addmro1 dmro1">
+                      <div className="addmro">
                         <img
                           src={Addmore}
-                          alt='Add more'
-                          className='Add__more'
+                          alt="Add more"
+                          className="Add__more"
                           onClick={() => Add_New_Config("pipe")}
                         />
                       </div>
                     </Col>
                   </Row>
-                  <hr className='mb-5 mt-2' />
+                  <hr className="mb-5 mt-2" />
                   <Row>
                     <Col md={12}>
                       <div>
-                        <h6 className='userprofile darkheader'>
+                        <h6 className="userprofile darkheader">
                           Spread Selection{" "}
                         </h6>
                       </div>
@@ -622,27 +741,28 @@ const NewWorkOrderStep2 = withRouter((props) => {
                       }}
                       // validate={validate}
                       render={({ handleSubmit, pristine, invalid }) => (
-                        <form onSubmit={handleSubmit} className='iu5'>
+                        <form onSubmit={handleSubmit} className="iu5">
                           <form onSubmit={validateForm}></form>
-                          <FieldArray initialValue={spreads} name='spreads' >
+                          <FieldArray initialValue={spreads} name="spreads">
                             {({ fields }) => (
-                              <div className='padt12 mt331'>
+                              <div className="padt12 mt331">
                                 {fields.map((name, index) => (
                                   <div
-                                    className='row inputlabel label_pad justify-between mg0_'
-                                    key={name}>
-                                    <div className='row mb-3'>
-                                      <div className='col-md-12'>
-                                        <span className='rdfrmlbl MuiTypography-root MuiTypography-caption css-uy1c4l-MuiTypography-root'>
-                                          <span className='bold-text'>
+                                    className="row inputlabel label_pad justify-between mg0_"
+                                    key={name}
+                                  >
+                                    <div className="row mb-3">
+                                      <div className="col-md-12">
+                                        <span className="rdfrmlbl MuiTypography-root MuiTypography-caption css-uy1c4l-MuiTypography-root">
+                                          <span className="bold-text">
                                             {index + 1}.
                                           </span>{" "}
                                           Spread composition
-                                          <span className='text-danger'>*</span>
+                                          <span className="text-danger">*</span>
                                         </span>
                                         <Field
                                           name={`${name}.type`}
-                                          component='select'
+                                          component="select"
                                           onClick={() =>
                                             fields.update(index, {
                                               type: "",
@@ -650,14 +770,15 @@ const NewWorkOrderStep2 = withRouter((props) => {
                                               fitters: 2,
                                             })
                                           }
-                                          className='form-control forminput'>
+                                          className="form-control forminput"
+                                        >
                                           <option>
                                             Please select spread composition
                                           </option>
                                           <option value={"custom"}>
                                             Custom
                                           </option>
-                                          <option value='standard'>
+                                          <option value="standard">
                                             Standard
                                           </option>
                                         </Field>
@@ -665,15 +786,15 @@ const NewWorkOrderStep2 = withRouter((props) => {
                                     </div>
                                     {fields?.value[index]?.type !== "" && (
                                       <>
-                                        <h6 className='userprofile darkheader pt332'>
+                                        <h6 className="userprofile darkheader pt332">
                                           Please select the number of welders
                                           and fitters{" "}
                                         </h6>
-                                        <div className='row'>
-                                          <div className='col-md-6 rdfrmlbl2right'>
-                                            <span className='rdfrmlbl MuiTypography-root MuiTypography-caption css-uy1c4l-MuiTypography-root'>
+                                        <div className="row">
+                                          <div className="col-md-6 rdfrmlbl2right">
+                                            <span className="rdfrmlbl MuiTypography-root MuiTypography-caption css-uy1c4l-MuiTypography-root">
                                               Welders
-                                              <span className='text-danger'>
+                                              <span className="text-danger">
                                                 *
                                               </span>
                                             </span>
@@ -688,14 +809,14 @@ const NewWorkOrderStep2 = withRouter((props) => {
                                               }
                                               name={`${name}.welders`}
                                               min={1}
-                                              component='input'
-                                              className='form-control forminput'
+                                              component="input"
+                                              className="form-control forminput"
                                             />
                                           </div>
-                                          <div className='col-md-6'>
-                                            <span className='rdfrmlbl MuiTypography-root MuiTypography-caption css-uy1c4l-MuiTypography-root'>
+                                          <div className="col-md-6">
+                                            <span className="rdfrmlbl MuiTypography-root MuiTypography-caption css-uy1c4l-MuiTypography-root">
                                               Fitters
-                                              <span className='text-danger'>
+                                              <span className="text-danger">
                                                 *
                                               </span>
                                             </span>
@@ -710,20 +831,21 @@ const NewWorkOrderStep2 = withRouter((props) => {
                                                   : false
                                               }
                                               min={1}
-                                              component='input'
-                                              className='form-control forminput'
+                                              component="input"
+                                              className="form-control forminput"
                                               // placeholder={fields?.value[index]?.id}
                                             />
                                           </div>
                                         </div>
                                       </>
                                     )}
-                                    <div className='row flex-right'>
-                                      <div className='col-md-2'>
+                                    <div className="row flex-right">
+                                      <div className="col-md-2">
                                         <button
-                                          type='button'
+                                          type="button"
                                           onClick={() => fields.remove(index)}
-                                          className='btn btn-danger Deletebtn'>
+                                          className="btn btn-danger Deletebtn"
+                                        >
                                           Delete entry {index + 1}
                                         </button>
                                       </div>
@@ -731,14 +853,15 @@ const NewWorkOrderStep2 = withRouter((props) => {
                                   </div>
                                 ))}
                                 <span
-                                  className='addmror'
+                                  className="addmror"
                                   onClick={() =>
                                     fields.push({
                                       type: "",
                                       welders: 6,
                                       fitters: 2,
                                     })
-                                  }>
+                                  }
+                                >
                                   {!fields?.value ||
                                   fields?.value?.[0]?.type == ""
                                     ? "Add new spread +"
@@ -753,99 +876,102 @@ const NewWorkOrderStep2 = withRouter((props) => {
                               </button>
                             </span> */}
                           <Row>
-                          <hr className='mb-5 mt-2 pr-2' />
+                            <hr className="mb-5 mt-2 pr-2" />
                             <Col md={12}>
                               <div>
-                                <h6 className='userprofile darkheader'>
-                                  Types of Specialist Required and Number{" "}
+                                <h6 className="userprofile darkheader">
+                                  Types of Specialist and Total Required{" "}
                                 </h6>
                               </div>
                             </Col>
                             {specialist_config?.map((data, i) => (
-                              <Col md={12} className='ttp_' key={i}>
-                                <div className='closticon'>
+                              <Col md={12} className="ttp_" key={i}>
+                                <div className="closticon">
                                   <span
-                                    className='tymes1'
+                                    className="tymes1"
                                     onClick={(i) =>
                                       deleteConfig(i, "specialist")
                                     }
-                                    title='Delete'>
+                                    title="Delete"
+                                  >
                                     &times;
                                   </span>
                                 </div>
-                                <div className='main_wrap_ws main_wrap_ws22 graybg'>
+                                <div className="main_wrap_ws main_wrap_ws22 graybg">
                                   <div>
-                                    <h6 className='userprofile12 userprofile123'>
+                                    <h6 className="userprofile12 userprofile123">
                                       Specialist Skill
                                     </h6>
-                                    <div className='Construction12'>
+                                    <div className="Construction12">
                                       {data?.title_of_specialist}
                                     </div>
                                   </div>
-                                  <div className=''>
-                                    <h6 className='userprofile12 userprofile123'>
+                                  <div className="">
+                                    <h6 className="userprofile12 userprofile123">
                                       Number of Specialist
                                     </h6>
-                                    <div className='Construction12'>
+                                    <div className="Construction12">
                                       {data?.no_of_specialist}
                                     </div>
                                   </div>
                                 </div>
                               </Col>
                             ))}
-                            <Col md={4} className='formsection1'>
+                            <Col md={4} className="formsection1">
                               <Form.Group>
-                                <h6 className='userprofile userprofile12'>
+                                <h6 className="userprofile userprofile12">
                                   Area of specialization
                                 </h6>
                                 <select
-                                  id='type_of_specialist'
+                                  id="type_of_specialist"
                                   onChange={onchange_Area_Of_Specialization}
-                                  className='userfield form-control'
-                                  ref={inputEl4}>
-                                  <option value=''></option>
+                                  className="userfield form-control"
+                                  ref={inputEl4}
+                                >
+                                  <option value=""></option>
                                   {types_of_Specialist.map((data, i) => (
                                     <option
-                                      className='specialization'
+                                      className="specialization"
                                       value={JSON.stringify({
                                         id: data.id,
                                         name: data.name,
-                                      })}>
+                                      })}
+                                    >
                                       {data.name}
                                     </option>
                                   ))}
                                 </select>
                               </Form.Group>
                             </Col>
-                            <Col md={4} className='formsection1'>
+                            <Col md={4} className="formsection1">
                               <Form.Group>
-                                <h6 className='userprofile userprofile12'>
+                                <h6 className="userprofile userprofile12">
                                   Number of Specialist
                                 </h6>
                                 <Form.Control
-                                  type='number'
+                                  type="number"
                                   value={no_of_specialist}
-                                  className='userfield'
-                                  id='no_of_specialist'
+                                  className="userfield"
+                                  id="no_of_specialist"
                                   onChange={onchange}
                                   min={1}
-                                  placeholder=''
+                                  placeholder=""
                                   onBlur={() => Add_New_Config("specialist")}
                                 />
                               </Form.Group>
                             </Col>
                             <Row>
-                            <Col md={12} className='addmro1 dmro1'>
-                              <div className='addmro'>
-                                <img
-                                  src={Addmore}
-                                  alt='Add more'
-                                  className='Add__more'
-                                  onClick={() => Add_New_Config("specialist")}
-                                />
-                              </div>
-                            </Col>
-                          </Row>
+                              <Col md={12} className="addmro1 dmro1">
+                                <div className="addmro">
+                                  <img
+                                    src={Addmore}
+                                    alt="Add more"
+                                    className="Add__more"
+                                    onClick={() => Add_New_Config("specialist")}
+                                  />
+                                </div>
+                              </Col>
+                            </Row>
                           </Row>
                           <Row>
                             {/* <Col md={12}>
@@ -891,14 +1017,14 @@ const NewWorkOrderStep2 = withRouter((props) => {
                           </Row>
                           <br></br>
                           <Row>
-                            <Col md={12} className='flex_btns'>
-                              <Link to='/work_order'>
-                                <div className='job3 btn_outline'>Back</div>
+                            <Col md={12} className="flex_btns">
+                              <Link to="/work_order">
+                                <div className="job3 btn_outline">Back</div>
                               </Link>
                               <input
-                                className='job31'
-                                type='submit'
-                                value='Next'
+                                className="job31"
+                                type="submit"
+                                value="Next"
                               />
                             </Col>
                           </Row>
@@ -915,7 +1041,7 @@ const NewWorkOrderStep2 = withRouter((props) => {
       <ToastContainer
         enableMultiContainer
         containerId={"B"}
-        toastClassName='bg-orange text-white'
+        toastClassName="bg-orange text-white"
         hideProgressBar={true}
         position={"top-right"}
       />
