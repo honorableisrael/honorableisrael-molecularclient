@@ -16,7 +16,14 @@ import arrowback from "../../images/dtls.png";
 import { Link } from "react-router-dom";
 import logo from "../../images/Molecular.png";
 import axios from "axios";
-import { API, current_currency, FormatAmount, formatTime, notify, returnAdminToken } from "../../config";
+import {
+  API,
+  current_currency,
+  FormatAmount,
+  formatTime,
+  notify,
+  returnAdminToken,
+} from "../../config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -39,8 +46,8 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
     reason: "",
     isloading: false,
     work_order_detail: {},
-    allbanks:[],
-    bank:""
+    allbanks: [],
+    bank: "",
   });
 
   const onchange = (e) => {
@@ -79,8 +86,8 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
   useEffect(() => {
     window.scrollTo(-0, -0);
     const invoice_: any = localStorage.getItem("invoice_id");
-    const invoice = invoice_?JSON.parse(invoice_):""
-    const token = returnAdminToken()
+    const invoice = invoice_ ? JSON.parse(invoice_) : "";
+    const token = returnAdminToken();
     const work_order = localStorage.getItem("work_order_details");
     const work_order_details = work_order ? JSON.parse(work_order) : "";
     axios
@@ -94,17 +101,15 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
         axios.get(`${API}/bank-accounts`, {
           headers: { Authorization: `Bearer ${token.access_token}` },
         }),
-        
       ])
       .then(
-        axios.spread((res, res2,res3) => {
-          
+        axios.spread((res, res2, res3) => {
           setState({
             ...state,
             ...res.data.data,
             work_order_detail: res.data.data,
             invoice_details: res2.data.data,
-            allbanks:res3.data.data,
+            allbanks: res3.data.data,
           });
         })
       )
@@ -113,12 +118,11 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
           ...state,
           work_order_detail: work_order_details,
         });
-        
       });
   }, []);
 
   const sendInvoice = () => {
-    const token = returnAdminToken()
+    const token = returnAdminToken();
     const work_order = localStorage.getItem("work_order_details");
     const work_order_details = work_order ? JSON.parse(work_order) : "";
     setState({
@@ -127,7 +131,7 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
     });
     const data = {
       // bank,
-    }
+    };
     // if(bank==""){
     //   window.scrollTo(0,0)
     //   setState({
@@ -157,7 +161,7 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
         axios.spread((res) => {
           notify("Successful");
           props.history.push("/admin_evaluation_step4");
-          
+
           setState({
             ...state,
             isloading: false,
@@ -172,12 +176,11 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
         if (err?.response?.status == 400) {
           return notify(err?.response?.data?.message);
         }
-        
       });
   };
 
   const sendBankDetails = () => {
-    const token = returnAdminToken()
+    const token = returnAdminToken();
     const work_order = localStorage.getItem("work_order_details");
     const work_order_details = work_order ? JSON.parse(work_order) : "";
     setState({
@@ -186,7 +189,7 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
     });
     const data = {
       bank,
-    }
+    };
     axios
       .all([
         axios.post(
@@ -200,7 +203,7 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
       .then(
         axios.spread((res) => {
           notify("bank added to work order");
-          
+
           setState({
             ...state,
             isloading: false,
@@ -216,7 +219,6 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
         if (err?.response?.status == 400) {
           return notify(err?.response?.data?.message);
         }
-        
       });
   };
 
@@ -361,15 +363,20 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
                               <div className="inv_title2">
                                 <div className="inv_title3">Invoice Date</div>
                                 <div className="inv_title4">
-                                  {formatTime(invoice_details?.created_at) ?? "~~/~~"}
+                                  {formatTime(invoice_details?.created_at) ??
+                                    "~~/~~"}
                                 </div>
                               </div>
                             </div>
                             <div className="rcomponent">
                               <img src={logo} alt="" className="Simage" />
-                              <div className="Stext2">
-                               {invoice_details.company_address}
-                              </div>
+                              <div
+                                className="Stext2"
+                                dangerouslySetInnerHTML={{
+                                  __html:
+                                    invoice_details?.company_address ?? "n/a",
+                                }}
+                              ></div>
                             </div>
                           </div>
                           <hr />
@@ -388,15 +395,30 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
                             <div className="rcomponent">
                               <div className="inv_title2">
                                 <div className="inv_title3">Total Amount</div>
-                                <div className="inv_title4 ing">{current_currency}{FormatAmount(invoice_details?.total_amount)?? "~~/~~"}</div>
+                                <div className="inv_title4 ing">
+                                  {current_currency}
+                                  {FormatAmount(
+                                    invoice_details?.total_amount
+                                  ) ?? "~~/~~"}
+                                </div>
                                 <div className="inv_title3">Amount Paid</div>
-                                <div className="inv_title4 ing">{current_currency}{FormatAmount(invoice_details?.total_amount_paid)?? "~~/~~"}</div>
+                                <div className="inv_title4 ing">
+                                  {current_currency}
+                                  {FormatAmount(
+                                    invoice_details?.total_amount_paid
+                                  ) ?? "~~/~~"}
+                                </div>
                               </div>
                             </div>
                             <div className="rcomponent">
                               <div className="inv_title2">
                                 <div className="inv_title3">Balance Due</div>
-                                <div className="inv_title4 ing">{current_currency}{FormatAmount(invoice_details?.total_amount_unpaid)?? "~~/~~"}</div>
+                                <div className="inv_title4 ing">
+                                  {current_currency}
+                                  {FormatAmount(
+                                    invoice_details?.total_amount_unpaid
+                                  ) ?? "~~/~~"}
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -445,7 +467,11 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
                                       <td>{data?.skill}</td>
                                       <td>{data?.number}</td>
                                       <td>
-                                        <b> {current_currency}{FormatAmount(data?.total_cost)}</b>
+                                        <b>
+                                          {" "}
+                                          {current_currency}
+                                          {FormatAmount(data?.total_cost)}
+                                        </b>
                                       </td>
                                     </tr>
                                   )
@@ -453,30 +479,30 @@ const AdminWorkOrderEvaluationStep3 = (props) => {
                               </tbody>
                             </Table>
                             <div className="ing_11">
-                            <Table responsive>
-                              <thead className="theadinvoice">
-                                <tr>
-                                  <th className="tablehead">Specialist Cost({current_currency})</th>
-                                  <th className="tablehead">Date</th>
-                                  <th className="tablehead">Status</th>
-                                  <th className="tablehead">Cycle</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {invoice_details?.cycles?.map(
-                                  (data, i) => (
+                              <Table responsive>
+                                <thead className="theadinvoice">
+                                  <tr>
+                                    <th className="tablehead">
+                                      Specialist Cost({current_currency})
+                                    </th>
+                                    <th className="tablehead">Date</th>
+                                    <th className="tablehead">Status</th>
+                                    <th className="tablehead">Cycle</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {invoice_details?.cycles?.map((data, i) => (
                                     <tr className="tdata" key={i}>
-                                       <td>{FormatAmount(data?.amount)}</td>
+                                      <td>{FormatAmount(data?.amount)}</td>
                                       <td>{formatTime(data?.date)}</td>
                                       <td>{data?.status}</td>
                                       <td>{data?.cycle}</td>
                                     </tr>
-                                  )
-                                )}
-                              </tbody>
-                            </Table>
-                            <div className="text-right mgg2"></div>
-                          </div>
+                                  ))}
+                                </tbody>
+                              </Table>
+                              <div className="text-right mgg2"></div>
+                            </div>
                             <div className="text-right mgg2"></div>
                           </div>
                         </div>

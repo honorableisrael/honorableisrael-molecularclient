@@ -1342,7 +1342,7 @@ const Admin_Sub_Invoice_Details = (props) => {
                           <th>Length</th>
                           <th>Pipe Schedule</th>
                           <th>Number of Joints</th>
-                          <th>Cost Per Joint (NGN)</th>
+                          <th>Price Per Inch (NGN)</th>
                           <th>Price Per Joint (NGN)</th>
                           <th>Total Amount (NGN)</th>
                         </tr>
@@ -1357,11 +1357,12 @@ const Admin_Sub_Invoice_Details = (props) => {
                             </td>
                             <td>{FormatAmount(data?.joints)}</td>
                             <td>
-                              {FormatAmount(data?.cost_per_joint ?? "n/a")}
-                            </td>
-                            <td>
                               {FormatAmount(data?.price_per_joint ?? "n/a")}
                             </td>
+                            <td>
+                              {FormatAmount(data?.cost_per_joint ?? "n/a")}
+                            </td>
+                            
                             <td>
                               {FormatAmount(data?.contractor_cost) ?? "n/a"}
                             </td>

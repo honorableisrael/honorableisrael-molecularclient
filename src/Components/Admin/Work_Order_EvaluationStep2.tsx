@@ -62,12 +62,11 @@ const AdminWorkOrderEvaluationStep2 = (props) => {
     total_cost: "",
     cost_details: [],
     specialist_requests: [],
-    payment_cycle:"",
+    payment_cycle: "",
     show_2: false,
   });
 
   const onchange = (e) => {
-    
     setState({
       ...state,
       [e.target.name]: e.target.value,
@@ -126,7 +125,7 @@ const AdminWorkOrderEvaluationStep2 = (props) => {
   const onchange_pipeschedule = (e) => {
     // if (e.target.name == "pipe_type") {
     const new_obj = JSON.parse(e.target.value);
-    
+
     setState({
       ...state,
       pipe_schedule_name: new_obj.name,
@@ -136,7 +135,7 @@ const AdminWorkOrderEvaluationStep2 = (props) => {
   const onchange_pipesize = (e) => {
     // if (e.target.name == "pipe_type") {
     const new_obj = JSON.parse(e.target.value);
-    
+
     setState({
       ...state,
       size_value: new_obj.name,
@@ -168,7 +167,6 @@ const AdminWorkOrderEvaluationStep2 = (props) => {
       ])
       .then(
         axios.spread((res, res2, res3, res4) => {
-          
           setState({
             ...state,
             ...res.data.data,
@@ -184,14 +182,13 @@ const AdminWorkOrderEvaluationStep2 = (props) => {
           ...state,
           work_order_detail: work_order_details,
         });
-        
       });
   }, []);
 
   const onchange_Area_Of_Specialization = (e) => {
     // if (e.target.name == "pipe_type") {
     const new_obj = JSON.parse(e.target.value);
-    
+
     setState({
       ...state,
       type_of_specialist: new_obj.id,
@@ -216,7 +213,6 @@ const AdminWorkOrderEvaluationStep2 = (props) => {
         headers: { Authorization: `Bearer ${token.access_token}` },
       })
       .then((res) => {
-        
         notify("Successfully updated");
         setTimeout(() => {
           window.location.reload();
@@ -231,7 +227,7 @@ const AdminWorkOrderEvaluationStep2 = (props) => {
           ...state,
           isloading: false,
         });
-        
+
         notify("Failed to update", "D");
       });
   };
@@ -261,7 +257,6 @@ const AdminWorkOrderEvaluationStep2 = (props) => {
         }
       )
       .then((res) => {
-        
         notify("Successfully updated");
         setTimeout(() => {
           window.location.reload();
@@ -276,10 +271,10 @@ const AdminWorkOrderEvaluationStep2 = (props) => {
           ...state,
           isloading: false,
         });
-        
-        if(err?.response?.status==406){
-          return notify( err?.response?.data?.errors?.size.join("")) 
-           }
+
+        if (err?.response?.status == 406) {
+          return notify(err?.response?.data?.errors?.size.join(""));
+        }
         notify("Failed to update");
       });
   };
@@ -308,7 +303,7 @@ const AdminWorkOrderEvaluationStep2 = (props) => {
         axios.spread((res) => {
           notify("Successful");
           window.scrollTo(2000, 2000);
-          
+
           setState({
             ...state,
             isloading: false,
@@ -322,11 +317,10 @@ const AdminWorkOrderEvaluationStep2 = (props) => {
           ...state,
           isloading: false,
         });
-        if(err?.response?.status==400){
-        return notify(err?.response?.data?.message) 
-         }
-        notify("Failed to generate cost")
-        
+        if (err?.response?.status == 400) {
+          return notify(err?.response?.data?.message);
+        }
+        notify("Failed to generate cost");
       });
   };
   const RaiseInvoice = () => {
@@ -353,9 +347,9 @@ const AdminWorkOrderEvaluationStep2 = (props) => {
       .then(
         axios.spread((res) => {
           notify("Successful");
-          localStorage.setItem("invoice_id",JSON.stringify(res.data.data))
+          localStorage.setItem("invoice_id", JSON.stringify(res.data.data));
           props.history.push("/admin_evaluation_step3");
-          
+
           setState({
             ...state,
             isloading: false,
@@ -368,15 +362,13 @@ const AdminWorkOrderEvaluationStep2 = (props) => {
           ...state,
           isloading: false,
         });
-        if(err?.response?.status==400){
-          return notify(err?.response?.data?.message) 
-           }
-        
+        if (err?.response?.status == 400) {
+          return notify(err?.response?.data?.debug?.message);
+        }
       });
   };
 
-
-  const updateWorkOrder =()=>{
+  const updateWorkOrder = () => {
     const availableToken: any = localStorage.getItem("loggedInDetails");
     const token = availableToken
       ? JSON.parse(availableToken)
@@ -387,12 +379,12 @@ const AdminWorkOrderEvaluationStep2 = (props) => {
       ...state,
       isloading: true,
     });
-    const workorder = work_order_detail
-     delete workorder.payment_cycle
-     workorder.payment_cycle = payment_cycle
+    const workorder = work_order_detail;
+    delete workorder.payment_cycle;
+    workorder.payment_cycle = payment_cycle;
     const data = {
-      payment_cycle
-    }
+      payment_cycle,
+    };
     axios
       .all([
         axios.put(
@@ -405,7 +397,6 @@ const AdminWorkOrderEvaluationStep2 = (props) => {
       ])
       .then(
         axios.spread((res) => {
-          
           setState({
             ...state,
             isloading: false,
@@ -413,16 +404,15 @@ const AdminWorkOrderEvaluationStep2 = (props) => {
         })
       )
       .catch((err) => {
-        if(err?.response?.status==400){
-         notify(err?.response?.data?.message) 
+        if (err?.response?.status == 400) {
+          notify(err?.response?.data?.message);
         }
         setState({
           ...state,
           isloading: false,
         });
-        
       });
-  }
+  };
   const {
     cost_details,
     payment_cycle,
@@ -448,7 +438,7 @@ const AdminWorkOrderEvaluationStep2 = (props) => {
     pipeList,
     specialist_requests,
   } = state;
-  
+
   return (
     <>
       <Modal
@@ -812,7 +802,11 @@ const AdminWorkOrderEvaluationStep2 = (props) => {
                                 <h6 className="userprofile">Payment Cycle </h6>
                               </div>
                             </Col>
-                            <Col md={8} className="formsection1 formsection10" onBlur={updateWorkOrder}>
+                            <Col
+                              md={8}
+                              className="formsection1 formsection10"
+                              onBlur={updateWorkOrder}
+                            >
                               <span className="checkmark1">
                                 <label className="container_checkbox ">
                                   Weekly
@@ -821,7 +815,10 @@ const AdminWorkOrderEvaluationStep2 = (props) => {
                                     name="payment_cycle"
                                     value="1"
                                     onChange={onchange}
-                                    checked={payment_cycle=="1" || payment_cycle=="Weekly"}
+                                    checked={
+                                      payment_cycle == "1" ||
+                                      payment_cycle == "Weekly"
+                                    }
                                   />
                                   <span className="checkmark"></span>
                                 </label>
@@ -834,7 +831,10 @@ const AdminWorkOrderEvaluationStep2 = (props) => {
                                     value="2"
                                     name="payment_cycle"
                                     onChange={onchange}
-                                    checked={payment_cycle=="2"||payment_cycle=="Bi-Weekly"}
+                                    checked={
+                                      payment_cycle == "2" ||
+                                      payment_cycle == "Bi-Weekly"
+                                    }
                                   />
                                   <span className="checkmark"></span>
                                 </label>
@@ -922,10 +922,12 @@ const AdminWorkOrderEvaluationStep2 = (props) => {
                                   Total cost for {data.number} {data.skill}
                                 </div>
                                 <div className="ttola1b cost12">
-                                {current_currency}{FormatAmount(data.total_cost)}
+                                  {current_currency}
+                                  {FormatAmount(data.total_cost)}
                                 </div>
                                 <div className="ttola1">
-                                {current_currency}{FormatAmount(data.cost_per_specialist)}/
+                                  {current_currency}
+                                  {FormatAmount(data.cost_per_specialist)}/
                                   {data.skill}
                                 </div>
                               </div>
@@ -943,7 +945,8 @@ const AdminWorkOrderEvaluationStep2 = (props) => {
                         <div className="cost_total">
                           <div className="ttola1a">Total work order cost</div>
                           <div className="ttola1b">
-                          {current_currency}{FormatAmount(total_cost)}
+                            {current_currency}
+                            {FormatAmount(total_cost)}
                           </div>
                         </div>
                       </div>

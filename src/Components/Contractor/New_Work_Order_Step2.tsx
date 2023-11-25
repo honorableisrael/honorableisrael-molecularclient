@@ -305,7 +305,6 @@ const NewWorkOrderStep2 = withRouter((props) => {
         pipe_config
         // && Object.keys(pipe_config[0]).length === 0
       ) {
-        console.log("2 here");
         const Specialist: any = [
           {
             no_of_specialist,
@@ -328,8 +327,7 @@ const NewWorkOrderStep2 = withRouter((props) => {
         pipe_schedule &&
         pipe_size &&
         pipe_type &&
-        specialist_config &&
-        Object.keys(specialist_config[0]).length > 0
+        specialist_config.length > 0
       ) {
         console.log(specialist_config, "specialist_config");
         const Pipe_Config: any = [
@@ -362,29 +360,25 @@ const NewWorkOrderStep2 = withRouter((props) => {
         pipe_size &&
         pipe_type
       ) {
-        console.log(specialist_config, "specialist_config");
-        console.log("4 here");
-        if (Object.keys(specialist_config[0]).length > 0) {
-          const second_data = {
-            pipe_config: [
-              {
-                no_of_joints,
-                pipelength,
-                pipe_schedule,
-                pipe_size,
-                pipe_type,
-                pipe_name,
-                size_value,
-                pipe_schedule_name,
-              },
-            ],
-            specialist_config,
-            ...data,
-          };
-          localStorage.setItem("spreads", JSON.stringify({ ...data }));
-          localStorage.setItem("second_step", JSON.stringify(second_data));
-          return props.history.push("/contractor_work_order_step3");
-        }
+        const second_data = {
+          pipe_config: [
+            {
+              no_of_joints,
+              pipelength,
+              pipe_schedule,
+              pipe_size,
+              pipe_type,
+              pipe_name,
+              size_value,
+              pipe_schedule_name,
+            },
+          ],
+          specialist_config,
+          ...data,
+        };
+        localStorage.setItem("spreads", JSON.stringify({ ...data }));
+        localStorage.setItem("second_step", JSON.stringify(second_data));
+        return props.history.push("/contractor_work_order_step3");
       }
       if (pipe_config === null || specialist_config === null) {
         if (
@@ -397,17 +391,13 @@ const NewWorkOrderStep2 = withRouter((props) => {
         }
       }
       if (
-       ( pipe_config.length > 0 &&
-        specialist_config.length > 0) ||
-       ( data?.spreads?.length > 0 &&  pipe_config.length > 0)
+        (pipe_config.length > 0 && specialist_config.length > 0) ||
+        (data?.spreads?.length > 0 && pipe_config.length > 0)
       ) {
         localStorage.setItem("spreads", JSON.stringify({ ...data }));
         return props.history.push("/contractor_work_order_step3");
       }
-      if (
-        (pipe_config.length === 0 && specialist_config.length === 0) ||
-        (pipe_config.length === 0 && data?.spreads?.length === 0)
-      ) {
+      if (pipe_config.length === 0 && data?.spreads?.length === 0) {
         return notify("All inputs are required");
       }
       if (pipe_config.length === 0) {
@@ -497,9 +487,11 @@ const NewWorkOrderStep2 = withRouter((props) => {
     setState({
       ...state,
       size_value: new_obj.name,
-      pipe_size: new_obj.id,
+      pipe_size: new_obj.name,
     });
   };
+  console.log(pipeSizes, "pipeSizes");
+  console.log(pipe_size, "pipe_size");
   return (
     <>
       <Container fluid={true} className="dasbwr">
@@ -746,6 +738,7 @@ const NewWorkOrderStep2 = withRouter((props) => {
                           <FieldArray initialValue={spreads} name="spreads">
                             {({ fields }) => (
                               <div className="padt12 mt331">
+                                {console.log(fields?.value)}
                                 {fields.map((name, index) => (
                                   <div
                                     className="row inputlabel label_pad justify-between mg0_"
@@ -763,9 +756,9 @@ const NewWorkOrderStep2 = withRouter((props) => {
                                         <Field
                                           name={`${name}.type`}
                                           component="select"
-                                          onClick={() =>
+                                          onClick={(e) =>
                                             fields.update(index, {
-                                              type: "",
+                                              type: e.target.value,
                                               welders: 6,
                                               fitters: 2,
                                             })
@@ -865,7 +858,7 @@ const NewWorkOrderStep2 = withRouter((props) => {
                                   {!fields?.value ||
                                   fields?.value?.[0]?.type == ""
                                     ? "Add new spread +"
-                                    : "Add more spread +"}
+                                    : "Add Spread +"}
                                 </span>
                               </div>
                             )}

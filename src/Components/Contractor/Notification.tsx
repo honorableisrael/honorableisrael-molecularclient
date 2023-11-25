@@ -10,7 +10,7 @@ import { Helmet } from "react-helmet";
 import arrowback from "../../images/dtls.png";
 import { Link, withRouter } from "react-router-dom";
 import no_work_order from "../../images/document 1.png";
-import { ageCalculator, API, capitalize } from "../../config";
+import { ageCalculator, API, capitalize, contractorToken } from "../../config";
 import nextbtn from "../../images/nextbtn.png";
 import axios from "axios";
 
@@ -43,7 +43,6 @@ const Notification = withRouter((props) => {
       ])
       .then(
         axios.spread((res) => {
-          
           setState({
             ...state,
             notification: res.data.data.data,
@@ -52,9 +51,7 @@ const Notification = withRouter((props) => {
           });
         })
       )
-      .catch((err) => {
-        
-      });
+      .catch((err) => {});
   }, []);
   const nextPage = (x) => {
     const availableToken: any = localStorage.getItem("loggedInDetails");
@@ -69,7 +66,6 @@ const Notification = withRouter((props) => {
       ])
       .then(
         axios.spread((res) => {
-          
           window.scrollTo(-0, -0);
           setState({
             ...state,
@@ -79,9 +75,24 @@ const Notification = withRouter((props) => {
           });
         })
       )
-      .catch((err) => {
-        
-      });
+      .catch((err) => {});
+  };
+  const routeToInvoice = (invoice_id) => {
+    const token = contractorToken();
+    const work_order = localStorage.getItem("work_order_details");
+    const work_order_details = work_order ? JSON.parse(work_order) : "";
+    axios
+      .all([
+        axios.get(`${API}/contractor/invoices/${invoice_id}`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
+      ])
+      .then(
+        axios.spread((res1) => {
+          props.history.push(`/invoice_details/${invoice_id}/${res1.data.data.work_order.id}`)
+        })
+      )
+      .catch((err) => {});
   };
   const {
     last_page,
@@ -94,7 +105,6 @@ const Notification = withRouter((props) => {
     total,
     notification,
   }: any = state;
-  
   return (
     <>
       <Container fluid={true} className="dasbwr">
@@ -154,14 +164,14 @@ const Notification = withRouter((props) => {
                       </div>
                       <div className="nextbtn nextbtn_2">
                         {data?.category == "work order" ? (
-                          <Link 
-                          to="/contractor_work_order_details?inreview=true"
-                          onClick={() =>
-                            localStorage.setItem(
-                              "work_order_details",
-                              JSON.stringify({id:data.category_id})
-                            )
-                          }
+                          <Link
+                            to="/contractor_work_order_details?inreview=true"
+                            onClick={() =>
+                              localStorage.setItem(
+                                "work_order_details",
+                                JSON.stringify({ id: data.category_id })
+                              )
+                            }
                           >
                             <img
                               src={nextbtn}
@@ -169,18 +179,20 @@ const Notification = withRouter((props) => {
                               className="nxtbtn3 nxtbtn3_1 nxtbtn32 cbtn_221"
                             />
                           </Link>
-                        ) :data?.category == "invoice" ? (
-                          <Link
-                            to={`/invoice_details/${data.category_id}/`}
-                            >
-                              <img
-                                src={nextbtn}
-                                alt="nxtbtn"
-                                className="nxtbtn3 nxtbtn3_1 nxtbtn32 cbtn_221"
-                              />
-                            </Link>
-                        ):""}
-                       
+                        ) : data?.category == "invoice" ? (
+                          // <Link to={`/invoice_details/${data.category_id}/`}>
+                          <img
+                            onClick={() => {
+                              routeToInvoice(data?.category_id);
+                            }}
+                            src={nextbtn}
+                            alt="nxtbtn"
+                            className="nxtbtn3 nxtbtn3_1 nxtbtn32 cursor-pointer cbtn_221"
+                          />
+                        ) : (
+                          // </Link>
+                          ""
+                        )}
                       </div>
                     </div>
                     <div className="nwraper">

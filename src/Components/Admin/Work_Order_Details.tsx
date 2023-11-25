@@ -51,17 +51,18 @@ const Play = () => {
   return (
     <>
       <svg
-        xmlns='http://www.w3.org/2000/svg'
-        width='20'
-        fill='white'
-        viewBox='0 0 26 26'>
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        fill="white"
+        viewBox="0 0 26 26"
+      >
         <polygon
-          className='play-btn__svg'
-          points='9.33 6.69 9.33 19.39 19.3 13.04 9.33 6.69'
+          className="play-btn__svg"
+          points="9.33 6.69 9.33 19.39 19.3 13.04 9.33 6.69"
         />
         <path
-          className='play-btn__svg'
-          d='M26,13A13,13,0,1,1,13,0,13,13,0,0,1,26,13ZM13,2.18A10.89,10.89,0,1,0,23.84,13.06,10.89,10.89,0,0,0,13,2.18Z'
+          className="play-btn__svg"
+          d="M26,13A13,13,0,1,1,13,0,13,13,0,0,1,26,13ZM13,2.18A10.89,10.89,0,1,0,23.84,13.06,10.89,10.89,0,0,0,13,2.18Z"
         />
       </svg>
     </>
@@ -70,12 +71,12 @@ const Play = () => {
 const Stop = () => {
   return (
     <>
-      <div className='stop3'></div>
+      <div className="stop3"></div>
     </>
   );
 };
 const Work_Details = (props: any) => {
-  const [state, setState] = useState < any > ({
+  const [state, setState] = useState<any>({
     active1: "",
     collapseHeight: "0px",
     chevron: "",
@@ -106,13 +107,13 @@ const Work_Details = (props: any) => {
     <>
       <Card>
         <div onClick={toggleAccordion1}>
-          <div className='deploydsplstwrapp'>
+          <div className="deploydsplstwrapp">
             <div>
-              <span className='deplyeaggrgt'>
+              <span className="deplyeaggrgt">
                 {props?.group_data?.total_members} Work Details
               </span>
             </div>
-            <div className='accimgwrap'>
+            <div className="accimgwrap">
               <span>
                 <img src={chevrondown} className={`arrow-down ${chevron}`} />
               </span>
@@ -120,11 +121,12 @@ const Work_Details = (props: any) => {
           </div>
         </div>
       </Card>
-      {isloading && <Spinner animation={"grow"} variant='info' />}
+      {isloading && <Spinner animation={"grow"} variant="info" />}
       <div
         style={{ maxHeight: `${collapseHeight}` }}
-        className='acccollapsediv1'
-        ref={content1}>
+        className="acccollapsediv1"
+        ref={content1}
+      >
         <>
           <WorkDetails_Form_Preview
             order_detail={props.work_order_detailz}
@@ -136,7 +138,7 @@ const Work_Details = (props: any) => {
   );
 };
 const Work_Sheet = withRouter((props: any) => {
-  const [state, setState] = useState < any > ({
+  const [state, setState] = useState<any>({
     active1: "",
     collapseHeight: "0px",
     chevron: "",
@@ -162,7 +164,6 @@ const Work_Sheet = withRouter((props: any) => {
         headers: { Authorization: `Bearer ${returnAdminToken().access_token}` },
       })
       .then((res) => {
-
         setState({
           ...state,
           work_sheet: res.data.data.data,
@@ -173,7 +174,6 @@ const Work_Sheet = withRouter((props: any) => {
           ...state,
           work_order_detail: work_order_details,
         });
-
       });
   }, []);
 
@@ -207,7 +207,6 @@ const Work_Sheet = withRouter((props: any) => {
           ...state,
           isloading: false,
         });
-
       });
   };
   const { active1, collapseHeight, chevron, work_sheet, isloading } = state;
@@ -216,11 +215,11 @@ const Work_Sheet = withRouter((props: any) => {
     <>
       <Card>
         <div onClick={toggleAccordion1}>
-          <div className='deploydsplstwrapp'>
+          <div className="deploydsplstwrapp">
             <div>
-              <span className='deplyeaggrgt'>Work Sheets</span>
+              <span className="deplyeaggrgt">Work Sheets</span>
             </div>
-            <div className='accimgwrap'>
+            <div className="accimgwrap">
               <span>
                 <img src={chevrondown} className={`arrow-down ${chevron}`} />
               </span>
@@ -228,23 +227,24 @@ const Work_Sheet = withRouter((props: any) => {
           </div>
         </div>
       </Card>
-      {isloading && <Spinner animation={"grow"} variant='info' />}
+      {isloading && <Spinner animation={"grow"} variant="info" />}
       <div
         style={{ maxHeight: `${collapseHeight}` }}
-        className='acccollapsediv1'
-        ref={content1}>
+        className="acccollapsediv1"
+        ref={content1}
+      >
         <>
-          <div className='worksheet_1'>
-            <Table hover responsive className='schedule_payment_table'>
+          <div className="worksheet_1">
+            <Table hover responsive className="schedule_payment_table">
               <thead>
                 <tr>
-                  <th scope='col pl-2'>Reference</th>
-                  <th scope='col'>Start</th>
-                  <th scope='col'>End Date</th>
+                  <th scope="col pl-2">Reference</th>
+                  <th scope="col">Start</th>
+                  <th scope="col">End Date</th>
 
-                  <th scope='col'>Description</th>
-                  <th scope='col'>Status</th>
-                  <th scope='col'>Action</th>
+                  <th scope="col">Description</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -253,17 +253,18 @@ const Work_Sheet = withRouter((props: any) => {
                     <td>{data?.reference}</td>
                     <td>{formatTime(data?.start_date)}</td>
                     <td> {formatTime(data?.end_date)}</td>
-                    <td className='dpslstnamecell pslstnamecell schedule_payment_first_td'>
-                      <div className='dplsplusernmeimg'>
+                    <td className="dpslstnamecell pslstnamecell schedule_payment_first_td">
+                      <div className="dplsplusernmeimg">
                         <div>{data?.description}</div>
                       </div>
                     </td>
-                    <td className='contractorname'>{data?.status}</td>
+                    <td className="contractorname">{data?.status}</td>
                     <td>
                       <Link
-                        to={`/admin_worksheet/${data?.id}/${props.match.params.id}`}>
+                        to={`/admin_worksheet/${data?.id}/${props.match.params.id}`}
+                      >
                         {" "}
-                        <Button className='btn-secondary'>View more</Button>
+                        <Button className="btn-secondary">View more</Button>
                       </Link>
                     </td>
                   </tr>
@@ -271,15 +272,15 @@ const Work_Sheet = withRouter((props: any) => {
               </tbody>
             </Table>
             {work_sheet?.length == 0 && (
-              <Col md={11} className='containerforemptyorder1 cust20'>
-                <div className='containerforemptyorder'>
+              <Col md={11} className="containerforemptyorder1 cust20">
+                <div className="containerforemptyorder">
                   <img
                     src={no_work_order}
                     alt={"no_work_order"}
-                    className='no_work_order'
+                    className="no_work_order"
                   />
                 </div>
-                <div className='no_work1'>worksheet has not been sent</div>
+                <div className="no_work1">worksheet has not been sent</div>
               </Col>
             )}
           </div>
@@ -290,7 +291,7 @@ const Work_Sheet = withRouter((props: any) => {
 });
 
 const Advance_payment_request = ({ work_order_detail }: any) => {
-  const [state, setState] = useState < any > ({
+  const [state, setState] = useState<any>({
     active1: "",
     collapseHeight: "0px",
     chevron: "",
@@ -328,16 +329,13 @@ const Advance_payment_request = ({ work_order_detail }: any) => {
         }
       )
       .then((res) => {
-
         setState({
           ...state,
           advance_payment_request: res.data.data.data,
           work_id: work_order_details.id,
         });
       })
-      .catch((err) => {
-
-      });
+      .catch((err) => {});
   }, []);
   const onchange = (e) => {
     setState({
@@ -368,7 +366,6 @@ const Advance_payment_request = ({ work_order_detail }: any) => {
         }
       )
       .then((res) => {
-
         notify("payment requested successfully");
         reloadPage();
         setState({
@@ -378,7 +375,6 @@ const Advance_payment_request = ({ work_order_detail }: any) => {
         });
       })
       .catch((err) => {
-
         notify("Request failed");
         setState({
           ...state,
@@ -409,7 +405,6 @@ const Advance_payment_request = ({ work_order_detail }: any) => {
         }
       )
       .then((res) => {
-
         notify("Payment request has been declined");
         reloadPage();
         setState({
@@ -419,7 +414,6 @@ const Advance_payment_request = ({ work_order_detail }: any) => {
         });
       })
       .catch((err) => {
-
         notify(" failed please try again later");
         setState({
           ...state,
@@ -437,7 +431,6 @@ const Advance_payment_request = ({ work_order_detail }: any) => {
   };
 
   const showApprovalModal = (id, amount) => {
-
     setState({
       ...state,
       show: true,
@@ -470,29 +463,32 @@ const Advance_payment_request = ({ work_order_detail }: any) => {
             ...state,
             show: false,
           })
-        }>
+        }
+      >
         <Modal.Header closeButton></Modal.Header>
         <Modal.Body>
           <Row>
             <Col md={12}>
-              <div className='terminateworkmodaltitle'>
+              <div className="terminateworkmodaltitle">
                 {" "}
                 Payment Approval Confirmation{" "}
               </div>
-              <div className='splinvoicemodalmssgwrap'>
+              <div className="splinvoicemodalmssgwrap">
                 <i
-                  className='fa fa-exclamation fa-rotate-180 invoiceexclm'
-                  aria-hidden='true'></i>
+                  className="fa fa-exclamation fa-rotate-180 invoiceexclm"
+                  aria-hidden="true"
+                ></i>
                 <p>Please confirm action</p>
               </div>
             </Col>
           </Row>
           <Row>
-            <Col md={12} className=''>
-              <div className='text-right'>
+            <Col md={12} className="">
+              <div className="text-right">
                 <button
-                  className='profcertbtn upfrmodalbtn'
-                  onClick={(e) => ApprovePayment(cycle_id)}>
+                  className="profcertbtn upfrmodalbtn"
+                  onClick={(e) => ApprovePayment(cycle_id)}
+                >
                   {isloading ? "Loading..." : "Approve"}
                 </button>
               </div>
@@ -503,14 +499,16 @@ const Advance_payment_request = ({ work_order_detail }: any) => {
 
       <Card>
         <div onClick={toggleAccordion1}>
-          <div className='deploydsplstwrapp'>
+          <div className="deploydsplstwrapp">
             <div>
-              <span className='deplyeaggrgt'>Advance Payment Request</span>
-              <span className='badge badge-warning ml-3'>
-                {work_order_detail?.pending_advance_payments_count > 0 ? ` ${work_order_detail?.pending_advance_payments_count} new` : ""}
+              <span className="deplyeaggrgt">Advance Payment Request</span>
+              <span className="badge badge-warning ml-3">
+                {work_order_detail?.pending_advance_payments_count > 0
+                  ? ` ${work_order_detail?.pending_advance_payments_count} new`
+                  : ""}
               </span>
             </div>
-            <div className='accimgwrap'>
+            <div className="accimgwrap">
               <span>
                 <img src={chevrondown} className={`arrow-down1 ${chevron}`} />
               </span>
@@ -518,45 +516,46 @@ const Advance_payment_request = ({ work_order_detail }: any) => {
           </div>
         </div>
       </Card>
-      {isloading && <Spinner animation={"grow"} variant='info' />}
+      {isloading && <Spinner animation={"grow"} variant="info" />}
       <div
         style={{ maxHeight: `${collapseHeight}` }}
-        className='acccollapsediv1'
-        ref={content1}>
+        className="acccollapsediv1"
+        ref={content1}
+      >
         <>
-          <div className='worksheet_1'>
-            <div className='tabledata tablecontent tablecont1'>
-              <div className='header_12 tablecont0 pl-5'>
-                <div className=''>Name</div>
+          <div className="worksheet_1">
+            <div className="tabledata tablecontent tablecont1">
+              <div className="header_12 tablecont0 pl-5">
+                <div className="">Name</div>
               </div>
-              <div className='tablecont1'>
-                <div className='upby awaiting9'>Date </div>
-                <div className='upby awaiting9'>Amount</div>
-                <div className='upby awaiting9'>
+              <div className="tablecont1">
+                <div className="upby awaiting9">Date </div>
+                <div className="upby awaiting9">Amount</div>
+                <div className="upby awaiting9">
                   {" "}
                   <div>Status</div>
                 </div>
-                <div className='upby accrjct mr-4'>Action</div>
+                <div className="upby accrjct mr-4">Action</div>
               </div>
             </div>
             {advance_payment_request.map((data: any, i) => (
-              <div className='tabledata tablecontent tablecont1'>
-                <div className='header_12 tablecont0 pl-5'>
+              <div className="tabledata tablecontent tablecont1">
+                <div className="header_12 tablecont0 pl-5">
                   <div>
                     {data.specialist?.first_name} {data?.specialist?.last_name}
                   </div>
                 </div>
-                <div className='tablecont1'>
-                  <div className=' mr-2'>{formatTime(data?.created_at)}</div>
-                  <div className='upby awaiting9 ml-5'>
+                <div className="tablecont1">
+                  <div className=" mr-2">{formatTime(data?.created_at)}</div>
+                  <div className="upby awaiting9 ml-5">
                     {current_currency}
                     {FormatAmount(data.amount)}
                   </div>
-                  <div className='upby awaiting9 '>
+                  <div className="upby awaiting9 ">
                     {" "}
                     <div>{data.status}</div>
                   </div>
-                  <div className='upby accrjct'>
+                  <div className="upby accrjct">
                     {data.status == "Paid" ? (
                       "Paid"
                     ) : data.status == "declined" ? (
@@ -564,15 +563,17 @@ const Advance_payment_request = ({ work_order_detail }: any) => {
                     ) : (
                       <>
                         <span
-                          className='raise_inv'
+                          className="raise_inv"
                           onClick={() =>
                             showApprovalModal(data.id, data?.amount)
-                          }>
+                          }
+                        >
                           {isloading ? "Approving" : "Approve"}
                         </span>
                         <span
-                          className='raise_inv reje4 ml-1'
-                          onClick={() => declinePayment(data.id)}>
+                          className="raise_inv reje4 ml-1"
+                          onClick={() => declinePayment(data.id)}
+                        >
                           {"Decline"}
                         </span>
                       </>
@@ -582,13 +583,14 @@ const Advance_payment_request = ({ work_order_detail }: any) => {
               </div>
             ))}
             {advance_payment_request?.length !== 0 && (
-              <div className='text-center'>
+              <div className="text-center">
                 {" "}
-                <span className='viewall_'>
+                <span className="viewall_">
                   {" "}
                   <Link
                     to={`/admin_specialist_payment_request/${work_order_detail?.id}`}
-                    title='view payment cycle information'>
+                    title="view payment cycle information"
+                  >
                     View all
                   </Link>{" "}
                 </span>{" "}
@@ -596,15 +598,15 @@ const Advance_payment_request = ({ work_order_detail }: any) => {
             )}
 
             {advance_payment_request?.length == 0 && (
-              <Col md={11} className='containerforemptyorder1 cust20'>
-                <div className='containerforemptyorder'>
+              <Col md={11} className="containerforemptyorder1 cust20">
+                <div className="containerforemptyorder">
                   <img
                     src={no_work_order}
                     alt={"no_work_order"}
-                    className='no_work_order'
+                    className="no_work_order"
                   />
                 </div>
-                <div className='no_work1'>data is empty</div>
+                <div className="no_work1">data is empty</div>
               </Col>
             )}
           </div>
@@ -615,7 +617,7 @@ const Advance_payment_request = ({ work_order_detail }: any) => {
 };
 
 const Early_MileStone_Payment_Request = ({ work_order_detail }: any) => {
-  const [state, setState] = useState < any > ({
+  const [state, setState] = useState<any>({
     active1: "",
     collapseHeight: "0px",
     chevron: "",
@@ -652,16 +654,13 @@ const Early_MileStone_Payment_Request = ({ work_order_detail }: any) => {
         }
       )
       .then((res) => {
-
         setState({
           ...state,
           milstone_payment_request: res.data.data,
           work_id: work_order_details.id,
         });
       })
-      .catch((err) => {
-
-      });
+      .catch((err) => {});
   }, []);
   const onchange = (e) => {
     setState({
@@ -691,7 +690,6 @@ const Early_MileStone_Payment_Request = ({ work_order_detail }: any) => {
         }
       )
       .then((res) => {
-
         notify("payment requested successfully");
         reloadPage();
         setState({
@@ -701,7 +699,6 @@ const Early_MileStone_Payment_Request = ({ work_order_detail }: any) => {
         });
       })
       .catch((err) => {
-
         notify("Request failed");
         setState({
           ...state,
@@ -732,7 +729,6 @@ const Early_MileStone_Payment_Request = ({ work_order_detail }: any) => {
         }
       )
       .then((res) => {
-
         notify("Payment request has been declined");
         reloadPage();
         setState({
@@ -742,7 +738,6 @@ const Early_MileStone_Payment_Request = ({ work_order_detail }: any) => {
         });
       })
       .catch((err) => {
-
         notify(" failed please try again later");
         setState({
           ...state,
@@ -773,7 +768,6 @@ const Early_MileStone_Payment_Request = ({ work_order_detail }: any) => {
     id,
   } = state;
   const showApprovalModal = (id, amount) => {
-
     setState({
       ...state,
       show: true,
@@ -792,29 +786,32 @@ const Early_MileStone_Payment_Request = ({ work_order_detail }: any) => {
             ...state,
             show: false,
           })
-        }>
+        }
+      >
         <Modal.Header closeButton></Modal.Header>
         <Modal.Body>
           <Row>
             <Col md={12}>
-              <div className='terminateworkmodaltitle'>
+              <div className="terminateworkmodaltitle">
                 {" "}
                 Payment Approval Confirmation{" "}
               </div>
-              <div className='splinvoicemodalmssgwrap'>
+              <div className="splinvoicemodalmssgwrap">
                 <i
-                  className='fa fa-exclamation fa-rotate-180 invoiceexclm'
-                  aria-hidden='true'></i>
+                  className="fa fa-exclamation fa-rotate-180 invoiceexclm"
+                  aria-hidden="true"
+                ></i>
                 <p>Please confirm action</p>
               </div>
             </Col>
           </Row>
           <Row>
-            <Col md={12} className=''>
-              <div className='text-right'>
+            <Col md={12} className="">
+              <div className="text-right">
                 <button
-                  className='profcertbtn upfrmodalbtn'
-                  onClick={(e) => ApprovePayment(cycle_id)}>
+                  className="profcertbtn upfrmodalbtn"
+                  onClick={(e) => ApprovePayment(cycle_id)}
+                >
                   {isloading ? "Loading..." : "Approve"}
                 </button>
               </div>
@@ -824,17 +821,19 @@ const Early_MileStone_Payment_Request = ({ work_order_detail }: any) => {
       </Modal>
       <Card>
         <div onClick={toggleAccordion1}>
-          <div className='deploydsplstwrapp'>
+          <div className="deploydsplstwrapp">
             <div>
-              <span className='deplyeaggrgt'>
+              <span className="deplyeaggrgt">
                 Early MileStone Payment Request{" "}
-                <span className='badge badge-warning ml-3'>
-                  {work_order_detail?.pending_milestone_payments_count > 0 ? work_order_detail?.pending_milestone_payments_count : ""}
+                <span className="badge badge-warning ml-3">
+                  {work_order_detail?.pending_milestone_payments_count > 0
+                    ? work_order_detail?.pending_milestone_payments_count
+                    : ""}
                   {/* {work_order_detail?.pending_milestone_payments_count?? " new"} */}
                 </span>
               </span>
             </div>
-            <div className='accimgwrap'>
+            <div className="accimgwrap">
               <span>
                 <img src={chevrondown} className={`arrow-down1 ${chevron}`} />
               </span>
@@ -842,48 +841,49 @@ const Early_MileStone_Payment_Request = ({ work_order_detail }: any) => {
           </div>
         </div>
       </Card>
-      {isloading && <Spinner animation={"grow"} variant='info' />}
+      {isloading && <Spinner animation={"grow"} variant="info" />}
       <div
         style={{ maxHeight: `${collapseHeight}` }}
-        className='acccollapsediv1'
-        ref={content1}>
+        className="acccollapsediv1"
+        ref={content1}
+      >
         <>
-          <div className='worksheet_1'>
-            <div className='tabledata tablecontent tablecont1'>
-              <div className='header_12 tablecont0 pl-5'>
-                <div className=''>Name</div>
+          <div className="worksheet_1">
+            <div className="tabledata tablecontent tablecont1">
+              <div className="header_12 tablecont0 pl-5">
+                <div className="">Name</div>
               </div>
-              <div className='tablecont1'>
-                <div className='upby awaiting9'>Date</div>
-                <div className='upby awaiting9'>Amount</div>
-                <div className='upby awaiting9'>
+              <div className="tablecont1">
+                <div className="upby awaiting9">Date</div>
+                <div className="upby awaiting9">Amount</div>
+                <div className="upby awaiting9">
                   {" "}
                   <div>Status</div>
                 </div>
-                <div className='upby accrjct mr-4'>Action</div>
+                <div className="upby accrjct mr-4">Action</div>
               </div>
             </div>
             {milstone_payment_request?.data?.map((data: any, i) => (
-              <div className='tabledata tablecontent tablecont1'>
-                <div className='header_12 tablecont0 pl-5'>
+              <div className="tabledata tablecontent tablecont1">
+                <div className="header_12 tablecont0 pl-5">
                   <span>
                     {data?.specialist?.first_name} {data?.specialist?.last_name}
                   </span>
                 </div>
-                <div className='tablecont1'>
-                  <div className='worksheetdw worksheetdate1'>
+                <div className="tablecont1">
+                  <div className="worksheetdw worksheetdate1">
                     {" "}
-                    <div className=' ml-1'>{formatTime(data?.created_at)}</div>
+                    <div className=" ml-1">{formatTime(data?.created_at)}</div>
                   </div>
-                  <div className='upby awaiting9 mr-4'>
+                  <div className="upby awaiting9 mr-4">
                     {current_currency}
                     {FormatAmount(data?.amount)}
                   </div>
-                  <div className='upby awaiting9 '>
+                  <div className="upby awaiting9 ">
                     {" "}
                     <div>{data?.status}</div>
                   </div>
-                  <div className='upby accrjct'>
+                  <div className="upby accrjct">
                     {data?.status == "Approved" ? (
                       <div></div>
                     ) : data?.status == "Declined" ? (
@@ -891,15 +891,17 @@ const Early_MileStone_Payment_Request = ({ work_order_detail }: any) => {
                     ) : (
                       <>
                         <span
-                          className='raise_inv'
+                          className="raise_inv"
                           onClick={() =>
                             showApprovalModal(data.id, data?.amount)
-                          }>
+                          }
+                        >
                           {isloading ? "Approving" : "Approve"}
                         </span>
                         <span
-                          className='raise_inv reje4 ml-1'
-                          onClick={() => declinePayment(data.id)}>
+                          className="raise_inv reje4 ml-1"
+                          onClick={() => declinePayment(data.id)}
+                        >
                           {"Decline"}
                         </span>
                       </>
@@ -908,28 +910,29 @@ const Early_MileStone_Payment_Request = ({ work_order_detail }: any) => {
                 </div>
               </div>
             ))}
-            <div className='text-center'>
+            <div className="text-center">
               {" "}
-              <span className='viewall_'>
+              <span className="viewall_">
                 {" "}
                 <Link
                   to={`/admin_specialist_milestone_payment_request/${work_id}`}
-                  title='view payment cycle information'>
+                  title="view payment cycle information"
+                >
                   View all
                 </Link>{" "}
               </span>{" "}
             </div>
 
             {milstone_payment_request?.data?.length == 0 && (
-              <Col md={11} className='containerforemptyorder1 cust20'>
-                <div className='containerforemptyorder'>
+              <Col md={11} className="containerforemptyorder1 cust20">
+                <div className="containerforemptyorder">
                   <img
                     src={no_work_order}
                     alt={"no_work_order"}
-                    className='no_work_order'
+                    className="no_work_order"
                   />
                 </div>
-                <div className='no_work1'>data is empty</div>
+                <div className="no_work1">data is empty</div>
               </Col>
             )}
           </div>
@@ -940,7 +943,7 @@ const Early_MileStone_Payment_Request = ({ work_order_detail }: any) => {
 };
 
 const Invoice_details = ({ work_order_detail }: any) => {
-  const [state, setState] = useState < any > ({
+  const [state, setState] = useState<any>({
     active1: "",
     collapseHeight: "0px",
     chevron: "",
@@ -962,11 +965,11 @@ const Invoice_details = ({ work_order_detail }: any) => {
     <>
       <Card>
         <div onClick={toggleAccordion1}>
-          <div className='deploydsplstwrapp'>
+          <div className="deploydsplstwrapp">
             <div>
-              <span className='deplyeaggrgt'>Invoice</span>
+              <span className="deplyeaggrgt">Invoice</span>
             </div>
-            <div className='accimgwrap'>
+            <div className="accimgwrap">
               <span>
                 <img src={chevrondown} className={`arrow-down1 ${chevron}`} />
               </span>
@@ -974,51 +977,53 @@ const Invoice_details = ({ work_order_detail }: any) => {
           </div>
         </div>
       </Card>
-      {isloading && <Spinner animation={"grow"} variant='info' />}
+      {isloading && <Spinner animation={"grow"} variant="info" />}
       <div
         style={{ maxHeight: `${collapseHeight}` }}
-        className='acccollapsediv1'
-        ref={content1}>
+        className="acccollapsediv1"
+        ref={content1}
+      >
         <>
-          <div className='job23_1a wrap_z'>
-            <div className='main_wrap_ws main_wrapp1'>
-              <h6 className='userprofile12 userprofile123'></h6>
-              <div className='tabledata tablecontent'>
-                <div className='header_12'>Invoice Number</div>
-                <div className='header_12'>Total Amount</div>
-                <div className='header_12'>Amount Paid</div>
-                <div className='header_12 '>Outstanding</div>
-                <div className='header_12'>Total cycles</div>
+          <div className="job23_1a wrap_z">
+            <div className="main_wrap_ws main_wrapp1">
+              <h6 className="userprofile12 userprofile123"></h6>
+              <div className="tabledata tablecontent">
+                <div className="header_12">Invoice Number</div>
+                <div className="header_12">Total Amount</div>
+                <div className="header_12">Amount Paid</div>
+                <div className="header_12 ">Outstanding</div>
+                <div className="header_12">Total cycles</div>
               </div>
-              <div className='tabledata tablecontent'>
-                <div className='header_12'>
+              <div className="tabledata tablecontent">
+                <div className="header_12">
                   {work_order_detail?.invoice?.reference}
                 </div>
-                <div className='header_12'>
+                <div className="header_12">
                   {current_currency}
                   {FormatAmount(work_order_detail?.invoice?.total_amount)}
                 </div>
-                <div className='header_12'>
+                <div className="header_12">
                   {current_currency}
                   {FormatAmount(work_order_detail?.invoice?.total_amount_paid)}
                 </div>
-                <div className='header_12 active_member'>
+                <div className="header_12 active_member">
                   {current_currency}
                   {FormatAmount(
                     work_order_detail?.invoice?.total_amount_unpaid
                   )}
                 </div>
-                <div className='header_12 active_member'>
+                <div className="header_12 active_member">
                   {work_order_detail?.invoice?.total_cycles}
                 </div>
               </div>
-              <div className='text-center'>
+              <div className="text-center">
                 {" "}
-                <span className='viewall_'>
+                <span className="viewall_">
                   {" "}
                   <Link
                     to={`/admin_invoice_details/${work_order_detail?.invoice?.id}/${work_order_detail?.invoice?.work_order?.id}`}
-                    title='view payment cycle information'>
+                    title="view payment cycle information"
+                  >
                     view more
                   </Link>{" "}
                 </span>{" "}
@@ -1031,7 +1036,7 @@ const Invoice_details = ({ work_order_detail }: any) => {
   );
 };
 const AdminViewWorkOrderDetails = withRouter((props: any) => {
-  const [state, setState] = useState < any > ({
+  const [state, setState] = useState<any>({
     work_order_detail: {},
     workDetails: {},
     country: "",
@@ -1075,6 +1080,14 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
     fx_rate: "",
     cost_per_inch_dollar: "",
     per_diem_dollar: "",
+    provision_per_specialist: "",
+    accommodation_per_specialist: "",
+    logistic_per_spread: "",
+    total_ppe_cost: "",
+    pqt_cost_per_specialist: "",
+    feeding_per_specialist: "",
+    mobilization_per_specialist: "",
+    completion_bonus_per_specialist: "",
   });
   const onchange = (e) => {
     setState({
@@ -1082,7 +1095,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
       [e.target.name]: e.target.value,
     });
     // if (e.target.name == "cost_per_inch_dollar") {
-    // 
+    //
     // }
   };
 
@@ -1149,6 +1162,14 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
     isloading,
     cost_per_inch_dollar,
     per_diem_dollar,
+    provision_per_specialist,
+    accommodation_per_specialist,
+    logistic_per_spread,
+    total_ppe_cost,
+    pqt_cost_per_specialist,
+    feeding_per_specialist,
+    mobilization_per_specialist,
+    completion_bonus_per_specialist,
   } = state;
 
   const Accept_work_order = () => {
@@ -1218,7 +1239,6 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
         headers: { Authorization: `Bearer ${token.access_token}` },
       })
       .then((res) => {
-
         setState({
           ...state,
           ...res.data.data,
@@ -1229,10 +1249,10 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
           per_diem: res?.data?.data?.costing?.per_diem_per_specialist,
           cost_per_inch_dollar:
             res?.data?.data?.costing?.cost_per_inch /
-            res?.data?.data?.costing?.fx_rate ?? 0,
+              res?.data?.data?.costing?.fx_rate ?? 0,
           per_diem_dollar:
             res?.data?.data?.costing?.per_diem_per_specialist /
-            res?.data?.data?.costing?.fx_rate ?? 0,
+              res?.data?.data?.costing?.fx_rate ?? 0,
           project_duration: res?.data?.data?.costing?.duration_in_days,
           already_approved: urlkey ? true : false,
           work_order_detail: res.data.data,
@@ -1246,10 +1266,8 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
           already_approved: urlkey ? true : false,
           work_order_detail: work_order_details,
         });
-
       });
     let inreview = props.location.search;
-
   }, []);
 
   const StartProject = () => {
@@ -1272,7 +1290,6 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
         }
       )
       .then((res) => {
-
         notify("successfully started workorder");
         setTimeout(() => {
           window.location.reload();
@@ -1288,7 +1305,6 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
           ...state,
           isloading: false,
         });
-
       });
   };
   const StopProject = () => {
@@ -1311,7 +1327,6 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
         }
       )
       .then((res) => {
-
         notify("successfully stopped project");
         setTimeout(() => {
           window.location.reload();
@@ -1331,7 +1346,6 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
           ...state,
           isloading: false,
         });
-
       });
   };
 
@@ -1371,7 +1385,6 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
         }
       )
       .then((res) => {
-
         notify("successfully  sent contract");
         setTimeout(() => {
           // window.location.reload();
@@ -1390,7 +1403,6 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
           ...state,
           isloading: false,
         });
-
       });
   };
   const modalShow2 = (id) => {
@@ -1421,7 +1433,6 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
         }
       )
       .then((res) => {
-
         notify("successfully  removed specialist");
         setTimeout(() => {
           window.location.reload();
@@ -1440,7 +1451,6 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
           ...state,
           isloading: false,
         });
-
       });
   };
   const SendCost = () => {
@@ -1452,15 +1462,23 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
     });
     const data = {
       markup_percentage,
-      health_insurance_cost,
+      health_insurance_per_spread:health_insurance_cost,
       coverall_cost,
       per_diem: fx_rate * per_diem_dollar,
-      project_duration,
+      duration_in_days:project_duration,
       spreads,
       professional_indemnity_insurance,
       cost_per_inch: fx_rate * cost_per_inch_dollar,
       association_cost_per_inch,
       fx_rate,
+      provision_per_specialist,
+      accommodation_per_specialist,
+      logistic_per_spread,
+      total_ppe_cost,
+      pqt_cost_per_specialist,
+      feeding_per_specialist,
+      mobilization_per_specialist,
+      completion_bonus_per_specialist,
     };
     axios
       .post(`${API}/admin/work-orders/${work_order_details?.id}/cost`, data, {
@@ -1469,7 +1487,6 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
         },
       })
       .then((res) => {
-
         notify("successfully computed work order cost");
         setTimeout(() => {
           window.location.reload();
@@ -1489,7 +1506,6 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
           ...state,
           isloading: false,
         });
-
       });
   };
 
@@ -1514,7 +1530,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
   return (
     <>
       <Modal
-        size='lg'
+        size="lg"
         show={show}
         onHide={() =>
           setState({
@@ -1522,10 +1538,11 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
             show: false,
           })
         }
-        dialogClassName='modal-90w'
-        className='mdl12'>
+        dialogClassName="modal-90w"
+        className="mdl12"
+      >
         <Modal.Header closeButton>
-          <Modal.Title id='example-custom-modal-styling-title'>
+          <Modal.Title id="example-custom-modal-styling-title">
             Reject order
           </Modal.Title>
         </Modal.Header>
@@ -1537,13 +1554,14 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                   value={reason}
                   name={"reason"}
                   onChange={onchange}
-                  className='form-control reason12 reason122'
-                  placeholder='Reason for termination'></textarea>
+                  className="form-control reason12 reason122"
+                  placeholder="Reason for termination"
+                ></textarea>
               </Form>
             </Col>
           </Row>
           <Row>
-            <Col md={12} className='terminate2'>
+            <Col md={12} className="terminate2">
               {/* <div className="terminate1" onClick={(e) => Reject_work_order()}>
                 Reject
               </div> */}
@@ -1552,7 +1570,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
         </Modal.Body>
       </Modal>
       <Modal
-        size='sm'
+        size="sm"
         show={show2}
         onHide={() =>
           setState({
@@ -1560,24 +1578,25 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
             show2: false,
           })
         }
-        dialogClassName=''>
+        dialogClassName=""
+      >
         <Modal.Header closeButton>
-          <Modal.Title id='example-custom-modal-styling-title'>
+          <Modal.Title id="example-custom-modal-styling-title">
             Remove Specialist
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Row>
             <Col md={12}>
-              <p className='teal-text'>
+              <p className="teal-text">
                 Please confirm removal of invited specialist
               </p>
               <p>
                 Notify Specialist{" "}
                 <input
-                  type='checkbox'
-                  name='notify_specialist'
-                  className='form-check-input position-static'
+                  type="checkbox"
+                  name="notify_specialist"
+                  className="form-check-input position-static"
                   onChange={() => {
                     setState({
                       ...state,
@@ -1585,14 +1604,14 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                     });
                   }}
                   checked={notify_specialist ? true : false}
-                  id='notify_specialist '
+                  id="notify_specialist "
                 />{" "}
               </p>
             </Col>
           </Row>
           <Row>
-            <Col md={12} className='terminate2'>
-              <div className='terminate1' onClick={(e) => removeSpecialist()}>
+            <Col md={12} className="terminate2">
+              <div className="terminate1" onClick={(e) => removeSpecialist()}>
                 {isloading ? "Processing" : "Submit"}
               </div>
             </Col>
@@ -1600,7 +1619,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
         </Modal.Body>
       </Modal>
       <Modal
-        size='lg'
+        size="lg"
         show={cost_show}
         onHide={() =>
           setState({
@@ -1608,27 +1627,28 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
             cost_show: false,
           })
         }
-        dialogClassName='modal-90w'
-        className='mdl12'>
+        dialogClassName="modal-90w"
+        className="mdl12"
+      >
         <Modal.Header closeButton>
-          <Modal.Title id='example-custom-modal-styling-title'>
+          <Modal.Title id="example-custom-modal-styling-title">
             Cost Settings
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Row>
             <Col md={6}>
-              <div className='pipelength pipelng'>
-                <div className='pipelength1q'>
-                  Markup Percentage %<span className='text-danger'>*</span>
+              <div className="pipelength pipelng">
+                <div className="pipelength1q">
+                  Markup Percentage %<span className="text-danger">*</span>
                 </div>
-                <div className=''>
+                <div className="">
                   <input
-                    type='number'
-                    className=' form-control'
-                    placeholder=''
+                    type="number"
+                    className=" form-control"
+                    placeholder=""
                     min={0}
-                    name='markup_percentage'
+                    name="markup_percentage"
                     value={markup_percentage}
                     onChange={onchange}
                   />
@@ -1636,18 +1656,18 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
               </div>
             </Col>
             <Col md={6}>
-              <div className='pipelength pipelng'>
-                <div className='pipelength1q'>
+              <div className="pipelength pipelng">
+                <div className="pipelength1q">
                   Health Insurance per Specialist (₦)
-                  <span className='text-danger'>*</span>
+                  <span className="text-danger">*</span>
                 </div>
-                <div className=''>
+                <div className="">
                   <input
-                    type='number'
-                    className=' form-control'
-                    placeholder=''
+                    type="number"
+                    className=" form-control"
+                    placeholder=""
                     min={0}
-                    name='health_insurance_cost'
+                    name="health_insurance_cost"
                     value={health_insurance_cost}
                     onChange={onchange}
                   />
@@ -1657,18 +1677,18 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
           </Row>
           <Row>
             <Col md={6}>
-              <div className='pipelength pipelng'>
-                <div className='pipelength1q'>
+              <div className="pipelength pipelng">
+                <div className="pipelength1q">
                   Coverall per Specialist (₦){" "}
-                  <span className='text-danger'>*</span>
+                  <span className="text-danger">*</span>
                 </div>
-                <div className=''>
+                <div className="">
                   <input
-                    type='number'
-                    className=' form-control'
-                    placeholder=''
+                    type="number"
+                    className=" form-control"
+                    placeholder=""
                     min={0}
-                    name='coverall_cost'
+                    name="coverall_cost"
                     value={coverall_cost}
                     onChange={onchange}
                   />
@@ -1676,17 +1696,17 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
               </div>
             </Col>
             <Col md={6}>
-              <div className='pipelength pipelng'>
-                <div className='pipelength1q'>
+              <div className="pipelength pipelng">
+                <div className="pipelength1q">
                   Association Cost Per Inch (₦)
-                  <span className='text-danger'>*</span>
+                  <span className="text-danger">*</span>
                 </div>
-                <div className=''>
+                <div className="">
                   <input
-                    type='number'
-                    className=' form-control'
-                    placeholder=''
-                    name='association_cost_per_inch'
+                    type="number"
+                    className=" form-control"
+                    placeholder=""
+                    name="association_cost_per_inch"
                     value={association_cost_per_inch}
                     onChange={onchange}
                   />
@@ -1696,17 +1716,17 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
           </Row>
           <Row>
             <Col md={6}>
-              <div className='pipelength pipelng'>
-                <div className='pipelength1q'>
-                  Project Duration (days) <span className='text-danger'>*</span>
+              <div className="pipelength pipelng">
+                <div className="pipelength1q">
+                  Project Duration (days) <span className="text-danger">*</span>
                 </div>
-                <div className=''>
+                <div className="">
                   <input
-                    type='number'
-                    className=' form-control'
-                    placeholder=''
+                    type="number"
+                    className=" form-control"
+                    placeholder=""
                     min={0}
-                    name='project_duration'
+                    name="project_duration"
                     value={project_duration}
                     onChange={onchange}
                   />
@@ -1714,16 +1734,16 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
               </div>
             </Col>
             <Col md={6}>
-              <div className='pipelength pipelng'>
-                <div className='pipelength1q'>
-                  Spreads <span className='text-danger'>*</span>
+              <div className="pipelength pipelng">
+                <div className="pipelength1q">
+                  Spreads <span className="text-danger">*</span>
                 </div>
-                <div className=''>
+                <div className="">
                   <input
-                    type='number'
-                    className=' form-control'
-                    placeholder=''
-                    name='spreads'
+                    type="number"
+                    className=" form-control"
+                    placeholder=""
+                    name="spreads"
                     min={0}
                     value={spreads}
                     onChange={onchange}
@@ -1734,18 +1754,18 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
           </Row>
           <Row>
             <Col md={6}>
-              <div className='pipelength pipelng'>
-                <div className='pipelength1q'>
+              <div className="pipelength pipelng">
+                <div className="pipelength1q">
                   Professional Indemnity Insurance Per Spread (₦)
-                  <span className='text-danger'>*</span>
+                  <span className="text-danger">*</span>
                 </div>
-                <div className=''>
+                <div className="">
                   <input
-                    type='number'
-                    className=' form-control'
-                    placeholder=''
+                    type="number"
+                    className=" form-control"
+                    placeholder=""
                     min={0}
-                    name='professional_indemnity_insurance'
+                    name="professional_indemnity_insurance"
                     value={professional_indemnity_insurance}
                     onChange={onchange}
                   />
@@ -1753,16 +1773,16 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
               </div>
             </Col>
             <Col md={6}>
-              <div className='pipelength pipelng'>
-                <div className='pipelength1q'>
-                  FX RATE (₦) <span className='text-danger'>*</span>
+              <div className="pipelength pipelng">
+                <div className="pipelength1q">
+                  FX RATE (₦) <span className="text-danger">*</span>
                 </div>
-                <div className=''>
+                <div className="">
                   <input
-                    type='number'
-                    className=' form-control'
-                    placeholder='US Dollar to naira rate eg. 550'
-                    name='fx_rate'
+                    type="number"
+                    className=" form-control"
+                    placeholder="US Dollar to naira rate eg. 550"
+                    name="fx_rate"
                     min={0}
                     value={fx_rate}
                     onChange={onchange}
@@ -1773,17 +1793,17 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
           </Row>
           <Row>
             <Col md={6}>
-              <div className='pipelength pipelng'>
-                <div className='pipelength1q'>
-                  Cost Per Inch ($)<span className='text-danger'>*</span>
+              <div className="pipelength pipelng">
+                <div className="pipelength1q">
+                  Cost Per Inch ($)<span className="text-danger">*</span>
                 </div>
-                <div className=''>
+                <div className="">
                   <input
-                    type='number'
-                    className=' form-control'
-                    placeholder=''
+                    type="number"
+                    className=" form-control"
+                    placeholder=""
                     min={0}
-                    name='cost_per_inch_dollar'
+                    name="cost_per_inch_dollar"
                     value={cost_per_inch_dollar}
                     onChange={onchange}
                   />
@@ -1791,15 +1811,15 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
               </div>
             </Col>
             <Col md={6}>
-              <div className='pipelength pipelng'>
-                <div className='pipelength1q'>
-                  Cost Per Inch (₦)<span className='text-danger'>*</span>
+              <div className="pipelength pipelng">
+                <div className="pipelength1q">
+                  Cost Per Inch (₦)<span className="text-danger">*</span>
                 </div>
-                <div className=''>
+                <div className="">
                   <input
-                    type='text'
-                    className=' form-control'
-                    placeholder=''
+                    type="text"
+                    className=" form-control"
+                    placeholder=""
                     min={0}
                     // name="cost_per_inch"
                     value={calc_cost_per_inch_in_naira()}
@@ -1812,18 +1832,18 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
           {/* Dollar */}
           <Row>
             <Col md={6}>
-              <div className='pipelength pipelng'>
-                <div className='pipelength1q'>
+              <div className="pipelength pipelng">
+                <div className="pipelength1q">
                   Per Diem Per Specialist Per Day ($)
-                  <span className='text-danger'>*</span>
+                  <span className="text-danger">*</span>
                 </div>
-                <div className=''>
+                <div className="">
                   <input
-                    type='number'
-                    className=' form-control'
-                    placeholder=''
+                    type="number"
+                    className=" form-control"
+                    placeholder=""
                     min={0}
-                    name='per_diem_dollar'
+                    name="per_diem_dollar"
                     value={per_diem_dollar}
                     onChange={onchange}
                   />
@@ -1831,18 +1851,18 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
               </div>
             </Col>
             <Col md={6}>
-              <div className='pipelength pipelng'>
-                <div className='pipelength1q'>
+              <div className="pipelength pipelng">
+                <div className="pipelength1q">
                   Per Diem Per Specialist Per Day (₦)
-                  <span className='text-danger'>*</span>
+                  <span className="text-danger">*</span>
                 </div>
-                <div className=''>
+                <div className="">
                   <input
-                    type='text'
-                    className=' form-control'
-                    placeholder=''
+                    type="text"
+                    className=" form-control"
+                    placeholder=""
                     min={0}
-                    name='per_diem'
+                    name="per_diem"
                     value={calc_cost_per_diem_in_naira()}
                     onChange={onchange}
                   />
@@ -1851,69 +1871,242 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
             </Col>
           </Row>
           <Row>
-            <Col md={12} className='terminate2'>
+            <Col md={6}>
+              <div className="pipelength pipelng">
+                <div className="pipelength1q">
+                  Provision per specialist
+                  <span className="text-danger">*</span>
+                </div>
+                <div className="">
+                  <input
+                    type="number"
+                    className=" form-control"
+                    placeholder=""
+                    min={0}
+                    name="provision_per_specialist"
+                    value={provision_per_specialist}
+                    onChange={onchange}
+                  />
+                </div>
+              </div>
+            </Col>
+            <Col md={6}>
+              <div className="pipelength pipelng">
+                <div className="pipelength1q">
+                  Accommodation per specialist
+                  <span className="text-danger">*</span>
+                </div>
+                <div className="">
+                  <input
+                    type="number"
+                    className=" form-control"
+                    placeholder=""
+                    min={0}
+                    name="accommodation_per_specialist"
+                    value={accommodation_per_specialist}
+                    onChange={onchange}
+                  />
+                </div>
+              </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={6}>
+              <div className="pipelength pipelng">
+                <div className="pipelength1q">
+                  Total ppe cost
+                  <span className="text-danger">*</span>
+                </div>
+                <div className="">
+                  <input
+                    type="number"
+                    className=" form-control"
+                    placeholder=""
+                    min={0}
+                    name="total_ppe_cost"
+                    value={total_ppe_cost}
+                    onChange={onchange}
+                  />
+                </div>
+              </div>
+            </Col>
+            <Col md={6}>
+              <div className="pipelength pipelng">
+                <div className="pipelength1q">
+                  Logistic per spread
+                  <span className="text-danger">*</span>
+                </div>
+                <div className="">
+                  <input
+                    type="number"
+                    className=" form-control"
+                    placeholder=""
+                    min={0}
+                    name="logistic_per_spread"
+                    value={logistic_per_spread}
+                    onChange={onchange}
+                  />
+                </div>
+              </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={6}>
+              <div className="pipelength pipelng">
+                <div className="pipelength1q">
+                  pqt cost per specialist
+                  <span className="text-danger">*</span>
+                </div>
+                <div className="">
+                  <input
+                    type="number"
+                    className=" form-control"
+                    placeholder=""
+                    min={0}
+                    name="pqt_cost_per_specialist"
+                    value={pqt_cost_per_specialist}
+                    onChange={onchange}
+                  />
+                </div>
+              </div>
+            </Col>
+            <Col md={6}>
+              <div className="pipelength pipelng">
+                <div className="pipelength1q">
+                  Feeding per specialist
+                  <span className="text-danger">*</span>
+                </div>
+                <div className="">
+                  <input
+                    type="number"
+                    className=" form-control"
+                    placeholder=""
+                    min={0}
+                    name="feeding_per_specialist"
+                    value={feeding_per_specialist}
+                    onChange={onchange}
+                  />
+                </div>
+              </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={6}>
+              <div className="pipelength pipelng">
+                <div className="pipelength1q">
+                  pqt cost per specialist
+                  <span className="text-danger">*</span>
+                </div>
+                <div className="">
+                  <input
+                    type="number"
+                    className=" form-control"
+                    placeholder=""
+                    min={0}
+                    name="mobilization_per_specialist"
+                    value={mobilization_per_specialist}
+                    onChange={onchange}
+                  />
+                </div>
+              </div>
+            </Col>
+            <Col md={6}>
+              <div className="pipelength pipelng">
+                <div className="pipelength1q">
+                  Feeding per specialist
+                  <span className="text-danger">*</span>
+                </div>
+                <div className="">
+                  <input
+                    type="number"
+                    className=" form-control"
+                    placeholder=""
+                    min={0}
+                    name="completion_bonus_per_specialist"
+                    value={completion_bonus_per_specialist}
+                    onChange={onchange}
+                  />
+                </div>
+              </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={12} className="terminate2">
               <Button
-                className=' raise_inv computecost'
-                onClick={(e) => SendCost()}>
+                className=" raise_inv computecost"
+                onClick={(e) => SendCost()}
+              >
                 {isloading ? "processing" : "Compute Cost"}
               </Button>
             </Col>
           </Row>
         </Modal.Body>
       </Modal>
-      <Container fluid={true} className='dasbwr'>
+      <Container fluid={true} className="dasbwr">
         <Helmet>
-          <meta charSet='utf-8' />
+          <meta charSet="utf-8" />
           <title>MolecularPro - Admin Work Order</title>
           <link />
         </Helmet>
         <Row>
           <DashboardNav />
-          <div id='overview'></div>
+          <div id="overview"></div>
         </Row>
-        <Row className='rowt3 row3t2'>
-          <Col md={12} className='job34 customItem'>
+        <Row className="rowt3 row3t2">
+          <Col md={12} className="job34 customItem">
             <div className="flex__">
-              <div className='title_wo title_wo12 title_wo_'>
-                <div className='workorderheader fixedtitle'>
+              <div className="title_wo title_wo12 title_wo_">
+                <div className="workorderheader fixedtitle">
                   <span
                     onClick={() => window.history.back()}
-                    className='curspointer'>
+                    className="curspointer"
+                  >
                     {" "}
-                    <img src={arrowback} className='arrowback' />
+                    <img src={arrowback} className="arrowback" />
                   </span>
                   Work Details
                 </div>
               </div>
-              <DropdownButton id="dropdown-variants-warning" variant="#fd8c00" className="custombutton12" title="Actions">
+              <DropdownButton
+                id="dropdown-variants-warning"
+                variant="#fd8c00"
+                className="custombutton12"
+                title="Actions"
+              >
                 {/* <div className='fllx2'> */}
                 {inreview &&
                   work_order_detail?.actions?.canAssignSpecialist == false && (
-                    <div className=''>
+                    <div className="">
                       <Dropdown.Item>
-                        <Link to='/work_order_evaluation'>
-                          {"Edit"}
-                        </Link>
+                        <Link to="/work_order_evaluation">{"Edit"}</Link>
                       </Dropdown.Item>
                     </div>
                   )}
                 {inreview && work_order_detail?.actions?.canCost == true && (
-                  <div className=''>
+                  <div className="">
                     <Dropdown.Item onClick={modalShow1}>
                       {"Cost Settings"}
                     </Dropdown.Item>
                   </div>
                 )}
-                {work_order_detail?.costing?.pipe_schedule_cost_factor?.length ? (
-                  <Link to={`/admin/work_order_cost/${work_order_detail.id}`} className=''>
-                    <Dropdown.Item href={`/admin/work_order_cost/${work_order_detail.id}`}>
+                {work_order_detail?.costing?.pipe_schedule_cost_factor
+                  ?.length ? (
+                  <Link
+                    to={`/admin/work_order_cost/${work_order_detail.id}`}
+                    className=""
+                  >
+                    <Dropdown.Item
+                      href={`/admin/work_order_cost/${work_order_detail.id}`}
+                    >
                       {"Pipe Schedule Cost"}
                     </Dropdown.Item>
                   </Link>
-                ) : ""}
+                ) : (
+                  ""
+                )}
                 {inreview &&
                   work_order_detail?.assigned_specialists.length !== 0 && (
-                    <div className=''>
+                    <div className="">
                       <Dropdown.Item>
                         <span onClick={StartProject}>
                           {!isloading ? "Commence Work" : "Processing"} <Play />
@@ -1923,7 +2116,7 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                   )}
                 {work_order_detail?.status == "Active" &&
                   work_order_detail?.assigned_specialists?.length !== 0 && (
-                    <div className=''>
+                    <div className="">
                       <Dropdown.Item>
                         <span onClick={StopProject}>
                           {!isloading ? "End Work" : "Processing"} <Stop />
@@ -1932,18 +2125,15 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                     </div>
                   )}
                 {work_order_detail?.actions?.canSendSla && (
-                  <div className=''>
-                    <div className=''>
+                  <div className="">
+                    <div className="">
                       {!work_order_detail?.sla_sent && (
-                        <Dropdown.Item
-                          onClick={sendSLA}>
+                        <Dropdown.Item onClick={sendSLA}>
                           {!isloading ? "Send SLA" : "Processing"}
                         </Dropdown.Item>
                       )}
                       {work_order_detail?.sla_sent && (
-                        <Dropdown.Item
-                          className=''
-                          onClick={sendSLA}>
+                        <Dropdown.Item className="" onClick={sendSLA}>
                           {!isloading ? "Resend SLA" : "Processing"}
                         </Dropdown.Item>
                       )}
@@ -1954,9 +2144,8 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
               </DropdownButton>
             </div>
 
-
             {new_work && (
-              <div className='rjwrapper mrgin__right'>
+              <div className="rjwrapper mrgin__right">
                 {/* <Button
                   className="accjct1"
                   onClick={() => {
@@ -1974,70 +2163,78 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
               </div>
             )}
 
-
-            <Row className='mgtop'>
-              <Col md={2} className='job23_ mheight_ top12 '>
-                <p className=''>
-                  <img src={portfolio} alt='portfolio' width={30} className='portfolioq m-auto' />
+            <Row className="mgtop">
+              <Col md={2} className="job23_ mheight_ top12 ">
+                <p className="">
+                  <img
+                    src={portfolio}
+                    alt="portfolio"
+                    width={30}
+                    className="portfolioq m-auto"
+                  />
                 </p>
 
-                <p className='bview'>
-                  <NavHashLink to='#overview'>Overview</NavHashLink>
+                <p className="bview">
+                  <NavHashLink to="#overview">Overview</NavHashLink>
                 </p>
-                <p className='bview inactive_bv'>
+                <p className="bview inactive_bv">
                   <NavHashLink
-                    className='details'
-                    to='#details'
-                  // activeStyle={{ background: "#fd8b003b", color: "#fd8c00" }}
+                    className="details"
+                    to="#details"
+                    // activeStyle={{ background: "#fd8b003b", color: "#fd8c00" }}
                   >
                     Specialist Details
                   </NavHashLink>
                 </p>
-                <p className='bview inactive_bv'>
-                  <NavHashLink to='#work'>Work Details</NavHashLink>
+                <p className="bview inactive_bv">
+                  <NavHashLink to="#work">Work Details</NavHashLink>
                 </p>
-                <p className='bview inactive_bv'>
-                  <NavHashLink to='#worksheet'>Work Sheet</NavHashLink>
+                <p className="bview inactive_bv">
+                  <NavHashLink to="#worksheet">Work Sheet</NavHashLink>
                 </p>
-                <p className='bview inactive_bv'>
-                  <NavHashLink to='#actioninvoice'>Invoice</NavHashLink>
+                <p className="bview inactive_bv">
+                  <NavHashLink to="#actioninvoice">Invoice</NavHashLink>
                 </p>
-                <p className='bview inactive_bv'>
-                  <NavHashLink to={`/admin_milestone_management/${props.match.params.id}`}>Milestone</NavHashLink>
+                <p className="bview inactive_bv">
+                  <NavHashLink
+                    to={`/admin_milestone_management/${props.match.params.id}`}
+                  >
+                    Milestone
+                  </NavHashLink>
                 </p>
                 {/* <p className="bview inactive_bv">
                   <a href="#actions">Actions</a>
                 </p> */}
               </Col>
-              <Col md={10} className='job23_1a_ job23_1a_p'>
-                <div className='job23_1a'>
-                  <div className=''>
+              <Col md={10} className="job23_1a_ job23_1a_p">
+                <div className="job23_1a">
+                  <div className="">
                     <WorkOrderCardsMinInfo order_detail={work_order_detail} />
                   </div>
                 </div>
-                <div className='job23_1a' id='details'>
+                <div className="job23_1a" id="details">
                   {assigned_specialists.length == 0 &&
                     !new_work &&
                     work_order_detail.invoice && (
                       <>
-                        <h6 className='title22'>Specialists Invitation</h6>
-                        <Col md={11} className='containerforemptyorder1 cust20'>
-                          <div className='containerforemptyorder'>
+                        <h6 className="title22">Specialists Invitation</h6>
+                        <Col md={11} className="containerforemptyorder1 cust20">
+                          <div className="containerforemptyorder">
                             <img
                               src={no_work_order}
                               alt={"no_work_order"}
-                              className='no_work_order'
+                              className="no_work_order"
                             />
                           </div>
-                          <div className='no_work1'>
+                          <div className="no_work1">
                             <div>No Specialist have been invited</div>
                             {work_order_detail?.invoice?.approved == null &&
                               "Awaiting invoice approval"}
                           </div>
                           {work_order_detail?.invoice?.approved && (
-                            <div className='nojob2 '>
+                            <div className="nojob2 ">
                               <div
-                                className='job3 job_1'
+                                className="job3 job_1"
                                 onClick={() => {
                                   localStorage.setItem(
                                     "work_order_details",
@@ -2046,7 +2243,8 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                                   props.history.push(
                                     "/admin_assign_specialist"
                                   );
-                                }}>
+                                }}
+                              >
                                 Invite specialist
                               </div>
                             </div>
@@ -2056,39 +2254,40 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                     )}
                   {work_order_detail.invoice == null &&
                     work_order_detail.status !== "New" && (
-                      <Col md={11} className='containerforemptyorder1 cust20'>
-                        <div className='containerforemptyorder'>
+                      <Col md={11} className="containerforemptyorder1 cust20">
+                        <div className="containerforemptyorder">
                           <img
                             src={no_work_order}
                             alt={"no_work_order"}
-                            className='no_work_order'
+                            className="no_work_order"
                           />
                         </div>
-                        <div className='no_work1'>
+                        <div className="no_work1">
                           Proforma Invoice has not been raised
                         </div>
-                        <div className='nojob2 '>
+                        <div className="nojob2 ">
                           <div
-                            className='job3 job_1'
+                            className="job3 job_1"
                             onClick={() => {
                               props.history.push("/raise_proforma_invoice");
-                            }}>
+                            }}
+                          >
                             Raise Proforma Invoice
                           </div>
                         </div>
                       </Col>
                     )}
-                  <div className='dplsplsacc'>
+                  <div className="dplsplsacc">
                     <Card>
                       <div onClick={toggleAccordion}>
-                        <div className='deploydsplstwrapp'>
+                        <div className="deploydsplstwrapp">
                           <div>
-                            <span className='deplyeaggrgt'>
+                            <span className="deplyeaggrgt">
                               {props?.group_data?.total_members} Invited
                               Specialist
                             </span>
                           </div>
-                          <div className='accimgwrap'>
+                          <div className="accimgwrap">
                             <span>
                               <img
                                 src={chevrondown}
@@ -2099,41 +2298,43 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                         </div>
                       </div>
                     </Card>
-                    {isloading && <Spinner animation={"grow"} variant='info' />}
+                    {isloading && <Spinner animation={"grow"} variant="info" />}
                     <div
                       style={{ maxHeight: `${collapseHeight}` }}
-                      className='acccollapsediv maxh-378'
-                      ref={content}>
+                      className="acccollapsediv maxh-378"
+                      ref={content}
+                    >
                       {!new_work && assigned_specialists.length !== 0 && (
                         <>
-                          <div className='group_flex'>
+                          <div className="group_flex">
                             {/* <div className="grpA">
                             Group <b>A</b>
                           </div> */}
-                            <div className='grpB'>
+                            <div className="grpB">
                               <b>
                                 {work_order_detail?.total_assigned_specialists}
                               </b>{" "}
                               Invited
                             </div>
                             <div
-                              className='job3 job_1 job_12'
+                              className="job3 job_1 job_12"
                               onClick={() => {
                                 localStorage.setItem(
                                   "work_order_details",
                                   JSON.stringify(work_order_detail)
                                 );
                                 props.history.push("/admin_assign_specialist");
-                              }}>
+                              }}
+                            >
                               Invite specialist
                             </div>
                           </div>
-                          <div className='tabledata tabledataweb'>
-                            <div className='header_12 pleft'>Fullname</div>
-                            <div className='header_12'>Type</div>
-                            <div className='header_12'>Spread Position</div>
-                            <div className='header_12'>Status</div>
-                            <div className='header_12'>Action</div>
+                          <div className="tabledata tabledataweb">
+                            <div className="header_12 pleft">Fullname</div>
+                            <div className="header_12">Type</div>
+                            <div className="header_12">Spread Position</div>
+                            <div className="header_12">Status</div>
+                            <div className="header_12">Action</div>
                           </div>
                           {assigned_specialists.length !== 0 &&
                             assigned_specialists
@@ -2145,20 +2346,22 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                                       checkIfIsOdd(i)
                                         ? "tabledata fitdata"
                                         : "tabledata tablecontent fitdata"
-                                    }>
-                                    <div className='header_12'>
+                                    }
+                                  >
+                                    <div className="header_12">
                                       <img
                                         src={avatar_test}
-                                        className='specialist_avatar'
+                                        className="specialist_avatar"
                                       />
-                                      <div className='mobiletabledata'>
+                                      <div className="mobiletabledata">
                                         Fullname
                                       </div>
-                                      {data.first_name}{"  "}
+                                      {data.first_name}
+                                      {"  "}
                                       {data.last_name}
                                     </div>
-                                    <div className='header_12 typ22'>
-                                      <div className='mobiletabledata mobiletabledata22'>
+                                    <div className="header_12 typ22">
+                                      <div className="mobiletabledata mobiletabledata22">
                                         Type
                                       </div>
                                       <div>
@@ -2166,20 +2369,20 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                                         {capitalize(data.skills?.[0].name)}
                                       </div>
                                     </div>
-                                    <div className='header_12'>
-                                      <div className='mobiletabledata mobiletabledata22'>
+                                    <div className="header_12">
+                                      <div className="mobiletabledata mobiletabledata22">
                                         Spread Position
                                       </div>
-                                      <div className='glead'> Member </div>
+                                      <div className="glead"> Member </div>
                                     </div>
-                                    <div className='header_12 active_member'>
-                                      <div className='mobiletabledata mobiletabledata22'>
+                                    <div className="header_12 active_member">
+                                      <div className="mobiletabledata mobiletabledata22">
                                         Status
                                       </div>
-                                      <div className='active_member'>
+                                      <div className="active_member">
                                         {" "}
                                         {data.status == "Pending" ? (
-                                          <span className='pending_color'>
+                                          <span className="pending_color">
                                             {data.status}
                                           </span>
                                         ) : (
@@ -2187,11 +2390,12 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                                         )}
                                       </div>
                                     </div>
-                                    <div className='member'>
+                                    <div className="member">
                                       {data.status == "Pending" && (
                                         <div
-                                          className='job3 job_1 job_12 text-white specailist_rv'
-                                          onClick={() => modalShow2(data.id)}>
+                                          className="job3 job_1 job_12 text-white specailist_rv"
+                                          onClick={() => modalShow2(data.id)}
+                                        >
                                           Remove Specialist
                                         </div>
                                       )}
@@ -2199,12 +2403,13 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                                   </div>
                                 </>
                               ))}
-                          <div className='text-center'>
+                          <div className="text-center">
                             {" "}
-                            <span className='viewall_'>
+                            <span className="viewall_">
                               {" "}
                               <Link
-                                to={`/deployedspecialist/${props.match.params.id}`}>
+                                to={`/deployedspecialist/${props.match.params.id}`}
+                              >
                                 View all
                               </Link>{" "}
                             </span>{" "}
@@ -2214,15 +2419,15 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
                     </div>
                   </div>
                   {/* invited specialist ends */}
-                  <div className='job23_1a wrap_z paddtop'>
-                    <div className='active_member23'>
-                      <div className='dplsplsacc'>
+                  <div className="job23_1a wrap_z paddtop">
+                    <div className="active_member23">
+                      <div className="dplsplsacc">
                         <Work_Details work_order_detailz={work_order_detail} />
                       </div>
                     </div>
                   </div>
                   <Work_Sheet />
-                  <div id='worksheet'></div>
+                  <div id="worksheet"></div>
                   <br />
                   {work_order_detail?.invoice?.length !== 0 && (
                     <>
@@ -2240,19 +2445,19 @@ const AdminViewWorkOrderDetails = withRouter((props: any) => {
               </Col>
             </Row>
           </Col>
-        </Row >
-      </Container >
+        </Row>
+      </Container>
       <ToastContainer
         enableMultiContainer
         containerId={"D"}
-        toastClassName='bg-danger text-white'
+        toastClassName="bg-danger text-white"
         hideProgressBar={true}
         position={"top-right"}
       />
       <ToastContainer
         enableMultiContainer
         containerId={"B"}
-        toastClassName='bg-orange text-white'
+        toastClassName="bg-orange text-white"
         hideProgressBar={true}
         position={"top-right"}
       />

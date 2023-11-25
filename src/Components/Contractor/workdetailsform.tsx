@@ -150,13 +150,12 @@ const WorkDetails_Form_Preview = (props) => {
           ...state,
           isloading: false,
         });
-        notify("Sorry failed to process, try again later", "D");
+        notify(`Sorry failed to process, try again later ${err.response.data.message}`, "D");
         
       });
   };
   const notify = (message: string, type = "B") =>
     toast(message, { containerId: type, position: "top-right" });
-
   return (
     <>
       <div className="formcontent">
@@ -260,7 +259,7 @@ const WorkDetails_Form_Preview = (props) => {
                       </h6>
                       <div className="Construction12">
                         {" "}
-                        {data?.pipe_size ?? "n/a"}
+                        {data?.size_value ?? "n/a"}
                       </div>
                     </div>
                     <div className="">

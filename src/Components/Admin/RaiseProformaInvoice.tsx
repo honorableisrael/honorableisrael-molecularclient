@@ -368,7 +368,7 @@ const AdminRaiseProformaInvoice = (props) => {
           isloading: false,
         });
         if(err?.response?.status==400){
-          return notify(err?.response?.data?.message) 
+          return notify(err?.response?.data?.debug?.message) 
            }
         
       });

@@ -18,8 +18,25 @@ import { Link, withRouter } from "react-router-dom";
 import axios, { AxiosResponse } from "axios";
 import { API, contractorToken } from "../../config";
 
-const Notification = (props) => {
-  
+const Notification = withRouter((props:any) => {
+  const routeToInvoice = (invoice_id) => {
+    const token = contractorToken();
+    const work_order = localStorage.getItem("work_order_details");
+    const work_order_details = work_order ? JSON.parse(work_order) : "";
+    axios
+      .all([
+        axios.get(`${API}/contractor/invoices/${invoice_id}`, {
+          headers: { Authorization: `Bearer ${token.access_token}` },
+        }),
+      ])
+      .then(
+        axios.spread((res1) => {
+          props.history.push(`/invoice_details/${invoice_id}/${res1.data.data.work_order.id}`)
+          console.log(res1);
+        })
+      )
+      .catch((err) => {});
+  };
   return (
     <>
       <div className="carderw carderwxc carder_notification">
@@ -51,11 +68,11 @@ const Notification = (props) => {
           ) : 
           data.category == "invoice" ?
           (
-            <Link
-              to={`/invoice_details/${data?.category_id}`}
-            >
+            // <Link
+            //   to={`/invoice_details/${data?.category_id}`}
+            // >
               <>
-                <div className="helloworld1" title={data.message}>
+                <div className="helloworld1 cursor-pointer" title={data.message} onClick={()=>{routeToInvoice(data.category_id)}}>
                   <div className="helloworld2">
                     <img src={avatar} className="avatar1" />
                   </div>
@@ -64,7 +81,7 @@ const Notification = (props) => {
                 <div className="timesection">{data?.sent_since}</div>
                 <div className="dottedlines"></div>
               </>
-            </Link>
+            // </Link>
           )
           :
           (
@@ -87,7 +104,7 @@ const Notification = (props) => {
       </div>
     </>
   );
-};
+});
 const Invoice = (props) => {
   
   return (
